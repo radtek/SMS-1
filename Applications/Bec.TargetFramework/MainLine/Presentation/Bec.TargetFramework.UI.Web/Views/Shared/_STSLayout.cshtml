@@ -1,0 +1,85 @@
+﻿@using Ext.Net.MVC;
+@using Ext.Net;
+
+@{
+    ViewBag.Title = "Target Framework";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headtag
+{
+
+
+
+    <style>
+        .testimonial {
+            margin-top: 15px;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+
+            .testimonial p {
+                padding: 20px 20px 15px 20px;
+                font-size: 14px;
+                font-style: italic;
+                color: #a1a1a1;
+            }
+
+            .testimonial img {
+                float: right;
+            }
+
+
+        .text-bg {
+            position: relative;
+        }
+
+            .text-bg p {
+                position: absolute;
+                background: url("~/Content/resources/images/sms/slider-text-bg.png");
+                width: 230px;
+                height: 220px;
+                color: #fff;
+                font-size: 24px;
+                padding: 10px;
+                top: 0px;
+                right: 0px;
+            }
+
+
+
+        .main-img {
+            margin-bottom: 30px;
+        }
+
+        .content {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .btntransparent {
+            background: transparent none !important;
+        }
+
+        .btnhover {
+            background-color: lightgreen;
+        }
+    </style>
+
+
+
+}
+
+@section mainBody
+{
+    @(Html.X().Viewport().ID("MainViewPort").OverflowX(Overflow.Auto).OverflowY(Overflow.Auto)
+        .Layout(LayoutType.VBox).LayoutConfig(new VBoxLayoutConfig { Align = VBoxAlign.Center, Pack = BoxPack.Start }).Border(true)
+                           .Items(Html.X().Container().Layout(LayoutType.Anchor).Width(1000)
+
+                   .Layout(LayoutType.Border)
+
+                           .ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml")
+                           .ItemsFromSection(this, "LoginBody")
+                           )
+    )
+}

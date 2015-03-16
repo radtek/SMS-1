@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Batch Domain="PARA" Lender="Paragon" BatchFileName="PARA_OTHR_20141127_113000.xml" BatchID="PARA_OTHR_20141127_113000" ResponseToBatchID="PARA_SMOV_INT2_20141126_233015" CreatedOn="2014-11-13">
+  <Search MortgageApplicationNumber="45345345352" HasError="true">
+    <BusinessErrors>
+      <Error>
+        <Code>ERR002</Code>
+        <Message>Domain not supplied in request</Message>
+      </Error>
+    </BusinessErrors>
+  </Search>
+    <Search MortgageApplicationNumber="45345348887" HasError="false"/>
+</Batch>

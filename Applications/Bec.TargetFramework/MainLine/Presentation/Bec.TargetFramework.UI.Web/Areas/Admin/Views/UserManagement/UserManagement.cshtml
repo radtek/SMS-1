@@ -1,0 +1,508 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.UserManagementCritieraDTO
+
+@{MvcResourceManager.RegisterGlobalScript(Url.Content("~/Scripts/TargetFramework/Grid.js"));}
+
+<script>
+    var PrepareToolbarIsLocked = function (grid, command, record, row) {
+        if (record.data.IsLoginAllowed == true && command.command == 'Lock') {
+            command.hidden = true;
+        }
+        else if (record.data.IsLoginAllowed == true && command.command == 'UnLock') {
+            command.hidden = false;
+        }
+        else if (record.data.IsLoginAllowed == false && command.command == 'Lock') {
+            command.hidden = false;
+        }
+        else if (record.data.IsLoginAllowed == false && command.command == 'Unlock') {
+            command.hidden = true
+        }
+    };
+
+    var PrepareToolbarIsActive = function (grid, command, record, row) {
+        if (record.data.IsActive == true && command.command == 'InActive') {
+            command.hidden = true;
+        }
+        else if (record.data.IsActive == true && command.command == 'Active') {
+            command.hidden = false;
+        }
+        else if (record.data.IsActive == false && command.command == 'InActive') {
+            command.hidden = false;
+        }
+        else if (record.data.IsActive == false && command.command == 'Active') {
+            command.hidden = true
+        }
+    };
+
+    var LoadParameter = function () {
+        var ddlorg = App.orgList;
+        if (document.getElementById('OrganisationID').value) {
+            ddlorg.setValue(document.getElementById('OrganisationID').value);
+        }
+    };
+
+    function hideShowOrgRelatedComponents(hide) {
+        if (hide == true) {
+            App.userTypeList.hide();
+            App.categoryTypeList.hide();
+            App.unitList.hide();
+            App.branchList.hide();
+
+            App.userTypeList.clearValue();
+            App.categoryTypeList.clearValue();
+            App.unitList.clearValue();
+            App.branchList.clearValue();
+        }
+        else {
+            App.userTypeList.show();
+            App.categoryTypeList.show();
+            App.unitList.show();
+            App.branchList.show();
+        }
+    };
+
+    var clearSearchResults = function () {
+        hideShowOrgRelatedComponents(true);
+        App.orgList.clearValue();
+        App.txtSearchQuery.clear();
+    };
+
+    var processActiveConfirmation = function (user, isActive) {
+        if (isActive)
+            return result = 'Are you sure you want to deactivate user ' + user + '?';
+        else
+            return result = 'Are you sure you want to activate user ' + user + '?';
+    };
+
+    var processLockConfirmation = function (user, isLocked) {
+        if (isLocked)
+            return result = 'Are you sure you want to lock user ' + user + '?';
+        else
+            return result = 'Are you sure you want to unlock user ' + user + '?';
+    };
+
+</script>
+
+<style type="text/css">
+    .my-grid .x-grid3-scroller {
+        overflow: scroll;
+    }
+</style>
+
+
+@(
+
+Html.X().Panel()
+.Title("User Management")
+.BodyPadding(5)
+.TopBar( Html.X().Toolbar().Layout(LayoutType.HBox)
+            .Items(Html.X().Button().Icon(Icon.ApplicationAdd)
+                .Text("Add User")
+                .DirectEvents(de =>
+                    de.Click.Url = Url.Action("AddUser", "UserManagement", new { area = "Admin", containerId = "AdministrationCenterPanel" })
+                ),
+                 Html.X().ComboBoxFor(m => m.OrganisationID)
+                .FieldLabel("Organisation")
+                .QueryMode(DataLoadMode.Local)
+                .ID("orgList")
+                .DisplayField("Name")
+                .ValueField("OrganisationID")
+                .EmptyText("Select Organisation")
+                .Plugins(Html.X().ClearButton().Listeners(l => l.Clear.Handler = "App.branchList.clearValue(); App.unitList.clearValue(); App.categoryTypeList.clearValue(); App.userTypeList.clearValue();"))
+                .Store(Html.X().Store()
+                    .AutoLoad(true)
+                    .Model(Html.X()
+                        .Model()
+                        .IDProperty("OrganisationID")
+                        .Fields(
+                            new ModelField("Name", ModelFieldType.String),
+                            new ModelField("OrganisationID", ModelFieldType.String)
+                        ))
+                        .Proxy(Html.X()
+                        .AjaxProxy()
+                            .Url(Url.Action("GetOrganisations", "Organisation", new { area = "Component" }))
+                            .Reader(new JsonReader.Builder().Root("data")))
+                            )
+                        .Listeners(l =>
+                            {
+                                l.BeforeDeselect.Handler = "hideShowOrgRelatedComponents(true);";
+                                l.Select.Handler = "App.branchList.clearValue(); App.unitList.clearValue();App.unitList.getStore().load(); App.branchList.getStore().load(); if (App.orgList.getValue() != null) { hideShowOrgRelatedComponents(false); }";
+                            }
+                        ),
+
+                    Html.X()
+                    .TextField()
+                    .Width(500)
+                    .ID("txtSearchQuery")
+                    .LabelWidth(50)
+                    .Plugins(Html.X().ClearButton()),
+
+                     Html.X().Button()
+                    .Text("Search").Icon(Icon.Find)
+                    .Listeners(l =>
+                    l.Click.Handler = "App.UserManagementGrid.getStore().load();"),
+                    
+                     Html.X().Button()
+                    .Text("Reset Search").Icon(Icon.ArrowRefresh)
+                    .Listeners(l =>
+                        l.Click.Handler = "clearSearchResults(); App.UserManagementGrid.getStore().load();")
+                , Html.X().ToolbarFill()
+               ))
+.Items
+(
+    Html.X().HiddenFor(model => model.OrganisationID),
+  Html.X()
+    .Container()
+    .Layout(LayoutType.Column)
+    .Items(
+        Html.X().Container().ColumnWidth(0.33)
+            .Items(
+                Html.X().ComboBox()
+                .FieldLabel("Branch")
+                .Plugins(Html.X().ClearButton())
+                .QueryMode(DataLoadMode.Local)
+                .ID("branchList")
+                .DisplayField("BranchName")
+                .ValueField("BranchOrganisationID")
+                .EmptyText("Select Branch")
+                .LabelWidth(120)
+                .Hidden(true)
+                .TypeAhead(true)
+                .LabelAlign(LabelAlign.Left)
+                .Store(Html.X().Store()
+                    .AutoLoad(false)
+                    .Model(Html.X()
+                        .Model()
+                        .IDProperty("BranchOrganisationID")
+                        .Fields(
+                            new ModelField("BranchName", ModelFieldType.String),
+                            new ModelField("BranchOrganisationID", ModelFieldType.String)
+                        ))
+                        .Proxy(Html.X()
+                        .AjaxProxy()
+                                .Url(Url.Action("GetBranchesforOrg", "BranchOrganisation", new { area = "Component" }))
+                            .Reader(new JsonReader.Builder().Root("data")))
+                                .Parameters(p =>
+                                    p.Add(new StoreParameter("id", "App.orgList.getValue()", ParameterMode.Raw))
+                                        )
+                            )
+                            ,
+            
+                    Html.X().ComboBox()
+                        .FieldLabel("Organisation Units")
+                        .Plugins(Html.X().ClearButton())
+                        .QueryMode(DataLoadMode.Local)
+                        .ID("unitList")
+                        .TypeAhead(true)
+                        .Hidden(true)
+                        .LabelWidth(120)
+                        .DisplayField("Name")
+                        .ValueField("OrganisationUnitID")
+                        .EmptyText("Select Unit")
+                        .LabelAlign(LabelAlign.Left)
+                        .Plugins(Html.X().ClearButton())
+                        .Store(Html.X().Store()
+                            .AutoLoad(false)
+                            .Model(Html.X()
+                                .Model()
+                                .IDProperty("OrganisationUnitID")
+                                .Fields(
+                                    new ModelField("Name", ModelFieldType.String),
+                                    new ModelField("OrganisationUnitID", ModelFieldType.Int)
+                                ))
+                                .Proxy(Html.X()
+                                    .AjaxProxy()
+                                    .Url(Url.Action("GeOrganisationUnits", "Organisation", new { area = "Component" }))
+                                    .Reader(new JsonReader.Builder().Root("data"))
+                                    )
+                                .Parameters(p =>
+                                p.Add(new StoreParameter("id", "App.orgList.getValue()", ParameterMode.Raw))
+                                    )
+                                )
+                )
+            
+           ,
+           
+            Html.X().Container().ColumnWidth(0.33)
+        .Items(
+                Html.X().MultiComboFor(model => model.UserCategoryID)
+                .ID("categoryTypeList")
+                .EmptyText("Select User Type")
+                .Plugins(Html.X().ClearButton())
+                .FieldLabel("User Category Type")
+                .AutoDataBind(true)
+                .Hidden(true)
+                .LabelAlign(LabelAlign.Left)
+                .LabelWidth(120)
+                .DisplayField("Name")
+                .ValueField("ClassificationTypeID")
+                .QueryMode(DataLoadMode.Local)
+                .TriggerAction(TriggerAction.All)
+                .MsgTarget(MessageTarget.Under)
+                .TypeAhead(true)
+                .ForceSelection(true)
+                .Plugins(Html.X().ClearButton().Listeners(l => l.Clear.Handler = "App.categoryTypeList.clearValue();"))
+                .Store(Razor.CreateClassificationStore("UserCategory", Url.Action("ReadData", "Reference", new { area = "" }))),
+
+                 Html.X().MultiComboFor(model => model.UserTypeID)
+                .ID("userTypeList")
+                .FieldLabel("User Type")
+                .EmptyText("Select User Type")
+                .AutoDataBind(true)
+                .LabelAlign(LabelAlign.Left)
+                .LabelWidth(120)
+                .Hidden(true)
+                .DisplayField("Name")
+                .ValueField("ClassificationTypeID")
+                .QueryMode(DataLoadMode.Local)
+                .TriggerAction(TriggerAction.All)
+                .MsgTarget(MessageTarget.Under)
+                .TypeAhead(true)
+                .ForceSelection(true)
+                .Plugins(Html.X().ClearButton().Listeners(l => l.Clear.Handler = "App.userTypeList.clearValue();"))
+                .Store(Razor.CreateClassificationStore("UserType", Url.Action("ReadData", "Reference", new { area = "" })))
+               )
+       ),
+       
+
+
+Html.X().GridPanel().Layout(LayoutType.Auto)
+          .ID("UserManagementGrid")
+             
+             .ForceFit(true)
+              .Store(Html.X()
+                         .StoreFor<Bec.TargetFramework.Entities.vUserManagementDTO>()
+                         .RemoteFilter(true)
+                         .RemoteSort(true)
+                                .Parameters(p =>
+                                {
+                                    p.Add(new StoreParameter("OrganisationID", "App.orgList.getValue()", ParameterMode.Raw));
+                                    p.Add(new StoreParameter("BranchID", "App.branchList.getValue()", ParameterMode.Raw));
+                                    p.Add(new StoreParameter("OrganisationUnitID", "App.unitList.getValue()", ParameterMode.Raw));
+                                    p.Add(new StoreParameter("UserTypeID", "App.userTypeList.getValue()", ParameterMode.Raw));
+                                    p.Add(new StoreParameter("UserCategoryID", "App.categoryTypeList.getValue()", ParameterMode.Raw));
+                                    p.Add(new StoreParameter("SearchQuery", "App.txtSearchQuery.getValue()", ParameterMode.Raw));
+                                })
+                                    .Listeners(ls => { ls.BeforeLoad.Handler = "LoadParameter();"; })
+                         .PageSize(20)
+                             .SorterFor(Model, m => m.RowObject.Username, Ext.Net.SortDirection.ASC)
+                         .Proxy(Html.X()
+                                    .AjaxProxy()
+                                    .Url(Url.Action("GetUserManagement", "UserManagement", new { area = "Admin"}))
+                                    .FilterParam("query")
+                                    .Reader(
+                                         Html.X().JsonReader().Root("data"))
+                                    .CustomConfig(config =>
+                                    {
+                                        config.Add(new { encodeFilters = JRawValue.From("function (filters) { return filters[0].value; }") });
+                                    }))
+                             .MessageBusListeners(ml=>
+                                         {
+                                             ml.Add(new MessageBusListener { Name = "AddUserManagement", Handler = "App.UserAddWindow.close(); App.UserManagementGrid.getStore().load();" });
+                                             
+                                         }
+                                    )      
+                              )
+              .ColumnModel(
+                           Html.X().ColumnFor(model => model.RowObject.FirstName).ToBuilder<Column.Builder>().Text("First Name"),
+                           Html.X().ColumnFor(model => model.RowObject.LastName).ToBuilder<Column.Builder>().Text("Last Name"),
+                       Html.X().ColumnFor(model => model.RowObject.Username).ToBuilder<Column.Builder>().Text("Username")
+                            .Width(150),
+                          Html.X()
+                                .ColumnFor(model => model.RowObject.Email)
+                            .ToBuilder<Column.Builder>()
+                            .Width(150),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.LastLogin)
+                            .ToBuilder<Column.Builder>()
+                            .Text("Last Login Date")
+                            .Width(110),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.HomeMobile)
+                            .ToBuilder<Column.Builder>()
+                            .Text("Mobile")
+                            .Width(100),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.HomePhone)
+                                .ToBuilder<Column.Builder>()
+                                .Text("Telephone")
+                                .Width(100),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.OrganisationName)
+                            .ToBuilder<Column.Builder>()
+                            .Width(170),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.BranchName)
+                            .ToBuilder<Column.Builder>()
+                            .Width(230),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.UnitName)
+                            .ToBuilder<Column.Builder>()
+                            .Text("Organisation Unit")
+                            .Width(160),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.IsBranch)
+                            .ToBuilder<Column.Builder>()
+                            .Width(95),
+                         Html.X()
+                             .ColumnFor(model => model.RowObject.UserType)
+                            .ToBuilder<Column.Builder>()
+                            .Width(100),
+                         Html.X()
+                                .ColumnFor(model => model.RowObject.UserCategoryType)
+                            .ToBuilder<Column.Builder>()
+                            .Text("User Category")
+                            .Width(135),
+
+                        Html.X()
+                           .CommandColumn()
+                           .ID("userManagementEdit")
+                           .Width(50)
+                           .Text("Edit")
+                           .Commands(
+                                Html.X()
+                                    .GridCommand()
+                                    .CommandName("Edit")
+                                    .Icon(Icon.ApplicationEdit)
+                                    .ToolTip(tt => tt.Text = "Edit")
+                                   ).DirectEvents(de =>
+                                   {
+                                       de.Command.Method = HttpMethod.GET;
+                                       de.Command.Url = Url.Action("EditUser", "UserManagement", new { area = "Admin"});
+                                       de.Command.ExtraParams.Add(new Parameter("id", "record.data.UserID", ParameterMode.Raw));
+                                       de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                                   }
+                               ),
+                                   Html.X()
+                                   .CommandColumn()
+                                   .Width(70)
+                                   .Text("Delete")
+                                   .Commands(
+                                        Html.X()
+                                            .GridCommand()
+                                            .CommandName("Delete")
+                                            .Icon(Icon.ApplicationDelete)
+                                            .ToolTip(tt => tt.Text = "Delete")
+                                           ).DirectEvents(de =>
+                                           {
+                                               de.Command.Method = HttpMethod.POST;
+                                               de.Command.Url = Url.Action("Delete", "UserManagement", new { area = "Admin" });
+                                               de.Command.Confirmation.ConfirmRequest = true;
+                                               de.Command.Confirmation.BeforeConfirm = "config.confirmation.message ='Are you sure you want to delete user '+ record.data.Username +'?'; config.confirmation.title = 'Delete Confirmation';";
+                                               de.Command.ExtraParams.Add(new Parameter("id", "record.data.UserID", ParameterMode.Raw));
+                                               de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                                               de.Command.Success = "App.UserManagementGrid.getStore().load();";
+                                           }
+                                   ),
+                                      Html.X()
+                                      .ImageCommandColumn().DataIndex("IsActive")
+                                      .ID("IsActive")
+                                      .PrepareCommand(pt => pt.Fn = "PrepareToolbarIsActive")
+                                      .Text("Active/Inactive")
+                                      .Width(130)
+                                      .Commands(
+                                          Html.X()
+                                              .ImageCommand()
+                                              .Icon(Icon.FlagGreen)
+                                              .Hidden(true)
+                                              .CommandName("Active")
+                                                  .ToolTip(tt => tt.Text = "User is active. Click to deactivate"),
+                                                  Html.X()
+                                                  .ImageCommand()
+                                                  .Hidden(true)
+                                                  .Icon(Icon.FlagRed)
+                                                  .CommandName("InActive")
+                                                      .ToolTip(tt => tt.Text = "User is not active. Click to activate.")
+                                      ).DirectEvents(de =>
+                                      {
+                                          de.Command.Method = HttpMethod.GET;
+                                          de.Command.Url = Url.Action("ActivateOrDeactivate", "UserManagement", new { area = "Admin" });
+                                          de.Command.Confirmation.ConfirmRequest = true;
+                                          de.Command.Confirmation.BeforeConfirm = "config.confirmation.message = processActiveConfirmation(record.data.Username, record.data.IsActive); config.confirmation.title = 'Confirmation';";
+                                          de.Command.ExtraParams.Add(new Parameter("id", "record.data.UserID", ParameterMode.Raw));
+                                          de.Command.Success = "App.UserManagementGrid.getStore().load();";
+                                      }),
+                                         Html.X()
+                                          .ImageCommandColumn().DataIndex("IsLoginAllowed")
+                                          .ID("IsLoginAllowed")
+                                          .PrepareCommand(pt => pt.Fn = "PrepareToolbarIsLocked")
+                                          .Text("Lock/UnLock")
+                                          .Width(120)
+                                          .Commands(
+                                              Html.X()
+                                                  .ImageCommand()
+                                                  .Icon(Icon.LockAdd)
+                                                  .Hidden(true)
+                                                  .CommandName("UnLock")
+                                                      .ToolTip(tt => tt.Text = "User is not locked. Click to lock user"),
+                                                      Html.X()
+                                                      .ImageCommand()
+                                                      .Hidden(true)
+                                                      .Icon(Icon.Lock)
+                                                      .CommandName("Lock")
+                                                          .ToolTip(tt => tt.Text = "User is locked. Click to unlock user")
+                                          ).DirectEvents(de =>
+                                          {
+                                              de.Command.Method = HttpMethod.POST;
+                                              de.Command.Url = Url.Action("LockOrUnLock", "UserManagement", new { area = "Admin" });
+                                              de.Command.Confirmation.ConfirmRequest = true;
+                                              de.Command.Confirmation.BeforeConfirm = "config.confirmation.message = processLockConfirmation(record.data.Username, record.data.IsLoginAllowed); config.confirmation.title = 'Confirmation';";
+                                              de.Command.ExtraParams.Add(new Parameter("id", "record.data.UserID", ParameterMode.Raw));
+                                              de.Command.Success = "App.UserManagementGrid.getStore().load();";
+                                          }),
+
+                                        Html.X()
+                                        .ImageCommandColumn().DataIndex("Email")
+                                        .ID("ResetPassword")
+                                        .Text("Reset Password")
+                                        .Width(130)
+                                        .Commands(
+                                        Html.X()
+                                            .ImageCommand()
+                                            .Icon(Icon.UserKey)
+                                            .CommandName("ResetPassword")
+                                            .ToolTip(t=>t.Text="Reset user password.")
+                                        )
+                                        .DirectEvents(de =>
+                                        {
+                                            de.Command.Timeout = 60000;
+                                            de.Command.CleanRequest = true;
+                                            de.Command.Method = HttpMethod.POST;
+                                            de.Command.Url = Url.Action("ResetPassword", "UserManagement", new { area = "Admin" });
+                                            de.Command.Confirmation.ConfirmRequest = true;
+                                            de.Command.Confirmation.BeforeConfirm = "config.confirmation.message ='Are you sure you want to reset password of user '+ record.data.Username +'?'; config.confirmation.title = 'Confirmation';";
+                                            de.Command.ExtraParams.Add(new Parameter("email", "record.data.Email", ParameterMode.Raw));
+                                            de.Command.Failure = "Ext.Msg.show({" +
+                                                            " title:   'Password Reset Error'," +
+                                                            " msg:     result.errorMessage +' Please try again'," +
+                                                            " buttons: Ext.Msg.OK," +
+                                                            " icon:    Ext.MessageBox.ERROR," +
+                                                            " });";
+                                            de.Command.Success = "Ext.Msg.show({" +
+                                                            " title:   'Reset Password'," +
+                                                            " msg:     'An Email has been sent for password reset'," +
+                                                            " buttons: Ext.Msg.OK," +
+                                                            " icon:    Ext.MessageBox.Accept " +
+                                                            " });";
+                                            de.Command.EventMask.MinDelay = 250;
+                                        })
+                  
+                  )
+                 .BottomBar(
+                   Html.X()
+                       .PagingToolbar()
+                       .DisplayInfo(true)
+                       .DisplayMsg("Displaying Users {0} - {1} of {2}")
+                       .EmptyMsg("No Users to display"))
+
+                  .View(Html.X().GridView().TrackOver(false))
+                  .SelectionModel(Html.X().RowSelectionModel().PruneRemoved(false).Mode(SelectionMode.Single))
+                  
+                  
+                
+                                            
+                      
+
+
+))
+

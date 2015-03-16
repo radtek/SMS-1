@@ -1,0 +1,21 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+@(X.Container().Anchor("100% -100").PaddingSpec("30 10 10 10")
+.Items(
+        X.Container().PaddingSpec("10 10 10 10").Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle })
+                  .Items(X.Container().Flex(1).Html(" <p class='copyright'>© 2013 BE Consultancy Ltd. All rights reserved.</p>"),
+                              X.Container().Flex(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End }).Items(
+                                                        X.Container().Html("<a href='mailto:enquiries@safemovescheme.org'>enquiries@safemovescheme.org</a>"),
+                                                        X.Label("|"),
+                                                        X.Button().Text("Terms of Use").Border(false).Flat(true).StyleSpec("background:transparent")
+                                                                      .Listeners(l => l.Click.Handler = "window.location = '" +Url.Action("Terms", "Default", new { Area = "SafeMoveScheme" }) + "'")
+                                                                     
+
+                         )
+ )
+)
+)
+

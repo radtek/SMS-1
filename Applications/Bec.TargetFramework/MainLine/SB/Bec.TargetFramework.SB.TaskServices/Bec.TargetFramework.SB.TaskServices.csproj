@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3E92056-1E79-4FD4-9B76-88E32FA29558}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.SB.TaskServices</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.SB.TaskServices</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Bec.TargetFramework.SB.TaskServices.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.4.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Wcf">
+      <HintPath>..\..\packages\Autofac.Wcf.3.0.1\lib\net40\Autofac.Integration.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\..\packages\Autofac.WebApi2.3.3.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Couchbase">
+      <HintPath>..\..\References\Couchbase.dll</HintPath>
+    </Reference>
+    <Reference Include="Couchbase.AspNet">
+      <HintPath>..\..\References\Couchbase.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\..\References\Enyim.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Fabrik.Common">
+      <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\packages\Iesi.Collections.3.3.3.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\packages\Npgsql.2.1.3\lib\net45\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\packages\Npgsql.2.1.3\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.Interfaces.4.6.3\lib\net40\NServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.4.6.3\lib\net40\NServiceBus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Host, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.Host.4.6.3\lib\net40\NServiceBus.Host.exe</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.NHibernate">
+      <HintPath>..\..\packages\NServiceBus.NHibernate.4.5.0\lib\net40\NServiceBus.NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.ObjectBuilder.Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.Autofac.4.6.3\lib\net40\NServiceBus.ObjectBuilder.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Serilog.Tracing">
+      <HintPath>..\..\packages\NServiceBus.Serilog.Tracing.0.0.2.0\Lib\NET45\NServiceBus.Serilog.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Transports.SQLServer">
+      <HintPath>..\..\packages\NServiceBus.SqlServer.1.2.2\lib\net40\NServiceBus.Transports.SQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\..\packages\RabbitMQ.Client.3.2.1\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Seq.Client.Serilog">
+      <HintPath>..\..\packages\Seq.Client.Serilog.2.0.15\lib\net45\Seq.Client.Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\..\packages\Serilog.1.3.42\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx">
+      <HintPath>..\..\packages\Serilog.1.3.42\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Email">
+      <HintPath>..\..\packages\Serilog.Sinks.Email.1.3.42\lib\net45\Serilog.Sinks.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.EventLog">
+      <HintPath>..\..\packages\Serilog.Sinks.EventLog.1.3.42\lib\net45\Serilog.Sinks.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\References\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\References\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\References\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IOC\DependencyRegistrar.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleRegistration.cs" />
+    <Compile Include="TaskService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TaskService.Designer.cs">
+      <DependentUpon>TaskService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <Content Include="Properties\licenses.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="TaskService.resx">
+      <DependentUpon>TaskService.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
+      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
+      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot.Ef\BrockAllen.MembershipReboot.Ef.csproj">
+      <Project>{453c8a9d-72aa-4f8d-9354-8b0f57f2b58a}</Project>
+      <Name>BrockAllen.MembershipReboot.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot.WebHost\BrockAllen.MembershipReboot.WebHost.csproj">
+      <Project>{754ae1b9-11d0-4270-98c7-8da69b150860}</Project>
+      <Name>BrockAllen.MembershipReboot.WebHost</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
+      <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
+      <Name>BrockAllen.MembershipReboot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
+      <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
+      <Name>Bec.TargetFramework.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
+      <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
+      <Name>Bec.TargetFramework.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Framework\Bec.TargetFramework.Framework.csproj">
+      <Project>{099954fd-7359-4209-9661-6aaea763ceae}</Project>
+      <Name>Bec.TargetFramework.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.CouchBaseCache\Bec.TargetFramework.Infrastructure.CouchBaseCache.csproj">
+      <Project>{37066c39-df25-497a-bda4-438dfb32fd78}</Project>
+      <Name>Bec.TargetFramework.Infrastructure.CouchBaseCache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Serilog\Bec.TargetFramework.Infrastructure.Serilog.csproj">
+      <Project>{47e8b5c9-9cb2-41dc-bf30-219e9682425d}</Project>
+      <Name>Bec.TargetFramework.Infrastructure.Serilog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
+      <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
+      <Name>Bec.TargetFramework.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
+      <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
+      <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Handlers\Bec.TargetFramework.SB.Handlers.csproj">
+      <Project>{e8fb612b-2578-46f2-ba4b-5040583f2445}</Project>
+      <Name>Bec.TargetFramework.SB.Handlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
+      <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
+      <Name>Bec.TargetFramework.SB.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Messages\Bec.TargetFramework.SB.Messages.csproj">
+      <Project>{dcf731c2-85ee-46fd-9e4c-e38df52bdea1}</Project>
+      <Name>Bec.TargetFramework.SB.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.TaskHandlers\Bec.TargetFramework.SB.TaskHandlers.csproj">
+      <Project>{3507e031-9c50-4d11-882a-8ceb5e2ea71a}</Project>
+      <Name>Bec.TargetFramework.SB.TaskHandlers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(ProjectDir)$(OutputPath)NServiceBus.Host.exe</StartProgram>
+  </PropertyGroup>
+</Project>

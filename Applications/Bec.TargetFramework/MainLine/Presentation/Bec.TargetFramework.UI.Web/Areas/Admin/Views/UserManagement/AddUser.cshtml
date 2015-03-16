@@ -1,0 +1,159 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.ContactDTO
+
+<script>
+    var comboSetter = function (comboBox, value) {
+        var store = comboBox.store;
+        var valueField = comboBox.valueField;
+        var displayField = comboBox.displayField;
+
+        var recordNumber = store.findExact(valueField, value, 0);
+
+        if (recordNumber == -1)
+            return -1;
+
+        var displayValue = store.getAt(recordNumber).data[displayField];
+        comboBox.setValue(value);
+        comboBox.setRawValue(displayValue);
+        comboBox.selectedIndex = recordNumber;
+        return recordNumber;
+    };
+
+
+    var showFormItems = function (show) {
+        if (show) {
+            App.AddressForm.show();
+            App.AddAddress.hide();
+            App.CancelAddress.show();
+
+            enableDisableFormFields(false);
+        } else {
+            App.AddressForm.hide();
+            App.AddressForm.getForm().reset();
+            resetPostcodeResults();
+            App.AddAddress.show();
+            App.CancelAddress.hide();
+            enableDisableFormFields(true);
+        }
+
+
+    };
+
+    function enableDisableFormFields(enable) {
+
+        var form = App.AddressForm.getForm();
+
+        form.findField('Line1').setDisabled(enable);
+        form.findField('Line2').setDisabled(enable);
+        form.findField('Line3').setDisabled(enable);
+        form.findField('City').setDisabled(enable);
+        form.findField('County').setDisabled(enable);
+        form.findField('BuildingName').setDisabled(enable);
+        form.findField('AddressPostCode').setDisabled(enable);
+        form.findField('AddressIsPrimaryAddressField').setDisabled(enable);
+        form.findField('AddressNameField').setDisabled(enable);
+        form.findField('AddressIDString').setDisabled(enable);
+        form.findField('AddressTypeID').setDisabled(enable);
+        form.findField('AddressCategoryID').setDisabled(enable);
+
+    }
+
+</script>
+
+
+@(Html.X().FormPanel().ID("AddUserForm").Title("Add User").ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+        .Items(
+                Html.X().AntiForgeryField(),
+                Html.X()
+                  .Container()
+                  .Layout(LayoutType.Form)
+                  .ColumnWidth(1)
+                  .Padding(2)
+                  .Items(
+                          Html.X().MultiSelect().ID("UserManagementFormErrors").Hidden(true)),
+                   Html.X().Container().Layout(LayoutType.Column)
+                    .Items(
+                        Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                        .Items(
+
+                             Html.X().TextFieldFor(model => model.ContactName).FieldLabel("UserName*").AllowBlank(false).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).BlankText("Please enter UserName")
+                                 .Control(c =>
+                                             {
+                                                 c.IsRemoteValidation = true;
+                                                 c.RemoteValidation.Url = Url.Action("IsUserExist");
+                                                 c.RemoteValidation.ValidationEvent = "blur";
+                                                 c.RemoteValidation.Method = HttpMethod.POST;
+                                                 c.RemoteValidation.ShowBusy = true;
+                                                 c.RemoteValidation.ErrorMessage = "User name already exists";
+                                             }
+                                     ),
+                                Html.X().TextFieldFor(model => model.EmailAddress1).FieldLabel("UserEmail*").AllowBlank(false).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).ID("UserEmail").BlankText("Please enter UserEmail")
+                                        .Control(c =>
+                                                {
+                                                    c.IsRemoteValidation = true;
+                                                    c.RemoteValidation.Url = Url.Action("IsEmailExist");
+                                                    c.RemoteValidation.ValidationEvent = "blur";
+                                                    c.RemoteValidation.Method = HttpMethod.POST;
+                                                    c.RemoteValidation.ShowBusy = true;
+                                                    c.RemoteValidation.ErrorMessage = "Email Address already exists";
+                                                }
+                                        ),
+
+                                 Html.X().ComboBoxFor(model => model.Salutation).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                                .Store(Razor.CreateClassificationStore("SalutationType", Url.Action("ReadData", "Reference", new { area = "" }))),
+                                 Html.X().TextFieldFor(model => model.FirstName).AllowBlank(false).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("First Name*").BlankText("Please enter First Name"),
+                                 Html.X().TextFieldFor(model => model.LastName).AllowBlank(false).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("Last Name*").BlankText("Please enter Last Name"),
+                                 Html.X().TextFieldFor(model => model.NickName).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("Nick Name"),
+                                 Html.X().ComboBoxFor(model => model.GenderTypeID).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).FieldLabel("Gender")
+                                    .Store(Razor.CreateClassificationStore("GenderType", Url.Action("ReadData", "Reference", new { area = "" }))),
+                                 Html.X().ComboBoxFor(model => model.EducationTypeID).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).FieldLabel("Education")
+                                    .Store(Razor.CreateClassificationStore("EducationType", Url.Action("ReadData", "Reference", new { area = "" }))),
+                                 Html.X().DateFieldFor(model => model.BirthDate).LabelAlign(LabelAlign.Top).MsgTarget(MessageTarget.Under)
+                               ),
+
+
+                           Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                            .Items(
+
+                               Html.X().ComboBoxFor(model => model.ContactTypeID).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).FieldLabel("Contact Type*")
+                                .Store(Razor.CreateClassificationStore("ContactType", Url.Action("ReadData", "Reference", new { area = "" }))),
+                                Html.X().TextFieldFor(model => model.Department).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.EmailAddress2).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.EmailAddress3).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.Telephone1).AllowBlank(false).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("Telephone 1*"),
+                                Html.X().TextFieldFor(model => model.Telephone2).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.Telephone3).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.MobileNumber1).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.MobileNumber2).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.MobileNumber3).AllowBlank(true).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+
+                            )
+                  )
+
+
+    )
+            .TopBar(Html.X().Toolbar()
+            .Items(
+                    Html.X().ToolbarFill(),
+                    Html.X()
+                    .Button()
+                    .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults).Text("Next").Icon(Icon.NextGreen)
+                    .DirectEvents(de =>
+                            {
+                                de.Click.Before = "return App.AddUserForm.isValid();";
+                                de.Click.Url = Url.Action("AddUser", "UserManagement", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                                de.Click.FormID = "AddUserForm";
+                                de.Click.EventMask.ShowMask = true;
+                                de.Click.EventMask.Msg = "Please wait ...";
+                            }),
+                                Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.AddUserForm.getForm().reset(); App.PostCodeResults.hide();"),
+                                Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                                .DirectEvents(d =>
+                                        d.Click.Url = Url.Action("UserManagement", "UserManagement", new { area = "Admin", containerId = "AdministrationCenterPanel" })
+                                )
+                    )
+                )
+)
+)

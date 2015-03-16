@@ -1,0 +1,95 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.AddressDTO
+
+@(Html.X().Container().Layout(LayoutType.Column)
+      .Items
+      (
+                                        
+        Html.X().HiddenFor(model => model.Longitude),
+        Html.X().HiddenFor(model => model.Latitude),
+        Html.X().HiddenFor(model => model.AddressID),
+        Html.X().HiddenFor(model => model.AddressIDString),
+        Html.X().Container().Layout(LayoutType.Column).ColumnWidth(1.0).Border(false)
+            .Items(
+                Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                .Items(
+
+                    Html.X().TextFieldFor(model => model.Name).ID("AddressNameField").ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("Address Name*"),
+                    Html.X().CheckboxFor(model => model.IsPrimaryAddress).ID("AddressIsPrimaryAddressField").FieldLabel("Is Primary Address*").ApplyCheckboxDefaults(Razor.ApplyCheckboxDefaults).Hidden(!Model.ShowIsPrimaryAddress),
+                    Html.X().TextFieldFor(model => model.PrimaryContactName).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).Hidden(!Model.ShowPrimaryContactName),
+                    Html.X().ComboBoxFor(model => model.AddressTypeID)
+                    .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                    .FieldLabel("Address Type*").BlankText("Please select Address Type")
+                    .Store(Razor.CreateClassificationStore("AddressType", Url.Action("ReadData", "Reference", new { area = "" }))),
+
+                    Html.X().ComboBoxFor(model => model.AddressCategoryID)
+                    .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                    .FieldLabel("Address Category")
+                    .Store(Razor.CreateClassificationStore("AddressCategory", Url.Action("ReadData", "Reference", new { area = "" })))
+
+                    ),
+
+                Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5).Border(false)
+                    .Items(
+                                Html.X().TextFieldFor(model => model.BuildingName).ID("BuildingName").AllowBlank(true).FieldLabel("Building Name or Number").ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.PostalCode).ID("AddressPostCode").FieldLabel("Post Code*").AllowBlank(false).BlankText("Please enter a valid Postcode")
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).Listeners(l => l.Change.Handler = "#{AddressFindPostcode}.setDisabled(!#{AddressPostCode}.isValid()); App.AddressPostCode.setValue(this.value.toUpperCase());"),
+                                Html.X().Button().Text("Find Address").Disabled(true).ID("AddressFindPostcode").StyleSpec("text-transform:uppercase;")
+                                    .Listeners
+                                        (l => l.Click.Handler = "processPostCode();"),
+
+                                Html.X().MultiSelect().ID("PostCodeResults")
+                                .ValueField("FullAddress")
+                                .DisplayField("FullAddress")
+                                .Height(70)
+                                    .Hidden(true)
+                                    .Listeners(l => l.Change.Fn = "populateAddress")
+                                    .MultiSelect(true).Store(Html.X()
+                                        .Store()
+                                        .AutoLoad(false)
+                                        .Parameters(p =>
+                                            {
+                                                p.Add(Html.X().StoreParameter().Name("postCode").Value("Ext.getCmp('AddressPostCode').getValue()").Mode(ParameterMode.Value));
+                                                p.Add(Html.X().StoreParameter().Name("building").Value("Ext.getCmp('BuildingName').getValue()").Mode(ParameterMode.Value));
+                                            }
+                                                )
+                                        .Model(Html.X()
+                                            .Model().Name("PostCodeModel")
+                                            .Fields(fields =>
+                                            {
+                                                fields.Add(new ModelField("FullAddress"));
+                                                fields.Add(new ModelField("Company"));
+                                                fields.Add(new ModelField("County"));
+                                                fields.Add(new ModelField("Department"));
+                                                fields.Add(new ModelField("BuildingName"));
+                                                fields.Add(new ModelField("Line1"));
+                                                fields.Add(new ModelField("Line2"));
+                                                fields.Add(new ModelField("Line3"));
+                                                fields.Add(new ModelField("PostCode"));
+                                                fields.Add(new ModelField("PostTown"));
+                                                fields.Add(new ModelField("PrimaryStreet"));
+                                            })
+                                            .Proxy(proxy => proxy.Add(Html.X()
+                                                .AjaxProxy()
+                                                .Url(Url.Action("GetPostCodeAddresses", "Address", new { area = "Component" }))
+                                                .Reader(reader => reader.Add(Html.X().JsonReader().Root("data")))))))
+                    ),
+                        Html.X().Container().Layout(LayoutType.Form).ColumnWidth(1.0).Padding(5).Border(false).ID("AddressContainer")
+                    .Items(
+                                Html.X().TextFieldFor(model => model.Line1).FieldLabel("Address Line1*")
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.Line2).FieldLabel("Address Line2")
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.Line3).FieldLabel("Address Line3")
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.City).BlankText("Please enter City of the Address")
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults),
+                                Html.X().TextFieldFor(model => model.County)
+                                    .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                    )
+        )
+       )
+       
+)

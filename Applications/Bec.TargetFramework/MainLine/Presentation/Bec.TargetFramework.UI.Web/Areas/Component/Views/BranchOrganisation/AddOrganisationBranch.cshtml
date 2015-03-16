@@ -1,0 +1,46 @@
+﻿@using Ext.Net.MVC
+@using Ext.Net
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.ContactDTO
+
+@{
+    ViewBag.Title = "Add Organisation Branch";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.ContactNameText = "Branch Name";
+}
+
+@section headtag
+{
+    <script src="~/Scripts/TargetFramework/Ext.js"></script>
+
+}
+@section mainBody
+{
+    @(Html.X()
+          .FormPanel()
+          .ID("ContactForm")
+          .BodyPadding(5)
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                  .ItemsFromPartial("_ContactBranchPartial", Model, ViewData)
+          .DefaultAnchor("100%")
+          .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                                  
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Before = "return App.ContactForm.isValid();";
+                                   de.Click.Url = Url.Action("AddOrganisationBranch", "BranchOrganisation", new { area = "Component" });
+                                   de.Click.FormID = "ContactForm";
+                               }),
+                               
+                                                                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.ContactForm.getForm().reset();"),
+                                                                                                   Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{ContactForm}.getForm().reset();Ext.net.Bus.publish('AddOrganisationBranch','');")
+                            ))
+
+    )
+
+}

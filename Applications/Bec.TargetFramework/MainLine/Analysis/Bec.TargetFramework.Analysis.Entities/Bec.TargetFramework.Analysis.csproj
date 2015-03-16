@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D56BF17D-B356-4B5C-9161-EC5263797983}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Analysis</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Analysis</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EnsureThat, Version=2.0.0.39118, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\..\packages\Quartz.2.3.1\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\..\packages\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ServiceStack.Text, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\LogicBase.cs" />
+    <Compile Include="Converters\AnalysisBatchCollatorConverter.cs" />
+    <Compile Include="Converters\AnalysisBatchCollatorConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchCollatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisBatchProcessorConverter.cs" />
+    <Compile Include="Converters\AnalysisBatchProcessorConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchProcessorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisBatchReceiverConverter.cs" />
+    <Compile Include="Converters\AnalysisBatchReceiverConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchReceiverConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisBatchSchedulerConverter.cs" />
+    <Compile Include="Converters\AnalysisBatchSchedulerConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchSchedulerConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisBatchSenderConverter.cs" />
+    <Compile Include="Converters\AnalysisBatchSenderConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchSenderConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisEngineConverter.cs" />
+    <Compile Include="Converters\AnalysisEngineConverter.Generated.cs">
+      <DependentUpon>AnalysisEngineConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisEngineMutatorConverter.cs" />
+    <Compile Include="Converters\AnalysisEngineMutatorConverter.Generated.cs">
+      <DependentUpon>AnalysisEngineMutatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisInputConverter.cs" />
+    <Compile Include="Converters\AnalysisInputConverter.Generated.cs">
+      <DependentUpon>AnalysisInputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisInterfaceConverter.cs" />
+    <Compile Include="Converters\AnalysisInterfaceConverter.Generated.cs">
+      <DependentUpon>AnalysisInterfaceConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisMortgageApplicationConverter.cs" />
+    <Compile Include="Converters\AnalysisMortgageApplicationConverter.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisMortgageApplicationDetailConverter.cs" />
+    <Compile Include="Converters\AnalysisMortgageApplicationDetailConverter.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationDetailConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisMortgageApplicationHistoryConverter.cs" />
+    <Compile Include="Converters\AnalysisMortgageApplicationHistoryConverter.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationHistoryConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisMutatorConverter.cs" />
+    <Compile Include="Converters\AnalysisMutatorConverter.Generated.cs">
+      <DependentUpon>AnalysisMutatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisMutatorInputConverter.cs" />
+    <Compile Include="Converters\AnalysisMutatorInputConverter.Generated.cs">
+      <DependentUpon>AnalysisMutatorInputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisProcessLogBatchConverter.cs" />
+    <Compile Include="Converters\AnalysisProcessLogBatchConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisProcessLogBatchDetailConverter.cs" />
+    <Compile Include="Converters\AnalysisProcessLogBatchDetailConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDetailConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisProcessLogConverter.cs" />
+    <Compile Include="Converters\AnalysisProcessLogConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisProcessLogStepConverter.cs" />
+    <Compile Include="Converters\AnalysisProcessLogStepConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisProcessLogStepOutputConverter.cs" />
+    <Compile Include="Converters\AnalysisProcessLogStepOutputConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepOutputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AnalysisXMLSchemaConverter.cs" />
+    <Compile Include="Converters\AnalysisXMLSchemaConverter.Generated.cs">
+      <DependentUpon>AnalysisXMLSchemaConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\StatusTypeConverter.cs" />
+    <Compile Include="Converters\StatusTypeConverter.Generated.cs">
+      <DependentUpon>StatusTypeConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\StatusTypeTemplateConverter.cs" />
+    <Compile Include="Converters\StatusTypeTemplateConverter.Generated.cs">
+      <DependentUpon>StatusTypeTemplateConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\StatusTypeValueConverter.cs" />
+    <Compile Include="Converters\StatusTypeValueConverter.Generated.cs">
+      <DependentUpon>StatusTypeValueConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisBatchCollatorDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisBatchCollatorDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchCollatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisBatchProcessorDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisBatchProcessorDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchProcessorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisBatchReceiverDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisBatchReceiverDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchReceiverDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisBatchSchedulerDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisBatchSchedulerDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchSchedulerDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisBatchSenderDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisBatchSenderDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchSenderDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisEngineDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisEngineDTO.Generated.cs">
+      <DependentUpon>AnalysisEngineDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisEngineMutatorDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisEngineMutatorDTO.Generated.cs">
+      <DependentUpon>AnalysisEngineMutatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisInputDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisInputDTO.Generated.cs">
+      <DependentUpon>AnalysisInputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisInterfaceDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisInterfaceDTO.Generated.cs">
+      <DependentUpon>AnalysisInterfaceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationDetailDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationDetailDTO.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationDTO.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationHistoryDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisMortgageApplicationHistoryDTO.Generated.cs">
+      <DependentUpon>AnalysisMortgageApplicationHistoryDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisMutatorDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisMutatorDTO.Generated.cs">
+      <DependentUpon>AnalysisMutatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisMutatorInputDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisMutatorInputDTO.Generated.cs">
+      <DependentUpon>AnalysisMutatorInputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisProcessLogBatchDetailDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisProcessLogBatchDetailDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisProcessLogBatchDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisProcessLogBatchDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisProcessLogDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisProcessLogDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisProcessLogStepDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisProcessLogStepDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisProcessLogStepOutputDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisProcessLogStepOutputDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepOutputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\AnalysisXMLSchemaDTO.cs" />
+    <Compile Include="DataDTOs\AnalysisXMLSchemaDTO.Generated.cs">
+      <DependentUpon>AnalysisXMLSchemaDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\StatusTypeDTO.cs" />
+    <Compile Include="DataDTOs\StatusTypeDTO.Generated.cs">
+      <DependentUpon>StatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\StatusTypeTemplateDTO.cs" />
+    <Compile Include="DataDTOs\StatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataDTOs\StatusTypeValueDTO.cs" />
+    <Compile Include="DataDTOs\StatusTypeValueDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\FileTransferProcessor.cs" />
+    <Compile Include="Logic\Collator.cs" />
+    <Compile Include="Logic\MortgageApplicationLogic.cs" />
+    <Compile Include="Logic\Processor.cs" />
+    <Compile Include="Logic\Receiver.cs" />
+    <Compile Include="Logic\Sender.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduler\BatchJob.cs" />
+    <Compile Include="Scheduler\BatchScheduler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Analysis\Bec.TargetFramework.Data.Analysis.csproj">
+      <Project>{2e204ffe-4cbe-4575-b4c7-13595a4196a1}</Project>
+      <Name>Bec.TargetFramework.Data.Analysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
+      <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
+      <Name>Bec.TargetFramework.Data.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
+      <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
+      <Name>Bec.TargetFramework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Analysis.Infrastructure\Bec.TargetFramework.Analysis.Infrastructure.csproj">
+      <Project>{2ee04923-16b5-4795-84e7-e30410ac393b}</Project>
+      <Name>Bec.TargetFramework.Analysis.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Analysis.Interfaces\Bec.TargetFramework.Analysis.Interfaces.csproj">
+      <Project>{de16f746-3b02-4152-9d3b-28e35654a952}</Project>
+      <Name>Bec.TargetFramework.Analysis.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

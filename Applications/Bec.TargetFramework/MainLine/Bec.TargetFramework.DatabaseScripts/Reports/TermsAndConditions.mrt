@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <CacheAllData>True</CacheAllData>
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="10">
+          <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>NotificationConstructID,System.Guid</value>
+          <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificiationSentFromParentID,System.Guid</value>
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+          <value>LoginRoute,System.String</value>
+          <value>Subject,System.String</value>
+          <value>Title,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+      <TermsConditionsDataDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>TermsConditionsDataDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>TermsConditionsDataDTO</Category>
+        <Columns isList="true" count="6">
+          <value>Description,System.String</value>
+          <value>Id,System.Guid</value>
+          <value>Name,System.String</value>
+          <value>NotificationId,System.Guid</value>
+          <value>UsersVerificationData,System.String</value>
+          <value>VerificationCode,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>e89924d037a0447791d82d199c413b49</Guid>
+        <Name>TermsConditionsDataDTO</Name>
+      </TermsConditionsDataDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>General</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="3">
+        <Image1 Ref="5" type="Image" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,4.2,3.6,1.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <ImageURL>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.ServerNotificationImageContentURLFolder}{NotificationSettingDTO.ServerLogoImageFileNameWithExtension}</ImageURL>
+          <Name>Image1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+        </Image1>
+        <Text1 Ref="6" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <AutoWidth>True</AutoWidth>
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,0,19,3.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>Verification Code: {TermsConditionsDataDTO.VerificationCode}
+&lt;br/&gt;&lt;br/&gt;</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+        </Text1>
+        <Text2 Ref="7" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,3.6,8.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Hyperlink>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>Click here to Login to the Safe Move Scheme</Text>
+          <TextBrush>Black</TextBrush>
+          <TextQuality>Wysiwyg</TextQuality>
+          <ToolTip>Login</ToolTip>
+          <Type>Expression</Type>
+        </Text2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
+      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="8" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="9" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>10/1/2014 4:39:19 PM</ReportChanged>
+  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
+  <ReportFile>D:\BecSoftware\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\TermsAndConditions.mrt</ReportFile>
+  <ReportGuid>3dfbea31739d43929bf26c08ad1bf0af</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2014.2.1915</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

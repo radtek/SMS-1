@@ -1,0 +1,175 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@using Bec.TargetFramework.Web.Framework.Extensions
+
+@model Bec.TargetFramework.Entities.ForgotPasswordWithSecretDTO
+
+@{
+    ViewBag.Title = "Forgotten Password";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headtag
+{
+    <script src="~/Scripts/TargetFramework/Grid.js"></script>
+    <script src="~/Scripts/TargetFramework/Ext.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+
+        var hideShowSecretQuestions = function () {
+            if (App.Result.value == 'True') {
+                if (App.questionID.value != null) {
+                    App.SecretQuestion.show();
+                }
+                else {
+                    App.SecretQuestion.hide();
+                    App.Send.hide();
+                    App.SendPasswordCancel.hide();
+                    App.SendPasswordLogin.show();
+                    App.UserName.setDisabled(true);
+                    App.ForgotPasswordFormErrors.hide();
+                    App.ForgotPasswordFormMessages.show();
+                }
+            }
+        };
+
+        var clearErrorsOrMessages = function () {
+            App.ForgotPasswordFormMessages.hide();
+            App.ForgotPasswordFormErrors.hide();
+        };
+        var CreateCaptcha = function () {
+            Recaptcha.create('@ViewData["PublicKey"]', 'divcaptcha2',
+            {
+                theme: "red",
+               // callback: Recaptcha.focus_response_field
+            });
+        };
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+                dataType: 'script',
+                success: function (result) {
+                    CreateCaptcha();
+                    var error = $('#error');
+                    error.hide();
+                },
+                error: function (xmlhttprequest, status, error) {
+                    $('#divcaptcha2').html('Cannot create captcha');
+                }
+            });
+        });
+        var afterrender = function (field) {
+            Ext.defer(function () {
+                field.focus(true, 100);
+            }, 1);
+        };
+
+    </script>
+
+
+}
+
+@section mainBody
+{
+    @(Html.X().Viewport().OverflowX(Overflow.Auto).OverflowY(Overflow.Auto)
+            .Items
+              (
+                       Html.X().Panel().ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+
+                                Html.X().Panel().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1)
+                .Items(
+                        Html.X().Container().Html("<br/>"),
+                         Html.X().Image()
+                                .Frame(false)
+                                .ImageUrl((@Url.Content("~/Content/resources/images/STS/MakingPropertyTransactionSaferResized.jpg"))).Height(225).Width(800)
+                              ),
+                              Html.X().Panel().ID("ForgotPasswordFormErrorsPanel")
+                   .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1).Items(
+                    Html.X().Panel().Layout(LayoutType.Column).ColumnWidth(0.5).Padding(2).PaddingSpec("0 10 0 0").MaxWidth(800).Items(
+                                                  Html.X().MultiSelect().ID("ForgotPasswordFormErrors").Hidden(true).Width(800))
+                            ),
+             Html.X().Panel().ID("ForgotPassword").LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1)
+               .Items
+              (
+          Html.X().FormPanel()
+
+           .Width(440)
+           .PaddingSpec("5 5 5 5")
+            .ID("ForgottenPasswordReminderForm")
+            .Border(true)
+            .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+            .Url(Url.Action("Index", "ForgottenPassword", new { area = "STSLogin" }))
+            .BodyStyle("background:transparent;")
+            .Items
+            (
+                Html.X().AntiForgeryField(),
+
+
+                                Html.X().TextFieldFor(m => m.Username).ID("UserName").ApplyFieldDefaults("ForgottenPassword", "Username").Width(415).Padding(5).TabIndex(0).Listeners(l => l.AfterRender.Fn = "afterrender"),
+                                        Html.X().MultiSelect().ID("ForgotPasswordFormMessages").Hidden(true),
+                     Html.X().Panel().ID("SecretQuestion").Title("Please answer your security questions below:").ApplyPanelDefaults("SecurityQuestion").Hidden(true)
+                            .Items
+                                (
+                                Html.X().HiddenFor(m => m.QuestionID).ID("questionID"),
+                                        Html.X().Label().ID("question").ApplyFieldDefaults("SecurityQuestion", "DynamicSecurityQuestion"),
+                                Html.X().TextFieldFor(m => m.Answer).ID("answer").ApplyFieldDefaults("SecurityQuestion", "AnswerToSecurityQuestion").Width(415).Padding(5)
+                            ),
+                            Html.X().Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Items(
+                                        Html.X().Container().ID("divcaptcha2").Width(320).Height(130)),
+                                        Html.X().HiddenFor(data => ViewData["Challenge"]).ID("CaptchaChallenge"),
+                                        Html.X().HiddenFor(data => ViewData["Response"]).ID("CaptchaResponse"),
+                                                        Html.X().MultiSelect().ID("CaptchaError").Hidden(true),
+                                                                        Html.X().HiddenFor(m => m.Result).ID("Result"),
+                              Html.X().Container().ID("btnContainer").PaddingSpec("10 10 10 10").Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End }).Items(
+                                               Html.X().Button().ID("Send").ApplyButtonDefaults(Razor.ApplySTSGreyButtonDefaults).Flat(true)
+                                                .Text("Reset Password")
+                                                .DirectEvents(de =>
+                                                {
+                                                    de.Click.Timeout = 60000;
+                                                    de.Click.Url = Url.Action("Index", "ForgottenPassword", new { area = "STSLogin" });
+                                                    de.Click.FormID = "ForgottenPasswordReminderForm";
+                                                    de.Click.CleanRequest = true;
+                                                    de.Click.Method = HttpMethod.POST;
+                                                    de.Click.Success = "hideShowSecretQuestions()";
+                                                    de.Click.EventMask.ShowMask = true;
+                                                    de.Click.EventMask.Msg = "Please wait ...";
+                                                    de.Click.Before = "return #{ForgottenPasswordReminderForm}.isValid();clearErrorsOrMessages();";
+                                                    de.Click.After = "if(Recaptcha.get_response() != Recaptcha.get_challenge()) return CreateCaptcha();";
+                                                    de.Click.ExtraParams.Add(new Parameter("CaptchaChallenge", "Recaptcha.get_challenge()", ParameterMode.Raw));
+                                                    de.Click.ExtraParams.Add(new Parameter("CaptchaResponse", "Recaptcha.get_response()", ParameterMode.Raw));
+
+                                                }),
+                                               Html.X().Button().ID("SendPasswordCancel").ApplyButtonDefaults(Razor.ApplySTSGreyButtonDefaults).Flat(true).Text("Cancel")
+                                                                .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Index", "Login", new { area = "STSLogin" }) + "'"),
+                                               Html.X().Button().ID("SendPasswordLogin").ApplyButtonDefaults(Razor.ApplySTSGreyButtonDefaults).Flat(true).Text("Login").Hidden(true)
+                                              .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Index", "Login", new { area = "STSLogin" }) + "'")
+                                                                )
+                            )
+                        )
+                )
+      )
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

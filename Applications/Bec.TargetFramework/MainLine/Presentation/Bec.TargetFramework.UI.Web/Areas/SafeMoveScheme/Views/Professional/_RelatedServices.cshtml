@@ -1,0 +1,26 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+@( X.Container().Layout(LayoutType.Column)
+.Items(
+
+        X.Container().Padding(5).ColumnWidth(0.6)
+        .Items(
+                             X.Container().Html("<p>The Safe Probate Scheme provides:</p></br>"),
+                             X.Container().Html("<ul><li><p>Online wills distribution</p></li><li><p>Wills bank management</p></li><li><p>A TCF probate solution for lawyers</p></li></ul>")
+        ),
+             X.Container().Padding(5).ColumnWidth(0.4)
+        .Items(
+                            X.Container().Padding(20).Items(X.Image().ImageUrl(@Url.Content("~/Content/resources/images/sms/related-services-professional-img.jpg"))),
+                    X.Container().Padding(20).Cls("testimonial").Padding(15)
+                             .Items(
+                                             X.Container().Html("<p>“We are delighted to be working with the Safe Move Estate Agents and Safe Move Mortgage Advisers via the Safe Move Scheme as it provides a more secure and efficient lending process for Santander which, in turn, enables us to pass on benefits to our customers.”</p></br>"),
+                                             X.Container().Html("<h4>Tracey Carr, Financial Crime Manager<p>- Santander</p></h4>"),
+                                                X.Container().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End }).Items( X.Image().Width(80).Height(30).ImageUrl(@Url.Content("~/Content/resources/images/sms/santander-logo.jpg")))
+                              )
+             )
+        )
+)
+                         

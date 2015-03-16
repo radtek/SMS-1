@@ -1,0 +1,14 @@
+﻿@using System.Web.UI.WebControls
+@using Stimulsoft.Report.MvcMobile
+
+
+@Html.Stimulsoft().StiMvcMobileViewer("StiMobileViewer", new StiMvcMobileViewerOptions
+{
+    ActionGetReportSnapshot = "GetReportSnapshot",
+    ActionViewerEvent = "ViewerEvent",
+    Height = Unit.Pixel(800)
+    
+})
+
+
+@*@(Html.Label("Test"))*@

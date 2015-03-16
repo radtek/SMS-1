@@ -1,0 +1,37 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+
+
+@(Html.X().Store().AutoLoad(true).ID("TelephoneStore")
+          .Model(Html.X().Model().GenerateModel<ClassificationTypeDTO>().Name("ClassificationType"))
+          .Proxy(p => p.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ClassificationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))
+              .ExtraParams(e => e.Add(new Parameter("name", "TelephoneTypeID", ParameterMode.Value))))))
+
+@(Html.X().Store().AutoLoad(true).ID("TitleStore")
+          .Model(Html.X().Model().GenerateModel<ClassificationTypeDTO>().Name("ClassificationType"))
+              .Proxy(p => p.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ClassificationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))
+                  .ExtraParams(e => e.Add(new Parameter("name", "SalutationTypeID", ParameterMode.Value))))))
+
+@(Html.X()
+        .Store().ID("TelephoneGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+        .Model(Html.X().Model().GenerateModel<TelephoneDTO>().Name("Telephone"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetTelephoneNumbers", "PersonalDetails", new { area = "SafeTransactionSearch" })))))
+
+@(Html.X()
+        .Store().ID("OtherAddressGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+            .Model(Html.X().Model().GenerateModel<AddressDTO>().Name("OtherAddress"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetOtherAddresses", "PersonalDetails", new { area = "SafeTransactionSearch" })))))
+
+
+@(Html.X()
+        .Store().ID("OtherNameGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+        .Model(Html.X().Model().GenerateModel<OtherNameDTO>().Name("OtherName"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetOtherNames", "PersonalDetails", new { area = "SafeTransactionSearch" })))))

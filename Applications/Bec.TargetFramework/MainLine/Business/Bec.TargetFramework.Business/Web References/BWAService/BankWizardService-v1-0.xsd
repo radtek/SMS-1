@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:bwcommon="http://experianpayments.com/bankwizard/common/xsd/2009/09" xmlns:bankwizard="http://experianpayments.com/bankwizard/xsd/2009/07" xmlns:bwacommon="http://experianpayments.com/bankwizardabsolute/common/xsd/2009/09" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://experianpayments.com/bankwizard/xsd/2009/07" elementFormDefault="qualified">
+	<import namespace="http://experianpayments.com/bankwizard/common/xsd/2009/09" schemaLocation="BankWizardCommon-v1-0.xsd"/>
+	<import namespace="http://experianpayments.com/bankwizardabsolute/common/xsd/2009/09" schemaLocation="BankWizardAbsoluteCommon-v1-0.xsd"/>
+	<annotation>
+		<documentation xml:lang="en">
+      Bank Wizard Service schema.
+
+      @Author : Amarjit Basra
+      @Date   : 30 September 2009
+      @Version: Major 1 Minor 0
+
+      Copyright (c) Experian Limited 1997-2009. All Rights Reserved.
+    </documentation>
+	</annotation>
+	<complexType name="GetCountriesRequest">
+		<annotation>
+			<documentation xml:lang="en">
+        Request a list of all available countries on the server, with
+        an indication of those that are the user is licensed for.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<attribute name="language" type="xsd:language" use="optional" default="en"/>
+	</complexType>
+	<complexType name="GetCountriesResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Response containing the countries available on the server, with
+        an indication of those that are licensed for the user.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="country" type="bankwizard:CountryInformation" minOccurs="1" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="GetCountryInputRequest">
+		<annotation>
+			<documentation xml:lang="en">
+        Request the Bank Wizard checking levels available for an ISO 3166-1 two-alpha country code the input BBAN details
+        associated with the checking levels.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="bwcommon:ISO3166-1">
+				<attribute name="language" type="xsd:language" use="optional" default="en"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="GetCountryInputResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        The BBAN inputs for various Bank Wizard checking levels associated the requested ISO 3166-1 two-alpha country code.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="validationCheck" type="bankwizard:BankWizardCheckType" minOccurs="1" maxOccurs="4"/>
+		</sequence>
+	</complexType>
+	<complexType name="ValidateIBANRequest">
+		<annotation>
+			<documentation xml:lang="en">
+        Validation of an IBAN.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="bwcommon:IBAN">
+				<attribute name="language" type="xsd:language" use="optional" default="en"/>
+				<attribute name="reportString" type="bwcommon:ReportString" use="optional"/>
+				<attribute name="itemisationID" type="bwcommon:ItemisationID" use="optional"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="ValidateIBANResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Validation of an IBAN response.
+
+       For a successful validation the
+         *<code xmlns="http://www.w3.org/2001/XMLSchema">BBAN</code>: decomposed IBAN
+         *<code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>: for accessing lookup functions and
+         *<code xmlns="http://www.w3.org/2001/XMLSchema">conditions</code>: BankWizard core conditions
+         *<code xmlns="http://www.w3.org/2001/XMLSchema">ISOcountry</code>: country code associated with the IBAN
+        are returned.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="BBAN" type="bankwizard:BBANResponseType" minOccurs="0" maxOccurs="5"/>
+			<element name="dataAccessKey" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="conditions" type="bwcommon:Conditions" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="ISOcountry" type="bwcommon:ISO3166-1" use="optional"/>
+	</complexType>
+	<complexType name="ValidateRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Validation of a bank account from BBANs request.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:ValidationBBANRequestType">
+				<sequence/>
+				<attribute name="language" type="xsd:language" use="optional" default="en"/>
+				<attribute name="reportString" type="bwcommon:ReportString" use="optional"/>
+				<attribute name="itemisationID" type="bwcommon:ItemisationID" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ValidateResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Validation of a bank account response.
+
+        For a successful validation the
+          *<code xmlns="http://www.w3.org/2001/XMLSchema">BBAN</code>: transposed BBANs
+          *<code xmlns="http://www.w3.org/2001/XMLSchema">IBAN</code>
+          *<code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>: for accessing lookup functions and
+          *<code xmlns="http://www.w3.org/2001/XMLSchema">conditions</code>: BankWizard core conditions
+         are returned.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="BBAN" type="bankwizard:BBANBaseType" minOccurs="0" maxOccurs="5"/>
+			<element name="IBAN" type="bwcommon:IBAN" minOccurs="0" maxOccurs="1"/>
+			<element name="dataAccessKey" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="conditions" type="bwcommon:Conditions" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyRequest">
+		<annotation>
+			<documentation xml:lang="en">
+        Verify a bank account with personal details request.
+
+        An optional language attribute can be passed in. English (en) is the
+        default language returned if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="accountInformation" type="bankwizard:VerifyAccountRequestType" minOccurs="1" maxOccurs="1"/>
+			<element name="personalInformation" type="bankwizard:VerifyPersonalRequestType" minOccurs="0" maxOccurs="1"/>
+			<element name="companyInformation" type="bankwizard:VerifyCompanyRequestType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="language" type="xsd:language" use="optional" default="en"/>
+		<attribute name="reportString" type="bwcommon:ReportString" use="optional"/>
+		<attribute name="itemisationID" type="bwcommon:ItemisationID" use="optional"/>
+	</complexType>
+	<complexType name="VerifyResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification of a bank account with personal details response.
+
+        Fatal conditions will be returned as SOAP Exceptions.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="accountInformation" type="bankwizard:VerifiedAccountType" minOccurs="1" maxOccurs="1"/>
+			<element name="personalInformation" type="bankwizard:VerifyPersonalResponseType" minOccurs="0" maxOccurs="1"/>
+			<element name="companyInformation" type="bankwizard:VerifyCompanyResponseType" minOccurs="0" maxOccurs="1"/>
+			<element name="conditions" type="bwcommon:Conditions" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifiedAccountType">
+		<annotation>
+			<documentation xml:lang="en">
+        Details of the account details verified, note these may be different to what was requested following transposition.
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">accountVerificationStatus</code> attribute is <b xmlns="http://www.w3.org/2001/XMLSchema">present</b> details the matching status from the absolute service.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="sortCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="accountNumber" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="rollNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="bacsCode" type="bwacommon:BACSCodeType" minOccurs="0" maxOccurs="1"/>
+			<element name="dataAccessKey" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="accountVerificationStatus" type="bwacommon:AccountVerificationType" use="optional"/>
+	</complexType>
+	<complexType name="ValidationBBANRequestType">
+		<annotation>
+			<documentation xml:lang="en">
+				<code xmlns="http://www.w3.org/2001/XMLSchema">ValidationRequestType</code> element, containing a <code xmlns="http://www.w3.org/2001/XMLSchema">BBAN</code> element
+        with <code xmlns="http://www.w3.org/2001/XMLSchema">ISOCountry</code> and <code xmlns="http://www.w3.org/2001/XMLSchema">checkingLevel</code> attributes.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="BBAN" type="bankwizard:BBANBaseType" minOccurs="1" maxOccurs="5"/>
+		</sequence>
+		<attribute name="ISOCountry" type="bwcommon:ISO3166-1" use="required"/>
+		<attribute name="checkingLevel" type="bankwizard:CheckingLevel" use="required"/>
+	</complexType>
+	<complexType name="GetBranchDataRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Lookup a Branch address based on <code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> attribute is used to indicate if sub-branches are to be returned.
+        If false or missing only the main branch is requested.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:DataAccessKeyType">
+				<sequence/>
+				<attribute name="returnSubBranches" type="xsd:boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetBranchDataResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Branch details response.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was false or missing, only the main branch is returned and <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchesAvailable</code>
+        is set to indicate if sub-branches exist.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was true, then sub-branches are also returned in the response as additional
+        <code xmlns="http://www.w3.org/2001/XMLSchema">branchData</code> elements.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="branchData" type="bankwizard:BranchDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchesAvailable" type="xsd:boolean" use="optional"/>
+	</complexType>
+	<complexType name="GetSWIFTDataRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Lookup a SWIFT data based on the based on <code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> attribute is used to indicate if sub-branches are to be returned.
+        If false or missing only the main branch is requested.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:DataAccessKeyType">
+				<sequence/>
+				<attribute name="returnSubBranches" type="xsd:boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetSWIFTDataResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        SWIFT branch details response.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was false or missing, only the main branch is returned and <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchesAvailable</code>
+        is set to indicate if sub-branches exist.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was true, then sub-branches are also returned in the response as additional
+        <code xmlns="http://www.w3.org/2001/XMLSchema">swiftData</code> elements.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="swiftData" type="bankwizard:SWIFTDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchesAvailable" type="xsd:boolean" use="optional"/>
+	</complexType>
+	<complexType name="GetSEPADataRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Lookup a SEPA data based on the based on <code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> attribute is used to indicate if sub-branches are to be returned.
+        If false or missing only the main branch is requested.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:DataAccessKeyType">
+				<sequence/>
+				<attribute name="returnSubBranches" type="xsd:boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetSEPADataResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        SEPA branch details response.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was false or missing, only the main branch is returned and <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchesAvailable</code>
+        is set to indicate if sub-branches exist.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was true, then sub-branches are also returned in the response as additional
+        <code xmlns="http://www.w3.org/2001/XMLSchema">sepaData</code> elements.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="sepaData" type="bankwizard:SEPADataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchesAvailable" type="xsd:boolean" use="optional"/>
+	</complexType>
+	<complexType name="GetFasterPaymentsDataRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Lookup a Faster Payment data based on the <code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> attribute is used to indicate if sub-branches are to be returned.
+        If false or missing only the main branch is requested.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:DataAccessKeyType">
+				<sequence/>
+				<attribute name="returnSubBranches" type="xsd:boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetFasterPaymentsDataResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Faster payments branch details response.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was false or missing, only the main branch is returned and <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchesAvailable</code>
+        is set to indicate if sub-branches exist.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was true, then sub-branches are also returned in the response as additional
+        <code xmlns="http://www.w3.org/2001/XMLSchema">fasterPaymentsData</code> elements.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="fasterPaymentsData" type="bankwizard:FasterPaymentDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchesAvailable" type="xsd:boolean" use="optional"/>
+	</complexType>
+	<complexType name="GetAdditionalDataRequest" mixed="false">
+		<annotation>
+			<documentation xml:lang="en">
+        Request all the additional country specific data based on the <code xmlns="http://www.w3.org/2001/XMLSchema">dataAccessKey</code>.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> attribute is used to indicate if sub-branches are to be returned.
+        If false or missing only the main branch is requested.
+
+        An optional language attribute can be passed in. English (en) is the
+        default if the requested type is not supported.
+      </documentation>
+		</annotation>
+		<complexContent>
+			<extension base="bankwizard:DataAccessKeyType">
+				<sequence/>
+				<attribute name="returnSubBranches" type="xsd:boolean" default="false"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GetAdditionalDataResponse">
+		<annotation>
+			<documentation xml:lang="en">
+        Additional data response.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was false or missing, only the main branch is returned and <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchesAvailable</code>
+        is set to indicate if sub-branches exist.
+
+        If the <code xmlns="http://www.w3.org/2001/XMLSchema">returnSubBranches</code> was true, then sub-branches are also returned in the response as additional
+        elements of the <code xmlns="http://www.w3.org/2001/XMLSchema">additionalBranchData</code> element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="additionalBranchData" type="bankwizard:AdditionalBranchDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchesAvailable" type="xsd:boolean" use="optional"/>
+	</complexType>
+	<complexType name="DataAccessKeyType">
+		<annotation>
+			<documentation xml:lang="en">
+				<code xmlns="http://www.w3.org/2001/XMLSchema">key</code> is that returned from the Validate or Verify operation, which can be used to
+        access branch data
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="dataAccessKey" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+		<attribute name="language" type="xsd:language" use="optional" default="en"/>
+	</complexType>
+	<complexType name="AdditionalBranchDataType">
+		<annotation>
+			<documentation xml:lang="en">
+        Additional Branch Data.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="branchInfo" type="bankwizard:AdditionalBranchElement" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="subBranchNumber" type="xsd:integer" use="optional"/>
+	</complexType>
+	<complexType name="AdditionalBranchElement">
+		<annotation>
+			<documentation xml:lang="en">
+        Complete listing of branch related data, where
+        code : intended for use by software to provide an algorithmic mechanism to identify the condition.
+        description : human readable description of the data
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="code" type="xsd:integer" use="required"/>
+				<attribute name="description" type="xsd:string"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="FasterPaymentDataType">
+		<annotation>
+			<documentation xml:lang="en">
+        Faster Payments Data.
+        For the main branch the <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchNumber</code> will be zero.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="status" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="agencyType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="lastChangeDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="redirectedToBranch" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+			<element name="redirectingSortcode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="clearingClosedDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="handlingBankConnType" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="handlingBankCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="accountsNumberedFlag" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="settlementBankConnection" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="settlementBankcode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="subBranchNumber" type="xsd:integer" use="optional"/>
+	</complexType>
+	<complexType name="SWIFTDataType">
+		<annotation>
+			<documentation xml:lang="en">
+        SWIFT Data.
+        For the main branch the <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchNumber</code> will be zero.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="swiftBranchBIC" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="chipsUID" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="swiftCategory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="swiftService" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="paymentRoutingBIC" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="institutionPOBoxNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="institutionPOBoxPostcode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="institutionPOBoxLocation" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="institutionPOBoxCountry" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="swiftExtraInformation" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="subBranchNumber" type="xsd:integer" use="optional"/>
+	</complexType>
+	<complexType name="SEPADataType">
+		<annotation>
+			<documentation xml:lang="en">
+        SWIFT Data.
+        For the main branch the <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchNumber</code> will be zero.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="ibanBIC" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="SSIBIC" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="creditTransferAdherenceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="creditTransferNonComplianceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="directDebitAdherenceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="directDebitNonComplianceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="priorityPaymentAdherenceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="priorityPaymentNonComplianceDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="subBranchNumber" type="xsd:integer" use="optional"/>
+	</complexType>
+	<complexType name="BranchDataType">
+		<annotation>
+			<documentation xml:lang="en">
+        Standard Bank Wizard branch data type.
+        For the main branch the <code xmlns="http://www.w3.org/2001/XMLSchema">subBranchNumber</code> will be zero.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="institutionName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="branchName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="address" type="bankwizard:BranchAddressType" minOccurs="0" maxOccurs="1"/>
+			<element name="telephoneNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="faxNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="closureDate" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+			<element name="redirectedTo" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+		<attribute name="subBranchNumber" type="xsd:integer" use="optional"/>
+	</complexType>
+	<complexType name="BranchAddressType">
+		<annotation>
+			<documentation xml:lang="en">
+        Branch Address Type.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="addressLine" type="bankwizard:AddressLineType" minOccurs="0" maxOccurs="5"/>
+			<element name="postOrZipCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="AddressLineType">
+		<annotation>
+			<documentation xml:lang="en">
+        Branch Address line.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="line" type="bankwizard:RestrictedInteger" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="CountryInformation">
+		<annotation>
+			<documentation xml:lang="en">
+        Country element contains the country name  and the following attributes
+          * ISO3166  : the 2-alpha 3166-1 ISO code for the country.
+          * Licensed : boolean indication to identify the country module is licensed.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="ISOCountry" type="bwcommon:ISO3166-1" use="required"/>
+				<attribute name="licensed" type="xsd:boolean" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="BankWizardCheckType">
+		<annotation>
+			<documentation xml:lang="en">
+        The BBAN required to be passed in for a specific validation checking level.
+        The element is made up of the following:
+          * BBAN  : input BBAN details
+          * checkingLevel : the validation checking level
+          * description : the country modules description of the checking level
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="BBAN" type="bankwizard:BBANResponseType" minOccurs="1" maxOccurs="5"/>
+		</sequence>
+		<attribute name="checkingLevel" type="bankwizard:CheckingLevel"/>
+		<attribute name="description" type="xsd:string"/>
+	</complexType>
+	<complexType name="BBANResponseType">
+		<annotation>
+			<documentation xml:lang="en">
+        Extension of <code xmlns="http://www.w3.org/2001/XMLSchema">BBANBase</code> element to include the following optional attributes
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">description</code> of the BBAN field.
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">maxSize</code> maximum size for the BBAN.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="bankwizard:BBANBaseType">
+				<attribute name="description" type="xsd:string"/>
+				<attribute name="maxSize" type="xsd:integer"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="BBANBaseType">
+		<annotation>
+			<documentation xml:lang="en">
+        BBAN element which contains the BBAN value (string) and its input index for Bank Wizard validation.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="index" type="bankwizard:RestrictedInteger" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="RestrictedInteger">
+		<annotation>
+			<documentation xml:lang="en">
+        Restricted integer used for BBAN indexes and Branch address elements.
+      </documentation>
+		</annotation>
+		<restriction base="xsd:integer">
+			<minInclusive value="1"/>
+			<maxInclusive value="5"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CheckingLevel">
+		<annotation>
+			<documentation xml:lang="en">
+        Validation checking levels.
+      </documentation>
+		</annotation>
+		<restriction base="xsd:token">
+			<enumeration value="Branch"/>
+			<enumeration value="Account"/>
+			<enumeration value="Domestic"/>
+			<enumeration value="BIC"/>
+		</restriction>
+	</simpleType>
+	<complexType name="VerifyBankAccountRequestType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification account details request element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="accountSetupDate" type="bankwizard:AccountDateType" minOccurs="0" maxOccurs="1"/>
+			<element name="accountTypeInformation" type="bankwizard:AccountTypeInformation" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="AccountTypeInformation">
+		<annotation>
+			<documentation xml:lang="en">
+        The account information.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="accountType" type="bwacommon:AccountType" minOccurs="1" maxOccurs="1"/>
+			<element name="customerAccountType" type="bwacommon:CustomerAccountType" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyPersonalRequestType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification personal details request element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="personal" type="bankwizard:PersonalDetails" minOccurs="0" maxOccurs="1"/>
+			<element name="address" type="bankwizard:Address" minOccurs="0" maxOccurs="1"/>
+			<element name="ownerType" type="bwacommon:OwnerType" nillable="true" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyPersonalResponseType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification personal details response element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="personalDetailsScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="addressScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="accountSetupDateMatch" type="bwacommon:PersonalDetailsVerificationType" minOccurs="0" maxOccurs="1"/>
+			<element name="accountSetupDateScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="accountTypeMatch" type="bwacommon:PersonalDetailsVerificationType" minOccurs="0" maxOccurs="1"/>
+			<element name="accountOwnerMatch" type="bwacommon:PersonalDetailsVerificationType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyCompanyRequestType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification company details request element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="companyName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="proprietor" type="bankwizard:PersonalDetails" minOccurs="0" maxOccurs="1"/>
+			<element name="address" type="bankwizard:Address" minOccurs="0" maxOccurs="1"/>
+			<element name="companyType" type="bwacommon:CompanyType" minOccurs="0" maxOccurs="1"/>
+			<element name="registrationNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyCompanyResponseType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification company details response element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="companyNameScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="companyNameAndAddressScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="companyTypeMatch" type="bwacommon:PersonalDetailsVerificationType" minOccurs="0" maxOccurs="1"/>
+			<element name="registrationNumberMatch" type="bwacommon:PersonalDetailsVerificationType" minOccurs="0" maxOccurs="1"/>
+			<element name="proprietorDetailsScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+			<element name="companyAccountSetupDateScore" type="bwacommon:VerifyScoreType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="VerifyAccountRequestType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verify a bank account request.
+
+        An optional language attribute can be passed in. English (en) is the
+        default language returned if the requested type is not supported.
+
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">userID</code> and <code xmlns="http://www.w3.org/2001/XMLSchema">branchNumber</code> are optional client defined fields.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="sortCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="accountNumber" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="rollNumber" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="checkContext" type="bwacommon:CheckContextType" minOccurs="1" maxOccurs="1"/>
+			<element name="accountVerification" type="bankwizard:VerifyBankAccountRequestType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="PersonalDetails">
+		<annotation>
+			<documentation xml:lang="en"/>
+		</annotation>
+		<sequence>
+			<element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="surname" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="dob" type="xsd:date" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="Address">
+		<annotation>
+			<documentation xml:lang="en">
+        Address which consists of :
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">DeliveryPoint</code> which is the house name and/or house number and/or flat.
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">PostalDetails</code> which is the street and/or post code.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="deliveryPoint" type="bankwizard:DeliveryPoint" minOccurs="1" maxOccurs="3">
+				<unique name="uniqueDeliveryPoint">
+					<selector xpath="deliveryPoint"/>
+					<field xpath="@deliveryType"/>
+				</unique>
+			</element>
+			<element name="postalPoint" type="bankwizard:PostalPoint" minOccurs="1" maxOccurs="2">
+				<unique name="uniquePostalDetails">
+					<selector xpath="postaldetails"/>
+					<field xpath="@postalType"/>
+				</unique>
+			</element>
+			<element name="city" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			<element name="country" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="DeliveryPoint">
+		<annotation>
+			<documentation xml:lang="en">
+        The delivery point.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="deliveryType" type="bankwizard:DeliveryPointType" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="DeliveryPointType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification account type enumeration.
+      </documentation>
+		</annotation>
+		<restriction base="xsd:token">
+			<enumeration value="houseName"/>
+			<enumeration value="houseNumber"/>
+			<enumeration value="flat"/>
+		</restriction>
+	</simpleType>
+	<complexType name="PostalPoint">
+		<annotation>
+			<documentation xml:lang="en">
+        The delivery point.
+      </documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="xsd:string">
+				<attribute name="postalType" type="bankwizard:PostalPointType" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="PostalPointType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification account type enumeration.
+      </documentation>
+		</annotation>
+		<restriction base="xsd:token">
+			<enumeration value="street"/>
+			<enumeration value="postcode"/>
+		</restriction>
+	</simpleType>
+	<complexType name="AccountDateType">
+		<annotation>
+			<documentation xml:lang="en">
+        Verification date element.
+      </documentation>
+		</annotation>
+		<sequence>
+			<element name="day" type="bwacommon:DayType" minOccurs="0" maxOccurs="1"/>
+			<element name="month" type="bwacommon:MonthType" minOccurs="0" maxOccurs="1"/>
+			<element name="year" type="bwacommon:YearType" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	
+	  <xsd:element name="Request" type="bankwizard:VerifyRequest"/>
+
+  <xsd:element name="Response" type="bankwizard:VerifyResponse"/>
+</schema>

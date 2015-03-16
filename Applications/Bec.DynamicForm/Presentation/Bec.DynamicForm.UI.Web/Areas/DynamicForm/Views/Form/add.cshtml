@@ -1,0 +1,75 @@
+﻿@model Bec.DynamicForm.Entities.DTO.FormDTO
+
+@{
+    ViewBag.Title = "Create new form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageScripts {
+
+    
+   
+   
+
+}
+<div id="fullcol">
+    <div class="portlet rnd">
+        <div class="portlet-header"><h2>Create New Form</h2></div>
+        <div class="portlet-content">
+
+
+             @using (Html.BeginForm("save", "Form", FormMethod.Post, Model))
+            {
+                @Html.AntiForgeryToken()
+    <table style="width:600px">
+
+        
+        <tr>
+            <td colspan="2">
+
+                @Html.ValidationSummary(true)
+            </td>
+        </tr>
+        <tr>
+            <td>Form Name <span class="style1">*</span> </td>
+            <td>
+
+                @Html.TextBoxFor(model => model.FormName, new { @class = "text", @style="width:400px" })
+                @Html.ValidationMessageFor(model => model.FormName)
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>
+                Description
+            </td>
+            <td>
+                @Html.TextAreaFor(model => model.FormDescription, new { @class = "textarea", @style = "width:400px" })
+                @Html.ValidationMessageFor(model => model.FormDescription)
+
+            </td>
+        </tr>
+       
+
+
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" class="btn" value="Save" />|<a href="@Url.Action("Index", "Form",new { area="dynamicform" }))" class="btn">Cancel</a>        
+            </td>
+            <td colspan="2" style="float:left">
+                <div id="loading" style="display: none;">
+                    <img src="@Url.Content("~/Content/images/ajax-loader.gif")" /> Please wait.....
+                </div>
+            </td>
+        </tr>
+    </table>
+            }
+
+            <div>
+
+            </div>
+            </div></div></div>
+           

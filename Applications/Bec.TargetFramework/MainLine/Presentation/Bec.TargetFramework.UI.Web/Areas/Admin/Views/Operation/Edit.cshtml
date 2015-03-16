@@ -1,0 +1,48 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.OperationDTO
+    
+@(Html.X()
+          .FormPanel()
+          .ID("EditOperationForm")
+          .Title("Edit Operation")
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+          .Items(
+              Html.X().AntiForgeryField(),
+                    Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                      .Items
+                      (
+                          Html.X()
+                              .TextFieldFor(model => model.OperationName)
+                              .AllowBlank(false)
+                                 .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                        .ReadOnly(true),
+                          Html.X().TextAreaFor(model => model.OperationDescription)
+                              .AllowBlank(false)
+                                  .ApplyTextAreaDefaults(Razor.ApplyTextAreaDefaults)
+                       )
+              ),
+              Html.X().HiddenFor(model => model.OperationID)
+             )
+          .TopBar(Html.X().Toolbar()
+            .Items(
+                Html.X().ToolbarFill(),
+                    Html.X()
+                           .Button()
+                            .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                       .DirectEvents(de =>
+                       {
+                           de.Click.Before = "return #{EditOperationForm}.isValid();";
+                           de.Click.Url = Url.Action("Edit", "Operation", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                           de.Click.FormID = "EditOperationForm";
+                       }),
+
+                               Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.EditOperationForm.getForm().reset();"),
+                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                    .DirectEvents(de =>
+                    {
+                        de.Click.Url = Url.Action("OperationManagement", "Operation", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                    })))
+)

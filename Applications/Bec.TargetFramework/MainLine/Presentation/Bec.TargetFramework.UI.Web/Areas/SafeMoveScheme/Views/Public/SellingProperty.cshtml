@@ -1,0 +1,66 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Areas/SafeMoveScheme/Views/Public/_PublicLayout.cshtml";
+}
+
+
+
+@section publicBody
+  {
+
+
+
+
+@(
+Html.X().Container()
+    .Items (
+            
+    Html.X().Container()
+                .Cls("text-bg content")
+                .MarginSpec("30 10 10 0")
+                .Items(
+
+                 Html.X().Image()
+                     .Frame(false)
+                   
+                    .ImageUrl((@Url.Content("~/Content/resources/images/sms/selling-public-img.jpg"))),
+                    
+                    Html.X().Container()
+                             .Html("<p>Make your property more attractive to buyers and sell it fast...</p>")   
+                    
+                    ),
+
+
+
+     Html.X().Container()
+                                            .Layout(LayoutType.Column)
+                                                    .Items
+                                                    (
+                        Html.X().Container()
+                                .ColumnWidth(0.75)
+                                .Padding(10)
+                                    .Html("<h2>Selling a Property</h2><p>Only 50% of properties put on the market in 2012 sold, of those sellers that agreed an offer, 35% of them fell through usually after experiencing delays in the conveyancing process. The successful ones that completed on their transaction did so on average after 3 months, involving much stress and uncertainty for the seller.*</p><p>The Safe Move Scheme speeds up property sales and:</p><ul><li>Gets the property legals ready for sale</li><li><p>Gets the property approved for mortgage lending</p></li><li><p>Gives buyers a more certain transaction</p></li><li><p>Showcases the property online and on estate agent marketing material using the Safe Move Scheme kite mark</p></li></ul><p>* Opinion formed by sampling conveyancing data provided by legal services partners</p>"),
+
+                        Html.X().Container()
+                            .ColumnWidth(0.25)
+                            .Cls("testimonial")
+                                    .Html("<p>“We looked at 4 agents and decided on 2-move after their explanation of how 2-move Conveyancing works as part of the Safe Move Scheme and how easy it would make the moving process.”</p><p><b>Mr Kidney</b></p>")
+
+                        )
+
+
+
+)
+
+
+)
+
+
+}
+
+
+

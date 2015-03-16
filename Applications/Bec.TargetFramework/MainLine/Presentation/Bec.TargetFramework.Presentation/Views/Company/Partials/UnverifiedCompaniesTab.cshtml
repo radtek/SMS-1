@@ -1,0 +1,38 @@
+﻿<div class="steps">
+    <button id="add-company-btn" class="btn btn-toolbar" onclick="LoadModalAddCompany()">Add Company</button>
+    <h6>(<span data-bind="text:$data.unverifiedCompanies.length"></span> companies found)</h6>
+    <div class="row">
+        <div class="col-md-12">
+            <div  id="unverified-grid" data-bind="kendoGrid: $data.unverifiedGridOptions($data.unverifiedCompanies)"> </div>
+        </div>
+    </div>
+</div>
+<div class="steps">
+    <div id="unverified-company-details" class="row" data-bind="with: $data.unverifiedCompany">
+        @Html.Partial("~/Views/Company/Partials/CompanyDetails.cshtml")
+    </div>
+</div>
+
+<script>
+    var LoadModalAddCompany = function () {
+
+        if (!document.getElementById('add-company-wrapper')) {
+           
+            var button = $('#add-company-btn')[0];
+            var buttonHTML = button.innerHTML;
+            ko.utils.markButtonAsWaitingForResponse(button);
+
+            var url = "@Url.Action("AddCompany", "Company", new { area = "" }, String.Empty)";
+
+            $("#modal-container").load(url, function () {
+                $('#add-company-wrapper').modal('show');
+                ko.utils.unmarkButtonAsWaitingForResponse(button, buttonHTML);
+            });
+        }
+        else {
+            //reseting the view-model of add-company from any input information from previous added companys
+            ko.contextFor(document.getElementById('add-company-wrapper')).$data.reset();
+            $('#add-company-wrapper').modal('show');
+        }
+    }
+</script>

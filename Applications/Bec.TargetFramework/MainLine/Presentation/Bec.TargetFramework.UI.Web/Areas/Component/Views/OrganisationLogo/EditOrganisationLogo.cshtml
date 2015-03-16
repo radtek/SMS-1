@@ -1,0 +1,62 @@
+﻿
+@using Ext.Net.MVC
+@using Ext.Net
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.vAttachmentDTO
+
+@{
+    ViewBag.Title = "Edit Organisation Logo";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section mainBody
+{
+
+    @(Html.X()
+          .FormPanel()
+          .ID("EditOrganisationLogoForm")
+          .BodyPadding(5)
+          .Flex(1)
+          .Items
+          (Html.X().AntiForgeryField(),
+                   Html.X()
+                      .Container()
+                      .Layout(LayoutType.Form)
+                      .ColumnWidth(1)
+                      .Padding(2)
+                      .Items(
+                          Html.X().MultiSelect().ID("FormErrors").Hidden(true)),
+                   Html.X()
+                           .HiddenFor(model => model.AttachmentDetailID),
+                                   Html.X().HiddenFor(model => model.AttachmentID),
+                                                      Html.X().TextFieldFor(model => model.Subject).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).ReadOnly(true)
+                              .AllowBlank(false),
+                                      Html.X().FileUploadField()
+                                                .ID("LogoFile")
+                                      .AllowBlank(false)
+                                      .EmptyText("Select logo")
+                                      .FieldLabel("Logo")
+                                      .Icon(Icon.ImageAdd)
+                                      .Text(Model.FileName)
+                              
+          )
+          .DefaultAnchor("100%")
+          .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Url = Url.Action("EditOrganisationLogo", "OrganisationLogo", new { area = "Component" });
+                                   de.Click.FormID = "EditOrganisationLogoForm";
+                                   de.Click.Success = "#{AddOrganisationLogoForm}.getForm().reset();";
+                               }),
+
+                                                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("#{EditOrganisationLogoForm}.getForm().reset();"),
+                                                                       Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{EditOrganisationLogoForm}.getForm().reset();Ext.net.Bus.publish('EditOrganisationLogo','');")
+                            ))
+    )
+
+}

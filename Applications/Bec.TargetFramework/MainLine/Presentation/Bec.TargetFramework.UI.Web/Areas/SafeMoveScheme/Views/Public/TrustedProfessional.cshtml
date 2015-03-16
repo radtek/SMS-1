@@ -1,0 +1,61 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Areas/SafeMoveScheme/Views/Public/_PublicLayout.cshtml";
+}
+
+@section publicBody
+  {
+
+
+    @(
+ Html.X().Container()
+    .Items(
+
+               Html.X().Container()
+                       .Cls("text-bg content")
+                       .MarginSpec("30 10 10 0")
+                       .Items(
+                                 Html.X().Image()
+                                         .Frame(false)
+                                         .Region(Region.Center)
+                                        .ImageUrl((@Url.Content("~/Content/resources/images/sms/trusted-professionals-img.jpg"))),
+
+                                 Html.X().Container()
+                                         .Html("<p>Experts in their field...</p>")
+
+
+        ),
+
+
+
+
+    Html.X().Container()
+            .Layout(LayoutType.Column)
+            .Items
+            (
+
+                    Html.X().Container()
+                            .ColumnWidth(0.20)
+                            .ItemsFromPartial("TrustedProfessionalLinks"),
+                            
+                    Html.X().Container()
+                            .MarginSpec("3 5 10 0")
+                            .ColumnWidth(0.55)
+                            .Html("<p>The Safe Move Scheme has selected the best professionals from across the property industry to give you peace of mind. Their performance stats are impressive and they are well regarded by customers.</p>"),
+
+                    Html.X().Container()
+                            .ColumnWidth(0.25)
+                            .Cls("testimonial")
+                            .Html("<p>“The whole process was quick, easy and convenient. We would definitely look for the Safe Move Scheme logo next time we buy a property.”</p><p><b>Mr Kidney</b></p>")
+
+                )
+
+
+)
+
+    )
+
+}
+

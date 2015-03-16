@@ -1,0 +1,71 @@
+﻿@using Ext.Net.MVC
+@using Ext.Net
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.OrganisationUnitDTO
+
+@{
+    ViewBag.Title = "Add Organisation Unit";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+@section mainBody
+{
+    @(Html.X()
+          .FormPanel()
+          .ID("AddOrganisationUnitForm")
+          .BodyPadding(5)
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+
+          .Items(
+          Html.X().AntiForgeryField(),
+                   Html.X()
+                      .Container()
+                      .Layout(LayoutType.Form)
+                      .ColumnWidth(1)
+                      .Padding(2)
+                      .Items(
+                          Html.X().MultiSelect().ID("FormErrors").Hidden(true)),
+                                  Html.X().HiddenFor(model => Model.IsConcreteOrganisation),
+                                          Html.X().HiddenFor(model => Model.OrganisationID),
+                                                  Html.X().HiddenFor(model => Model.StrOrganisationId),
+                   Html.X()
+                           .HiddenFor(model => model.UnitJson),
+            Html.X()
+
+            .HiddenFor(model => model.OrganisationUnitID),
+                                      Html.X().TextFieldFor(model => model.Name).ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                              .AllowBlank(false)
+                                      .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                              .Control(c =>
+                                        {
+                                            c.IsRemoteValidation = true;
+                                            c.RemoteValidation.Url = Url.Action("DoesOrganisationUnitNameExist", "OrganisationUnit", new { area = "Component" });
+                                            c.RemoteValidation.ValidationEvent = "change, blur";
+                                            c.RemoteValidation.Method = Ext.Net.HttpMethod.POST;
+                                            c.RemoteValidation.ShowBusy = false;
+                                            c.RemoteValidation.ErrorMessage = "The organisation unit name already exists";
+                                        })
+          )
+          .DefaultAnchor("100%")
+           .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Before = "return #{AddOrganisationUnitForm}.isValid();";
+                                   de.Click.Url = Url.Action("AddOrganisationUnit", "OrganisationUnit", new { area = "Component" });
+                                   de.Click.FormID = "AddOrganisationUnitForm";
+                                   de.Click.Success = "#{AddOrganisationUnitForm}.getForm().reset();";
+                               }),
+
+                                                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("#{AddOrganisationUnitForm}.getForm().reset();"),
+                                                          Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{AddOrganisationUnitForm}.getForm().reset();Ext.net.Bus.publish('AddOrganisationUnit','');")
+                            ))
+
+    )
+
+}

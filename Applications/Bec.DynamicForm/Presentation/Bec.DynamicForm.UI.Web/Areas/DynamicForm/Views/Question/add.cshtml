@@ -1,0 +1,212 @@
+﻿@model Bec.DynamicForm.Entities.DTO.QuestionDTO
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Add New Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section PagePopups
+{
+<script>
+    var formatHours = function (v) {
+        if (v < 1) {
+            return Math.round(v * 60) + " mins";
+        } else if (Math.floor(v) !== v) {
+            var min = v - Math.floor(v);
+            return Math.floor(v) + "h " + Math.round(min * 60) + "m";
+        } else {
+            return v + " hour" + (v === 1 ? "" : "s");
+        }
+    };
+
+    var handler = function (grid, rowIndex, colIndex, actionItem, event, record, row) {
+        Ext.Msg.alert('Editing' + (record.get('done') ? ' completed task' : ''), record.get('task'));
+    };
+</script>
+
+}
+@section PageScripts {
+
+    <script>
+
+    head.js("@Url.Content("~/Scripts/jquery/jquery.json-2.2.min.js")");
+   
+    
+        function QuestionTypeControlChange() {
+
+            var type = document.getElementById("QuestionControlTypeid").options[document.getElementById('QuestionControlTypeid').selectedIndex].text;// $("#QuestionControlTypeid").val();
+           
+        if (type == 'Radio Button' || type == 'CheckBox' || type == 'Radio Button/Single Text' || type == 'Radio Button/Multiple Text' || type == 'CheckBox/Single Text' || type == 'CheckBox/Multiple') {
+
+           
+            
+            $('#trChoices').show();
+
+
+        }
+        else if (type == 'Dropdown' || type == 'Dropdown/Single Text' || type == 'Dropdown/Multiple Text') {
+
+            
+            $('#trChoices').show();
+           
+        }
+        else {
+          
+            $('#trChoices').hide();
+            
+        }
+
+
+    }
+   
+   
+
+    $(function () {
+       
+
+        $('#lnkNewChoice').live('click', function () {
+
+            $.ajax({
+                url: this.href,
+                cache: false,
+                success: function (html) { $("#editorRows").append(html); }
+            });
+
+           // $('<tr><td><input type="text" id="AnswerChoiceList_' + i + '__ChoiceName" size="20" name="AnswerChoiceList[' + i + '].ChoiceName" value="" placeholder="Input Value" /> <a href="#" id="remScnt">Remove</a></td></tr>').appendTo(scntDiv);
+           
+            return false;
+        });
+
+        $("a.deleteRow").live("click", function () {
+            $(this).parents("tr.editorRow:first").remove();
+            return false;
+        });
+    });
+   
+</script>
+}
+@using (Html.BeginForm("save", "question", FormMethod.Post,Model))
+{
+    <div id="fullcol">
+        <div class="portlet rnd">
+            <div class="portlet-header"><h2>Add New Question</h2></div>
+            <div class="portlet-content">
+
+
+                
+                    @Html.AntiForgeryToken()
+                <table style="width:600px">
+                    <tr>
+                        <td colspan="2">
+                          
+                            @Html.ValidationSummary(true)
+                        </td>
+                    </tr>
+                 
+                   
+                    <tr>
+                        <td>
+                            Question Text
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "textarea", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.Description)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Help Text
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.HelpText, new { @class = "textarea", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.HelpText)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Question Type
+                        </td>
+                        <td>
+                            
+                                
+                            @Html.DropDownList("QuestionControlTypeid", Model.questionControlTypeList.Select(a => new SelectListItem { Value = a.QuestionControlTypeid.ToString(), Text = a.ControlTypeName }).ToList(), "Select..", new { @class = "select", id = "QuestionControlTypeid", onchange = "QuestionTypeControlChange()" })
+
+                        </td>
+                    </tr>
+                  
+                    
+                    <tr id="trChoices" style="display:none">
+                        <td >
+                            @Html.ActionLink("Add Choice", "AddChoice", null, new { @id = "lnkNewChoice",@class="btn" })
+
+                        </td>
+                        <td width="600px">
+                            <div id="editorRows">
+                                <table class="table">
+                                    <tr><th>Name</th><th></th></tr>
+                                    @foreach (var item in Model.Options)
+                                    {
+                                        @Html.Partial("AddEditAnswerChoices", item)
+                                    }
+                                </table>
+                            </div>
+
+
+
+
+</td>
+                    </tr>
+                   
+                   
+                    <tr>
+                        <td>Validation Type</td>
+                        <td>
+                            <table id="tbtiggerChoice">
+                                @for (int i = 0; i < Model.validations.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(modelitem => Model.validations, Model.validations[i].Selected)
+                                            @Html.DisplayFor(modelItem => Model.validations[i].ValidationTypeName)
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </table>
+
+
+                        </td>
+                    </tr>
+               
+
+               
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" class="btn" value="Save" />|<a href="@Url.Action("index", "Form", new  {area="dynamicform" })" class="btn">Cancel</a>
+                        </td>
+                        <td colspan="2" style="float:left">
+                            <div id="loading" style="display: none;">
+                                <img src="@Url.Content("~/Content/images/ajax-loader.gif")" /> Please wait.....
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+                
+
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+}
+

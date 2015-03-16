@@ -1,0 +1,145 @@
+﻿@model Bec.TargetFramework.Entities.VOperationDTO
+
+
+@{MvcResourceManager.RegisterGlobalScript(Url.Content("~/Scripts/TargetFramework/Grid.js"));}
+
+@(Html.X().GridPanel()
+          .ID("OperationGrid")
+          .Title("Operations")
+             .Flex(1)
+              .Store(Html.X()
+                         .StoreForModel()
+                         .RemoteFilter(true)
+                         .RemoteSort(true)
+                             .Parameters(p =>
+                                        {
+                                            p.Add(new StoreParameter("showDeleted", "App.chkShowDeleted.checked", ParameterMode.Raw));
+                                        })
+                         .PageSize(35)
+                         .SorterFor(Model, m => m.OperationName, Ext.Net.SortDirection.ASC)
+                         .Proxy(Html.X()
+                                    .AjaxProxy()
+                                    .Url(Url.Action("GetOperations", "Operation", new { area = "Admin" }))
+                                    .FilterParam("query")
+                                    .Reader(
+                                         Html.X().JsonReader().Root("data"))
+                                    .CustomConfig(config =>
+                                    {
+                                        config.Add(new { encodeFilters = JRawValue.From("function (filters) { return filters[0].value; }") });
+                                    })))
+              .ColumnModel(
+                    Html.X().ColumnFor(model => model.OperationName)
+                        .ToBuilder<Column.Builder>()
+                        .Text("Name")
+                        .Width(150),
+                    Html.X().ColumnFor(model => model.OperationDescription)
+                        .ToBuilder<Column.Builder>()
+                        .Text("Description")
+                        .Width(300),
+
+                   Html.X()
+                       .CommandColumn()
+                       .PrepareToolbar(pt => pt.Fn = "PrepareEditDeleteToolbar")
+                       .Text("Edit")
+                       .Commands(
+                            Html.X()
+                                .GridCommand()
+                                .CommandName("Edit")
+                                .Icon(Icon.ApplicationEdit)
+                                .ToolTip(tt => tt.Text = "Edit")
+                               ).DirectEvents(de =>
+                               {
+                                   de.Command.Method = HttpMethod.GET;
+                                   de.Command.Url = Url.Action("Edit", "Operation", new { area = "Admin" });
+                                   de.Command.ExtraParams.Add(new Parameter("id", "record.data.OperationID", ParameterMode.Raw));
+                                   de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                               }
+                           ), Html.X()
+                                      .CommandColumn().DataIndex("IsActive")
+                                      .ID("IsActive")
+                                          .PrepareToolbar(pt => pt.Fn = "PrepareActiveInactiveToolbar")
+                                      .Text("Active/Inactive")
+                                      .Width(125)
+                                      .Commands(
+                                          Html.X()
+                                              .GridCommand()
+                                              .Icon(Icon.FlagGreen)
+                                              .Hidden(true)
+                                              .CommandName("Active")
+                                                  .ToolTip(tt => tt.Text = "Organisation is active. Click to deactivate"),
+                                                  Html.X()
+                                                  .GridCommand()
+                                                      .Hidden(true)
+                                                  .Icon(Icon.FlagRed)
+                                                  .CommandName("InActive")
+                                                  .ToolTip(tt => tt.Text = "Organisation is not active. Click to activate")
+                                      ).DirectEvents(de =>
+                                      {
+                                          de.Command.Method = HttpMethod.GET;
+                                          de.Command.Url = Url.Action("ActivateOrDeactivate", "Operation", new { area = "Admin" });
+                                          de.Command.Confirmation.ConfirmRequest = true;
+                                          de.Command.Confirmation.Message = "Are you sure you want to change this setting?";
+                                          de.Command.ExtraParams.Add(new Parameter("id", "record.data.OperationID", ParameterMode.Raw));
+                                          de.Command.Success = "App.OperationGrid.getStore().load();";
+                                      }),
+                           Html.X()
+                           .CommandColumn()
+                           .PrepareToolbar(pt => pt.Fn = "PrepareEditDeleteToolbar")
+                           .Text("Delete")
+                           .Commands(
+                                Html.X()
+                                    .GridCommand()                               
+                                    .CommandName("Delete")                                    
+                                    .Icon(Icon.ApplicationDelete)
+                                    .ToolTip(tt => tt.Text = "Delete")
+                                   )
+                                   .DirectEvents(de =>
+                                   {
+                                       de.Command.Method = HttpMethod.GET;
+                                       de.Command.Url = Url.Action("Delete", "Operation", new { area = "Admin" });
+                                       de.Command.Confirmation.ConfirmRequest = true;
+                                       de.Command.Confirmation.BeforeConfirm = "config.confirmation.title = 'Delete Confirmation'; config.confirmation.message = 'Are you sure, you want to delete this?';";
+                                       de.Command.Success = "App.OperationGrid.getStore().load();";
+                                       de.Command.ExtraParams.Add(new Parameter("id", "record.data.OperationID", ParameterMode.Raw));
+                                       de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                                   }
+                           ).Flex(1))
+                           .BottomBar(
+                   Html.X()
+                       .PagingToolbar()
+                       .DisplayInfo(true)
+                       .DisplayMsg("Displaying Operations {0} - {1} of {2}")
+                       .EmptyMsg("No operations to display"))
+
+              .View(Html.X().GridView().TrackOver(false))
+              .SelectionModel(Html.X().RowSelectionModel().PruneRemoved(false).Mode(SelectionMode.Single))
+                  .DockedItems(Html.X()
+                                   .Toolbar()
+                                   .Dock(Dock.Top)
+                                   .Items(
+                                            Html.X()
+                                                .Button()
+                                                .ID("New")
+                                                .Text("Add Operation")
+                                                .Icon(Icon.ApplicationAdd)
+                                                    .DirectEvents(de => de.Click.Url = Url.Action("Add", "Operation", new { area = "Admin", containerId = "AdministrationCenterPanel" }))
+                                              ,
+                                        Html.X().ToolbarSeparator(),
+                                            Html.X()
+                                                .TriggerField()
+                                                .FieldLabel("Search")
+                                                .LabelWidth(50)
+                                                .Triggers(
+                                                     Html.X().FieldTrigger().Icon(TriggerIcon.Clear).HideTrigger(true),
+                                                     Html.X().FieldTrigger().Icon(TriggerIcon.Search))
+                                                      .Listeners(ls =>
+                                        {
+
+                                            ls.TriggerClick.Fn = "searchFieldTriggerClick";
+                                        }),
+                                        Html.X().ToolbarSeparator(),
+                                        Html.X().Checkbox().ID("chkShowDeleted").FieldLabel("Show Deleted").LabelAlign(LabelAlign.Left).Listeners(l => l.Change.Handler = "App.OperationGrid.getStore().load();"),
+                                        Html.X().ToolbarFill()))
+)
+   
+

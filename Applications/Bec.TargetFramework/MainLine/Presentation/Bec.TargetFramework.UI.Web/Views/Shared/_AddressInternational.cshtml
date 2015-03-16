@@ -1,0 +1,91 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.AddressDTO
+
+
+<script>
+
+    var populateAddress = function(field, newValue, oldValue, eOpts) {
+        var selectedItems = App.PostCodeResults.getSelected();
+        var address = selectedItems[0];
+        this.hide();
+        if (address) {
+            var form = this.up('form').getForm();
+            popAddress(address, form);
+        }
+    };
+
+    var popAddress = function(option, form) {
+        var address = option;
+        if (address) {
+            if (address.data.Company)
+                form.findField('Line1').setValue(address.data.Company + ', ' + address.data.Line1);
+            else
+                form.findField('Line1').setValue(address.data.Line1);
+            form.findField('Line2').setValue(address.data.Line2);
+            form.findField('City').setValue(address.data.PostTown);
+            form.findField('County').setValue(address.data.County);
+            if (address.data.BuildingName)
+                form.findField('BuildingName').setValue(address.data.BuildingName);
+        }
+    };
+
+
+    var processPostCode = function(formName) {
+        var postCode = App.AddressPostCode.getValue();
+
+        var multiSelect = App.PostCodeResults;
+        var form = multiSelect.up('form').getForm();
+        multiSelect.getStore().load();
+
+        multiSelect.getStore().on('load', function(store, records, successful, eOpts) {
+            if (store.getCount() > 0) {
+                if (store.getCount() > 1) {
+                    multiSelect.show();
+                } else {
+                    popAddress(store.data.items[0], form);
+                }
+
+            } else {
+                multiSelect.hide();
+                Ext.MessageBox.show({ title: 'Post Code', msg: 'No addresses exists for postCode ' + postCode, buttons: Ext.MessageBox.OK, width: 300 });
+            }
+        });
+
+    };
+
+
+</script>
+
+@(Html.X().Panel().Layout(LayoutType.Column).ColumnWidth(1).Items(
+      Html.X().Container().ColumnWidth(0.5).Padding(5).Items(
+              Html.X().TextFieldFor(model => model.Line1).ApplyFieldDefaults("InternationalAddress", "AddressLine1").Flex(1),
+              Html.X().TextFieldFor(model => model.Line2).ApplyFieldDefaults("InternationalAddress", "AddressLine2").Flex(1),
+              Html.X().TextFieldFor(model => model.City).ApplyFieldDefaults("InternationalAddress", "Town/City").Flex(1)
+          )
+      ,
+      Html.X().Container().Layout(LayoutType.Fit).ColumnWidth(0.5).Padding(5).Items(
+              Html.X().TextFieldFor(model => model.County).ApplyFieldDefaults("InternationalAddress", "County").Flex(1),
+                  Html.X().TextFieldFor(model => model.PostalCode).ApplyFieldDefaults("InternationalAddress", "Postcode").Flex(1),
+              Html.X().ComboBoxFor(model => model.CountryCode).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).MinWidth(150).Flex(1)
+              .FieldLabel("Country")
+              .Store(Html.X().Store().AutoLoad(true)
+                  .Model(Html.X()
+                      .Model().Name("CountryCode")
+                      .Fields(fields =>
+                      {
+                          fields.Add(new ModelField("CountryCode"));
+                          fields.Add(new ModelField("CountryName"));
+                      })
+                      .Proxy(proxy => proxy.Add(Html.X()
+                          .AjaxProxy()
+                          .Url(Url.Action("GetCountryList", "Reference", new {area = ""}))
+                          .Reader(reader => reader.Add(Html.X()
+                              .JsonReader()
+                              .Root("data")
+                                  .IDProperty("CountryCode"))))))).DisplayField("CountryName").ValueField("CountryCode").Flex(1)
+          )
+      )
+
+
+
+      )

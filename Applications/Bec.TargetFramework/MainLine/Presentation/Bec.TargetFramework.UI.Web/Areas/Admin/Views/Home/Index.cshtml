@@ -1,0 +1,14 @@
+﻿@{
+    var X = Html.X();
+}
+
+@(X.Panel()
+    .ID("AdministrationTab")
+    .Title("Administration")
+        .Layout(LayoutType.Border)
+    .Closable(true)
+    .ItemsFromPage(this, "~/Areas/Admin/Views/Home/_SidePanel.cshtml")
+    .ItemsFromPage(this, "~/Areas/Admin/Views/Home/_CenterPanel.cshtml")
+    
+    )
+

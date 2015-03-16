@@ -1,0 +1,21 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+
+
+@(
+ X.Container().AnchorHorizontal("100%").AnchorVertical("5%").ID("links").PaddingSpec("10 10 2 10").Items(items =>
+        {
+                                items.Add( X.Button().Border(false).Flat(true).MarginSpec("10 20 10 10").StyleSpec("background:transparent").Text("Home").Margin(10)
+                                    .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Home", "Professional", new { Area = "SafeMoveScheme" }) + "'"));
+                                items.Add( X.Button().Border(false).Flat(true).MarginSpec("10 20 10 10").StyleSpec("background:transparent").Text("Professionals").Margin(10)
+                                    .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Professionals", "Professional", new { Area = "SafeMoveScheme" }) + "'"));
+                               items.Add(X.Button().Border(false).Flat(true).MarginSpec("10 20 10 10").StyleSpec("background:transparent").Text("About").Margin(10)
+                                    .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("About", "Professional", new { Area = "SafeMoveScheme" }) + "'"));                                   
+                                items.Add( X.Button().Border(false).Flat(true).MarginSpec("10 20 10 10").StyleSpec("background:transparent").Text("Press").Margin(10)
+                                    .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Press", "Professional", new { Area = "SafeMoveScheme" }) + "'"));                                  
+        }
+)
+)

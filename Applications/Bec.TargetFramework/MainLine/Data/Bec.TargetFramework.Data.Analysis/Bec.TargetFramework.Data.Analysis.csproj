@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E204FFE-4CBE-4575-B4C7-13595A4196A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Data.Analysis</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Data.Analysis</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Devart.Data, Version=5.0.993.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetFrameworkAnalysis.AnalysisBatchCollator.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisBatchProcessor.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisBatchReceiver.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisBatchScheduler.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisBatchSender.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisEngine.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisEngineMutator.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisInput.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisInterface.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplication.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplicationDetail.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplicationHistory.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisMutator.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisMutatorInput.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLog.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLogBatch.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLogBatchDetail.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLogStep.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLogStepOutput.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisXMLSchema.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.StatusType.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.StatusTypeTemplate.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.StatusTypeValue.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.TargetFrameworkAnalysisEntities.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="TargetFrameworkAnalysis.Diagram1.view">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </None>
+    <DevartEntityDeploy Include="TargetFrameworkAnalysis.edml">
+      <Generator>DevartEfGenerator</Generator>
+      <LastGenOutput>TargetFrameworkAnalysis.info</LastGenOutput>
+    </DevartEntityDeploy>
+    <None Include="TargetFrameworkAnalysis.edps">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </None>
+    <None Include="TargetFrameworkAnalysis.info">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

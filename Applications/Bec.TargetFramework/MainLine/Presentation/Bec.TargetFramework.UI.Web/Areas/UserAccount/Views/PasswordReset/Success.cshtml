@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Password Changed";
+}
+
+@using Ext.Net.MVC;
+@using Ext.Net;
+@using Bec.TargetFramework.Web.Framework.Extensions
+@{
+    ViewBag.Title = "Password Changed";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section mainBody
+{
+
+    @(Html.X().Window()
+    .ID("PasswordResetSentWindow")
+    .Closable(false)
+    .Resizable(false)
+    .Height(120)
+    .Width(360)
+    .Icon(Icon.Lock)
+            .Title("Password Changed")
+    .Layout(LayoutType.Fit)
+    .Draggable(true)
+    .Modal(true)
+    .Padding(5)
+    .Html(
+    @<text>
+        <p>
+    Your password has been changed.
+    @if (User.Identity.IsAuthenticated)
+    {
+        @: You are now logged in.
+
+        <p>
+            Please click @Html.ActionLink("here", "Index", "Login", new { area = "UserAccount" },null)
+        </p>
+    }
+    else
+    {
+        <div>
+            You can now login @Html.ActionLink("here", "Index", "Login",new { area="UserAccount"},null)
+        </div>
+    }
+    </p>
+    </text>
+    )
+
+    )
+
+}

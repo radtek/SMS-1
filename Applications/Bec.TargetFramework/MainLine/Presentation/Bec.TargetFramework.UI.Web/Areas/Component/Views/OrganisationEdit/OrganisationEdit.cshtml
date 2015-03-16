@@ -1,0 +1,42 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.vOrganisationDTO
+
+@(Html.X().Panel().ID("OrganisationEditCenterPanel")
+.Items(Html.X().TabPanel().ID("OrganisationEdit")
+        .Items(
+        Html.X().Panel()
+        .Title("Edit Details")
+            .Items(
+                            Html.X().Panel().ItemsFromPage(this, "~/Areas/Component/Views/OrganisationEdit/OrganisationDetailEdit.cshtml")
+                  )
+            ,
+        Html.X().Panel()
+                .Title("Edit Units")
+                       .Items(
+                              Html.X().Panel().ItemsFromPage(this, "~/Areas/Component/Views/OrganisationUnit/OrganisationUnitEdit.cshtml")
+                       )
+            ,
+        Html.X().Panel()
+                .Title("Edit Branches")
+                       .Items(
+                                Html.X().Panel().ItemsFromPage(this, "~/Areas/Component/Views/BranchOrganisation/OrganisationBranchEdit.cshtml")
+                       )
+            ,
+            Html.X().Panel().Title("Edit Users").ID("UserManagementPanel")
+         .DirectEvents(de =>
+                    {
+                        de.BeforeRender.Method = HttpMethod.GET;
+                        de.BeforeRender.Url = Url.Action("UserManagement", "UserManagement", new { area = "Admin", containerId = "UserManagementPanel", id = Model.OrganisationID});
+                        })
+                
+             ,
+        Html.X().Panel()
+                    .Title("Edit Logo")
+                           .Items(
+                                Html.X().Panel().ItemsFromPage(this, "~/Areas/Component/Views/OrganisationLogo/OrganisationLogoEdit.cshtml")
+                           ))))
+
+
+

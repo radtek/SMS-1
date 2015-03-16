@@ -1,0 +1,21 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.ContactDTO
+
+@(Html.X().Panel().ID("EditUserManagementPanel")
+.Items(Html.X().TabPanel().ID("AddUser")
+        .Items(
+        Html.X().Panel()
+        .Title("Add User")
+            .Items(
+                            Html.X().Panel().ItemsFromPage(this, "~/Areas/Admin/Views/UserManagement/AddUser.cshtml")
+                  )
+        //  ,
+        //Html.X().Panel()
+        //  .Title("Add User Groups and Roles")
+        //      .Items(
+        //                              Html.X().Panel().ItemsFromPage(this, "~/Areas/Admin/Views/UserManagement/EditUserDetails.cshtml", new { containerId = "AdministrationCenterPanel" })
+        //            )
+
+     )))

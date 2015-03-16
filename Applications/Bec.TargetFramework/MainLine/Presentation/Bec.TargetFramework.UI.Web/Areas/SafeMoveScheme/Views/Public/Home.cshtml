@@ -1,0 +1,73 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+@{
+    
+ ViewBag.Title = "Home";
+ Layout = "~/Areas/SafeMoveScheme/Views/Public/_PublicLayout.cshtml";   
+ }
+
+
+
+  @section publicBody
+  {      
+     @(Html.X().Container()
+               
+                .Items(
+
+    Html.X().Container()
+            .Cls("text-bg content")
+            .MarginSpec("30 10 10 0")
+            .Items
+            (
+        Html.X().Image()
+                .Frame(false)
+                .ImageUrl((@Url.Content("~/Content/resources/images/sms/home-public-slider.jpg"))),
+                
+                Html.X().Container()
+                                .Html("<p>We've made something amazing to make moving safer, faster and easier...</p>")
+                
+                ),
+                
+
+
+                
+                
+                                        Html.X().Container()
+                                        .Layout(LayoutType.Column)
+                                                .Items
+                                                (
+                                                Html.X().Container()
+                                                        .ColumnWidth(0.75).Padding(10)
+                                .Html("<h2>The <span>Safe Move Scheme</span> for the Public</h2><p>The Safe Move Scheme speeds up property transactions through an online software system that manages communications for you.</p><p>The Safe Move Scheme reduces letter based communication to a bare minimum so you can raise and answer questions about your property transaction online quickly and conveniently, when it suits you.</p>"),
+
+                                        Html.X().Container()
+                                            .ColumnWidth(0.25)
+                                            .Cls("testimonial")
+                                        .Html("<p>“The whole process was quick, easy and convenient. We would definitely look for the Safe Move Scheme logo next time we buy a property.”</p><p><b>Mr Kidney</b></p>")
+
+                          
+)
+                    
+
+)
+                    
+              
+        )    
+
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

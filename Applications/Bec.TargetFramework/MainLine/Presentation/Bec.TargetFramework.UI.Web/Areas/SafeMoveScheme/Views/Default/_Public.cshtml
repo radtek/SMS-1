@@ -1,0 +1,35 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+
+@(
+ X.Container()
+     .PaddingSpec("10 10 10 10")
+ .ID("IndexPublic")
+.Items(
+        X.ImageButton().ID("ImgPublic").AnchorHorizontal("100%").Center().ImageUrl(@Url.Content("~/Content/resources/images/sms/Public-landing-image.jpg"))
+            .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Home", "Public", new { Area = "SafeMoveScheme" }) + "'"),
+           
+
+                X.Container().ID("divPublic").AnchorHorizontal("100%").Center().Items(
+                                                                    X.Container().ID("txtPublic").Html("<h1>For <span>Public</span></h1><p>Whether you are buying or selling a property we can help you.</p>"),
+
+                                                                    X.LinkButton().ID("lrnPublic").Flat(true).Text("Learn More").Icon(Icon.BulletGo).IconAlign(IconAlign.Right).Type(ButtonType.Button)
+                                                                                        .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Home", "Public", new { Area = "SafeMoveScheme" }) + "'")
+                                                                    )
+)
+)
+
+@*
+    @( X.Panel()
+    .BodyPadding(15)
+    .Width(500)
+    .Height(600)
+    .Frame(false)
+    .X(750)
+    .Y(250)
+    .Html("<h1>For <span>Public</span></h1><p> Whether you are buying or selling a property<br/>we can help you.<br/><br/></p> <a>Learn more</a>")
+    )
+*@

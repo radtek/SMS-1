@@ -1,0 +1,69 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using NHibernate.Cfg.ConfigurationSchema
+
+@model Bec.TargetFramework.Entities.TemporaryAccountDTO
+
+@{
+    ViewBag.Title = "Test Temporary Login Creation";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headtag
+{
+    <script src="~/Scripts/TargetFramework/Grid.js"></script>
+    <script src="~/Scripts/TargetFramework/Ext.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+}
+
+@section mainBody
+{
+    @(Html.X().Viewport().OverflowX(Overflow.Auto).OverflowY(Overflow.Auto)
+          .Items
+          (
+              Html.X().Panel().ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+              Html.X().Panel().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1)
+                  .Items(
+                      Html.X().Container().Html("<br/>"),
+                      Html.X().Image()
+                          .Frame(false)
+                                .ImageUrl((@Url.Content("~/Content/resources/images/STS/MakingPropertyTransactionSaferResized.jpg"))).Height(225).Width(800)
+                  )
+              ,
+              Html.X().Panel().ID("TempAccountloginpanel").LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1)
+                  .Items
+                  (
+
+                      Html.X().Container(),
+                      Html.X().FormPanel()
+                          .Width(440)
+                          .PaddingSpec("5 5 5 5")
+                          .ID("CreateLogin")
+                          .Border(true)
+                          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                          .Url(Url.Action("Index", "Login"))
+                          .BodyStyle("background:transparent;")
+                          .Items
+                          (
+                              Html.X().MultiSelect().ID("TempAccountFormErrors").Hidden(true),
+                              Html.X().AntiForgeryField(),
+                              Html.X().TextFieldFor(m => m.EmailAddress).Width(415).Padding(5)
+                           
+                          ).Buttons(
+                              Html.X().Button().Text("Create Temporary Account").DirectEvents(de =>
+                          {
+                              de.Click.Before = "return #{CreateLogin}.isValid();";
+                              de.Click.Url = Url.Action("CreateTemporaryLogin", "CreateLogin", new { area = "STSLogin" });
+                              de.Click.FormID = "CreateLogin";
+                              de.Click.EventMask.ShowMask = true;
+                              de.Click.EventMask.Msg = "Please wait ...";
+                          }))
+                  ),
+              Html.X().Panel().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5)
+                  .Items(Html.X().Container()
+                      .Html("<p>Please note that it is a criminal offense to falsely represent your identity as that <br/>of another person (Fraud Act 2006). <br/> <br/>Logging in to the Safe Move Scheme using login details that do not belong to you, <br/>for whatever reason, is considered a false representation.<br/><br/>It is important that you do not, under any circumstances, share your login details <br/>with anyone and you must take all reasonable measures to protect your log-on <br/>details.</p>")
+                  )
+          ))
+}

@@ -1,0 +1,688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F050FC5D-C63C-4453-A98E-C3DB7D0F255A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Data</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Objects\UserClaimDTO.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetFramework.Account.cs" />
+    <Compile Include="TargetFramework.Actor.cs" />
+    <Compile Include="TargetFramework.ActorClaimRoleMapping.cs" />
+    <Compile Include="TargetFramework.Address.cs" />
+    <Compile Include="TargetFramework.AddressChronology.cs" />
+    <Compile Include="TargetFramework.ApplicationStage.cs" />
+    <Compile Include="TargetFramework.ApplicationStageWorkflow.cs" />
+    <Compile Include="TargetFramework.Artefact.cs" />
+    <Compile Include="TargetFramework.ArtefactClaim.cs" />
+    <Compile Include="TargetFramework.ArtefactClaimTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactDependency.cs" />
+    <Compile Include="TargetFramework.ArtefactDependencyTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.ArtefactNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactProduct.cs" />
+    <Compile Include="TargetFramework.ArtefactProductTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactRole.cs" />
+    <Compile Include="TargetFramework.ArtefactRoleTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactSubscription.cs" />
+    <Compile Include="TargetFramework.ArtefactSubscriptionTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactTemplate.cs" />
+    <Compile Include="TargetFramework.ArtefactWorkflow.cs" />
+    <Compile Include="TargetFramework.ArtefactWorkflowTemplate.cs" />
+    <Compile Include="TargetFramework.Attachment.cs" />
+    <Compile Include="TargetFramework.AttachmentDetail.cs" />
+    <Compile Include="TargetFramework.AttachmentDetailGroup.cs" />
+    <Compile Include="TargetFramework.AttachmentDetailRole.cs" />
+    <Compile Include="TargetFramework.BankSortCode.cs" />
+    <Compile Include="TargetFramework.Billing.cs" />
+    <Compile Include="TargetFramework.BillingTemplate.cs" />
+    <Compile Include="TargetFramework.Bucket.cs" />
+    <Compile Include="TargetFramework.BucketTemplate.cs" />
+    <Compile Include="TargetFramework.BusMessage.cs" />
+    <Compile Include="TargetFramework.BusMessageContent.cs" />
+    <Compile Include="TargetFramework.BusMessageProcessLog.cs" />
+    <Compile Include="TargetFramework.BusTask.cs" />
+    <Compile Include="TargetFramework.BusTaskHandler.cs" />
+    <Compile Include="TargetFramework.BusTaskSchedule.cs" />
+    <Compile Include="TargetFramework.BusTaskScheduleProcessLog.cs" />
+    <Compile Include="TargetFramework.ClassificationType.cs" />
+    <Compile Include="TargetFramework.ClassificationTypeCategory.cs" />
+    <Compile Include="TargetFramework.CompanyHouse.cs" />
+    <Compile Include="TargetFramework.ComponentTier.cs" />
+    <Compile Include="TargetFramework.ComponentTierTemplate.cs" />
+    <Compile Include="TargetFramework.Contact.cs" />
+    <Compile Include="TargetFramework.ContactName.cs" />
+    <Compile Include="TargetFramework.ContactPhone.cs" />
+    <Compile Include="TargetFramework.ContactRegulator.cs" />
+    <Compile Include="TargetFramework.Containsagadata.cs" />
+    <Compile Include="TargetFramework.CountryCode.cs" />
+    <Compile Include="TargetFramework.CountryDeduction.cs" />
+    <Compile Include="TargetFramework.CountryDeductionTemplate.cs" />
+    <Compile Include="TargetFramework.CurrencyCode.cs" />
+    <Compile Include="TargetFramework.CurrencyRate.cs" />
+    <Compile Include="TargetFramework.Deduction.cs" />
+    <Compile Include="TargetFramework.DeductionTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisation.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationArtefact.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationArtefactTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationBranch.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationBranchTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroup.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroupRole.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroupRoleTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroupTarget.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroupTargetTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationGroupTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationLedger.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationLedgerTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationModule.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationModuleTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationPaymentMethod.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationPaymentMethodTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationProduct.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationProductTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRole.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRoleClaim.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRoleClaimTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRoleTarget.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRoleTargetTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationRoleTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationShoppingCartBlueprint.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationShoppingCartBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationStatusType.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationStatusTypeTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationTarget.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationTargetTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationUserTarget.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationUserTargetTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationUserType.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationUserTypeTemplate.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationWorkflow.cs" />
+    <Compile Include="TargetFramework.DefaultOrganisationWorkflowTemplate.cs" />
+    <Compile Include="TargetFramework.DirectDebitMandate.cs" />
+    <Compile Include="TargetFramework.DirectDebitMandateTemplate.cs" />
+    <Compile Include="TargetFramework.DirectDebitSchedule.cs" />
+    <Compile Include="TargetFramework.Discount.cs" />
+    <Compile Include="TargetFramework.DiscountRelatedProduct.cs" />
+    <Compile Include="TargetFramework.DiscountRelatedProductTemplate.cs" />
+    <Compile Include="TargetFramework.DiscountTemplate.cs" />
+    <Compile Include="TargetFramework.ErrorCode.cs" />
+    <Compile Include="TargetFramework.FieldDetail.cs" />
+    <Compile Include="TargetFramework.FieldDetailTemplate.cs" />
+    <Compile Include="TargetFramework.FnGetUserClaimResult.cs" />
+    <Compile Include="TargetFramework.GlobalAccountingPeriod.cs" />
+    <Compile Include="TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
+    <Compile Include="TargetFramework.GlobalPaymentMethod.cs" />
+    <Compile Include="TargetFramework.Group.cs" />
+    <Compile Include="TargetFramework.GroupRole.cs" />
+    <Compile Include="TargetFramework.InterfacePanel.cs" />
+    <Compile Include="TargetFramework.InterfacePanelClaim.cs" />
+    <Compile Include="TargetFramework.InterfacePanelClaimTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFDOrganisationTypeUserType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFDOrganisationTypeUserTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFDValidationOrganisationTypeUserType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFDValidationOrgTypeUserTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetail.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailOrganisationType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailOrganisationTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailValidation.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailValidationOrganisationType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailValidationOrganisationTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelFieldDetailValidationTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelOrganisationType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelOrganisationTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelOrganisationTypeUserType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelOrganisationTypeUserTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelRole.cs" />
+    <Compile Include="TargetFramework.InterfacePanelRoleTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelSetting.cs" />
+    <Compile Include="TargetFramework.InterfacePanelSettingTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidation.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidationOrganisationType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidationOrganisationTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidationOrganisationTypeUserType.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidationOrganisationTypeUserTypeTemplate.cs" />
+    <Compile Include="TargetFramework.InterfacePanelValidationTemplate.cs" />
+    <Compile Include="TargetFramework.Invoice.cs" />
+    <Compile Include="TargetFramework.InvoiceLineItem.cs" />
+    <Compile Include="TargetFramework.InvoiceProcessLog.cs" />
+    <Compile Include="TargetFramework.LedgerAccountBalance.cs" />
+    <Compile Include="TargetFramework.LedgerAccountTransaction.cs" />
+    <Compile Include="TargetFramework.LegalOrganisationDetail.cs" />
+    <Compile Include="TargetFramework.LinkedAccount.cs" />
+    <Compile Include="TargetFramework.LinkedAccountClaim.cs" />
+    <Compile Include="TargetFramework.LRDocument.cs" />
+    <Compile Include="TargetFramework.LRRegisterExtract.cs" />
+    <Compile Include="TargetFramework.LRTitle.cs" />
+    <Compile Include="TargetFramework.Module.cs" />
+    <Compile Include="TargetFramework.ModuleArtefact.cs" />
+    <Compile Include="TargetFramework.ModuleArtefactTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleClaim.cs" />
+    <Compile Include="TargetFramework.ModuleClaimTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleDependency.cs" />
+    <Compile Include="TargetFramework.ModuleDependencyTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.ModuleNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.ModulePlugin.cs" />
+    <Compile Include="TargetFramework.ModulePluginTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleProduct.cs" />
+    <Compile Include="TargetFramework.ModuleProductTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleRole.cs" />
+    <Compile Include="TargetFramework.ModuleRoleTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleSetting.cs" />
+    <Compile Include="TargetFramework.ModuleSettingTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleStatusType.cs" />
+    <Compile Include="TargetFramework.ModuleStatusTypeTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleSubscription.cs" />
+    <Compile Include="TargetFramework.ModuleSubscriptionTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleWorkflow.cs" />
+    <Compile Include="TargetFramework.ModuleWorkflowTarget.cs" />
+    <Compile Include="TargetFramework.ModuleWorkflowTargetTemplate.cs" />
+    <Compile Include="TargetFramework.ModuleWorkflowTemplate.cs" />
+    <Compile Include="TargetFramework.Notification.cs" />
+    <Compile Include="TargetFramework.NotificationConstruct.cs" />
+    <Compile Include="TargetFramework.NotificationConstructClaim.cs" />
+    <Compile Include="TargetFramework.NotificationConstructClaimTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructDataTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructDatum.cs" />
+    <Compile Include="TargetFramework.NotificationConstructGroup.cs" />
+    <Compile Include="TargetFramework.NotificationConstructGroupNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.NotificationConstructGroupNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructGroupTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructParameter.cs" />
+    <Compile Include="TargetFramework.NotificationConstructParameterTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructRole.cs" />
+    <Compile Include="TargetFramework.NotificationConstructRoleTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructTarget.cs" />
+    <Compile Include="TargetFramework.NotificationConstructTargetTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.NotificationRecipient.cs" />
+    <Compile Include="TargetFramework.NotificationRecipientLog.cs" />
+    <Compile Include="TargetFramework.Operation.cs" />
+    <Compile Include="TargetFramework.Organisation.cs" />
+    <Compile Include="TargetFramework.OrganisationAccountingPeriod.cs" />
+    <Compile Include="TargetFramework.OrganisationArtefact.cs" />
+    <Compile Include="TargetFramework.OrganisationBankAccount.cs" />
+    <Compile Include="TargetFramework.OrganisationDetail.cs" />
+    <Compile Include="TargetFramework.OrganisationDirectDebitMandate.cs" />
+    <Compile Include="TargetFramework.OrganisationDirectDebitMandateProcessLog.cs" />
+    <Compile Include="TargetFramework.OrganisationDiscount.cs" />
+    <Compile Include="TargetFramework.OrganisationFinancialDetail.cs" />
+    <Compile Include="TargetFramework.OrganisationGroup.cs" />
+    <Compile Include="TargetFramework.OrganisationGroupRole.cs" />
+    <Compile Include="TargetFramework.OrganisationInsuranceDetail.cs" />
+    <Compile Include="TargetFramework.OrganisationLedgerAccount.cs" />
+    <Compile Include="TargetFramework.OrganisationPaymentMethod.cs" />
+    <Compile Include="TargetFramework.OrganisationPlanSubscription.cs" />
+    <Compile Include="TargetFramework.OrganisationProductPurchase.cs" />
+    <Compile Include="TargetFramework.OrganisationRole.cs" />
+    <Compile Include="TargetFramework.OrganisationRoleClaim.cs" />
+    <Compile Include="TargetFramework.OrganisationSetting.cs" />
+    <Compile Include="TargetFramework.OrganisationSettingTemplate.cs" />
+    <Compile Include="TargetFramework.OrganisationShoppingCartBlueprint.cs" />
+    <Compile Include="TargetFramework.OrganisationStatus.cs" />
+    <Compile Include="TargetFramework.OrganisationStatusType.cs" />
+    <Compile Include="TargetFramework.OrganisationStructure.cs" />
+    <Compile Include="TargetFramework.OrganisationTeam.cs" />
+    <Compile Include="TargetFramework.OrganisationTeamSetting.cs" />
+    <Compile Include="TargetFramework.OrganisationTeamSettingTemplate.cs" />
+    <Compile Include="TargetFramework.OrganisationTradingName.cs" />
+    <Compile Include="TargetFramework.OrganisationType.cs" />
+    <Compile Include="TargetFramework.OrganisationUnit.cs" />
+    <Compile Include="TargetFramework.OrganisationUnitOrganisationGroup.cs" />
+    <Compile Include="TargetFramework.OrganisationUnitOrganisationRole.cs" />
+    <Compile Include="TargetFramework.OrganisationUnitStructure.cs" />
+    <Compile Include="TargetFramework.OrganisationUserType.cs" />
+    <Compile Include="TargetFramework.OrganisationWorkflow.cs" />
+    <Compile Include="TargetFramework.Package.cs" />
+    <Compile Include="TargetFramework.PackageProduct.cs" />
+    <Compile Include="TargetFramework.PackageProductRelationship.cs" />
+    <Compile Include="TargetFramework.PackageProductRelationshipBlueprint.cs" />
+    <Compile Include="TargetFramework.PackageProductRelationshipBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.PackageProductRelationshipTemplate.cs" />
+    <Compile Include="TargetFramework.PackageProductSpecificationBlueprint.cs" />
+    <Compile Include="TargetFramework.PackageProductSpecificationBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.PackageProductTemplate.cs" />
+    <Compile Include="TargetFramework.PackageTemplate.cs" />
+    <Compile Include="TargetFramework.PasswordResetSecret.cs" />
+    <Compile Include="TargetFramework.Plan.cs" />
+    <Compile Include="TargetFramework.PlanBilling.cs" />
+    <Compile Include="TargetFramework.PlanBillingTemplate.cs" />
+    <Compile Include="TargetFramework.PlanDiscount.cs" />
+    <Compile Include="TargetFramework.PlanDiscountTemplate.cs" />
+    <Compile Include="TargetFramework.PlanGlobalPaymentMethod.cs" />
+    <Compile Include="TargetFramework.PlanGlobalPaymentMethodTemplate.cs" />
+    <Compile Include="TargetFramework.PlanGroup.cs" />
+    <Compile Include="TargetFramework.PlanProduct.cs" />
+    <Compile Include="TargetFramework.PlanProductTemplate.cs" />
+    <Compile Include="TargetFramework.PlanSubscription.cs" />
+    <Compile Include="TargetFramework.PlanSubscriptionBillingProcessLog.cs" />
+    <Compile Include="TargetFramework.PlanSubscriptionPaymentPlan.cs" />
+    <Compile Include="TargetFramework.PlanSubscriptionPeriod.cs" />
+    <Compile Include="TargetFramework.PlanSubscriptionProcessLog.cs" />
+    <Compile Include="TargetFramework.PlanTemplate.cs" />
+    <Compile Include="TargetFramework.PlanTransaction.cs" />
+    <Compile Include="TargetFramework.PlanTransactionTemplate.cs" />
+    <Compile Include="TargetFramework.Plugin.cs" />
+    <Compile Include="TargetFramework.PluginTemplate.cs" />
+    <Compile Include="TargetFramework.Product.cs" />
+    <Compile Include="TargetFramework.ProductAttribute.cs" />
+    <Compile Include="TargetFramework.ProductAttributeTemplate.cs" />
+    <Compile Include="TargetFramework.ProductBusTask.cs" />
+    <Compile Include="TargetFramework.ProductBusTaskTemplate.cs" />
+    <Compile Include="TargetFramework.ProductClaim.cs" />
+    <Compile Include="TargetFramework.ProductClaimTemplate.cs" />
+    <Compile Include="TargetFramework.ProductDeduction.cs" />
+    <Compile Include="TargetFramework.ProductDeductionTemplate.cs" />
+    <Compile Include="TargetFramework.ProductDetail.cs" />
+    <Compile Include="TargetFramework.ProductDetailTemplate.cs" />
+    <Compile Include="TargetFramework.ProductDiscount.cs" />
+    <Compile Include="TargetFramework.ProductDiscountTemplate.cs" />
+    <Compile Include="TargetFramework.ProductFamily.cs" />
+    <Compile Include="TargetFramework.ProductFamilyProductPackage.cs" />
+    <Compile Include="TargetFramework.ProductFamilyProductPackageTemplate.cs" />
+    <Compile Include="TargetFramework.ProductFamilyTemplate.cs" />
+    <Compile Include="TargetFramework.ProductPlan.cs" />
+    <Compile Include="TargetFramework.ProductPlanTemplate.cs" />
+    <Compile Include="TargetFramework.ProductProductAttribute.cs" />
+    <Compile Include="TargetFramework.ProductProductAttributeTemplate.cs" />
+    <Compile Include="TargetFramework.ProductPurchase.cs" />
+    <Compile Include="TargetFramework.ProductPurchaseBusTaskProcessLog.cs" />
+    <Compile Include="TargetFramework.ProductPurchaseProcessLog.cs" />
+    <Compile Include="TargetFramework.ProductRelationship.cs" />
+    <Compile Include="TargetFramework.ProductRelationshipBlueprint.cs" />
+    <Compile Include="TargetFramework.ProductRelationshipBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.ProductRelationshipTemplate.cs" />
+    <Compile Include="TargetFramework.ProductRole.cs" />
+    <Compile Include="TargetFramework.ProductRoleTemplate.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationAttribute.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationAttributeOption.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationAttributeOptionTemplate.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationAttributeTemplate.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationBlueprint.cs" />
+    <Compile Include="TargetFramework.ProductSpecificationBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.ProductTag.cs" />
+    <Compile Include="TargetFramework.ProductTagTemplate.cs" />
+    <Compile Include="TargetFramework.ProductTemplate.cs" />
+    <Compile Include="TargetFramework.ProductVariantAttributeCombination.cs" />
+    <Compile Include="TargetFramework.ProductVariantAttributeCombinationTemplate.cs" />
+    <Compile Include="TargetFramework.ProductVariantAttributeValue.cs" />
+    <Compile Include="TargetFramework.ProductVariantAttributeValueTemplate.cs" />
+    <Compile Include="TargetFramework.RelationshipRole.cs" />
+    <Compile Include="TargetFramework.Repository.cs" />
+    <Compile Include="TargetFramework.RepositoryStructure.cs" />
+    <Compile Include="TargetFramework.RepositoryStructureGroup.cs" />
+    <Compile Include="TargetFramework.RepositoryStructureRole.cs" />
+    <Compile Include="TargetFramework.Resource.cs" />
+    <Compile Include="TargetFramework.ResourceOperationTarget.cs" />
+    <Compile Include="TargetFramework.Role.cs" />
+    <Compile Include="TargetFramework.RoleClaim.cs" />
+    <Compile Include="TargetFramework.ServiceDefinition.cs" />
+    <Compile Include="TargetFramework.ServiceDefinitionDetail.cs" />
+    <Compile Include="TargetFramework.ServiceInterface.cs" />
+    <Compile Include="TargetFramework.ServiceInterfaceProcessLog.cs" />
+    <Compile Include="TargetFramework.ServiceProvider.cs" />
+    <Compile Include="TargetFramework.Setting.cs" />
+    <Compile Include="TargetFramework.ShoppingCart.cs" />
+    <Compile Include="TargetFramework.ShoppingCartBlueprint.cs" />
+    <Compile Include="TargetFramework.ShoppingCartBlueprintProduct.cs" />
+    <Compile Include="TargetFramework.ShoppingCartBlueprintProductTemplate.cs" />
+    <Compile Include="TargetFramework.ShoppingCartBlueprintTemplate.cs" />
+    <Compile Include="TargetFramework.ShoppingCartItem.cs" />
+    <Compile Include="TargetFramework.ShoppingCartItemProductAttribute.cs" />
+    <Compile Include="TargetFramework.ShoppingCartItemProductSpecification.cs" />
+    <Compile Include="TargetFramework.SpecificationAttribute.cs" />
+    <Compile Include="TargetFramework.SpecificationAttributeOptionTemplate.cs" />
+    <Compile Include="TargetFramework.SpecificationAttributeRelationship.cs" />
+    <Compile Include="TargetFramework.SpecificationAttributeRelationshipTemplate.cs" />
+    <Compile Include="TargetFramework.SpecificationAttributeTemplate.cs" />
+    <Compile Include="TargetFramework.SpecificiationAttributeOption.cs" />
+    <Compile Include="TargetFramework.State.cs" />
+    <Compile Include="TargetFramework.StateItem.cs" />
+    <Compile Include="TargetFramework.StatusType.cs" />
+    <Compile Include="TargetFramework.StatusTypeClaim.cs" />
+    <Compile Include="TargetFramework.StatusTypeClaimTemplate.cs" />
+    <Compile Include="TargetFramework.StatusTypeRole.cs" />
+    <Compile Include="TargetFramework.StatusTypeRoleTemplate.cs" />
+    <Compile Include="TargetFramework.StatusTypeStructure.cs" />
+    <Compile Include="TargetFramework.StatusTypeStructureTemplate.cs" />
+    <Compile Include="TargetFramework.StatusTypeStructureTransition.cs" />
+    <Compile Include="TargetFramework.StatusTypeStructureTransitionTemplate.cs" />
+    <Compile Include="TargetFramework.StatusTypeTemplate.cs" />
+    <Compile Include="TargetFramework.StatusTypeValue.cs" />
+    <Compile Include="TargetFramework.StatusTypeValueTemplate.cs" />
+    <Compile Include="TargetFramework.Structure.cs" />
+    <Compile Include="TargetFramework.StsInvite.cs" />
+    <Compile Include="TargetFramework.StsInviteProcessLog.cs" />
+    <Compile Include="TargetFramework.StsProperty.cs" />
+    <Compile Include="TargetFramework.StsSearch.cs" />
+    <Compile Include="TargetFramework.StsSearchAccount.cs" />
+    <Compile Include="TargetFramework.StsSearchAccountIDDocument.cs" />
+    <Compile Include="TargetFramework.StsSearchActor.cs" />
+    <Compile Include="TargetFramework.StsSearchActorDetail.cs" />
+    <Compile Include="TargetFramework.StsSearchActorDetailDeposit.cs" />
+    <Compile Include="TargetFramework.StsSearchActorProcessLog.cs" />
+    <Compile Include="TargetFramework.StsSearchActorStructure.cs" />
+    <Compile Include="TargetFramework.StsSearchDetail.cs" />
+    <Compile Include="TargetFramework.StsSearchLRDocumentOrder.cs" />
+    <Compile Include="TargetFramework.StsSearchProcessLog.cs" />
+    <Compile Include="TargetFramework.StsSearchProperty.cs" />
+    <Compile Include="TargetFramework.StsSearchRelation.cs" />
+    <Compile Include="TargetFramework.Subscription.cs" />
+    <Compile Include="TargetFramework.TargetFrameworkEntities.cs" />
+    <Compile Include="TargetFramework.TaxRate.cs" />
+    <Compile Include="TargetFramework.TaxRateTemplate.cs" />
+    <Compile Include="TargetFramework.Tenant.cs" />
+    <Compile Include="TargetFramework.TFEvent.cs" />
+    <Compile Include="TargetFramework.TFEventMessageSubscriber.cs" />
+    <Compile Include="TargetFramework.TFEventType.cs" />
+    <Compile Include="TargetFramework.Timeoutentity.cs" />
+    <Compile Include="TargetFramework.TransactionLevelComponent.cs" />
+    <Compile Include="TargetFramework.TransactionLevelComponentTemplate.cs" />
+    <Compile Include="TargetFramework.TransactionOrder.cs" />
+    <Compile Include="TargetFramework.TransactionOrderItem.cs" />
+    <Compile Include="TargetFramework.TransactionOrderPayment.cs" />
+    <Compile Include="TargetFramework.TransactionOrderPaymentError.cs" />
+    <Compile Include="TargetFramework.TransactionOrderProcessLog.cs" />
+    <Compile Include="TargetFramework.TwoFactorAuthToken.cs" />
+    <Compile Include="TargetFramework.UserAccount.cs" />
+    <Compile Include="TargetFramework.UserAccountArchive.cs" />
+    <Compile Include="TargetFramework.UserAccountAudit.cs" />
+    <Compile Include="TargetFramework.UserAccountDetail.cs" />
+    <Compile Include="TargetFramework.UserAccountLedgerAccount.cs" />
+    <Compile Include="TargetFramework.UserAccountLoginSession.cs" />
+    <Compile Include="TargetFramework.UserAccountLoginSessionDatum.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisation.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationGroup.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationRole.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationSecondaryUserType.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationStatus.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationStructure.cs" />
+    <Compile Include="TargetFramework.UserAccountOrganisationTeam.cs" />
+    <Compile Include="TargetFramework.UserCertificate.cs" />
+    <Compile Include="TargetFramework.UserClaim.cs" />
+    <Compile Include="TargetFramework.UserType.cs" />
+    <Compile Include="TargetFramework.VAttachment.cs" />
+    <Compile Include="TargetFramework.VBranch.cs" />
+    <Compile Include="TargetFramework.VBusTaskSchedule.cs" />
+    <Compile Include="TargetFramework.VClaimSource.cs" />
+    <Compile Include="TargetFramework.VClassification.cs" />
+    <Compile Include="TargetFramework.VCountryAndCurrency.cs" />
+    <Compile Include="TargetFramework.VCountryDeduction.cs" />
+    <Compile Include="TargetFramework.VDefaultEmailAddress.cs" />
+    <Compile Include="TargetFramework.VDefaultOrganisationStatus.cs" />
+    <Compile Include="TargetFramework.VDefaultOrganisationUserTypeOrganisationType.cs" />
+    <Compile Include="TargetFramework.VFieldDetailForUI.cs" />
+    <Compile Include="TargetFramework.VFieldDetailValidationForUI.cs" />
+    <Compile Include="TargetFramework.VGlobalAccountingCurrentPeriod.cs" />
+    <Compile Include="TargetFramework.VGroup.cs" />
+    <Compile Include="TargetFramework.VInterfacePanelFieldDetail.cs" />
+    <Compile Include="TargetFramework.VInterfacePanelForUI.cs" />
+    <Compile Include="TargetFramework.VInterfacePanelValidationForUI.cs" />
+    <Compile Include="TargetFramework.VInvoiceWithCurrentTransactionOrderStatus.cs" />
+    <Compile Include="TargetFramework.VNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.VNotificationConstructGroup.cs" />
+    <Compile Include="TargetFramework.VNotificationConstructGroupNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.VNotificationRecipientStatus.cs" />
+    <Compile Include="TargetFramework.VNotificationWithUAOVerificationCode.cs" />
+    <Compile Include="TargetFramework.VOrganisation.cs" />
+    <Compile Include="TargetFramework.VOrganisationCheckoutDiscount.cs" />
+    <Compile Include="TargetFramework.VOrganisationComplianceOfficer.cs" />
+    <Compile Include="TargetFramework.VOrganisationDetail.cs" />
+    <Compile Include="TargetFramework.VOrganisationFinancialStatus.cs" />
+    <Compile Include="TargetFramework.VOrganisationPaymentMethodStatus.cs" />
+    <Compile Include="TargetFramework.VOrganisationStatus.cs" />
+    <Compile Include="TargetFramework.VOrganisationUserType.cs" />
+    <Compile Include="TargetFramework.VOrgansiationClaim.cs" />
+    <Compile Include="TargetFramework.VPlanSubscriptionStatusWithBillingAndPaymentMethodStatus.cs" />
+    <Compile Include="TargetFramework.VProductAttribute.cs" />
+    <Compile Include="TargetFramework.VProductDeduction.cs" />
+    <Compile Include="TargetFramework.VProductDiscount.cs" />
+    <Compile Include="TargetFramework.VProductSpecification.cs" />
+    <Compile Include="TargetFramework.VProductSpecificationOption.cs" />
+    <Compile Include="TargetFramework.VResource.cs" />
+    <Compile Include="TargetFramework.VRole.cs" />
+    <Compile Include="TargetFramework.VState.cs" />
+    <Compile Include="TargetFramework.VStatusType.cs" />
+    <Compile Include="TargetFramework.VStatusTypeTemplate.cs" />
+    <Compile Include="TargetFramework.VTemporaryUsersNotLoggedIn.cs" />
+    <Compile Include="TargetFramework.VUserAccountNotLoggedIn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetFramework.VUserAccountOrganisation.cs" />
+    <Compile Include="TargetFramework.VUserAccountOrganisationUserTypeOrganisationType.cs" />
+    <Compile Include="TargetFramework.VUserRoleRegulatorDetail.cs" />
+    <Compile Include="TargetFramework.VUserStatus.cs" />
+    <Compile Include="TargetFramework.VUserWorkflowInstanceStatus.cs" />
+    <Compile Include="TargetFramework.VWorkflowActionParameter.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceExecutionNotCompleted.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceExecutionStatusEvent.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceNotStarted.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceProgress.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceRetry.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceStatus.cs" />
+    <Compile Include="TargetFramework.VWorkflowInstanceStepTrace.cs" />
+    <Compile Include="TargetFramework.VWorkflowTree.cs" />
+    <Compile Include="TargetFramework.WorflowParameterTemplate.cs" />
+    <Compile Include="TargetFramework.Workflow.cs" />
+    <Compile Include="TargetFramework.WorkflowAction.cs" />
+    <Compile Include="TargetFramework.WorkflowActionCompleteCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowActionCompleteConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionExecuteCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowActionExecuteCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionExecutionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionNotificationTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowActionParameterNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.WorkflowActionParameterNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionPostCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowActionPostCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionPreCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowActionPreCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionProductPlaceholder.cs" />
+    <Compile Include="TargetFramework.WorkflowActionStartCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowActionStartConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowActionValidationTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowClaim.cs" />
+    <Compile Include="TargetFramework.WorkflowClaimTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowCommandCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowCommandConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowCommandParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowCommandParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowConditionParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowConditionParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecision.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionError.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionErrorTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionExecuteCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionExecuteCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionFailure.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionFailureTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionSuccess.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionSuccessTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowDecisionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowExecution.cs" />
+    <Compile Include="TargetFramework.WorkflowExecutionStatus.cs" />
+    <Compile Include="TargetFramework.WorkflowExecutionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowHierarchy.cs" />
+    <Compile Include="TargetFramework.WorkflowHierarchyTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowInstance.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceExecution.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceExecutionDataItem.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceExecutionStatusEvent.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceExecutionTrace.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceRestriction.cs" />
+    <Compile Include="TargetFramework.WorkflowInstanceSession.cs" />
+    <Compile Include="TargetFramework.WorkflowMainCompleteCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowMainCompleteConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowMainExecuteCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowMainExecuteCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowMainParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowMainParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowMainPostCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowMainPostCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowMainPreCommand.cs" />
+    <Compile Include="TargetFramework.WorkflowMainPreCommandTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowMainStartCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowMainStartConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.WorkflowNotificationConstructTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowObjectType.cs" />
+    <Compile Include="TargetFramework.WorkflowObjectTypeTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowRole.cs" />
+    <Compile Include="TargetFramework.WorkflowRoleTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowStatusType.cs" />
+    <Compile Include="TargetFramework.WorkflowStatusTypeTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistion.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionCompleteCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionCompleteConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionHierarchy.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionHierarchyTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionParameter.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionParameterTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionStartCondition.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionStartConditionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionWorkflowAction.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionWorkflowActionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionWorkflowDecision.cs" />
+    <Compile Include="TargetFramework.WorkflowTransistionWorkflowDecisionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTreeStructure.cs" />
+    <Compile Include="TargetFramework.WorkflowTreeStructureAction.cs" />
+    <Compile Include="TargetFramework.WorkflowTreeStructureActionTemplate.cs" />
+    <Compile Include="TargetFramework.WorkflowTreeStructureTemplate.cs" />
+    <Compile Include="TargetFrameworkConfiguration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <Content Include="Properties\licenses.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="TargetFramework.DbContext.tmpl">
+      <DependentUpon>TargetFramework.edml</DependentUpon>
+    </None>
+    <None Include="TargetFramework.Diagram1.view">
+      <DependentUpon>TargetFramework.edml</DependentUpon>
+    </None>
+    <DevartEntityDeploy Include="TargetFramework.edml">
+      <Generator>DevartEfGenerator</Generator>
+      <LastGenOutput>TargetFramework.info</LastGenOutput>
+    </DevartEntityDeploy>
+    <None Include="TargetFramework.edps">
+      <DependentUpon>TargetFramework.edml</DependentUpon>
+    </None>
+    <None Include="TargetFramework.info">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TargetFramework.edml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

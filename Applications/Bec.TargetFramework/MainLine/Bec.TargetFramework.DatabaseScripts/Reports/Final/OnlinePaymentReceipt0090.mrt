@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <CacheAllData>True</CacheAllData>
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="6">
+      <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="10">
+          <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>NotificationConstructID,System.Guid</value>
+          <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificiationSentFromParentID,System.Guid</value>
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+          <value>LoginRoute,System.String</value>
+          <value>Subject,System.String</value>
+          <value>Title,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+      <VOrganisationDetailDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>VOrganisationDetailDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="98">
+          <value>AdditionalAddressInformation,System.String</value>
+          <value>AddressCategoryID,System.Nullable`1[System.Int32]</value>
+          <value>AddressID,System.Guid</value>
+          <value>AddressNumber,System.Int32</value>
+          <value>AddressSubTypeID,System.Nullable`1[System.Int32]</value>
+          <value>AddressTypeID,System.Int32</value>
+          <value>AssistantName,System.String</value>
+          <value>AssistantPhone,System.String</value>
+          <value>BirthDate,System.Nullable`1[System.DateTime]</value>
+          <value>BuildingName,System.String</value>
+          <value>City,System.String</value>
+          <value>ContactCategoryID,System.Nullable`1[System.Int32]</value>
+          <value>ContactID,System.Guid</value>
+          <value>ContactName,System.String</value>
+          <value>ContactSubTypeID,System.Nullable`1[System.Int32]</value>
+          <value>ContactTypeID,System.Nullable`1[System.Int32]</value>
+          <value>Country,System.String</value>
+          <value>CountryCode,System.String</value>
+          <value>CountryTypeID,System.Nullable`1[System.Int32]</value>
+          <value>County,System.String</value>
+          <value>CreatedBy,System.String</value>
+          <value>CreatedOn,System.DateTime</value>
+          <value>CustomerTypeID,System.String</value>
+          <value>DefaultOrganisationID,System.Guid</value>
+          <value>DefaultOrganisationVersionNumber,System.Int32</value>
+          <value>Department,System.String</value>
+          <value>Description,System.String</value>
+          <value>DoNotEmail,System.Nullable`1[System.Boolean]</value>
+          <value>DoNotFax,System.Nullable`1[System.Boolean]</value>
+          <value>DoNotTelephone,System.Nullable`1[System.Boolean]</value>
+          <value>EducationTypeID,System.Nullable`1[System.Int32]</value>
+          <value>EmailAddress1,System.String</value>
+          <value>EmailAddress2,System.String</value>
+          <value>EmailAddress3,System.String</value>
+          <value>Fax,System.String</value>
+          <value>FirmName,System.String</value>
+          <value>FirstName,System.String</value>
+          <value>GenderTypeID,System.Nullable`1[System.Int32]</value>
+          <value>HasChildren,System.Nullable`1[System.Boolean]</value>
+          <value>IsActive,System.Boolean</value>
+          <value>IsBackOfficeCustomer,System.Nullable`1[System.Boolean]</value>
+          <value>IsBranch,System.Boolean</value>
+          <value>IsCompanyHouseRegistered,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsHeadOffice,System.Boolean</value>
+          <value>IsPaymentProvider,System.Nullable`1[System.Boolean]</value>
+          <value>IsPrimaryAddress,System.Nullable`1[System.Boolean]</value>
+          <value>IsPrimaryContact,System.Boolean</value>
+          <value>IsPrivate,System.Nullable`1[System.Boolean]</value>
+          <value>IsUserOrganisation,System.Boolean</value>
+          <value>IsVATRegistered,System.Boolean</value>
+          <value>JobTitle,System.String</value>
+          <value>LastName,System.String</value>
+          <value>Latitude,System.Nullable`1[System.Double]</value>
+          <value>Line1,System.String</value>
+          <value>Line2,System.String</value>
+          <value>Line3,System.String</value>
+          <value>Longitude,System.Nullable`1[System.Double]</value>
+          <value>ManagerName,System.String</value>
+          <value>ManagerPhone,System.String</value>
+          <value>MasterContactID,System.Nullable`1[System.Guid]</value>
+          <value>MiddleName,System.String</value>
+          <value>MobileNumber1,System.String</value>
+          <value>MobileNumber2,System.String</value>
+          <value>MobileNumber3,System.String</value>
+          <value>ModifiedBy,System.String</value>
+          <value>ModifiedOn,System.Nullable`1[System.DateTime]</value>
+          <value>MonthlyCompletionsCount,System.Nullable`1[System.Int32]</value>
+          <value>Name,System.String</value>
+          <value>NickName,System.String</value>
+          <value>Order,System.Nullable`1[System.Int32]</value>
+          <value>OrganisationCategoryID,System.Nullable`1[System.Int32]</value>
+          <value>OrganisationID,System.Guid</value>
+          <value>OrganisationSubCategoryID,System.Nullable`1[System.Int32]</value>
+          <value>OrganisationSubTypeID,System.Nullable`1[System.Int32]</value>
+          <value>OrganisationTypeID,System.Int32</value>
+          <value>OrganisationUnitID,System.Nullable`1[System.Int32]</value>
+          <value>OwnerID,System.Nullable`1[System.Guid]</value>
+          <value>ParentContactID,System.Nullable`1[System.Guid]</value>
+          <value>ParentID,System.Guid</value>
+          <value>ParentOrganisationID,System.Nullable`1[System.Guid]</value>
+          <value>PartnersCount,System.Nullable`1[System.Int32]</value>
+          <value>PostalCode,System.String</value>
+          <value>PostOfficeBox,System.String</value>
+          <value>PreferredContactMethodID,System.Nullable`1[System.Int32]</value>
+          <value>PrimaryContactName,System.String</value>
+          <value>RegisteredCompanyNumber,System.String</value>
+          <value>RegisteredPractitionersCount,System.Nullable`1[System.Int32]</value>
+          <value>Salutation,System.String</value>
+          <value>StaffCount,System.Nullable`1[System.Int32]</value>
+          <value>StateOrProvince,System.String</value>
+          <value>Telephone1,System.String</value>
+          <value>Telephone2,System.String</value>
+          <value>Telephone3,System.String</value>
+          <value>Town,System.String</value>
+          <value>UTCOffSet,System.String</value>
+          <value>VATNumber,System.String</value>
+          <value>WebSiteURL,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>acfa13ce94084d458dd0422914d19171</Guid>
+        <Name>VOrganisationDetailDTO</Name>
+      </VOrganisationDetailDTO>
+      <VUserOrganisationDTO Ref="4" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>VUserOrganisationDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="35">
+          <value>AddressID,System.Guid</value>
+          <value>BirthDate,System.Nullable`1[System.DateTime]</value>
+          <value>BuildingName,System.String</value>
+          <value>City,System.String</value>
+          <value>ContactID,System.Guid</value>
+          <value>CountryCode,System.String</value>
+          <value>County,System.String</value>
+          <value>Email,System.String</value>
+          <value>EmailAddress1,System.String</value>
+          <value>FirstName,System.String</value>
+          <value>ID,System.Guid</value>
+          <value>IsBranch,System.Boolean</value>
+          <value>IsHeadOffice,System.Boolean</value>
+          <value>IsPaymentProvider,System.Nullable`1[System.Boolean]</value>
+          <value>IsPrimaryAddress,System.Nullable`1[System.Boolean]</value>
+          <value>IsTemporaryAccount,System.Boolean</value>
+          <value>IsUserOrganisation,System.Boolean</value>
+          <value>IsVATRegistered,System.Boolean</value>
+          <value>LastName,System.String</value>
+          <value>Line1,System.String</value>
+          <value>Line2,System.String</value>
+          <value>Line3,System.String</value>
+          <value>MiddleName,System.String</value>
+          <value>Name,System.String</value>
+          <value>OrganisationBranchID,System.Nullable`1[System.Guid]</value>
+          <value>OrganisationID,System.Guid</value>
+          <value>OrganisationTypeID,System.Int32</value>
+          <value>OrganisationTypeName,System.String</value>
+          <value>PostalCode,System.String</value>
+          <value>Town,System.String</value>
+          <value>UserAccountOrganisationID,System.Guid</value>
+          <value>Username,System.String</value>
+          <value>UserTypeID,System.Guid</value>
+          <value>UserTypeName,System.String</value>
+          <value>VATNumber,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>bad1a3f983c941b9998f5bc0e1880c87</Guid>
+        <Name>VUserOrganisationDTO</Name>
+      </VUserOrganisationDTO>
+      <VInvoiceWithCurrentTransactionOrderStatusDTO Ref="5" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>VInvoiceWithCurrentTransactionOrderStatusDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="74">
+          <value>AccountingPeriodEndDay,System.Nullable`1[System.Int32]</value>
+          <value>AccountingPeriodIsClosed,System.Nullable`1[System.Boolean]</value>
+          <value>AccountingPeriodMonth,System.Nullable`1[System.Int32]</value>
+          <value>AccountingPeriodNumber,System.Nullable`1[System.Int32]</value>
+          <value>AccountingPeriodStartDay,System.Nullable`1[System.Int32]</value>
+          <value>AccountingPeriodYear,System.Nullable`1[System.Int32]</value>
+          <value>AccountPeriodIsCurrent,System.Nullable`1[System.Boolean]</value>
+          <value>AuthorizationTransactionCode,System.String</value>
+          <value>AuthorizationTransactionID,System.String</value>
+          <value>AuthorizationTransactionResult,System.String</value>
+          <value>Balance,System.Nullable`1[System.Decimal]</value>
+          <value>CaptureTransactionID,System.String</value>
+          <value>CaptureTransactionResult,System.String</value>
+          <value>CarriedBalance,System.Nullable`1[System.Decimal]</value>
+          <value>CountryCode,System.String</value>
+          <value>CreatedOn,System.DateTime</value>
+          <value>CurrencyCode,System.String</value>
+          <value>CurrencyRate,System.Decimal</value>
+          <value>CurrencyRateDate,System.DateTime</value>
+          <value>CurrencyRateToGBP,System.Nullable`1[System.Decimal]</value>
+          <value>CurrencyRateToUSD,System.Nullable`1[System.Decimal]</value>
+          <value>DeductionTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>DeductionTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>DiscountTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>DiscountTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>DueDate,System.Nullable`1[System.DateTime]</value>
+          <value>EndDate,System.DateTime</value>
+          <value>GlobalPaymentMethodID,System.Guid</value>
+          <value>InvoiceID,System.Guid</value>
+          <value>InvoiceName,System.String</value>
+          <value>InvoiceNumber,System.Nullable`1[System.Int32]</value>
+          <value>InvoiceReference,System.String</value>
+          <value>InvoiceStatus,System.String</value>
+          <value>InvoiceStatusTypeValueID,System.Nullable`1[System.Guid]</value>
+          <value>InvoiceSubTotalDiscountsExclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalDiscountsInclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalExclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalInclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceTypeID,System.Nullable`1[System.Int32]</value>
+          <value>IsActive,System.Boolean</value>
+          <value>IsClosed,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsFrozenPendingPayment,System.Boolean</value>
+          <value>LastReminder,System.Nullable`1[System.DateTime]</value>
+          <value>NumberOfPaymentAttempts,System.Int32</value>
+          <value>OrderDeductionTotal,System.Nullable`1[System.Decimal]</value>
+          <value>OrderDiscountTotal,System.Decimal</value>
+          <value>OrderSubTotalDiscountsExclTaxAndDeduct,System.Nullable`1[System.Decimal]</value>
+          <value>OrderSubTotalDiscountsInclTaxAndDeduct,System.Nullable`1[System.Decimal]</value>
+          <value>OrderSubTotalExclTaxAndDeduct,System.Decimal</value>
+          <value>OrderSubTotalInclTaxAndDeduct,System.Decimal</value>
+          <value>OrderTaxTotal,System.Decimal</value>
+          <value>OrderTotal,System.Decimal</value>
+          <value>OrganisationAccountingPeriodID,System.Int32</value>
+          <value>OrganisationID,System.Nullable`1[System.Guid]</value>
+          <value>ParentID,System.Nullable`1[System.Guid]</value>
+          <value>PaymentDate,System.Nullable`1[System.DateTime]</value>
+          <value>PaymentMethodAdditionalFeesExclTaxAndDeduct,System.Nullable`1[System.Decimal]</value>
+          <value>PaymentMethodAdditionalFeesInclTaxAndDeduct,System.Nullable`1[System.Decimal]</value>
+          <value>PaymentMethodTypeID,System.Int32</value>
+          <value>RefundedAmount,System.Nullable`1[System.Decimal]</value>
+          <value>ShoppingCartID,System.Nullable`1[System.Guid]</value>
+          <value>StartDate,System.Nullable`1[System.DateTime]</value>
+          <value>SubscriptionTransactionID,System.String</value>
+          <value>TaxTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>TaxTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>Total,System.Decimal</value>
+          <value>TransactionGatewayTypeID,System.Int32</value>
+          <value>TransactionOrderID,System.Guid</value>
+          <value>TransactionOrderReference,System.String</value>
+          <value>TransactionOrderStatus,System.String</value>
+          <value>TransactionOrderStatusTypeValueID,System.Nullable`1[System.Guid]</value>
+          <value>TransactionTypeID,System.Int32</value>
+          <value>VatNumber,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>b6efe0f91b1c46599e787e69411697c4</Guid>
+        <Name>VInvoiceWithCurrentTransactionOrderStatusDTO</Name>
+      </VInvoiceWithCurrentTransactionOrderStatusDTO>
+      <InvoiceDTO Ref="6" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>InvoiceDTO</Alias>
+        <BusinessObjects isList="true" count="1">
+          <InvoiceLineItems Ref="7" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+            <Alias>InvoiceLineItems</Alias>
+            <BusinessObjects isList="true" count="0" />
+            <Category />
+            <Columns isList="true" count="36">
+              <value>CountryCode,System.String</value>
+              <value>DateFrom,System.DateTime</value>
+              <value>DateTo,System.DateTime</value>
+              <value>DeductionTotal,System.Nullable`1[System.Decimal]</value>
+              <value>DeductionTotalPercentage,System.Nullable`1[System.Decimal]</value>
+              <value>DeductionTotalValue,System.Nullable`1[System.Decimal]</value>
+              <value>Description,System.String</value>
+              <value>DiscountTotal,System.Nullable`1[System.Decimal]</value>
+              <value>DiscountTotalPercentage,System.Nullable`1[System.Decimal]</value>
+              <value>DiscountTotalValue,System.Nullable`1[System.Decimal]</value>
+              <value>InvoiceID,System.Nullable`1[System.Guid]</value>
+              <value>InvoiceLineItemID,System.Guid</value>
+              <value>InvoiceLineItemTypeID,System.Int32</value>
+              <value>IsActive,System.Boolean</value>
+              <value>IsClosed,System.Boolean</value>
+              <value>IsCredit,System.Boolean</value>
+              <value>IsDebit,System.Boolean</value>
+              <value>IsDeleted,System.Boolean</value>
+              <value>IsDepositProduct,System.Boolean</value>
+              <value>IsFrozenPendingPayment,System.Boolean</value>
+              <value>ParentID,System.Nullable`1[System.Guid]</value>
+              <value>PlanSubscriptionPeriodID,System.Nullable`1[System.Guid]</value>
+              <value>Price,System.Decimal</value>
+              <value>PriceExclTax,System.Decimal</value>
+              <value>PriceInclTax,System.Decimal</value>
+              <value>ProductID,System.Nullable`1[System.Guid]</value>
+              <value>ProductVersionID,System.Nullable`1[System.Int32]</value>
+              <value>Quantity,System.Decimal</value>
+              <value>ShoppingCartItems,System.Object</value>
+              <value>SingleProductPrice,System.Decimal</value>
+              <value>SingleProductPriceExclTaxAndDeduct,System.Decimal</value>
+              <value>SingleProductPriceInclTaxAndDeduct,System.Nullable`1[System.Decimal]</value>
+              <value>TaxTotal,System.Nullable`1[System.Decimal]</value>
+              <value>TaxTotalPercentage,System.Nullable`1[System.Decimal]</value>
+              <value>TaxTotalValue,System.Nullable`1[System.Decimal]</value>
+              <value>TransactionOrderItems,System.Object</value>
+            </Columns>
+            <Dictionary isRef="1" />
+            <Guid>aac96805a0bb4a2aaadee5c166da9f98</Guid>
+            <Name>InvoiceLineItems</Name>
+          </InvoiceLineItems>
+        </BusinessObjects>
+        <Category>General</Category>
+        <Columns isList="true" count="49">
+          <value>Balance,System.Nullable`1[System.Decimal]</value>
+          <value>CarriedBalance,System.Nullable`1[System.Decimal]</value>
+          <value>CountryCode,System.String</value>
+          <value>CreatedOn,System.DateTime</value>
+          <value>CurrencyCode,System.String</value>
+          <value>CurrencyRate,System.Decimal</value>
+          <value>CurrencyRateDate,System.DateTime</value>
+          <value>CurrencyRateToGBP,System.Nullable`1[System.Decimal]</value>
+          <value>CurrencyRateToUSD,System.Nullable`1[System.Decimal]</value>
+          <value>DeductionTotal,System.Nullable`1[System.Decimal]</value>
+          <value>DeductionTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>DeductionTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>DiscountTotal,System.Nullable`1[System.Decimal]</value>
+          <value>DiscountTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>DiscountTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>DueDate,System.Nullable`1[System.DateTime]</value>
+          <value>EndDate,System.DateTime</value>
+          <value>GlobalPaymentMethodID,System.Nullable`1[System.Guid]</value>
+          <value>InvoiceID,System.Guid</value>
+          <value>InvoiceName,System.String</value>
+          <value>InvoiceNumber,System.Nullable`1[System.Int32]</value>
+          <value>InvoiceProcessLogs,System.Object</value>
+          <value>InvoiceReference,System.String</value>
+          <value>InvoiceSubTotalDiscountsExclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalDiscountsInclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalExclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceSubTotalInclTaxAndDeduct,System.Decimal</value>
+          <value>InvoiceTypeID,System.Nullable`1[System.Int32]</value>
+          <value>IsActive,System.Boolean</value>
+          <value>IsClosed,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsFrozenPendingPayment,System.Boolean</value>
+          <value>LastReminder,System.Nullable`1[System.DateTime]</value>
+          <value>NumberOfPaymentAttempts,System.Int32</value>
+          <value>OrganisationAccountingPeriodID,System.Nullable`1[System.Int32]</value>
+          <value>OrganisationID,System.Nullable`1[System.Guid]</value>
+          <value>ParentID,System.Nullable`1[System.Guid]</value>
+          <value>PaymentMethodAdditionalFeesExclTax,System.Decimal</value>
+          <value>PaymentMethodAdditionalFeesInclTax,System.Decimal</value>
+          <value>ShoppingCartID,System.Nullable`1[System.Guid]</value>
+          <value>StartDate,System.Nullable`1[System.DateTime]</value>
+          <value>StsSearchLRDocumentOrders,System.Object</value>
+          <value>TaxTotal,System.Nullable`1[System.Decimal]</value>
+          <value>TaxTotalPercentage,System.Nullable`1[System.Decimal]</value>
+          <value>TaxTotalValue,System.Nullable`1[System.Decimal]</value>
+          <value>Total,System.Decimal</value>
+          <value>TransactionOrders,System.Object</value>
+          <value>UserAccountOrganisationID,System.Nullable`1[System.Guid]</value>
+          <value>VatNumber,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>3f5738bc8a4149fa9af9987f207d3487</Guid>
+        <Name>InvoiceDTO</Name>
+      </InvoiceDTO>
+      <OrderRequestDTO Ref="8" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>OrderRequestDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="7">
+          <value>CardExpiryMonth,System.Int32</value>
+          <value>CardExpiryYear,System.Int32</value>
+          <value>CardNumber,System.String</value>
+          <value>CVVNumber,System.Int32</value>
+          <value>Tax,System.Decimal</value>
+          <value>TotalExclTax,System.Decimal</value>
+          <value>TotalInclTax,System.Decimal</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>f7c08f07cf704c73aa3e35f86f7da905</Guid>
+        <Name>OrderRequestDTO</Name>
+      </OrderRequestDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>General</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="9" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="15">
+        <Image1 Ref="10" type="Image" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0.8,12,3.6,1.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <ImageURL>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.ServerNotificationImageContentURLFolder}{NotificationSettingDTO.ServerLogoImageFileNameWithExtension}</ImageURL>
+          <Name>Image1</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+        </Image1>
+        <Text2 Ref="11" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0.6,10.6,8.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Hyperlink>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Click here to Login to the Safe Move Scheme</Text>
+          <TextBrush>Black</TextBrush>
+          <TextQuality>Wysiwyg</TextQuality>
+          <ToolTip>Login</ToolTip>
+          <Type>Expression</Type>
+        </Text2>
+        <Text1 Ref="12" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>10.6,3.2,5.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{VUserOrganisationDTO.Line1}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text1>
+        <Text3 Ref="13" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>7.8,3.2,2.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Line1</Text>
+          <TextBrush>Black</TextBrush>
+        </Text3>
+        <Text4 Ref="14" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>12,4.2,4.4,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{VOrganisationDetailDTO.FirmName}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text4>
+        <Text5 Ref="15" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>7.8,4.2,4.2,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>FirmName</Text>
+          <TextBrush>Black</TextBrush>
+        </Text5>
+        <Text6 Ref="16" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>10.6,5.4,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{VOrganisationDetailDTO.Line1}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text6>
+        <Text7 Ref="17" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>8.4,5.4,2.2,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text7</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>Line1</Text>
+          <TextBrush>Black</TextBrush>
+        </Text7>
+        <Text8 Ref="18" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>10.8,8.2,7.8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text8</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{VInvoiceWithCurrentTransactionOrderStatusDTO.OrderTotal}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text8>
+        <Text9 Ref="19" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>9.2,8.2,1.6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>OrderTotal</Text>
+          <TextBrush>Black</TextBrush>
+        </Text9>
+        <Text10 Ref="20" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>11,9,8,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text10</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{VInvoiceWithCurrentTransactionOrderStatusDTO.OrderTaxTotal}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text10>
+        <Text11 Ref="21" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>9,9,2,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text11</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>OrderTaxTotal</Text>
+          <TextBrush>Black</TextBrush>
+        </Text11>
+        <Text12 Ref="22" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>14.2,10,5.2,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text12</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>{OrderRequestDTO.CardNumber}</Text>
+          <TextBrush>Black</TextBrush>
+        </Text12>
+        <Text13 Ref="23" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>8.2,10,6,0.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text13</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Text>CardNumber</Text>
+          <TextBrush>Black</TextBrush>
+        </Text13>
+        <Data Ref="24" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid>aac96805a0bb4a2aaadee5c166da9f98</BusinessObjectGuid>
+          <ClientRectangle>0,0.4,19,0.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <DataInvoiceLineItems_Description Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,6.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataInvoiceLineItems_Description</Name>
+              <Page isRef="9" />
+              <Parent isRef="24" />
+              <Text>{InvoiceDTO.InvoiceLineItems.Description}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataInvoiceLineItems_Description>
+            <DataInvoiceLineItems_PriceExclTax Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>6.4,0,6.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataInvoiceLineItems_PriceExclTax</Name>
+              <Page isRef="9" />
+              <Parent isRef="24" />
+              <Text>{InvoiceDTO.InvoiceLineItems.PriceExclTax}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataInvoiceLineItems_PriceExclTax>
+            <DataInvoiceLineItems_Quantity Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>12.8,0,6.2,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>DataInvoiceLineItems_Quantity</Name>
+              <Page isRef="9" />
+              <Parent isRef="24" />
+              <Text>{InvoiceDTO.InvoiceLineItems.Quantity}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </DataInvoiceLineItems_Quantity>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>Data</Name>
+          <Page isRef="9" />
+          <Parent isRef="9" />
+          <Sort isList="true" count="0" />
+        </Data>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
+      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="28" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="29" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>10/9/2014 1:41:09 PM</ReportChanged>
+  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
+  <ReportFile>D:\BecSoftware\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\OnlineReceipt.mrt</ReportFile>
+  <ReportGuid>32c583c55985460b8e9c471fd6666b93</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2014.2.1915</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

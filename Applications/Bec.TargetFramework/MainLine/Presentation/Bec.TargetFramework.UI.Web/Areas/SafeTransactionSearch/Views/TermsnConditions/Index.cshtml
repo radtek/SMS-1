@@ -1,0 +1,152 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+@section headTag
+    {
+    <style>
+        .x-selectedtreenode {
+           color: #7FFF00 !important; 
+           font-weight: bold;
+        }
+    </style>
+   
+    <script type="text/javascript">
+        var gridId = '';
+    </script>
+
+    <script src="~/Scripts/TargetFramework/GridCRUD.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        var validateSave = function (roweditor, changes, record, rowIndex) {
+            
+        };
+
+        var beforeEdit = function (roweditor, changes, record, rowIndex) {
+
+        };
+
+        var cancelEdit = function (roweditor, changes, record, rowIndex) {
+
+        };
+       
+    </script>
+}
+
+
+@section mainBody
+{
+    @*@(
+ X.Store().ID("TnCStore").AutoLoad(true)
+  .RemoteSort(false).Model(Html.X().Model()
+                                                                              .Fields(fields =>
+                                                                              {
+                                                                                  fields.Add(new ModelField("NotificationID"));
+                                                                                  fields.Add(new ModelField("NotificationConstructName"));
+                                                                                  fields.Add(new ModelField("NotificationVerificationCode"));
+                                                                              }))
+                                                                          .Proxy(proxy => proxy.Add(Html.X()
+                                                                              .AjaxProxy()
+                                                                                 .Url(Url.Action("GetAlltermsandConditions", "TermsnConditions", new { area = "SafeTransactionSearch" }))
+                                                                              .Reader(reader => reader.Add(Html.X()
+                                                                                  .JsonReader()
+                                                                                  .Root("data")))))
+    )*@
+
+
+
+    @(Html.X().Viewport().Layout(LayoutType.Border).ID("TermsnConditionsViewPort").AutoDoLayout(true)
+              .Items(
+                  X.Panel().Region(Region.North).ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+                  X.Panel().Region(Region.West).ID("WorkflowTree").Height(750).Width(250).AutoScroll(false).ItemsFromPartial("_LeftPanel"),
+                  X.FormPanel().ID("TermsnConditionsForm").Region(Region.Center).Layout(LayoutType.Column)//.AutoScroll(true)
+                      .Padding(2)
+                      .Items(
+                              Html.X().AntiForgeryField(),
+                       X.Container().ColumnWidth(0.5).Items(
+                                     X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start })
+                                                                  .Items
+                                                                  (
+                                                                      X.Button().ApplyButtonDefaults(Razor.ApplyPreviousButtonDefaults).Flat(true)
+                                                                              .DirectEvents(de =>
+                                                                                {
+                                                                                    de.Click.Url = Url.Action("Previous", "TermsnConditions", new { area = "SafeTransactionSearch" });
+                                                                                    //de.Click.FormID = "TermsnConditionsForm";
+                                                                                    de.Click.EventMask.ShowMask = true;
+                                                                                    de.Click.Method = HttpMethod.POST;
+                                                                                    de.Click.EventMask.Msg = "Please wait ...";
+                                                                                })
+                                                                  )
+                                                          ),
+                                                          X.Container().ColumnWidth(0.5)
+                                                          .Items(
+                                                              X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End })
+                                                                  .Items
+                                                                  (
+                                                                              X.Button().ApplyButtonDefaults(Razor.ApplyNextButtonDefaults).Flat(true)
+                                                                                .DirectEvents(de =>
+                                                                                {
+                                                                                   // de.Click.Before = "return #{TermsnConditionsForm}.isValid();";
+                                                                                    de.Click.Url = Url.Action("Next", "TermsnConditions", new { area = "SafeTransactionSearch" });
+                                                                                  //  de.Click.FormID = "TermsnConditionsForm";
+                                                                                    de.Click.EventMask.ShowMask = true;
+                                                                                    de.Click.Method = HttpMethod.POST;
+                                                                                    de.Click.EventMask.Msg = "Please wait ...";
+                                                                                })
+                                                                  )
+                                                                  )
+                                                      ,
+                          X.Container().ColumnWidth(1).Items(
+                                               
+
+                                                                         //X.GridPanel().ID("TnCGrid").Border(true).Padding(20)
+                                                                         // .StoreID("TnCStore")
+                                                                         // .Plugins(X.RowEditing().ID("TnCEditing").ClicksToEdit(1).ClicksToMoveEditor(1).AutoCancel(false)
+                                                                         // .Listeners(l => l.ValidateEdit.Fn = "validateSave")
+                                                                         // .Listeners(l => l.BeforeEdit.Fn = "beforeEdit")
+                                                                         // .Listeners(l => l.CancelEdit.Fn = "cancelEdit").ErrorSummary(false)
+                                                                         // )
+                                                                         //   .ColumnModel(
+                                                                         //               X.Column().Text("ID").DataIndex("NotificationID").Hidden(true),
+                                                                         //                   X.Column().Text("Terms and Conditions").DataIndex("NotificationConstructName").MinWidth(200),
+                                                                         //                   X.CommandColumn().Text("Read").HideTitleEl(false).Commands(X.GridCommand().CommandName("CLICK TO OPEN").MinWidth(200)
+                                                                         //                                     .Icon(Icon.ApplicationGet)
+                                                                         //                                     .ToolTip(tt => tt.Text = "CLICK TO OPEN"))
+                                                                         //                                     .DirectEvents(de =>
+                                                                         //                                                           {
+                                                                         //                                                               de.Command.Method = HttpMethod.GET;
+                                                                         //                                                               de.Command.Url = Url.Action("OpenTNC", "TermsnConditions", new { area = "SafeTransactionSearch" });
+                                                                         //                                                               de.Command.ExtraParams.Add(new Parameter("id", "record.data.NotificationID", ParameterMode.Raw));
+                                                                         //                                                           }),
+                                                                         //               X.Column().Text("Enter Code").MinWidth(200).Editor(X.TextField().ID("InputVerificationCode").AllowBlank(false))
+                                                                         //  )
+                                    )
+
+                      )
+         )
+    )
+
+@*@(
+ X.Window()
+        .ID("TnCWindow")
+        .Title("Terms & Conditions")
+        .AutoRender(true)
+        .Hidden(true)
+        .CloseAction(CloseAction.Hide)
+        .Width(800)
+        .Height(800)
+        .BodyPadding(5)
+        .Modal(true)
+        .Items(Html.X().Container().Content(a => Html.Partial("ReportViewer")))
+)*@
+
+}

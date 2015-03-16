@@ -1,0 +1,45 @@
+﻿@using System.Web.UI.WebControls
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/Content/kendo")
+@Styles.Render("~/Content/font-awesome")
+
+<div class="container">
+    <div id="logout-wraper">
+        <form class="form sessionexpired-form">
+            <fieldset>
+                <legend>You have been logged out</legend>
+
+                <div class="body">
+                    <div class="form-group">
+                        <div class="row">
+                            Your account has been logged out due to inactivity.
+                        </div>
+                        <div class="row">
+                            <span>
+                                To continue using this account, you will need to login again.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div>
+            <a class="btn btn-success" href="@Url.Action("Index", "Login", new { area = "UserAccount" }, String.Empty)">Login</a>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/knockout")
+@Scripts.Render("~/bundles/site")
+@Scripts.Render("~/bundles/require")
+
+<script type="text/javascript">
+    history.pushState(null, null, '/UserAccount/SessionExpired/Index');
+    window.addEventListener('popstate', function(event) {
+        history.pushState(null, null, '/UserAccount/SessionExpired/Index');
+    });
+</script>

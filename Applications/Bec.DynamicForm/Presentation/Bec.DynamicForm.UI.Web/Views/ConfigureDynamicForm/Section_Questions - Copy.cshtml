@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Bec.DynamicForm.Entities.DTO.FormSectionDTO>
+
+@{
+    ViewBag.Title = "Dynamic Form Questions";
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    
+}
+
+@section headtag
+{
+    <style>
+        .tree {
+            float: left;
+            margin: 20px;
+            border: 1px solid #c3daf9;
+        }
+    </style>
+
+<script>
+
+    
+</script>
+
+
+
+}
+@section body
+{
+@helper TreeView(IEnumerable<Bec.DynamicForm.Entities.DTO.FormSectionDTO> categoryTree)
+{
+    foreach (var item in categoryTree)
+    {
+        <li>
+            @if (item.HasChild)
+            {
+                <span>@item.SectionName</span>
+                <a href="@Url.Action("Section_Summary", "ConfigureDynamicForm", new { FormSectionId = item.FormSectionId })" class="btn">Add Sub Section</a>
+                <a href="@Url.Action("Section_Summary", "ConfigureDynamicForm", new { FormSectionId = item.FormSectionId })" class="btn">Add Question</a>
+                <ul>
+                    @TreeView(item.Children)
+                </ul>
+                
+            }
+            else
+            {
+                <span class="leaf @item.SectionName.ToString()" id="@item.FormSectionId">@item.SectionName</span>
+                <a href="@Url.Action("Section_Summary", "ConfigureDynamicForm", new { FormSectionId = item.FormSectionId })" class="btn">Add Sub Section</a>
+                <a href="@Url.Action("Section_Summary", "ConfigureDynamicForm", new { FormSectionId = item.FormSectionId })" class="btn">Add Question</a>
+            }
+        </li>
+    }
+}
+
+<ul id="categorytree">
+    <li>
+        
+    @TreeView(Model)
+        
+</li>
+</ul>
+}
+
+
+
+   
+

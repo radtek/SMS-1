@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="4b702f34-ee82-48d1-a56c-fa707294e4fb" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>TF Main</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="zxx5a11b03c3e63e8adb2ea7d02ce188352" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="url" value="http://bec-dtfs-01:8080/tfs/DefaultCollection/_git/BecSoftware" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="chrism@bec.local" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+

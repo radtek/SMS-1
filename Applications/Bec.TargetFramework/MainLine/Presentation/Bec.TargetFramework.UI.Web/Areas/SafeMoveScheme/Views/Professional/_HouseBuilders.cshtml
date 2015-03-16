@@ -1,0 +1,25 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+@( X.Container().Layout(LayoutType.Column)
+.Items(
+
+        X.Container().Padding(5).ColumnWidth(0.6)
+        .Items(
+                         X.Container().Html("<p>The Safe Move Scheme helps house builders:</p></br>"),
+                             X.Container().Html("<ul><li><p>Speed up their sales pipeline</p></li><li><p>Attract more buyers</p></li><li><p>Sell part exchange properties quickly</p></li><li><p>Increase their sales conversions</p></li></ul>")
+        ),
+             X.Container().Padding(5).ColumnWidth(0.4)
+        .Items(
+                        X.Container().Padding(20).Items(X.Image().ImageUrl(@Url.Content("~/Content/resources/images/sms/house-builders-professional-img.jpg"))),
+                    X.Container().Padding(20).Cls("testimonial").Padding(15)
+                             .Items(
+                                         X.Container().Html("<p>“We are proud that our clients have expressed such pleasure in the service they have received, as we have been working with the Safe Move Scheme for some time to achieve results such as this.”</p></br>"),
+                                         X.Container().Html("<h4>Tracey Carr, Financial Crime Manager<p>- Santander</p></h4>"),
+                                             X.Container().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End }).Items(X.Image().Width(80).Height(30).ImageUrl(@Url.Content("~/Content/resources/images/sms/santander-logo.jpg")))
+                              )
+             )
+        )
+)

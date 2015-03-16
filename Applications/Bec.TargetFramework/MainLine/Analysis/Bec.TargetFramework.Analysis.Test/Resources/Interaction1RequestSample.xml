@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Search MortgageApplicationNumber="45345345352" Domain="PARA" Lender="Paragon">
+  <Parties>
+    <Party>
+      <Detail>
+        <Name>
+          <FirstName>Ken</FirstName>
+          <LastName>Barlow</LastName>
+        </Name>
+        <DateOfBirth>1976-12-13</DateOfBirth>
+        <Address>
+          <BuildingName>12</BuildingName>
+          <Line1>Strange Street</Line1>
+          <Line2/>
+          <TownCity>Sidcup</TownCity>
+          <PostCode>DA157TG</PostCode>
+          <County>Kent</County>
+          <CountryCode>GBR</CountryCode>
+          <AdditionalInformation>Main address</AdditionalInformation>
+          <IsAnInternationalAddress>false</IsAnInternationalAddress>
+        </Address>
+        <PartyType>BUY</PartyType>
+        <PartyCode>BUY-001</PartyCode>
+        <EmailAddress>k.barlow@msn.com</EmailAddress>
+        <TelephoneNumbers>
+          <TelephoneNumber>02078889999</TelephoneNumber>
+          <TelephoneNumber>07808654539</TelephoneNumber>
+        </TelephoneNumbers>
+      </Detail>
+    </Party>
+    <Party>
+      <Detail>
+        <Name>
+          <FirstName>Dudley</FirstName>
+          <MiddleName>Scott</MiddleName>
+          <LastName>Moore</LastName>
+        </Name>
+        <DateOfBirth>1974-02-14</DateOfBirth>
+        <PartyType>MBU</PartyType>
+        <PartyCode>MBU-001</PartyCode>
+        <EmailAddress>d.s.moore@gmail.com</EmailAddress>
+        <TelephoneNumbers>
+          <TelephoneNumber>08458269612</TelephoneNumber>
+        </TelephoneNumbers>
+      </Detail>
+      <Organisation>
+        <Name>Dudley Brokers</Name>
+        <Address>
+          <BuildingName>1234</BuildingName>
+          <Line1>Kings Way</Line1>
+          <Line2></Line2>
+          <TownCity>Westminster</TownCity>
+          <PostCode>W16TH</PostCode>
+          <County>London</County>
+          <CountryCode>GBR</CountryCode>
+          <AdditionalInformation></AdditionalInformation>
+          <IsAnInternationalAddress>false</IsAnInternationalAddress>
+        </Address>
+      </Organisation>
+    </Party>
+    <Party>
+      <Detail>
+        <Name>
+          <FirstName>Sylvia</FirstName>
+          <LastName>Jupiter</LastName>
+        </Name>
+        <DateOfBirth>1955-02-14</DateOfBirth>
+        <PartyType>BCU</PartyType>
+        <PartyCode>BCU-001</PartyCode>
+        <EmailAddress>sJupiter@dtConveyancers.com</EmailAddress>
+        <TelephoneNumbers>
+          <TelephoneNumber>08003524569</TelephoneNumber>
+        </TelephoneNumbers>
+      </Detail>
+      <Organisation>
+        <Name>DT Conveyancers</Name>
+        <Address>
+          <BuildingName>786</BuildingName>
+          <Line1>Mount Drive</Line1>
+          <Line2></Line2>
+          <TownCity>Kingsway</TownCity>
+          <PostCode>EC15HH</PostCode>
+          <County>London</County>
+          <CountryCode>GBR</CountryCode>
+          <AdditionalInformation></AdditionalInformation>
+          <IsAnInternationalAddress>false</IsAnInternationalAddress>
+        </Address>
+      </Organisation>
+    </Party>
+  </Parties>
+  <Transaction>
+    <Address>
+      <BuildingName>2</BuildingName>
+      <Line1>Main Road</Line1>
+      <Line2></Line2>
+      <TownCity>London</TownCity>
+      <PostCode>SW116TN</PostCode>
+      <County>London</County>
+      <CountryCode>GBR</CountryCode>
+      <AdditionalInformation></AdditionalInformation>
+      <IsAnInternationalAddress>false</IsAnInternationalAddress>
+    </Address>
+    <Price>
+      <MortgageOfferPrice>350000</MortgageOfferPrice>
+      <DepositPrice>65000</DepositPrice>
+      <PurchasePrice>415000</PurchasePrice>
+      <EstimatedPrice>415000</EstimatedPrice>
+      <ApprovedOfferPrice>350000</ApprovedOfferPrice>
+      <MortgageApplicationPurchasePrice>415000</MortgageApplicationPurchasePrice>
+      <MortgageOfferPurchasePrice>0</MortgageOfferPurchasePrice>
+    </Price>
+  </Transaction>
+</Search>

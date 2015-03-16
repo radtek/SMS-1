@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Order";
+}
+
+
+<!-- Order Content -->
+<div id="order-content-wrapper" class="page-content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Simple Order</h1>
+                <p>This template is a Order</p>
+                <a href="#" class="btn btn-default menu-toggle-partial">Toggle Menu</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Order Content -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        require(['HomeVM/Order/OrderPageVM'], function (OrderPageVM) {
+
+            var vm = new OrderPageVM();
+            ko.applyBindings(vm, document.getElementById("order-content-wrapper"));
+        })
+    });
+</script>

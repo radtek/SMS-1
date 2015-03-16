@@ -1,0 +1,97 @@
+﻿
+@using Ext.Net.MVC
+@using Ext.Net
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.vAttachmentDTO
+
+@section headtag
+{
+    <script>
+        Ext.override(Ext.form.ComboBox, {
+            validate: function (value) {
+                return true;
+            }
+        });
+
+        Ext.define(null, {
+            override: 'Ext.data.Store', constructor: function () {
+                this.callParent(arguments);
+                if (this.autoLoad) {
+                    this.loading = true;
+                }
+            }
+        });
+
+        Ext.apply(Ext.form.VTypes, {
+            fileUpload: function (val, field) {
+                val = val.replace(/^\s|\s$/g, "");
+                if (val.match(/([^\/\\]+)\.(gif|png|jpg|jpeg)$/i))
+                    return true;
+                else
+                    return false;
+            },
+            fileUploadText: 'Image must be in .gif,.png,.bmp,.jpg,.jpeg format'
+        });
+
+    </script>
+}
+@{
+    ViewBag.Title = "Add Organisation Logo";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+@section mainBody
+{
+
+    @(Html.X()
+          .FormPanel()
+          .ID("AddOrganisationLogoForm")
+          .BodyPadding(5)
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+
+          .Items(
+          Html.X().AntiForgeryField(),
+          Html.X().MultiSelect().ID("FormErrors").Hidden(true),
+            Html.X()
+            .HiddenFor(model => Model.OrganisationID),
+                              Html.X().TextFieldFor(model => Model.Subject)
+                              .AllowBlank(false)
+                              .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                  .Control(c =>
+                                {
+                                    c.IsRemoteValidation = true;
+                                    c.RemoteValidation.Url = Url.Action("DoesOrganisationLogoNameExist", "OrganisationLogo", new { area = "Component" });
+                                    c.RemoteValidation.ValidationEvent = "change, blur";
+                                    c.RemoteValidation.Method = Ext.Net.HttpMethod.POST;
+                                    c.RemoteValidation.ShowBusy = false;
+                                    c.RemoteValidation.ErrorMessage = "The organisation logo name already exists";
+                                }),
+                              Html.X().FileUploadField()
+                              .ID("LogoFile")
+                              .Vtype("fileUpload")
+                              .AllowBlank(false)
+                              .EmptyText("Select logo")
+                              .FieldLabel("Logo")
+                              .Icon(Icon.ImageAdd)
+          )
+          .DefaultAnchor("100%")
+
+          .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Url = Url.Action("AddOrganisationLogo", "OrganisationLogo", new { area = "Component", id = Model.OrganisationID });
+                                   de.Click.FormID = "AddOrganisationLogoForm";
+                                   de.Click.Success = "#{AddOrganisationLogoForm}.getForm().reset();";
+                               }),
+
+                                    Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("#{AddOrganisationLogoForm}.getForm().reset();"),
+                                    Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{AddOrganisationLogoForm}.getForm().reset();Ext.net.Bus.publish('AddOrganisationLogo','');")
+                            ))
+
+    )
+
+}

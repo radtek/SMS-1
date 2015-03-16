@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:bwcommon="http://experianpayments.com/bankwizard/common/xsd/2009/09" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://experianpayments.com/bankwizard/common/xsd/2009/09" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+       Common or international types that can be shared by other schemas.
+
+       @Author : Amarjit Basra
+       @Date   : 30 September 2009
+       @Version: Major 1 Minor 0
+
+       Copyright (c) Experian 1997-2013. All Rights Reserved.
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:simpleType name="IBAN">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        ISO 13616:2003 International Bank Account Number representation.
+        It consists of
+        1. ISO 3166-1 2-alpha country code
+        2. two check digits
+        3. Up to 36 alphanumeric representing the domestic bank account number. This allows for printed and electronic formats.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9 ]{1,36}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ISO3166-1">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        ISO 3166-1 2-alpha code.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{2,2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ItemisationID">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        4 digit itemisation number, to be used for itemised billing.
+        The availability of this functionality and value(s) supported
+        will be advised by Experian Payments.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{4,4}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ReportString">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+         Report string (up to 30 character) used for reporting.
+         The availability of this functionality will be advised by Experian Payments.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9 ]{1,30}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Conditions">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        Conditions element made up of conditions.
+        The <code xmlns="http://www.w3.org/2001/XMLSchema">severity</code> and <code xmlns="http://www.w3.org/2001/XMLSchema">code</code> within a condition will be unique.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="unbounded" name="condition" type="bwcommon:Condition">
+        <xsd:unique name="uniqueConditions">
+          <xsd:selector xpath="condition" />
+          <xsd:field xpath="@severity" />
+          <xsd:field xpath="@code" />
+        </xsd:unique>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Condition">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        Condition element which contains a human readable description of the condition with
+        the following attributes:
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">severity</code>: the severity of the condition.
+          * <code xmlns="http://www.w3.org/2001/XMLSchema">code</code>: intended for use by software to provide an algorithmic mechanism to identify the condition.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="severity" type="bwcommon:ConditionSeverity" use="required" />
+        <xsd:attribute name="code" type="xsd:integer" use="required" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="ConditionSeverity">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        Severity enumeration.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="error" />
+      <xsd:enumeration value="warning" />
+      <xsd:enumeration value="information" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

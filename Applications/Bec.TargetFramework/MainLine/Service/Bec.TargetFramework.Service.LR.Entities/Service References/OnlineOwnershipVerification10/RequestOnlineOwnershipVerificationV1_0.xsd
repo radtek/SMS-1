@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.landregistry.gov.uk/OOV/RequestOnlineOwnershipVerificationV1_0" elementFormDefault="qualified" targetNamespace="http://www.landregistry.gov.uk/OOV/RequestOnlineOwnershipVerificationV1_0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="RequestOOV" type="RequestOnlineOwnershipVerificationType" />
+  <xs:complexType name="RequestOnlineOwnershipVerificationType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="MessageId" type="MessageIdTextContentType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Reference" type="ReferenceTextContentType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="SubjectProperty" type="SubjectPropertyType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FirstForename" type="FirstForenameContentType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MiddleName" type="NameContentType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Surname" type="NameContentType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Indicators" type="IndicatorsType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="FirstForenameContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:pattern value="[a-zA-Z0-9\-']+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="NameContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:pattern value="[a-zA-Z0-9\-\s']+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SubjectPropertyType">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="TitleNumber">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="9" />
+            <xs:minLength value="1" />
+            <xs:pattern value="[a-yA-Y]{0,3}\d{1,6}|Z\d{1,6}Z" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:sequence>
+        <xs:element name="PropertyAddress" type="PropertyAddressType" />
+      </xs:sequence>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="TitleNumbersType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="20" name="TitleNumber" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertyAddressType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="BuildingName" type="BuildingNameTextContentType">
+        <xs:annotation>
+          <xs:documentation>The name of the building or house on a street
+						of this
+						address</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="BuildingNumber" type="BuildingNumberTextContentType">
+        <xs:annotation>
+          <xs:documentation>The number of a building or house on a street
+						of this
+						address. Where the building or house occupies a range of
+						numbers on
+						the street, e.g. '1-9 Main St', this will be the lower
+						number of
+						the range.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="StreetName" type="StreetNameTextContentType">
+        <xs:annotation>
+          <xs:documentation>Name of a street or thoroughfare
+					</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="CityName" type="CityTextContentType">
+        <xs:annotation>
+          <xs:documentation>The name of the city, town or village of this
+						address.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="PostcodeZone" type="PostcodeTextContentType">
+        <xs:annotation>
+          <xs:documentation>The identifier for one or more properties
+						according
+						to the UK postal service; a group of letters and numbers
+						added to
+						the postal address to assist in the sorting of mail, as
+						defined by
+						the Royal Mail.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="SpecificTenure" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="PostcodeTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="8" />
+      <xs:pattern value="[a-zA-Z]{1,2}[0-9R][0-9A-Za-z]? [0-9][A-Za-z-[CIKMOVcikmov]]{2}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CityTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="35" />
+      <xs:pattern value=".*\S.*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StreetNameTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="80" />
+      <xs:pattern value=".*\S.*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BuildingNameTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="50" />
+      <xs:pattern value=".*\S.*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="BuildingNumberTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="5" />
+      <xs:pattern value=".*\S.*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ReferenceTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="25" />
+      <xs:pattern value="[A-Za-z0-9\s~!&quot;@#$%'\(\)\*\+,\-\./:;=&gt;\?\[\\\]_\{\}\^£&amp;]*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MessageIdTextContentType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="5" />
+      <xs:maxLength value="50" />
+      <xs:pattern value="[a-zA-Z0-9][a-zA-Z0-9\-]*" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="MiddleNameType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="MiddleName" type="NameContentType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IndicatorsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Indicator" type="IndicatorType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IndicatorType">
+    <xs:sequence>
+      <xs:annotation>
+        <xs:documentation>
+				The indicators are generic so that new options can be added in the future without schema changes.
+				Expected indicators are:
+				ContinueIfOutOfHours
+				SkipPartialMatching
+				SkipHistoricalMatching
+				</xs:documentation>
+      </xs:annotation>
+      <xs:element minOccurs="1" maxOccurs="1" name="IndicatorType">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="IndicatorValue" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

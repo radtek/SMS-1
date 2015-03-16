@@ -1,0 +1,39 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    ViewBag.Title = "Safe Move Scheme";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+    var X = Html.X();
+}
+
+@section headTag
+{
+  <style>
+
+      .testimonial {
+          background-color: #f4f4f4;
+      }
+          .testimonial img {
+              background: transparent !important;
+          }
+
+      .Active{
+         color:lightgreen !important;
+      }
+
+    </style>
+
+}
+
+@section mainBody
+{
+    @(X.Viewport().ID("SMSProfessionalHomeViewPort").OverflowX(Overflow.Auto).OverflowY(Overflow.Auto)
+           .Layout(LayoutType.VBox).LayoutConfig(new VBoxLayoutConfig { Align = VBoxAlign.Center, Pack = BoxPack.Start }).Border(true)
+                           .Items(X.Container().Layout(LayoutType.Anchor).Width(1000)
+                             .ItemsFromPage(this, "~/Areas/SafeMoveScheme/Views/Shared/_SMSLogoBar.cshtml")
+                             .ItemsFromPage(this, "~/Areas/SafeMoveScheme/Views/Professional/_headerProfessional.cshtml")
+                             .ItemsFromSection(this, "professionalBody")
+                             .ItemsFromPage(this, "~/Areas/SafeMoveScheme/Views/Shared/_Footer.cshtml")
+              )
+    )
+}

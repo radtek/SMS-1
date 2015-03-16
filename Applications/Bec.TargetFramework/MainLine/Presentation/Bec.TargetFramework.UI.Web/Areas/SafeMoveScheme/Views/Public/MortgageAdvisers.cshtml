@@ -1,0 +1,63 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Areas/SafeMoveScheme/Views/Public/_PublicLayout.cshtml";
+}
+
+@section publicBody
+  {
+
+
+@(
+
+ Html.X().Container()
+                    .Items(
+
+                    Html.X().Container()
+                             .Cls("text-bg content")
+                             .MarginSpec("30 10 10 0")
+                             .Items(
+
+                   Html.X().Image()
+                    .Frame(false)
+
+
+                                        .ImageUrl((@Url.Content("~/Content/resources/images/sms/mortgage-advisers-img.jpg"))),
+
+                                        Html.X().Container()
+                                                    .Html("<p>Super hero powers to get the best mortgages for Safe Move Scheme buyers</p>")
+
+                                        ),
+
+
+
+
+
+                      Html.X().Container()
+                               .Layout(LayoutType.Column)
+                                                 .Items
+                                                 (
+
+                                Html.X().Container()
+                                                                    .ColumnWidth(0.20)
+                                                                    .ItemsFromPartial("TrustedProfessionalLinks"),
+                            Html.X().Container()
+                                    .ColumnWidth(0.55)
+                                    .MarginSpec("3 5 10 0")
+
+                                                    .Html("<p>Safe Move Mortgage Advisers have access to faster and more reliable mortgages</p>"),
+
+                            Html.X().Container()
+                                    .ColumnWidth(0.25)
+                                    .Cls("testimonial")
+                                                    .Html("<p>“The moving process took less than half the time of my last move and I received only 3 letters via post!”</p><p><b>Mr Farley</b></p>")
+
+                            )
+
+
+)
+)
+}

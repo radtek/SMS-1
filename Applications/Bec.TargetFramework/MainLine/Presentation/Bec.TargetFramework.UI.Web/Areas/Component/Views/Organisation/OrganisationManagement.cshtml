@@ -1,0 +1,161 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.vOrganisationDTO
+<script>
+    var PrepareToolbarIsActive = function (grid, toolbar, rowIndex, record) {
+        if (record.data.IsActive == true) {
+            toolbar.items.getAt(0).show();
+            toolbar.items.getAt(1).hide();
+        }
+        else {
+            toolbar.items.getAt(1).show();
+            toolbar.items.getAt(0).hide();
+        }
+    };
+
+    var clearSearchResults = function () {
+        App.txtSearchQuery.clear();
+    };
+
+</script>
+@(Html.X().GridPanel()
+          .ID("OrganisationGrid")
+          .Title("Organisations")
+             .Flex(1)
+              .Store(Html.X()
+                         .StoreFor<Bec.TargetFramework.Entities.vOrganisationDTO>()
+                         .RemoteFilter(true)
+                         .RemoteSort(true)
+                              .Parameters(p =>
+                                    {
+                                        p.Add(new StoreParameter("SearchQuery", "App.txtSearchQuery.getValue()", ParameterMode.Raw));
+                                    })
+                         .PageSize(20)
+                         .SorterFor(Model, m => m.Name, Ext.Net.SortDirection.ASC)
+                                    .Proxy(Html.X()
+                                    .AjaxProxy()
+                                    .Url(Url.Action("GetOrganisations", "Organisation", new { area = "Component" }))
+                                    .FilterParam("query")
+                                    .Reader(
+                                         Html.X().JsonReader().Root("data"))
+                                    .CustomConfig(config =>
+                                    {
+                                        config.Add(new { encodeFilters = JRawValue.From("function (filters) { return filters[0].value; }") });
+                                    })))
+              .ColumnModel(
+                    Html.X()
+                    .ColumnFor(model => model.Name)
+                        .ToBuilder<Column.Builder>()
+                        .Text("Name")
+                        .Width(150),
+                    Html.X().ColumnFor(model => model.Description)
+                        .ToBuilder<Column.Builder>()
+                        .Text("Description")
+                        .Width(300),
+
+                   Html.X()
+                       .CommandColumn()
+                       .ID("OrgEdit")
+                       .Text("Edit")
+                       .Commands(
+                            Html.X()
+                                .GridCommand()
+                                .CommandName("Edit")
+                                .Icon(Icon.ApplicationEdit)
+                                .ToolTip(tt => tt.Text = "Edit")
+                               ).DirectEvents(de =>
+                               {
+                                   de.Command.Method = HttpMethod.GET;
+                                   de.Command.Url = Url.Action("Edit", "OrganisationEdit", new { area = "Component" });
+                                   de.Command.ExtraParams.Add(new Parameter("id", "record.data.OrganisationID", ParameterMode.Raw));
+                                   de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                               }
+                           ),
+                               Html.X()
+                               .CommandColumn().Hidden(true)
+                               .Commands(
+                                    Html.X()
+                                        .GridCommand()
+                                        .CommandName("Delete")
+                                        .Hidden(true)                                        
+                                        .Icon(Icon.ApplicationDelete)
+                                        .ToolTip(tt => tt.Text = "Delete")
+                                       ).DirectEvents(de =>
+                                       {
+                                           de.Command.Method = HttpMethod.GET;
+                                           de.Command.Url = Url.Action("Delete", "Organisation", new { area = "Component" });
+                                           de.Command.Confirmation.ConfirmRequest = true;
+                                           de.Command.Confirmation.Message = "Are you sure you want to delete this organisation?";
+                                           de.Command.ExtraParams.Add(new Parameter("id", "record.data.OrganisationID", ParameterMode.Raw));
+                                           de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                                           de.Command.Success = "App.OrganisationGrid.getStore().load();";
+                                       }
+                               ),
+                              Html.X()
+                                  .CommandColumn().DataIndex("IsActive")
+                                  .ID("IsActive")
+                                  .PrepareToolbar(pt => pt.Fn = "PrepareToolbarIsActive")
+                                  .Text("Active/Inactive")
+                                  .Width(125)
+                                  .Commands(
+                                      Html.X()
+                                          .GridCommand()
+                                          .Icon(Icon.FlagGreen)
+                                          .Hidden(true)
+                                          .CommandName("Active")
+                                              .ToolTip(tt => tt.Text = "Organisation is active. Click to deactivate"),
+                                              Html.X()
+                                              .GridCommand()
+                                                  .Hidden(true)
+                                              .Icon(Icon.FlagRed)
+                                              .CommandName("InActive")
+                                              .ToolTip(tt => tt.Text = "Organisation is not active. Click to activate")
+                                  ).DirectEvents(de =>
+                                  {
+                                      de.Command.Method = HttpMethod.GET;
+                                      de.Command.Url = Url.Action("ActivateOrDeactivate", "Organisation", new { area = "Component" });
+                                      de.Command.Confirmation.ConfirmRequest = true;
+                                      de.Command.Confirmation.Message = "Are you sure you want to change this setting?";
+                                      de.Command.ExtraParams.Add(new Parameter("id", "record.data.OrganisationID", ParameterMode.Raw));
+                                      de.Command.Success = "App.OrganisationGrid.getStore().load();";
+                                  }).Flex(1))
+                           .BottomBar(
+                   Html.X()
+                       .PagingToolbar()
+                       .DisplayInfo(true)
+                       .DisplayMsg("Displaying Organisations {0} - {1} of {2}")
+                       .EmptyMsg("No operations to display"))
+
+              .View(Html.X().GridView().TrackOver(false))
+              .SelectionModel(Html.X().RowSelectionModel().PruneRemoved(false).Mode(SelectionMode.Single))
+                  .DockedItems(Html.X()
+                                   .Toolbar()
+                                   .Dock(Dock.Top)
+                                   .Items(
+                                            Html.X()
+                                                .Button()
+                                                .ID("New")
+                                                .Text("Add Organisation")
+                                                .Icon(Icon.ApplicationAdd)
+                                                    .DirectEvents(de => de.Click.Url = Url.Action("AddOrganisationWizardToContainer", "Organisation", new { area = "Component", containerId = "AdministrationCenterPanel" }))
+                                              ,
+                    Html.X()
+                    .TextField()
+                    .Width(500)
+                    .ID("txtSearchQuery")
+                    .LabelWidth(50)
+                    .Plugins(Html.X().ClearButton()),
+
+                     Html.X().Button()
+                    .Text("Search").Icon(Icon.Find)
+                    .Listeners(l =>
+                    l.Click.Handler = "App.OrganisationGrid.getStore().load();"),
+                    
+                     Html.X().Button()
+                    .Text("Reset Search").Icon(Icon.ArrowRefresh)
+                    .Listeners(l =>
+                        l.Click.Handler = "clearSearchResults(); App.OrganisationGrid.getStore().load();")
+                , Html.X().ToolbarFill()))
+)
+

@@ -1,0 +1,189 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.FirmDetailsUserDTO
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+
+
+@section headTag
+{
+    <style>
+        .x-tree-icon {
+            display: none;
+        }
+
+        .x-tree-selected {
+            text-decoration: line-through;
+            color: greenyellow;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function populateHelp(editor, e, eOpts) {
+            var cntrl = Ext.getCmp('HelpLabel');
+
+            if (editor.tag != null)
+                cntrl.setText(editor.tag);
+        }
+
+        var HighlightCurrentNode = function () {
+
+            "c3d168f0-2213-11e4-882b-0bc2f0f0e29e"
+
+        };
+
+    </script>
+
+}
+
+@section mainBody
+{
+    @(Html.X().Viewport().ID("FirmUserViewPort").OverflowX(Overflow.Auto).OverflowY(Overflow.Auto)
+          .Items(
+              Html.X().Panel().ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+              Html.X().Container().Layout(LayoutType.Column)
+                  .Padding(2)
+                  .Items
+                  (
+                      X.Panel().Region(Region.West).ID("WorkflowTree").Height(750).Width(250).AutoScroll(false).ItemsFromPartial("_LeftPanel"),   
+                      X.FormPanel().ID("FirmDetailUserForm").ColumnWidth(1).ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                          .Items
+                          (
+                              X.Panel().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                              X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start })
+                                                  .Items
+                                                  (
+                                                      X.Button().ApplyButtonDefaults(Razor.ApplyPreviousButtonDefaults)
+                                                              .DirectEvents(de =>
+                                                                  {
+                                                                      de.Click.Before = "return #{FirmDetailUserForm}.isValid();";
+                                                                      de.Click.Url = Url.Action("Previous", "FirmDetailUser", new { area = "SafeTransactionSearch" });
+                                                                      de.Click.FormID = "FirmDetailUserForm";
+                                                                      de.Click.EventMask.ShowMask = true;
+                                                                      de.Click.Method = HttpMethod.POST;
+                                                                      de.Click.EventMask.Msg = "Please wait ...";
+                                                                  })
+                                                  )
+                                          ),
+                                          
+                                          
+                                              X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                              X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End })
+                                                  .Items
+                                                  (
+                                                      X.Button().ApplyButtonDefaults(Razor.ApplyNextButtonDefaults)
+                                                          .DirectEvents(de =>
+                                                          {
+                                                              de.Click.Before = "return #{FirmDetailUserForm}.isValid();";
+                                                              de.Click.Url = Url.Action("Next", "FirmDetailUser", new { area = "SafeTransactionSearch" });
+                                                              de.Click.FormID = "FirmDetailUserForm";
+                                                              de.Click.EventMask.ShowMask = true;
+                                                              de.Click.Method = HttpMethod.POST;
+                                                              de.Click.EventMask.Msg = "Please wait ...";
+                                                          })
+                                                  )
+                                          )
+                                  ),
+                              X.Panel().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items(
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                                    X.Panel().ApplyPanelDefaults("COLPDetails").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                          .Items
+                                                          (
+                                                             X.Container().ColumnWidth(0.5).Padding(2)
+                                                                  .Items
+                                                                  (
+                                                                     X.ComboBoxFor(model => model.COTitle).ID("TitleType").ApplyFieldDefaults("RegisterCODetails", "Title").MinWidth(60).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                          .FieldLabel("Title").Store(Razor.CreateClassificationStore("SalutationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))).Flex(1),
+                                                                     X.TextFieldFor(model => model.COFirstName).ApplyFieldDefaults("COLPDetails", "FirstName").MinWidth(190).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                     X.TextFieldFor(model => model.COLastName).ApplyFieldDefaults("COLPDetails", "LastName").MinWidth(125).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+
+                                                                  ),
+                                                                 X.Container().ColumnWidth(0.5).Padding(2)
+                                                                  .Items
+                                                                  (
+                                                                   X.TextFieldFor(model => model.COEmail).ApplyFieldDefaults("COLPDetails", "Email").MinWidth(190).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                   X.ComboBoxFor(model => model.CORegulator).ID("CORegulator").ApplyFieldDefaults("RegisterCODetails", "Regulator").MinWidth(60).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                            .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" }))).Flex(1),
+                                                                  X.TextFieldFor(model => model.CORegulatorNumber).ApplyFieldDefaults("COLPDetails", "RegulatorNumber").MinWidth(125).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                )
+                                                          ),
+                                                          
+
+                                                   X.Panel().ApplyPanelDefaults("UserFirmContact").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                  .Items
+                                                  (
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                                      X.TextFieldFor(model => model.FirmName).ApplyFieldDefaults("UserFirmContact", "FirmName").MinWidth(200).Flex(1)
+                                                                     .Listeners(l => l.Focus.Fn = "populateHelp"),
+
+                                                                  X.TextFieldFor(model => model.Website).ApplyFieldDefaults("UserFirmContact", "Website")
+                                                          ),
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.TextFieldFor(model => model.TradingName).ApplyFieldDefaults("UserFirmContact", "TradingName").MinWidth(200).ReadOnly(true).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                           )
+                                                  ),
+                                                  
+                                              X.Panel().ApplyPanelDefaults("FirmRegulator").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                  .Items
+                                                  (
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                                X.ComboBoxFor(model => model.Regulator).ID("Regulator").ApplyFieldDefaults("UserFirmRegulator", "Regulator").Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                  .FieldLabel("Who is your regulator").Editable(false)
+                                                                  .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" })))
+                                                          ),
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                          )
+                                                  ),
+                                                    
+                                                      X.Panel().ApplyPanelDefaults("Branch").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                  .Items
+                                                  (
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                                X.TextFieldFor(model => model.BranchName).ApplyFieldDefaults("Branch", "BranchName").MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                        X.TextFieldFor(model => model.OfficePhoneNumber).ApplyFieldDefaults("Branch", "OfficePhoneNumber").MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                X.TextFieldFor(model => model.DXNumber).ApplyFieldDefaults("Branch", "DXNumber").MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                           
+                                                          ),
+                                                              X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                           X.TextFieldFor(model => model.BranchRegulatorNumber).ApplyFieldDefaults("Branch", "RegulatorNumber").MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                   X.TextFieldFor(model => model.DirectDialNumber).ApplyFieldDefaults("Branch", "DirectDialPhoneNumber").MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                          )
+                                                  )),
+
+                                                           X.Container().ColumnWidth(0.5).MinWidth(420)
+                                          .Items(
+                                                  X.FormPanel().ItemsFromPartial("_AddressPartial", Model.BranchAddress)
+                                               )
+                                          )
+                                  )
+                          )
+                  )
+          )
+    
+}

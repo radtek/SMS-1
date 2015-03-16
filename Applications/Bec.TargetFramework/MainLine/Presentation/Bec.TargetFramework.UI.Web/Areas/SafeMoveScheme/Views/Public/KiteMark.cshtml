@@ -1,0 +1,56 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Areas/SafeMoveScheme/Views/Public/_PublicLayout.cshtml";
+}
+
+
+
+@section publicBody
+  {
+
+
+@(Html.X().Container()
+           .Items(
+
+           
+           Html.X().Container()
+                        .Cls("text-bg content")
+                            .MarginSpec("30 10 10 0")
+                    .Items(
+ Html.X().Image()
+     
+                .Frame(true)
+                    
+                    .ImageUrl((@Url.Content("~/Content/resources/images/sms/mortgage-lenders-img.jpg"))),
+                    
+                    Html.X().Container()
+                                .Html("<p>Properties that have already been approved by Safe Move Lawyers and mortgage lenders</p>")
+                    
+                    )
+                    ,
+                    
+
+                         Html.X().Container()
+                                        .Layout(LayoutType.Column)
+                                                .Items
+                                                (
+                                Html.X().Container()
+                                        .ColumnWidth(0.75).Padding(10)
+                                .Html("<h2>The Kite Mark</h2><p>The Safe Move Scheme Kite Mark tells buyers that the property has been checked and approved by independent lawyers and mortgage lenders for a safe and quick sale.</p>"),
+
+                            Html.X().Container()
+                                    .ColumnWidth(0.25)
+                                        .Cls("testimonial")
+                                        .Html("<p>“The moving process took less than half the time of my last move and I received only 3 letters via post!”</p><p><b>Mr Farley</b></p>")
+                                        )
+
+)
+)
+
+
+    }
+

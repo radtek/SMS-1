@@ -1,0 +1,141 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+
+@model Bec.TargetFramework.Entities.TradingNameDTO
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+
+@section headtag
+{
+    
+    <style>
+    .dirty-row .x-grid-cell, .dirty-row .x-grid-rowwrap-div {
+        background-color: #FFFDD8 !important;
+    }
+
+    .new-row .x-grid-cell, .new-row .x-grid-rowwrap-div {
+        background: #c8ffc8 !important;
+    }
+</style>
+
+
+    <script type="text/javascript">
+        
+        var getRowClass = function (record) {
+            if (record.phantom) {
+                return "new-row";
+            }
+
+            if (record.dirty) {
+                return "dirty-row";
+            }
+        };
+
+
+        var enableEditing = function () {
+        
+            var grid = App.AddTradingNames;
+            
+
+            grid.getView().focusRow(0);
+            grid.editingPlugin.startEdit(0, 0);
+
+        }
+
+ 
+
+
+    </script>
+
+    }
+
+
+@section mainBody
+{
+    @(Html.X()
+          .FormPanel()
+                
+          .ID("AddTradingNameForm")
+          .BodyPadding(5)
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+          .Items(
+           
+                Html.X().Button().Text("Add Trading Name").ID("AddTradingName")
+                                    
+                                                                        .DirectEvents(de =>
+                                                {
+
+                                                    de.Click.Url = Url.Action("AddTradingNames", "SignUp", new { area = "SafeTransactionSearch" });
+                                                
+                                                    
+                                                    
+                                                })
+                                                        
+                                               ,   
+                Html.X()
+                  .GridPanel()
+                  .PaddingSpec("5 0 0 0")
+                  .ID("AddTradingNames")
+                  .Title("Trading Names")
+                          .Width(400)
+                                  .MinWidth(400)
+                          .MinHeight(100)
+                        .Height(400)
+                  .Flex(1)
+                  .Store(Html.X()
+                      .Store()
+                      .PageSize(1)
+                      .AutoLoad(true)
+                      .RemoteSort(false)
+                              .DataSource(Model.TradingNames)
+                      .Model(Html.X()
+                          .Model()
+                          .Fields(fields =>
+                          {
+                              fields.Add(new ModelField("Name"));
+                               fields.Add(new ModelField("OrganisationTradingNameID"));
+                          }))
+                  .DataSource(Model.TradingNames)
+                          .Proxy(proxy => proxy.Add(Html.X()
+                              .AjaxProxy()
+                              .Url(Url.Action("GetTradingNames", "SignUp", new { area = "SafeTransactionSearch" }))
+                              .Reader(reader => reader.Add(Html.X()
+                                  .JsonReader()
+                                  .Root("data")
+                                  .IDProperty("OrganisationTradingNameID"))))
+                                  
+                                  )
+                      .MessageBusListeners(ml =>
+                      {
+                          ml.Add(new MessageBusListener { Name = "AddTradingName", Handler = "App.AddTradingNames.getStore().load();" });
+                      })
+                              .Listeners(l => l.Load.Handler = "enableEditing();")
+                      )
+               
+                    .ColumnModel(
+                           
+                      Html.X().Column().Text("Name").DataIndex("Name").Flex(1)
+                              .Editor(Html.X().TextField())
+                        
+                                        
+                      
+
+                        )     
+                               
+                    .StripeRows(true)
+                    .GetRowClass(grc => grc.Fn = "getRowClass")
+                )
+
+                             
+              )       
+          
+   )
+}
+
+          
+          

@@ -1,0 +1,355 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+
+@model Bec.TargetFramework.Entities.RegistrationDTO
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headTag
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+    <script>
+
+    var Complianceofficerregulatorlabel = function (field) {
+        var regulatornumberlabel =  field.displayTplData[0].Name + " Number";
+        var fieldCORegulatorNumber = Ext.getCmp('CORegulatorNumber');
+        fieldCORegulatorNumber.labelEl.update(regulatornumberlabel);
+    };
+    var branchregulatorlabel = function (field) {
+        var regulatornumberlabel = "Branch " + field.displayTplData[0].Name + " Number";
+        var fieldBranchRegulatorNumber = Ext.getCmp('BranchRegulatorNumber');
+        fieldBranchRegulatorNumber.labelEl.update(regulatornumberlabel);
+    };
+    var FillMyDetails = function (field) {
+        var checked = Ext.getCmp('IamCO').checked;
+        if (checked) {
+            Ext.getCmp('MyDetails').setVisible(false);
+            Ext.getCmp('Title').setValue(Ext.getCmp('COTitle').value).setVisible(false);
+            Ext.getCmp('FirstName').setValue(Ext.getCmp('COFirstName').value).setVisible(false);
+            Ext.getCmp('LastName').setValue(Ext.getCmp('COLastName').value).setVisible(false);
+            Ext.getCmp('Email').setValue(Ext.getCmp('COEmail').value).setVisible(false);
+        }
+        else {
+            Ext.getCmp('MyDetails').setVisible(true);
+            Ext.getCmp('Title').setValue('').setVisible(true);
+            Ext.getCmp('FirstName').setValue('').setVisible(true);
+            Ext.getCmp('LastName').setValue('').setVisible(true);
+            Ext.getCmp('Email').setValue('').setVisible(true);
+        }
+    };
+
+    var ComplianceofficerregulatornumberValidation = function (field) {
+        var fieldCORegulator = Ext.getCmp('CORegulator');
+        if (fieldCORegulator.value != null) {
+            if (fieldCORegulator.displayTplData[0].Name == 'SRA') {
+                return /^([0-9a-zA-Z]{3,6}|)$/.test(field);
+            }
+            else if (fieldCORegulator.displayTplData[0].Name == 'CLC') {
+                return /^([0-9]{5,6}|)$/.test(field);
+            }
+        }
+
+        return true;
+    };
+
+
+    var branchregulatornumberValidation = function (field) {
+        var fieldCORegulator = Ext.getCmp('BranchRegulator');
+        if (fieldCORegulator.value != null) {
+            if (fieldCORegulator.displayTplData[0].Name == 'SRA') {
+                return /^([0-9a-zA-Z]{3,6}|)$/.test(field);
+            }
+            else if (fieldCORegulator.displayTplData[0].Name == 'CLC') {
+                return /^([0-9]{6}|)$/.test(field);
+            }
+        }
+
+        return true;
+    };
+
+   
+    function allowsubmit(captchaform) {
+            var error = $('#error');
+            var testdata = { Challenge: Recaptcha.get_challenge(), Response: Recaptcha.get_response() };
+            $.ajax({
+                url: captchaform.url,
+                type: 'POST',
+                data: testdata,
+                success: function (data) {
+                    if (!data.Success) {
+                        error.show();
+                        CreateCaptcha();
+                       return false;
+                    }
+                    else {
+                        error.hide();
+                        $('#divcaptcha').hide();
+                       return true;
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+                }
+            });
+
+        };
+
+    var CreateCaptcha = function () {
+        Recaptcha.create('@ViewData["PublicKey"]', 'divcaptcha',
+        {
+            theme: "red",
+           // callback: Recaptcha.focus_response_field
+        });
+    };
+
+        $(document).ready(function () {
+        $.ajax({
+            url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+            dataType: 'script',
+            success: function (result) {
+                CreateCaptcha();
+                var error = $('#error');
+                error.hide();
+            },
+            error: function (xmlhttprequest, status, error) {
+                $('#divcaptcha').html('Cannot create captcha');
+            }
+        });
+        });
+
+        var afterrender = function (field) {
+            Ext.defer(function () {
+                field.focus(true, 100);
+            }, 1);
+        };
+
+
+</script>
+
+<style>
+   
+    .text-bg {
+        position: relative;
+    }
+
+        .text-bg p {
+            position: absolute;
+            background: url("~/Content/resources/images/sms/slider-text-bg.png");
+            width: 250px;
+            height: 220px;
+            color: #fff;
+            font-size: 40px;
+            padding: 10px;
+            top: 0px;
+            right: 0px;
+        }
+
+
+
+    .main-img {
+        margin-bottom: 30px;
+    }
+
+    .content {
+        width: 1000px;
+        margin: 0 auto;
+    }
+
+    .x-form-item-label {    text-overflow: ellipsis;    overflow: hidden;    white-space: normal;}
+
+ 
+    
+</style>
+
+
+
+}
+
+@section mainBody
+{
+@(Html.X()
+      .Window()
+      .ID("LicensedConveyancerWindow")
+      .Title("Licensed Conveyancer")
+      .AutoRender(false)
+      .Hidden(true)
+      .BodyPadding(5)
+      .Width(1000)
+      .Height(700)
+      .Modal(true)
+      .Loader(Html.X()
+          .ComponentLoader()
+          .Url("http://www.conveyancer.org.uk/")
+          .Mode(LoadMode.Frame)
+          )
+)
+
+
+
+@(Html.X()
+      .Window()
+      .ID("TheLawSocietyWindow")
+      .Title("The Law Society")
+      .AutoRender(false)
+      .Hidden(true)
+      .BodyPadding(5)
+      .Width(700)
+      .Height(700)
+      .Modal(true)
+      .Loader(Html.X()
+          .ComponentLoader()
+          .Url("http://solicitors.lawsociety.org.uk/ ")
+          .Mode(LoadMode.Frame)
+          )
+)
+    @(Html.X().Viewport().ID("MainViewPort").OverflowX(Overflow.Auto).OverflowY(Overflow.Auto).Items(
+                            X.Container().Region(Region.North).ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+                                          X.Panel().ID("Image").LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Layout(LayoutType.HBox).Region(Region.Center).PaddingSpec("0 0 10 0").Flex(1).Items(
+                                            //X.Image().ImageUrl(@Url.Content("~/Content/resources/images/STS/ProfessionalSignUpRegister.jpg")).Width(960)
+                                            X.Label().Text("Register to the Safe Move Scheme").ID("Register").Cls("headerstyle").Height(50).PaddingSpec("20 0 50 0")
+                                    ),
+                        
+                            X.Panel().ID("Registration").LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Layout(LayoutType.HBox).BodyPadding(5).Region(Region.Center).Padding(5).Flex(1)
+                            .Items(
+                                      X.FormPanel().ID("RegistrationForm").AutoDoLayout(true).Layout(LayoutType.Column).MaxWidth(1200).Items(
+            //X.MultiSelect().ColumnWidth(1).ID("FormErrors").Hidden(true),
+                                                                                                   X.Panel().ColumnWidth(0.5).PaddingSpec("0 20 0 0").Padding(2).Border(false).Width(600).Items(
+                                                                                                                      X.Panel().ApplyPanelDefaults("RegisterCODetails").Border(false).Padding(2).Items(
+                                                                                                        X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center }).Items(
+                                                                                                                        X.Label().PaddingSpec("0 2 30 2").Flex(12).ApplyFieldDefaults("RegisterCODetails", "CONameDetail").Cls("paragraph-text")),
+                                                                                                                         X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start }).Items(
+                                                                                                                               X.Label().Text("You can check these details on the ").PaddingSpec("0 2 0 0"),
+                                                                                                                                       X.LinkButton().Text(" SRA").OnClientClick("App.TheLawSocietyWindow.show();"),
+                                                                                                                                               X.Label().Text(" or the ").PaddingSpec("0 2 0 2"),
+                                                                                                                                       X.LinkButton().Text(" CLC").OnClientClick("App.LicensedConveyancerWindow.show();"),
+                                                                                                                                               X.Label().Text(" databases.").PaddingSpec("0 0 0 2")
+                                                                                                                        ),
+                                                                                                                        
+                                                                                                                                //X.ImageButton().Flex(2).PaddingSpec("5 2 5 2").Height(40).Width(15).ImageUrl(@Url.Content("~/Content/resources/images/icons/law-society.png"))
+                                                                                                                                //       .OnClientClick("App.TheLawSocietyWindow.show();"),
+                                                                                                                                //        X.ImageButton().Flex(1).PaddingSpec("5 2 5 2").Height(40).Width(15).ImageUrl(@Url.Content("~/Content/resources/images/icons/clc.png"))
+                                                                                                                                //       .OnClientClick("App.LicensedConveyancerWindow.show();")),
+                                                                                                        X.Container().Layout(LayoutType.Column).PaddingSpec("20 0 0 0").Items(
+                                                                                                               X.ComboBoxFor(model => model.COTitle).ColumnWidth(0.15).Flex(1).Padding(2).ID("COTitle").ApplyFieldDefaults("RegisterCODetails", "Title")
+                                                                                                                                                                           .DisplayField("Name").ValueField("Name").Listeners(l => { l.Change.Handler = "return FillMyDetails();";})
+                                                                                                                                                   .Store(Razor.CreateClassificationStore("SalutationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))),
+                                                                                                                                       X.TextFieldFor(model => model.COFirstName).ColumnWidth(0.35).Padding(2).ApplyFieldDefaults("RegisterCODetails", "FirstName").Listeners(l => { l.Change.Handler = "return FillMyDetails();"; }),
+                                                                                                                                                       X.TextFieldFor(model => model.COLastName).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("RegisterCODetails", "LastName").Listeners(l => { l.Change.Handler = "return FillMyDetails();"; })
+                                                                                                        ),
+                                                                                                         X.Container().Layout(LayoutType.Column).Items(
+                                                                                                                        X.TextFieldFor(model => model.COEmail).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("RegisterCODetails", "Email").Listeners(l => { l.Change.Handler = "return FillMyDetails();"; })
+                                                                                                                 .Control(c =>
+                                                                                                                  {
+                                                                                                                      c.IsRemoteValidation = true;
+                                                                                                                      c.RemoteValidation.Url = Url.Action("DoesEmailExist", "Registration", new { area = "SafeTransactionSearch" });
+                                                                                                                      c.RemoteValidation.ValidationEvent = "change, blur";
+                                                                                                                      c.RemoteValidation.Method = HttpMethod.POST;
+                                                                                                                      c.RemoteValidation.ShowBusy = true;
+                                                                                                                      c.RemoteValidation.ErrorMessage = "This email address is already registered in the system";
+                                                                                                                  }),
+                                                                                                                           X.CheckboxFor(model => model.AmIComplianceOfficer).FieldLabel("").Listeners(l => l.Change.Fn = "FillMyDetails").ID("IamCO").ColumnWidth(0.02).PaddingSpec("20 2 0 2"),
+                                                                                                                                           X.Label().PaddingSpec("25 0 0 10").ApplyFieldDefaults("RegisterCODetails", "IamCO").ColumnWidth(0.48)
+                                                                                                                  )
+                                                                                                        ,
+                                                                                                        X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start }).Items(
+           
+                                                                                                         ),
+                                                                                                        X.Container().Layout(LayoutType.Column).Items(
+                                                                                                                        X.ComboBoxFor(model => model.CORegulator).Padding(2).Flex(1).ID("CORegulator").ColumnWidth(0.5).ApplyFieldDefaults("RegisterCODetails", "Regulator").FieldLabel("Regulator")
+                                                                                                                                   .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name")
+                                                                                                                           .Listeners(l => l.Change.Fn = "Complianceofficerregulatorlabel"),
+                                                                                                                                        X.TextFieldFor(model => model.CORegulatorNumber).Padding(2).ColumnWidth(0.5).Flex(1).ID("CORegulatorNumber").ApplyFieldDefaults("RegisterCODetails", "RegulatorNumber").FieldLabel("Regulator Number")
+                                                                                                                           .Validate().ValidateOnBlur(true).Validator(v => v.Fn = "ComplianceofficerregulatornumberValidation").ValidatorText("Please enter valid number"))
+
+                                                                                                          ),
+                                                                                                                 X.Panel().ApplyPanelDefaults("RegisterMyDetails").ID("MyDetails").Padding(2).Border(false).Items(
+                                                                                                          X.Container().Layout(LayoutType.Column).Items(
+                                                                                                                             X.ComboBoxFor(model => model.Title).ColumnWidth(0.15).Padding(2).ID("Title").ApplyFieldDefaults("RegisterMyDetails", "Title")
+                                                                                                                                               .Store(Razor.CreateClassificationStore("SalutationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name"),
+                                                                                                                             X.TextFieldFor(model => model.FirstName).ColumnWidth(0.35).Padding(2).ID("FirstName").ApplyFieldDefaults("RegisterCODetails", "FirstName"),
+                                                                                                                             X.TextFieldFor(model => model.LastName).ColumnWidth(0.5).Padding(2).ID("LastName").ApplyFieldDefaults("RegisterCODetails", "LastName")
+                                                                                                             ),
+                                                                                                              X.Container().Layout(LayoutType.Column).Items(
+                                                                                                                     X.TextFieldFor(model => model.Email).ColumnWidth(0.5).Padding(2).ID("Email").ApplyFieldDefaults("RegisterCODetails", "Email")
+                                                                                                                             .Control(c =>
+                                                                                                                                  {
+                                                                                                                                      c.IsRemoteValidation = true;
+                                                                                                                                      c.RemoteValidation.Url = Url.Action("DoesEmailExist", "Registration", new { area = "SafeTransactionSearch" });
+                                                                                                                                      c.RemoteValidation.ValidationEvent = "blur";
+                                                                                                                                      c.RemoteValidation.Method = HttpMethod.POST;
+                                                                                                                                      c.RemoteValidation.ShowBusy = true;
+                                                                                                                                      c.RemoteValidation.ErrorMessage = "This email address is already registered in the system";
+                                                                                                                                  })
+                                                                                                                     )
+                                                                                                          ),
+                                                                                                          X.Panel().ApplyPanelDefaults("RegisterFirmDetails").Layout(LayoutType.Column).Padding(2).Items(
+                                                                                                                                     X.TextFieldFor(model => model.FirmRegisteredName).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("RegisterFirmDetails", "FirmName"),
+                                                                                                                                     X.TextFieldFor(model => model.FirmTradingName).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("RegisterFirmDetails", "TradingName")
+                                                                                                                 )
+
+
+                                                                                                ),
+                                                                                                     X.Panel().Border(true).Height(600).Width(1).Layout(LayoutType.VBox).LayoutConfig(new VBoxLayoutConfig {Align = VBoxAlign.Center,Pack = BoxPack.Center }).Items(
+                                                                                                        
+                                                                                                     ),
+
+                                                                                                X.Panel().ColumnWidth(0.49).AutoDoLayout(true).Border(false).Width(600).PaddingSpec("0 0 0 20").Items(
+
+                                                                                           X.Panel().ApplyPanelDefaults("RegisterCOOfficeDetails").Border(false).Padding(2).Items(
+                                                                                   X.FormPanel().ItemsFromPartial("_AddressPartial", Model.COOfficeAddress),
+                                                                                           X.Container().Height(40).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start }).Items(
+                                                                                                                        X.CheckboxFor(model => model.IsCOOfficeHeadOffice).FieldLabel("").Padding(2),
+                                                                                                                         X.Label().PaddingSpec("0 0 20 2").ApplyFieldDefaults("RegisterCOOfficeDetails", "IsCOOfficeHeadOffice")
+                                                                                   ),
+                                                                                           X.Container().Layout(LayoutType.Column).PaddingSpec("20 0 0 0").Items(
+                                                                                                                                   X.ComboBoxFor(model => model.FirmRegulator).ColumnWidth(0.5).Flex(1).Padding(2).ID("BranchRegulator").ApplyFieldDefaults("RegisterCOOfficeDetails", "Regulator")
+                                                                                                                  .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name")
+                                                                                                          .Listeners(l => l.Change.Fn = "branchregulatorlabel"),
+                                                                                                                           X.TextFieldFor(model => model.COOfficeBranchRegulatorNumber).ColumnWidth(0.5).Flex(1).Padding(2).ID("BranchRegulatorNumber").ApplyFieldDefaults("RegisterCOOfficeDetails", "RegulatorNumber")
+                                                                                                                    .Validate().ValidateOnBlur(true).Validator(v => v.Fn = "branchregulatornumberValidation").ValidatorText("Please enter valid number")
+                                                                                  )
+                                                                                  ),
+                                                                                
+                                                                                  X.Container().ID("divcaptcha").Width(320).Height(130).ColumnWidth(0.7).MarginSpec("10 20 0 100"),
+                                                                                  Html.X().HiddenFor(data => ViewData["Challenge"]).ID("CaptchaChallenge"),
+                                                                                  Html.X().HiddenFor(data => ViewData["Response"]).ID("CaptchaResponse"),
+                                                                                                  X.MultiSelect().ID("CaptchaError").Hidden(true).ColumnWidth(0.7)
+                                                                                                  ,
+
+                                            X.Panel().Layout(LayoutType.Column).Items(
+                                                                 X.MultiSelect().ID("FormErrors").Hidden(true)),
+                                                                                                          //X.Panel().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.End }).Items(
+                                                                                                          X.Container().Layout(LayoutType.Column).MarginSpec("2 2 2 2").Items(
+                                                                                                           X.Label().ApplyFieldDefaults("Register", "RegisterSubmitLabel").Cls("paragraph-text").ColumnWidth(0.7).PaddingSpec("10 0 70 5"),
+                                                                                                                     X.Button().ApplyButtonDefaults(Razor.ApplySTSGreyButtonDefaults).Text("Submit").ColumnWidth(0.3).Flat(true).Width(50).MarginSpec("15 0 5 10").PaddingSpec("2 10 0 10")
+                                                                                                                     .DirectEvents(de =>
+                                                                                                                                          {
+                                                                                                                                              de.Click.Before = "return App.RegistrationForm.isValid();";
+                                                                                                                                              de.Click.Url = Url.Action("Registration", "Registration", new { area = "SafeTransactionSearch" });
+                                                                                                                                              de.Click.FormID = "RegistrationForm";
+                                                                                                                                              de.Click.Method = HttpMethod.POST;
+                                                                                                                                              de.Click.EventMask.ShowMask = true;
+                                                                                                                                              de.Click.EventMask.Msg = "Please wait ...";
+                                                                                                                                              de.Click.After = "if(Recaptcha.get_response() != Recaptcha.get_challenge()) return CreateCaptcha();";
+                                                                                                                                              de.Click.ExtraParams.Add(new Parameter("CaptchaChallenge", "Recaptcha.get_challenge()", ParameterMode.Raw));
+                                                                                                                                              de.Click.ExtraParams.Add(new Parameter("CaptchaResponse", "Recaptcha.get_response()", ParameterMode.Raw));
+
+                                                                                                                                          }))
+                                                                                 // )
+
+                                             )
+
+                                         )
+                                                                    .MaxWidth(1200)
+
+                                                )
+                                                     )
+                                             )
+
+
+}

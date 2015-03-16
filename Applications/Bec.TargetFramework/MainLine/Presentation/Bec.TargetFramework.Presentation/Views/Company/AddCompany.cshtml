@@ -1,0 +1,133 @@
+﻿<!-- Modal -->
+<div id="add-company-wrapper" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close cancel-add-company-btn" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Company</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <h3>Company Details</h3>
+                    <div class="row">
+                        <div class="col-md-7">
+
+                            <div class="form-group">
+                                <label for="company-name">Company Name</label>
+                                <input class="form-control" id="company-name" type="text" data-bind="value: $data.name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address1">Company Address</label>
+                                <input class="form-control" id="address1" type="text" placeholder="Address Line 1" data-bind="value: $data.address1">
+                                <input class="form-control" id="address2" placeholder="Address Line 2" type="text" data-bind="value: $data.address2">
+                                <input class="form-control" id="town-city" placeholder="Town/City" type="text" data-bind="value: $data.townCity">
+                                <input class="form-control" id="county" placeholder="County" type="text" data-bind="value: $data.county">
+                                <input class="form-control" id="post-code" placeholder="Post Code" type="text" data-bind="value: $data.postCode">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="additional-address-information">Additional Address Information</label>
+                                <input class="form-control" id="additional-address-information" type="text">
+                            </div>
+
+                        </div>
+                        <div class="col-md-5" id="regulator-dd-wrapper">
+                            <div class="form-group">
+                                <label for="regulator-dropdown">Regulator</label>
+                                <input id="regulator-dropdown" data-bind="kendoDropDownList: { data: $data.regulatorChoices, value: $data.regulator, optionLabel: $data.regulatorOptionLabel}" />
+
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="regulator-other" placeholder="Enter Regulator" type="text" data-bind="value: $data.OtherRegulator, visible: $data.regulator() == 'Other'">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form>
+                    <h3>System Administrator Details</h3>
+                    <div class="row">
+                        <div class="col-md-2" id="title-dd-wrapper">
+                            <div class="form-group">
+                                <label for="title-dropdown">Title</label>
+                                <input id="title-dropdown" data-bind="kendoDropDownList: { data: $data.titleChoices, value: $data.title, optionLabel: $data.titleOptionLabel }" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input class="form-control" id="first-name" type="text" data-bind="value: $data.firstName">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input class="form-control" id="last-name" type="text" data-bind="value: $data.lastName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" id="email" type="text" data-bind="value: $data.email">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="telephone-no">Telephone Number</label>
+                                <input class="form-control" id="telephone-no" type="text" data-bind="value: $data.tel">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default cancel-add-company-btn">Cancel</a>
+                <a class="btn btn-primary" id="save-company-btn" data-bind="click:  $data.addCompany">Save</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        require(['Company/ViewModels/AddCompanyVM'], function (AddCompanyVM) {
+
+            var data = {};
+
+            data.addCompanyUrl = '@Url.Action("AddCompany", "Company", new { area = String.Empty }, String.Empty)';
+            data.returnUrl = '@Url.Action("ViewTemporaryCompanies", "Company", new { area = String.Empty }, String.Empty)';
+
+            var vm = new AddCompanyVM(data);
+
+            ko.applyBindings(vm, document.getElementById("add-company-wrapper"));
+
+            $('.cancel-add-company-btn').click(function () {
+
+                if ($(this).hasClass('fired') == false) {
+                    bootbox.dialog({
+                        message: "Are you sure you want to Cancel?",
+                        buttons: {
+                            danger: {
+                                label: "No",
+                                className: "btn-default",
+                                callback: function () {
+                                    return;
+                                }
+                            },
+                            success: {
+                                label: "Yes",
+                                className: "btn-primary",
+                                callback: function () {
+                                    $('#add-company-wrapper').modal('hide');
+                                }
+                            }
+                        }
+                    });
+                }
+                
+            });
+        });
+    });
+</script>

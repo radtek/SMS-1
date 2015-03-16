@@ -1,0 +1,36 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+@( X.Container().Layout(LayoutType.Column)
+.Items(
+
+        X.Container().Padding(5).ColumnWidth(0.6)
+        .Items(
+                         X.Container().Items(
+                                              X.Container().Html("<h4>Santander August 2013</h4>"),
+                                              X.Container().Html("<p>Commenting on a transaction involving 2 properties, 2 redeemed mortgages, 2 new mortgages and 3 different law firms that took 18 working days from offer to exchange.</p>"),
+                                              X.Container().Html("<p>“I am pleased that both Mr & Mrs Kidney, who are clients of Santander, had such a positive experience. Santander also provided a new mortgage for a buyer in this chain and found the process to be very efficient. We are proud that both Mr & Mrs Kidney and our new client have expressed such pleasure in the service they have received, as we have been working with the Safe Move Scheme for some time to achieve results such as this”</p>")
+                                        ),
+                         X.Container().Items(
+                                           X.Container().Html("<h4>Graham Ellis RICS May 2013</h4>"),
+                                           X.Container().Html("<p>“RICS has long advocated the need for the provision of information on the condition of a property so that buyers can make better informed decisions and reduce wasted time and money. RICS Home Surveys can support and add real value to the Safe Move Scheme, which is leading the way to help home movers make better informed, more secure and certain transactions. For too long, the property industry has been at the mercy of ‘half-hearted’ solutions that just haven’t delivered, like HIPs. It is pleasing to see an independent cross market innovative solution, like the Safe Move Scheme, coming to the market using RICS services to provide better property transactions for consumers.”</p>")                                           
+                                     ),
+                         X.Container().Items(
+                               X.Container().Html("<h4>Santander April 2013</h4>"),
+                               X.Container().Html("<p>“At Santander, we are supporting the Safe Move Scheme as we aim to simplify the process of purchasing a house in England and Wales. Through our partnership with the Safe Move Scheme, we are looking to provide a simplistic and more certain house buying experience for our customers which saves them time, money and stress. We are delighted to be working with the Safe Move Scheme as it provides a more secure and efficient lending process for Santander.”</p>")                               
+                         )
+        ),
+             X.Container().Padding(5).ColumnWidth(0.4)
+        .Items(
+                        X.Container().Padding(20).Items(X.Image().ImageUrl(@Url.Content("~/Content/resources/images/sms/Press-professional-img.jpg"))),
+                    X.Container().Padding(20).Cls("testimonial").Padding(15)
+                             .Items(
+                                         X.Container().Html("<p>“RICS Home Surveys can support and add real value to the Safe Move Scheme, which is leading the way to help home movers make better informed, more secure and certain transactions.”</p>"),
+                                         X.Container().Html("<h4>Graham Ellis, Associate Director - RICS</h4>"),
+                                             X.Container().LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End }).Items(X.Image().Width(80).Height(40).ImageUrl(@Url.Content("~/Content/resources/images/sms/rics-logo.jpg")))
+                              )
+             )
+        )
+)

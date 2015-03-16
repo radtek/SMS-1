@@ -1,0 +1,93 @@
+﻿
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.StateItemSlimDTO
+
+@{
+    ViewBag.Title = "Add State";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section headtag
+{
+    <script>
+        Ext.override(Ext.form.ComboBox, {
+            validate: function (value) {
+                return true;
+            }
+        });
+
+        Ext.define(null, {
+            override: 'Ext.data.Store', constructor: function () {
+                this.callParent(arguments);
+                if (this.autoLoad) {
+                    this.loading = true;
+                }
+            }
+        });
+
+    </script>
+}
+
+@section mainBody
+{
+
+    @(Html.X()
+          .FormPanel()
+          .ID("AddStateItemForm")
+          .BodyPadding(5)
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                  
+          .Items(
+                  Html.X().AntiForgeryField(),
+            Html.X()
+            .HiddenFor(model => model.StateID),
+                              Html.X().TextFieldFor(model => model.StateItemName)
+                              .AllowBlank(false)
+                                      .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                                .Control(c =>
+                                            {
+                                                c.IsRemoteValidation = true;
+                                                c.RemoteValidation.Url = Url.Action("DoesStateItemNameExist", "State", new { area = "Admin" });
+                                                c.RemoteValidation.ValidationEvent = "change, blur";
+                                                c.RemoteValidation.Method = Ext.Net.HttpMethod.POST;
+                                                c.RemoteValidation.ShowBusy = false;
+                                                c.RemoteValidation.ErrorMessage = "The state item name already exists";
+                                            }),
+                              Html.X().ComboBoxFor(model => model.ParentStateItemID)
+                               .AutoDataBind(true)
+                                .LabelAlign(LabelAlign.Top)
+                                .DisplayField("StateItemName")
+                                .ValueField("StateItemID")
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .TypeAhead(true)
+                                .ForceSelection(true)
+                                .ValidateOnBlur(false)
+                                .ValidateOnChange(false)
+                                .AllowBlank(true)
+                              .FieldLabel("Parent State")
+                                      .Store(Razor.CreateParentStateItemStore(Url.Action("GetParentStateItems", "State", new { area = "Admin" }),Model.StateID.ToString(),""))
+          )
+          .DefaultAnchor("100%")
+          .Listeners(l => l.ValidityChange.Handler = "#{AddStateItemSaveButton}.setDisabled(!valid);")
+          .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Before = "return #{AddStateItemForm}.isValid();";
+                                   de.Click.Url = Url.Action("AddStateItem", "State", new { area = "Admin" });
+                                   de.Click.FormID = "AddStateItemForm";
+                                   de.Click.After = "#{AddStateItemForm}.getForm().reset();";
+                               }),
+
+                                                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("#{AddStateItemForm}.getForm().reset();"),
+                                                                       Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{AddStateItemForm}.getForm().reset();Ext.net.Bus.publish('AddStateItem','');")
+                            ))
+                           
+    )
+
+}

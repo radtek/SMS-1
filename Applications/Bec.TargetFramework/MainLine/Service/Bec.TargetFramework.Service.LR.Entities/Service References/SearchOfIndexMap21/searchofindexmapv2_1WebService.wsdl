@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://searchofindexmapv2_1.ws.bg.lr.gov/" name="searchofindexmapv2_1WebService" targetNamespace="http://searchofindexmapv2_1.ws.bg.lr.gov/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns:ns3="http://searchofindexmapv2_1.ws.bg.lr.gov/" xmlns:ns1="http://www.oscre.org/ns/eReg-Final/2011/RequestSearchOfIndexMapV2_1" xmlns:ns2="http://www.oscre.org/ns/eReg-Final/2011/ResponseSearchOfIndexMapV2_0" targetNamespace="http://searchofindexmapv2_1.ws.bg.lr.gov/">
+      <xsd:import schemaLocation="RequestSearchOfIndexMapV2_1.xsd" namespace="http://www.oscre.org/ns/eReg-Final/2011/RequestSearchOfIndexMapV2_1" />
+      <xsd:import schemaLocation="ResponseSearchOfIndexMapV2_0.xsd" namespace="http://www.oscre.org/ns/eReg-Final/2011/ResponseSearchOfIndexMapV2_0" />
+      <xsd:element name="SOAPEngineSystemException" nillable="true" type="xsd:string" />
+      <xsd:element name="searchOfIndexMap" type="ns3:searchOfIndexMap" />
+      <xsd:element name="searchOfIndexMapResponse" type="ns3:searchOfIndexMapResponse" />
+      <xsd:complexType name="searchOfIndexMap">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="arg0" type="ns1:RequestSearchOfIndexMapV2_1Type" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="searchOfIndexMapResponse">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="return" type="ns2:SearchOfIndexMapResponseV2_0Type" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="searchOfIndexMap">
+    <part name="parameters" element="tns:searchOfIndexMap" />
+  </message>
+  <message name="searchOfIndexMapResponse">
+    <part name="parameters" element="tns:searchOfIndexMapResponse" />
+  </message>
+  <message name="SOAPEngineSystemException">
+    <part name="fault" element="tns:SOAPEngineSystemException" />
+  </message>
+  <portType name="SearchOfIndexMapV2_1Service">
+    <operation name="searchOfIndexMap">
+      <input message="tns:searchOfIndexMap" />
+      <output message="tns:searchOfIndexMapResponse" />
+      <fault name="SOAPEngineSystemException" message="tns:SOAPEngineSystemException" />
+    </operation>
+  </portType>
+  <binding name="SearchOfIndexMapV2_1WSImplPortBinding" type="tns:SearchOfIndexMapV2_1Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="searchOfIndexMap">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="SOAPEngineSystemException">
+        <soap:fault use="literal" name="SOAPEngineSystemException" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="SearchOfIndexMapV2_1WebService">
+    <port name="SearchOfIndexMapV2_1WSImplPort" binding="tns:SearchOfIndexMapV2_1WSImplPortBinding">
+      <soap:address location="https://z0.b2b.http.server.landregistry.gov:13007/BGStubService/SearchOfIndexMapV2_1WebService" />
+    </port>
+  </service>
+</definitions>

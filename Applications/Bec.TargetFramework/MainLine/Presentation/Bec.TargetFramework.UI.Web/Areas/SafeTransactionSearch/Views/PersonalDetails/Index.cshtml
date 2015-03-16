@@ -1,0 +1,786 @@
+﻿
+@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.PersonalDetailDTO
+
+@{
+    BuilderFactory<PersonalDetailDTO> X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+
+
+@section headTag
+{
+    <style>
+        .x-tree-icon { display: none; }
+    </style>
+    <script type="text/javascript">
+        var gridId = 'AddTelephone';
+    </script>
+    <script src="~/Scripts/TargetFramework/GridCRUD.js">
+
+    
+    </script>
+    <script type="text/javascript">
+
+        function hasOtherAddresses(obj, value) {
+            var selectedValue = obj.getChecked()[0].inputValue;
+
+            if (selectedValue == 1) {
+            App.AddressDurationContainer.show();
+            App.direct.SafeTransactionSearch.ChangeAddressOther(selectedValue, {
+                success: function (result) {
+                     //TBD
+                    App.OtherAddressesContainer.show();
+                }
+            });
+            }
+               // App.OtherAddressesContainer.show();
+            else
+                App.OtherAddressesContainer.hide();
+
+        }
+
+        function changeAddress(obj, value) {
+            var selectedValue = obj.getChecked()[0].inputValue;
+
+            App.direct.SafeTransactionSearch.ChangeAddress(selectedValue, {
+                success: function(result) {
+                    // TBD
+                }
+            });
+
+        }
+
+        function changeAddressOther(obj, value) {
+            var selectedValue = obj.getChecked()[0].inputValue;
+
+            App.direct.SafeTransactionSearch.ChangeAddressOther(selectedValue, {
+                success: function (result) {
+                    // TBD
+                }
+            });
+
+        }
+
+        function hasOtherNames(obj, value) {
+            var selectedValue = obj.getChecked()[0].inputValue;
+            
+            if (selectedValue == 1) {
+                App.OtherNamesContainer.show();
+                gridId = 'AddOtherName';
+                addRow('OtherName');
+            }
+            else {
+                App.OtherNamesContainer.hide();
+            }
+
+        };
+
+        var showOrHideOtherNames = function ()
+        {
+            var selectedValue = App.HasNameChanges.getChecked()[0].inputValue;
+            if (selectedValue == 1) {
+                App.OtherNamesContainer.show();
+            }
+            else {
+                App.OtherNamesContainer.hide();
+            }
+
+        };
+        var showOrHideRP = function () {
+            var selectedValue = App.AreYouRP.getChecked()[0].inputValue;
+            if (selectedValue == 1)
+                App.RPContainer.show();
+            else
+                App.RPContainer.hide();
+        };
+
+        var addAnotherTelephoneNumber = function () {
+            App.AddTelephoneList.hide();
+            App.TelephoneNumbers.show();
+            gridId = 'AddTelephone';
+            addRow('Telephone');
+
+        }
+
+        function isRP(obj, value) {
+            var selectedValue = obj.getChecked()[0].inputValue;
+
+            if (selectedValue == 1)
+                App.RPContainer.show();
+            else
+                App.RPContainer.hide();
+        }
+
+        function populateHelp(editor, e, eOpts) {
+            var cntrl = Ext.getCmp('HelpLabel');
+
+            if (editor.tag != null)
+                cntrl.setText(editor.tag);
+        }
+
+        var removeRow = function(editor, e, eOpts) {
+
+            var grid = App.AddTelephone;
+
+            var index = 0;
+
+            // check for duplicated data
+            for (var i = 0; i < grid.getStore().data.length; i++) {
+                var record = grid.getStore().getAt(i);
+
+                if (eOpts.data.TelephoneNumber == record.data.TelephoneNumber && eOpts.data.ID == record.data.ID) {
+                    index = i;
+                    break;
+                }
+            }
+
+            App.direct.SafeTransactionSearch.DeleteTelephone(eOpts.data, {
+                success: function(result) {
+                    if (!result.valid) {
+                        Ext.Msg.alert("Delete Error", result.msg);
+                        return;
+                    }
+                }
+            });
+
+            removeGridRow(grid, index);
+        };
+
+        var removeOtherNameRow = function (editor, e, eOpts) {
+
+            var grid = App.AddOtherName;
+
+            var index = 0;
+
+            // check for duplicated data
+            for (var i = 0; i < grid.getStore().data.length; i++) {
+                var record = grid.getStore().getAt(i);
+
+                if (eOpts.data.FirstName == record.data.FirstName
+                    && eOpts.data.LastName == record.data.LastName
+                    && eOpts.data.ID == record.data.ID) {
+                    index = i;
+                    break;
+                }
+            }
+
+            App.direct.SafeTransactionSearch.DeleteOtherName(eOpts.data, {
+                success: function (result) {
+                    if (!result.valid) {
+                        Ext.Msg.alert("Delete Error", result.msg);
+                        return;
+                    }
+                }
+            });
+
+            removeGridRow(grid, index);
+        };
+
+        var validateOtherNameSave = function (editor, e, eOpts) {
+            var grid = App.AddOtherName;
+            var newModel = createNewModelFromEditor(e);
+
+            if (newModel.data.FirstName == '' || newModel.data.LastName == '') {
+                Ext.Msg.alert("Error", 'Please enter FirstName and LastName');
+                return false;
+            }
+           
+            // run model validation
+            var errors = newModel.validate();
+
+            if (errors.isValid()) {
+                var match = false;
+
+                // check if name exists
+                for (var i = 0; i < grid.getStore().data.length; i++) {
+                    var record = grid.getStore().getAt(i);
+
+                    if (newModel.data.FirstName == record.data.FirstName
+                        && newModel.data.LastName == record.data.LastName
+                        && newModel.data.ID != record.data.ID)
+                        match = true;
+                }
+
+                if (match == false) {
+                    // execute direct event validation
+                    App.direct.SafeTransactionSearch.SaveOtherName(e.newValues, {
+                        success: function (result) {
+                            if (!result.valid) {
+                                Ext.Msg.alert("Error", result.msg);
+                                return;
+                            } else {
+                                return true;
+                            }
+                        }
+                    });
+                } else {
+                    Ext.Msg.alert("Error", 'The First Name Last Name combination already exists!');
+
+                    return false;
+                }
+
+            } else
+                editor.editor.form.markInvalid(errors);
+        };
+
+        var validateSave = function(editor, e, eOpts) {
+            var grid = App.AddTelephone;
+            var newModel = createNewModelFromEditor(e);
+
+            var telRegex = /^\s*\(?(020[78]?\)? ?[1-9][0-9]{2,3} ?[0-9]{4})$|^(0[1-8][0-9]{3}\)? ?[1-9][0-9]{2} ?[0-9]{3})\s*$/;
+            var mobileRegex = /^(07\d{8,12}|447\d{7,11})$/;
+            if ((newModel.data.TelephoneNumber == '') || (!telRegex.test(newModel.data.TelephoneNumber) && !mobileRegex.test(newModel.data.TelephoneNumber))) {
+                Ext.Msg.alert("Error", 'Please enter a valid telephone number');
+                return false;
+            }
+
+
+            // run model validation
+            var errors = newModel.validate();
+
+            if (errors.isValid()) {
+                var match = false;
+
+                // check if name exists
+                for (var i = 0; i < grid.getStore().data.length; i++) {
+                    var record = grid.getStore().getAt(i);
+
+                    if (newModel.data.TelephoneNumber == record.data.TelephoneNumber && newModel.data.ID != record.data.ID)
+                        match = true;
+                }
+
+                if (match == false) {
+                    // execute direct event validation
+                    App.direct.SafeTransactionSearch.SaveTelephone(e.newValues, {
+                        success: function(result) {
+                            if (!result.valid) {
+                                Ext.Msg.alert("Error", result.msg);
+                                return;
+                            } else {
+                                return true;
+                            }
+                        }
+                    });
+                } else {
+                    Ext.Msg.alert("Error", 'The Telephone Number ' + newModel.data.TelephoneNumber + ' already exists!');
+
+                    return false;
+                }
+
+            } else
+                editor.editor.form.markInvalid(errors);
+        };
+
+        var telephoneNumberRenderer = function(value) {
+            var r = App.TelephoneStore.getById(value);
+
+            if (Ext.isEmpty(r)) {
+                return "";
+            }
+
+            return r.data.Name;
+        };
+
+        var titleRenderer = function (value) {
+            var r = App.TitleStore.getById(value);
+
+            if (Ext.isEmpty(r)) {
+                return "";
+            }
+
+            return r.data.Name;
+        };
+
+        var CalculateLivingTerm = function () {
+        };
+
+
+        var Regulatornumbervalidation = function (field) {
+            if (Ext.getCmp('Regulator').value != 'null') {
+                if (Ext.getCmp('Regulator').value == 'SRA') {
+                    return /^([0-9a-zA-Z]{3,6}|)$/.test(field);
+                }
+                else if (Ext.getCmp('Regulator').value == 'CLC') {
+                    return /^([0-9]{5,6}|)$/.test(field);
+                }
+            }
+
+            return true;
+        };
+
+
+
+
+        function validateDateofBirth(date) {
+            var date_regex = /(((((0[1-9])|(1\d)|(2[0-8]))\/((0[1-9])|(1[0-2])))|((31\/((0[13578])|(1[02])))|((29|30)\/((0[1,3-9])|(1[0-2])))))\/((20[0-9][0-9])|(19[0-9][0-9])))|((29\/02\/(19|20)(([02468][048])|([13579][26]))))$/;
+            if (date_regex.test(date)) {
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                var today = dd + '/' + mm + '/' + yyyy;
+
+                return (date < today);
+            }
+        }
+
+        var AccountOpenedYearandMonthValidation = function () {
+            var valid = false;
+            var today = new Date();
+            var mm = today.getMonth() + 1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            var current = mm + '/' + yyyy;
+            var d = Ext.getCmp('AccountOpenedMonth').displayTplData[0].Name;
+            d = Date.parse(d + "1, 2012");
+            if (!isNaN(d)) {
+                d = new Date(d).getMonth() + 1;
+            }
+
+            if (Ext.getCmp('AccountOpenedYear').displayTplData[0].Name > yyyy) {
+                alert('Account Opened date cannot be a future date, please re-enter');
+                return false;
+            }
+            else if (Ext.getCmp('AccountOpenedYear').displayTplData[0].Name == yyyy) {
+                if (d > mm) {
+                    alert('Account Opened date cannot be a future date, please re-enter');
+                    return false;
+                }
+            }
+            else {
+                return true;
+            }
+
+        }    </script>
+}
+
+@section mainBody
+{
+    @(Html.X().Store().AutoLoad(true).ID("TelephoneStore")
+          .Model(Html.X().Model().GenerateModel<ClassificationTypeDTO>().Name("ClassificationType"))
+          .Proxy(p => p.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ClassificationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))
+              .ExtraParams(e => e.Add(new Parameter("name", "TelephoneTypeID", ParameterMode.Value))))))
+
+    @(Html.X().Store().AutoLoad(true).ID("TitleStore")
+          .Model(Html.X().Model().GenerateModel<ClassificationTypeDTO>().Name("ClassificationType"))
+              .Proxy(p => p.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ClassificationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))
+                  .ExtraParams(e => e.Add(new Parameter("name", "SalutationTypeID", ParameterMode.Value))))))
+
+    @(Html.X()
+        .Store().ID("TelephoneGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+        .Model(Html.X().Model().GenerateModel<TelephoneDTO>().Name("Telephone"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetTelephoneNumbers", "PersonalDetails", new { area = "SafeTransactionSearch" })))))
+
+    @(Html.X()
+        .Store().ID("OtherAddressGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+            .Model(Html.X().Model().GenerateModel<AddressDTO>().Name("OtherAddress"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetOtherAddresses", "PersonalDetails", new { area = "SafeTransactionSearch" }))))
+               .MessageBusListeners(ml =>
+                {
+                    ml.Add(new MessageBusListener { Name = "AddOtherAddress", Handler = "alert('test');App.OtherAddressAddWindow.close();App.OtherAddressGridStore.load();" });
+                }))
+    @(Html.X()
+        .Store().ID("OtherNameGridStore")
+        .AutoLoad(true)
+        .RemoteSort(false)
+        .Model(Html.X().Model().GenerateModel<OtherNameDTO>().Name("OtherName"))
+        .Proxy(proxy => proxy.Add(Html.X().AjaxProxy().GenerateAjaxProxy("ID", Url.Action("GetOtherNames", "PersonalDetails", new { area = "SafeTransactionSearch" })))))
+
+
+
+                                                                                                       
+    @(Html.X().Viewport().Layout(LayoutType.Border).ID("PersonalDetailViewPort").AutoDoLayout(true)
+          .Items(
+              Html.X().Panel().Region(Region.North).ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+                                Html.X().Panel().Region(Region.West).ID("WorkflowTree").Height(750).Width(250).AutoScroll(false)
+                              .ItemsFromPartial("_LeftPanel"),     
+              Html.X().Container().Region(Region.Center).Layout(LayoutType.Column).AutoScroll(true)
+                  .Padding(2)
+                  .Items
+                  (
+                      X.FormPanel().ID("PersonalDetailForm").ColumnWidth(1).ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                          .Items
+                          (
+
+                              Html.X().AntiForgeryField(),
+                              X.Container().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(1)
+                                          .Items(
+                                              X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig {Align = HBoxAlign.Middle, Pack = BoxPack.End})
+                                                  .Items
+                                                  (
+                                                      X.Button().ApplyButtonDefaults(Razor.ApplyNextButtonDefaults).Flat(true)
+                                                          .DirectEvents(de =>
+                                                          {
+                                                              //de.Click.Before = "var b = AccountOpenedYearandMonthValidation(); if(!b) return b;";//= #{PersonalDetailForm}.isValid(); if (b)
+                                                              de.Click.Url = Url.Action("Next", "PersonalDetails", new {area = "SafeTransactionSearch"});
+                                                            //  de.Click.FormID = "PersonalDetailForm";
+                                                              de.Click.EventMask.ShowMask = true;
+                                                              de.Click.Method = HttpMethod.POST;
+                                                              de.Click.EventMask.Msg = "Please wait ...";
+                                                          })
+                                                  )
+                                          )
+                                  ),
+                                  X.Container().ID("Errors").Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                            
+                                          ),
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                           X.MultiSelect().ID("FormErrors").Hidden(true)
+                                           )
+                                  ),
+                              X.Container().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items(
+                                      X.Panel().ColumnWidth(0.5).Border(true)
+                                          .Items(
+                                              X.Panel().ApplyPanelDefaults("PersonalDetailsPanel").Border(true).Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                  .Items
+                                                  (
+                                                      X.Container().ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig {Align = HBoxAlign.Top, Pack = BoxPack.End}).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.ComboBoxFor(model => model.TitleTypeID).ID("TitleType").ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).MinWidth(60).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .FieldLabel("Title").Store(Razor.CreateClassificationStore("SalutationTypeID", Url.Action("ReadData", "Reference", new {area = ""}))).Flex(1),
+                                                              X.TextFieldFor(model => model.FirstName).ApplyFieldDefaults("PersonalDetailsPanel", "FirstName").MinWidth(190).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                              X.TextFieldFor(model => model.MiddleName).ApplyFieldDefaults("PersonalDetailsPanel", "MiddleName").MinWidth(125).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                          ),
+                                                      X.Container().Layout(LayoutType.Fit).ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.TextFieldFor(model => model.LastName).ApplyFieldDefaults("PersonalDetailsPanel", "LastName").MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                          ),
+                                                      X.Container().ColumnWidth(0.5).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.RadioGroupFor(model => model.HasNameChanges, new List<Radio.Config> {new Radio.Config {BoxLabel = "Yes", InputValue = "1"}, new Radio.Config {BoxLabel = "No", InputValue = "0"}})
+                                                              .ID("HasNameChanges")
+                                                                  .LabelAlign(LabelAlign.Top).MinWidth(200).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .LabelWidth(200).Padding(2).Flex(1).Height(28)
+                                                                  .ApplyRadioGroupDefaults("PersonalDetailsPanel", "Namechange")
+                                                                  .Listeners(l => l.Change.Fn = "hasOtherNames")
+                                                          ),
+                                                      X.Container().ColumnWidth(1).Hidden(true).ID("OtherNamesContainer").Padding(5)
+                                                          .Items
+                                                          (
+                                                                        Html.X()
+                                                                          .GridPanel()
+                                                                          .Flex(1)
+                                                                          .MinWidth(400)
+                                                                          .MinHeight(120)
+                                                                          .Padding(2)
+                                                                                  .MessageBusListeners(ml => { ml.Add(new MessageBusListener { Name = "AddOtherNameGridLoad", Handler = "App.AddOtherName.getStore().load();" }); })
+                                                                          .ID("AddOtherName")
+                                                                                          .Plugins(X.RowEditing().ID("OtherNameEdit").ClicksToMoveEditor(1).AutoCancel(false)
+                                                                                  .Listeners(l => l.ValidateEdit.Fn = "validateOtherNameSave")
+                                                                                  .Listeners(l => l.BeforeEdit.Fn = "beforeEdit")
+                                                                                  .Listeners(l => l.CancelEdit.Fn = "cancelEdit")
+                                                                                  .Listeners(l => l.Edit.Fn = "completeEdit").ErrorSummary(false)
+                                                                          )
+                                                                          .StoreID("OtherNameGridStore")
+                                                                          .ColumnModel(
+                                                                              Html.X().Column().Text("ID").DataIndex("ID").Hidden(true),
+                                                                              Html.X().Column().Text("Title").DataIndex("TitleTypeID").Width(120)
+                                                                                .Renderer("titleRenderer")
+                                                                                .Editor(X.ComboBox().ID("TitleTypeCombo").ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                                .MsgTarget(MessageTarget.Qtip)    
+                                                                                .StoreID("TitleStore").QueryMode(DataLoadMode.Local).Flex(1).AllowBlank(false))
+                                                                            ,
+                                                                              
+        
+                                                                              Html.X().Column().Text("First Name").DataIndex("FirstName").Width(120)
+                                                                                  .Editor
+                                                                                  (
+                                                                                      X.TextField().AllowBlank(false)
+                                                                                  ).Flex(1)
+                                                                              ,
+
+                                                                                      Html.X().Column().Text("Middle Name").DataIndex("MiddleName").Width(120)
+                                                                                          .Editor
+                                                                                          (
+                                                                                              X.TextField()
+                                                                                          ).Flex(1)
+                                                                                      ,
+
+                                                                                              Html.X().Column().Text("Last Name").DataIndex("LastName").Width(120)
+                                                                                          .Editor
+                                                                                          (
+                                                                                              X.TextField().AllowBlank(false)
+                                                                                          ).Flex(1)
+                                                                                      ,
+                                                                              
+                                                                              Html.X()
+                                                                                  .CommandColumn().Width(30)
+                                                                                  .Commands(
+                                                                                      Html.X()
+                                                                                          .GridCommand()
+                                                                                          .CommandName("Delete")
+                                                                                          .Icon(Icon.ApplicationDelete)
+                                                                                          .ToolTip(tt => tt.Text = "Delete"))
+                                                                                          .Listeners(l => l.Command.Fn = "removeOtherNameRow")
+                                                                                  ).Listeners(l => l.BeforeRender.Fn = "showOrHideOtherNames")
+                                                                          .DockedItems(
+                                                                              Html.X().Toolbar()
+                                                                                  .Dock(Dock.Top)
+                                                                                  .Items(
+                                                                                      Html.X()
+                                                                                          .Button().Icon(Icon.Add).Text("Add Other Name")
+                                                                                          
+                                                                                                  .Listeners(l => l.Click.Handler = "gridId = 'AddOtherName';addRow('OtherName','AddOtherName');")
+                                                                                      ,
+                                                                                      Html.X().ToolbarFill()))
+                                                                          .AutoDoLayout(true)
+                                                          ),
+                                                      X.Container().ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig {Align = HBoxAlign.Top, Pack = BoxPack.End}).Padding(5)
+                                                          .Items
+                                                          (
+                                                              X.RadioGroupFor(model => model.GenderTypeID, new List<Radio.Config> {new Radio.Config {BoxLabel = "Male", InputValue = "1"}, new Radio.Config {BoxLabel = "Female", InputValue = "0"}})
+                                                                  .LabelAlign(LabelAlign.Top).Height(22).MinWidth(140).Listeners(l => l.Focus.Fn = "populateHelp").Padding(2).Padding(2)
+                                                                  .ApplyRadioGroupDefaults("PersonalDetailsPanel", "Gender").Flex(1),
+                                                              X.DateFieldFor(model => model.DateOfBirth).Padding(2).ApplyFieldDefaults("PersonalDetailsPanel", "DOB").MinWidth(135).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                              .Validate().ValidateOnBlur(true),//.Validator(v => v.Fn = "validateDateofBirth").ValidatorText("Date of Birth cannot be a future date"),
+                                                              X.ComboBoxFor(model => model.NationalityTypeID).ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).MinWidth(120).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .FieldLabel("Nationality").Padding(2).Flex(1)
+                                                                  .Store(Razor.CreateClassificationStore("NationalityTypeID", Url.Action("ReadData", "Reference", new {area = ""}))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                          ),
+                                                      X.Container().ColumnWidth(1).Layout(LayoutType.Fit).MinWidth(410).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.RadioGroupFor(model => model.IsRegulatedPractitioner, new List<Radio.Config> {new Radio.Config {BoxLabel = "Yes", InputValue = "1", LabelAlign = LabelAlign.Left}, new Radio.Config {BoxLabel = "No", InputValue = "0", LabelAlign = LabelAlign.Left}})
+                                                              .ID("AreYouRP")
+                                                                  .LabelAlign(LabelAlign.Left).MinWidth(400).LabelWidth(200).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .ApplyRadioGroupDefaults("PersonalDetailsPanel", "AreYouRP").Padding(2).Flex(1)
+                                                                  .Listeners(l => l.Change.Fn = "isRP")
+                                                          ),
+                                                      X.Container().ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig {Align = HBoxAlign.Top, Pack = BoxPack.End}).Padding(2).ID("RPContainer").Hidden(true)
+                                                          .Items
+                                                          (
+                                                              X.ComboBoxFor(model => model.RegulatorTypeID).ID("Regulator").ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).MinWidth(150).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .FieldLabel("Your Regulator")
+                                                                                  .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" }))).Padding(2).Flex(1).DisplayField("Name").ValueField("ClassificationTypeID"),
+                                                              X.TextFieldFor(model => model.RegulatorNumber).ApplyFieldDefaults("PersonalDetailsPanel", "RegulatorNumber").Padding(2).Flex(1).MinWidth(250).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                              .Validate().ValidateOnBlur(true).Validator(v => v.Fn = "Regulatornumbervalidation").ValidatorText("Please enter a valid number")
+                                                                          ).Listeners(l => l.BeforeRender.Fn = "showOrHideRP"),
+                                                     X.Container().ColumnWidth(1).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Bottom,Pack = BoxPack.Center}).Items(
+                                                              X.TextFieldFor(model => model.TelephoneNumber).Padding(2).ApplyFieldDefaults("PersonalDetailsPanel", "TelephoneNumber").MinWidth(135).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                              X.ComboBoxFor(model => model.TelephoneNumberTypeID).FieldLabel("").ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).MinWidth(120).Listeners(l => l.Focus.Fn = "populateHelp").Padding(2).Flex(1)
+                                                                                  .Store(Razor.CreateClassificationStore("TelephoneTypeID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                      ),
+                                                      X.Container().ColumnWidth(1).Hidden(false).Padding(2).ID("TelephoneNumbers")
+                                                          .Items
+                                                          (
+                                                              Html.X()
+                                                                  .GridPanel()
+                                                                  .Flex(1)
+                                                                  .MinWidth(400)
+                                                                  .MinHeight(120)
+                                                                  .Padding(5)
+                                                                  .MessageBusListeners(ml => { ml.Add(new MessageBusListener {Name = "AddTelephoneGridLoad", Handler = "App.AddTelephone.getStore().load();"}); })
+                                                                  .ID("AddTelephone")
+                                                                  
+                                                                  .Plugins(X.RowEditing().ID("TeEditi").ClicksToMoveEditor(1).AutoCancel(false)
+                                                                  .Listeners(l => l.ValidateEdit.Fn = "validateSave")
+                                                                  .Listeners(l => l.BeforeEdit.Fn = "beforeEdit")
+                                                                  .Listeners(l => l.CancelEdit.Fn = "cancelEdit").ErrorSummary(false)
+                                                                  )
+                                                                  .StoreID("TelephoneGridStore")
+                                                                  .ColumnModel(
+                                                                      Html.X().Column().Text("ID").DataIndex("ID").Hidden(true),
+                                                                      Html.X().Column().Text("Telephone Number").DataIndex("TelephoneNumber").Width(120)
+                                                                          .Editor
+                                                                          (
+                                                                              X.TextField().AllowBlank(false)
+                                                                          ).Flex(1)
+                                                                      ,
+                                                                      Html.X().Column().Text("Type").DataIndex("TelephoneNumberTypeID").Width(120)
+                                                                          .Renderer("telephoneNumberRenderer")
+                                                                          .Editor(X.ComboBox().ID("TelephoneCombo").ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                              .StoreID("TelephoneStore").QueryMode(DataLoadMode.Local).Flex(1))
+                                                                      ,
+                                                                      Html.X()
+                                                                          .CommandColumn().Width(30)
+                                                                          .Commands(
+                                                                              Html.X()
+                                                                                  .GridCommand()
+                                                                                  .CommandName("Delete")
+                                                                                  .Icon(Icon.ApplicationDelete)
+                                                                                  .ToolTip(tt => tt.Text = "Delete"))
+                                                                          .Listeners(l => l.Command.Fn = "removeRow")
+                                                                  )
+                                                                  .DockedItems(
+                                                                    Html.X().Toolbar()
+                                                                        .Dock(Dock.Top)
+                                                                        .Items(
+                                                                            Html.X()
+                                                                                .Button().Icon(Icon.Add).Text("Add Telephone Number")
+                                                                              .Listeners(l => l.Click.Handler = "gridId = 'AddTelephone';addRow('Telephone','AddTelephone');")
+                                                                            ,
+                                                                            Html.X().ToolbarFill()))
+                                                                  .AutoDoLayout(true)
+                                                          ),
+                                                      X.Container().ColumnWidth(1).Layout(LayoutType.Fit).MinWidth(410).Padding(2)
+                                                          .Items
+                                                          (
+                                                              X.Label().ApplyFieldDefaults("PersonalDetailsPanel", "AddressLabel"),
+                                                              X.RadioGroupFor(model => model.IsCurrentAddressOutsideUK, new List<Radio.Config> {new Radio.Config {BoxLabel = "Yes", InputValue = "1", LabelAlign = LabelAlign.Left}, new Radio.Config {BoxLabel = "No", InputValue = "0", LabelAlign = LabelAlign.Left}})
+                                                                  .LabelAlign(LabelAlign.Left).MinWidth(400).LabelWidth(200).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                  .ApplyRadioGroupDefaults("PersonalDetailsPanel", "AddressOutsideUK").Padding(2).Flex(1)
+                                                                  .Listeners(l => l.Change.Fn = "changeAddress")
+                                                          ),
+
+                                                      // home address
+                                                      X.Panel().ColumnWidth(1).ID("AddressContainer").Layout(LayoutType.Column).Padding(2).MinWidth(410)
+                                                          .ItemsFromPartial("_AddressPartial", Model.HomeAddress)
+                                                          ,
+                                                              X.Container().ColumnWidth(1).Layout(LayoutType.Fit).MinWidth(410).Padding(2)
+                                                          .Items
+                                                          (
+                                                                                X.RadioGroupFor(model => model.HasOtherAddressesLast3Years, new List<Radio.Config> { new Radio.Config { BoxLabel = "Yes", InputValue = "1", LabelAlign = LabelAlign.Left }, new Radio.Config { BoxLabel = "No", InputValue = "0", LabelAlign = LabelAlign.Left } })
+                                                                            .LabelAlign(LabelAlign.Left).MinWidth(400).LabelWidth(200).Listeners(l => l.Focus.Fn = "populateHelp")
+                                                                                    .ApplyRadioGroupDefaults("PersonalDetailsPanel", "ChangedAddress").Padding(2).Flex(1)
+                                                                            .Listeners(l => l.Change.Fn = "hasOtherAddresses")
+                                                                                    
+  
+                                                          ),
+                                                          X.Container().ID("AddressDurationContainer").ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start }).Padding(2).Hidden(true)
+                                                                  .Items
+                                                                  (
+                                                                          X.Label().ApplyFieldDefaults("PersonalDetailsPanel", "HowLongYouLivedHereLabel").Flex(3),
+                                                                                                  X.ComboBoxFor(model => model.YearsLivingFor).ApplyFieldDefaults("PersonalDetailsPanel", "Years").Padding(2).Flex(1).ID("YearsLivingFor").FieldLabel("").Flex(1)
+                                                                                    .Store(Razor.CreateClassificationStore("NumberOfYears", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                                                                                           .Listeners(l => l.Change.Fn = "CalculateLivingTerm"),
+                                                                                                          X.ComboBoxFor(model => model.MonthsLivingFor).ApplyFieldDefaults("PersonalDetailsPanel", "Months").Padding(2).Flex(1).ID("MonthsLivingFor").FieldLabel("").Flex(1)
+                                                                                                    .Store(Razor.CreateClassificationStore("NumberOfMonths", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                                                                                                           .Listeners(l => l.Change.Fn = "CalculateLivingTerm")
+                                                                  )
+                                                  )
+                                          ),
+                                      X.Panel().ColumnWidth(0.5).Border(true)
+                                          .Items(
+                                              X.Panel().Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                  .Items
+                                                  (
+                                                       X.Panel().ApplyPanelDefaults("PreviousAddress").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420).ID("OtherAddressesContainer").Hidden(true)//.ApplyPanelDefaults("PreviousAddress")
+                                                        .Items(
+                                                                 X.Container().ColumnWidth(1).Items(
+                                                                    X.Label().ApplyFieldDefaults("PreviousAddress", "PreviousAddressLabel")
+                                                                 ),
+                                                                X.Container().ColumnWidth(1).Layout(LayoutType.Fit)
+                                                                            .Items
+                                                                            (
+                                                                                X.GridPanel().ID("AddOtherAddressName")
+                                                                                .StoreID("OtherAddressGridStore")
+
+                                                                                        .DirectEvents(de =>
+                                                                                                                                {
+                                                                                                                de.ItemDblClick.Method = HttpMethod.POST;
+                                                                                                                de.ItemDblClick.Action = "ShowEditOtherAddressWindow";
+                                                                                                                de.ItemDblClick.ExtraParams.Add(new Parameter("id", "record.data.ID", ParameterMode.Raw));
+                                                                                                            })
+                                                                                                                .ColumnModel(
+
+                                                                                                                    Html.X().Column().Text("ID").DataIndex("ID").Hidden(true),
+                                                                Html.X().Column().Text("ID").DataIndex("PostalCode").Hidden(false),
+                                                                Html.X().Column().Text("Line 1").DataIndex("Line1").Hidden(false),
+                                                                Html.X()
+                                                                    .CommandColumn().Width(60)
+                                                                                      .Commands(
+                                                                                          Html.X()
+                                                                                              .GridCommand()
+                                                                                              .CommandName("Edit")
+                                                                                              .Icon(Icon.ApplicationDelete)
+                                                                                              .ToolTip(tt => tt.Text = "Edit"))
+                                                                                              .DirectEvents(de =>
+                                                                                                    {
+                                                                                                        de.Command.Method = HttpMethod.POST;
+                                                                                                        de.Command.Action = "ShowEditOtherAddressWindow";
+                                                                                                        de.Command.ExtraParams.Add(new Parameter("id", "record.data.ID", ParameterMode.Raw));
+                                                                                                    })
+                                                                                              ,
+
+                                                                                                                                          Html.X().CommandColumn().Width(60).Commands(
+                                                                                  Html.X()
+                                                                                      .GridCommand()
+                                                                                      .CommandName("Delete")
+                                                                                      .Icon(Icon.ApplicationDelete)
+                                                                                      .ToolTip(tt => tt.Text = "Delete"))
+                                                                      )
+                                                                      .DockedItems(
+                                                                          Html.X().Toolbar()
+                                                                              .Dock(Dock.Top)
+                                                                              .Items(
+                                                                                        Html.X().Button().Icon(Icon.Add).Text("Add Previous Address").DirectClickAction("ShowAddOtherAddressWindow", "PersonalDetails")
+                                                                                        , Html.X().ToolbarFill()))
+                                                                      .AutoDoLayout(true)
+                                                            )
+                                                        )
+                                                     
+                                                  ),
+                                                    X.Panel().ApplyPanelDefaults("ID+").Layout(LayoutType.Column).ColumnWidth(1).MinWidth(420)
+                                                    .Items
+                                                    (
+                                                          X.Container().ColumnWidth(1).Padding(2).Items(X.Label().ColumnWidth(1).ApplyFieldDefaults("ID+", "IDPlusLabel")),
+                                                          X.Container().ColumnWidth(1).Padding(2).Items(X.Label().ColumnWidth(1).ApplyFieldDefaults("ID+", "IBANLabel")),
+                                                          X.Container().ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig {Align = HBoxAlign.Top, Pack = BoxPack.End}).Padding(2)
+                                                          .Items
+                                                          (
+                                                                                    X.TextFieldFor(m => m.SortCode).ApplyFieldDefaults("ID+", "SortCode").AllowBlank(false).Width(100).Padding(2)
+                                                                                  .Plugins(
+                                                                                      X.InputMask().Mask("XX-XX-XX")
+                                                                                          .MaskSymbols(s => { s.Add(new MaskSymbol {Name = "X", Regex = "[0-9]", Placeholder = 'X'}); })
+                                                                                  ),
+                                                                                 X.NumberFieldFor(model => model.AccountNumber).AllowDecimals(false).ApplyFieldDefaults("ID+", "AccountNumber").MinWidth(120).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                                                 X.ComboBoxFor(model => model.AccountOpenedYear).ApplyFieldDefaults("ID+", "AccountOpened").MinWidth(75).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                                                        .Store(Razor.CreateClassificationStore("YearID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                                                ,
+                                                                                 X.ComboBoxFor(model => model.AccountOpenedMonth).ApplyFieldDefaults("ID+", "MonthText").MinWidth(75).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                                                                                       .Store(Razor.CreateClassificationStore("MonthID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("ClassificationTypeID")
+                                                                                                                      
+                                                          ),
+
+                                                        X.Container().Layout(LayoutType.Fit).ColumnWidth(0.5).Padding(2)
+                                                        .Items
+                                                        (
+                                                             X.TextFieldFor(model => model.IBANNumber).ApplyFieldDefaults("ID+", "IBANNumber").MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                        ),
+
+                                                        X.Container().Layout(LayoutType.Fit).ColumnWidth(0.5).Padding(2)
+                                                        .Items
+                                                        (
+                                                              X.TextFieldFor(model => model.SwiftNumber).ApplyFieldDefaults("ID+", "SWIFT/BICNumber").MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                        )                                                                                       
+                                                    )
+                                                  
+                                          )
+                                  )
+                          )
+                          
+                           
+                                           
+                          )
+                  )
+          )
+
+}

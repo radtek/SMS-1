@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "";
+}
+
+
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/Content/kendo")
+@Styles.Render("~/Content/font-awesome")
+<div class="container">
+    <div class="custom-error-wrapper">
+        <form class="form">
+            <fieldset>
+                <legend>Error Message!</legend>
+                <div class="custom-error-fields-wrapper">
+                    <div class="body">
+                        This web page is not available. Please contact your administrator. (404)
+                    </div>
+                </div>
+                <div class="row">
+                    <span>
+                        Click 'Login' to re-enter the system.
+                    </span>
+                </div>
+                <br />
+                <div class="row">
+                    <a class="btn btn-success" id="logout-btn" href="@Url.Action("Index", "Login", new { area = "UserAccount" }, String.Empty)">Login</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/knockout")
+@Scripts.Render("~/bundles/site")
+@Scripts.Render("~/bundles/require")
+
+<script type="text/javascript">
+    history.pushState(null, 'Error', '404');
+    window.addEventListener('popstate', function (event) {
+        history.pushState(null, 'Error', '404');
+    });
+</script>

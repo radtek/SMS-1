@@ -1,0 +1,15 @@
+﻿@model Bec.DynamicForm.Entities.DTO.QuestionOptionDTO
+
+<tr class="editorRow">
+    @using (Html.BeginCollectionItem("Options"))
+{
+    <td>        
+        @Html.EditorFor(x => x.OptionText)  
+    </td>
+     
+    <td><a href="#" class="deleteRow"><img src="@Url.Content("~/Content/img/bullet_delete.png")" /></a></td>
+    
+}
+</tr> 
+
+

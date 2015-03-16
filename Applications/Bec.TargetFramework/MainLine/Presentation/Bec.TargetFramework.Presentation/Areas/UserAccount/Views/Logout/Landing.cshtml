@@ -1,0 +1,53 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "Landing";
+}
+
+
+
+
+<div class="container">
+    <div id="logout-wraper">
+        <form class="form logout-form">
+            <fieldset>
+                <legend>Logged out from <span class="blue">BE Consultancy</span></legend>
+                
+                <div class="body">
+                    <div class="form-group">
+                        <div class="row">
+                            You have successfully logged out from the BE Consultancy application.
+                        </div>
+                        <div class="row">
+                            <span>
+                                Please click 'Login' to re-enter the system
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div>
+            <a class="btn btn-success" id="logout-btn" href="@Url.Action("Index", "Login", new { area = "UserAccount" }, String.Empty)">Login</a>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    history.pushState(null, null, 'Landing');
+    window.addEventListener('popstate', function(event) {
+        history.pushState(null, null, 'Landing');
+    });
+
+    $(document).ready(function () {
+        //click the button on Enter
+        $(document).keydown(function (e) {
+            if (e.keyCode === 13) {
+                var href = $('#logout-btn').attr('href');
+
+                window.location.href = href;
+            }
+        });
+    });
+</script>

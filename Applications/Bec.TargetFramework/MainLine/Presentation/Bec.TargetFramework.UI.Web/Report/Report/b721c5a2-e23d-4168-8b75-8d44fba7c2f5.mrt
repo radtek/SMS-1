@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <UserAccount Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>UserAccount</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>User</Category>
+        <Columns isList="true" count="39">
+          <value>AccountClosed,System.Nullable`1[System.DateTime]</value>
+          <value>AccountTwoFactorAuthMode,System.Int32</value>
+          <value>Created,System.DateTime</value>
+          <value>CurrentTwoFactorAuthStatus,System.Int32</value>
+          <value>Email,System.String</value>
+          <value>FailedLoginCount,System.Int32</value>
+          <value>FailedPasswordResetCount,System.Int32</value>
+          <value>HashedPassword,System.String</value>
+          <value>ID,System.Guid</value>
+          <value>IsAccountClosed,System.Boolean</value>
+          <value>IsAccountVerified,System.Boolean</value>
+          <value>IsActive,System.Boolean</value>
+          <value>IsDeleted,System.Boolean</value>
+          <value>IsLoginAllowed,System.Boolean</value>
+          <value>IsTemporaryAccount,System.Boolean</value>
+          <value>LastFailedLogin,System.Nullable`1[System.DateTime]</value>
+          <value>LastFailedPasswordReset,System.Nullable`1[System.DateTime]</value>
+          <value>LastLogin,System.Nullable`1[System.DateTime]</value>
+          <value>LastUpdated,System.DateTime</value>
+          <value>LinkedAccounts,System.Object</value>
+          <value>MobileCode,System.String</value>
+          <value>MobileCodeSent,System.Nullable`1[System.DateTime]</value>
+          <value>MobilePhoneNumber,System.String</value>
+          <value>MobilePhoneNumberChanged,System.Nullable`1[System.DateTime]</value>
+          <value>PasswordChanged,System.Nullable`1[System.DateTime]</value>
+          <value>PasswordResetSecrets,System.Object</value>
+          <value>RequiresPasswordReset,System.Boolean</value>
+          <value>Tenant,System.String</value>
+          <value>TwoFactorAuthTokens,System.Object</value>
+          <value>UserAccountDetails,System.Object</value>
+          <value>UserAccountLedgerAccounts,System.Object</value>
+          <value>UserAccountOrganisations,System.Object</value>
+          <value>UserCertificates,System.Object</value>
+          <value>UserClaims,System.Object</value>
+          <value>Username,System.String</value>
+          <value>VerificationKey,System.String</value>
+          <value>VerificationKeySent,System.Nullable`1[System.DateTime]</value>
+          <value>VerificationPurpose,System.Nullable`1[System.Int32]</value>
+          <value>VerificationStorage,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>69452a606cee449fb0386e66ddc6acb7</Guid>
+        <Name>UserAccount</Name>
+      </UserAccount>
+      <NotificationSettingDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="3">
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>7338e796f1d046c397f4f33cd721484a</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="6">
+        <Text1 Ref="5" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.6,2.8,8,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>{UserAccount.Email}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text1>
+        <Image1 Ref="6" type="Image" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>4.8,11.8,4.6,4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <ImageURL>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.ServerNotificationImageContentURLFolder}{NotificationSettingDTO.ServerLogoImageFileNameWithExtension}</ImageURL>
+          <Name>Image1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+        </Image1>
+        <Image2 Ref="7" type="Image" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>11.4,12.4,4,2.6</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Image>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAaCAYAAAAg0tunAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAQwgAAEMIBNHEjaQAAA31JREFUaEPtmElPFUEQx/0QGhWJeiEuN9FwNh7URBOXuKCJB40mRg039YABZX14EL1oNCYuGOOuiUZc0E/AFokiIKAIn6PpX0M9mqYyE2bmJZrM4Rf6VVXX1Pynp6uHJcvqu01OcnIBU5ILmJJcwJTkAqYksYBL6+azrq3fHHw4bC6++2NauqYcF+wYG74wXssJYZywqqHHtH2dcjDWYkDLCWFcVvWmFnD55W5T3TFiCrM3p4Hv6KMRs8LGxhUk/rIrPabqxoAbb7jab/bdGyrm239/yGy0NnxrmnpdrMzTcoL4s643lYAUc+blmFqExtlX425OVEH4EKTm9bgpfJlyf7VccOzxL1PbOeFiymZXpZYTSlVvKgGr7VPSLhwFTz/uRtc295pLnX/V+RoILatVywl+vU1dk66Oug8Lr4ENHzH8jqs3sYDr7T5B4WEBsPPOoEPzMYe5Wk6gWGB1+fMaPk2ak89GHYx93zm7UmSelhP8eo9YIYnddO2bqf84JyJjbPiIwRZXb2IBD9nNVi7ss+vuz+LN7LZjLYa5Wk5gXkWhb94ehUDlXuNgjM3PWdHa53xaTvDr5bUXoSrtXx4IMMaGjxiJj6o3sYB0L7mAsMdu9HKTArYwjrlaTkAcHoLENttXabVtFGFebPgkjjnM1XJCWC+rrbJ9RrAt7QMOxtj8VQlR9SYWsCV4fQ88GC7e3ErbBEB+4/NjmavlBD8O2MglTwi+MF7LCWG90Ph50myeFREYYwvjourNRMDDHXPi0bVOvxhzSAcDYiS+yRap5QSJEeiwkiOk5s3vBfFaTkgjYFS9mbzC2279cAUg2Knno0U7YxGRGLGffxv9Cu/wGlCrvXHZ33yw4ZO47bcHS/YKR9WbSROhU229+d2ceDonnoANn9+x45oIh+Nm+2Ug8Xwh+F8HjLGJn68Ijj74tJzwzzWRqGNMFHHHAhFJexiI5gsn8GUi87Sc4NfLeVCE8lcbYxFWzoxx9SYW0L/IYpDitZyAr+r6wKIeDofuuBXo17uog3RMvakEZH8ryaec3ctoHrXvJ8xeewxiEw9z8YoffzLqhP5vP+WkKJ5YKf6ZwF7IuLyxx+2jko8xDQMfn3AiHmg5QfxZ15taQIF9gs2Wbkd3ZNXQvbDhC+O1nBDGCVn/OyurehMLmDNDLmBKcgFTkguYklzAVHSbaWP7sB58U65oAAAAAElFTkSuQmCC</Image>
+          <Name>Image2</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+        </Image2>
+        <RoundedRectanglePrimitive1 Ref="8" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>1.4,2,13.6,8.8</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>498c6145a1f64204a0b54c5cb12d5fff</Guid>
+          <Name>RoundedRectanglePrimitive1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Round>0.2</Round>
+        </RoundedRectanglePrimitive1>
+        <StartPointPrimitive1 Ref="9" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+          <ClientRectangle>1.4,2,0,0</ClientRectangle>
+          <Name>StartPointPrimitive1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <ReferenceToGuid>498c6145a1f64204a0b54c5cb12d5fff</ReferenceToGuid>
+        </StartPointPrimitive1>
+        <EndPointPrimitive1 Ref="10" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+          <ClientRectangle>15,10.8,0,0</ClientRectangle>
+          <Name>EndPointPrimitive1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <ReferenceToGuid>498c6145a1f64204a0b54c5cb12d5fff</ReferenceToGuid>
+        </EndPointPrimitive1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a9df5bd2dbe449a4841d509a16454ef1</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="11" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="12" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>7/23/2014 10:55:07 AM</ReportChanged>
+  <ReportCreated>7/22/2014 2:02:58 PM</ReportCreated>
+  <ReportFile />
+  <ReportGuid>d8be8ef8c44b4327a120410611ba24b6</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2014.2.1915</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

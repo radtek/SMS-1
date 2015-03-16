@@ -1,0 +1,42 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.TransactionOrderPaymentDTO
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+
+
+@section headTag
+{
+
+}
+
+@section mainBody
+{
+
+    @(Html.X().Viewport().Layout(LayoutType.Border).ID("PaymentErrorViewPort").AutoDoLayout(true)
+          .Items(
+             
+                      X.Panel().ID("PaymentErrorPanel").ColumnWidth(1).Items(
+                                  X.Container().Layout(LayoutType.Column).Region(Region.Center).Padding(2).AutoScroll(true)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(1)
+                                          .Items(
+                                              X.Container().Layout(LayoutType.Column)
+                                                  .Items
+                                                  (
+                                                      X.Label().Text("We're sorry, your payment has encountered a problem and we are unable to process at this time."),
+                                                      X.Label().Text(Model.ErrorMessage.ToString()).PaddingSpec("20 20 40 0"),
+                                                      X.Label().Text("No payment has been taken and your card has not been charged."),
+                                                      X.Label().Text("Please check your details and try again.")
+                                                  )
+                                          )
+                                  )
+                          )))
+}

@@ -1,0 +1,24 @@
+﻿.k-grid-content {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    zoom: 1;
+}
+
+/* Kendo Grid pager and refresh button */
+body .k-pager-sizes .k-widget.k-dropdown {
+    margin-top: -2px !important;
+}
+
+body .k-pager-wrap .k-textbox, .k-pager-wrap .k-widget {
+    margin: 0 .4em 0 !important;
+}
+
+body .k-pager-wrap .k-dropdown {
+    width: 4.500em !important;
+}
+
+.k-pager-refresh.k-link {
+    background-color: #525252;
+    border-radius: 35%;
+}

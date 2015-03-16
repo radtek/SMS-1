@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F3A6F4F-CA28-467F-BACD-5979F9190BAE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Business</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <DontImportPostSharp>True</DontImportPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp, Version=3.1.43.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\PostSharp.3.1.43\lib\net20\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\ProductPurchaseBusTaskHelper.cs" />
+    <Compile Include="Extensions\BusTaskScheduleHelper.cs" />
+    <Compile Include="Extensions\ProductPurchaseHelper.cs" />
+    <Compile Include="Extensions\BusMessageHelper.cs" />
+    <Compile Include="Extensions\ServiceInterfaceHelper.cs" />
+    <Compile Include="Extensions\TransactionHelper.cs" />
+    <Compile Include="Extensions\SubscriptionHelper.cs" />
+    <Compile Include="Extensions\LogicHelper.cs" />
+    <Compile Include="Extensions\InvoiceHelper.cs" />
+    <Compile Include="Extensions\ExperianHelper.cs" />
+    <Compile Include="Logic\Helper\SRAValidationEnum.cs" />
+    <Compile Include="Logic\InviteLogic.cs" />
+    <Compile Include="Logic\StsLogic.cs" />
+    <Compile Include="Logic\LRLogic.cs" />
+    <Compile Include="Logic\OtherNameDTO.cs" />
+    <Compile Include="Logic\SubscriptionLogic.cs" />
+    <Compile Include="Logic\ValidationLogic .cs" />
+    <Compile Include="Logic\WASPTokenLogic.cs" />
+    <Compile Include="Logic\ExperianBWALogic.cs" />
+    <Compile Include="Logic\InvoiceLogic.cs" />
+    <Compile Include="Logic\TaskLogic.cs" />
+    <Compile Include="Logic\SettingLogic.cs" />
+    <Compile Include="Logic\ExperianIDCheckLogic.cs" />
+    <Compile Include="Logic\BusLogic.cs" />
+    <Compile Include="Logic\NotificationLogic.cs" />
+    <Compile Include="Logic\PaymentLogic.cs" />
+    <Compile Include="Logic\ClassificationDataLogic.cs" />
+    <Compile Include="Base\LogicBase.cs" />
+    <Compile Include="Logic\DataLogic.cs" />
+    <Compile Include="Logic\DeductionLogic.cs" />
+    <Compile Include="Logic\OrganisationUserStateTemplateLogic.cs" />
+    <Compile Include="Logic\ProductLogic.cs" />
+    <Compile Include="Logic\ShoppingCartLogic.cs" />
+    <Compile Include="Logic\TransactionOrderLogic.cs" />
+    <Compile Include="Logic\UserAccountAuditLogic.cs" />
+    <Compile Include="Logic\OrganisationLogic.cs" />
+    <Compile Include="Logic\AddressLogic.cs" />
+    <Compile Include="Logic\ContactLogic.cs" />
+    <Compile Include="Logic\ResourceLogic.cs" />
+    <Compile Include="Logic\OperationLogic.cs" />
+    <Compile Include="Logic\GroupLogic.cs" />
+    <Compile Include="Logic\RoleLogic.cs" />
+    <Compile Include="Logic\StateLogic.cs" />
+    <Compile Include="Logic\UserLogic.cs" />
+    <Compile Include="Product\Base\CartPricingStepBase.cs" />
+    <Compile Include="Product\Base\ProductPricingStepBase.cs" />
+    <Compile Include="Product\Helpers\PricingHelper.cs" />
+    <Compile Include="Product\Interfaces\ICartPricingStep.cs" />
+    <Compile Include="Product\Interfaces\IPricingStep.cs" />
+    <Compile Include="Product\Processor\ProductPricingProcessor.cs" />
+    <Compile Include="Product\Processor\CartPricingProcessor.cs" />
+    <Compile Include="Product\Steps\CartDiscountPricingStep.cs" />
+    <Compile Include="Product\Steps\CartDeductionPricingStep.cs" />
+    <Compile Include="Product\Steps\CartPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductSpecPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductAttributePricingStep.cs" />
+    <Compile Include="Product\Steps\ProductDiscountPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductDeductionPricingStep.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PostcodeAnywhere\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\BWAService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\BWATokenService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\ExperianIDCheck\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\FirstData\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bec.TargetFramework.Aop\Bec.TargetFramework.Aop.csproj">
+      <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
+      <Name>Bec.TargetFramework.Aop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
+      <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
+      <Name>Bec.TargetFramework.Data.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Repository\Bec.TargetFramework.Data.Repositories.csproj">
+      <Project>{d352e538-c2ba-45c1-903a-b21ba7eea90c}</Project>
+      <Name>Bec.TargetFramework.Data.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
+      <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
+      <Name>Bec.TargetFramework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
+      <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
+      <Name>BrockAllen.MembershipReboot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
+      <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
+      <Name>Bec.TargetFramework.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Infrastructure\Bec.TargetFramework.Services.Infrastructure.csproj">
+      <Project>{6b72bada-4c28-42de-8c82-527162fb40bb}</Project>
+      <Name>Bec.TargetFramework.Services.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities.Experian\Bec.TargetFramework.Entities.Experian.csproj">
+      <Project>{0d8d76f4-98f1-4571-9b59-180026144ce3}</Project>
+      <Name>Bec.TargetFramework.Entities.Experian</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
+      <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
+      <Name>Bec.TargetFramework.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Framework\Bec.TargetFramework.Framework.csproj">
+      <Project>{099954fd-7359-4209-9661-6aaea763ceae}</Project>
+      <Name>Bec.TargetFramework.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
+      <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
+      <Name>Bec.TargetFramework.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
+      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
+      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Resources\Resources.dist.all.last.stripped" />
+    <EmbeddedResource Include="Resources\Resources.dist.female.first.stripped" />
+    <EmbeddedResource Include="Resources\Resources.dist.male.first.stripped" />
+    <EmbeddedResource Include="Resources\Resources.places2k.txt.stripped" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PostcodeAnywhere\wsdlnew.wsdl" />
+    <None Include="Web References\BWAService\AccountInformation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\BankWizardAbsoluteCommon-v1-0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\BWAService\BankWizardCheckType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\BankWizardCommon-v1-0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\BWAService\BankWizardService-v1-0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\BWAService\BankWizardService-v1.wsdl" />
+    <None Include="Web References\BWAService\BankWizardServiceV1_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\BWAService\BranchSearchResults.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\CountryInformation.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetAdditionalDataResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetBranchDataResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetFasterPaymentsDataResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetInputWithSearchResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetLookupIbanInputResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetSEPADataResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GetSWIFTDataResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\GlobalSearchResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\LookupIbanResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\BWAService\SwiftSearchResults.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\ValidateIBANResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\ValidateResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWAService\VerifyResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\BWATokenService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\BWATokenService\TokenService.wsdl" />
+    <None Include="Web References\ExperianIDCheck\IDSearch.wsdl" />
+    <None Include="Web References\ExperianIDCheck\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FirstData\a1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\ipgapi.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\IPGApiActionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\FirstData\IPGApiOrderResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\FirstData\order.wsdl" />
+    <None Include="Web References\FirstData\PayTypes_1_0_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FirstData\SOAPTypes_1_0_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\v1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PostcodeAnywhere\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PostcodeAnywhere\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PostcodeAnywhere\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PostcodeAnywhere\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notes\FirstData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost/ExperianBWA/BankWizardService-v1.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\BWAService\</RelPath>
+      <UpdateFromURL>http://localhost/ExperianBWA/BankWizardService-v1.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Bec_TargetFramework_Business_BWAService_BankWizard_v1_0_Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://secure.authenticator.uat.uk.experian.com/WASPAuthenticator/TokenService.asmx%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\BWATokenService\</RelPath>
+      <UpdateFromURL>https://secure.authenticator.uat.uk.experian.com/WASPAuthenticator/TokenService.asmx%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Bec_TargetFramework_Business_BWATokenService_TokenService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://test.ipg-online.com/ipgapi/services/order.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FirstData\</RelPath>
+      <UpdateFromURL>https://test.ipg-online.com/ipgapi/services/order.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Bec_TargetFramework_Business_FirstData_IPGApiOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://xml.proveid.experian.com/IDSearch.cfc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ExperianIDCheck\</RelPath>
+      <UpdateFromURL>https://xml.proveid.experian.com/IDSearch.cfc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Bec_TargetFramework_Business_ExperianIDCheck1_IDSearch</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
+  <Import Project="..\..\packages\OctoPack.3.0.41\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.41\tools\OctoPack.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

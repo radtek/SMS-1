@@ -1,0 +1,2073 @@
+﻿<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Bec.TargetFramework.Data.Analysis.Store" Alias="Self" Provider="Devart.Data.PostgreSql" ProviderManifestToken="PostgreSQL, 9.4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:devart="http://devart.com/schemas/edml/StorageSchemaExtensions/1.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="BecTargetFrameworkAnalysisEntitiesStoreContainer">
+          <EntitySet Name="AnalysisBatchSenders" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchSender" store:Type="Tables" Schema="public" Table="AnalysisBatchSender" />
+          <EntitySet Name="AnalysisEngineMutators" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisEngineMutator" store:Type="Tables" Schema="public" Table="AnalysisEngineMutator" />
+          <EntitySet Name="AnalysisBatchCollators" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchCollator" store:Type="Tables" Schema="public" Table="AnalysisBatchCollator" />
+          <EntitySet Name="AnalysisEngines" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisEngine" store:Type="Tables" Schema="public" Table="AnalysisEngine" />
+          <EntitySet Name="AnalysisMutators" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisMutator" store:Type="Tables" Schema="public" Table="AnalysisMutator" />
+          <EntitySet Name="AnalysisMutatorInputs" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisMutatorInput" store:Type="Tables" Schema="public" Table="AnalysisMutatorInput" />
+          <EntitySet Name="AnalysisInputs" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisInput" store:Type="Tables" Schema="public" Table="AnalysisInput" />
+          <EntitySet Name="AnalysisProcessLogs" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" store:Type="Tables" Schema="public" Table="AnalysisProcessLog" />
+          <EntitySet Name="StatusTypes" EntityType="Bec.TargetFramework.Data.Analysis.Store.StatusType" store:Type="Tables" Schema="public" Table="StatusType" />
+          <EntitySet Name="AnalysisProcessLogSteps" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStep" store:Type="Tables" Schema="public" Table="AnalysisProcessLogStep" />
+          <EntitySet Name="AnalysisProcessLogStepOutputs" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStepOutput" store:Type="Tables" Schema="public" Table="AnalysisProcessLogStepOutput" />
+          <EntitySet Name="AnalysisBatchSchedulers" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchScheduler" store:Type="Tables" Schema="public" Table="AnalysisBatchScheduler" />
+          <EntitySet Name="AnalysisBatchReceivers" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchReceiver" store:Type="Tables" Schema="public" Table="AnalysisBatchReceiver" />
+          <EntitySet Name="AnalysisBatchProcessors" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchProcessor" store:Type="Tables" Schema="public" Table="AnalysisBatchProcessor" />
+          <EntitySet Name="AnalysisInterfaces" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" store:Type="Tables" Schema="public" Table="AnalysisInterface" />
+          <EntitySet Name="StatusTypeTemplates" EntityType="Bec.TargetFramework.Data.Analysis.Store.StatusTypeTemplate" store:Type="Tables" Schema="public" Table="StatusTypeTemplate" />
+          <EntitySet Name="AnalysisProcessLogBatches" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatch" store:Type="Tables" Schema="public" Table="AnalysisProcessLogBatch" />
+          <EntitySet Name="AnalysisProcessLogBatchDetails" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail" store:Type="Tables" Schema="public" Table="AnalysisProcessLogBatchDetail" />
+          <EntitySet Name="AnalysisXMLSchemata" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisXMLSchema" store:Type="Tables" Schema="public" Table="AnalysisXMLSchema" />
+          <EntitySet Name="StatusTypeValues" EntityType="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" store:Type="Tables" Schema="public" Table="StatusTypeValue" />
+          <EntitySet Name="AnalysisMortgageApplicationDetails" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationDetail" store:Type="Tables" Schema="public" Table="AnalysisMortgageApplicationDetail" />
+          <EntitySet Name="AnalysisMortgageApplicationHistories" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationHistory" store:Type="Tables" Schema="public" Table="AnalysisMortgageApplicationHistory" />
+          <EntitySet Name="AnalysisMortgageApplications" EntityType="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication" store:Type="Tables" Schema="public" Table="AnalysisMortgageApplication" />
+          <AssociationSet Name="fk_AnalysisProcessLog_AnalysisInterface" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLog_AnalysisInterface">
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLog_StatusType" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLog_StatusTypeValue" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusType_StatusTypeTemplate" Association="Bec.TargetFramework.Data.Analysis.Store.fk_StatusType_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusType" EntitySet="StatusTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_AnalysisProcessLog" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogStep_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogStep" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_StatusType" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogStep_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogStep" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_StatusTypeValue" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogStep_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogStep" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStepOutput_AnalysisProcessLog" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogStepOutput_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogStepOutput" EntitySet="AnalysisProcessLogStepOutputs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchScheduler" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisBatchScheduler">
+            <End Role="AnalysisBatchScheduler" EntitySet="AnalysisBatchSchedulers" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchReceiver" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisBatchReceiver">
+            <End Role="AnalysisBatchReceiver" EntitySet="AnalysisBatchReceivers" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchProcessor" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisBatchProcessor">
+            <End Role="AnalysisBatchProcessor" EntitySet="AnalysisBatchProcessors" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisEngine" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisEngine">
+            <End Role="AnalysisEngine" EntitySet="AnalysisEngines" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchCollator" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisBatchCollator">
+            <End Role="AnalysisBatchCollator" EntitySet="AnalysisBatchCollators" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchSender" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisInterface_AnalysisBatchSender">
+            <End Role="AnalysisBatchSender" EntitySet="AnalysisBatchSenders" />
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_AnalysisProcessLog" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatch_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogBatch" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_StatusType" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatch_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogBatch" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_StatusTypeValue" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatch_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogBatch" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogBatchDetail" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_StatusType" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatchDetail_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogBatchDetail" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_StatusTypeValue" Association="Bec.TargetFramework.Data.Analysis.Store.fk_AnalysisProcessLogBatchDetail_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogBatchDetail" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisProcessLogBatchDetail_fk" Association="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail_fk">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisProcessLogBatchDetail" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueID_StatusType" Association="Bec.TargetFramework.Data.Analysis.Store.fk_StatusTypeValueID_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationDetail_fk" Association="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationDetail_fk">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisMortgageApplicationDetail" EntitySet="AnalysisMortgageApplicationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationHistory_fk" Association="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationHistory_fk">
+            <End Role="AnalysisXMLSchema" EntitySet="AnalysisXMLSchemata" />
+            <End Role="AnalysisMortgageApplicationHistory" EntitySet="AnalysisMortgageApplicationHistories" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationHistory_fk1" Association="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationHistory_fk1">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisMortgageApplicationHistory" EntitySet="AnalysisMortgageApplicationHistories" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplication_fk" Association="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication_fk">
+            <End Role="AnalysisXMLSchema" EntitySet="AnalysisXMLSchemata" />
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AnalysisBatchSender">
+          <Key>
+            <PropertyRef Name="AnalysisBatchSenderID" />
+            <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchSenderID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisBatchSenderVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisBatchSenderTypeID" Type="int" />
+          <Property Name="AnalysisBatchSenderCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisEngineMutator">
+          <Key>
+            <PropertyRef Name="AnalysisEngineID" />
+            <PropertyRef Name="AnalysisEngineVersionNumber" />
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="AnalysisEngineID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisEngineVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="AnalysisMutatorID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Order" Type="int" Nullable="false" DefaultValue="0" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchCollator">
+          <Key>
+            <PropertyRef Name="AnalysisBatchCollatorID" />
+            <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchCollatorID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisBatchCollatorVersionNumber" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisBatchCollatorTypeID" Type="int" />
+          <Property Name="AnalysisBatchCollatorCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisEngine">
+          <Key>
+            <PropertyRef Name="AnalysisEngineID" />
+            <PropertyRef Name="AnalysisEngineVersionNumber" />
+          </Key>
+          <Property Name="AnalysisEngineID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisEngineVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisEngineTypeID" Type="int" />
+          <Property Name="AnalysisEngineCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisMutator">
+          <Key>
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisMutatorID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisMutatorTypeID" Type="int" />
+          <Property Name="AnalysisMutatorCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisMutatorInput">
+          <Key>
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+            <PropertyRef Name="AnalysisInputID" />
+            <PropertyRef Name="AnalysisInputVersionNumber" />
+          </Key>
+          <Property Name="AnalysisMutatorID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="AnalysisInputID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisInputVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+        </EntityType>
+        <EntityType Name="AnalysisInput">
+          <Key>
+            <PropertyRef Name="AnalysisInputID" />
+            <PropertyRef Name="AnalysisInputVersionNumber" />
+          </Key>
+          <Property Name="AnalysisInputID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisInputVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisInputTypeID" Type="int" />
+          <Property Name="AnalysisInputCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLog">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogID" />
+          </Key>
+          <Property Name="AnalysisProcessLogID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="AnalysisInterfaceID" Type="uuid" Nullable="false" />
+          <Property Name="AnalysisInterfaceVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="HasError" Type="boolean" />
+          <Property Name="IsComplete" Type="boolean" />
+          <Property Name="CompletedOn" Type="timestamp" />
+        </EntityType>
+        <EntityType Name="StatusType">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogStep">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogStepID" />
+          </Key>
+          <Property Name="AnalysisProcessLogStepID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="Step" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="AnalysisProcessLogID" Type="uuid" Nullable="false" />
+          <Property Name="ParentStep" Type="int" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="SourceID" Type="uuid" Nullable="false" />
+          <Property Name="SourceVersionNumber" Type="int" Nullable="false" />
+          <Property Name="RetryNumberOfTimes" Type="int" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogStepOutput">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogStepOutputID" />
+          </Key>
+          <Property Name="AnalysisProcessLogStepOutputID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisProcessLogID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="Output" Type="bytea" />
+          <Property Name="OutputType" Type="text" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchScheduler">
+          <Key>
+            <PropertyRef Name="AnalysisBatchSchedulerID" />
+            <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchSchedulerID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisBatchSchedulerVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisBatchSchedulerTypeID" Type="int" />
+          <Property Name="AnalysisBatchSchedulerCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchReceiver">
+          <Key>
+            <PropertyRef Name="AnalysisBatchReceiverID" />
+            <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchReceiverID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisBatchReceiverVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisBatchReceiverTypeID" Type="int" />
+          <Property Name="AnalysisBatchReceiverCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchProcessor">
+          <Key>
+            <PropertyRef Name="AnalysisBatchProcessorID" />
+            <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchProcessorID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisBatchProcessorVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisBatchProcessorTypeID" Type="int" />
+          <Property Name="AnalysisBatchProcessorCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AnalysisInterface">
+          <Key>
+            <PropertyRef Name="AnalysisInterfaceID" />
+            <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+          </Key>
+          <Property Name="AnalysisInterfaceID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisInterfaceVersionNumber" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="AnalysisInterfaceTypeID" Type="int" />
+          <Property Name="AnalysisInterfaceCategoryID" Type="int" />
+          <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="500" />
+          <Property Name="AnalysisBatchSchedulerID" Type="uuid" />
+          <Property Name="AnalysisBatchSchedulerVersionNumber" Type="int" />
+          <Property Name="AnalysisBatchReceiverID" Type="uuid" />
+          <Property Name="AnalysisBatchReceiverVersionNumber" Type="int" />
+          <Property Name="AnalysisBatchProcessorID" Type="uuid" />
+          <Property Name="AnalysisBatchProcessorVersionNumber" Type="int" />
+          <Property Name="AnalysisEngineID" Type="uuid" />
+          <Property Name="AnalysisEngineVersionNumber" Type="int" />
+          <Property Name="AnalysisBatchCollatorID" Type="uuid" />
+          <Property Name="AnalysisBatchCollatorVersionNumber" Type="int" />
+          <Property Name="AnalysisBatchSenderID" Type="uuid" />
+          <Property Name="AnalysisBatchSenderVersionNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="StatusTypeTemplate">
+          <Key>
+            <PropertyRef Name="StatusTypeTemplateID" />
+            <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogBatch">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogBatchID" />
+          </Key>
+          <Property Name="AnalysisProcessLogBatchID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisProcessLogID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="SentOn" Type="timestamp" />
+          <Property Name="FileName" Type="varchar" MaxLength="2000" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="SourceID" Type="uuid" Nullable="false" />
+          <Property Name="SourceVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogBatchDetail">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogBatchDetailID" />
+          </Key>
+          <Property Name="AnalysisProcessLogBatchDetailID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisProcessLogID" Type="uuid" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="Detail" Type="bytea" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="AnalysisMortgageApplicationID" Type="uuid" />
+          <Property Name="DetailType" Type="text" />
+        </EntityType>
+        <EntityType Name="AnalysisXMLSchema">
+          <Key>
+            <PropertyRef Name="SchemaID" />
+            <PropertyRef Name="SchemaVersionNumber" />
+          </Key>
+          <Property Name="SchemaID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="SchemaVersionNumber" Type="int" Nullable="false" />
+          <Property Name="LastUpdated" Type="timestamp" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="SchemaData" Type="json" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeValue">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplicationDetail">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationDetailID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationDetailID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisMortgageApplicationID" Type="uuid" Nullable="false" />
+          <Property Name="SearchReferenceKey" Type="text" Nullable="false" />
+          <Property Name="Lender" Type="text" Nullable="false" />
+          <Property Name="Domain" Type="text" Nullable="false" />
+          <Property Name="MortgageApplicationNumber" Type="text" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplicationHistory">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationHistoryID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationHistoryID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AnalysisMortgageApplicationID" Type="uuid" Nullable="false" />
+          <Property Name="RevisionNumber" Type="int" Nullable="false" devart:DefaultValue="nextval(('public.analysismortgageapplicationhistory_revisionnumber_seq'::text)::regclass)" />
+          <Property Name="LastUpdated" Type="timestamp" Nullable="false" />
+          <Property Name="ApplicationData" Type="json" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
+          <Property Name="ActionType" Type="text" Nullable="false" />
+          <Property Name="SchemaID" Type="uuid" Nullable="false" />
+          <Property Name="SchemaVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplication">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="LastUpdated" Type="timestamp" Nullable="false" />
+          <Property Name="ApplicationData" Type="json" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="SchemaID" Type="uuid" Nullable="false" />
+          <Property Name="SchemaVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_AnalysisProcessLog_AnalysisInterface">
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="1" />
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisInterfaceID" />
+              <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisInterfaceID" />
+              <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLog_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLog">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLog_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLog">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusType_StatusTypeTemplate">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusType">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_AnalysisProcessLog">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogStep" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogStep">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogStep" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogStep">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogStep" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogStep">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStepOutput_AnalysisProcessLog">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogStepOutput" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogStepOutput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogStepOutput">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchScheduler">
+          <End Role="AnalysisBatchScheduler" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchScheduler" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchScheduler">
+              <PropertyRef Name="AnalysisBatchSchedulerID" />
+              <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisBatchSchedulerID" />
+              <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchReceiver">
+          <End Role="AnalysisBatchReceiver" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchReceiver" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchReceiver">
+              <PropertyRef Name="AnalysisBatchReceiverID" />
+              <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisBatchReceiverID" />
+              <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchProcessor">
+          <End Role="AnalysisBatchProcessor" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchProcessor" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchProcessor">
+              <PropertyRef Name="AnalysisBatchProcessorID" />
+              <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisBatchProcessorID" />
+              <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisEngine">
+          <End Role="AnalysisEngine" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisEngine" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisEngine">
+              <PropertyRef Name="AnalysisEngineID" />
+              <PropertyRef Name="AnalysisEngineVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisEngineID" />
+              <PropertyRef Name="AnalysisEngineVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchCollator">
+          <End Role="AnalysisBatchCollator" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchCollator" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchCollator">
+              <PropertyRef Name="AnalysisBatchCollatorID" />
+              <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisBatchCollatorID" />
+              <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchSender">
+          <End Role="AnalysisBatchSender" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisBatchSender" Multiplicity="0..1" />
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchSender">
+              <PropertyRef Name="AnalysisBatchSenderID" />
+              <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisBatchSenderID" />
+              <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_AnalysisProcessLog">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatch" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatch">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatch" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatch">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatch" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatch">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetail" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetail">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetail" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetail">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetail" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetail">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisProcessLogBatchDetail_fk">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication" Multiplicity="0..1" />
+          <End Role="AnalysisProcessLogBatchDetail" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetail">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueID_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.Store.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.Store.StatusTypeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationDetail_fk">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationDetail" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationDetail">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationHistory_fk">
+          <End Role="AnalysisXMLSchema" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisXMLSchema" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationHistory" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisXMLSchema">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationHistory">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationHistory_fk1">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationHistory" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplicationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationHistory">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplication_fk">
+          <End Role="AnalysisXMLSchema" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisXMLSchema" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.Store.AnalysisMortgageApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisXMLSchema">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplication">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bec.TargetFramework.Data.Analysis" Alias="Self" d4p1:ViewGeneration="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:devart="http://devart.com/schemas/edml/ConceptualSchemaExtensions/1.0" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" annotation:UseStrongSpatialTypes="false" xmlns:d4p1="http://devart.com/schemas/edml/ConceptualSchemaExtensions/1.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TargetFrameworkAnalysisEntities" ed:Namespace="Bec.TargetFramework.Data.Analysis" annotation:LazyLoadingEnabled="true" ed:Guid="b9792235-1835-410b-9fc9-928bff88d797">
+          <EntitySet Name="AnalysisBatchSenders" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisBatchSender" />
+          <EntitySet Name="AnalysisEngineMutators" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisEngineMutator" />
+          <EntitySet Name="AnalysisBatchCollators" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisBatchCollator" />
+          <EntitySet Name="AnalysisEngines" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisEngine" />
+          <EntitySet Name="AnalysisMutators" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisMutator" />
+          <EntitySet Name="AnalysisMutatorInputs" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisMutatorInput" />
+          <EntitySet Name="AnalysisInputs" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisInput" />
+          <EntitySet Name="AnalysisProcessLogs" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" />
+          <EntitySet Name="StatusTypes" EntityType="Bec.TargetFramework.Data.Analysis.StatusType" />
+          <EntitySet Name="AnalysisProcessLogSteps" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStep" />
+          <EntitySet Name="AnalysisProcessLogStepOutputs" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStepOutput" />
+          <EntitySet Name="AnalysisBatchSchedulers" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisBatchScheduler" />
+          <EntitySet Name="AnalysisBatchReceivers" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisBatchReceiver" />
+          <EntitySet Name="AnalysisBatchProcessors" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisBatchProcessor" />
+          <EntitySet Name="AnalysisInterfaces" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisInterface" />
+          <EntitySet Name="StatusTypeTemplates" EntityType="Bec.TargetFramework.Data.Analysis.StatusTypeTemplate" />
+          <EntitySet Name="AnalysisProcessLogBatches" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatch" />
+          <EntitySet Name="AnalysisProcessLogBatchDetails" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail" />
+          <EntitySet Name="AnalysisXMLSchemata" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisXMLSchema" />
+          <EntitySet Name="StatusTypeValues" EntityType="Bec.TargetFramework.Data.Analysis.StatusTypeValue" />
+          <EntitySet Name="AnalysisMortgageApplicationDetails" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail" />
+          <EntitySet Name="AnalysisMortgageApplicationHistories" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory" />
+          <EntitySet Name="AnalysisMortgageApplications" EntityType="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication" />
+          <AssociationSet Name="fk_AnalysisProcessLog_AnalysisInterfaceSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_AnalysisInterface">
+            <End Role="AnalysisInterface" EntitySet="AnalysisInterfaces" />
+            <End Role="AnalysisProcessLogs" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLog_StatusTypeSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogs" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLog_StatusTypeValueSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogs" EntitySet="AnalysisProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusType_StatusTypeTemplateSet" Association="Bec.TargetFramework.Data.Analysis.fk_StatusType_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypes" EntitySet="StatusTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_AnalysisProcessLogSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogSteps" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_StatusTypeSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogSteps" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStep_StatusTypeValueSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogSteps" EntitySet="AnalysisProcessLogSteps" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogStepOutput_AnalysisProcessLogSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStepOutput_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogStepOutputs" EntitySet="AnalysisProcessLogStepOutputs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchSchedulerSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchScheduler">
+            <End Role="AnalysisBatchScheduler" EntitySet="AnalysisBatchSchedulers" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchReceiverSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchReceiver">
+            <End Role="AnalysisBatchReceiver" EntitySet="AnalysisBatchReceivers" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchProcessorSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchProcessor">
+            <End Role="AnalysisBatchProcessor" EntitySet="AnalysisBatchProcessors" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisEngineSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisEngine">
+            <End Role="AnalysisEngine" EntitySet="AnalysisEngines" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchCollatorSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchCollator">
+            <End Role="AnalysisBatchCollator" EntitySet="AnalysisBatchCollators" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisInterface_AnalysisBatchSenderSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchSender">
+            <End Role="AnalysisBatchSender" EntitySet="AnalysisBatchSenders" />
+            <End Role="AnalysisInterfaces" EntitySet="AnalysisInterfaces" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_AnalysisProcessLogSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogBatches" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_StatusTypeSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogBatches" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatch_StatusTypeValueSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogBatches" EntitySet="AnalysisProcessLogBatches" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_AnalysisProcessLogSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog">
+            <End Role="AnalysisProcessLog" EntitySet="AnalysisProcessLogs" />
+            <End Role="AnalysisProcessLogBatchDetails" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_StatusTypeSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="AnalysisProcessLogBatchDetails" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AnalysisProcessLogBatchDetail_StatusTypeValueSet" Association="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="AnalysisProcessLogBatchDetails" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisProcessLogBatchDetail_fkSet" Association="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail_fk">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisProcessLogBatchDetails" EntitySet="AnalysisProcessLogBatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueID_StatusTypeSet" Association="Bec.TargetFramework.Data.Analysis.fk_StatusTypeValueID_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeValues" EntitySet="StatusTypeValues" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationDetail_fkSet" Association="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail_fk">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisMortgageApplicationDetails" EntitySet="AnalysisMortgageApplicationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationHistory_fkSet" Association="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk">
+            <End Role="AnalysisXMLSchema" EntitySet="AnalysisXMLSchemata" />
+            <End Role="AnalysisMortgageApplicationHistories" EntitySet="AnalysisMortgageApplicationHistories" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplicationHistory_fk1Set" Association="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk1">
+            <End Role="AnalysisMortgageApplication" EntitySet="AnalysisMortgageApplications" />
+            <End Role="AnalysisMortgageApplicationHistories" EntitySet="AnalysisMortgageApplicationHistories" />
+          </AssociationSet>
+          <AssociationSet Name="AnalysisMortgageApplication_fkSet" Association="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication_fk">
+            <End Role="AnalysisXMLSchema" EntitySet="AnalysisXMLSchemata" />
+            <End Role="AnalysisMortgageApplications" EntitySet="AnalysisMortgageApplications" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AnalysisBatchSender" ed:Guid="52603c20-6a24-4788-814e-17cfabb984a4">
+          <Key>
+            <PropertyRef Name="AnalysisBatchSenderID" />
+            <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchSenderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a4fb0b46-cdcf-4b77-91f0-b4428ec5aa3d" />
+          <Property Name="AnalysisBatchSenderVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="6348f12f-c8ee-44c5-b3df-74c1460af2db" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="4c0b275e-f992-477a-9b9c-495d476cb34c" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="b48a6954-c8fb-474e-9df1-4d772772ed83" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="43852dac-4cb1-413c-bf94-af76abdea0c3" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="da2a661c-9506-433c-a540-c8049d3f93f4" />
+          <Property Name="AnalysisBatchSenderTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="cf000d39-e580-4d29-87fe-0e1ae55816f3" />
+          <Property Name="AnalysisBatchSenderCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="e90d8273-1b3c-4c17-a99b-b449fe13b395" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="9bc299fc-dbc4-4304-89ab-54bea90b5b8d" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="dfea45a5-b379-47fe-8b88-ca0a9d0a3bdb" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchSender" FromRole="AnalysisBatchSender" ToRole="AnalysisInterfaces" ed:Guid="a209f31e-80f0-4c2c-9d01-d13ba993d80b" />
+        </EntityType>
+        <EntityType Name="AnalysisEngineMutator" ed:Guid="dda8ba14-96f2-437c-88d4-5c6c18cab2a0">
+          <Key>
+            <PropertyRef Name="AnalysisEngineID" />
+            <PropertyRef Name="AnalysisEngineVersionNumber" />
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="AnalysisEngineID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="02e2122e-f497-4f42-bf65-acaf32415d07" />
+          <Property Name="AnalysisEngineVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="c751f9ec-6d3a-4944-9cd9-f74e3a86a17f" />
+          <Property Name="AnalysisMutatorID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8651849c-1672-4f8c-bfee-ac0e8c60313d" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="61527a85-663b-414e-864c-7c12592813cf" />
+          <Property Name="Order" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="489c4656-3129-44a1-b5f6-da18b2d6dbce" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchCollator" ed:Guid="5c38755c-0f16-48ff-94d6-dd6f350e6653">
+          <Key>
+            <PropertyRef Name="AnalysisBatchCollatorID" />
+            <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchCollatorID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f712823c-7070-4deb-9f16-b73ea19e16fc" />
+          <Property Name="AnalysisBatchCollatorVersionNumber" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="182d56bf-5e88-4547-9236-93302436865f" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="34812d2c-ebbb-4d35-90a8-198022c1cc38" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="b55955f3-7260-4d82-b584-9129608e9b38" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="9310436c-471a-4a17-b656-9636f24f594f" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="deb1fe55-77d4-481d-8fb8-096f9a9fa7c3" />
+          <Property Name="AnalysisBatchCollatorTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="c8bfb61c-83ca-4f7a-9cff-025f1be245e6" />
+          <Property Name="AnalysisBatchCollatorCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="60fd62f4-3d5d-4314-a591-18c0ff44659d" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="4175eb53-2222-4dd8-8303-734852a64086" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="3e0f076e-3041-4670-ba47-e126b057bae8" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchCollator" FromRole="AnalysisBatchCollator" ToRole="AnalysisInterfaces" ed:Guid="b14caf2b-96ce-4258-8312-0261460a3ee4" />
+        </EntityType>
+        <EntityType Name="AnalysisEngine" ed:Guid="d24fac7e-0fc0-44b2-a4af-598b0d4d08fe">
+          <Key>
+            <PropertyRef Name="AnalysisEngineID" />
+            <PropertyRef Name="AnalysisEngineVersionNumber" />
+          </Key>
+          <Property Name="AnalysisEngineID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="cc7c26db-4707-4abe-b45b-4cf57b83932a" />
+          <Property Name="AnalysisEngineVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="d293894f-17f6-4b96-acad-867fd830b57a" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="3f776a1f-2823-4a78-a34a-18442041522b" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="7b549b05-dc39-4ec1-920c-9e2d25aeb8ec" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="950d7e1c-e34d-4450-b275-f8efa3cff801" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="4408f921-5ba2-40bf-b9af-7cc62ed5fcfe" />
+          <Property Name="AnalysisEngineTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="ce6ec249-9fdb-4be7-8f79-b3fa1a83b75c" />
+          <Property Name="AnalysisEngineCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="97afe26f-487c-42a0-ac52-e9b22c59c94c" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="27ac56d4-04b9-4cd0-89de-3489dbeff433" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="d8fbe4de-2f53-4963-bbd8-50ab70eb77c9" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisEngine" FromRole="AnalysisEngine" ToRole="AnalysisInterfaces" ed:Guid="06ef1e25-0da9-4cff-83ab-b1bbf63f61cd" />
+        </EntityType>
+        <EntityType Name="AnalysisMutator" ed:Guid="b424e9c6-83e8-43af-bd93-300462c82cd1">
+          <Key>
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisMutatorID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e36c2eca-e0df-4244-a79d-8fb97fe165df" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="11d0ccd9-c818-4621-a7d0-15a7dc08b5f7" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="e711275a-3d3a-4589-81b9-65c925ed8dd3" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="f454cfa9-cbfb-4a20-b3a5-22ca2432c9b8" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="b8a05083-ff25-4b1f-a073-2e8a1a409d56" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="d4d207b2-9594-4d57-9e9a-f5f3b5d34c38" />
+          <Property Name="AnalysisMutatorTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="0645ebf8-feff-4cd6-968b-241b2998e170" />
+          <Property Name="AnalysisMutatorCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="660388a5-e009-452b-8640-68a844c6a083" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="bb8fce6b-55eb-44fd-8f1c-60551f33e93a" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="680e1c35-cd56-4955-b5f2-58f94314c944" />
+        </EntityType>
+        <EntityType Name="AnalysisMutatorInput" ed:Guid="c12a385d-e914-4677-90d3-9ad2079ddda9">
+          <Key>
+            <PropertyRef Name="AnalysisMutatorID" />
+            <PropertyRef Name="AnalysisMutatorVersionNumber" />
+            <PropertyRef Name="AnalysisInputID" />
+            <PropertyRef Name="AnalysisInputVersionNumber" />
+          </Key>
+          <Property Name="AnalysisMutatorID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5d3162f5-31ef-4a49-96d6-6b65df6ec987" />
+          <Property Name="AnalysisMutatorVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="891c993b-8dcc-4c85-acaa-8ab199419135" />
+          <Property Name="AnalysisInputID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fabe69e1-6939-499b-a346-fdf98a4e00e9" />
+          <Property Name="AnalysisInputVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="6577d2b2-c507-4303-a2c7-44948f723398" />
+        </EntityType>
+        <EntityType Name="AnalysisInput" ed:Guid="3bf92f65-7d14-42e7-b4ea-d4b963d308a5">
+          <Key>
+            <PropertyRef Name="AnalysisInputID" />
+            <PropertyRef Name="AnalysisInputVersionNumber" />
+          </Key>
+          <Property Name="AnalysisInputID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5c9152b7-299c-46c0-be23-b163484ae407" />
+          <Property Name="AnalysisInputVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="98714d1f-8141-487d-a0cc-b2392b6af669" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="b8b5b8b4-9848-4b65-a396-af58e51d989e" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="4a72b071-229b-450d-8b33-be473f0605d3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="55a330fa-47f9-470b-90fc-14e9bffe32a4" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b60c5289-df7c-445f-8344-6b85e5d06a88" />
+          <Property Name="AnalysisInputTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="32531cea-0b52-4d3c-a860-430c32f64c31" />
+          <Property Name="AnalysisInputCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="d23febfd-b754-46e1-90e7-04f67cf5f123" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="3d6e7008-2452-4e55-8b05-947166e6f7b5" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="7d11f316-fba4-4039-b8ec-db10490bdb99" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLog" ed:Guid="0910a142-0286-48b5-8ab4-25c80e9e4f04">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogID" />
+          </Key>
+          <Property Name="AnalysisProcessLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="31c07d7f-13b9-473f-8a4a-c5e7c4243ec7" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="60869d46-98fe-433b-975a-1fe4bf957dac" />
+          <Property Name="AnalysisInterfaceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="6430318a-5be1-44d4-a329-2f5092c5ea7e" />
+          <Property Name="AnalysisInterfaceVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="fe37f6c0-0844-414c-9ab8-9bed4cfac211" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f82c4be0-30f1-43b0-8e33-330721a25c58" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="465590fc-9036-4022-85a7-9065ee694011" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="6b5ed900-d19d-4a79-9fe9-4d4ba8b971cc" />
+          <Property Name="HasError" Type="Boolean" ed:ValidateRequired="False" ed:Guid="1fddf0d8-c319-403a-af68-681ec9f5ae7c" />
+          <Property Name="IsComplete" Type="Boolean" ed:ValidateRequired="False" ed:Guid="04fc14d4-4160-4928-9b33-4e8b602226d1" />
+          <Property Name="CompletedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="ff2a8513-8673-4210-95b7-45f9beafea20" />
+          <NavigationProperty Name="AnalysisInterface" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_AnalysisInterface" FromRole="AnalysisProcessLogs" ToRole="AnalysisInterface" ed:Guid="a7a0861e-d726-4679-89ec-5ba1dae86abe" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusType" FromRole="AnalysisProcessLogs" ToRole="StatusType" ed:Guid="03f96382-26e8-4a5b-a064-a3ee1e7a941e" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusTypeValue" FromRole="AnalysisProcessLogs" ToRole="StatusTypeValue" ed:Guid="c4b4ce49-11ba-4c90-a35d-85eb2f2fcb75" />
+          <NavigationProperty Name="AnalysisProcessLogSteps" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_AnalysisProcessLog" FromRole="AnalysisProcessLog" ToRole="AnalysisProcessLogSteps" ed:Guid="309bf438-ba41-4b65-8654-9471c0ee82f4" />
+          <NavigationProperty Name="AnalysisProcessLogStepOutputs" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStepOutput_AnalysisProcessLog" FromRole="AnalysisProcessLog" ToRole="AnalysisProcessLogStepOutputs" ed:Guid="28b28f46-ca8a-41aa-a25c-9dc1da5aedd5" />
+          <NavigationProperty Name="AnalysisProcessLogBatches" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_AnalysisProcessLog" FromRole="AnalysisProcessLog" ToRole="AnalysisProcessLogBatches" ed:Guid="27c24e0b-5828-46b2-b515-82ad2e89634b" />
+          <NavigationProperty Name="AnalysisProcessLogBatchDetails" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog" FromRole="AnalysisProcessLog" ToRole="AnalysisProcessLogBatchDetails" ed:Guid="7ab2e8f3-7fdc-47a1-a857-2ec02632d795" />
+        </EntityType>
+        <EntityType Name="StatusType" ed:Guid="969abfaa-6577-49e7-8ff2-051955bb19c5">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="286c3449-f263-430d-b7f8-c31272544b37" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="bebad75c-9666-4cad-82d8-066dc7d09fb6" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="3b6c8806-c6ff-4305-b677-ff8586c7dbba" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="eebc06aa-69c1-49ca-b3c7-619994f46a35" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="4f1adfa0-863a-405a-8b2f-7059e37b4bf9" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="921272d0-fb9d-4ba5-bc0b-3a76d4cce670" />
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f243aee8-2cf2-40cf-93ca-0551f8300ffb" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="86936185-9f61-45d0-be8e-f0f91540da1d" />
+          <NavigationProperty Name="AnalysisProcessLogs" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusType" FromRole="StatusType" ToRole="AnalysisProcessLogs" ed:Guid="3904da08-8db9-402f-a633-2af0c3dce73a" />
+          <NavigationProperty Name="StatusTypeTemplate" Relationship="Bec.TargetFramework.Data.Analysis.fk_StatusType_StatusTypeTemplate" FromRole="StatusTypes" ToRole="StatusTypeTemplate" ed:Guid="329002bf-b941-4c94-8834-630e40d362b1" />
+          <NavigationProperty Name="AnalysisProcessLogSteps" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusType" FromRole="StatusType" ToRole="AnalysisProcessLogSteps" ed:Guid="6c271b46-62e1-489e-944f-85dc20afa289" />
+          <NavigationProperty Name="AnalysisProcessLogBatches" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusType" FromRole="StatusType" ToRole="AnalysisProcessLogBatches" ed:Guid="d5c4e5cd-6599-48ae-a125-6164edf82c50" />
+          <NavigationProperty Name="AnalysisProcessLogBatchDetails" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusType" FromRole="StatusType" ToRole="AnalysisProcessLogBatchDetails" ed:Guid="85f7a516-09ed-475b-a169-2b03f183077f" />
+          <NavigationProperty Name="StatusTypeValues" Relationship="Bec.TargetFramework.Data.Analysis.fk_StatusTypeValueID_StatusType" FromRole="StatusType" ToRole="StatusTypeValues" ed:Guid="2b066bb7-f540-4ba1-9d23-d51f86dff281" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogStep" ed:Guid="236e973e-368f-4264-835b-0b820e455d02">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogStepID" />
+          </Key>
+          <Property Name="AnalysisProcessLogStepID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="16295dd7-d105-4586-a8bf-9764e2b83545" />
+          <Property Name="Step" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="db82bd5d-c39b-4137-a700-8c64d72a02d1" />
+          <Property Name="AnalysisProcessLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a79f591b-62d2-44ba-bc77-048a989e2119" />
+          <Property Name="ParentStep" Type="Int32" ed:ValidateRequired="False" ed:Guid="5febd9b5-580a-4c75-9122-67a3d364d9a9" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="ed1060a6-5885-4e98-b923-5ed51d7fa119" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2e8bc519-0b3b-4c95-a3c6-b2bf46bab424" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="c214f5a8-c41c-4c03-8ff7-546587ae80ce" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f622fa32-2014-4b03-9e50-0d4c8e9d1cc9" />
+          <Property Name="SourceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ebedf757-aae1-4657-82b8-87e1163db0a8" />
+          <Property Name="SourceVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="dca4afe8-80ea-4c66-89eb-9805f330e5fd" />
+          <Property Name="RetryNumberOfTimes" Type="Int32" ed:ValidateRequired="False" ed:Guid="4834186c-16a8-4832-943c-26e8a24d26a1" />
+          <NavigationProperty Name="AnalysisProcessLog" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_AnalysisProcessLog" FromRole="AnalysisProcessLogSteps" ToRole="AnalysisProcessLog" ed:Guid="c83e0c0c-30e8-4bb3-bd80-094c1a7c7c70" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusType" FromRole="AnalysisProcessLogSteps" ToRole="StatusType" ed:Guid="56d10ee8-1f29-4069-beb9-033baeb59624" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusTypeValue" FromRole="AnalysisProcessLogSteps" ToRole="StatusTypeValue" ed:Guid="47446292-afe7-44fb-a8f9-cd8f39d68583" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogStepOutput" ed:Guid="8e057df5-3a24-4f96-8ac4-11bc2c74a030">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogStepOutputID" />
+          </Key>
+          <Property Name="AnalysisProcessLogStepOutputID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2a7b66d7-f062-4445-b38b-9204c10e83b7" />
+          <Property Name="AnalysisProcessLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1ba85949-bc17-4c0a-bf95-1b20806f82b1" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3fe76443-d5e0-4ee3-9711-dc75d734a628" />
+          <Property Name="Output" Type="Binary" ed:ValidateRequired="False" ed:Guid="6b233688-03d0-40bc-8605-e18b3f666fc8" />
+          <Property Name="OutputType" Type="String" ed:ValidateRequired="False" ed:Guid="1fe75edc-df6c-4cad-8c50-481b90cc3278" />
+          <NavigationProperty Name="AnalysisProcessLog" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStepOutput_AnalysisProcessLog" FromRole="AnalysisProcessLogStepOutputs" ToRole="AnalysisProcessLog" ed:Guid="4f684c99-7ba9-4c2b-af14-6fd0b6cf1777" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchScheduler" ed:Guid="9f551f8f-3200-494b-9cae-9c7ce45d1329">
+          <Key>
+            <PropertyRef Name="AnalysisBatchSchedulerID" />
+            <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchSchedulerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7913f4a9-66c7-4037-bf7b-77c34ffc2d7c" />
+          <Property Name="AnalysisBatchSchedulerVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="c7b15263-83e3-486d-a167-b80c9817881a" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="df35f06e-a825-4b2a-a8b4-3956e9c588cd" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="864b6454-5ec8-4ba3-bc1e-7f6a4c6f96aa" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="9d4d26a7-5378-47fb-bc23-f08c69846242" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a8f51eec-c198-40ed-8d01-753c824bd9cc" />
+          <Property Name="AnalysisBatchSchedulerTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="5176cb52-c58c-48ad-81a5-0518923a5945" />
+          <Property Name="AnalysisBatchSchedulerCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="dcdf7a1d-ed2d-47dd-8cb2-e15a276d9124" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="f9a28ad7-49b3-4707-91ae-7cd28ce05479" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="a3974786-6346-421e-b36a-ed40160f511a" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchScheduler" FromRole="AnalysisBatchScheduler" ToRole="AnalysisInterfaces" ed:Guid="4e9aa623-1040-4e28-86e1-169c373a92c0" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchReceiver" ed:Guid="d075a5a8-c302-490e-a5eb-a4437b6c7cf2">
+          <Key>
+            <PropertyRef Name="AnalysisBatchReceiverID" />
+            <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchReceiverID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7a989d51-8cd4-4652-9a20-edde1d96a223" />
+          <Property Name="AnalysisBatchReceiverVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="48dfd570-ac76-46b7-a0c6-91b84dfc2116" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="60cd3f03-a304-413d-9b0d-c76027980935" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="bf64baeb-52a8-416d-ac27-de23bf356334" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="7811b9d4-3d4e-4dbb-aaca-e986f03fed6c" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="e4cc3376-68eb-4f3a-b2c0-8347fb4f4890" />
+          <Property Name="AnalysisBatchReceiverTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="39d46afd-e224-41da-93a4-68feb8d016f8" />
+          <Property Name="AnalysisBatchReceiverCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1cffaf08-396b-4cc3-ad5f-87f2ae7a6df9" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="0a608dab-9713-43bb-ba10-93d28bc8da1b" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="e6c28a37-48d4-489c-9d34-184c478687a9" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchReceiver" FromRole="AnalysisBatchReceiver" ToRole="AnalysisInterfaces" ed:Guid="08fb775c-4efd-4bf0-bf5b-0005e09fef09" />
+        </EntityType>
+        <EntityType Name="AnalysisBatchProcessor" ed:Guid="5cef26f2-f1e0-42a1-815d-b2a0fd9f5985">
+          <Key>
+            <PropertyRef Name="AnalysisBatchProcessorID" />
+            <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+          </Key>
+          <Property Name="AnalysisBatchProcessorID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="cff02f9f-73df-4042-8013-d918ac33b833" />
+          <Property Name="AnalysisBatchProcessorVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="75260fa2-644c-4f74-b0dd-63d3910cee76" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="d727ee1e-eb0f-4949-aef6-aeca6b0d2d5c" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="dcc9f9ad-28da-4b37-88ce-1aa336d66e09" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="bb3e5c36-e319-4cf1-a480-65e22d665ad5" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="de71892d-3e42-430e-b314-35295fd49cfe" />
+          <Property Name="AnalysisBatchProcessorTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="d3917563-3bc8-40ed-b482-c4aebbf7b348" />
+          <Property Name="AnalysisBatchProcessorCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="ddc098bc-18b5-4f63-b85f-327266205236" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="d01ec7f4-45e0-43b0-91af-d66f4cf565f6" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="63ad728a-b1c8-4fd1-82d5-8c83d5157b7e" />
+          <NavigationProperty Name="AnalysisInterfaces" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchProcessor" FromRole="AnalysisBatchProcessor" ToRole="AnalysisInterfaces" ed:Guid="03846f93-eeb1-4f51-af19-1f16119de633" />
+        </EntityType>
+        <EntityType Name="AnalysisInterface" ed:Guid="084adda0-c6df-498b-9f57-e0bbf6c26770">
+          <Key>
+            <PropertyRef Name="AnalysisInterfaceID" />
+            <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+          </Key>
+          <Property Name="AnalysisInterfaceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a20f9269-a48d-41c4-affd-8027297d2f4b" />
+          <Property Name="AnalysisInterfaceVersionNumber" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="8a94e9aa-cd4f-4c5d-ae55-bbefd285c382" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="137687e4-566d-46a7-a83d-ee45b5f21908" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="7ef5c8cf-4607-4d90-a508-6386f191d290" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="54ad2fb6-7f1d-417a-94ad-8eaeb76162e2" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="118fa72c-296d-4846-a23c-067292a9a5a2" />
+          <Property Name="AnalysisInterfaceTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="52fc4249-40fe-4057-ae3b-9a6d04491c38" />
+          <Property Name="AnalysisInterfaceCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="d041e5fd-d91c-4084-a216-7cea4d43e23e" />
+          <Property Name="ObjectName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="51e1aa75-a99f-4b73-906c-8cc9955882ce" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="0c20720c-91d5-4529-8620-756e0a100daf" />
+          <Property Name="AnalysisBatchSchedulerID" Type="Guid" ed:ValidateRequired="False" ed:Guid="f544b595-652b-42db-b879-acc149e67dad" />
+          <Property Name="AnalysisBatchSchedulerVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="a0fb69fd-cd44-4d67-8079-5f84de87d846" />
+          <Property Name="AnalysisBatchReceiverID" Type="Guid" ed:ValidateRequired="False" ed:Guid="ea467fbf-034b-469a-9613-dea1849825a2" />
+          <Property Name="AnalysisBatchReceiverVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="c80ad296-ed6c-4985-85d1-23687201c361" />
+          <Property Name="AnalysisBatchProcessorID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3f34ba5c-f0a3-4567-a35d-38c273f39fcf" />
+          <Property Name="AnalysisBatchProcessorVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="66ca8b08-6ff5-45fd-b608-80b9523bc0d8" />
+          <Property Name="AnalysisEngineID" Type="Guid" ed:ValidateRequired="False" ed:Guid="e22f053f-0d4d-41dd-a2da-525cc6707897" />
+          <Property Name="AnalysisEngineVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="a52156e1-3e26-4933-8dad-75513a9de471" />
+          <Property Name="AnalysisBatchCollatorID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a2f5abae-08aa-46b4-ad7b-9aee7f0f064b" />
+          <Property Name="AnalysisBatchCollatorVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="4cda85ce-afbe-4f8f-b321-e1f3e987354c" />
+          <Property Name="AnalysisBatchSenderID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a08a6d7d-d558-459d-a40e-5816974ae3c8" />
+          <Property Name="AnalysisBatchSenderVersionNumber" Type="Int32" ed:ValidateRequired="False" ed:Guid="254afea0-2ddb-492b-bdb1-37a31faba4d9" />
+          <NavigationProperty Name="AnalysisProcessLogs" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_AnalysisInterface" FromRole="AnalysisInterface" ToRole="AnalysisProcessLogs" ed:Guid="de77ece9-3260-4e7a-8145-61257beda757" />
+          <NavigationProperty Name="AnalysisBatchScheduler" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchScheduler" FromRole="AnalysisInterfaces" ToRole="AnalysisBatchScheduler" ed:Guid="7b18133d-f4b4-4f05-a6f9-daf89ba5469c" />
+          <NavigationProperty Name="AnalysisBatchReceiver" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchReceiver" FromRole="AnalysisInterfaces" ToRole="AnalysisBatchReceiver" ed:Guid="42ec95e9-9e34-46fa-861f-bcec7cf8c802" />
+          <NavigationProperty Name="AnalysisBatchProcessor" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchProcessor" FromRole="AnalysisInterfaces" ToRole="AnalysisBatchProcessor" ed:Guid="167814fb-ca8f-4706-a693-f203b60af954" />
+          <NavigationProperty Name="AnalysisEngine" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisEngine" FromRole="AnalysisInterfaces" ToRole="AnalysisEngine" ed:Guid="24c4b607-bf86-4d7d-91d2-d65a51cfdc12" />
+          <NavigationProperty Name="AnalysisBatchCollator" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchCollator" FromRole="AnalysisInterfaces" ToRole="AnalysisBatchCollator" ed:Guid="7cbc12e4-a708-4429-9f32-5f3ebbb0cfa8" />
+          <NavigationProperty Name="AnalysisBatchSender" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisInterface_AnalysisBatchSender" FromRole="AnalysisInterfaces" ToRole="AnalysisBatchSender" ed:Guid="69553db7-885b-45b9-a428-afafa14ec1fc" />
+        </EntityType>
+        <EntityType Name="StatusTypeTemplate" ed:Guid="749e7110-e149-4fc7-aa6b-6235e1b947d0">
+          <Key>
+            <PropertyRef Name="StatusTypeTemplateID" />
+            <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f6e6bf3e-e4d3-47d9-a80f-1c4947c036be" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="a6bd2abf-f9fc-4b48-8845-d8d2f1600940" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="e7782e44-f9e8-4849-a757-c7231fd2f332" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="f3272c92-8516-4040-a2b9-50285efc765b" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="cde9ba7e-e0ba-4535-8cf2-8163125c9311" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="467a7b4d-3550-4d79-9e78-d604ae94af3b" />
+          <NavigationProperty Name="StatusTypes" Relationship="Bec.TargetFramework.Data.Analysis.fk_StatusType_StatusTypeTemplate" FromRole="StatusTypeTemplate" ToRole="StatusTypes" ed:Guid="025dac47-52c7-40ee-9527-41cb65e5c606" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogBatch" ed:Guid="2cc2a0b6-5669-42fc-b15c-9065b7a4714d">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogBatchID" />
+          </Key>
+          <Property Name="AnalysisProcessLogBatchID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="4561b12c-b3b3-4071-b139-8673965f9783" />
+          <Property Name="AnalysisProcessLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5c612f7e-cc89-4abe-ad39-5631f74dc14f" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="b2cfeb5e-37be-4d1e-9c3c-9d77d03a650b" />
+          <Property Name="SentOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7176d921-6629-4e5d-920d-b27fa0e3bba8" />
+          <Property Name="FileName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="c345301f-10fd-4057-918b-34cfd5e6acd8" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="68b73eaf-384e-455f-a095-09aa1665120a" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="e0aecdb1-5bf6-41c1-b243-132c35c042ad" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f2518e93-78da-40a4-97dd-ee243408f7dd" />
+          <Property Name="SourceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b716d964-b2d1-403a-a349-de6408016496" />
+          <Property Name="SourceVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="276f3035-1184-4717-8ca1-0281b3034be6" />
+          <NavigationProperty Name="AnalysisProcessLog" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_AnalysisProcessLog" FromRole="AnalysisProcessLogBatches" ToRole="AnalysisProcessLog" ed:Guid="4e5f80a0-bcd2-4c0a-9cee-745a5ab9e392" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusType" FromRole="AnalysisProcessLogBatches" ToRole="StatusType" ed:Guid="334c0cc3-2ead-4ba9-83d4-9b32ece3d73a" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusTypeValue" FromRole="AnalysisProcessLogBatches" ToRole="StatusTypeValue" ed:Guid="3c68dfd0-2c48-422f-b676-7a601c67c390" />
+        </EntityType>
+        <EntityType Name="AnalysisProcessLogBatchDetail" ed:Guid="dd329765-560a-485d-94e8-8fa18e5f6159">
+          <Key>
+            <PropertyRef Name="AnalysisProcessLogBatchDetailID" />
+          </Key>
+          <Property Name="AnalysisProcessLogBatchDetailID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a8747ab9-1227-42f3-9bc1-bdb61c19bc67" />
+          <Property Name="AnalysisProcessLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c0edc036-82cf-4901-a8a4-440783918965" />
+          <Property Name="Order" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2926580-2b5c-4235-bd08-9f6d4e3a7b54" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3ad7330b-1bdf-40f2-9bd6-84c0eeff4d00" />
+          <Property Name="Detail" Type="Binary" ed:ValidateRequired="False" ed:Guid="1ec653c3-d28f-4cc9-b384-7721a4da93be" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c1ef639b-f524-4aef-8e0d-9b09e2801930" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="8c3f4221-1ae4-4761-b330-ef2f7b929434" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="96b467dd-b6c4-4b41-8019-3398aa6b13be" />
+          <Property Name="AnalysisMortgageApplicationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="489c4848-007a-430c-b203-069eabd1a4cd" />
+          <Property Name="DetailType" Type="String" ed:ValidateRequired="False" ed:Guid="c18145b2-85c9-48a6-bf69-96339c371bcb" />
+          <NavigationProperty Name="AnalysisProcessLog" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog" FromRole="AnalysisProcessLogBatchDetails" ToRole="AnalysisProcessLog" ed:Guid="2fc75170-b56c-4725-a497-658e17e8182b" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusType" FromRole="AnalysisProcessLogBatchDetails" ToRole="StatusType" ed:Guid="423bbffd-62d1-49b1-a8ca-aa8dfdcd10da" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusTypeValue" FromRole="AnalysisProcessLogBatchDetails" ToRole="StatusTypeValue" ed:Guid="31c6012a-c2b5-44ac-a002-037984a58d61" />
+          <NavigationProperty Name="AnalysisMortgageApplication" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail_fk" FromRole="AnalysisProcessLogBatchDetails" ToRole="AnalysisMortgageApplication" ed:Guid="d9d3187e-1c1d-4f5e-8394-ac814b2b0701" />
+        </EntityType>
+        <EntityType Name="AnalysisXMLSchema" ed:Guid="e04b1415-9cfa-4102-bac7-a55e29063f05">
+          <Key>
+            <PropertyRef Name="SchemaID" />
+            <PropertyRef Name="SchemaVersionNumber" />
+          </Key>
+          <Property Name="SchemaID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2c11cc5c-68a0-4a04-80e7-03384ff6eccb" />
+          <Property Name="SchemaVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="ce7f7556-3c87-4ebe-b25a-b5d68881fedd" />
+          <Property Name="LastUpdated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c6760a94-64da-4736-b061-74d6826821dd" />
+          <Property Name="Name" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="24a5c7a1-ec68-45e6-be8b-a7a2b412dbba" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="ef21651b-7eba-4cb7-89a0-a5e5c45b3973" />
+          <Property Name="SchemaData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="4df5444f-a163-4641-8c94-c91e05161c56" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="940d6023-7306-4dae-8afc-ec5a0c414885" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="900eb80d-6eb9-4734-9935-a93302f70228" />
+          <NavigationProperty Name="AnalysisMortgageApplicationHistories" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk" FromRole="AnalysisXMLSchema" ToRole="AnalysisMortgageApplicationHistories" ed:Guid="5e9d7361-6838-4e9d-8673-fe72a9e215fa" />
+          <NavigationProperty Name="AnalysisMortgageApplications" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication_fk" FromRole="AnalysisXMLSchema" ToRole="AnalysisMortgageApplications" ed:Guid="36d2b7eb-094d-48a9-b24e-ec9b0fd03732" />
+        </EntityType>
+        <EntityType Name="StatusTypeValue" ed:Guid="bbe395a8-312e-49bb-8f6c-e7adb255202c">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c090f6cf-f8c8-4047-ae52-17885b9a2094" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f30601ed-3f63-4cb1-bea3-830451d4f84a" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="9b146c2b-7006-4e69-9ad3-f1857919dbf8" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="ae711030-89fe-4b7e-9df2-c3c01a6e5121" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="6095802b-b985-473e-ba00-831357076bcb" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="2a4d266c-a149-4616-bf6c-7c81b50ae729" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a14e22de-273d-48bc-b0cf-4ce1e801ad25" />
+          <NavigationProperty Name="AnalysisProcessLogs" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLog_StatusTypeValue" FromRole="StatusTypeValue" ToRole="AnalysisProcessLogs" ed:Guid="6ad1dc6b-9031-43bc-a930-bb38ba497024" />
+          <NavigationProperty Name="AnalysisProcessLogSteps" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogStep_StatusTypeValue" FromRole="StatusTypeValue" ToRole="AnalysisProcessLogSteps" ed:Guid="64330254-8661-4758-a131-3c212c61b1cb" />
+          <NavigationProperty Name="AnalysisProcessLogBatches" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatch_StatusTypeValue" FromRole="StatusTypeValue" ToRole="AnalysisProcessLogBatches" ed:Guid="87559277-af15-4831-b2fb-ebaa5d43cfb7" />
+          <NavigationProperty Name="AnalysisProcessLogBatchDetails" Relationship="Bec.TargetFramework.Data.Analysis.fk_AnalysisProcessLogBatchDetail_StatusTypeValue" FromRole="StatusTypeValue" ToRole="AnalysisProcessLogBatchDetails" ed:Guid="6cb2e228-e6d0-49b0-a4c1-2c42184d9c1e" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.Analysis.fk_StatusTypeValueID_StatusType" FromRole="StatusTypeValues" ToRole="StatusType" ed:Guid="70b1c500-8afd-4c77-af18-49543807817c" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplicationDetail" ed:Guid="c851bf43-bdd2-40a4-a980-53ac0b6d4cac">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationDetailID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationDetailID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="964e0785-be60-43be-87c6-52dade4bea46" />
+          <Property Name="AnalysisMortgageApplicationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f7e26df6-66a2-4e4e-8c31-6e3a57411437" />
+          <Property Name="SearchReferenceKey" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="98983e8d-9e83-4b13-9e86-95a2ce6becec" />
+          <Property Name="Lender" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="fdcb6998-78ca-430a-b5f0-48ebe0d80d8d" />
+          <Property Name="Domain" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="8a0460d8-494b-410d-a70f-34d865f2e0e0" />
+          <Property Name="MortgageApplicationNumber" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="8b9fa918-6a8b-4359-8b5c-431a364a78ad" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="48d9e379-b590-488a-bf61-69cc0a21d779" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a1197ce4-2204-458f-8e22-ccfc2954e088" />
+          <NavigationProperty Name="AnalysisMortgageApplication" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail_fk" FromRole="AnalysisMortgageApplicationDetails" ToRole="AnalysisMortgageApplication" ed:Guid="1107e4ea-8061-4151-8cb6-20000f4d8b9b" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplicationHistory" ed:Guid="87624eeb-ccc2-436f-a1fa-910b9db065eb">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationHistoryID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationHistoryID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="dce84bdd-2941-4e83-bbf6-7fdc11f07deb" />
+          <Property Name="AnalysisMortgageApplicationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="79e9adac-defb-4c27-9e4e-b9c322191784" />
+          <Property Name="RevisionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="7ba9d0ab-1cf5-474d-8d87-b00fcb1878f9" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="7f675732-7bcf-4f7a-b067-37ae401ef425" />
+          <Property Name="ApplicationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="30ede430-62e2-472f-904e-a63a8b18eb74" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a11c24f5-f966-4edb-9155-96cf4b78e521" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="34ba528d-b0d1-41c4-b8e0-5d1437a368f7" />
+          <Property Name="ActionType" Type="String" Nullable="false" ed:ValidateRequired="True" ed:Guid="82044401-268e-45db-87fb-7d108f7e4a58" />
+          <Property Name="SchemaID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="65eac2ae-12c5-4853-88ec-a09a7b1cce9c" />
+          <Property Name="SchemaVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="811b02c2-e234-4462-8a5e-e41a465e17c2" />
+          <NavigationProperty Name="AnalysisXMLSchema" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk" FromRole="AnalysisMortgageApplicationHistories" ToRole="AnalysisXMLSchema" ed:Guid="6ea7a8f9-f7a7-42cd-8c1f-a0232d62f2eb" />
+          <NavigationProperty Name="AnalysisMortgageApplication" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk1" FromRole="AnalysisMortgageApplicationHistories" ToRole="AnalysisMortgageApplication" ed:Guid="b92f31bf-d37d-454b-bd08-37c114736e9d" />
+        </EntityType>
+        <EntityType Name="AnalysisMortgageApplication" ed:Guid="d24c7d5c-3c75-4309-a657-13f208a108ec">
+          <Key>
+            <PropertyRef Name="AnalysisMortgageApplicationID" />
+          </Key>
+          <Property Name="AnalysisMortgageApplicationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="97948091-723b-4e28-8df6-5492ca1ab4ab" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="1292edd9-b2c5-43a3-a59f-4f262e7af8e1" />
+          <Property Name="ApplicationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="c351f360-ebcc-4b99-aef4-45f80b67de5c" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="eb690213-8bf9-4ab9-b411-cd83b9c8e052" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="81f68d50-4efb-4501-b345-6fa95668e110" />
+          <Property Name="SchemaID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="47b76a45-ca58-4218-a002-036015f9475c" />
+          <Property Name="SchemaVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="9fc1a306-0d7d-45f9-a4cd-c4d7ab4e6b8f" />
+          <NavigationProperty Name="AnalysisProcessLogBatchDetails" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail_fk" FromRole="AnalysisMortgageApplication" ToRole="AnalysisProcessLogBatchDetails" ed:Guid="afb43b46-e33d-48c0-9300-16dcd1315431" />
+          <NavigationProperty Name="AnalysisMortgageApplicationDetails" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail_fk" FromRole="AnalysisMortgageApplication" ToRole="AnalysisMortgageApplicationDetails" ed:Guid="438924ff-2934-4416-bc39-60130f78a3cc" />
+          <NavigationProperty Name="AnalysisMortgageApplicationHistories" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory_fk1" FromRole="AnalysisMortgageApplication" ToRole="AnalysisMortgageApplicationHistories" ed:Guid="44c43f39-a286-43f4-9da0-5cc6b154b975" />
+          <NavigationProperty Name="AnalysisXMLSchema" Relationship="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication_fk" FromRole="AnalysisMortgageApplications" ToRole="AnalysisXMLSchema" ed:Guid="aba544b9-304c-47df-a24c-917437bd2746" />
+        </EntityType>
+        <Association Name="fk_AnalysisProcessLog_AnalysisInterface" ed:Guid="b8c331eb-a0e8-49c0-bcd7-a6540bf5abc4">
+          <End Role="AnalysisInterface" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="1" />
+          <End Role="AnalysisProcessLogs" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisInterface">
+              <PropertyRef Name="AnalysisInterfaceID" />
+              <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogs">
+              <PropertyRef Name="AnalysisInterfaceID" />
+              <PropertyRef Name="AnalysisInterfaceVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLog_StatusType" ed:Guid="b8fe6a30-ff66-4f07-9191-12a3f70fa917">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogs" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogs">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLog_StatusTypeValue" ed:Guid="acf7baa4-681d-4dcd-94fb-8b2c3c6e164e">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogs" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogs">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusType_StatusTypeTemplate" ed:Guid="f151f699-d30d-43e4-8879-d4389345c0ed">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.Data.Analysis.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypes" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypes">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_AnalysisProcessLog" ed:Guid="f46444a3-02cb-45b1-8d7a-ad21efb32be9">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogSteps" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogSteps">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_StatusType" ed:Guid="a23a425c-cc36-4885-800e-2d5f3b01d941">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogSteps" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogSteps">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStep_StatusTypeValue" ed:Guid="2698b7cf-565b-42d8-927f-3bbc7d0e9983">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogSteps" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogSteps">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogStepOutput_AnalysisProcessLog" ed:Guid="87a3c086-cebc-4297-8508-a4e540fc73ab">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogStepOutputs" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStepOutput" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogStepOutputs">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchScheduler" ed:Guid="2279e6d9-2dae-4bf8-af23-9657ca2589f9">
+          <End Role="AnalysisBatchScheduler" Type="Bec.TargetFramework.Data.Analysis.AnalysisBatchScheduler" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchScheduler">
+              <PropertyRef Name="AnalysisBatchSchedulerID" />
+              <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisBatchSchedulerID" />
+              <PropertyRef Name="AnalysisBatchSchedulerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchReceiver" ed:Guid="0377d6fc-7abf-4528-adec-af80285fee8b">
+          <End Role="AnalysisBatchReceiver" Type="Bec.TargetFramework.Data.Analysis.AnalysisBatchReceiver" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchReceiver">
+              <PropertyRef Name="AnalysisBatchReceiverID" />
+              <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisBatchReceiverID" />
+              <PropertyRef Name="AnalysisBatchReceiverVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchProcessor" ed:Guid="ad35a298-c1d5-4d77-938e-729866b07f14">
+          <End Role="AnalysisBatchProcessor" Type="Bec.TargetFramework.Data.Analysis.AnalysisBatchProcessor" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchProcessor">
+              <PropertyRef Name="AnalysisBatchProcessorID" />
+              <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisBatchProcessorID" />
+              <PropertyRef Name="AnalysisBatchProcessorVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisEngine" ed:Guid="26e3817f-168d-4493-aa60-5364505e274e">
+          <End Role="AnalysisEngine" Type="Bec.TargetFramework.Data.Analysis.AnalysisEngine" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisEngine">
+              <PropertyRef Name="AnalysisEngineID" />
+              <PropertyRef Name="AnalysisEngineVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisEngineID" />
+              <PropertyRef Name="AnalysisEngineVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchCollator" ed:Guid="d8c614fe-8c25-4100-99d9-4872fd5045d6">
+          <End Role="AnalysisBatchCollator" Type="Bec.TargetFramework.Data.Analysis.AnalysisBatchCollator" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchCollator">
+              <PropertyRef Name="AnalysisBatchCollatorID" />
+              <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisBatchCollatorID" />
+              <PropertyRef Name="AnalysisBatchCollatorVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisInterface_AnalysisBatchSender" ed:Guid="4fbc2a35-e8a1-4e3a-b86a-6eb933669823">
+          <End Role="AnalysisBatchSender" Type="Bec.TargetFramework.Data.Analysis.AnalysisBatchSender" Multiplicity="0..1" />
+          <End Role="AnalysisInterfaces" Type="Bec.TargetFramework.Data.Analysis.AnalysisInterface" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisBatchSender">
+              <PropertyRef Name="AnalysisBatchSenderID" />
+              <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisInterfaces">
+              <PropertyRef Name="AnalysisBatchSenderID" />
+              <PropertyRef Name="AnalysisBatchSenderVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_AnalysisProcessLog" ed:Guid="39fd56bb-51f7-440b-a8c6-19a9b94a8bdc">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatches" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatches">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_StatusType" ed:Guid="ad5b935e-22d0-4839-bcd5-7a481a3a91a1">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatches" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatches">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatch_StatusTypeValue" ed:Guid="de6748fd-6ba1-4d18-b6f2-a0c79f6ecdc3">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatches" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatches">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_AnalysisProcessLog" ed:Guid="335882f5-dd7e-4c67-b9da-efd448cf949d">
+          <End Role="AnalysisProcessLog" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetails" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisProcessLog">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetails">
+              <PropertyRef Name="AnalysisProcessLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_StatusType" ed:Guid="3cba1c02-75de-4a32-9789-df52dd1506ca">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetails" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetails">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AnalysisProcessLogBatchDetail_StatusTypeValue" ed:Guid="13312bf1-be4b-47a2-8809-400c82658f05">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.Analysis.StatusTypeValue" Multiplicity="1" />
+          <End Role="AnalysisProcessLogBatchDetails" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetails">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisProcessLogBatchDetail_fk" ed:Guid="648424d7-1758-4484-b9d8-535f35754577">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication" Multiplicity="0..1" />
+          <End Role="AnalysisProcessLogBatchDetails" Type="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisProcessLogBatchDetails">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueID_StatusType" ed:Guid="1b9abb7d-4367-43eb-bd0a-2db5f26ba433">
+          <End Role="StatusType" Type="Bec.TargetFramework.Data.Analysis.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeValues" Type="Bec.TargetFramework.Data.Analysis.StatusTypeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValues">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationDetail_fk" ed:Guid="fd7f7b31-da52-48bd-80d3-a6c0046aa8e9">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationDetails" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationDetails">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationHistory_fk" ed:Guid="bed874be-cc2e-4a5b-b79b-93425e962d50">
+          <End Role="AnalysisXMLSchema" Type="Bec.TargetFramework.Data.Analysis.AnalysisXMLSchema" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationHistories" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisXMLSchema">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationHistories">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplicationHistory_fk1" ed:Guid="4547ba39-8e65-4fb9-889b-3d428d015937">
+          <End Role="AnalysisMortgageApplication" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplicationHistories" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisMortgageApplication">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplicationHistories">
+              <PropertyRef Name="AnalysisMortgageApplicationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AnalysisMortgageApplication_fk" ed:Guid="a852a99b-5843-4756-971f-72d7f6bd6a13">
+          <End Role="AnalysisXMLSchema" Type="Bec.TargetFramework.Data.Analysis.AnalysisXMLSchema" Multiplicity="1" />
+          <End Role="AnalysisMortgageApplications" Type="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AnalysisXMLSchema">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Principal>
+            <Dependent Role="AnalysisMortgageApplications">
+              <PropertyRef Name="SchemaID" />
+              <PropertyRef Name="SchemaVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- MSL content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BecTargetFrameworkAnalysisEntitiesStoreContainer" CdmEntityContainer="TargetFrameworkAnalysisEntities">
+          <EntitySetMapping Name="AnalysisBatchSenders">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisBatchSender">
+              <MappingFragment StoreEntitySet="AnalysisBatchSenders">
+                <ScalarProperty Name="AnalysisBatchSenderID" ColumnName="AnalysisBatchSenderID" />
+                <ScalarProperty Name="AnalysisBatchSenderVersionNumber" ColumnName="AnalysisBatchSenderVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisBatchSenderTypeID" ColumnName="AnalysisBatchSenderTypeID" />
+                <ScalarProperty Name="AnalysisBatchSenderCategoryID" ColumnName="AnalysisBatchSenderCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisEngineMutators">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisEngineMutator">
+              <MappingFragment StoreEntitySet="AnalysisEngineMutators">
+                <ScalarProperty Name="AnalysisEngineID" ColumnName="AnalysisEngineID" />
+                <ScalarProperty Name="AnalysisEngineVersionNumber" ColumnName="AnalysisEngineVersionNumber" />
+                <ScalarProperty Name="AnalysisMutatorID" ColumnName="AnalysisMutatorID" />
+                <ScalarProperty Name="AnalysisMutatorVersionNumber" ColumnName="AnalysisMutatorVersionNumber" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisBatchCollators">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisBatchCollator">
+              <MappingFragment StoreEntitySet="AnalysisBatchCollators">
+                <ScalarProperty Name="AnalysisBatchCollatorID" ColumnName="AnalysisBatchCollatorID" />
+                <ScalarProperty Name="AnalysisBatchCollatorVersionNumber" ColumnName="AnalysisBatchCollatorVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisBatchCollatorTypeID" ColumnName="AnalysisBatchCollatorTypeID" />
+                <ScalarProperty Name="AnalysisBatchCollatorCategoryID" ColumnName="AnalysisBatchCollatorCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisEngines">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisEngine">
+              <MappingFragment StoreEntitySet="AnalysisEngines">
+                <ScalarProperty Name="AnalysisEngineID" ColumnName="AnalysisEngineID" />
+                <ScalarProperty Name="AnalysisEngineVersionNumber" ColumnName="AnalysisEngineVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisEngineTypeID" ColumnName="AnalysisEngineTypeID" />
+                <ScalarProperty Name="AnalysisEngineCategoryID" ColumnName="AnalysisEngineCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisMutators">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisMutator">
+              <MappingFragment StoreEntitySet="AnalysisMutators">
+                <ScalarProperty Name="AnalysisMutatorID" ColumnName="AnalysisMutatorID" />
+                <ScalarProperty Name="AnalysisMutatorVersionNumber" ColumnName="AnalysisMutatorVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisMutatorTypeID" ColumnName="AnalysisMutatorTypeID" />
+                <ScalarProperty Name="AnalysisMutatorCategoryID" ColumnName="AnalysisMutatorCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisMutatorInputs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisMutatorInput">
+              <MappingFragment StoreEntitySet="AnalysisMutatorInputs">
+                <ScalarProperty Name="AnalysisMutatorID" ColumnName="AnalysisMutatorID" />
+                <ScalarProperty Name="AnalysisMutatorVersionNumber" ColumnName="AnalysisMutatorVersionNumber" />
+                <ScalarProperty Name="AnalysisInputID" ColumnName="AnalysisInputID" />
+                <ScalarProperty Name="AnalysisInputVersionNumber" ColumnName="AnalysisInputVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisInputs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisInput">
+              <MappingFragment StoreEntitySet="AnalysisInputs">
+                <ScalarProperty Name="AnalysisInputID" ColumnName="AnalysisInputID" />
+                <ScalarProperty Name="AnalysisInputVersionNumber" ColumnName="AnalysisInputVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisInputTypeID" ColumnName="AnalysisInputTypeID" />
+                <ScalarProperty Name="AnalysisInputCategoryID" ColumnName="AnalysisInputCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisProcessLogs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisProcessLog">
+              <MappingFragment StoreEntitySet="AnalysisProcessLogs">
+                <ScalarProperty Name="AnalysisProcessLogID" ColumnName="AnalysisProcessLogID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="AnalysisInterfaceID" ColumnName="AnalysisInterfaceID" />
+                <ScalarProperty Name="AnalysisInterfaceVersionNumber" ColumnName="AnalysisInterfaceVersionNumber" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="HasError" ColumnName="HasError" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="CompletedOn" ColumnName="CompletedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.StatusType">
+              <MappingFragment StoreEntitySet="StatusTypes">
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisProcessLogSteps">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStep">
+              <MappingFragment StoreEntitySet="AnalysisProcessLogSteps">
+                <ScalarProperty Name="AnalysisProcessLogStepID" ColumnName="AnalysisProcessLogStepID" />
+                <ScalarProperty Name="Step" ColumnName="Step" />
+                <ScalarProperty Name="AnalysisProcessLogID" ColumnName="AnalysisProcessLogID" />
+                <ScalarProperty Name="ParentStep" ColumnName="ParentStep" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SourceVersionNumber" ColumnName="SourceVersionNumber" />
+                <ScalarProperty Name="RetryNumberOfTimes" ColumnName="RetryNumberOfTimes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisProcessLogStepOutputs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogStepOutput">
+              <MappingFragment StoreEntitySet="AnalysisProcessLogStepOutputs">
+                <ScalarProperty Name="AnalysisProcessLogStepOutputID" ColumnName="AnalysisProcessLogStepOutputID" />
+                <ScalarProperty Name="AnalysisProcessLogID" ColumnName="AnalysisProcessLogID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Output" ColumnName="Output" />
+                <ScalarProperty Name="OutputType" ColumnName="OutputType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisBatchSchedulers">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisBatchScheduler">
+              <MappingFragment StoreEntitySet="AnalysisBatchSchedulers">
+                <ScalarProperty Name="AnalysisBatchSchedulerID" ColumnName="AnalysisBatchSchedulerID" />
+                <ScalarProperty Name="AnalysisBatchSchedulerVersionNumber" ColumnName="AnalysisBatchSchedulerVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisBatchSchedulerTypeID" ColumnName="AnalysisBatchSchedulerTypeID" />
+                <ScalarProperty Name="AnalysisBatchSchedulerCategoryID" ColumnName="AnalysisBatchSchedulerCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisBatchReceivers">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisBatchReceiver">
+              <MappingFragment StoreEntitySet="AnalysisBatchReceivers">
+                <ScalarProperty Name="AnalysisBatchReceiverID" ColumnName="AnalysisBatchReceiverID" />
+                <ScalarProperty Name="AnalysisBatchReceiverVersionNumber" ColumnName="AnalysisBatchReceiverVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisBatchReceiverTypeID" ColumnName="AnalysisBatchReceiverTypeID" />
+                <ScalarProperty Name="AnalysisBatchReceiverCategoryID" ColumnName="AnalysisBatchReceiverCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisBatchProcessors">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisBatchProcessor">
+              <MappingFragment StoreEntitySet="AnalysisBatchProcessors">
+                <ScalarProperty Name="AnalysisBatchProcessorID" ColumnName="AnalysisBatchProcessorID" />
+                <ScalarProperty Name="AnalysisBatchProcessorVersionNumber" ColumnName="AnalysisBatchProcessorVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisBatchProcessorTypeID" ColumnName="AnalysisBatchProcessorTypeID" />
+                <ScalarProperty Name="AnalysisBatchProcessorCategoryID" ColumnName="AnalysisBatchProcessorCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisInterfaces">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisInterface">
+              <MappingFragment StoreEntitySet="AnalysisInterfaces">
+                <ScalarProperty Name="AnalysisInterfaceID" ColumnName="AnalysisInterfaceID" />
+                <ScalarProperty Name="AnalysisInterfaceVersionNumber" ColumnName="AnalysisInterfaceVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="AnalysisInterfaceTypeID" ColumnName="AnalysisInterfaceTypeID" />
+                <ScalarProperty Name="AnalysisInterfaceCategoryID" ColumnName="AnalysisInterfaceCategoryID" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+                <ScalarProperty Name="AnalysisBatchSchedulerID" ColumnName="AnalysisBatchSchedulerID" />
+                <ScalarProperty Name="AnalysisBatchSchedulerVersionNumber" ColumnName="AnalysisBatchSchedulerVersionNumber" />
+                <ScalarProperty Name="AnalysisBatchReceiverID" ColumnName="AnalysisBatchReceiverID" />
+                <ScalarProperty Name="AnalysisBatchReceiverVersionNumber" ColumnName="AnalysisBatchReceiverVersionNumber" />
+                <ScalarProperty Name="AnalysisBatchProcessorID" ColumnName="AnalysisBatchProcessorID" />
+                <ScalarProperty Name="AnalysisBatchProcessorVersionNumber" ColumnName="AnalysisBatchProcessorVersionNumber" />
+                <ScalarProperty Name="AnalysisEngineID" ColumnName="AnalysisEngineID" />
+                <ScalarProperty Name="AnalysisEngineVersionNumber" ColumnName="AnalysisEngineVersionNumber" />
+                <ScalarProperty Name="AnalysisBatchCollatorID" ColumnName="AnalysisBatchCollatorID" />
+                <ScalarProperty Name="AnalysisBatchCollatorVersionNumber" ColumnName="AnalysisBatchCollatorVersionNumber" />
+                <ScalarProperty Name="AnalysisBatchSenderID" ColumnName="AnalysisBatchSenderID" />
+                <ScalarProperty Name="AnalysisBatchSenderVersionNumber" ColumnName="AnalysisBatchSenderVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeTemplates">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.StatusTypeTemplate">
+              <MappingFragment StoreEntitySet="StatusTypeTemplates">
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisProcessLogBatches">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatch">
+              <MappingFragment StoreEntitySet="AnalysisProcessLogBatches">
+                <ScalarProperty Name="AnalysisProcessLogBatchID" ColumnName="AnalysisProcessLogBatchID" />
+                <ScalarProperty Name="AnalysisProcessLogID" ColumnName="AnalysisProcessLogID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SentOn" ColumnName="SentOn" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SourceVersionNumber" ColumnName="SourceVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisProcessLogBatchDetails">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisProcessLogBatchDetail">
+              <MappingFragment StoreEntitySet="AnalysisProcessLogBatchDetails">
+                <ScalarProperty Name="AnalysisProcessLogBatchDetailID" ColumnName="AnalysisProcessLogBatchDetailID" />
+                <ScalarProperty Name="AnalysisProcessLogID" ColumnName="AnalysisProcessLogID" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="AnalysisMortgageApplicationID" ColumnName="AnalysisMortgageApplicationID" />
+                <ScalarProperty Name="DetailType" ColumnName="DetailType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisXMLSchemata">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisXMLSchema">
+              <MappingFragment StoreEntitySet="AnalysisXMLSchemata">
+                <ScalarProperty Name="SchemaID" ColumnName="SchemaID" />
+                <ScalarProperty Name="SchemaVersionNumber" ColumnName="SchemaVersionNumber" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SchemaData" ColumnName="SchemaData" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeValues">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.StatusTypeValue">
+              <MappingFragment StoreEntitySet="StatusTypeValues">
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisMortgageApplicationDetails">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationDetail">
+              <MappingFragment StoreEntitySet="AnalysisMortgageApplicationDetails">
+                <ScalarProperty Name="AnalysisMortgageApplicationDetailID" ColumnName="AnalysisMortgageApplicationDetailID" />
+                <ScalarProperty Name="AnalysisMortgageApplicationID" ColumnName="AnalysisMortgageApplicationID" />
+                <ScalarProperty Name="SearchReferenceKey" ColumnName="SearchReferenceKey" />
+                <ScalarProperty Name="Lender" ColumnName="Lender" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="MortgageApplicationNumber" ColumnName="MortgageApplicationNumber" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisMortgageApplicationHistories">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplicationHistory">
+              <MappingFragment StoreEntitySet="AnalysisMortgageApplicationHistories">
+                <ScalarProperty Name="AnalysisMortgageApplicationHistoryID" ColumnName="AnalysisMortgageApplicationHistoryID" />
+                <ScalarProperty Name="AnalysisMortgageApplicationID" ColumnName="AnalysisMortgageApplicationID" />
+                <ScalarProperty Name="RevisionNumber" ColumnName="RevisionNumber" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="ApplicationData" ColumnName="ApplicationData" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="SchemaID" ColumnName="SchemaID" />
+                <ScalarProperty Name="SchemaVersionNumber" ColumnName="SchemaVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnalysisMortgageApplications">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Analysis.AnalysisMortgageApplication">
+              <MappingFragment StoreEntitySet="AnalysisMortgageApplications">
+                <ScalarProperty Name="AnalysisMortgageApplicationID" ColumnName="AnalysisMortgageApplicationID" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="ApplicationData" ColumnName="ApplicationData" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="SchemaID" ColumnName="SchemaID" />
+                <ScalarProperty Name="SchemaVersionNumber" ColumnName="SchemaVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <edmx:Diagrams>
+      <Diagram Name="Main" />
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

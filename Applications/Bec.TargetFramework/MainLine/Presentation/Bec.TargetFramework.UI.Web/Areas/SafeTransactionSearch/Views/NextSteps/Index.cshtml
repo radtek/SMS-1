@@ -1,0 +1,122 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.NextStepsDTO
+
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+
+@section headTag
+{
+
+<style>
+    
+</style>
+
+    <script type="text/javascript">
+
+
+        var loadRelevantNextSteps = function (obj) {
+            debugger;
+            var selectedValue = obj.getChecked()[0].inputValue;
+            App.direct.SafeTransactionSearch.LoadNextSteps(selectedValue, {
+                success: function (result) {
+                    App.NextStepsDetails.show(); // TBD
+                }
+            });           
+        }
+
+
+    </script>
+   
+}
+
+@section mainBody
+{
+
+
+@(Html.X().Viewport().Layout(LayoutType.Border).ID("NextStepsViewPort").AutoDoLayout(true)
+          .Items(
+              Html.X().Panel().Region(Region.North).ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+              Html.X().Panel().Region(Region.West).ID("WorkflowTree").Height(750).Width(250).AutoScroll(false).ItemsFromPartial("_LeftPanel"),
+              Html.X().Container().Region(Region.Center).Layout(LayoutType.Column).AutoScroll(true)
+                  .Padding(2)
+                  .Items
+                  (
+                  X.FormPanel().ID("NextStepsForm").ColumnWidth(1).Region(Region.Center).ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                          .Items
+                          (
+
+                                     Html.X().AntiForgeryField(),
+                                 X.Container().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(1)
+                                          .Items(
+                                               X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End })
+                                                  .Items
+                                                  (
+                                                      X.Button().ApplyButtonDefaults(Razor.ApplyNextButtonDefaults).Flat(true)
+                                                          .DirectEvents(de =>
+                                                          {
+                                                              // de.Click.Before = "return #{NextStepsForm}.isValid();";
+                                                              de.Click.Url = Url.Action("Next", "NextSteps", new { area = "SafeTransactionSearch" });
+                                                             // de.Click.FormID = "NextStepsForm";
+                                                              de.Click.EventMask.ShowMask = true;
+                                                              de.Click.Method = HttpMethod.POST;
+                                                              de.Click.EventMask.Msg = "Please wait ...";
+                                                          })
+                                                  )
+                                          )
+                                  ),
+                                              
+
+                                                  X.Container().ColumnWidth(1).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Center })
+                                                        .Items
+                                                        (
+                                                              X.RadioGroupFor(model => model.isCO, new List<Radio.Config> { new Radio.Config { BoxLabel = "Yes", InputValue = "1" }, new Radio.Config { BoxLabel = "No", InputValue = "0" } }).ID("AreYouCO")
+                                                                                    .MinWidth(420).LabelWidth(200).ApplyRadioGroupDefaults("BeforeYouRegister", "AreYouCO")
+                                                                                    .Hidden(!Model.isExternalInvite)
+                                                                            .Listeners(l => l.Change.Fn = "loadRelevantNextSteps")
+                                                                            //.Listeners(l => l.Focus.Fn = "populateHelp")
+                                                        )
+                                                ,
+                                              X.Container().ColumnWidth(1).Padding(2).Items(
+                                                                                                               X.Panel().ColumnWidth(1)
+                                                                                                               .Items(
+        //Html.X().Container().ColumnWidth(1).Padding(2).ID("NextStepsDetails").Content(a => Html.Partial("NextSteps")).Hidden(Model.isExternalInvite).AutoDoLayout(true)
+    ))
+                                                           //Html.X().Container().ColumnWidth(1).Padding(2).ID("NextStepsDetails").Content(a => Html.Partial("NextSteps" + HttpContext.Current.Session.SessionID.ToString())).Hidden(Model.isExternalInvite).AutoDoLayout(true)))
+                                               // X.Container().ID("NextStepsDetails").ColumnWidth(1).Html(Model.nextStepsHtmlContent).Layout(LayoutType.Auto).AutoScroll(true)//.Hidden(Model.isExternalInvite)
+                                                //,
+                                               // X.Container().ItemsFromAction("NextStepsFile")
+                                              
+                                              
+                          )
+                          )                          
+                          )
+    )
+
+@(
+ X.Window()
+        .ID("STSandYourDataWindow")
+        .Title("STS and Your Data")
+        .AutoRender(true)
+        .Hidden(true)
+        .Width(800)
+        .Height(800)
+        .CloseAction(CloseAction.Destroy)
+        .BodyPadding(5)
+        .Modal(true)
+               .Items(Html.X()
+                           .Component().Height(800)
+                               .Html("<iframe src='/Content/Documents/STSDataSecurity.pdf' style='height: 100%; width: 100%'><iframe>"))
+)
+}
+

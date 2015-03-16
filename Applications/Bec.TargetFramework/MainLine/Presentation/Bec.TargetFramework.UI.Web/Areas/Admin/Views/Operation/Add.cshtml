@@ -1,0 +1,57 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.OperationDTO
+
+@(Html.X()
+          .FormPanel()
+          .ID("AddOperationForm")
+          .Title("Add Operation")
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+          .Items(
+              Html.X().AntiForgeryField(),
+                   Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                      .Items
+                      (
+                          Html.X()
+                              .TextFieldFor(model => model.OperationName)
+                              .AllowBlank(false)
+                              .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                    .Control(c =>
+                                        {
+                                            c.IsRemoteValidation = true;
+                                            c.RemoteValidation.Url = Url.Action("DoesOperationNameExist", "Operation", new { area = "Admin" });
+                                            c.RemoteValidation.ValidationEvent = "change, blur";
+                                            c.RemoteValidation.Method = Ext.Net.HttpMethod.POST;
+                                            c.RemoteValidation.ShowBusy = false;
+                                            c.RemoteValidation.ErrorMessage = "The operation name already exists";
+                                        }),
+                          Html.X().TextAreaFor(model => model.OperationDescription)
+                              .AllowBlank(false)
+                                  .ApplyTextAreaDefaults(Razor.ApplyTextAreaDefaults)
+                       )
+              )
+           )
+
+          .TopBar(Html.X().Toolbar()
+            .Items(
+                Html.X().ToolbarFill(),
+                    Html.X()
+                           .Button()
+                           .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                           .DirectEvents(de =>
+                           {
+                               de.Click.Before = "return #{AddOperationForm}.isValid();";
+                               de.Click.Url = Url.Action("Add", "Operation", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                               de.Click.FormID = "AddOperationForm";
+                           }),
+
+                                   Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.AddOperationForm.getForm().reset();"),
+                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                        .DirectEvents(de =>
+                        {
+                            de.Click.Url = Url.Action("OperationManagement", "Operation", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                        })
+            ))                  
+      )

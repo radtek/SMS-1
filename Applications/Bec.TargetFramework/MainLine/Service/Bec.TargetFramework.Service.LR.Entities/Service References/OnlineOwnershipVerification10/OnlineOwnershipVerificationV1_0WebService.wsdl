@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ownershipv1_0.ws.bg.lr.gov/" name="OnlineOwnershipVerificationV1_0WebService" targetNamespace="http://ownershipv1_0.ws.bg.lr.gov/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns:ns3="http://www.landregistry.gov.uk/OOV/ResponseOnlineOwnershipVerificationV1_0" xmlns:ns1="http://www.oscre.org/ns/eReg/MR01-20090605/PollRequest" xmlns:ns4="http://ownershipv1_0.ws.bg.lr.gov/" xmlns:ns2="http://www.landregistry.gov.uk/OOV/RequestOnlineOwnershipVerificationV1_0" targetNamespace="http://ownershipv1_0.ws.bg.lr.gov/">
+      <xsd:import schemaLocation="PollRequest.xsd" namespace="http://www.oscre.org/ns/eReg/MR01-20090605/PollRequest" />
+      <xsd:import schemaLocation="ResponseOnlineOwnershipVerificationV1_0.xsd" namespace="http://www.landregistry.gov.uk/OOV/ResponseOnlineOwnershipVerificationV1_0" />
+      <xsd:import schemaLocation="RequestOnlineOwnershipVerificationV1_0.xsd" namespace="http://www.landregistry.gov.uk/OOV/RequestOnlineOwnershipVerificationV1_0" />
+      <xsd:element name="SOAPEngineSystemException" nillable="true" type="xsd:string" />
+      <xsd:element name="SchemaException" nillable="true" type="xsd:string" />
+      <xsd:element name="getResponse" type="ns4:getResponse" />
+      <xsd:element name="getResponseResponse" type="ns4:getResponseResponse" />
+      <xsd:element name="verifyOwnership" type="ns4:verifyOwnership" />
+      <xsd:element name="verifyOwnershipResponse" type="ns4:verifyOwnershipResponse" />
+      <xsd:complexType name="getResponse">
+        <xsd:sequence>
+          <xsd:element name="in" type="ns1:PollRequestType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="verifyOwnership">
+        <xsd:sequence>
+          <xsd:element name="in" type="ns2:RequestOnlineOwnershipVerificationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getResponseResponse">
+        <xsd:sequence>
+          <xsd:element name="return" type="ns3:ResponseOnlineOwnershipVerificationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="verifyOwnershipResponse">
+        <xsd:sequence>
+          <xsd:element name="return" type="ns3:ResponseOnlineOwnershipVerificationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="SchemaException">
+    <part name="fault" element="tns:SchemaException" />
+  </message>
+  <message name="getResponseResponse">
+    <part name="parameters" element="tns:getResponseResponse" />
+  </message>
+  <message name="verifyOwnershipResponse">
+    <part name="parameters" element="tns:verifyOwnershipResponse" />
+  </message>
+  <message name="getResponse">
+    <part name="parameters" element="tns:getResponse" />
+  </message>
+  <message name="verifyOwnership">
+    <part name="parameters" element="tns:verifyOwnership" />
+  </message>
+  <message name="SOAPEngineSystemException">
+    <part name="fault" element="tns:SOAPEngineSystemException" />
+  </message>
+  <portType name="OnlineOwnershipVerificationV1_0Service">
+    <operation name="verifyOwnership">
+      <input message="tns:verifyOwnership" />
+      <output message="tns:verifyOwnershipResponse" />
+      <fault name="SOAPEngineSystemException" message="tns:SOAPEngineSystemException" />
+      <fault name="SchemaException" message="tns:SchemaException" />
+    </operation>
+    <operation name="getResponse">
+      <input message="tns:getResponse" />
+      <output message="tns:getResponseResponse" />
+      <fault name="SOAPEngineSystemException" message="tns:SOAPEngineSystemException" />
+      <fault name="SchemaException" message="tns:SchemaException" />
+    </operation>
+  </portType>
+  <binding name="OnlineOwnershipVerificationV1_0WSImplPortBinding" type="tns:OnlineOwnershipVerificationV1_0Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getResponse">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="SOAPEngineSystemException">
+        <soap:fault use="literal" name="SOAPEngineSystemException" namespace="" />
+      </fault>
+      <fault name="SchemaException">
+        <soap:fault use="literal" name="SchemaException" namespace="" />
+      </fault>
+    </operation>
+    <operation name="verifyOwnership">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="SOAPEngineSystemException">
+        <soap:fault use="literal" name="SOAPEngineSystemException" namespace="" />
+      </fault>
+      <fault name="SchemaException">
+        <soap:fault use="literal" name="SchemaException" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="OnlineOwnershipVerificationV1_0WebService">
+    <port name="OnlineOwnershipVerificationV1_0WSImplPort" binding="tns:OnlineOwnershipVerificationV1_0WSImplPortBinding">
+      <soap:address location="https://z0.b2b.http.server.landregistry.gov:13007/EOOV_StubService/OnlineOwnershipVerificationV1_0WebService" />
+    </port>
+  </service>
+</definitions>

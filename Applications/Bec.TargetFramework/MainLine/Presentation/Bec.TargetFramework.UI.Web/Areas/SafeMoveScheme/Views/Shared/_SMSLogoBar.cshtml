@@ -1,0 +1,14 @@
+﻿@using Ext.Net;
+@using Ext.Net.MVC;
+@{
+    var X = Html.X();
+}
+@(X.Container().Anchor("100% 15%").Items
+ (X.Container().PaddingSpec("10 10 0 10").Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Start})
+ .Items(
+    X.ImageButton()
+        .ImageUrl(@Url.Content("~/Content/resources/images/sms/logo-safe-move-scheme.png"))
+         .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Index", "Default", new { Area = "SafeMoveScheme" }) + "'")
+     )
+     )
+)

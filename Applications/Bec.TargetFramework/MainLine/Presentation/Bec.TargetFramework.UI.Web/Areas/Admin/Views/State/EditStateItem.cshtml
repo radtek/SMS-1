@@ -1,0 +1,64 @@
+﻿
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.StateItemSlimDTO
+
+@{
+    ViewBag.Title = "Edit State";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section mainBody
+{
+
+    @(Html.X()
+          .FormPanel()
+          .ID("EditStateItemForm")
+          .BodyPadding(5)
+          .Flex(1)
+          .Items
+          (
+                  Html.X().AntiForgeryField(),
+           Html.X()
+           .HiddenFor(model => model.StateItemID),
+            Html.X().HiddenFor(model => model.StateID),
+                              Html.X().TextFieldFor(model => model.StateItemName)
+                              .AllowBlank(false)
+                              .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                              .ReadOnly(true),
+                              Html.X().ComboBoxFor(model => model.ParentStateItemID)
+                               .AutoDataBind(true)
+                                .LabelAlign(LabelAlign.Top)
+                                .DisplayField("StateItemName")
+                                .ValueField("StateItemID")
+                                .QueryMode(DataLoadMode.Local)
+                                .TriggerAction(TriggerAction.All)
+                                .TypeAhead(true)
+                                .ForceSelection(true)
+                                .ValidateOnBlur(false)
+                                .ValidateOnChange(false)
+                                .AllowBlank(true)
+                              .FieldLabel("Parent State")
+                                      .Store(Razor.CreateParentStateItemStore(Url.Action("GetParentStateItems", "State", new { area = "Admin" }),Model.StateID.ToString(),Model.StateItemName))
+          )
+          .DefaultAnchor("100%")
+          .Listeners(l => l.ValidityChange.Handler = "#{EditStateItemSaveButton}.setDisabled(!valid);")
+          .TopBar(Html.X().Toolbar()
+                    .Items(
+                        Html.X().ToolbarFill(),
+                            Html.X()
+                                   .Button()
+                                   .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                               .DirectEvents(de =>
+                               {
+                                   de.Click.Before = "return #{EditStateItemForm}.isValid();";
+                                   de.Click.Url = Url.Action("EditStateItem", "State", new { area = "Admin" });
+                                   de.Click.FormID = "EditStateItemForm";
+                        
+                               }),
+
+                                                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("#{EditStateItemForm}.getForm().reset();"),
+                                                                       Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).OnClientClick("#{EditStateItemForm}.getForm().reset();Ext.net.Bus.publish('EditStateItem','');")
+                            ))
+    )
+
+}

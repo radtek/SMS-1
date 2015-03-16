@@ -1,0 +1,89 @@
+﻿<div class="col-md-5">
+    <h4>Company</h4>
+    <div class="row">
+        <div class="col-md-2">
+            Name: 
+        </div>
+        <div class="col-md-9">
+            <span data-bind="text: $data.name"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            Address:
+        </div>
+        <div class="col-md-9">
+            <!-- ko if: $data.address1() == '-' -->
+            <div>-</div>
+            <div>-</div>
+            <div>-</div>
+            <div>-</div>
+            <div>-</div>
+            <!-- /ko -->
+
+            <!-- ko ifnot: $data.address1() == '-' -->
+            <div data-bind="text: $data.address1"> {{Address1}}</div>
+            <div data-bind="text: $data.address2"> {{Address2}}</div>
+            <div data-bind="text: $data.townCity"> {{TownCity}}</div>
+            <div data-bind="text: $data.county"> {{County}}</div>
+            <div data-bind="text: $data.postCode"> {{PostCode}}</div>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            Regulator:
+        </div>
+        <div class="col-md-9">
+            <span data-bind="text: $data.regulatorToDisplay"></span>
+        </div>
+        
+    </div>
+</div>
+
+<div class="col-md-7">
+    <div class="row">
+        <h4>System Administrator</h4>
+        <div class="row">
+            <div class="col-md-2">
+                Name:
+            </div>
+            <div class="col-md-9">
+                <span data-bind="text: $data.sysAdmin"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                Email:
+            </div>
+            <div class="col-md-9">
+                <span data-bind="text: $data.email"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                Telephone:
+            </div>
+            <div class="col-md-9">
+                <span data-bind="text: $data.tel"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h4>Other Details</h4>
+        <div class="row">
+            <div class="col-md-2">
+                Record Creation:
+            </div>
+
+            <div class="col-md-9">
+                <span data-bind="text: $data.recordCreated() == '-'? '-' : ko.utils.formatDate($data.recordCreated())"></span>
+            </div>
+        </div>
+    </div>
+</div>

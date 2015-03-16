@@ -1,0 +1,60 @@
+﻿@using Ext.Net;
+    @using Ext.Net.MVC;
+
+
+    @(
+
+     Html.X().Container()
+            .Layout(LayoutType.VBox)
+                .LayoutConfig(new VBoxLayoutConfig { Align=VBoxAlign.Left})
+     .Items(item => {
+         item.Add(Html.X().Button()
+                         .ID("TrustedProfessionals")
+                          .Text("Trusted Professionals")
+                          .PaddingSpec("10 0 0 0")
+                          .Flat(true)
+                          .EnableToggle(true)
+                          .StyleSpec("background:transparent")
+                          .Border(false)
+                          .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("TrustedProfessional", "Public", new { Area = "SafeMoveScheme" }) + "'"));
+         item.Add(Html.X().Button()
+                          .ID("EstateAgents")
+                          .Text("Estate Agents")
+                          .PaddingSpec("10 0 0 0")
+                          .Flat(true)
+                          .StyleSpec("background:transparent")
+                          .Border(false)
+                          .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("EstateAgents", "Public", new { Area = "SafeMoveScheme" }) + "'"));
+         item.Add(Html.X().Button()
+                         .ID("MortgageAdvisers")
+                         .Text("Mortgage Advisers")
+                         .PaddingSpec("10 0 0 0")
+                         .Flat(true)
+                         .StyleSpec("background:transparent")
+                          .Border(false)
+                         .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("MortgageAdvisers", "Public", new { Area = "SafeMoveScheme" }) + "'"));
+         item.Add(Html.X().Button()
+                         .ID("Lawyers")
+                         .Text("Lawyers")
+                         .PaddingSpec("10 0 0 0")
+                         .Flat(true)
+                         .StyleSpec("background:transparent")
+                          .Border(false)
+                         .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Lawyers", "Public", new { Area = "SafeMoveScheme" }) + "'"));
+         item.Add(Html.X().Button()
+                         .ID("MortgageLenders")
+                         .Text("MortgageLenders")
+                         .PaddingSpec("10 0 0 0")
+                         .Flat(true)
+                         .StyleSpec("background:transparent")
+                          .Border(false)
+                         .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("MortgageLenders", "Public", new { Area = "SafeMoveScheme" }) + "'"));
+          }
+     
+        
+     )
+                
+               
+)
+        
+

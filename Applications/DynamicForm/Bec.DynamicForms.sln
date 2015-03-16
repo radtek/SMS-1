@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.DynamicForms.DataAccess", "Bec.DynamicForms.DataAccess\Bec.DynamicForms.DataAccess.csproj", "{5DE088A9-63A5-40FD-862D-E6DAB6B9628D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.DynamicForms.Infrastructure", "BEC.Infrastructure\Bec.DynamicForms.Infrastructure.csproj", "{76F23EC6-A243-4C66-9A3F-BB4042DF0A60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.DynamicForms.ServiceLayer", "Bec.DynamicForms.ServiceLayer\Bec.DynamicForms.ServiceLayer.csproj", "{ECE9F857-2971-4FCA-8B2E-94B57AC73803}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.DynamicForms.MvcApp", "Bec.DynamicForms.MvcApp\Bec.DynamicForms.MvcApp.csproj", "{E7A1E021-591A-4E42-88F4-34ED179CBE5E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://bec-dtfs-01.bec.local:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Bec.DynamicForms.DataAccess\\Bec.DynamicForms.DataAccess.csproj
+		SccProjectName1 = Bec.DynamicForms.DataAccess
+		SccLocalPath1 = Bec.DynamicForms.DataAccess
+		SccProjectUniqueName2 = Bec.DynamicForms.ServiceLayer\\Bec.DynamicForms.ServiceLayer.csproj
+		SccProjectName2 = Bec.DynamicForms.ServiceLayer
+		SccLocalPath2 = Bec.DynamicForms.ServiceLayer
+		SccProjectUniqueName3 = BEC.Infrastructure\\Bec.DynamicForms.Infrastructure.csproj
+		SccProjectName3 = BEC.Infrastructure
+		SccLocalPath3 = BEC.Infrastructure
+		SccProjectUniqueName4 = Bec.DynamicForms.MvcApp\\Bec.DynamicForms.MvcApp.csproj
+		SccProjectName4 = Bec.DynamicForms.MvcApp
+		SccLocalPath4 = Bec.DynamicForms.MvcApp
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5DE088A9-63A5-40FD-862D-E6DAB6B9628D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DE088A9-63A5-40FD-862D-E6DAB6B9628D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DE088A9-63A5-40FD-862D-E6DAB6B9628D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DE088A9-63A5-40FD-862D-E6DAB6B9628D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F23EC6-A243-4C66-9A3F-BB4042DF0A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F23EC6-A243-4C66-9A3F-BB4042DF0A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F23EC6-A243-4C66-9A3F-BB4042DF0A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F23EC6-A243-4C66-9A3F-BB4042DF0A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE9F857-2971-4FCA-8B2E-94B57AC73803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE9F857-2971-4FCA-8B2E-94B57AC73803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE9F857-2971-4FCA-8B2E-94B57AC73803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE9F857-2971-4FCA-8B2E-94B57AC73803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A1E021-591A-4E42-88F4-34ED179CBE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A1E021-591A-4E42-88F4-34ED179CBE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A1E021-591A-4E42-88F4-34ED179CBE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A1E021-591A-4E42-88F4-34ED179CBE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

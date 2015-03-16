@@ -1,0 +1,295 @@
+﻿@(
+
+Html.X().TabPanel()
+.Region(Region.Center)
+                .Flex(1)
+                .ActiveTabIndex(1)
+                .Items(tabs =>
+                {
+                    tabs.Add(Html.X().Panel()
+                        .Title("Home")
+                        .BodyPadding(10)
+                        .Html("Home Page"));
+                    tabs.Add(Html.X().Panel()
+                        .Title("Management")
+                        .Layout(LayoutType.HBox)
+                        .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Stretch })
+                        .Items(items =>
+                        {
+                            items.Add(Html.X().MenuPanel()
+                                .ItemID("managementMenu")
+                                .Width(215)
+                                .Border(false)
+                                .SelectedIndex(0)
+                                .Menu(menu =>
+                                {
+                                    menu.Add(new MenuItem { Text = "Dashboard" });
+                                    menu.Add(new MenuItem { Text = "Employees" });
+                                    menu.Add(new MenuItem { Text = "Sales" });
+                                    menu.Add(new MenuItem { Text = "Inventory" });
+                                }));
+                            items.Add(Html.X().Panel()
+                                .Flex(1)
+                                .Border(false)
+                                .Header(false)
+                                .TopBar(new Toolbar
+                                {
+                                    ItemID = "breadcrumb",
+                                    Items = {
+                                            new HyperLink { Text = "Management", Margins = "5 0 5 20" },
+                                            new ToolbarSpacer(),
+                                            new ToolbarTextItem { Text = "/" },
+                                            new ToolbarSpacer(),
+                                            new ToolbarTextItem { Text = "Dashboard" }
+                                            }
+                                })
+                                .Layout(LayoutType.VBox)
+                                .LayoutConfig(new VBoxLayoutConfig { Align = VBoxAlign.Stretch })
+                                .Items(baseboard =>
+                                {
+                                    baseboard.Add(Html.X().Container()
+                                        .Height(50)
+                                        .Layout(LayoutType.HBox)
+                                        .LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle })
+                                        .Items(dbHeaderItems =>
+                                        {
+                                            dbHeaderItems.Add(Html.X().Container()
+                                                .Html("<h1 style=\"color:#333; margin-bottom:0px; font-size: 24px;\">Dashboard</h1>")
+                                                .Margins("10 0 10 20"));
+                                            dbHeaderItems.Add(Html.X().Container().Flex(1));
+                                            dbHeaderItems.Add(Html.X().Button()
+                                                .Text("Dashboard Settings")
+                                                .Icon(Icon.Cog)
+                                                .Margins("0 20 0 0"));
+                                        }));
+                                    baseboard.Add(
+                                        // Portal Start
+
+                                        Html.X().Portal()
+                                            .Border(false)
+                                            .Flex(1)
+                                            .Items(columns =>
+                                            {
+                                                columns.Add(Html.X().PortalColumn()
+                                                    .Cls("x-column-padding")
+                                                    .MarginSpec("0 10 0 10")
+
+                                                    .Items(portlets =>
+                                                    {
+                                                        portlets.Add(Html.X().Portlet()
+                                                            .Title("Status")
+                                                            .Closable(false)
+                                                            .Layout(LayoutType.Fit)
+                                                            .Anchor("100% 50%")
+                                                            .Height(350)
+                                                            .TopBar(new Toolbar
+                                                            {
+                                                                Items = {
+                                                                    new Button {
+                                                                        Text = "Reload",
+                                                                        Icon = Icon.ArrowRefresh,
+                                                                        OnClientClick = "App.Store1.load()"
+                                                                    }
+                                                                }
+                                                            })
+                                                            .Items(Html.X().Chart()
+                                                                .Animate(true)
+                                                                .Shadow(true)
+                                                                .Border(false)
+                                                                .InsetPadding(10)
+                                                                .Theme("Base:gradients")
+                                                                .LegendConfig(new ChartLegend
+                                                                {
+                                                                    Position = LegendPosition.Right
+                                                                })
+                                                                .Series(Html.X().PieSeries()
+                                                                    .AngleField("Data1")
+                                                                    .ShowInLegend(true)
+                                                                    .Donut(0)
+                                                                    .Highlight(true)
+                                                                    .HighlightSegmentMargin(20)
+                                                                    .Label(new SeriesLabel
+                                                                    {
+                                                                        Field = new string[] { "Name" },
+                                                                        Display = SeriesLabelDisplay.Rotate,
+                                                                        Contrast = true,
+                                                                        Font = "18px Arial"
+                                                                    })
+                                                                )
+                                                                .Store(Html.X().Store()
+                                                                    .ID("Store1")
+                                                                    .AutoLoad(true)
+                                                                    .Proxy(
+                                                                        Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetChartData"))
+                                                                            .ActionMethods(actions =>
+                                                                            {
+                                                                                actions.Read = HttpMethod.POST;
+                                                                            })
+                                                                            .Reader(
+                                                                                Html.X().JsonReader().Root("result")
+                                                                            )
+                                                                    )
+                                                                    .Model(Html.X().Model()
+                                                                        .Fields(
+                                                                            new ModelField("Name"),
+                                                                            new ModelField("Data1"),
+                                                                            new ModelField("Data2")
+                                                                        )
+                                                                    )
+
+                                                                )
+                                                            )
+                                                            );
+
+                                                        portlets.Add(Html.X().Portlet()
+                                                            .Title("History")
+                                                            .Closable(false)
+                                                            .Layout(LayoutType.Fit)
+                                                            .Anchor("100% 50%")
+                                                            .Height(350)
+                                                            .TopBar(new Toolbar
+                                                            {
+                                                                Items = {
+                                                                    new Button {
+                                                                        Text = "Reload",
+                                                                        Icon = Icon.ArrowRefresh,
+                                                                        OnClientClick = "App.Store1.load()"
+                                                                    }
+                                                                }
+                                                            })
+                                                            .Items(Html.X().Chart()
+                                                                .StoreID("Store1")
+                                                                .Animate(true)
+                                                                .Shadow(true)
+                                                                .Border(false)
+                                                                .StyleSpec("background:#fff;")
+                                                                .InsetPadding(10)
+                                                                .StandardTheme(StandardChartTheme.Category1)
+                                                                .Theme("Base:gradients")
+                                                                .LegendConfig(new ChartLegend
+                                                                {
+                                                                    Position = LegendPosition.Right
+                                                                })
+
+                                                                .Axes(axes =>
+                                                                {
+
+                                                                    var axis = new NumericAxis
+                                                                    {
+                                                                        Fields = new string[] { "Data1", "Data2" },
+                                                                        Title = "Number of Hits",
+                                                                        MinorTickSteps = 1,
+                                                                        Minimum = 0
+                                                                    };
+
+                                                                    axes.Add(axis);
+
+                                                                    axes.Add(new CategoryAxis
+                                                                    {
+                                                                        Position = Position.Bottom,
+                                                                        Fields = new string[] { "Name" },
+                                                                        Title = "Month of the Year"
+                                                                    });
+                                                                })
+                                                                .Series(series =>
+                                                                {
+                                                                    series.Add(Html.X().LineSeries()
+                                                                        .Axis(Position.Left)
+                                                                        .XField("Name")
+                                                                        .YField("Data1")
+                                                                        .HighlightConfig(new SpriteAttributes
+                                                                        {
+                                                                            Size = 7,
+                                                                            Radius = 7
+                                                                        })
+                                                                        .MarkerConfig(new SpriteAttributes
+                                                                        {
+                                                                            Type = SpriteType.Cross,
+                                                                            Size = 4,
+                                                                            Radius = 4,
+                                                                            StrokeWidth = 0
+                                                                        }));
+
+                                                                    series.Add(Html.X().LineSeries()
+                                                                        .Axis(Position.Left)
+                                                                        .Smooth(3)
+                                                                        .XField("Name")
+                                                                        .YField("Data2")
+                                                                        .Fill(true)
+                                                                        .HighlightConfig(new SpriteAttributes
+                                                                        {
+                                                                            Size = 7,
+                                                                            Radius = 7
+                                                                        })
+                                                                        .MarkerConfig(new SpriteAttributes
+                                                                        {
+                                                                            Type = SpriteType.Cross,
+                                                                            Size = 4,
+                                                                            Radius = 4,
+                                                                            StrokeWidth = 0
+                                                                        }));
+
+                                                                })
+                                                            )
+                                                            );
+                                                    }));
+
+                                                columns.Add(Html.X().PortalColumn()
+                                                    .Cls("x-column-padding")
+                                                    .MarginSpec("0 10 0 10")
+                                                    .Items(portlets =>
+                                                    {
+                                                        portlets.Add(Html.X().Portlet()
+                                                            .Title("Employees")
+                                                            .Layout(LayoutType.Fit)
+                                                            .Anchor("100% 100%")
+                                                            .Closable(false)
+                                                            .Items(Html.X().GridPanel()
+                                                                .Header(false)
+                                                                .Border(false)
+                                                                .Store(Html.X().Store()
+                                                                    .AutoLoad(true)
+                                                                    .Proxy(
+                                                                        Html.X().AjaxProxy()
+                                                                            .Url(Url.Action("GetPersons"))
+                                                                            .ActionMethods(actions =>
+                                                                            {
+                                                                                actions.Read = HttpMethod.POST;
+                                                                            })
+                                                                            .Reader(
+                                                                                Html.X().JsonReader().Root("result")
+                                                                            )
+                                                                    )
+                                                                    .Model(Html.X().Model()
+                                                                        .Fields(
+                                                                            new ModelField("FirstName"),
+                                                                            new ModelField("LastName"),
+                                                                            new ModelField("Status")
+                                                                        )
+                                                                    )
+
+                                                                )
+                                                                .ColumnModel(
+                                                                    Html.X().Column().Text("Last Name").DataIndex("LastName").Flex(1),
+                                                                    Html.X().Column().Text("First Name").DataIndex("FirstName").Flex(1),
+                                                                    Html.X().Column().Text("Status").DataIndex("Status")
+                                                                )
+                                                            )
+
+                                                            );
+                                                    }));
+                                            })
+
+                                        // Portal End
+                                        );
+                                })
+                                );
+                        })
+                        );
+                    tabs.Add(Html.X().Panel()
+                        .Title("Projects")
+                        .BodyPadding(10)
+                        .Html("Projects &amp; Teams"));
+                })
+                )

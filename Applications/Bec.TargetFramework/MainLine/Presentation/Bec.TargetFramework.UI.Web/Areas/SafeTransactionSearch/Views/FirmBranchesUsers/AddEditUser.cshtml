@@ -1,0 +1,252 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+
+@model Bec.TargetFramework.Entities.FirmUserDTO
+
+@{
+    var X = Html.X();
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+@section headTag
+{
+    <script type="text/javascript">
+
+        var UserStatusChange = function (obj) {
+            var selectedText = obj.displayTplData[0].Name;
+            if (selectedText.toUpperCase() == 'REJECTED') {
+                App.RejectionReason.show();
+            }
+            else {
+                App.RejectionReason.hide();
+            }
+        };
+
+        var RejectionReasonChange = function (obj) {
+            var selectedText = obj.displayTplData[0].Name;
+            if (selectedText.toUpperCase() == 'OTHER') {
+                App.RejectionReasonComments.show();
+            }
+            else {
+                App.RejectionReasonComments.hide();
+            }
+        };       
+
+
+
+        var Regulatornumbervalidation = function (field) {
+            if (Ext.getCmp('Regulator').value != 'null') {
+                if (Ext.getCmp('Regulator').value == 'SRA') {
+                    {
+                        if(/^([0-9a-zA-Z]{3,6}|)$/.test(field))
+                        {
+                            var LastName = Ext.getCmp('LastName').value;
+                            var RegulatorNo = Ext.getCmp('RegulatorNumber').value;
+                            App.direct.SafeTransactionSearch.IsRegulatorNumberValid(LastName, RegulatorNo, {
+                                success: function (result) {
+                                    if (!result.valid) {
+                                        Ext.Msg.alert("Error", result.msg);
+                                        //App.FormErrors.show();
+                                        //App.FormErrors.value = result.msg;
+                                        return;
+                                    } else {
+                                        return true;
+                                    }
+                                }
+                            });
+                        }
+                        else
+                        {
+                            return /^([0-9a-zA-Z]{3,6}|)$/.test(field);
+                        }
+                    }
+                   
+                }
+                else if (Ext.getCmp('Regulator').value == 'CLC') {
+                    return /^([0-9]{5,6}|)$/.test(field);
+                }
+            }
+
+            return true;
+        };
+
+        var LastNameValue = function () {
+            return App.LastName.getValue();
+        }
+
+        var ApproveSRAInvalidUser = function (e)
+        {
+                if(Ext.getCmp('Save').text == 'Continue')
+                {
+                    App.direct.SaveUser({
+                        success: function(result) {
+                            if (!result.valid) {
+                                Ext.Msg.alert("Error", result.msg);
+                                return;
+                            } else {
+                                return true;
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    debugger;
+                    var ISSRAValid = Ext.getCmp('RegulatorNumberValid').value;
+
+                    if(Ext.getCmp('Regulator').value == 'SRA' && Ext.getCmp('UserStatus').displayTplData[0].Name == 'Approved' && ISSRAValid == "False")
+                    {
+                        Ext.Msg.confirm("Confirm", "You are about to Approve a user that we cannot validate against the SRA database. If you proceed you will be taking responsibility for the authenticity of the user. Do you wish to continue?", function(btn){
+                            if (btn == 'yes'){
+                                App.direct.SafeTransactionSearch.SaveUser({
+                                    success: function(result) {
+                                        if (!result.valid) {
+                                            Ext.Msg.alert("Error", result.msg);
+                                            return;
+                                        } else {
+                                            return true;
+                                        }
+                                    }
+                                });   
+                            }
+                        });
+                       
+                    }
+                    else
+                    {
+                        App.direct.SaveUser({
+                            success: function(result) {
+                                if (!result.valid) {
+                                    Ext.Msg.alert("Error", result.msg);
+                                    return;
+                                } else {
+                                    return true;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        
+
+        var closepopup = function()
+        {
+            App.AddEditUserForm.close();
+        }
+
+
+    </script>
+}
+
+@section mainBody
+{
+
+@(Html.X().Store().AutoLoad(true).ID("UserStatusStore")
+          .Model(Html.X().Model().Fields(fields =>
+                      {
+                          fields.Add(new ModelField("StatusTypeValueID"));
+                          fields.Add(new ModelField("Name"));
+                      })
+                      .Proxy(p => p.Add(Html.X().AjaxProxy().Url(Url.Action("GetUserStatus", "Reference", new { area = "" })).Reader(new JsonReader.Builder().Root("data"))))))
+
+@(Html.X().Store().AutoLoad(true).ID("BranchStore")
+    .Model(Html.X().Model().Fields(fields =>
+                {
+                    fields.Add(new ModelField("BranchOrganisationID"));
+                    fields.Add(new ModelField("BranchName"));
+                })
+                .Proxy(p => p.Add(Html.X().AjaxProxy().Url(Url.Action("GetFirmBranch", "Reference", new { area = "" }))
+                            //.ExtraParams(e => e.Add(new Parameter("organisationId", "FirmId", ParameterMode.Raw)))
+                            .Reader(new JsonReader.Builder().Root("data"))))))
+
+
+
+
+
+
+    @(
+ X.FormPanel().ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults).ID("AddEditUserForm").AutoDoLayout(true).Items(
+         X.Container().ID("Errors").Layout(LayoutType.Column).Padding(2).MinWidth(880)
+        .Items
+        (
+            X.Container().ColumnWidth(0.5)
+                .Items(
+
+                ),
+            X.Container().ColumnWidth(0.5)
+                .Items(
+                X.MultiSelect().ID("FormErrors").Hidden(true)
+                )
+        ),
+               X.Container().Layout(LayoutType.Column).Items(
+
+                                              X.Container().Layout(LayoutType.Column).ColumnWidth(1).Items(
+                                                      X.ComboBoxFor(model => model.Title).ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "Title")
+                                                                                                   .Store(Razor.CreateClassificationStore("SalutationTypeID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name"),
+                                                      X.TextFieldFor(model => model.FirstName).ID("FirstName").ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "FirstName"),
+                                                      X.TextFieldFor(model => model.MiddleName).ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "MiddleName"),
+                                                          X.TextFieldFor(model => model.LastName).ID("LastName").ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "LastName")
+                                                      ),
+                                              X.Container().Layout(LayoutType.Column).ColumnWidth(1).Items(
+
+
+                                          X.TextFieldFor(model => model.Email).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("AddUser", "Email"),
+                                                  X.ComboBoxFor(model => model.Regulator).ID("Regulator").ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "Regulator")
+                                                                                     .Store(Razor.CreateClassificationStore("RegulatorID", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name"),
+                                              X.TextFieldFor(model => model.RegulatorNumber).ID("RegulatorNumber").ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "RegulatorNumber")
+                                                .Validate().ValidateOnBlur(true).Validator(v => v.Fn = "Regulatornumbervalidation").ValidatorText("Please enter a valid number")
+                                                        //.Validate().ValidateOnBlur(true).Validator(v => v.Fn = "IsSRAValid").ValidatorText("We are unable to validate the details provided against the SRA database")
+                                                        //.Control(c =>
+                                                        //                  {
+                                                        //                      c.IsRemoteValidation = true;
+                                                        //                      c.RemoteValidation.Url = Url.Action("IsRegulatorNumberValid", "FirmBranchesUsers", new { area = "SafeTransactionSearch" });
+                                                        //                      c.RemoteValidation.ValidationEvent = "change, blur";
+                                                        //                      c.RemoteValidation.Method = HttpMethod.POST;
+                                                        //                      c.RemoteValidation.ShowBusy = true;
+                                                        //                      c.RemoteValidation.ErrorMessage = "We are unable to validate the details provided against the SRA database";
+                                                        //                      c.RemoteValidation.ExtraParams.Add(new Parameter("LastName", "LastNameValue", ParameterMode.Raw));
+                                                        //                  })
+                                                    ,
+                                                                              Html.X().HiddenFor(model => model.IsRegulatorNumberValid).ID("RegulatorNumberValid")
+                                                                      
+                                          ),
+                                          X.Container().Layout(LayoutType.Column).ColumnWidth(1).Items(
+                                         X.TextField().ID("TestBranch").Text("Branch1"),
+                                                   // X.ComboBoxFor(model => model.BranchID).ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("AddUser", "Branch").Text("AAA").Value("AAA"),//.StoreID("BranchStore").DisplayField("BranchName").ValueField("BranchOrganisationID"),                                          
+                                                X.CheckboxGroupFor(model => model.SelectedRoles, (from item in Model.Roles
+                                                                                                            select new Ext.Net.Checkbox.Config
+                                                                                                            {
+                                                                                                                BoxLabel = item,
+                                                                                                                InputValue = item
+                                                                                                            }).AsEnumerable<Checkbox.Config>()).FieldLabel("User Roles").LabelAlign(LabelAlign.Top).ColumnWidth(0.5)
+                                           ),
+
+                                           X.Container().Layout(LayoutType.Column).ColumnWidth(1).Items(
+                                          X.ComboBoxFor(model => model.Status).ID("UserStatus").ColumnWidth(0.5).Padding(2).ApplyFieldDefaults("AddUser", "UserStatus").StoreID("UserStatusStore").DisplayField("Name").ValueField("StatusTypeValueID")
+                                                                                   .Listeners(l => l.Change.Fn = "UserStatusChange"),
+                                          X.ComboBoxFor(model => model.RejectionReason).ID("RejectionReason").ColumnWidth(0.25).Padding(2).ApplyFieldDefaults("AddUser", "RejectionReason")
+                                                                                       .Store(Razor.CreateClassificationStore("UserRejectionReason", Url.Action("ReadData", "Reference", new { area = "" }))).DisplayField("Name").ValueField("Name")
+                                                                                   .Listeners(l => l.Change.Fn = "RejectionReasonChange")
+    ),
+     
+                                          X.TextFieldFor(model => model.OtherRejectionReason).ID("RejectionReasonComments").ColumnWidth(1).Padding(2).ApplyFieldDefaults("AddUser", "RejectionReasonComments"),
+                                          X.TextAreaFor(model => model.Notification).ColumnWidth(1).Padding(2).ApplyFieldDefaults("AddUser", "Notifications")
+
+              )
+         
+         
+         )
+         .TopBar(Html.X().Toolbar().Items(
+                                             Html.X().ToolbarFill(),
+                                             Html.X()
+                                                 .Button().ID("Save").Text("Save")
+                                                         .OnClientClick("return #{AddEditUserForm}.isValid();ApproveSRAInvalidUser();")
+
+                                                        )
+                                                 )
+      )
+  }
+
+

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Target Framework";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+
+
+@section headtag
+{
+
+}
+
+@section mainBody
+{
+
+
+    @(Html.X().Panel()
+    .Title("Report Viewer")
+          .Items(Html.X().Container().Content(
+          a =>
+          Html.Partial("ReportViewer"))
+    )
+
+    )
+
+
+}

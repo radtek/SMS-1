@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Search MortgageApplicationNumber="45345345352" Domain="PARA" Lender="Paragon" HasError="true">
+  <ValidationErrors>
+    <Error>
+      <Code>ERR001</Code>
+      <Message>Lender not supplied in request</Message>
+    </Error>
+    <Error>
+      <Code>ERR101</Code>
+      <Message>Generic unhandled error</Message>
+    </Error>
+  </ValidationErrors>
+</Search>

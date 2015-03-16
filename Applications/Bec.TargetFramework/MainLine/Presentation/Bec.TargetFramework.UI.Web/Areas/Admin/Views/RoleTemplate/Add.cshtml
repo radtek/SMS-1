@@ -1,0 +1,136 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.RoleTemplateDTO
+
+@(Html.X()
+          .FormPanel()
+          .ID("AddRoleTemplateForm")
+          .Title("Add RoleTemplate")
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+          .Items(
+              Html.X().AntiForgeryField(),
+                   Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                      .Items
+                      (
+                          Html.X()
+                              .TextFieldFor(model => model.RoleTemplateName)
+                              .AllowBlank(false)
+                              .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                      .Control(c =>
+                                    {
+                                        c.IsRemoteValidation = true;
+                                        c.RemoteValidation.Url = Url.Action("DoesRoleTemplateNameExist", "RoleTemplate", new { area = "Admin" });
+                                        c.RemoteValidation.ValidationEvent = "change, blur";
+                                        c.RemoteValidation.Method = Ext.Net.HttpMethod.POST;
+                                        c.RemoteValidation.ShowBusy = false;
+                                        c.RemoteValidation.ErrorMessage = "The role name already exists";
+                                    }),
+                          Html.X().TextAreaFor(model => model.RoleTemplateDescription)
+                              .AllowBlank(false)
+                              .ApplyTextAreaDefaults(Razor.ApplyTextAreaDefaults),
+                          Html.X().ComboBoxFor(model => model.RoleTypeID)
+                                  .AllowBlank(false)
+                                  .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                                  .FieldLabel("Type")
+                                  .Store(Razor.CreateClassificationStore("RoleTemplateType", Url.Action("ReadData", "Reference", new { area = "" })))
+                       )),
+                       
+                        Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Panel().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5).Title("All Claims: Drag")
+                      .Items
+                      (
+                                 Html.X()
+                                     .MultiSelect()
+                                         .ValueField("RoleClaimValue")
+                                         .DisplayField("RoleClaimName")
+                                     .DragGroup("grp1")
+                                     .DropGroup("grp1")
+                                     .MultiSelect(true)
+                                         .Flex(1)
+                                         .MinHeight(400)
+                                         .MaxHeight(400)
+                                         .AutoScroll(true)
+                                     .ListTitle("All Claims")
+                                     .Store(Html.X()
+                                                .Store()
+                                                .AutoLoad(true)
+                                                .RemoteSort(false)
+                                                .Model(Html.X()
+                                                           .Model()
+                                                           .Fields(fields =>
+                                                           {
+                                                               fields.Add(new ModelField("RoleClaimName"));
+                                                               fields.Add(new ModelField("RoleClaimValue"));
+                                                           })
+                                                           .Proxy(proxy => proxy.Add(Html.X()
+                                                                                         .AjaxProxy()
+                                                                                         .Url(Url.Action("GetClaimSourceItems", "RoleTemplate", new { id = Model.RoleTemplateID, area = "Admin" }))
+                                                                                         .Reader(reader => reader.Add(Html.X().JsonReader().Root("data")))))))
+                                                                                        
+                                     
+                                              
+                     ),
+                         Html.X().Panel().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5).Title("Role Claims: Drop")
+                      .Items(
+                               
+                                 Html.X()
+                                     .MultiSelect()
+                                     .ListTitle("Selected Claims")
+                                     .ID("SelectedClaims")
+                                     .Flex(1)
+                                         .MinHeight(400)
+                                             .MaxHeight(400)
+                                     .AutoScroll(true)
+                                     .MultiSelect(true)
+                                     .CustomConfig(c => c.Add(new ConfigItem("submitText", "false", ParameterMode.Raw)))
+                                     .DragGroup("grp1")
+                                     .DropGroup("grp1")
+                                     
+                                     
+                                         .ValueField("RoleClaimValue")
+                                         .DisplayField("RoleClaimName")
+                                     .Store(Html.X()
+                                                .Store()
+                                                .AutoLoad(true)
+                                                .RemoteSort(false)
+                                 // GetClaimSourceItemsForRoleId
+    
+                                                .Model(Html.X()
+                                                           .Model()
+                                                           .Fields(fields =>
+                                                           {
+                                                               fields.Add(new ModelField("RoleClaimName"));
+                                                               fields.Add(new ModelField("RoleClaimValue"));
+                                                           })
+                                                           .Proxy(proxy => proxy.Add(Html.X()
+                                                                                         .AjaxProxy()
+                                                                                         .Url(Url.Action("GetClaimSourceItemsForRoleId", "RoleTemplate", new { id = Model.RoleTemplateID, area = "Admin" }))
+                                                                                            .Reader(reader => reader.Add(Html.X().JsonReader().Root("data"))))))))
+                     )
+                    )
+          .TopBar(Html.X().Toolbar()
+            .Items(
+                Html.X().ToolbarFill(),
+                    Html.X()
+                           .Button()
+                           .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                           .DirectEvents(de =>
+                           {
+                               de.Click.Before = "return #{AddRoleTemplateForm}.isValid();";
+                               de.Click.Url = Url.Action("Add", "RoleTemplate", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                               de.Click.FormID = "AddRoleTemplateForm";
+                               de.Click.ExtraParams.Add(new Parameter("items", "App.SelectedClaims.getValues()", ParameterMode.Raw));
+                           }),
+
+                                   Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.AddRoleTemplateForm.getForm().reset();"),
+                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                        .DirectEvents(de =>
+                        {
+                            de.Click.Url = Url.Action("RoleTemplateManagement", "RoleTemplate", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                        })
+            ))                  
+      )

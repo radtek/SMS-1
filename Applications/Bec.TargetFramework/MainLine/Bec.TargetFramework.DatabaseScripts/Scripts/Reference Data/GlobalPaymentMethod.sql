@@ -1,0 +1,12 @@
+﻿delete from "GlobalPaymentMethod";
+
+/* Data for the 'public.GlobalPaymentMethod' table  (Records 1 - 3) */
+
+INSERT INTO public."GlobalPaymentMethod" ("GlobalPaymentMethodID", "Name", "PaymentMethodID", "IsDefaultForOnlinePayments", "Description", "IsDefaultForOfflinePayments", "DirectDebitMandateID", "DirectDebitMandateVersionNumber", "IsDirectDebit", "DirectDebitDefaultMonthlyPeriodNumber", "DirectDebitMaxDaysAwaitingCollectionFromMonthPeriodNumber", "BACSDefaultMonthlyPaymentDay", "BACSMaxDaysAwaitingPaymentFromMonthlyPaymentDay", "DirectDebitDefaultNumberOfNotificationDaysBeforeCollection", "BACSDefaultNumberOfNotificationDaysBeforeExpectationOfPayment")
+VALUES (E'ce578ce6-2df8-11e4-b9eb-57742f144d34', E'Direct Debit', 8502, False, E'Direct Debit', True, NULL, NULL, True, 2, 3, NULL, NULL, 14, NULL);
+
+INSERT INTO public."GlobalPaymentMethod" ("GlobalPaymentMethodID", "Name", "PaymentMethodID", "IsDefaultForOnlinePayments", "Description", "IsDefaultForOfflinePayments", "DirectDebitMandateID", "DirectDebitMandateVersionNumber", "IsDirectDebit", "DirectDebitDefaultMonthlyPeriodNumber", "DirectDebitMaxDaysAwaitingCollectionFromMonthPeriodNumber", "BACSDefaultMonthlyPaymentDay", "BACSMaxDaysAwaitingPaymentFromMonthlyPaymentDay", "DirectDebitDefaultNumberOfNotificationDaysBeforeCollection", "BACSDefaultNumberOfNotificationDaysBeforeExpectationOfPayment")
+VALUES (E'ce582926-2df8-11e4-900f-3340b976f4cb', E'BACS', 8501, False, E'BACS', False, NULL, NULL, False, NULL, NULL, 15, 3, NULL, 14);
+
+INSERT INTO public."GlobalPaymentMethod" ("GlobalPaymentMethodID", "Name", "PaymentMethodID", "IsDefaultForOnlinePayments", "Description", "IsDefaultForOfflinePayments", "DirectDebitMandateID", "DirectDebitMandateVersionNumber", "IsDirectDebit", "DirectDebitDefaultMonthlyPeriodNumber", "DirectDebitMaxDaysAwaitingCollectionFromMonthPeriodNumber", "BACSDefaultMonthlyPaymentDay", "BACSMaxDaysAwaitingPaymentFromMonthlyPaymentDay", "DirectDebitDefaultNumberOfNotificationDaysBeforeCollection", "BACSDefaultNumberOfNotificationDaysBeforeExpectationOfPayment")
+VALUES (E'ce5851e4-2df8-11e4-9a03-bbad2e8b176b', E'Card', 8500, True, E'Card', False, NULL, NULL, False, NULL, NULL, NULL, NULL, NULL, NULL);

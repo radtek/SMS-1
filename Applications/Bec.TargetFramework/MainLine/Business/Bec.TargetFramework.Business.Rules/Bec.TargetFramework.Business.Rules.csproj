@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BD9F68A1-7866-49C8-98D3-F0D3BE9888B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Business.Rules</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Business.Rules</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\Bank\LinqExtensions.cs" />
+    <Compile Include="Validation\Bank\Loaders\IRuleMappingSource.cs" />
+    <Compile Include="Validation\Bank\Loaders\ISubstitutionSource.cs" />
+    <Compile Include="Validation\Bank\Loaders\ModulusWeightTable.cs" />
+    <Compile Include="Validation\Bank\Loaders\SortCodeSubstitution.cs" />
+    <Compile Include="Validation\Bank\Loaders\ValacdosSource.cs" />
+    <Compile Include="Validation\Bank\Models\AccountNumber.cs" />
+    <Compile Include="Validation\Bank\Models\BankAccountDetails.cs" />
+    <Compile Include="Validation\Bank\Models\BankAccountPart.cs" />
+    <Compile Include="Validation\Bank\Models\ModulusAlgorithm.cs" />
+    <Compile Include="Validation\Bank\Models\ModulusWeightMapping.cs" />
+    <Compile Include="Validation\Bank\Models\SortCode.cs" />
+    <Compile Include="Validation\Bank\BankAccountValidator.cs" />
+    <Compile Include="Validation\Bank\ModulusChecks\DoubleAlternateModulusCheck.cs" />
+    <Compile Include="Validation\Bank\ModulusChecks\IModulusCheck.cs" />
+    <Compile Include="Validation\Bank\ModulusChecks\StandardModulusCheck.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\BaseModulusCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\DoubleAlternateCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\DoubleAlternateCalculatorExceptionFive.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\FirstStandardModulusElevenCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\FirstStandardModulusElevenCalculatorExceptionFive.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\FirstStandardModulusTenCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\SecondStandardModulusElevenCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\SecondStandardModulusTenCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\Calculators\StandardModulusExceptionFourteenCalculator.cs" />
+    <Compile Include="Validation\Bank\Steps\ConfirmDetailsAreValidForModulusCheck.cs" />
+    <Compile Include="Validation\Bank\Steps\FirstModulusCalculatorStep.cs" />
+    <Compile Include="Validation\Bank\Steps\FirstStepRouter.cs" />
+    <Compile Include="Validation\Bank\Steps\IStep.cs" />
+    <Compile Include="Validation\Bank\Steps\PostProcessModulusCheckResult.cs" />
+    <Compile Include="Validation\Bank\Steps\SecondModulusCalculatorStep.cs" />
+    <Compile Include="Validation\Bank\Steps\SecondStepRouter.cs" />
+    <Compile Include="Validation\Card\CreditCardValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\scsubtab.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\valacdos.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
+      <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
+      <Name>Bec.TargetFramework.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

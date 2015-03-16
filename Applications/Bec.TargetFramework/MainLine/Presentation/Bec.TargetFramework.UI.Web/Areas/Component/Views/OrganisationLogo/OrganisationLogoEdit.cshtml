@@ -1,0 +1,219 @@
+﻿
+@using Ext.Net
+@using Ext.Net.MVC
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.vOrganisationDTO
+
+<script>
+
+    function closeAddWindowAndUpdateLogo() {
+        App.AddOrganisationLogoGrid.getStore().load();
+        App.OrganisationLogoAddWindow.close();
+    }
+
+    function closeEditWindowAndUpdateLogo() {
+        App.AddOrganisationLogoGrid.getStore().load();
+        App.OrganisationLogoEditWindow.close();
+    }
+    function deleteUpdateLogo() {
+        App.AddOrganisationLogoGrid.getStore().load();
+        App.OrganisationLogoEditWindow.close();
+    }
+
+    var PrepareToolbarIsActive = function (grid, command, record, row) {
+        if (record.data.IsActive == true && command.command == 'InActive') {
+            command.hidden = true;
+        }
+        else if (record.data.IsActive == true && command.command == 'Active') {
+            command.hidden = false;
+        }
+        else if(record.data.IsActive == false && command.command == 'InActive')
+        {
+            command.hidden = false;
+        }
+        else if(record.data.IsActive == false && command.command == 'Active')
+        {
+            command.hidden = true
+        }
+    };
+
+    var PrepareToolbarDefault = function (grid, command, record, row) {
+        if (record.data.DefaultLogo == true && command.command == 'Cross') {
+            command.hidden = true;
+        }
+        else if (record.data.DefaultLogo == true && command.command == 'Tick') {
+            command.hidden = false;
+        }
+        else if (record.data.DefaultLogo == false && command.command == 'Cross') {
+            command.hidden = false;
+        }
+        else if (record.data.DefaultLogo == false && command.command == 'Tick') {
+            command.hidden = true
+        }
+
+    };
+    var GetLogo = function (value) {
+        var newDate = new Date();
+        var time = newDate.getTime().toString();
+        var url = '@Url.Action("ShowLogo", "OrganisationLogo")?id=' + value + '&time=' + time; 
+        return "<img src = '" + url  +"'/>";
+
+    };
+
+</script>
+@(Html.X()
+      .FormPanel()
+      .ID("LogosForm")
+      .AutoScroll(true)
+      .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+      .Items(
+      Html.X().AntiForgeryField(),
+      Html.X()
+      .Container()
+      .Padding(5)
+      .Items(
+             Html.X().Container().Padding(2).Layout(LayoutType.Form)
+                                .Items(
+                                    Html.X().MultiSelect().ID("OrganisationLogoPartialErrors").Hidden(true)),
+                                    
+                  Html.X()
+                      .GridPanel()
+                      .Padding(5)
+                      .ID("AddOrganisationLogoGrid")
+                      .Store(Html.X()
+                          .Store()
+                          .ID("storeLogo")
+                          .AutoLoad(true)
+                          .RemoteSort(false)
+                          .Model(Html.X()
+                              .Model()
+                              .Fields(fields =>
+                              {
+                                  fields.Add(new ModelField("OrganisationID"));
+                                  fields.Add(new ModelField("Subject"));
+                                  fields.Add(new ModelField("AttachmentDetailID"));
+                                  fields.Add(new ModelField("IsActive"));
+                                  fields.Add(new ModelField("DefaultLogo"));
+                              }))
+                          .Proxy(proxy => proxy.Add(Html.X()
+                              .AjaxProxy()
+                                   .Url(Url.Action("GetLogos", "OrganisationLogo", new { id = Model.OrganisationID, area = "Component" }))
+                                  .Reader(reader => reader.Add(Html.X().JsonReader().Root("data").IDProperty("AttachmentDetailID")))))
+                          .MessageBusListeners(ml =>
+                          {
+                              ml.Add(new MessageBusListener { Name = "AddOrganisationLogo", Handler = "App.OrganisationLogoAddWindow.close();  App.AddOrganisationLogoGrid.getStore().load();" });
+                              ml.Add(new MessageBusListener { Name = "ActivateOrDeactivateOrganisationLogo", Handler = "App.AddOrganisationLogoGrid.getStore().load();" });
+                              ml.Add(new MessageBusListener { Name = "EditOrganisationLogo", Handler = "App.OrganisationLogoEditWindow.close(); App.AddOrganisationLogoGrid.getStore().load();" });
+                          }))
+
+                      .ColumnModel(
+                      Html.X().Column().Text("OrganisationID").DataIndex("OrganisationID").Hidden(true),
+                          Html.X().Column().Text("Subject").DataIndex("Subject").Width(200),
+                              Html.X().Column().DataIndex("AttachmentDetailID").Renderer("GetLogo").Width(500),
+                          Html.X()
+                              .ImageCommandColumn()
+                              .ID("LogoEdit")
+                              .Text("")
+
+                              .Commands(
+                                  Html.X()
+                                      .ImageCommand()
+                                      .CommandName("Edit")
+                                      .Icon(Icon.ApplicationEdit)
+                                      .ToolTip(tt => tt.Text = "Edit")
+                              )
+                              .DirectEvents(de =>
+                              {
+                                  de.Command.Method = HttpMethod.POST;
+                                  de.Command.Url = Url.Action("EditOrganisationLogoWindow", "OrganisationLogo", new { area = "Component" });
+                                  de.Command.ExtraParams.Add(new Parameter("id", "record.data.AttachmentDetailID", ParameterMode.Raw));
+                                  de.Command.ExtraParams.Add(new Parameter("containerId", "AdministrationCenterPanel", ParameterMode.Value));
+                              })
+                                  ,
+                                  Html.X()
+                                      .ImageCommandColumn().DataIndex("IsActive")
+                                      .ID("IsLogoActive")
+                                      .PrepareCommand(pt => pt.Fn = "PrepareToolbarIsActive")
+                                      .Text("Active/Inactive")
+                                      .Width(125)
+                                      .Commands(
+                                          Html.X()
+                                              .ImageCommand()
+                                              .Icon(Icon.FlagGreen)
+                                              .Hidden(true)
+                                              .CommandName("Active")
+                                                  .ToolTip(tt => tt.Text = "Logo is active. Click to deactivate the logo"),
+                                                  Html.X()
+                                                  .ImageCommand()
+                                                      .Hidden(true)
+                                                  .Icon(Icon.FlagRed)
+                                                  .CommandName("InActive")
+                                                  .ToolTip(tt => tt.Text = "Logo is not active. Click to activate the logo")
+                                      ).DirectEvents(de =>
+                                      {
+                                          de.Command.Method = HttpMethod.GET;
+                                          de.Command.Url = Url.Action("ActivateOrDeactivateOrganisationLogo", "OrganisationLogo", new { area = "Component" });
+                                          de.Command.Confirmation.ConfirmRequest = true;
+                                          de.Command.Confirmation.Message = "Are you sure you want to change this setting?";
+                                          de.Command.ExtraParams.Add(new Parameter("id", "record.data.AttachmentDetailID", ParameterMode.Raw));
+                                          de.Command.Success = "App.AddOrganisationLogoGrid.getStore().load();";
+                                      })
+                                          ,
+                                 Html.X()
+                                     .ImageCommandColumn()
+                                    .ID("IsDefault")
+                                    .Text("Default Logo")
+                                         .PrepareCommand(pt => pt.Fn = "PrepareToolbarDefault")
+                                     .Commands(
+                                        Html.X()
+                                            .ImageCommand()
+                                        .Icon(Icon.Tick)
+                                        .CommandName("Tick")
+                                        .Hidden(true)
+                                        .ToolTip(tt => tt.Text = "This is the default logo"),
+                                            Html.X()
+                                                .ImageCommand()
+                                                .Icon(Icon.Cross)
+                                            .Hidden(true)
+                                            .CommandName("Cross")
+                                            .ToolTip(tt => tt.Text = "Click to set this as default logo")
+                                   ).DirectEvents(de =>
+                                   {
+                                       de.Command.Method = HttpMethod.GET;
+                                       de.Command.Url = Url.Action("DefaultOrganisationLogo", "OrganisationLogo", new { area = "Component" });
+                                       de.Command.Confirmation.ConfirmRequest = true;
+                                       de.Command.Confirmation.Message = "Change this as default logo?";
+                                       de.Command.ExtraParams.Add(new Parameter("orgId", "record.data.OrganisationID", ParameterMode.Raw));
+                                       de.Command.ExtraParams.Add(new Parameter("attachmentDetId", "record.data.AttachmentDetailID", ParameterMode.Raw));
+                                       de.Command.Success = "App.AddOrganisationLogoGrid.getStore().load();";
+                                   })
+                      )
+                      .BottomBar(
+                           Html.X()
+                               .PagingToolbar()
+                               .DisplayInfo(true)
+                               .DisplayMsg("Displaying Logos {0} - {1} of {2}")
+                               .EmptyMsg("No logos to display"))
+                      .DockedItems(
+                          Html.X().Toolbar()
+                              .Dock(Dock.Top)
+                              .Items(
+                                  Html.X()
+                                      .Button()
+                                      .Text("Add Logo")
+                                      .DirectEvents(de =>
+                                      {
+                                          de.Click.Method = HttpMethod.POST;
+                                          de.Click.Url = Url.Action("AddOrganisationLogoWindow", "OrganisationLogo", new { area = "Component", id = Model.OrganisationID });
+                                      })
+                                  ,
+                                  Html.X().ToolbarFill(),
+                                  Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults).ID("CancelLogo")
+                                           .DirectClickUrl(Url.Action("OrganisationManagement", "Organisation", new { area = "Component", containerId = "AdministrationCenterPanel" }))))
+                      .AutoDoLayout(true))
+
+                      )
+                      )
+
+
+

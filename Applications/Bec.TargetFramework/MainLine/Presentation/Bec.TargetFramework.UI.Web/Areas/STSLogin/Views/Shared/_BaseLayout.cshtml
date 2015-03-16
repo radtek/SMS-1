@@ -1,0 +1,112 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @RenderSection("headtag", false)
+
+    <style>
+        .x-form-item-body {
+            height: 26px;
+            border-color : lightgray;
+        }
+
+        .x-tab-default-top {
+            padding: 8px 12px 1px 12px;
+        }
+
+        .x-tab-bar-default-horizontal {
+            height: 30px;
+        }
+
+        .x-panel-body-default {
+            color: black;
+            font-size: 12px;
+            font-size: normal;
+            font-family: Verdana !important;
+            border-color: black!important;
+        }
+
+        .x-panel-header-default {
+            font-size: 12px;
+            border: 1px solid #157fcc;
+        }
+
+        .x-panel-header-default-horizontal-noborder {
+            padding: 5px 5px 5px 5px;
+        }
+
+        .x-panel-default {
+            border-color: black!important;
+        }
+
+        .x-panel-default-outer-border-trbl{
+            border-color: black!important;
+        }
+        .x-body {
+            color: black;
+            font-size: 12px;
+            font-family: verdana !important;
+            background: #ffffff;
+        }
+
+        .errorMultiSelect {
+            color: red;
+            font-weight: bold;
+            background: no-repeat 0 2px;
+            icon: url('~/Content/resources/images/icons/info.png');
+            padding-left: 20px; /* width of the image plus a little extra padding */
+        }
+        .messageMultiSelect {
+            color: black;
+            font-weight: bold;
+            background: no-repeat 0 2px;
+            icon: url('~/Content/resources/images/icons/info.png');
+            padding-left: 20px; /* width of the image plus a little extra padding */
+        }
+        .inactiveClass {
+            background-image: url(/icons/flagred/ext.axd);
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .activeClass {
+            background-image: url(/icons/flaggreen/ext.axd);
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .tickClass {
+            background-image: url(/icons/tick/ext.axd);
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .crossClass {
+            background-image: url(/icons/cross/ext.axd);
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .x-tree-icon {
+            display: none;
+        }
+
+        .x-selectedtreenode {
+           color: #7FFF00 !important; 
+           font-weight: bold;
+           font-size: 12px !important;
+            font-family: verdana !important;
+        }
+
+    </style >
+</head>
+<body>
+    @Html.X().ResourceManager(ViewBag.ManagerConfig as MvcResourceManagerConfig)
+    @RenderSection("mainBody", true)
+</body>
+</html>

@@ -1,0 +1,285 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Web.Framework.Extensions
+@using Ext.Net
+@using Ext.Net.MVC
+@model Bec.TargetFramework.Entities.PaymentDTO
+
+@{
+    var X = Html.X();
+    Layout = "~/Views/Shared/_BaseLayoutNoNotificationViewer.cshtml";
+}
+
+
+
+@section headTag
+{
+
+<style>
+    .x-grid-body .x-grid-cell-Cost {
+        background-color: #f1f2f4;
+    }
+
+    .x-grid-row-summary .x-grid-cell-Cost .x-grid-cell-inner {
+        background-color: #e1e2e4;
+    }
+
+    .task .x-grid-cell-inner {
+        padding-left: 15px;
+    }
+
+    .x-grid-row-summary .x-grid-cell-inner {
+        font-weight: bold;
+        font-size: 11px;
+        background-color: #f1f2f4;
+    }
+</style>
+
+
+
+    <script type="text/javascript">
+    function populateHelp(editor, e, eOpts) {
+        var cntrl = Ext.getCmp('HelpLabel');
+
+        if (editor.tag != null)
+            cntrl.setText(editor.tag);
+    }
+
+
+    function validateCVV(value) {
+        var regex = /^([0-9]{3}|)$/;
+        return regex.test(value);
+    }
+
+
+    var validateDate = function()
+    {
+        var valid = false;
+        var today = new Date();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        var current = mm + '/' + yyyy;
+        var d = Ext.getCmp('ExpiryMonth').displayTplData[0].Name;
+        d = Date.parse(d + "1, 2012");
+        if (!isNaN(d)) {
+            d = new Date(d).getMonth() + 1;
+        }
+       
+        if (Ext.getCmp('ExpiryYear').displayTplData[0].Name < yyyy)
+        {
+            alert('Card Expiry date cannot be a past date, please re-enter');
+            return false;
+        }
+        else if (Ext.getCmp('ExpiryYear').displayTplData[0].Name == yyyy)
+        {
+            if(d < mm)
+            {
+                alert('Card Expiry date cannot be a past date, please re-enter');
+                return false;
+            }
+        }
+        else
+        {
+            return  true;
+        }
+
+    }
+
+</script>   
+}
+
+
+
+@section mainBody
+{
+   @*@(Html.X().Store().AutoLoad(true).ID("OrderSummaryStore")
+                  .Model(Html.X().Model().GenerateModel<ShoppingCartItemDTO>().Name("CartItem").Fields(fields =>
+                          {
+                              fields.Add(new ModelField("ProductID"));
+                              fields.Add(new ModelField("ProductInformationDto.Name"));
+                              fields.Add(new ModelField("ProductPricingDto.ProductPrice"));
+                              fields.Add(new ModelField("ProductPricingDto.ProductFinalPrice"));
+                              fields.Add(new ModelField("Quantity"));
+                        })
+                  )
+                  .Proxy(p => p.Add(Html.X().AjaxProxy().Url(Url.Action("GetOrderSummary", "Payment", new { area = "SafeTransactionSearch" })).Reader(new JsonReader.Builder().Root("data")))))*@
+    
+
+    @(Html.X().Viewport().Layout(LayoutType.Border).ID("PaymentViewPort").AutoDoLayout(true)
+          .Items(
+              Html.X().Panel().Region(Region.North).ItemsFromPage(this, "~/Views/Portal/_TopBar.cshtml"),
+                             
+              Html.X().Container().Region(Region.Center).Layout(LayoutType.Column).AutoScroll(true)
+                  .Padding(2)
+                  .Items
+                  (
+                   Html.X().Panel().Region(Region.West).ID("WorkflowTree").Height(750).Width(250).AutoScroll(false)
+                            .ItemsFromPartial("_LeftPanel"),
+                      X.FormPanel().ID("PaymentForm").ColumnWidth(1).ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+                          .Items
+                          (
+                              X.Container().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                               X.Container().ColumnWidth(0.5)
+                                                  .Items(
+                                                      X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.Start })
+                                                          .Items
+                                                          (
+                                                                      X.Button().ApplyButtonDefaults(Razor.ApplyPreviousButtonDefaults).Flat(true)
+                                                                .DirectEvents(de =>
+                                                                  {
+                                                                      de.Click.Url = Url.Action("Previous", "Payment", new { area = "SafeTransactionSearch" });
+                                                                      de.Click.FormID = "PaymentForm";
+                                                                      de.Click.EventMask.ShowMask = true;
+                                                                      de.Click.Method = HttpMethod.POST;
+                                                                      de.Click.EventMask.Msg = "Please wait ...";
+                                                                  })
+                                                          )
+                                                  ),
+                                              X.Container().ColumnWidth(0.5)
+                                                  .Items(
+                                                      X.Container().Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Middle, Pack = BoxPack.End })
+                                                          .Items
+                                                          (
+                                                                              X.Button().ApplyButtonDefaults(Razor.ApplySTSButtonDefaults).Text("Make Payment")//.OnClientClick("var b = #{PaymentForm}.isValid(); if (b) b = validateDate(); alert(b); return b;")
+                                                                  .DirectEvents(de =>
+                                                                  {
+                                                                      //de.Click.Before = "var b = #{PaymentForm}.isValid(); if (b) b = validateDate(); if(!b) return b;";
+                                                                      de.Click.Url = Url.Action("Next", "Payment", new { area = "SafeTransactionSearch" });
+                                                                      de.Click.FormID = "PaymentForm";
+                                                                      de.Click.EventMask.ShowMask = true;
+                                                                      de.Click.Method = HttpMethod.POST;
+                                                                      de.Click.EventMask.Msg = "Please wait ...";
+                                                                  })
+                                                          )
+                                                  )
+                                  ),
+                                  X.Container().ID("Errors").Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items
+                                  (
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+
+                                          ),
+                                      X.Container().ColumnWidth(0.5)
+                                          .Items(
+                                           X.MultiSelect().ID("FormErrors").Hidden(true)
+                                           )
+                                  ),
+                                  X.Container().Layout(LayoutType.Column).Padding(2).MinWidth(880)
+                                  .Items(
+                                      X.Panel().ColumnWidth(0.5).Border(true)
+                                          .Items(
+
+                                                  X.Panel().ApplyPanelDefaults("PaymentDetails").Border(true).Layout(LayoutType.Column).ColumnWidth(0.5).MinWidth(420)
+                                                              .Items
+                                                              (
+
+                                                              //                   X.Container().ColumnWidth(1).Padding(2).Items(X.Label().ApplyFieldDefaults("PaymentDetails", "PaymentMethodLabel")),
+                                                              //                   X.Container().ColumnWidth(1).Padding(2).Items(X.Label().ApplyFieldDefaults("PaymentDetails", "OrderSummaryInfoLabel")),
+                                                              //                            X.Container().ColumnWidth(0.5).Padding(2).Layout(LayoutType.Fit).Items(
+
+                                                              //                                 X.ComboBoxFor(model => model.CardType).ID("CardType").ApplyFieldDefaults("PaymentDetails", "CardType").ColumnWidth(1).MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").DisplayField("Name").ValueField("Name")
+                                                              //                    .Store(Razor.CreateClassificationStore("PaymentCardTypeID", Url.Action("ReadData", "Reference", new { area = "" }))),
+
+                                                              //                        X.TextFieldFor(model => model.CardHolderName).ApplyFieldDefaults("PaymentDetails", "CardholderName").MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1),
+                                                              //                                X.TextFieldFor(model => model.OrderRequest.CardNumber).ApplyFieldDefaults("PaymentDetails", "CardNumber").MinWidth(200).Padding(2).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                              //                        ),
+
+                                                              //                         X.Container().ColumnWidth(1).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Start }).Items(
+
+                                                              //                                                            X.ComboBoxFor(model => model.OrderRequest.CardExpiryMonth).ID("ExpiryMonth").ApplyFieldDefaults("PaymentDetails", "CardExpiryMonth").Padding(2).MinWidth(60).Listeners(l => l.Focus.Fn = "populateHelp").DisplayField("Name").ValueField("ClassificationTypeID")
+                                                              //                                      .Store(Razor.CreateClassificationStore("MonthID", Url.Action("ReadData", "Reference", new { area = "" }))),
+
+                                                              //                                           X.ComboBoxFor(model => model.OrderRequest.CardExpiryYear).ID("ExpiryYear").ApplyFieldDefaults("PaymentDetails", "CardExpiryYear").PaddingSpec("23 10 10 10").MinWidth(60).Listeners(l => l.Focus.Fn = "populateHelp").DisplayField("Name").ValueField("ClassificationTypeID")
+                                                              //                                      .Store(Razor.CreateClassificationStore("YearID", Url.Action("ReadData", "Reference", new { area = "" })))
+                                                              //                       )
+                                                              //                       ,
+                                                              //                                                        X.Container().ColumnWidth(0.5).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Start }).Items(
+                                                              //                                            X.TextFieldFor(model => model.OrderRequest.CVVNumber).ApplyFieldDefaults("PaymentDetails", "CVC").MinWidth(20).Listeners(l => l.Focus.Fn = "populateHelp").Flex(1)
+                                                              //                                                                      .Validate().ValidateOnBlur(true).Validator(v => v.Fn = "validateCVV").ValidatorText("Please enter a valid CVC number"),
+
+                                                              //                                                           X.Image().ImageUrl("~/Content/resources/images/STS/cvv-popup.png").Width(300).Height(150)
+                                                              //) 
+                                                              )
+                                              
+                                          ),
+                                      X.Panel().ColumnWidth(0.5)
+                                          .Items(
+
+                                                            X.Panel().ApplyPanelDefaults("OrderSummary").Layout(LayoutType.Column).ColumnWidth(0.5).MinWidth(420).Items(
+
+                                                                               //  X.GridPanel().ID("OrderSummaryGrid").ColumnWidth(1).MinWidth(300).Padding(2)
+                                                                               //  .StoreID("OrderSummaryStore")
+                                                                               //          .ColumnModel(
+                                                                               //                                 X.Column().Text("ProductId").DataIndex("ProductID").Hidden(true),
+                                                                               //                         X.Column().DataIndex("ProductInformationDto.Name").Text("Product").Width(200),
+                                                                               //                           X.ImageCommandColumn().ID("ProductDesc").DataIndex("ProductId").Commands(X.ImageCommand().CommandName("View Desc")
+                                                                               //                                               .Icon(Icon.ApplicationAdd)
+                                                                               //                                               .ToolTip(tt => tt.Text = "Click to view Description"))
+                                                                               //                                               .DirectEvents(de =>
+                                                                               //                                                                     {
+                                                                               //                                                                         de.Command.Method = HttpMethod.POST;
+                                                                               //                                                                         de.Command.Url = Url.Action("ShowProductDescWindow", "Payment", new { area = "SafeTransactionSearch" });
+                                                                               //                                                                         de.Command.ExtraParams.Add(new Parameter("id", "record.data.ProductID", ParameterMode.Raw));
+                                                                               //                                                                     }),
+
+                                                                               //                         X.Column().Text("Price (GBP)").DataIndex("ProductPricingDto.ProductPrice").Width(100),
+                                                                               //                         X.Column().Text("Qty").DataIndex("Quantity").Width(70),
+                                                                               //                         Html.X().SummaryColumn()
+                                                                               //                         .Width(75)
+                                                                               //                         .Text("Total")
+                                                                               //                         .SummaryType(SummaryType.Sum)
+                                                                                                        
+                                                                               //                         .Renderer("return '£ ' + (record.data.Quantity * record.get('ProductPricingDto.ProductPrice'));")
+                                                                               //                          )
+                                                                                                         
+                                                                               //                          .Features(
+                                                                               //                             Html.X().GroupingSummary()
+                                                                               //                                 .ID("GroupingSummary1")
+                                                                               //                                 .ShowSummaryRow(true)
+                                                                               //                                 .RemoteRoot("record")
+                                                                                                                
+                                                                                                                
+                                                                               //                         )
+
+                                                                               //                                 ,
+                                                                               //         X.Container().ColumnWidth(1).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Items(
+                                                                               //                             X.Panel().ColumnWidth(0.5).ColSpan(2).PaddingSpec("10 0 0 100").Items(
+                                                                               //                              X.Label().Text("VAT ")),
+                                                                               //                                             X.Panel().ColumnWidth(0.5).ColSpan(3).PaddingSpec("10 10 10 30").Items(
+                                                                               //                              X.Label().Text("£" + Model.ShoppingCart.PriceDTO.Tax.ToString())
+                                                                               //                   )),
+
+                                                                               // X.Container().ColumnWidth(1).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Items(
+                                                                               // X.Panel().ColumnWidth(0.5).PaddingSpec("10 0 0 70").Items(
+                                                                               //             X.Label().Text("Discount ")),
+                                                                               //         X.Panel().ColumnWidth(0.5).PaddingSpec("10 10 10 30").Items(
+                                                                               //             X.Label().Text("£" + Model.ShoppingCart.PriceDTO.Discounts.ToString())
+                                                                               // )),
+                                                                               //X.Container().ColumnWidth(1).Padding(2).Layout(LayoutType.HBox).LayoutConfig(new HBoxLayoutConfig { Align = HBoxAlign.Top, Pack = BoxPack.Center }).Items(
+                                                                               //                             X.Panel().ColumnWidth(0.5).PaddingSpec("10 0 0 100").Items(
+                                                                               //                              X.Label().Text("Total ")),
+                                                                               //                             X.Panel().ColumnWidth(0.5).PaddingSpec("10 10 10 30").Items(
+                                                                               //                              X.Label().Text("£" + Model.ShoppingCart.PriceDTO.CartFinalPrice.ToString())
+                                                                               //                   ))
+                                                                            )
+
+
+                                                                )
+                                                                
+                                                                        
+
+                                  
+                                                )
+                                         )
+
+                                 )
+                         )
+                  
+                 )
+
+}
+
+

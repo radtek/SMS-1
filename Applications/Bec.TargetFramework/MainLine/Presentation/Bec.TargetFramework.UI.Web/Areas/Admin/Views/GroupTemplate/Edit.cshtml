@@ -1,0 +1,129 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.GroupTemplateDTO
+    
+@(Html.X()
+          .FormPanel()
+          .ID("EditGroupTemplateForm")
+          .Title("Edit Group Template")
+          .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+          .Items(
+              Html.X().AntiForgeryField(),
+                         Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                      .Items
+                      (
+                          Html.X()
+                              .TextFieldFor(model => model.GroupTemplateName)
+                              .AllowBlank(false)
+                              .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                      .ReadOnly(true),
+                          Html.X().TextAreaFor(model => model.GroupTemplateDescription)
+                              .AllowBlank(false)
+                              .ApplyTextAreaDefaults(Razor.ApplyTextAreaDefaults),
+                          Html.X().ComboBoxFor(model => model.GroupTypeID)
+                                    .AllowBlank(false)
+                                          .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                                          .FieldLabel("Type")
+                                              .Store(Razor.CreateClassificationStore("GroupTemplateType", Url.Action("ReadData", "Reference", new { area = "" })))
+                       )),
+                       
+                        Html.X().Container().Layout(LayoutType.Column)
+              .Items
+              (
+                  Html.X().Panel().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5).Title("All Roles: Drag")
+                      .Items
+                      (
+                                 Html.X()
+                                     .MultiSelect()
+                                         .ValueField("RoleValue")
+                                         .DisplayField("RoleName")
+                                     .DragGroup("grp1")
+                                     .DropGroup("grp1")
+                                     .MultiSelect(true)
+                                         .Flex(1)
+                                         .MinHeight(400)
+                                         .MaxHeight(400)
+                                         .AutoScroll(true)
+                                     .ListTitle("All Claims")
+                                     .Store(Html.X()
+                                                .Store()
+                                                .AutoLoad(true)
+                                                .RemoteSort(false)
+                                                .Model(Html.X()
+                                                           .Model()
+                                                           .Fields(fields =>
+                                                           {
+                                                               fields.Add(new ModelField("RoleName"));
+                                                               fields.Add(new ModelField("RoleValue"));
+                                                           })
+                                                           .Proxy(proxy => proxy.Add(Html.X()
+                                                                                         .AjaxProxy()
+                                                                                         .Url(Url.Action("GetRoleItems", "GroupTemplate", new { id = Model.GroupTemplateID, area = "Admin" }))
+                                                                                         .Reader(reader => reader.Add(Html.X().JsonReader().Root("data")))))))
+                                                                                        
+                                     
+                                              
+                     ),
+                         Html.X().Panel().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5).Title("Group Roles: Drop")
+                      .Items(
+                               
+                                 Html.X()
+                                     .MultiSelect()
+                                     .ListTitle("Selected Claims")
+                                     .ID("SelectedClaims")
+                                     .Flex(1)
+                                         .MinHeight(400)
+                                             .MaxHeight(400)
+                                     .AutoScroll(true)
+                                     .MultiSelect(true)
+                                     .CustomConfig(c => c.Add(new ConfigItem("submitText", "false", ParameterMode.Raw)))
+                                     .DragGroup("grp1")
+                                     .DropGroup("grp1")
+                                     
+                                     
+                                         .ValueField("RoleValue")
+                                         .DisplayField("RoleName")
+                                     .Store(Html.X()
+                                                .Store()
+                                                .AutoLoad(true)
+                                                .RemoteSort(false)
+                                 // GetClaimSourceItemsForRoleId
+    
+                                                .Model(Html.X()
+                                                           .Model()
+                                                           .Fields(fields =>
+                                                           {
+                                                               fields.Add(new ModelField("RoleName"));
+                                                               fields.Add(new ModelField("RoleValue"));
+                                                           })
+                                                           .Proxy(proxy => proxy.Add(Html.X()
+                                                                                         .AjaxProxy()
+                                                                                             .Url(Url.Action("GetRoleItemsForGroupTemplateId", "GroupTemplate", new { id = Model.GroupTemplateID, area = "Admin" }))
+                                                                                            .Reader(reader => reader.Add(Html.X().JsonReader().Root("data"))))))))
+                     ),
+                    
+              Html.X().HiddenFor(model => model.GroupTemplateID))
+             
+          .TopBar(Html.X().Toolbar()
+            .Items(
+                Html.X().ToolbarFill(),
+                    Html.X()
+                           .Button()
+                            .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                       .DirectEvents(de =>
+                       {
+                           de.Click.Before = "return #{EditGroupTemplateForm}.isValid();";
+                           de.Click.Url = Url.Action("Edit", "GroupTemplate", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                           de.Click.ExtraParams.Add(new Parameter("items", "App.SelectedClaims.getValues()", ParameterMode.Raw));
+                           de.Click.FormID = "EditGroupTemplateForm";
+                       }),
+
+                               Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.EditGroupTemplateForm.getForm().reset();"),
+                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                    .DirectEvents(de =>
+                    {
+                        de.Click.Url = Url.Action("GroupTemplateManagement", "GroupTemplate", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                    })))
+)

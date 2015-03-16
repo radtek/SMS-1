@@ -1,0 +1,88 @@
+﻿@using Ext.Net.MVC;
+@using Ext.Net;
+@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.UI.Web.Areas.UserAccount.Models.SendUsernameReminderInputModel
+@{
+    ViewBag.Title = "Send Username Reminder";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+@section headTag
+{
+    <script>
+        function checkSendUsernameReminderForm() {
+            if (App.SendUsernameReminderForm.isValid()) {
+                Ext.Msg.wait('Checking Email....', 'Username Reminder');
+            }
+            else
+                return false;
+        }
+    </script>
+}
+
+@section mainBody
+{
+
+    @(Html.X().Window()
+    .ID("UsernameReminderWindow")
+    .Closable(false)
+    .Resizable(false)
+    .Height(120)
+    .Width(300)
+    .Icon(Icon.Lock)
+    .Title("Username Recovery")
+    .Layout(LayoutType.Fit)
+    .Draggable(true)
+    .Modal(true)
+    .Padding(0)
+    .Items
+    (
+        Html.X().FormPanel()
+        .Padding(3)
+        .Border(false)
+        .Layout(LayoutType.Form)
+        .ID("SendUsernameReminderForm")
+        .Url(Url.Action("Index", "SendUsernameReminder", new { area = "UserAccount" }))
+        .BodyStyle("background:transparent;")
+        .Items
+        (
+            Html.X().AntiForgeryField(),
+            Html.X().TextFieldFor(m => m.Email)
+                .MsgTarget(MessageTarget.Side)
+                .LabelAlign(LabelAlign.Right)
+                .LabelWidth(45)
+
+                .AllowBlank(false)
+                .BlankText("Email is required")
+                .AnchorHorizontal("100%")
+        )
+    )
+    .Buttons
+    (
+    Html.X().Button().Text("Cancel")
+        .Listeners(l => l.Click.Handler = "window.location = '" + Url.Action("Index", "Login", new { area = "UserAccount" }) + "'"),
+        Html.X().Button()
+            .Text("Username Reminder")
+            .Icon(Icon.Accept)
+            .DirectEvents(de =>
+            {
+                de.Click.Timeout = 60000;
+                de.Click.Url = Url.Action("Index", "SendUsernameReminder", new { area = "UserAccount" });
+                de.Click.FormID = "SendUsernameReminderForm";
+                de.Click.CleanRequest = true;
+                de.Click.Method = HttpMethod.POST;
+                de.Click.Before = "return checkSendUsernameReminderForm();";
+                de.Click.Failure = "Ext.Msg.show({" +
+                           " title:   'Username Reminder Error'," +
+                           " msg:     result.errorMessage," +
+                           " buttons: Ext.Msg.OK," +
+                           " icon:    Ext.MessageBox.ERROR" +
+                           " });";
+
+                de.Click.EventMask.MinDelay = 250;
+            })
+    )
+    )
+
+}

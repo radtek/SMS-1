@@ -1,0 +1,86 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.ResourceDTO
+
+<script>
+
+    // override comboxbox validate method
+    var overrideValidate = function (field) {
+        alert(field);
+        field.isValid(true);
+    }
+
+</script>
+
+@(Html.X()
+          .FormPanel()
+          .ID("EditResourceForm")
+          .Title("Edit Resource")
+              .ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults)
+              .Items(
+                  Html.X().AntiForgeryField(),
+              Html.X().Container().Layout(LayoutType.Column)
+                  .Items
+                  (
+                      Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                          .Items
+                          (
+                              Html.X()
+                                  .TextFieldFor(model => model.ResourceName)
+                                  .AllowBlank(false)
+                                   .ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults)
+                                           .ReadOnly(true),
+                              Html.X().TextAreaFor(model => model.ResourceDescription)
+                                  .AllowBlank(false)
+                                      .ApplyTextAreaDefaults(Razor.ApplyTextAreaDefaults),
+
+                               Html.X()
+                                   .CheckboxGroupFor(model => model.SelectedOperations, (from item in Model.Operations
+                                                                                         select new Ext.Net.Checkbox.Config
+                                                                                         {
+                                                                                             BoxLabel = item.OperationName,
+                                                                                             InputValue = item.OperationID.ToString()
+                                                                                         }).AsEnumerable<Checkbox.Config>())
+                                   .FieldLabel("Associated Operations")
+                                   .LabelAlign(LabelAlign.Top)
+                                   .ColumnsWidths(new double[4] { 0.25, 0.25, 0.25, 0.25 })
+                          ),
+                      Html.X().Container().Layout(LayoutType.Form).ColumnWidth(0.5).Padding(5)
+                          .Items
+                          (
+                              Html.X().ComboBoxFor(model => model.ResourceTypeID)
+                                  .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                                  .FieldLabel("Type")
+                                  .Store(Razor.CreateClassificationStore("ResourceType", Url.Action("ReadData", "Reference", new { area = "" }))),
+                              Html.X().ComboBoxFor(model => model.ResourceCategoryID)
+                                  .ApplyComboxDefaults(Razor.ApplyComboBoxClassificationDefaults)
+                                  .ValidateOnBlur(false)
+                                  .ValidateOnChange(false)
+                                  .FieldLabel("Category")
+                                  .Store(Razor.CreateClassificationStore("ResourceCategory", Url.Action("ReadData", "Reference", new { area = "" })))
+                          ),
+                         Html.X().HiddenFor(model => model.ResourceID)
+                  )
+          )
+          .TopBar(Html.X().Toolbar()
+            .Items(
+                Html.X().ToolbarFill(),
+                    Html.X()
+                           .Button()
+                               .ApplyButtonDefaults(Razor.ApplySaveButtonDefaults)
+                       .DirectEvents(de =>
+                       {
+                           de.Click.Before = "return #{EditResourceForm}.isValid();";
+                           de.Click.Url = Url.Action("Edit", "Resource", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                           de.Click.FormID = "EditResourceForm";
+                       }),
+
+                               Html.X().Button().ApplyButtonDefaults(Razor.ApplyResetButtonDefaults).OnClientClick("App.EditResourceForm.getForm().reset();"),
+                           Html.X().Button().ApplyButtonDefaults(Razor.ApplyCancelButtonDefaults)
+                    .DirectEvents(de =>
+                    {
+                        de.Click.Url = Url.Action("ResourceManagement", "Resource", new { area = "Admin", containerId = "AdministrationCenterPanel" });
+                    })))
+)
+
+
+

@@ -1,0 +1,128 @@
+/*Normal Forms*/
+div.normal_form { width: 530px; margin: 0 auto; display: block; padding: 1.2em; font-size: 14px;}
+div.normal_form fieldset, div.normal_form .fieldset {
+	float: left;
+	position: relative;
+	margin: 0 0 20px 0px;
+	border: 1px solid #ccc;
+	background: #fff;
+	padding: 2em 1em;
+	width: 100%;}
+	
+div.normal_form legend { float: left; font: bold 1.65em/1.65em 'Helvetica', Arial, sans-serif; letter-spacing: -1.2px; position: absolute; top: -0.9em; padding: 0 0.4em; background: #fff; border: 1px solid #ccc; outline: none;}
+
+div.normal_form div.row { display: block;width: 100%;margin: 0 0 0.5em 0;padding: 0.3em 0.2em;}
+div.normal_form div.row:hover { background: #eee;}
+div.normal_form div.row.nohover { background: #fff;}
+
+div.normal_form .label { display: inline-block;width: 16em;font: normal 1em/2.5em sans-serif;color: #444;text-indent: 1em;}
+div.normal_form .label.small { width: 7em;}
+
+div.normal_form .textarea,
+div.normal_form input { display: inline-block; vertical-align: top;}
+	
+div.normal_form .textarea,
+div.normal_form .password,
+div.normal_form .text,
+div.normal_form .select { border: 1px solid #ccc;background: #fff;padding: 0.5em;font-size: 1em;color: #666;}
+
+div.normal_form .textarea:focus,
+div.normal_form .password:focus,
+div.normal_form .text:focus { background: #FFC;color: #333;}
+
+div.normal_form input[type=radio],
+div.normal_form input[type=checkbox] { margin: 0.7em 0 0 0;position: relative;}
+
+div.normal_form input[type=radio]:focus,
+div.normal_form input[type=checkbox]:focus { background: none;border: none;outline: none;}
+
+div.normal_form .submit {
+	background: #4aab2d url('../img/bg_save.gif') 0 0 repeat-x;
+	font: bold 1em/2em sans-serif;
+	display: inline-block;
+	color: #fff;
+	padding: 0 0.8em;
+	-webkit-border-radius: 3px;
+	-webkit-text-stroke:1px rgba(255,255,255,0.1);
+	text-shadow: 1px 1px 1px #346212;
+	margin: 0.2em 1em;}
+	
+
+/*Normal Forms Overide*/
+div.normal_form div.form_row, div.normal_form .save_wrap {
+	float: none; 
+	display: block;
+	width: 100%;
+	margin: 0 0 0 0;
+	padding: 0.3em 0.2em; 
+	font: normal 1em/2.5em sans-serif}
+
+div.normal_form div.form_row .form_parent,
+div.normal_form div.form_child {
+	float: none;
+	position: relative; 
+	width: 100%; 
+	margin: 0 0 0.5em 0 !important;
+	padding: 0.3em 0.2em !important;
+	height: 2.6em;
+	top: 0; left: 0;}
+
+div.normal_form div.form_row .form_parent:hover,
+div.normal_form div.form_row .form_child:hover { background: #eee;}
+	
+div.normal_form div.form_row .form_parent div.left,
+div.normal_form div.form_row .form_child div.left {
+	float: left; 
+	clear: both;
+	width: 18em; 
+	display: inline-block; 
+	vertical-align: top;}
+	
+div.normal_form div.form_parent div.right,
+div.normal_form div.form_child div.right{
+	float: left; 
+	text-align: left; 
+	padding: 0; 
+	width: 200px; 
+	display: block;
+	background: none;
+	margin: 0;}
+
+div.normal_form div.form_row .form_parent div.right,
+div.normal_form div.form_child div.right,
+div.normal_form div.form_row {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;}
+	
+
+/*Overide Form Styles*/
+div.right span.radio_check { display: inline; margin: 0 8px 0 0;}
+div.right span.radio_check .radio { position: relative; float: left;}
+div.right span.radio_check .checkbox { position: relative; float: left;}
+
+div.normal_form .label, div.normal_form span.qtn { display: inline-block;width: 18em;font: normal 1em/2.4em sans-serif;color: #444;text-indent: 1em; margin: 0; padding: 0;}
+div.normal_form .label.small { width: 7em;}
+
+div.normal_form .textarea,
+div.normal_form input { display: inline-block; vertical-align: top;}
+	
+div.normal_form div.right .textarea,
+div.normal_form div.right .password,
+div.normal_form div.right .text,
+div.normal_form div.right .select { border: 1px solid #ccc;background: #fff;padding: 0.5em;font-size: 1em;color: #666; float: none; display: inline-block; width: 11em;}
+
+div.normal_form div.right .textarea:focus,
+div.normal_form div.right .password:focus,
+div.normal_form div.right .text:focus { background: #FFC;color: #333;}
+
+div.normal_form input[type=radio],
+div.normal_form input[type=checkbox] { margin: 0.7em 0 0 0;position: relative;}
+
+div.normal_form input[type=radio]:focus,
+div.normal_form input[type=checkbox]:focus { background: none;border: none;outline: none;}
+
+div.normal_form div.right div.row { width: 18em; padding: 0; margin: 0; *padding: 0;}
+div.normal_form div.right div.row:hover { background: transparent;}
+
+

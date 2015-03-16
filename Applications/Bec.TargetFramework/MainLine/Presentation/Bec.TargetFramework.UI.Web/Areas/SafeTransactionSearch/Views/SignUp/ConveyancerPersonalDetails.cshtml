@@ -1,0 +1,45 @@
+﻿@using Bec.TargetFramework.Web.Framework.Extensions
+@model Bec.TargetFramework.Entities.RegistrationDTO
+@using Ext.Net
+@using Ext.Net.MVC
+
+<h2>ConveyancerPersonalDetails</h2>
+
+@{
+    var X = Html.X();
+    ViewBag.Title = "PersonalDetails";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+@section headTag
+{
+
+
+}
+
+@section mainBody
+{
+
+    @(X.FormPanel().Title("Personal Details")
+                            .ID("PersonalDetailsForm").ApplyFormPanelDefaults(Razor.ApplyFormPanelDefaults).Items(
+                           X.TextFieldFor(model => model.COEmail).ID("COEmail").ApplyTextFieldDefaults(Razor.ApplyTextFieldDefaults).FieldLabel("Email").Hidden(true)
+                    )
+                    .TopBar(Html.X().Toolbar()
+                    .Items(
+                                  Html.X().ToolbarFill(),
+                                  Html.X()
+                                          .Button().ID("btnNext")
+                                  .Text("Next").Icon(Icon.NextGreen)
+                                  .DirectEvents(de =>
+                                          {
+                                            @*de.Click.Before = "return App.TermsnConditionsForm.isValid();";*@
+                                              de.Click.Url = Url.Action("ConveyancerPersonalDetails", "SignUp", new { area = "SafeTransactionSearch" });
+                                              de.Click.FormID = "PersonalDetailsForm";
+                                              de.Click.EventMask.ShowMask = true;
+                                              de.Click.EventMask.Msg = "Please wait ...";
+                                          })
+                                          )
+                                          )
+    )
+}
