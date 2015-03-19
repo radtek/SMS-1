@@ -5,26 +5,48 @@
         data = data || {};
         var self = this;
         
-        self.name = ko.observable();
-        self.address1 = ko.observable();
-        self.address2 = ko.observable();
-        self.townCity = ko.observable();
-        self.county = ko.observable();
-        self.postCode = ko.observable();
-        self.firstName = ko.observable();
-        self.lastName = ko.observable();
-        self.sysAdmin = ko.observable();
-        self.tel = ko.observable();
-        self.recordCreated = ko.observable();
-        self.email = ko.observable();
-        self.isVerified = ko.observable();
-        self.regulator = ko.observable();
+        self.companyId = ko.observable();
+        self.companyName = ko.observable();
+        self.companyAddress1 = ko.observable();
+        self.companyAddress2 = ko.observable();
+        self.companyTownCity = ko.observable();
+        self.companyCounty = ko.observable();
+        self.companyPostCode = ko.observable();
+        self.systemAdminTitle = ko.observable();
+        self.systemAdminFirstName = ko.observable();
+        self.systemAdminLastName = ko.observable();
+        
+        self.systemAdminTel = ko.observable();
+        self.companyRecordCreated = ko.observable();
+        self.systemAdminEmail = ko.observable();
+        self.isCompanyVerified = ko.observable();
+        self.companyRegulator = ko.observable();
+        self.companyOtherRegulator = ko.observable();
         self.regulatorToDisplay = ko.observable();
-        self.isPinCreated = ko.observable();
-        self.pinCreated = ko.observable();
-        self.pinCode = ko.observable();
+        self.isCompanyPinCreated = ko.observable();
+        self.companyPinCreated = ko.observable();
+        self.companyPinCode = ko.observable();
 
-        self.data;
+        self.sysAdmin = ko.computed(function () {
+            
+            if (self.systemAdminFirstName() ||
+                    self.systemAdminLastName()) {
+                
+                var result = (
+                    self.systemAdminTitle() +
+                    (self.systemAdminFirstName() ? ' ' : '') +
+                    (self.systemAdminFirstName() || '') +
+                    ' ' +
+                    (self.systemAdminLastName() || '')
+                );
+
+                return result;
+                
+            }
+            else {
+                return '-';
+            }
+        }, self);
 
         self.initialize(data);
     }
@@ -32,38 +54,39 @@
     CompanyVM.prototype.initialize = function (data) {
         var self = this;
 
-        self.name(data.name || '-');
-        self.address1(data.address1 || '-');
-        self.address2(data.address2 );
-        self.townCity(data.townCity);
-        self.county(data.county);
-        self.postCode(data.postCode);
-        self.firstName(data.firstName);
-        self.lastName(data.lastName);
-        self.sysAdmin(data.sysAdmin || '-');
-        self.tel(data.tel || '-');
+        self.companyId = ko.observable(data.companyId);
+        self.companyName(data.companyName || '-');
+        self.companyAddress1(data.companyAddress1 || '-');
+        self.companyAddress2(data.companyAddress2);
+        self.companyTownCity(data.companyTownCity);
+        self.companyCounty(data.companyCounty);
+        self.companyPostCode(data.companyPostCode);
+        self.systemAdminTitle(data.systemAdminTitle);
+        self.systemAdminFirstName(data.systemAdminFirstName);
+        self.systemAdminLastName(data.systemAdminLastName);
+        self.systemAdminTel(data.systemAdminTel || '-');
 
-        if (data.recordCreated) {
-             self.recordCreated(new Date(data.recordCreated));
+        if (data.companyRecordCreated) {
+            self.companyRecordCreated(new Date(data.companyRecordCreated));
         }
         else {
-            self.recordCreated('-');
+            self.companyRecordCreated('-');
         }
        
-        self.email(data.email || '-');
-        self.isVerified(data.isVerified || '-');
-        self.regulator(data.regulator || '-');
-        self.regulatorToDisplay(data.regulatorToDisplay || '-');
-        self.isPinCreated(data.isPinCreated || '-');
+        self.systemAdminEmail(data.systemAdminEmail || '-');
+        self.isCompanyVerified(data.isCompanyVerified || '-');
+        self.companyRegulator(data.companyRegulator || '-');
+        self.companyOtherRegulator(data.companyOtherRegulator || '-');
+        self.isCompanyPinCreated(data.isCompanyPinCreated || '-');
 
-        if (data.pinCreated) {
-            self.pinCreated(new Date(data.pinCreated));
+        if (data.companyPinCreated) {
+            self.companyPinCreated(new Date(data.companyPinCreated));
         }
         else {
-            self.pinCreated('-');
+            self.companyPinCreated('-');
         }
      
-        self.pinCode(data.pinCode || '-');
+        self.companyPinCode(data.companyPinCode || '-');
 
         self.data = data;
     }

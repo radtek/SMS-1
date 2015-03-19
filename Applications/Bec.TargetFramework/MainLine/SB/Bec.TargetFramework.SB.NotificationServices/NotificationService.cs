@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
-using Ext.Net;
 using NServiceBus.Serilog.Tracing;
 using Task = System.Threading.Tasks.Task;
 
@@ -71,18 +70,18 @@ namespace Bec.TargetFramework.SB.NotificationServices
 
             var nLogic = m_IocContainer.Resolve<INotificationLogic>();
 
-            Task.Factory.StartNew(() =>
-            {
-                TracingLog.Disable();
+//            Task.Factory.StartNew(() =>
+//            {
+//                TracingLog.Disable();
+//NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus()
+//                var startableBus = ;
 
-                var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
+//                Configure.Instance.ForInstallationOn<Windows>().Install();
 
-                Configure.Instance.ForInstallationOn<Windows>().Install();
+//                SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
 
-                SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
-
-                m_Bus = startableBus.Start();
-            });
+//                m_Bus = startableBus.Start();
+//            });
         }
 
         public void StartService(string[] args)

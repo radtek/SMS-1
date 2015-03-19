@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.UI.Process.Base
     /// TF Base Controller
     /// </summary>
     [PreventMultipleLoginsActionFilter]
-    [PreventMultipleSubmitsActionFilter]
+    //[PreventMultipleSubmitsActionFilter]
     [SessionExpireFilter]
     //[AuditActionFilter(AuditingLevel = 1)]
     public class ApplicationControllerBase : Controller

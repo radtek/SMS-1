@@ -62,16 +62,16 @@ namespace Bec.TargetFramework.Workflow.Test
 
             TracingLog.Disable();
 
-            var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
+            //var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
 
-            SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
+            //SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
 
-            //Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
+            ////Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
 
-            m_Bus = startableBus.Start();
+            //m_Bus = startableBus.Start();
 
-            System.Threading.Thread.Sleep(20000);
-            TestManualPaymentViaBusWithReturn();
+            //System.Threading.Thread.Sleep(20000);
+            //TestManualPaymentViaBusWithReturn();
         }
 
         private void CheckCreditNumber()
@@ -444,8 +444,8 @@ namespace Bec.TargetFramework.Workflow.Test
                 //    end = streamReader.ReadToEnd();
                 //    streamReader.Close();
                 //}
-                
-                XmlSerializer serializer = new XmlSerializer(typeof(TransactionResult));
+
+                System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(TransactionResult));
                 var response = (TransactionResult) serializer.Deserialize(((HttpWebResponse)byteCount.GetResponse()).GetResponseStream());
                 dto.InjectFrom(response);
             }

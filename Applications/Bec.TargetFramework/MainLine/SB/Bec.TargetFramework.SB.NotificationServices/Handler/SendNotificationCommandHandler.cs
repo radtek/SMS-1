@@ -28,7 +28,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
     using Bec.TargetFramework.SB.Messages.Commands;
     using Bec.TargetFramework.SB.NotificationServices.Report;
 
-    using Ext.Net;
     using NServiceBus;
     using Bec.TargetFramework.Framework.Configuration;
     using Bec.TargetFramework.Infrastructure;

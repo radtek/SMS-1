@@ -78,60 +78,60 @@ namespace Bec.TargetFramework.Business.Logic
         public bool IsInvalidBranch(string strBranchSraId, string strCompanyName, string strPostCode)
         {
 
-            var sraUserDetails = ScrapScreen(SRAValidationEnum.FirmLookupBySRAId, strBranchSraId.Trim());
-            var indexes = AllIndexesOf(sraUserDetails, "/office/");
-            var companies = GetCompaniesList(sraUserDetails, indexes);
-            bool result = false;
-            if (companies.Count > 0)
-            {
-                string[] tradingNames = companies.First().TradingName.Split(',');
-                if (companies.First().Address.ToLower().Replace(" ", "").Contains(strPostCode.ToLower().Trim().Replace(" ", "")))
-                {
-                    if (WebUtility.HtmlDecode(companies.First().Name.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
-                        result = true;
-                    else
-                        foreach (string tradingName in tradingNames)
-                            if (WebUtility.HtmlDecode(tradingName.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
-                                result = true;
-                }
-            }
+            //var sraUserDetails = ScrapScreen(SRAValidationEnum.FirmLookupBySRAId, strBranchSraId.Trim());
+            //var indexes = AllIndexesOf(sraUserDetails, "/office/");
+            //var companies = GetCompaniesList(sraUserDetails, indexes);
+            //bool result = false;
+            //if (companies.Count > 0)
+            //{
+            //    string[] tradingNames = companies.First().TradingName.Split(',');
+            //    if (companies.First().Address.ToLower().Replace(" ", "").Contains(strPostCode.ToLower().Trim().Replace(" ", "")))
+            //    {
+            //        if (WebUtility.HtmlDecode(companies.First().Name.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
+            //            result = true;
+            //        else
+            //            foreach (string tradingName in tradingNames)
+            //                if (WebUtility.HtmlDecode(tradingName.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
+            //                    result = true;
+            //    }
+            //}
 
 
-            return !result;
+            return false;
         }
 
         public bool IsInvalidEmployee(string strSraId, string strLastName, string strCompanyName, bool IsColp)
         {
             bool result = false;
-            var employee = GetEmployeeById(strSraId.Trim());
+            //var employee = GetEmployeeById(strSraId.Trim());
 
-            if (employee != null)
-            {
-                var company = GetCompanyDetailsByName(employee.CompanyName);
-                string[] tradingNames = company.TradingName.Split(',');
-                if (!IsColp)
-                {
+            //if (employee != null)
+            //{
+            //    var company = GetCompanyDetailsByName(employee.CompanyName);
+            //    string[] tradingNames = company.TradingName.Split(',');
+            //    if (!IsColp)
+            //    {
 
-                    if (WebUtility.HtmlDecode(employee.Name).ToLower().Contains(strLastName.ToLower().Trim()))
-                        result = true;
-                }
-                else
-                {
-                    if (WebUtility.HtmlDecode(employee.Name).ToLower().Contains(strLastName.ToLower().Trim()) && (employee.IsCOLP == IsColp))
-                        result = true;
+            //        if (WebUtility.HtmlDecode(employee.Name).ToLower().Contains(strLastName.ToLower().Trim()))
+            //            result = true;
+            //    }
+            //    else
+            //    {
+            //        if (WebUtility.HtmlDecode(employee.Name).ToLower().Contains(strLastName.ToLower().Trim()) && (employee.IsCOLP == IsColp))
+            //            result = true;
 
-                }
-                if (result)
-                {
-                    result = false;
-                    if (WebUtility.HtmlDecode(employee.CompanyName).ToLower().Trim().Equals(strCompanyName.Trim().ToLower()))
-                        result = true;
-                    else
-                        foreach (string tradingName in tradingNames)
-                            if (WebUtility.HtmlDecode(tradingName.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
-                                result = true;
-                }
-            }
+            //    }
+            //    if (result)
+            //    {
+            //        result = false;
+            //        if (WebUtility.HtmlDecode(employee.CompanyName).ToLower().Trim().Equals(strCompanyName.Trim().ToLower()))
+            //            result = true;
+            //        else
+            //            foreach (string tradingName in tradingNames)
+            //                if (WebUtility.HtmlDecode(tradingName.ToLower()).Trim().Equals(strCompanyName.ToLower().Trim()))
+            //                    result = true;
+            //    }
+            //}
             return !result;
         }
 
@@ -278,88 +278,88 @@ namespace Bec.TargetFramework.Business.Logic
         private List<CompanyDTO> GetCompaniesList(string employeesContent, List<int> indexes)
         {
             var companies = new List<CompanyDTO>();
-            string companyName = "";
-            indexes.ForEach(item =>
-            {
-                string subbed = employeesContent.Substring(item);
+            //string companyName = "";
+            //indexes.ForEach(item =>
+            //{
+            //    string subbed = employeesContent.Substring(item);
 
-                // find next occurance of  '>'
-                int endOfURL = subbed.IndexOf('>');
-                int endOfText = subbed.IndexOf('<');
+            //    // find next occurance of  '>'
+            //    int endOfURL = subbed.IndexOf('>');
+            //    int endOfText = subbed.IndexOf('<');
 
-                string url = subbed.Substring(0, (endOfURL - 1));
+            //    string url = subbed.Substring(0, (endOfURL - 1));
 
-                // get company name
-                companyName = subbed.Substring((endOfURL + 1), (endOfText - endOfURL) - 1);
+            //    // get company name
+            //    companyName = subbed.Substring((endOfURL + 1), (endOfText - endOfURL) - 1);
 
-                string boo = "";
+            //    string boo = "";
 
-                var companyFullDetails = ScrapeUrl("http://solicitors.lawsociety.org.uk/" + url);
+            //    var companyFullDetails = ScrapeUrl("http://solicitors.lawsociety.org.uk/" + url);
 
-                StringBuilder tradName = new StringBuilder();
+            //    StringBuilder tradName = new StringBuilder();
 
-                tradName.Append("id=");
-                tradName.Append('"');
-                tradName.Append("trading-names");
+            //    tradName.Append("id=");
+            //    tradName.Append('"');
+            //    tradName.Append("trading-names");
 
-                int TradeNameStartIndex = companyFullDetails.IndexOf(tradName.ToString());
-                int TradeNameEndIndex = companyFullDetails.IndexOf("</header>");
-                string strTradingName = "";
-                if (TradeNameStartIndex > 0)
-                {
-                    var tempstubb = companyFullDetails.Substring(TradeNameStartIndex, TradeNameEndIndex);
-                    int i = tempstubb.IndexOf('>');
-                    var subbCompanyName = tempstubb.Substring(i);
-                    int TradeNamePStartIndex = subbCompanyName.IndexOf("<p>");
-                    int TradeNamePSEndIndex = subbCompanyName.IndexOf("</p>");
-                    var tempDataForPtag = subbCompanyName.Substring(TradeNamePStartIndex + 9, TradeNamePSEndIndex);
-                    int index = tempDataForPtag.IndexOf('<');
+            //    int TradeNameStartIndex = companyFullDetails.IndexOf(tradName.ToString());
+            //    int TradeNameEndIndex = companyFullDetails.IndexOf("</header>");
+            //    string strTradingName = "";
+            //    if (TradeNameStartIndex > 0)
+            //    {
+            //        var tempstubb = companyFullDetails.Substring(TradeNameStartIndex, TradeNameEndIndex);
+            //        int i = tempstubb.IndexOf('>');
+            //        var subbCompanyName = tempstubb.Substring(i);
+            //        int TradeNamePStartIndex = subbCompanyName.IndexOf("<p>");
+            //        int TradeNamePSEndIndex = subbCompanyName.IndexOf("</p>");
+            //        var tempDataForPtag = subbCompanyName.Substring(TradeNamePStartIndex + 9, TradeNamePSEndIndex);
+            //        int index = tempDataForPtag.IndexOf('<');
 
-                    strTradingName = subbCompanyName.Substring(TradeNamePStartIndex + 9, index);
-
-
-                }
+            //        strTradingName = subbCompanyName.Substring(TradeNamePStartIndex + 9, index);
 
 
-                companies.Add(new CompanyDTO { Name = companyName, Url = url, TradingName = strTradingName.Trim() });
-            });
+            //    }
 
-            // get company sra numbers
-            companies.ForEach(item =>
-            {
-                string companyContent = ScrapeUrl("http://solicitors.lawsociety.org.uk" + item.Url);
 
-                int indexSraNumber = companyContent.IndexOf("<dt>SRA ID:</dt>");
+            //    companies.Add(new CompanyDTO { Name = companyName, Url = url, TradingName = strTradingName.Trim() });
+            //});
 
-                /// sra number
-                if (indexSraNumber != -1)
-                {
-                    string subbed = companyContent.Substring(indexSraNumber);
+            //// get company sra numbers
+            //companies.ForEach(item =>
+            //{
+            //    string companyContent = ScrapeUrl("http://solicitors.lawsociety.org.uk" + item.Url);
 
-                    int endOfURL = subbed.IndexOf("<dd>");
-                    int endOfText = subbed.IndexOf("</dd>");
+            //    int indexSraNumber = companyContent.IndexOf("<dt>SRA ID:</dt>");
 
-                    string sraNumber = subbed.Substring(endOfURL + 4, ((endOfText) - endOfURL) - 4);
+            //    /// sra number
+            //    if (indexSraNumber != -1)
+            //    {
+            //        string subbed = companyContent.Substring(indexSraNumber);
 
-                    item.SraNumber = sraNumber;
-                }
+            //        int endOfURL = subbed.IndexOf("<dd>");
+            //        int endOfText = subbed.IndexOf("</dd>");
 
-                // address
-                int indexAddress = companyContent.IndexOf("Address:");
+            //        string sraNumber = subbed.Substring(endOfURL + 4, ((endOfText) - endOfURL) - 4);
 
-                if (indexAddress != -1)
-                {
-                    string subbed = companyContent.Substring(indexAddress);
+            //        item.SraNumber = sraNumber;
+            //    }
 
-                    int endOfURL = subbed.IndexOf("<dd class=\"feature\">");
-                    int endOfText = subbed.IndexOf("</dd>");
+            //    // address
+            //    int indexAddress = companyContent.IndexOf("Address:");
 
-                    string address = subbed.Substring(endOfURL + 22, ((endOfText) - endOfURL) - 4).Replace("<br/>", "").Replace("</dd>", "").Trim();
+            //    if (indexAddress != -1)
+            //    {
+            //        string subbed = companyContent.Substring(indexAddress);
 
-                    item.Address = address;
-                }
+            //        int endOfURL = subbed.IndexOf("<dd class=\"feature\">");
+            //        int endOfText = subbed.IndexOf("</dd>");
 
-            });
+            //        string address = subbed.Substring(endOfURL + 22, ((endOfText) - endOfURL) - 4).Replace("<br/>", "").Replace("</dd>", "").Trim();
+
+            //        item.Address = address;
+            //    }
+
+            //});
 
 
             return companies;

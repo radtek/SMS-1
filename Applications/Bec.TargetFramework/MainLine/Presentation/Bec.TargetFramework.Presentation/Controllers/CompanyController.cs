@@ -7,14 +7,25 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Linq;
+using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+using Bec.TargetFramework.Entities;
 
 namespace Bec.TargetFramework.Presentation.Controllers
 {
     public class CompanyController : ApplicationControllerBase
     {
+        private IOrganisationLogic m_OrganisatonLogic;
+
         public CompanyController(ILogger logger)
+            : this(logger, null)
+        {
+            
+        }
+
+        public CompanyController(ILogger logger, IOrganisationLogic oLogic)
             : base(logger)
         {
+            m_OrganisatonLogic = oLogic;
         }
 
         [HttpGet]
@@ -22,35 +33,38 @@ namespace Bec.TargetFramework.Presentation.Controllers
         public ActionResult ViewTemporaryCompanies()
         {
             var res = TempData["AddedCompany"];
-            var companiesModel = new GetAllCompaniesVM();
+            var companiesModel = new VerfiedUnverifiedCompaniesDTO();
 
             var allCompanies = GetCompanies();
 
-            companiesModel.VerifiedCompanies = allCompanies.Where(x => x.IsVerified).ToList();
-            companiesModel.UnverifiedCompanies = allCompanies.Where(x => !x.IsVerified).ToList();
+            //companiesModel.VerifiedCompanies = allCompanies.Where(x => x.IsCompanyVerified).ToList();
 
-            if (m_AddedCompanies != null)
-                m_AddedCompanies.ForEach(m => companiesModel.UnverifiedCompanies.Add(m));
+            companiesModel.VerifiedCompanies = allCompanies.Where(x => x.IsCompanyVerified.Value).ToList();
+            companiesModel.UnverifiedCompanies = m_OrganisatonLogic.GetAllUnverifiedCompanies();
+
+            //if (m_AddedCompanies != null)
+            //    m_AddedCompanies.ForEach(m => companiesModel.UnverifiedCompanies.Add(m));
 
             return View(companiesModel);
         }
 
         // represents the newly added companies
-        private static List<Company> m_AddedCompanies;
+        //private static List<Company> m_AddedCompanies;
 
         [HttpPost]
         [ActionName("AddCompany")]
-        public ActionResult AddCompanyPost(Company newCompany)
+        public ActionResult AddCompanyPost(VCompanyDTO newCompany)
         {
-            if (m_AddedCompanies == null)
-                m_AddedCompanies = new List<Company>();
+            if(ModelState.IsValid)
+            {
+                var dto = m_OrganisatonLogic.AddNewOrganisation(newCompany);
 
-            newCompany.RecordCreated = DateTime.Now;
-            m_AddedCompanies.Add(newCompany);
+                TempData["AddedCompany"] = dto.CompanyId;
 
-            TempData["AddedCompany"] = newCompany.RecordCreated.Ticks;
+                return Json(new { returnUrl = newCompany.ReturnUrl });
+            }
 
-            return Json(new { returnUrl = newCompany.ReturnUrl });
+            return null;
         }
 
         [HttpGet]
@@ -69,7 +83,7 @@ namespace Bec.TargetFramework.Presentation.Controllers
             return Json(allCompanies);
         }
 
-        private IList<Company> GetCompanies()
+        private IList<VCompanyDTO> GetCompanies()
         {
             var generator = new SequentialGenerator<int> { Direction = GeneratorDirection.Ascending, Increment = 1 };
             generator.StartingWith(100);
@@ -288,17 +302,17 @@ namespace Bec.TargetFramework.Presentation.Controllers
             isVerified.Add(false);
             isVerified.Add(false);
 
-            var isPinCreated = new List<bool>();
-            isPinCreated.Add(true);
-            isPinCreated.Add(false);
-            isPinCreated.Add(true);
-            isPinCreated.Add(false);
-            isPinCreated.Add(true);
-            isPinCreated.Add(false);
-            isPinCreated.Add(true);
-            isPinCreated.Add(false);
-            isPinCreated.Add(true);
-            isPinCreated.Add(false);
+            var isCompanyPinCreated = new List<bool>();
+            isCompanyPinCreated.Add(true);
+            isCompanyPinCreated.Add(false);
+            isCompanyPinCreated.Add(true);
+            isCompanyPinCreated.Add(false);
+            isCompanyPinCreated.Add(true);
+            isCompanyPinCreated.Add(false);
+            isCompanyPinCreated.Add(true);
+            isCompanyPinCreated.Add(false);
+            isCompanyPinCreated.Add(true);
+            isCompanyPinCreated.Add(false);
 
             var pinCodes = new List<string>();
             pinCodes.Add("1345");
@@ -351,25 +365,25 @@ namespace Bec.TargetFramework.Presentation.Controllers
             telephoneNos.Add("02082001478");
             telephoneNos.Add("02082000447");
 
-            var companies = Builder<Company>.CreateListOfSize(20)
+            var companies = Builder<VCompanyDTO>.CreateListOfSize(20)
                 .All()
-                   .With(x => x.Name = "Company " + generator.Generate().ToString("000"))
-                   .With(x => x.Address1 = address1.RemoveAndGet(0))
-                   .With(x => x.Address2 = address2.RemoveAndGet(0))
-                   .With(x => x.TownCity = townCity.RemoveAndGet(0))
-                   .With(x => x.County = county.RemoveAndGet(0))
-                   .With(x => x.PostCode = postcodes.RemoveAndGet(0))
-                   .With(x => x.FirstName = firstName.RemoveAndGet(0))
-                   .With(x => x.LastName = lastName.RemoveAndGet(0))
-                   .With(x => x.Tel = telephoneNos.RemoveAndGet(0))
-                   .With(x => x.RecordCreated = GetRandomDate())
-                   .With(x => x.Email = emails.RemoveAndGet(0))
-                   .With(x => x.IsVerified = isVerified.RemoveAndGet(0))
-                   .With(x => x.Regulator = regulators.RemoveAndGet(0))
-                   .With(x => x.OtherRegulator = string.Empty)
-                   .With(x => x.IsPinCreated = x.IsVerified ? isPinCreated.RemoveAndGet(0) : false)
-                   .With(x => x.PinCode = x.IsPinCreated ? pinCodes.RemoveAndGet(0) : "")
-                   .With(x => x.PinCreated = x.IsPinCreated ? GetRandomDate() : (DateTime?)null)
+                   .With(x => x.CompanyName = "Company " + generator.Generate().ToString("000"))
+                   .With(x => x.CompanyAddress1 = address1.RemoveAndGet(0))
+                   .With(x => x.CompanyAddress2 = address2.RemoveAndGet(0))
+                   .With(x => x.CompanyTownCity = townCity.RemoveAndGet(0))
+                   .With(x => x.CompanyCounty = county.RemoveAndGet(0))
+                   .With(x => x.CompanyPostCode = postcodes.RemoveAndGet(0))
+                   .With(x => x.SystemAdminFirstName = firstName.RemoveAndGet(0))
+                   .With(x => x.SystemAdminLastName = lastName.RemoveAndGet(0))
+                   .With(x => x.SystemAdminTel = telephoneNos.RemoveAndGet(0))
+                   .With(x => x.CompanyRecordCreated = GetRandomDate())
+                   .With(x => x.SystemAdminEmail = emails.RemoveAndGet(0))
+                   .With(x => x.IsCompanyVerified = isVerified.RemoveAndGet(0))
+                   .With(x => x.CompanyRegulator = regulators.RemoveAndGet(0))
+                   .With(x => x.CompanyOtherRegulator = string.Empty)
+                   .With(x => x.IsCompanyPinCreated = x.IsCompanyVerified.Value ? isCompanyPinCreated.RemoveAndGet(0) : false)
+                   .With(x => x.CompanyPinCode = x.IsCompanyPinCreated.Value ? pinCodes.RemoveAndGet(0) : "")
+                   .With(x => x.CompanyPinCreated = x.IsCompanyPinCreated.Value ? GetRandomDate() : (DateTime?)null)
                 .Build();
 
             return companies;

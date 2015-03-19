@@ -1,5 +1,5 @@
 ﻿@using ServiceStack.Text
-@model Bec.TargetFramework.Presentation.Models.GetAllCompaniesVM
+@model Bec.TargetFramework.Entities.VerfiedUnverifiedCompaniesDTO
 
 
 <div id="all-companies-wrapper" class="page-content-wrapper">
@@ -37,14 +37,15 @@
 <script type="text/javascript">
     $(document).ready(function () {
         require(['Company/ViewModels/AllCompaniesVM'], function (AllCompaniesVM) {
+
+            var newCompanyId = '@TempData["AddedCompany"]';
             
-            var companyAddedTickDate = ko.utils.parseCSharpTicks('@TempData["AddedCompany"]');
-
             var data = JSON.parse('@Bec.TargetFramework.Infrastructure.Helpers.JsonHelper.SerializeDataUnformattedWithCamelCase(Model)'.replace(/&quot;/g, '"'));
-
-            data.companyAddedTickDate = companyAddedTickDate;
+            
+            data.newCompanyId = newCompanyId;
 
             var vm = new AllCompaniesVM(data);
+        
             ko.applyBindings(vm, document.getElementById("all-companies-wrapper"));
 
             $('#verified-tab').removeClass('active').css('visibility', 'visible');

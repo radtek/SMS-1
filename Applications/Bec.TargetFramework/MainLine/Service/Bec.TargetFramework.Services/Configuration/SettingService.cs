@@ -176,7 +176,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// Gets all settings
         /// </summary>
         /// <returns>Setting collection</returns>
-        public virtual IList<SettingDTO> GetAllSettings()
+        public virtual IDictionary<string, SettingDTO> GetAllSettings()
         {
             return m_SettingLogic.GetAllSettings();
         }
@@ -212,8 +212,7 @@ namespace Bec.TargetFramework.Service.Configuration
 
             string key = typeof(T).Name + "." + propInfo.Name;
 
-            string setting = GetSettingByKey<string>(key, storeId: storeId);
-            return setting != null;
+            return GetAllSettings().ContainsKey(key);
         }
 
         /// <summary>
@@ -225,6 +224,8 @@ namespace Bec.TargetFramework.Service.Configuration
         {
             var settings = Activator.CreateInstance<T>();
 
+            IDictionary<string, SettingDTO> allSettings = GetAllSettings();
+
             foreach (var prop in typeof(T).GetProperties())
             {
                 // get properties we can read and write to
@@ -233,10 +234,10 @@ namespace Bec.TargetFramework.Service.Configuration
 
                 var key = typeof(T).Name + "." + prop.Name;
                 //load by store
-                string setting = GetSettingByKey<string>(key, storeId: storeId, loadSharedValueIfNotFound: true);
-                if (setting == null)
+                if (!allSettings.ContainsKey(key))
                     continue;
 
+                var setting = allSettings[key].Value;
                 if (!CommonHelper.GetTargetFrameworkCustomTypeConverter(prop.PropertyType).CanConvertFrom(typeof(string)))
                     continue;
 
@@ -326,15 +327,8 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <typeparam name="T">Type</typeparam>
         public virtual void DeleteSetting<T>() where T : ISettings, new()
         {
-            var settingsToDelete = new List<SettingDTO>();
-            var allSettings = GetAllSettings();
-            foreach (var prop in typeof(T).GetProperties())
-            {
-                string key = typeof(T).Name + "." + prop.Name;
-                settingsToDelete.AddRange(allSettings.Where(x => x.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)));
-            }
 
-            foreach (var setting in settingsToDelete)
+            foreach (var setting in GetAllSettings().Values)
                 DeleteSetting(setting);
         }
 

@@ -11,7 +11,6 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Messages.Commands;
 using Bec.TargetFramework.SB.Messages.Events;
 using EnsureThat;
-using NHibernate.Hql.Ast.ANTLR;
 using NServiceBus;
 using ServiceStack.Text;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -67,17 +66,17 @@ namespace Bec.TargetFramework.SB.Infrastructure.EventSource
 
             instanceOfT.EventPayloadDto = dto;
 
-            var serviceBus = Configure.Instance.Builder.Build<IBus>();
+            //var serviceBus = Configure.Instance.Builder.Build<IBus>();
 
-            serviceBus.SetMessageHeader(instanceOfT, "Source", "EventPublisher");
-            serviceBus.SetMessageHeader(instanceOfT, "MessageType", instanceOfT.GetType().FullName  + "," + instanceOfT.GetType().Assembly.FullName);
-            serviceBus.SetMessageHeader(instanceOfT, "ServiceType", "EventPublisher");
+            //serviceBus.SetMessageHeader(instanceOfT, "Source", "EventPublisher");
+            //serviceBus.SetMessageHeader(instanceOfT, "MessageType", instanceOfT.GetType().FullName  + "," + instanceOfT.GetType().Assembly.FullName);
+            //serviceBus.SetMessageHeader(instanceOfT, "ServiceType", "EventPublisher");
 
-            if (!string.IsNullOrEmpty(dto.EventReference))
-                serviceBus.SetMessageHeader(instanceOfT, "EventReference", dto.EventReference);
+            //if (!string.IsNullOrEmpty(dto.EventReference))
+            //    serviceBus.SetMessageHeader(instanceOfT, "EventReference", dto.EventReference);
 
-            // publish message on bus
-            serviceBus.Publish<TFEvent>(instanceOfT);
+            //// publish message on bus
+            //serviceBus.Publish<TFEvent>(instanceOfT);
 
             return true;
         }

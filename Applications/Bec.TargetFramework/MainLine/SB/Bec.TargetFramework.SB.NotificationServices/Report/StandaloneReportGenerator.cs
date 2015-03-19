@@ -18,8 +18,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
 
     using Iesi.Collections;
 
-    using NHibernate.Util;
-
     using ServiceStack.Common.ServiceModel;
     using Bec.TargetFramework.Entities;
 

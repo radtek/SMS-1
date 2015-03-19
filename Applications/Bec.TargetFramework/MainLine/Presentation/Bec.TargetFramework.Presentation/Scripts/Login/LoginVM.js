@@ -119,6 +119,8 @@
                 self.isWaitingForResponse(false);
                 self.showErrors(false);
                 ko.utils.unmarkButtonAsWaitingForResponse(button, buttonHTML);
+                debugger;
+                window.location.href = '~/UserAccount/Login/Index';
             };
 
             var userVM = self.toJSON();

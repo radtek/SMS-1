@@ -33,7 +33,7 @@ namespace Bec.TargetFramework.Web.Framework.Helpers
             return userObject;
         }
 
-        public static void CreateWebUserObjectInSession(HttpContextBase context, Guid userId)
+        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, Guid userId)
         {
             Ensure.NotNull(context);
             Ensure.NotNull(context.Request);
@@ -49,6 +49,8 @@ namespace Bec.TargetFramework.Web.Framework.Helpers
             };
 
             context.Session[m_WEBUSEROBJECTSESSIONKEY] = user;
+
+            return user;
         }
     }
 

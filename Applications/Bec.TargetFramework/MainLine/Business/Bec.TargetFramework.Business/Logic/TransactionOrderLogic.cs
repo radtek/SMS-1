@@ -12,8 +12,6 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
-//using Fabrik.Common;
-using NHibernate.Criterion;
 using Omu.ValueInjecter;
 
 namespace Bec.TargetFramework.Business.Logic

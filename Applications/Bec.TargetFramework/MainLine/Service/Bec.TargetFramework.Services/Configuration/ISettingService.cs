@@ -51,7 +51,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// Gets all settings
         /// </summary>
         /// <returns>Settings</returns>
-        IList<SettingDTO> GetAllSettings();
+        IDictionary<string, SettingDTO> GetAllSettings();
 
         /// <summary>
         /// Determines whether a setting exists

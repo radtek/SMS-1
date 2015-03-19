@@ -59,9 +59,6 @@ namespace Bec.TargetFramework.Workflow.Test
             //         .UnicastBus()
             //         .RunHandlersUnderIncomingPrincipal(false)
             //         .RijndaelEncryptionService()
-            //         .UseNHibernateTimeoutPersister()
-            //         .UseNHibernateSubscriptionPersister()
-            //         .UseNHibernateSagaPersister()
             //         .CreateBus();
 
             //Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Entities.Validators;
 using FluentValidation;
-using Ext.Net;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bec.TargetFramework.Entities

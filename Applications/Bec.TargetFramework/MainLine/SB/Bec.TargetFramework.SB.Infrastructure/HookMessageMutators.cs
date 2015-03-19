@@ -13,7 +13,7 @@ namespace Bec.TargetFramework.SB.Infrastructure
         public static void InitialiseMessageMutators()
         {
             // register outgoing mutator
-            Configure.Instance.Configurer.ConfigureComponent<IncomingOutgoingMessageMutator>(DependencyLifecycle.InstancePerCall);
+           // Configure.Instance.Configurer.ConfigureComponent<IncomingOutgoingMessageMutator>(DependencyLifecycle.InstancePerCall);
         }
     }
 }

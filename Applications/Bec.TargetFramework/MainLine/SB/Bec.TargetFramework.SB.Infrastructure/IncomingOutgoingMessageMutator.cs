@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Log;
-using NHibernate;
 using NServiceBus;
 using NServiceBus.MessageMutator;
 using Bec.TargetFramework.Entities;
@@ -24,8 +23,8 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
         public IncomingOutgoingMessageMutator()
         {
-            m_Logger = Configure.Instance.Builder.Build<ILogger>();
-            m_BusLogic = Configure.Instance.Builder.Build<IBusLogic>();
+            //m_Logger = Configure.Instance.Builder.Build<ILogger>();
+           // m_BusLogic = Configure.Instance.Builder.Build<IBusLogic>();
         }
 
         public void MutateOutgoing(object[] messages, TransportMessage transportMessage)
@@ -92,6 +91,11 @@ namespace Bec.TargetFramework.SB.Infrastructure
             }
                
           
+        }
+
+        public void MutateOutgoing(NServiceBus.Unicast.Messages.LogicalMessage logicalMessage, TransportMessage transportMessage)
+        {
+            throw new NotImplementedException();
         }
     }
 }

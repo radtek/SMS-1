@@ -10,6 +10,9 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     public interface IOrganisationLogic : IBusinessLogicService
     {
         [OperationContract]
+        Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto);
+
+        [OperationContract]
         List<OrganisationDTO> GetOrgansationBranchDTOs(Guid orgId);
 
         [OperationContract]
@@ -77,5 +80,8 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         void SaveOrganisationUnit(Bec.TargetFramework.Entities.OrganisationUnitDTO dto);
         [OperationContract]
         System.Collections.Generic.List<Bec.TargetFramework.Entities.VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(int typeId);
+
+        [OperationContract]
+        List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies();
     }
 }

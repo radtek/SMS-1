@@ -3,7 +3,7 @@
     <h6>(<span data-bind="text:$data.unverifiedCompanies.length"></span> companies found)</h6>
     <div class="row">
         <div class="col-md-12">
-            <div  id="unverified-grid" data-bind="kendoGrid: $data.unverifiedGridOptions($data.unverifiedCompanies)"> </div>
+            <div id="unverified-grid" data-bind="kendoGrid: $data.unverifiedGridOptions($data.unverifiedCompanies)"> </div>
         </div>
     </div>
 </div>
@@ -17,7 +17,7 @@
     var LoadModalAddCompany = function () {
 
         if (!document.getElementById('add-company-wrapper')) {
-           
+
             var button = $('#add-company-btn')[0];
             var buttonHTML = button.innerHTML;
             ko.utils.markButtonAsWaitingForResponse(button);
@@ -31,8 +31,47 @@
         }
         else {
             //reseting the view-model of add-company from any input information from previous added companys
-            ko.contextFor(document.getElementById('add-company-wrapper')).$data.reset();
-            $('#add-company-wrapper').modal('show');
+            require(['Company/ViewModels/AddCompanyVM'], function (AddCompanyVM) {
+                var theNode = document.getElementById('add-company-wrapper');
+                ko.cleanNode(theNode);
+
+                var data = {};
+
+                data.addCompanyUrl = '@Url.Action("AddCompany", "Company", new { area = String.Empty }, String.Empty)';
+                data.returnUrl = '@Url.Action("ViewTemporaryCompanies", "Company", new { area = String.Empty }, String.Empty)';
+
+                var vm = new AddCompanyVM(data);
+                ko.applyBindings(vm, theNode);
+
+                $('.cancel-add-company-btn').click(function () {
+
+                    if ($(this).hasClass('fired') == false) {
+                        bootbox.dialog({
+                            message: "Are you sure you want to Cancel?",
+                            buttons: {
+                                danger: {
+                                    label: "No",
+                                    className: "btn-default",
+                                    callback: function () {
+                                        return;
+                                    }
+                                },
+                                success: {
+                                    label: "Yes",
+                                    className: "btn-primary",
+                                    callback: function () {
+                                        $('#add-company-wrapper').modal('hide');
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                });
+
+                $('#add-company-wrapper').modal('show');
+            });
         }
     }
+
 </script>

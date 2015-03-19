@@ -73,38 +73,38 @@ namespace Bec.TargetFramework.Workflow.Test
 
             
 
-            var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
+//            var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
 
-            SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
+//            SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
 
-            //Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
+//            //Configure.Instance.ForInstallationOn<NServiceBus.Installation.Environments.Windows>().Install();
 
-            m_Bus = startableBus.Start();
+//            m_Bus = startableBus.Start();
 
-            System.Threading.Thread.Sleep(30000);
+//            System.Threading.Thread.Sleep(30000);
 
-              ConcurrentDictionary<string, object> data = new ConcurrentDictionary<string, object>();
+//              ConcurrentDictionary<string, object> data = new ConcurrentDictionary<string, object>();
 
-            data.TryAdd("UserNextSteps",new UserNextStepsNotificationDTO{IDCheckProductPrice=5.0M});
+//            data.TryAdd("UserNextSteps",new UserNextStepsNotificationDTO{IDCheckProductPrice=5.0M});
 
-           // var commonSettings = m_IocContainer.Resolve<CommonSettings>();
+//           // var commonSettings = m_IocContainer.Resolve<CommonSettings>();
 
-           // var list = new List<NotificationRecipientDTO>();
-//
-           // list.Add(new NotificationRecipientDTO{UserID = Guid.Parse("0771737a-10e9-11e4-bbb6-cbe20b0b57f0")});
+//           // var list = new List<NotificationRecipientDTO>();
+////
+//           // list.Add(new NotificationRecipientDTO{UserID = Guid.Parse("0771737a-10e9-11e4-bbb6-cbe20b0b57f0")});
 
-            //var container = new NotificationContainerDTO(
-            //    commonSettings,
-            //    Guid.Parse("36149692-3e90-11e4-9c84-d7289f4b389c"),
-            //    1,
-            //    list,
-            //    new NotificationDictionaryDTO{NotificationDictionary = data});
+//            //var container = new NotificationContainerDTO(
+//            //    commonSettings,
+//            //    Guid.Parse("36149692-3e90-11e4-9c84-d7289f4b389c"),
+//            //    1,
+//            //    list,
+//            //    new NotificationDictionaryDTO{NotificationDictionary = data});
 
-            byte[] reportData = services.GenericNotificationtOutputFromNotificationConstruct(
-                Guid.Parse("1c03a4b2-4266-11e4-a5a5-ffb43cafcbd0"), 1,
-                new NotificationDictionaryDTO {NotificationDictionary = data},NotificationExportFormatIDEnum.HTML5);
+//            byte[] reportData = services.GenericNotificationtOutputFromNotificationConstruct(
+//                Guid.Parse("1c03a4b2-4266-11e4-a5a5-ffb43cafcbd0"), 1,
+//                new NotificationDictionaryDTO {NotificationDictionary = data},NotificationExportFormatIDEnum.HTML5);
 
-          File.WriteAllBytes("c:\\temp\\file.html",reportData);
+//          File.WriteAllBytes("c:\\temp\\file.html",reportData);
 
             //var message = new SendNotificationCommand {NotificationContainer = container};
 

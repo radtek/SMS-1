@@ -9,7 +9,7 @@ using ServiceStack.Text;
 namespace Bec.TargetFramework.Entities
 {
     using Bec.TargetFramework.Framework.Configuration;
-    using Ext.Net;
+ 
     using Fabrik.Common;
 
     [Serializable]

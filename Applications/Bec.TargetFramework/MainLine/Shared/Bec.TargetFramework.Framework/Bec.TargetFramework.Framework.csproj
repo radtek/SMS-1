@@ -33,13 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Autofac.3.4.1\lib\net40\Autofac.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Autofac.Mvc5.3.3.1\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Couchbase">
       <HintPath>..\..\References\Couchbase.dll</HintPath>
@@ -50,13 +50,6 @@
     <Reference Include="Enyim.Caching">
       <HintPath>..\..\References\Enyim.Caching.dll</HintPath>
     </Reference>
-    <Reference Include="Ext.Net, Version=2.5.2.11993, Culture=neutral, PublicKeyToken=2e12ce3d0176cd87, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Ext.NET.MVC5.2.5.2\lib\net451\Ext.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Ext.Net.Utilities">
-      <HintPath>..\..\packages\Ext.NET.Utilities.2.4.0\lib\Ext.Net.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Fabrik.Common">
       <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
     </Reference>
@@ -66,7 +59,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\..\References\ServiceStack.dll</HintPath>
@@ -116,9 +109,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Transformer.NET">
-      <HintPath>..\..\packages\Transformer.NET.2.1.1\lib\net35\Transformer.NET.dll</HintPath>
-    </Reference>
     <Reference Include="WebActivatorEx">
       <HintPath>..\..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
@@ -133,7 +123,6 @@
     </Compile>
     <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Configuration\TargetFrameworkConfig.cs" />
-    <Compile Include="Controllers\ExtNetController.cs" />
     <Compile Include="Data\BaseDataProviderManager.cs" />
     <Compile Include="Data\DataSettings.cs" />
     <Compile Include="Data\DataSettingsHelper.cs" />
@@ -182,7 +171,6 @@
     <Compile Include="Infrastructure\WebAppTypeFinder.cs" />
     <Compile Include="Interfaces\IWebHelper.cs" />
     <Compile Include="IWorkContext.cs" />
-    <Compile Include="Models\ExtNetModel.cs" />
     <Compile Include="Mvc\BaseTargetFrameworkModel.cs" />
     <Compile Include="Mvc\CommaSeparatedModelBinder.cs" />
     <Compile Include="Mvc\DeleteConfirmationModel.cs" />
@@ -216,15 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="App_Readme\Ext.NET.MVC\Sample.Web.config" />
     <None Include="packages.config" />
-    <None Include="Views\ExtNet\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_Readme\Ext.NET.MVC\BREAKING_CHANGES.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\CHANGELOG.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\LICENSE.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\README.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\External\FluentValidation\FluentValidation\FluentValidation.csproj">

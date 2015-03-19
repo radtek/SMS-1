@@ -51,18 +51,19 @@
     <Reference Include="EnsureThat">
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -429,19 +430,9 @@
     <Compile Include="TargetFramework.Structure.cs" />
     <Compile Include="TargetFramework.StsInvite.cs" />
     <Compile Include="TargetFramework.StsInviteProcessLog.cs" />
-    <Compile Include="TargetFramework.StsProperty.cs" />
     <Compile Include="TargetFramework.StsSearch.cs" />
-    <Compile Include="TargetFramework.StsSearchAccount.cs" />
-    <Compile Include="TargetFramework.StsSearchAccountIDDocument.cs" />
-    <Compile Include="TargetFramework.StsSearchActor.cs" />
-    <Compile Include="TargetFramework.StsSearchActorDetail.cs" />
-    <Compile Include="TargetFramework.StsSearchActorDetailDeposit.cs" />
-    <Compile Include="TargetFramework.StsSearchActorProcessLog.cs" />
-    <Compile Include="TargetFramework.StsSearchActorStructure.cs" />
     <Compile Include="TargetFramework.StsSearchDetail.cs" />
-    <Compile Include="TargetFramework.StsSearchLRDocumentOrder.cs" />
     <Compile Include="TargetFramework.StsSearchProcessLog.cs" />
-    <Compile Include="TargetFramework.StsSearchProperty.cs" />
     <Compile Include="TargetFramework.StsSearchRelation.cs" />
     <Compile Include="TargetFramework.Subscription.cs" />
     <Compile Include="TargetFramework.TargetFrameworkEntities.cs" />
@@ -482,6 +473,7 @@
     <Compile Include="TargetFramework.VBusTaskSchedule.cs" />
     <Compile Include="TargetFramework.VClaimSource.cs" />
     <Compile Include="TargetFramework.VClassification.cs" />
+    <Compile Include="TargetFramework.VCompany.cs" />
     <Compile Include="TargetFramework.VCountryAndCurrency.cs" />
     <Compile Include="TargetFramework.VCountryDeduction.cs" />
     <Compile Include="TargetFramework.VDefaultEmailAddress.cs" />

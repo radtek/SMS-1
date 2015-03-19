@@ -13,18 +13,8 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
         {
             try
             {
-                System.Diagnostics.EventLog eventLog = new System.Diagnostics.EventLog();
-                eventLog.Source = "Bec.TargetFramework.Hosts.AnalysisService";
-                eventLog.Log = "Application";
-                eventLog.EnableRaisingEvents = true;
-                
-                eventLog.WriteEntry("Main 1");
-
                 //TAG001 Set this to true when deploying as windows service. Set this to false when debugging!
                 bool runAsWindowsService = false;
-
-                if (!runAsWindowsService)
-                    eventLog.WriteEntry("Not running as window service!!!");
 
                 if (args != null && args.Length > 0)
                 {
@@ -32,12 +22,8 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                         runAsWindowsService = false;
                 }
 
-                eventLog.WriteEntry("Main 2");
-
                 if (runAsWindowsService)
                 {                    
-                    eventLog.WriteEntry("runAsWindowsService");
-
                     ServiceBase[] ServicesToRun;
                     ServicesToRun = new ServiceBase[] 
                     { 
@@ -47,8 +33,6 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                 }
                 else
                 {
-                    eventLog.WriteEntry("!runAsWindowsService");
-
                     AnalysisService service = new AnalysisService();
                     try
                     {

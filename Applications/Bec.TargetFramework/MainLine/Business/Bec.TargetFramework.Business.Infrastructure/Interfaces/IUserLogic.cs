@@ -155,16 +155,16 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
          List<UserClaimDTO> GetUserClaims(Guid userId, Guid organisationID);
 
         [OperationContract]
-        bool IsUserLoginStillTrue(Guid userId, string sessionId);
-
-        [OperationContract]
-        bool IsUserLoggedOnElsewhere(Guid userId, string sessionId);
+        List<string> UserLoginSessions(Guid userId);
 
         [OperationContract]
         void LogEveryoneElseOut(Guid userId, string sessionId);
 
         [OperationContract]
-        void SaveUserAccountLoginSession(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation,Dictionary<string,string> requestData);
+        void SaveUserAccountLoginSession(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation);
+
+         [OperationContract]
+        void SaveUserAccountLoginSessionData(Guid userId, string sessionId, Dictionary<string, string> requestData);
 
         [OperationContract]
         BrockAllen.MembershipReboot.UserAccount CreateTemporaryAccount(string email,string password, bool temporaryAccount, Guid userId);

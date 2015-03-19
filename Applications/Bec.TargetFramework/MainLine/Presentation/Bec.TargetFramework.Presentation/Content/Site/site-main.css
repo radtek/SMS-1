@@ -266,13 +266,9 @@ body .highlighted {
     width: 70px;
 }
 
-#regulator-dd-wrapper .k-dropdown {
-    width: 219px;
-}
-
-#title-dd-wrapper .k-dropdown {
+/*#title-dd-wrapper .k-dropdown {
     width: 80px;
-}
+}*/
 
 ::-ms-clear {
     display: none;
@@ -312,4 +308,28 @@ span.k-icon {
 
 #unverified-grid, #verified-grid .k-grid-content {
     height: 250px;
+}
+
+.requiredField:after {
+    font-weight: normal;
+    content: " *";
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+    color: red;
+}
+
+.validatable .form-group input.form-control, 
+.validatable .form-group span.k-dropdown{
+    display: inline-block;
+    width:90%;
+}
+
+.validatable #title-dd-wrapper .form-group span.k-dropdown{
+    display: inline-block;
+    width:90%;
+}
+
+.form-group.input-collection .separated-input{
+    margin-top: 10px;
 }

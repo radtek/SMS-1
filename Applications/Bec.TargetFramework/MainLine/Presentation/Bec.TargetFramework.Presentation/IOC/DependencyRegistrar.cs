@@ -126,17 +126,11 @@ namespace BEC.TargetFramework.Presentation.IOC
 
         private void RegisterService<T>(ContainerBuilder builder, string url)
         {
-            var channelFactory = new ChannelFactory<T>(
+            builder.Register(c => new ChannelFactory<T>(
                 Bec.TargetFramework.Infrastructure.WCF.NetTcpBindingConfiguration.GetDefaultNetTcpBinding(),
-                new EndpointAddress(url));
+                new EndpointAddress(url))).SingleInstance();
 
-            channelFactory.Endpoint.Behaviors.Add(new EndpointBehavior());
-
-            builder.Register(c => channelFactory)
-                 .SingleInstance();
-
-            builder.Register(c => c.Resolve<ChannelFactory<T>>().CreateChannel())
-              .UseWcfSafeRelease();
+            builder.Register(c => c.Resolve<ChannelFactory<T>>().CreateChannel()).As<T>().UseWcfSafeRelease();
         }
 
         public int Order

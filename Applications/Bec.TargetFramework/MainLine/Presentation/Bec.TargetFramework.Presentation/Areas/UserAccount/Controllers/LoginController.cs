@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using System.Net;
 using System.Web.Script.Serialization;
+using Hangfire;
 
 
 namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
@@ -30,14 +31,11 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
 
         AuthenticationService authSvc;
         private ILogger logger;
-        private IDataLogic m_DataLogic;
         private IUserLogic m_UserLogic;
-        public LoginController(ILogger logger, IWorkflowProcessService logic, AuthenticationService authSvc, IDataLogic dataLogic, IUserLogic userLogic)
+        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogic userLogic)
         {
             this.logger = logger;
             this.authSvc = authSvc;
-            m_WorkflowProcessLogic = logic;
-            m_DataLogic = dataLogic;
             m_UserLogic = userLogic;
         }
 
@@ -68,11 +66,6 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
 
                 BrockAllen.MembershipReboot.UserAccount account = result.UserAccount;
 
-
-                string s = Url.Action("Order", "Home", new { area = string.Empty }, String.Empty);
-
-                string s2 = Url.Action("Order", "Home");
-
                 if (!result.valid)
                 {
                     if (Request.IsAjaxRequest())
@@ -82,14 +75,7 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
                 }
                 else
                 {
-                    //  additional claims are added during signin but not persisted
-                    authSvc.SignIn(account, false, null);
-
-                    //  create web user object in session
-                    WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, account.ID);
-
-                    // make login record
-                    UserAccountLogicHelper.CreateUserAccountLoginLogEntry(this.HttpContext, account.ID);
+                   InitialiseUserSession(account);
 
                     return Json(new { returnUrl = model.ReturnUrl });
                 }
@@ -98,7 +84,22 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
             return null;
         }
 
+        private void InitialiseUserSession(BrockAllen.MembershipReboot.UserAccount account)
+        {
+            //  additional claims are added during signin but not persisted
+            authSvc.SignIn(account, false, null);
 
+            //  create web user object in session
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, account.ID);
+
+            // save login session - needed for authenticated pages extending ApplicationControllerBase
+            m_UserLogic.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
+
+            // get all request parameters
+            var requestParameters = UserAccountLogicHelper.CreateRequestDictionary(this.Request);
+
+            BackgroundJob.Enqueue(() => UserAccountLogicHelper.SaveLoginSessionData(userObject.UserID, userObject.SessionIdentifier, requestParameters));
+        }
     }
 
 }

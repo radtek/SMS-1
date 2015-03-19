@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
-  <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="False" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="false">
+  <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="True" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="true">
     <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01.bec.local;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
@@ -186,7 +186,6 @@
         <File Name="TargetFramework.ProductRelationship.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowActionPostCommandTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowActionPreCommandTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.Organisation.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationWorkflow.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationSetting.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationTradingName.cs" Project="Bec.TargetFramework.Data" />
@@ -512,19 +511,9 @@
         <File Name="TargetFramework.ActorClaimRoleMapping.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Actor.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsInviteProcessLog.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchAccount.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchAccountIDDocument.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsInvite.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchActorDetail.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchActorDetailDeposit.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchActorProcessLog.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchActorStructure.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsSearchDetail.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchActor.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchLRDocumentOrder.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsSearchProcessLog.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsProperty.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.StsSearchProperty.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsSearch.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.StsSearchRelation.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VUserAccountOrganisationUserTypeOrganisationType.cs" Project="Bec.TargetFramework.Data" />
@@ -563,6 +552,8 @@
         <File Name="TargetFramework.ProductBusTask.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ProductPurchaseBusTaskProcessLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.BusMessageProcessLog.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.VCompany.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.Organisation.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" />
         <File Name="WorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -926,8 +917,6 @@
         <File Name="WorkflowActionPostCommandTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowActionPreCommandTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowActionPreCommandTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="OrganisationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="OrganisationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationWorkflowDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationWorkflowDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationSettingDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1578,32 +1567,12 @@
         <File Name="ActorDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsInviteProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="StsInviteProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchAccountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchAccountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchAccountIDDocumentDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchAccountIDDocumentDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsInviteDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="StsInviteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchActorDetailDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchActorDetailDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchActorDetailDepositDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchActorDetailDepositDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchActorProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchActorProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchActorStructureDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchActorStructureDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsSearchDetailDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="StsSearchDetailDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchActorDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchActorDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchLRDocumentOrderDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchLRDocumentOrderDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsSearchProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="StsSearchProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsPropertyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsPropertyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="StsSearchPropertyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="StsSearchPropertyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsSearchDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="StsSearchDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="StsSearchRelationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1680,6 +1649,10 @@
         <File Name="ProductPurchaseBusTaskProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="BusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="BusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VCompanyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VCompanyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="OrganisationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="OrganisationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1863,7 +1836,6 @@
         <File Name="ProductRelationshipConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowActionPostCommandTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowActionPreCommandTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="OrganisationConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationWorkflowConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationSettingConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationTradingNameConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2189,19 +2161,9 @@
         <File Name="ActorClaimRoleMappingConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ActorConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsInviteProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchAccountConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchAccountIDDocumentConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsInviteConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchActorDetailConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchActorDetailDepositConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchActorProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchActorStructureConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsSearchDetailConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchActorConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchLRDocumentOrderConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsSearchProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsPropertyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="StsSearchPropertyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsSearchConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="StsSearchRelationConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VUserAccountOrganisationUserTypeOrganisationTypeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2240,6 +2202,8 @@
         <File Name="ProductBusTaskConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ProductPurchaseBusTaskProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="BusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="VCompanyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="OrganisationConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
       </GeneratedFiles>
     </Generation>
@@ -2408,6 +2372,27 @@
       <Exclude Name="name" Table="public.vClassification" Type="Column" />
       <Exclude Name="ClassificationTypeCategoryID" Table="public.vClassification" Type="Column" />
       <Exclude Name="categoryname" Table="public.vClassification" Type="Column" />
+      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyRecordCreated" Table="public.vCompany" Type="Column" />
+      <Exclude Name="IsCompanyVerified" Table="public.vCompany" Type="Column" />
+      <Exclude Name="IsCompanyPinCreated" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyPinCode" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminTitle" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminFirstName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminLastName" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminTel" Table="public.vCompany" Type="Column" />
+      <Exclude Name="SystemAdminEmail" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyRegulator" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyOtherRegulator" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyAddress1" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyAddress2" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyTownCity" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyCounty" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyPostCode" Table="public.vCompany" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vCompany" Type="Column" />
+      <Exclude Name="ReturnUrl" Table="public.vCompany" Type="Column" />
       <Exclude Name="InterfacePanelName" Table="public.vFieldDetailForUI" Type="Column" />
       <Exclude Name="FieldDetailID" Table="public.vFieldDetailForUI" Type="Column" />
       <Exclude Name="Name" Table="public.vFieldDetailForUI" Type="Column" />
@@ -2550,6 +2535,19 @@
       <Exclude Name="IsMultipleProductCombinationDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountPercentageBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountCheapestFreeBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="COEmail" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="COFirstName" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="COLastName" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="CompanyName" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="TradingName" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="BranchName" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="BranchRegulatorID" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="BranchRegulator" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="BranchRegulatorNumber" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="IsActive" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.vOrganisationComplianceOfficer" Type="Column" />
+      <Exclude Name="" Table="public.vOrganisationComplianceOfficer" Type="Constraint" />
       <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
@@ -2649,8 +2647,23 @@
       <Exclude Name="ConditionString" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_pkey" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
+      <Exclude Name="OrganisationID" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="IsVATRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="VATNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="IsCompanyHouseRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="RegisteredCompanyNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="PartnersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="RegisteredPractitionersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="StaffCount" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="MonthlyCompletionsCount" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="IsActive" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="IsDeleted" Table="legal.LegalOrganisationDetails" Type="Column" />
+      <Exclude Name="pkLegalOrganisationDetails" Table="legal.LegalOrganisationDetails" Type="Constraint" />
+      <Exclude Name="fk_LegalOrganisationDetails_Organisation" Table="legal.LegalOrganisationDetails" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
+      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
+      <Exclude Name="CompanyRecordCreated" Table="public.vCompany" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vFieldDetailForUI" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vFieldDetailForUI" Type="Column" />
       <Exclude Name="ID" Table="public.vFieldDetailForUI" Type="Column" />
@@ -2687,11 +2700,28 @@
       <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="RegulatorID" Table="public.vUserRoleRegulatorDetail" Type="Column" />
-      <Exclude Name="RegulatorNumber" Table="public.vUserRoleRegulatorDetail" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="ID" Table="public.vWorkflowTree" Type="Column" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
+      <Exclude Name="LRTitleID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="TitleNumber" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="StsPropertyID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="Description" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="CreatedOn" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="CreatedBy" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="ParentID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="ProductPurchaseProductTaskID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="StsSearchPropertyID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="LRPropertyTenureTypeID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="AddressID" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="IsActive" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="IsDeleted" Table="sts.LRTitle" Type="Column" />
+      <Exclude Name="pkLRTitle" Table="sts.LRTitle" Type="Constraint" />
+      <Exclude Name="fk_LRTitle_StsProperty" Table="sts.LRTitle" Type="Constraint" />
+      <Exclude Name="fk_LRTitle_StsSearchProperty" Table="sts.LRTitle" Type="Constraint" />
+      <Exclude Name="fk_LRTitle_Address" Table="sts.LRTitle" Type="Constraint" />
+      <Exclude Name="fk_LRTitle_ProductPurchaseProductTask" Table="sts.LRTitle" Type="Constraint" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

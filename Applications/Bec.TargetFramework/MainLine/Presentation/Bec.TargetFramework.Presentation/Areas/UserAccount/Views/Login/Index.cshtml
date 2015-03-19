@@ -1,17 +1,14 @@
-﻿@*@model BrockAllen.MembershipReboot.UserLoginValidation*@
-
-@*@Styles.Render("~/Content/css")
+﻿@Styles.Render("~/Content/css")
 @Styles.Render("~/Content/bootstrap")
 @Styles.Render("~/Content/kendo")
 @Styles.Render("~/Content/font-awesome")
-
 
 @Scripts.Render("~/bundles/jquery")
 
 @Scripts.Render("~/bundles/kendo")
 @Scripts.Render("~/bundles/knockout")
 @Scripts.Render("~/bundles/site")
-@Scripts.Render("~/bundles/require")*@
+@Scripts.Render("~/bundles/require")
 
 <div class="container">
     <div>Version @ViewContext.Controller.GetType().Assembly.GetName().Version Date @File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)</div>

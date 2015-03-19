@@ -117,15 +117,13 @@ namespace Bec.TargetFramework.SB.TaskHandlers.CommandHandlers
                         );
                 }
 
-                var response = Bus.CreateInstance<OnlinePaymentResultMessage>(s =>
-                {
-                    s.TransactionOrderPaymentDto = paymentDto;
-                });
-                ;
-                ;
+                //var response = Bus.CreateInstance<OnlinePaymentResultMessage>(s =>
+                //{
+                //    s.TransactionOrderPaymentDto = paymentDto;
+                //});
 
-                // reply with orderpaymentresult
-                Bus.Reply(response);
+                //// reply with orderpaymentresult
+                //Bus.Reply(response);
 
                 LogMessageAsCompleted();
             }

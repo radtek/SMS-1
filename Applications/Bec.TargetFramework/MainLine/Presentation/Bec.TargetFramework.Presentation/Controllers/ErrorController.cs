@@ -16,10 +16,11 @@ namespace Bec.TargetFramework.Presentation.Controllers
         }
 
         [ActionName("500")]
-        public ActionResult FiveHundred()
+        public ActionResult FiveHundred(Exception ex)
         {
+            
             Response.StatusCode = 500;
-            return View();
+            return View(ex);
         }
     }
 }

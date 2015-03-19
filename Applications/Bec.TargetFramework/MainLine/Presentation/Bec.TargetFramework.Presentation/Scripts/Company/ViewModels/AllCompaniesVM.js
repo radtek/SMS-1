@@ -5,9 +5,9 @@
         data = data || {};
         var self = this;
 
-        self.verifiedCompanies = data.verifiedCompanies;
+        self.verifiedCompanies;
 
-        self.unverifiedCompanies = data.unverifiedCompanies;
+        self.unverifiedCompanies;
 
         self.verifiedCompany = ko.observable();
         self.unverifiedCompany = ko.observable();
@@ -15,7 +15,7 @@
         self.selectedUnverifiedCompany = null;
         self.selectedVerifiedCompany = null;
 
-        self.companyAddedTickDate;
+        self.newCompanyId;
 
         self.initialize(data);
 
@@ -44,38 +44,22 @@
                 return;
             }
 
-            //console.log(new Date());
-            //console.log('onDataBound ' + gridNameForUpdate);
-            //console.log($("#" + gridNameForUpdate).data("kendoGrid").dataSource.data().length);
-            //console.log('');
-            
-
             if (gridNameForUpdate == 'unverified-grid') {
 
-                if (self.companyAddedTickDate) {
+                if (self.newCompanyId) {
                     var grid = $("#unverified-grid").data("kendoGrid");
                     var dataUnverifiedCompanies = grid.dataSource.data();
 
                     for (var i = 0; i < dataUnverifiedCompanies.length; i++) {
-                        if (self.companyAddedTickDate == (new Date(dataUnverifiedCompanies[i].recordCreated)).getTime()) {
+                        if (self.newCompanyId == (dataUnverifiedCompanies[i].companyId)) {
+
                             selectedItem = dataUnverifiedCompanies[i];
                             break;
                         }
                     }
-                    var targetUid = selectedItem.uid;
 
-                    var theGridEl = $("#" + gridNameForUpdate);
-
-                    var theGrid = theGridEl.data("kendoGrid");
-
-                    var row = theGridEl.find("tr[data-uid='" + targetUid + "']");
-                    theGrid.select(row);
-
-                    var scrollContentOffset = theGridEl.find("tbody").offset().top;
-                    var selectContentOffset = theGrid.select().offset().top;
-                    var distance = selectContentOffset - scrollContentOffset;
-
-                    self.companyAddedTickDate = '';
+                    //remove companyId, clean the model
+                    self.newCompanyId = '';
                 }
                 else {
                     if (self.selectedUnverifiedCompany != null) {
@@ -99,24 +83,25 @@
                 }
             }
 
-            var targetUid = selectedItem.uid;
+            if (selectedItem) {
+                var targetUid = selectedItem.uid;
 
-            var theGridEl = $("#" + gridNameForUpdate);
+                var theGridEl = $("#" + gridNameForUpdate);
 
-            var theGrid = theGridEl.data("kendoGrid");
+                var theGrid = theGridEl.data("kendoGrid");
 
-            var row = theGridEl.find("tr[data-uid='" + targetUid + "']");
-            theGrid.select(row);
+                var row = theGridEl.find("tr[data-uid='" + targetUid + "']");
+                theGrid.select(row);
 
-            var scrollContentOffset = theGridEl.find("tbody").offset().top;
-            var selectContentOffset = theGrid.select().offset().top;
-            var distance = selectContentOffset - scrollContentOffset;
+                var scrollContentOffset = theGridEl.find("tbody").offset().top;
+                var selectContentOffset = theGrid.select().offset().top;
+                var distance = selectContentOffset - scrollContentOffset;
 
-            //    animate our scroll
-
-            theGridEl.find(".k-grid-content").animate({
-                scrollTop: distance
-            }, 400);
+                //    animate our scroll
+                theGridEl.find(".k-grid-content").animate({
+                    scrollTop: distance
+                }, 400);
+            }
         }
 
         self.onDataBinding = function (args, gridName) {
@@ -147,7 +132,7 @@
                 dataBound: function (e) {
                     self.onDataBound(e, 'unverified-grid');
                 },
-                dataBinding:  function (e) {
+                dataBinding: function (e) {
                     self.onDataBinding(e, 'unverified-grid');
                 },
                 dataSource: {
@@ -155,31 +140,31 @@
                         model: {
                             id: 'id',
                             fields: {
-                                'name': { type: 'string' },
-                                'address1': { type: 'string' },
-                                'postCode': { type: 'string' },
+                                'companyName': { type: 'string' },
+                                'companyAddress1': { type: 'string' },
+                                'companyPostCode': { type: 'string' },
                                 'sysAdmin': { type: 'string' },
-                                'tel': { type: 'string' },
-                                'email': { type: 'string' },
-                                'recordCreated': { type: 'date' }
+                                'systemAdminTel': { type: 'string' },
+                                'systemAdminEmail': { type: 'string' },
+                                'companyRecordCreated': { type: 'date' }
                             }
                         }
                     },
-                    sort: { field: 'recordCreated', dir: 'asc' }
+                    sort: { field: 'companyRecordCreated', dir: 'asc' }
                 },
                 columns: [{
-                    field: 'name',
+                    field: 'companyName',
                     width: 150,
                     headerTemplate: '<label class="underline">Company Name</label>'
                 },
                 {
-                    field: 'address1',
+                    field: 'companyAddress1',
                     width: 250,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Address 1</label>'
                 },
                 {
-                    field: 'postCode',
+                    field: 'companyPostCode',
                     width: 120,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Post Code</label>'
@@ -191,20 +176,20 @@
                     headerTemplate: '<label class="noUnderline">System Administrator</label>'
                 },
                 {
-                    field: 'tel',
+                    field: 'systemAdminTel',
                     width: 130,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Telephone No</label>'
                 },
                 {
-                    field: 'email',
+                    field: 'systemAdminEmail',
                     width: 200,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Email</label>'
                 },
                 {
-                    field: 'recordCreated',
-                    template: "#= kendo.toString(kendo.parseDate(recordCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                    field: 'companyRecordCreated',
+                    template: "#= kendo.toString(kendo.parseDate(companyRecordCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
                     headerTemplate: '<label class="underline">Record Created</label>',
                     width: 150
                 }]
@@ -235,43 +220,43 @@
                         model: {
                             id: 'id',
                             fields: {
-                                'name': { type: 'string' },
-                                'pinCode': { type: 'string' },
-                                'pinCreated': { type: 'date' },
-                                'postCode': { type: 'string' },
+                                'companyName': { type: 'string' },
+                                'companyPinCode': { type: 'string' },
+                                'companyPinCreated': { type: 'date' },
+                                'companyPostCode': { type: 'string' },
                                 'sysAdmin': { type: 'string' },
-                                'tel': { type: 'string' },
-                                'email': { type: 'string' },
-                                'recordCreated': { type: 'date' }
+                                'systemAdminTel': { type: 'string' },
+                                'systemAdminEmail': { type: 'string' },
+                                'companyRecordCreated': { type: 'date' }
                             }
                         }
                     },
-                    sort: { field: 'recordCreated', dir: 'asc' }
+                    sort: { field: 'companyRecordCreated', dir: 'asc' }
                 },
                 columns: [{
                     title: 'Company Name',
-                    field: 'name',
+                    field: 'companyName',
                     width: 150,
                     headerTemplate: '<label class="underline">Company Name</label>'
                 },
                 {
                     title: 'PIN Number',
-                    field: 'pinCode',
+                    field: 'companyPinCode',
                     width: 100,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">PIN Number</label>'
                 },
                 {
                     title: 'PIN Created',
-                    field: 'pinCreated',
-                    template: "#= (pinCreated== null) ? ' ' : kendo.toString(kendo.parseDate(pinCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                    field: 'companyPinCreated',
+                    template: "#= (companyPinCreated== null) ? ' ' : kendo.toString(kendo.parseDate(companyPinCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
                     width: 100,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">PIN Created</label>'
                 },
                 {
                     title: 'Post Code',
-                    field: 'postCode',
+                    field: 'companyPostCode',
                     width: 120,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Post Code</label>'
@@ -285,22 +270,22 @@
                 },
                 {
                     title: 'Telephone No',
-                    field: 'tel',
+                    field: 'systemAdminTel',
                     width: 130,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Telephone No</label>'
                 },
                 {
                     title: 'Email',
-                    field: 'email',
+                    field: 'systemAdminEmail',
                     width: 200,
                     sortable: false,
                     headerTemplate: '<label class="noUnderline">Email</label>'
                 },
                 {
                     title: 'Record Created',
-                    field: 'recordCreated',
-                    template: "#= kendo.toString(kendo.parseDate(recordCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
+                    field: 'companyRecordCreated',
+                    template: "#= kendo.toString(kendo.parseDate(companyRecordCreated, 'yyyy-MM-dd'), 'dd/MM/yyyy') #",
                     headerTemplate: '<label class="underline">Record Created</label>',
                     width: 150
                 }]
@@ -310,7 +295,10 @@
 
     AllCompaniesVM.prototype.initialize = function (data) {
         var self = this;
-        self.companyAddedTickDate = data.companyAddedTickDate;
+        self.verifiedCompanies = data.verifiedCompanies;
+        self.unverifiedCompanies = data.unverifiedCompanies;
+
+        self.newCompanyId = data.newCompanyId;
         self.verifiedCompany(new CompanyVM());
         self.unverifiedCompany(new CompanyVM());
     }

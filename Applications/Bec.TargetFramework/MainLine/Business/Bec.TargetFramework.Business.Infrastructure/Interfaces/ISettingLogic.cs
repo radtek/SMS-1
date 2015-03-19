@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         /// </summary>
         /// <param name="typeId"></param>
         /// <returns></returns>
-        List<SettingDTO> GetAllSettings();
+        Dictionary<string, SettingDTO> GetAllSettings();
 
         [OperationContract]
 

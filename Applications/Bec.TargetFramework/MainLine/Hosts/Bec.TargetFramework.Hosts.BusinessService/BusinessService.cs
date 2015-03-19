@@ -65,18 +65,18 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             IocContainerBase.AddIocContiner(m_IocContainer,AppDomain.CurrentDomain.FriendlyName);
 
             // use autofac container
-            Task.Factory.StartNew(() =>
-            {
-                TracingLog.Disable();
+            //Task.Factory.StartNew(() =>
+            //{
+            //    TracingLog.Disable();
 
-                var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
+            //    var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
 
-                Configure.Instance.ForInstallationOn<Windows>().Install();
+            //    Configure.Instance.ForInstallationOn<Windows>().Install();
 
-                SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
+            //    SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
 
-                m_Bus = startableBus.Start();
-            });
+            //    m_Bus = startableBus.Start();
+            //});
 
             Task.Factory.StartNew(
                 () =>

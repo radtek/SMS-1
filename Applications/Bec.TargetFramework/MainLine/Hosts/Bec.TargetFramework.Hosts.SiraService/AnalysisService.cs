@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.ServiceModel.Configuration;
 using System.ServiceProcess;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
 
 namespace Bec.TargetFramework.Hosts.AnalysisService
 {
@@ -32,7 +33,6 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
             registrar.Register(builder, null);
 
             m_IocContainer = builder.Build();
-
         }
 
         protected override void OnStart(string[] args)
@@ -45,49 +45,47 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
             eventLog.WriteEntry("Starting Service");
 
             m_ServiceHosts = new List<ServiceHost>();
-            eventLog.WriteEntry("1");
 
             try
             {
                 InitialiseIOC();
-                eventLog.WriteEntry("2");
+     
                 System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                eventLog.WriteEntry("3");
 
                 var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
 
-                eventLog.WriteEntry("4");
-
                 var list = serviceModel.Services.Services.OfType<ServiceElement>().ToList();
-
-                eventLog.WriteEntry("5");
 
                 list.ForEach(item =>
                     {
                         Type serviceType = Type.GetType(item.Name + ", Bec.TargetFramework.Analysis.Services");
                         Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Single(t => t.Contract.Contains("Bec.TargetFramework")).Contract + ", Bec.TargetFramework.Analysis.Interfaces");
 
-                        ServiceHost host = new ServiceHost(serviceType);
-                        host.AddDependencyInjectionBehavior(interfaceType, m_IocContainer);
-                        host.Open();
+                        try
+                        {
+                            ServiceHost host = new ServiceHost(serviceType);
+                            host.AddDependencyInjectionBehavior(interfaceType, m_IocContainer);
+                            host.Open();
 
-                        m_ServiceHosts.Add(host);
+                            m_ServiceHosts.Add(host);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            SerilogHelper.LogException("AnalysisService", ex);
+
+                            throw;
+                        }
+
+                        
                     });
-
-                Console.WriteLine("Successfully added host");
-                eventLog.WriteEntry("6");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error adding host");
-
                 string message = ex.FlattenException();
                 eventLog.WriteEntry("error: " + message);
 
-                if (Serilog.Log.Logger == null)
-                    new SerilogLogger(true, false, "AnalysisService").Error(ex);
-                else
-                    Serilog.Log.Logger.Error(ex, ex.Message, null);
+                SerilogHelper.LogException("AnalysisService",ex);
+
                 OnStop();
             }
         }

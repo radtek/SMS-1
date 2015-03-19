@@ -123,12 +123,12 @@ namespace BrockAllen.MembershipReboot
             //}
         }
 
-        public virtual List<TAccount> GetAll()
+        public virtual List<UserAccount> GetAll()
         {
-            return GetAll(null);
+            return GetAll(null) as List<UserAccount>;
         }
 
-        public virtual void Update(TAccount account)
+        public virtual void Update(UserAccount account)
         {
             if (account == null)
             {
@@ -145,7 +145,7 @@ namespace BrockAllen.MembershipReboot
             //    {
             //        this.userRepository.Update(account);});
 
-            this.userRepository.Update(account);
+            this.userRepository.Update(account as TAccount);
         }
 
         public virtual List<TAccount> GetAll(string tenant)
@@ -716,23 +716,31 @@ namespace BrockAllen.MembershipReboot
             CloseAccount(account);
             Update(account);
         }
-        public virtual UserLoginValidation Authenticate(string username, string password)
-        {
-            return Authenticate(null, username, password);
-        }
-        public virtual UserLoginValidation Authenticate(string username, string password, out TAccount account)
-        {
-            return Authenticate(null, username, password, out account);
-        }
+        //public virtual UserLoginValidation Authenticate(string username, string password)
+        //{
+        //    return Authenticate(null, username, password);
+        //}
+        //public virtual UserLoginValidation Authenticate(string username, string password, out TAccount account)
+        //{
+        //    return Authenticate(null, username, password, out account);
+        //}
 
-        public virtual UserLoginValidation Authenticate(string tenant, string username, string password)
+        //public virtual UserLoginValidation Authenticate(string tenant, string username, string password)
+        //{
+        //    TAccount account;
+        //    return Authenticate(tenant, username, password, out account);
+        //}
+
+        /// <summary>
+        /// Authenticate
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <param name="tenant"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public virtual UserLoginValidation Authenticate(UserAccount userAccount,string tenant, string username, string password)
         {
-            TAccount account;
-            return Authenticate(tenant, username, password, out account);
-        }
-        public virtual UserLoginValidation Authenticate(string tenant, string username, string password, out TAccount account)
-        {
-            account = null;
             UserLoginValidation result = new UserLoginValidation();
             if (!Configuration.MultiTenant)
             {
@@ -760,15 +768,14 @@ namespace BrockAllen.MembershipReboot
                 return result;
             }
 
-            account = this.GetByUsername(tenant, username);
-            if (account == null)
+            if (userAccount == null)
             {
                 result.valid = false;
                 result.validationMessage = "Invalid Username or Password";
                 return result;
             }
 
-            return Authenticate(account, password, AuthenticationPurpose.SignIn);
+            return Authenticate(userAccount, password, AuthenticationPurpose.SignIn);
         }
 
         public virtual UserLoginValidation AuthenticateWithEmail(string email, string password)
@@ -825,14 +832,28 @@ namespace BrockAllen.MembershipReboot
             return Authenticate(account, password, AuthenticationPurpose.SignIn);
         }
 
-        public virtual UserLoginValidation AuthenticateWithUsername(string userName, string password, out TAccount account)
+        /// <summary>
+        /// AuthenticateWithUsername
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public virtual UserLoginValidation AuthenticateWithUsername(UserAccount userAccount,string userName, string password)
         {
-            return AuthenticateWithUsername(null, userName, password, out account);
+            return AuthenticateWithUsername(userAccount,null, userName, password);
         }
 
-        public virtual UserLoginValidation AuthenticateWithUsername(string tenant, string userName, string password, out TAccount account)
+        /// <summary>
+        /// AuthenticateWithUsername
+        /// </summary>
+        /// <param name="userAccount"></param>
+        /// <param name="tenant"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public virtual UserLoginValidation AuthenticateWithUsername(UserAccount userAccount, string tenant, string userName, string password)
         {
-            account = null;
             UserLoginValidation result = new UserLoginValidation();
             if (!Configuration.MultiTenant)
             {
@@ -867,57 +888,64 @@ namespace BrockAllen.MembershipReboot
             else
             {
                 Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] username detected");
-                return Authenticate(tenant, userName, password, out account);
+                return Authenticate(userAccount, tenant, userName, password);
             }
         }
 
-        public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string userNameOrEmail, string password, out TAccount account)
-        {
-            return AuthenticateWithUsernameOrEmail(null, userNameOrEmail, password, out account);
-        }
+        //public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string userNameOrEmail, string password, out TAccount account)
+        //{
+        //    return AuthenticateWithUsernameOrEmail(null, userNameOrEmail, password, out account);
+        //}
 
-        public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string tenant, string userNameOrEmail, string password, out TAccount account)
-        {
-            account = null;
-            UserLoginValidation result = new UserLoginValidation();
-            if (!Configuration.MultiTenant)
-            {
-                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] applying default tenant");
-                tenant = Configuration.DefaultTenant;
-            }
+        //public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string tenant, string userNameOrEmail, string password, out TAccount account)
+        //{
+        //    account = null;
+        //    UserLoginValidation result = new UserLoginValidation();
+        //    if (!Configuration.MultiTenant)
+        //    {
+        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] applying default tenant");
+        //        tenant = Configuration.DefaultTenant;
+        //    }
 
-            Tracing.Information("[UserAccountService.AuthenticateWithUsernameOrEmail] called {0}, {1}", tenant, userNameOrEmail);
+        //    Tracing.Information("[UserAccountService.AuthenticateWithUsernameOrEmail] called {0}, {1}", tenant, userNameOrEmail);
 
-            if (String.IsNullOrWhiteSpace(tenant)) {
-                result.valid = false;
-                return result; 
-            }
-            if (String.IsNullOrWhiteSpace(userNameOrEmail))
-            {
-                result.valid = false;
-                return result;
-            }
-            if (String.IsNullOrWhiteSpace(password))
-            {
-                Tracing.Error("[UserAccountService.AuthenticateWithUsernameOrEmail] failed -- empty password");
-                result.valid = false;
-                result.validationMessage = "Empty password";
-                return result;
-            }
+        //    if (String.IsNullOrWhiteSpace(tenant)) {
+        //        result.valid = false;
+        //        return result; 
+        //    }
+        //    if (String.IsNullOrWhiteSpace(userNameOrEmail))
+        //    {
+        //        result.valid = false;
+        //        return result;
+        //    }
+        //    if (String.IsNullOrWhiteSpace(password))
+        //    {
+        //        Tracing.Error("[UserAccountService.AuthenticateWithUsernameOrEmail] failed -- empty password");
+        //        result.valid = false;
+        //        result.validationMessage = "Empty password";
+        //        return result;
+        //    }
 
-            if (!Configuration.EmailIsUsername && userNameOrEmail.Contains("@"))
-            {
-                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] email detected");
-                return AuthenticateWithEmail(tenant, userNameOrEmail, password, out account);
-            }
-            else
-            {
-                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] username detected");
-                return Authenticate(tenant, userNameOrEmail, password, out account);
-            }
-        }
+        //    if (!Configuration.EmailIsUsername && userNameOrEmail.Contains("@"))
+        //    {
+        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] email detected");
+        //        return AuthenticateWithEmail(tenant, userNameOrEmail, password, out account);
+        //    }
+        //    else
+        //    {
+        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] username detected");
+        //        return Authenticate(tenant, userNameOrEmail, password, out account);
+        //    }
+        //}
 
-        protected virtual UserLoginValidation Authenticate(TAccount account, string password, AuthenticationPurpose purpose)
+        /// <summary>
+        ///  Authe
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <param name="purpose"></param>
+        /// <returns></returns>
+        protected virtual UserLoginValidation Authenticate(UserAccount account, string password, AuthenticationPurpose purpose)
         {
             Tracing.Verbose("[UserAccountService.Authenticate] for account: {0}", account.ID);
 
@@ -928,7 +956,7 @@ namespace BrockAllen.MembershipReboot
                 !account.IsAccountVerified)
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- account not verified");
-                this.AddEvent(new AccountNotVerifiedEvent<TAccount>() { Account = account });
+                this.AddEvent(new AccountNotVerifiedEvent<UserAccount>() { Account = account });
                 result.valid = false;
             }
 
@@ -976,14 +1004,22 @@ namespace BrockAllen.MembershipReboot
                 }
             }
 
-             Update(account);
+            // update account on other thread
+            Task.Factory.StartNew(() => { Update(account); });
 
             Tracing.Verbose("[UserAccountService.Authenticate] authentication outcome: {0}", result.valid ? "Successful Login" : "Failed Login");
 
             return result;
         }
 
-        protected virtual UserLoginValidation Authenticate(TAccount account, string password)
+
+        /// <summary>
+        /// Authenticate
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        protected virtual UserLoginValidation Authenticate(UserAccount account, string password)
         {
             Tracing.Information("[UserAccountService.Authenticate] called for accountID: {0}", account.ID);
             UserLoginValidation userValidation = new UserLoginValidation();
@@ -1006,7 +1042,7 @@ namespace BrockAllen.MembershipReboot
             if (account.IsAccountClosed)
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- account closed");
-                this.AddEvent(new InvalidAccountEvent<TAccount> { Account = account });
+                this.AddEvent(new InvalidAccountEvent<UserAccount> { Account = account });
                 userValidation.valid = false;
                 userValidation.validationMessage = "Account closed";
                 return userValidation;
@@ -1015,7 +1051,7 @@ namespace BrockAllen.MembershipReboot
             if (!account.IsLoginAllowed)
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- account not allowed to login");
-                this.AddEvent(new AccountLockedEvent<TAccount> { Account = account });
+                this.AddEvent(new AccountLockedEvent<UserAccount> { Account = account });
                 userValidation.valid = false;
                 userValidation.validationMessage = "Account not allowed to login";
                 return userValidation;
@@ -1024,7 +1060,7 @@ namespace BrockAllen.MembershipReboot
             if (HasTooManyRecentPasswordFailures(account))
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- Your account has been locked for 30 minutes due to too many failed login attempts");
-                this.AddEvent(new TooManyRecentPasswordFailuresEvent<TAccount> { Account = account });
+                this.AddEvent(new TooManyRecentPasswordFailuresEvent<UserAccount> { Account = account });
                 userValidation.valid = false;
                 userValidation.validationMessage = "Your account has been locked for 30 minutes due to too many failed login attempts";
                 return userValidation;
@@ -1038,25 +1074,25 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.Authenticate] authentication success");
                 userValidation.validationMessage = "Authentication success";
                 RecordSuccessfulLogin(account);
-                this.AddEvent(new SuccessfulPasswordLoginEvent<TAccount> { Account = account });
+                this.AddEvent(new SuccessfulPasswordLoginEvent<UserAccount> { Account = account });
             }
             else
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- invalid password");
                 userValidation.validationMessage = "Invalid Username or Password";
                 RecordInvalidLoginAttempt(account);
-                this.AddEvent(new InvalidPasswordEvent<TAccount> { Account = account });
+                this.AddEvent(new InvalidPasswordEvent<UserAccount> { Account = account });
             }
 
             return userValidation;
         }
 
-        protected internal bool VerifyHashedPassword(TAccount account, string password)
+        protected internal bool VerifyHashedPassword(UserAccount account, string password)
         {
             return Configuration.Crypto.VerifyHashedPassword(account.HashedPassword, password);
         }
 
-        protected virtual bool HasTooManyRecentPasswordFailures(TAccount account)
+        protected virtual bool HasTooManyRecentPasswordFailures(UserAccount account)
         {
             var result = false;
             if (Configuration.AccountLockoutFailedLoginAttempts <= account.FailedLoginCount + 1)
@@ -1076,13 +1112,13 @@ namespace BrockAllen.MembershipReboot
             return result;
         }
 
-        protected virtual void RecordSuccessfulLogin(TAccount account)
+        protected virtual void RecordSuccessfulLogin(UserAccount account)
         {
             account.LastLogin = UtcNow;
             account.FailedLoginCount = 0;
         }
 
-        protected virtual void RecordInvalidLoginAttempt(TAccount account)
+        protected virtual void RecordInvalidLoginAttempt(UserAccount account)
         {
             account.LastFailedLogin = UtcNow;
             if (account.FailedLoginCount <= 0)
@@ -1962,7 +1998,7 @@ namespace BrockAllen.MembershipReboot
             return result;
         }
 
-        protected virtual string SetVerificationKey(TAccount account, VerificationKeyPurpose purpose, string key = null, string state = null)
+        protected virtual string SetVerificationKey(UserAccount account, VerificationKeyPurpose purpose, string key = null, string state = null)
         {
             if (key == null) key = StripUglyBase64(Configuration.Crypto.GenerateSalt());
 
@@ -1974,7 +2010,7 @@ namespace BrockAllen.MembershipReboot
             return key;
         }
 
-        protected virtual bool IsVerificationKeyValid(TAccount account, VerificationKeyPurpose purpose, string key)
+        protected virtual bool IsVerificationKeyValid(UserAccount account, VerificationKeyPurpose purpose, string key)
         {
             if (!IsVerificationPurposeValid(account, purpose))
             {
@@ -1993,7 +2029,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        protected virtual bool IsVerificationPurposeValid(TAccount account, VerificationKeyPurpose purpose)
+        protected virtual bool IsVerificationPurposeValid(UserAccount account, VerificationKeyPurpose purpose)
         {
             if (account.VerificationPurpose != (int)purpose)
             {
@@ -2011,7 +2047,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        protected virtual bool IsVerificationKeyStale(TAccount account)
+        protected virtual bool IsVerificationKeyStale(UserAccount account)
         {
             if (account.VerificationKeySent == null)
             {
@@ -2026,7 +2062,7 @@ namespace BrockAllen.MembershipReboot
             return false;
         }
 
-        protected virtual void ClearVerificationKey(TAccount account)
+        protected virtual void ClearVerificationKey(UserAccount account)
         {
             account.VerificationKey = null;
             account.VerificationPurpose = null;
@@ -2034,7 +2070,7 @@ namespace BrockAllen.MembershipReboot
             account.VerificationStorage = null;
         }
 
-        protected virtual void SetPassword(TAccount account, string password)
+        protected virtual void SetPassword(UserAccount account, string password)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2052,10 +2088,10 @@ namespace BrockAllen.MembershipReboot
             account.PasswordChanged = UtcNow;
             account.RequiresPasswordReset = false;
 
-            this.AddEvent(new PasswordChangedEvent<TAccount> { Account = account, NewPassword = password });
+            this.AddEvent(new PasswordChangedEvent<UserAccount> { Account = account, NewPassword = password });
         }
 
-        protected virtual void ResetPassword(TAccount account)
+        protected virtual void ResetPassword(UserAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2075,13 +2111,13 @@ namespace BrockAllen.MembershipReboot
                 {
                     Tracing.Verbose("[UserAccountService.ResetPassword] account not verified -- raising account created email event to resend initial email");
                     var key = SetVerificationKey(account, VerificationKeyPurpose.ChangeEmail, state: account.Email);
-                    this.AddEvent(new AccountCreatedEvent<TAccount> { Account = account, VerificationKey = key });
+                    this.AddEvent(new AccountCreatedEvent<UserAccount> { Account = account, VerificationKey = key });
                 }
                 else
                 {
                     Tracing.Verbose("[UserAccountService.ResetPassword] account not verified -- raising change email event to resend email verification");
                     var key = SetVerificationKey(account, VerificationKeyPurpose.ChangeEmail, state: account.Email);
-                    this.AddEvent(new EmailChangeRequestedEvent<TAccount> { Account = account, NewEmail = account.Email, VerificationKey = key });
+                    this.AddEvent(new EmailChangeRequestedEvent<UserAccount> { Account = account, NewEmail = account.Email, VerificationKey = key });
                 }
             }
             else
@@ -2090,12 +2126,12 @@ namespace BrockAllen.MembershipReboot
                 var key = SetVerificationKey(account, VerificationKeyPurpose.ResetPassword);
 
                 Tracing.Verbose("[UserAccountService.ResetPassword] account verified -- raising event to send reset notification");
-                this.AddEvent(new PasswordResetRequestedEvent<TAccount> { Account = account, VerificationKey = key });
+                this.AddEvent(new PasswordResetRequestedEvent<UserAccount> { Account = account, VerificationKey = key });
             }
         }
 
 
-        protected virtual string IssueMobileCode(TAccount account)
+        protected virtual string IssueMobileCode(UserAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2137,7 +2173,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        protected virtual void ClearMobileAuthCode(TAccount account)
+        protected virtual void ClearMobileAuthCode(UserAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2155,7 +2191,7 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        protected virtual bool IsMobileCodeOlderThan(TAccount account, int duration)
+        protected virtual bool IsMobileCodeOlderThan(UserAccount account, int duration)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2172,12 +2208,12 @@ namespace BrockAllen.MembershipReboot
             return false;
         }
 
-        protected virtual bool IsMobileCodeExpired(TAccount account)
+        protected virtual bool IsMobileCodeExpired(UserAccount account)
         {
             return IsMobileCodeOlderThan(account, MembershipRebootConstants.UserAccount.MobileCodeStaleDurationMinutes);
         }
 
-        protected virtual bool CanResendMobileCode(TAccount account)
+        protected virtual bool CanResendMobileCode(UserAccount account)
         {
             return IsMobileCodeOlderThan(account, MembershipRebootConstants.UserAccount.MobileCodeResendDelayMinutes);
         }
@@ -2195,7 +2231,7 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.ConfigureTwoFactorAuthentication] success");
         }
 
-        protected virtual void ConfigureTwoFactorAuthentication(TAccount account, TwoFactorAuthMode mode)
+        protected virtual void ConfigureTwoFactorAuthentication(UserAccount account, TwoFactorAuthMode mode)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2231,16 +2267,16 @@ namespace BrockAllen.MembershipReboot
                 RemoveTwoFactorAuthTokens(account);
 
                 Tracing.Verbose("[UserAccountService.ConfigureTwoFactorAuthentication] success -- two factor auth disabled");
-                this.AddEvent(new TwoFactorAuthenticationDisabledEvent<TAccount> { Account = account });
+                this.AddEvent(new TwoFactorAuthenticationDisabledEvent<UserAccount> { Account = account });
             }
             else
             {
                 Tracing.Verbose("[UserAccountService.ConfigureTwoFactorAuthentication] success -- two factor auth enabled, mode: {0}", mode);
-                this.AddEvent(new TwoFactorAuthenticationEnabledEvent<TAccount> { Account = account, Mode = mode });
+                this.AddEvent(new TwoFactorAuthenticationEnabledEvent<UserAccount> { Account = account, Mode = mode });
             }
         }
 
-        protected virtual bool RequestTwoFactorAuthCertificate(TAccount account)
+        protected virtual bool RequestTwoFactorAuthCertificate(UserAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2277,7 +2313,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        protected virtual bool RequestTwoFactorAuthCode(TAccount account, bool force = false)
+        protected virtual bool RequestTwoFactorAuthCode(UserAccount account, bool force = false)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2318,7 +2354,7 @@ namespace BrockAllen.MembershipReboot
 
                 Tracing.Verbose("[UserAccountService.RequestTwoFactorAuthCode] success");
 
-                this.AddEvent(new TwoFactorAuthenticationCodeNotificationEvent<TAccount> { Account = account, Code = code });
+                this.AddEvent(new TwoFactorAuthenticationCodeNotificationEvent<UserAccount> { Account = account, Code = code });
             }
             else
             {
@@ -2693,7 +2729,7 @@ namespace BrockAllen.MembershipReboot
             this.AddEvent(new TwoFactorAuthenticationTokenCreatedEvent<TAccount> { Account = account, Token = value });
         }
 
-        protected virtual bool VerifyTwoFactorAuthToken(TAccount account, string token)
+        protected virtual bool VerifyTwoFactorAuthToken(UserAccount account, string token)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2742,7 +2778,7 @@ namespace BrockAllen.MembershipReboot
             return result;
         }
 
-        protected virtual void RemoveTwoFactorAuthTokens(TAccount account)
+        protected virtual void RemoveTwoFactorAuthTokens(UserAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 

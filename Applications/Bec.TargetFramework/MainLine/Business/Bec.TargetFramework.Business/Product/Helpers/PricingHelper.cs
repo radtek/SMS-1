@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Entities;
-//using Fabrik.Common;
-using NHibernate.SqlCommand;
 using EnsureThat;
 
 namespace Bec.TargetFramework.Business.Product.Helpers

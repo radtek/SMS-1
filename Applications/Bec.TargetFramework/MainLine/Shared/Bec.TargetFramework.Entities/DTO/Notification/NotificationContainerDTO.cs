@@ -11,7 +11,7 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 namespace Bec.TargetFramework.Entities
 {
     using Bec.TargetFramework.Framework.Configuration;
-    using Ext.Net;
+
     using Fabrik.Common;
 
     [Serializable]

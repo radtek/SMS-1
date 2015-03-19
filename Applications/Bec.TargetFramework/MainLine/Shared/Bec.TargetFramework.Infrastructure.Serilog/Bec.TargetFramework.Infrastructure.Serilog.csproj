@@ -125,6 +125,7 @@
     <Compile Include="Enricher\ThreadNameEnricher.cs" />
     <Compile Include="Enricher\WindowsUserNameEnricher.cs" />
     <Compile Include="Enricher\WindowsUserSidEnricher.cs" />
+    <Compile Include="Helpers\SerilogHelper.cs" />
     <Compile Include="LoggerConfigurationWebExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerilogExtensions.cs" />

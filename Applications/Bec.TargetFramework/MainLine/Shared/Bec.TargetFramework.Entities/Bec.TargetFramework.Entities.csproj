@@ -44,13 +44,6 @@
     <Reference Include="EnsureThat">
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
     </Reference>
-    <Reference Include="Ext.Net, Version=2.5.2.11993, Culture=neutral, PublicKeyToken=2e12ce3d0176cd87, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Ext.NET.MVC5.2.5.2\lib\net451\Ext.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Ext.Net.Utilities">
-      <HintPath>..\..\References\Ext.NET.MVC.Pro.2.4.0\lib\MVC5\net451\Ext.Net.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Fabrik.Common, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
@@ -58,6 +51,10 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
@@ -112,9 +109,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Transformer.NET">
-      <HintPath>..\..\References\Ext.NET.MVC.Pro.2.4.0\lib\MVC5\net451\Transformer.NET.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boo\AccountDTO.cs" />
@@ -1663,37 +1657,13 @@
       <DependentUpon>StsInviteProcessLogDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\StsPropertyDTO.cs" />
-    <Compile Include="Boo\StsPropertyDTO.Generated.cs">
-      <DependentUpon>StsPropertyDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchAccountDTO.cs" />
-    <Compile Include="Boo\StsSearchAccountDTO.Generated.cs">
-      <DependentUpon>StsSearchAccountDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchAccountIDDocumentDTO.cs" />
-    <Compile Include="Boo\StsSearchAccountIDDocumentDTO.Generated.cs">
-      <DependentUpon>StsSearchAccountIDDocumentDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchActorDetailDepositDTO.cs" />
-    <Compile Include="Boo\StsSearchActorDetailDepositDTO.Generated.cs">
-      <DependentUpon>StsSearchActorDetailDepositDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchActorDetailDTO.cs" />
-    <Compile Include="Boo\StsSearchActorDetailDTO.Generated.cs">
-      <DependentUpon>StsSearchActorDetailDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchActorDTO.cs" />
-    <Compile Include="Boo\StsSearchActorDTO.Generated.cs">
-      <DependentUpon>StsSearchActorDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchActorProcessLogDTO.cs" />
-    <Compile Include="Boo\StsSearchActorProcessLogDTO.Generated.cs">
-      <DependentUpon>StsSearchActorProcessLogDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchActorStructureDTO.cs" />
-    <Compile Include="Boo\StsSearchActorStructureDTO.Generated.cs">
-      <DependentUpon>StsSearchActorStructureDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchDetailDTO.cs" />
     <Compile Include="Boo\StsSearchDetailDTO.Generated.cs">
       <DependentUpon>StsSearchDetailDTO.cs</DependentUpon>
@@ -1703,17 +1673,11 @@
       <DependentUpon>StsSearchDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\StsSearchLRDocumentOrderDTO.cs" />
-    <Compile Include="Boo\StsSearchLRDocumentOrderDTO.Generated.cs">
-      <DependentUpon>StsSearchLRDocumentOrderDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchProcessLogDTO.cs" />
     <Compile Include="Boo\StsSearchProcessLogDTO.Generated.cs">
       <DependentUpon>StsSearchProcessLogDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\StsSearchPropertyDTO.cs" />
-    <Compile Include="Boo\StsSearchPropertyDTO.Generated.cs">
-      <DependentUpon>StsSearchPropertyDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchRelationDTO.cs" />
     <Compile Include="Boo\StsSearchRelationDTO.Generated.cs">
       <DependentUpon>StsSearchRelationDTO.cs</DependentUpon>
@@ -1879,6 +1843,10 @@
     <Compile Include="Boo\VClassificationDTO.cs" />
     <Compile Include="Boo\VClassificationDTO.Generated.cs">
       <DependentUpon>VClassificationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VCompanyDTO.cs" />
+    <Compile Include="Boo\VCompanyDTO.Generated.cs">
+      <DependentUpon>VCompanyDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VcomplianceofficerDTO.cs" />
     <Compile Include="Boo\VCountryAndCurrencyDTO.cs" />
@@ -2537,7 +2505,6 @@
     <Compile Include="Boo\WorkflowTreeStructureTemplateDTO.Generated.cs">
       <DependentUpon>WorkflowTreeStructureTemplateDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ExtNetController.cs" />
     <Compile Include="Convertors\AccountConverter.cs" />
     <Compile Include="Convertors\ActorClaimRoleMappingConverter.cs" />
     <Compile Include="Convertors\ActorConverter.cs" />
@@ -2892,19 +2859,9 @@
     <Compile Include="Convertors\StructureConverter.cs" />
     <Compile Include="Convertors\StsInviteConverter.cs" />
     <Compile Include="Convertors\StsInviteProcessLogConverter.cs" />
-    <Compile Include="Convertors\StsPropertyConverter.cs" />
-    <Compile Include="Convertors\StsSearchAccountConverter.cs" />
-    <Compile Include="Convertors\StsSearchAccountIDDocumentConverter.cs" />
-    <Compile Include="Convertors\StsSearchActorConverter.cs" />
-    <Compile Include="Convertors\StsSearchActorDetailConverter.cs" />
-    <Compile Include="Convertors\StsSearchActorDetailDepositConverter.cs" />
-    <Compile Include="Convertors\StsSearchActorProcessLogConverter.cs" />
-    <Compile Include="Convertors\StsSearchActorStructureConverter.cs" />
     <Compile Include="Convertors\StsSearchConverter.cs" />
     <Compile Include="Convertors\StsSearchDetailConverter.cs" />
-    <Compile Include="Convertors\StsSearchLRDocumentOrderConverter.cs" />
     <Compile Include="Convertors\StsSearchProcessLogConverter.cs" />
-    <Compile Include="Convertors\StsSearchPropertyConverter.cs" />
     <Compile Include="Convertors\StsSearchRelationConverter.cs" />
     <Compile Include="Convertors\SubscriptionConverter.cs" />
     <Compile Include="Convertors\TaxRateConverter.cs" />
@@ -2944,6 +2901,7 @@
     <Compile Include="Convertors\VBusTaskScheduleConverter.cs" />
     <Compile Include="Convertors\VClaimSourceConverter.cs" />
     <Compile Include="Convertors\VClassificationConverter.cs" />
+    <Compile Include="Convertors\VCompanyConverter.cs" />
     <Compile Include="Convertors\VCountryAndCurrencyConverter.cs" />
     <Compile Include="Convertors\VCountryDeductionConverter.cs" />
     <Compile Include="Convertors\VDefaultEmailAddressConverter.cs" />
@@ -3113,6 +3071,7 @@
     <Compile Include="DTO\ChangePasswordWithSecretDTO.cs" />
     <Compile Include="DTO\ForgotUsernameWithSecretDTO.cs" />
     <Compile Include="DTO\FirmDetailsDTO.cs" />
+    <Compile Include="DTO\CompanyDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
@@ -3142,7 +3101,8 @@
     <Compile Include="DTO\RegistrationSummaryDTO.cs" />
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
-    <Compile Include="DTO\CompanyDTO.cs" />
+    <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
+    <Compile Include="DTO\xCompanyDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
     <Compile Include="DTO\SecurityQuestionAnswerDTO.cs" />
     <Compile Include="DTO\TelephoneDTO.cs" />
@@ -3213,7 +3173,6 @@
     <Compile Include="Injections\IgnoreProps.cs" />
     <Compile Include="Injections\CaseInsensitiveInjection.cs" />
     <Compile Include="Injections\NullableInjection.cs" />
-    <Compile Include="Models\ExtNetModel.cs" />
     <Compile Include="DTO\PaymentDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ExperianIDCheckSettings.cs" />
@@ -3269,19 +3228,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="App_Readme\Ext.NET.MVC\Sample.Web.config" />
     <None Include="packages.config" />
-    <None Include="Views\ExtNet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\Module\" />
     <Folder Include="DTO\NewFolder1\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_Readme\Ext.NET.MVC\BREAKING_CHANGES.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\CHANGELOG.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\LICENSE.txt" />
-    <Content Include="App_Readme\Ext.NET.MVC\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -100,12 +100,10 @@ namespace Bec.TargetFramework.Presentation
                 Thread.Sleep(1000);
             }
 
-            EngineContext.Initialize(false);
-
-            // IOC setup phase 1
             InitializeIOC();
-            // register routes and bundles
+
             AreaRegistration.RegisterAllAreas();
+
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             FluentValidationModelValidatorProvider.Configure();
@@ -113,9 +111,6 @@ namespace Bec.TargetFramework.Presentation
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            ////model binders
-            ModelBinders.Binders.Add(typeof(BaseTargetFrameworkModel), new TargetFrameworkModelBinder());
         }
 
 

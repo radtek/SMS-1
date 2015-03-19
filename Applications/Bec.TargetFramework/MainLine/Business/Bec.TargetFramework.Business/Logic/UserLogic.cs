@@ -936,9 +936,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public UserLoginValidation AuthenticateUser(string username, string password)
         {
-            BrockAllen.MembershipReboot.UserAccount account = null;
+            BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
 
-            UserLoginValidation result = m_UaService.AuthenticateWithUsername(username, password, out account);
+            UserLoginValidation result = m_UaService.AuthenticateWithUsername(account,username, password);
 
             result.UserAccount = account;
 
@@ -1090,31 +1090,14 @@ namespace Bec.TargetFramework.Business.Logic
             return list;
         }
 
-        public bool IsUserLoginStillTrue(Guid userId, string sessionId)
+        public List<string> UserLoginSessions(Guid userId)
         {
-            bool result = false;
-
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                var repos = scope.GetGenericRepository<UserAccountLoginSession, Guid, string>();
-
-                result = repos.Exists(item => item.UserHasLoggedOut.Value == false && item.UserAccountID.Equals(userId) && item.UserSessionID.Equals(sessionId));
+                return scope.DbContext.UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID.Equals(userId))
+                    .Select(item => item.UserSessionID)
+                    .ToList();
             }
-
-            return result;
-        }
-
-        public bool IsUserLoggedOnElsewhere(Guid userId, string sessionId)
-        {
-            bool result = false;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                var repos = scope.GetGenericRepository<UserAccountLoginSession, Guid, string>();
-                result = repos.Exists(item => item.UserHasLoggedOut.Value == false && item.UserAccountID.Equals(userId) && !item.UserSessionID.Equals(sessionId));
-            }
-
-            return result;
         }
 
         public void LogEveryoneElseOut(Guid userId, string sessionId)
@@ -1134,12 +1117,10 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public void SaveUserAccountLoginSession(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation, Dictionary<string, string> requestData)
+        public void SaveUserAccountLoginSession(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var repos = scope.GetGenericRepository<UserAccountLoginSession, Guid, string>();
-                repos.IsInScope = true;
                var session = new UserAccountLoginSession
                 {
                     UserSessionID = sessionId,
@@ -1151,8 +1132,16 @@ namespace Bec.TargetFramework.Business.Logic
                     UserHostAddress = userHostAddress
                 };
 
-                repos.Add(session);
+                scope.DbContext.UserAccountLoginSessions.Add(session);
 
+                scope.Save();
+             }
+        }
+
+        public void SaveUserAccountLoginSessionData(Guid userId, string sessionId, Dictionary<string, string> requestData)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
                 // add session data
                 var sessionData = new UserAccountLoginSessionDatum
                                       {
@@ -1164,7 +1153,6 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.UserAccountLoginSessionData.Add(sessionData);
                 
-
                 scope.Save();
             }
         }

@@ -11,9 +11,6 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
 using Microsoft.Web.Services3.Security;
-using NHibernate.Criterion;
-using NHibernate.Hql.Ast.ANTLR;
-using NHibernate.Util;
 using Omu.ValueInjecter;
 using ServiceStack.Text;
 

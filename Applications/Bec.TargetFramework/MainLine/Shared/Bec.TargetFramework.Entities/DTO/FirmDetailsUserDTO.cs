@@ -1,5 +1,4 @@
 ﻿using Bec.TargetFramework.Entities.Helpers;
-using Ext.Net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -77,8 +76,8 @@ namespace Bec.TargetFramework.Entities
                 
         [DataMember]
         public string ID { get; set; }
-         [DataMember]
-        public Node TreeNode { get;set;}
+       //  [DataMember]
+       // public Node TreeNode { get;set;}
 
 
 

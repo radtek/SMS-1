@@ -4,6 +4,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using ServiceStack.Caching;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -22,7 +23,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
         }
 
-        public List<SettingDTO> GetAllSettings()
+        public Dictionary<string, SettingDTO> GetAllSettings()
         {
             return GetSettingsFromDBAndCache();            
         }
@@ -91,28 +92,30 @@ namespace Bec.TargetFramework.Business.Logic
         {
             var cachedList = GetSettingsFromDBAndCache();
 
-            return cachedList.Find(s => s.Id.Equals(settingId));
+            return cachedList.Values.Where(s => s.Id.Equals(settingId)).FirstOrDefault();
         }
 
 
         public SettingDTO GetSettingByName(string name)
         {
             var cachedList = GetSettingsFromDBAndCache();
-
-            return cachedList.Find(s => s.Name.Equals(name));
+            if (cachedList.ContainsKey(name))
+                return cachedList[name];
+            else
+                return null;
         }  
  
-        private List<SettingDTO> GetSettingsFromDBAndCache()
+        private Dictionary<string, SettingDTO> GetSettingsFromDBAndCache()
         {
-            List<SettingDTO> settings = null;
+            Dictionary<string, SettingDTO> settings = null;
 
             using(var cacheClient = CacheProvider.CreateCacheClient(Logger))
             {
-                settings = cacheClient.Get<List<SettingDTO>>(CACHEKEY);
+                settings = cacheClient.Get<Dictionary<string, SettingDTO>>(CACHEKEY);
 
                 if (settings == null)
                 { 
-                    settings = new List<SettingDTO>();
+                    settings = new Dictionary<string, SettingDTO>();
 
                     using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, null, true))
                     {
@@ -122,11 +125,11 @@ namespace Bec.TargetFramework.Business.Logic
                         foreach (var item in vv)
                         {
                             SettingDTO dto = SettingConverter.ToDto(item);
-                            settings.Add(dto);
+                            settings.Add(dto.Name, dto);
                         }
                     }
 
-                    cacheClient.Set<List<SettingDTO>>(CACHEKEY, settings, DateTime.Now.AddHours(1));
+                    cacheClient.Set<Dictionary<string, SettingDTO>>(CACHEKEY, settings, DateTime.Now.AddHours(1));
                 }
             }
 

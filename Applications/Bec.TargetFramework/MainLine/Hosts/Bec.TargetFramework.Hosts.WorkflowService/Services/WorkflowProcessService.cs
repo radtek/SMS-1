@@ -26,8 +26,6 @@ namespace Bec.TargetFramework.Hosts.WorkflowService.Services
     using Bec.TargetFramework.Entities;
     using Bec.TargetFramework.Workflow.Helpers;
     using Bec.TargetFramework.Workflow.Interfaces;
-
-    using NHibernate.Engine;
     using Bec.TargetFramework.Data.Infrastructure;
     using Fabrik.Common;
     using ServiceStack.Text;

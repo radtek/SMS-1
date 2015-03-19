@@ -4,7 +4,17 @@
     ViewBag.Title = "Landing";
 }
 
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/Content/kendo")
+@Styles.Render("~/Content/font-awesome")
 
+@Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/knockout")
+@Scripts.Render("~/bundles/site")
+@Scripts.Render("~/bundles/require")
 
 
 <div class="container">
@@ -31,12 +41,9 @@
             <a class="btn btn-success" id="logout-btn" href="@Url.Action("Index", "Login", new { area = "UserAccount" }, String.Empty)">Login</a>
         </div>
     </div>
-</div>
-
-
-<script type="text/javascript">
+    <script type="text/javascript">
     history.pushState(null, null, 'Landing');
-    window.addEventListener('popstate', function(event) {
+    window.addEventListener('popstate', function (event) {
         history.pushState(null, null, 'Landing');
     });
 
@@ -50,4 +57,8 @@
             }
         });
     });
-</script>
+    </script>
+
+</div>
+
+

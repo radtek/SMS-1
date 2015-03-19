@@ -42,10 +42,12 @@ namespace Bec.TargetFramework.UI.Process.Filters
             {
                 var webUser = WebUserHelper.GetWebUserObject(filterContext.HttpContext);
 
-                if (logic.IsUserLoginStillTrue(webUser.UserID, webUser.SessionIdentifier))
+                var logins = logic.UserLoginSessions(webUser.UserID);
+
+                if (logins.Any(sessionID => sessionID.Equals(webUser.SessionIdentifier)))
                 {
                     // check to see if your user ID is being used elsewhere under a different session ID
-                    if (!logic.IsUserLoggedOnElsewhere(webUser.UserID, webUser.SessionIdentifier))
+                    if (!logins.Any(sessionID => !sessionID.Equals(webUser.SessionIdentifier)))
                     {
                         base.OnActionExecuting(filterContext);
                     }
@@ -77,30 +79,22 @@ namespace Bec.TargetFramework.UI.Process.Filters
 
     public class UserAccountLogicHelper
     {
-        public static void CreateUserAccountLoginLogEntry(HttpContextBase context, Guid userId)
+        public static Dictionary<string, string> CreateRequestDictionary(HttpRequestBase request)
         {
-            AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
-
-            var container = resolver.ApplicationContainer;
-
-            var logic = container.Resolve<IUserLogic>();
-
-            var webUser = WebUserHelper.GetWebUserObject(context);
-
             Dictionary<string, string> requestParameters = new Dictionary<string, string>();
 
             // params
-            context.Request.Params.AllKeys.ToList().ForEach(
+            request.Params.AllKeys.ToList().ForEach(
                 item =>
                 {
-                    var value = context.Request.Params.GetValues(item);
+                    var value = request.Params.GetValues(item);
 
                     if (!item.ToLowerInvariant().StartsWith("username") && !item.ToLowerInvariant().StartsWith("password") && !item.ToLowerInvariant().StartsWith("fedauth") && !item.ToLowerInvariant().StartsWith("allraw") && !item.ToLowerInvariant().StartsWith("__request") && !item.ToLowerInvariant().StartsWith("all_"))
                         requestParameters.Add(item, value.Dump());
                 });
 
             // browser properties
-            context.Request.Browser.ToStringDictionary()
+            request.Browser.ToStringDictionary()
                 .ToList()
                 .ForEach(
                     item =>
@@ -111,17 +105,28 @@ namespace Bec.TargetFramework.UI.Process.Filters
                     });
 
             // header data
-            context.Request.Headers.AllKeys
+            request.Headers.AllKeys
                 .ToList()
                 .ForEach(
                     item =>
                     {
                         if (item != null)
                             if (!requestParameters.ContainsKey(item))
-                                requestParameters.Add(item, context.Request.Headers[item]);
+                                requestParameters.Add(item, request.Headers[item]);
                     });
 
-            logic.SaveUserAccountLoginSession(userId, webUser.SessionIdentifier, context.Request.UserHostAddress, "", "", requestParameters);
+            return requestParameters;
+        }
+
+        public static void SaveLoginSessionData(Guid userId, string sessionIndentifier,Dictionary<string, string> requestParameters)
+        {
+            AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
+
+            var container = resolver.ApplicationContainer;
+
+            var logic = container.Resolve<IUserLogic>();
+
+            logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
         }
 
     }

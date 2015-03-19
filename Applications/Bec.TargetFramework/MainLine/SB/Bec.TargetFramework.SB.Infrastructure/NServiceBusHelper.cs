@@ -13,38 +13,34 @@ namespace Bec.TargetFramework.SB.Infrastructure
     {
         public static Configure CreateDefaultStartableBus()
         {
-            Configure.ScaleOut(s => s.UseSingleBrokerQueue());
+            //Configure..ScaleOut(s => s.UseSingleBrokerQueue());
 
-            return
-                Configure.With(
-                    AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
-                    .DefaultBuilder()
-                    .UseTransport<NServiceBus.SqlServer>()
-                    .UnicastBus()
-                    .RunHandlersUnderIncomingPrincipal(false)
-                    .RijndaelEncryptionService()
-            .UseNHibernateTimeoutPersister()
-            .UseNHibernateSubscriptionPersister()
-            .UseNHibernateSagaPersister();
+            //return
+            //    Configure.With(
+            //        AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
+            //        .DefaultBuilder()
+            //        .UseTransport<NServiceBus.SqlServer>()
+            //        .UnicastBus()
+            //        .RunHandlersUnderIncomingPrincipal(false)
+            //        .RijndaelEncryptionService();
 
+            return null;
         }
 
         public static Configure CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container)
         {
-           Configure.ScaleOut(s => s.UseSingleBrokerQueue());
+            //Configure.ScaleOut(s => s.UseSingleBrokerQueue());
 
-            return
-                Configure.With(
-                    AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
-                    .AutofacBuilder(container)
-                    .UseTransport<NServiceBus.SqlServer>()
-                    .UnicastBus()
-                    .RunHandlersUnderIncomingPrincipal(false)
-                    .RijndaelEncryptionService()
-            .UseNHibernateTimeoutPersister()
-            .UseNHibernateSubscriptionPersister()
-            .UseNHibernateSagaPersister();
+            //return
+            //    Configure.With(
+            //        AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
+            //        .AutofacBuilder(container)
+            //        .UseTransport<NServiceBus.SqlServer>()
+            //        .UnicastBus()
+            //        .RunHandlersUnderIncomingPrincipal(false)
+            //        .RijndaelEncryptionService();
 
+            return null;
         }
 
         public static BusMessageDTO GetBusMessageDto(IDictionary<string, string> headers)

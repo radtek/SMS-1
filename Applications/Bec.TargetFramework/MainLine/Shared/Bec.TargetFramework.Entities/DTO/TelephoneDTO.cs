@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Entities.Helpers;
-using Ext.Net.MVC;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -22,7 +21,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public int? TelephoneNumberTypeID { get; set; }
 
-        [ModelField(IDProperty = true)]
          [DataMember]
         public string ID { get;set;}
 

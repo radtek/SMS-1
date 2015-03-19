@@ -7,7 +7,6 @@ using EnsureThat;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
-using NHibernate.Linq;
 using Omu.ValueInjecter;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -115,15 +114,15 @@ namespace Bec.TargetFramework.Business.Logic
                     ResourceRepos.Add(resource);
                 }
 
-                if (selectedOperations != null && selectedOperations.Length > 0)
-                {
-                    List<Guid> selectedOperationsList = new List<Guid>();
-                    selectedOperations.ForEach(s =>
-                    {
-                         selectedOperationsList.Add(Guid.Parse(s));
-                    });
-                    this.RebuildOperationResource(selectedOperationsList, resource);
-                }
+                //if (selectedOperations != null && selectedOperations.Length > 0)
+                //{
+                //    List<Guid> selectedOperationsList = new List<Guid>();
+                //    selectedOperations.ForEach(s =>
+                //    {
+                //         selectedOperationsList.Add(Guid.Parse(s));
+                //    });
+                //    this.RebuildOperationResource(selectedOperationsList, resource);
+                //}
 
                 scope.Save();
             }

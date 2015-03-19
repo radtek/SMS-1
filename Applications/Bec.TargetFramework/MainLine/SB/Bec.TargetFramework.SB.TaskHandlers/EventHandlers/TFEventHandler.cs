@@ -54,30 +54,30 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                     Dictionary<Type, object> payloadDictionary = (Dictionary<Type, object>)ConvertByteArrayToObject(tfEvent.EventPayloadDto.Payload);
 
-                    object message = this.Bus.CreateInstance(messageType);
+                    //object message = this.Bus.CreateInstance(messageType);
 
-                    if (
-                        message.GetType()
-                            .GetProperties()
-                            .Any(s => payloadDictionary.ContainsKey(s.PropertyType)))
-                    {
-                        message.GetType()
-                            .GetProperties()
-                            .Where(s => payloadDictionary.ContainsKey(s.PropertyType))
-                            .ForEach(s =>
-                            {
-                                s.GetSetMethod().Invoke(message, new object[] { payloadDictionary[s.PropertyType] });
-                            });
+                    //if (
+                    //    message.GetType()
+                    //        .GetProperties()
+                    //        .Any(s => payloadDictionary.ContainsKey(s.PropertyType)))
+                    //{
+                    //    message.GetType()
+                    //        .GetProperties()
+                    //        .Where(s => payloadDictionary.ContainsKey(s.PropertyType))
+                    //        .ForEach(s =>
+                    //        {
+                    //            s.GetSetMethod().Invoke(message, new object[] { payloadDictionary[s.PropertyType] });
+                    //        });
 
-                        Bus.SetMessageHeader(message, "Source", "TFEventHandler");
-                        Bus.SetMessageHeader(message, "MessageType", String.Format("{0},{1}", item.ObjectName, item.ObjectAssembly));
-                        Bus.SetMessageHeader(message, "ServiceType", "TFEventHandler");
+                    //    Bus.SetMessageHeader(message, "Source", "TFEventHandler");
+                    //    Bus.SetMessageHeader(message, "MessageType", String.Format("{0},{1}", item.ObjectName, item.ObjectAssembly));
+                    //    Bus.SetMessageHeader(message, "ServiceType", "TFEventHandler");
 
-                        if (!string.IsNullOrEmpty(tfEvent.EventPayloadDto.EventReference))
-                            Bus.SetMessageHeader(message, "EventReference", tfEvent.EventPayloadDto.EventReference);
+                    //    if (!string.IsNullOrEmpty(tfEvent.EventPayloadDto.EventReference))
+                    //        Bus.SetMessageHeader(message, "EventReference", tfEvent.EventPayloadDto.EventReference);
 
-                        Bus.Publish(message);
-                    }
+                    //    Bus.Publish(message);
+                    //}
                 });
 
                 LogMessageAsCompleted();

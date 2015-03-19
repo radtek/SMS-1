@@ -1,4 +1,6 @@
-﻿@{
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
     Layout = "";
 }
 
@@ -27,6 +29,21 @@
                     <a class="btn btn-success" id="logout-btn" href="@Url.Action("Index", "Login", new { area = "UserAccount" }, String.Empty)">Login</a>
                 </div>
             </fieldset>
+            @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+            {
+                <div>
+                    <p>
+                        <b>Exception:</b> @Model.Exception.Message<br />
+                        <b>Controller:</b> @Model.ControllerName<br />
+                        <b>Action:</b> @Model.ActionName
+                    </p>
+                    <div style="overflow:scroll">
+                        <pre>
+@Model.Exception.StackTrace
+                </pre>
+                    </div>
+                </div>
+            }
         </form>
     </div>
 </div>

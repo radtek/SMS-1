@@ -43,6 +43,94 @@ namespace Bec.TargetFramework.Business.Logic
             m_AuthSvc = authSvc;
         }
 
+        public List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies()
+        {
+            var dtoList = new  List<Bec.TargetFramework.Entities.VCompanyDTO>();
+
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                dtoList = VCompanyConverter.ToDtos(scope.DbContext.VCompanies);
+            }
+
+            return dtoList;
+        }
+
+        public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
+        {
+            
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                // create organisation
+                var organisation = new Organisation
+                {
+                    OrganisationID = Guid.NewGuid(),
+                    OrganisationTypeID = OrganisationTypeEnum.Administration.GetIntValue(),
+                    DefaultOrganisationID = Guid.Parse("32ab37d2-b2ca-11e4-81d7-00155d0a1426"),
+                    DefaultOrganisationVersionNumber = 1,
+                    IsBranch = false,
+                    IsHeadOffice = false,
+                    CreatedBy = "Dimo",
+                    CreatedOn = DateTime.Now
+                };
+
+                scope.DbContext.Organisations.Add(organisation);
+
+                // create organisation detail
+                var orgDetail = new OrganisationDetail
+                {
+                    OrganisationID = organisation.OrganisationID,
+                    OrganisationDetailID = Guid.NewGuid(),
+                    Name = dto.CompanyName
+                };
+
+                scope.DbContext.OrganisationDetails.Add(orgDetail);
+
+                // now create contact for the organisation
+                var contact = new Contact
+                {
+                    ParentID = organisation.OrganisationID,
+                    ContactID = Guid.NewGuid(),
+                    ContactName = string.Empty,
+                    FirstName = dto.SystemAdminFirstName,
+                    LastName = dto.SystemAdminLastName,
+                    Telephone1 = dto.SystemAdminTel,
+                    EmailAddress1 = dto.SystemAdminEmail,
+                    Salutation = dto.SystemAdminTitle
+                };
+
+                scope.DbContext.Contacts.Add(contact);
+
+                var contactRegulator = new ContactRegulator
+                {   
+                    ContactID = contact.ContactID,
+                    RegulatorName = dto.CompanyRegulator,
+                    RegulatorOtherName = dto.CompanyOtherRegulator
+                };
+
+                scope.DbContext.ContactRegulators.Add(contactRegulator);
+                
+                //address to contact, organisation to the contact
+
+                var address = new Address
+                {
+                    AddressID = Guid.NewGuid(),
+                    ParentID = contact.ContactID,
+                    Line1 = dto.CompanyAddress1,
+                    Line2 = dto.CompanyAddress2,
+                    Town = dto.CompanyTownCity,
+                    County = dto.CompanyCounty,
+                    PostalCode = dto.CompanyPostCode,
+                    AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
+                    Name = String.Empty,
+                    AdditionalAddressInformation = dto.AdditionalAddressInformation
+                };
+                scope.DbContext.Addresses.Add(address);
+                scope.Save();
+                dto.CompanyId = organisation.OrganisationID;
+            }
+            return dto;
+        }
+
         public Guid? GetTemporaryOrganisationBranchID()
         {
             int temporaryOrgTypeID = OrganisationTypeEnum.Temporary.GetIntValue();
@@ -292,311 +380,302 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public Guid AddNewOrganisation(int organisationTypeID, Guid organisationTemplate)
-        {
-            Guid? orgId = Guid.Empty;
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing))
-            //{
-            //    //We don't need organisation type id but leaving it for now so that it can be used if required in the future
-            //    orgId = scope.DbContext.UpCreateOrganisationFromDefaultOrganisation(organisationTypeID, organisationTemplate);
-            //}
-            return orgId.Value;
-        }
+        
         public void AddNewOrganisationFromWizard(OrganisationDTO dto)
         {
-            Ensure.That(dto);
+            //Ensure.That(dto);
 
-            OrganisationStructure organisationStructure = null;
-            List<OrganisationUnit> organisationUnits = new List<OrganisationUnit>();
-            Guid OrganisationID = Guid.Empty;
-            try
-            {
-                // Create organisation with global, default and module specific roles, groups, external roles and groups
-                OrganisationID = AddNewOrganisation(dto.Detail.OrganisationTypeID.Value, dto.Detail.OrganisationTemplate);
-                using (TransactionScope tscope = new TransactionScope())
-                {
-                    using (
+            //OrganisationStructure organisationStructure = null;
+            //List<OrganisationUnit> organisationUnits = new List<OrganisationUnit>();
+            //Guid OrganisationID = Guid.Empty;
+            //try
+            //{
+            //    // Create organisation with global, default and module specific roles, groups, external roles and groups
+            //    OrganisationID = AddNewOrganisation(dto.Detail.OrganisationTypeID.Value, dto.Detail.OrganisationTemplate);
+            //    using (TransactionScope tscope = new TransactionScope())
+            //    {
+            //        using (
 
-                        var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing,
-                            this.Logger,
-                            false))
-                    {
-
-
-                        // create structure
-                        var organStructureRepos = scope.GetGenericRepository<OrganisationStructure, Guid>();
-                        organisationStructure = new OrganisationStructure();
-
-                        organisationStructure.OrganisationStructureID = System.Guid.NewGuid();
-                        organisationStructure.OrganisationID = OrganisationID;
-                        organisationStructure.IsLeafNode = false;
-                        organisationStructure.Name = dto.Detail.Name;
-
-                        //SetAuditFields<OrganisationStructure>(organisationStructure, true);
-                        organStructureRepos.Add(organisationStructure);
+            //            var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing,
+            //                this.Logger,
+            //                false))
+            //        {
 
 
-                        var organDetailRepos = scope.GetGenericRepository<OrganisationDetail, Guid>();
-                        var detail = new OrganisationDetail();
+            //            // create structure
+            //            var organStructureRepos = scope.GetGenericRepository<OrganisationStructure, Guid>();
+            //            organisationStructure = new OrganisationStructure();
 
-                        detail.InjectFrom(dto.Detail);
-                        detail.OrganisationID = OrganisationID;
-                        detail.OrganisationDetailID = System.Guid.NewGuid();
+            //            organisationStructure.OrganisationStructureID = System.Guid.NewGuid();
+            //            organisationStructure.OrganisationID = OrganisationID;
+            //            organisationStructure.IsLeafNode = false;
+            //            organisationStructure.Name = dto.Detail.Name;
 
-                        //SetAuditFields<OrganisationDetail>(detail, true);
-                        organDetailRepos.Add(detail);
+            //            //SetAuditFields<OrganisationStructure>(organisationStructure, true);
+            //            organStructureRepos.Add(organisationStructure);
 
-                        // create units
-                        var organUnitRepos = scope.GetGenericRepository<OrganisationUnit, Guid>();
 
-                        if (dto.Units != null)
-                            dto.Units.ForEach(it =>
-                            {
-                                var unit = new OrganisationUnit();
+            //            var organDetailRepos = scope.GetGenericRepository<OrganisationDetail, Guid>();
+            //            var detail = new OrganisationDetail();
 
-                                unit.InjectFrom(it);
+            //            detail.InjectFrom(dto.Detail);
+            //            detail.OrganisationID = OrganisationID;
+            //            detail.OrganisationDetailID = System.Guid.NewGuid();
 
-                                unit.OrganisationID = OrganisationID;
+            //            //SetAuditFields<OrganisationDetail>(detail, true);
+            //            organDetailRepos.Add(detail);
 
-                                //SetAuditFields<OrganisationUnit>(unit, true);
-                                organUnitRepos.Add(unit);
-                            });
+            //            // create units
+            //            var organUnitRepos = scope.GetGenericRepository<OrganisationUnit, Guid>();
 
-                        scope.Save();
+            //            if (dto.Units != null)
+            //                dto.Units.ForEach(it =>
+            //                {
+            //                    var unit = new OrganisationUnit();
 
-                        // process branches
-                        var contactRepos = scope.GetGenericRepository<Contact, Guid>();
-                        var addressRepos = scope.GetGenericRepository<Address, Guid>();
-                        var organRepos = scope.GetGenericRepository<Organisation, Guid>();
-                        //Adding default branch only for the personal organisation.
-                        if (m_CommonSettings.PersonalOrganisationType == dto.Detail.OrganisationTypeID)
-                        {
-                            //Add default organisation branch
-                            var defaultbranch = new Contact();
+            //                    unit.InjectFrom(it);
 
-                            defaultbranch.ContactID = System.Guid.NewGuid();
-                            defaultbranch.IsActive = true;
+            //                    unit.OrganisationID = OrganisationID;
 
-                            // create organisation for branch
+            //                    //SetAuditFields<OrganisationUnit>(unit, true);
+            //                    organUnitRepos.Add(unit);
+            //                });
+
+            //            scope.Save();
+
+            //            // process branches
+            //            var contactRepos = scope.GetGenericRepository<Contact, Guid>();
+            //            var addressRepos = scope.GetGenericRepository<Address, Guid>();
+            //            var organRepos = scope.GetGenericRepository<Organisation, Guid>();
+            //            //Adding default branch only for the personal organisation.
+            //            if (m_CommonSettings.PersonalOrganisationType == dto.Detail.OrganisationTypeID)
+            //            {
+            //                //Add default organisation branch
+            //                var defaultbranch = new Contact();
+
+            //                defaultbranch.ContactID = System.Guid.NewGuid();
+            //                defaultbranch.IsActive = true;
+
+            //                // create organisation for branch
                            
-                            var defaultbranchOrganisation = new Organisation();
+            //                var defaultbranchOrganisation = new Organisation();
 
-                            defaultbranchOrganisation.IsHeadOffice = false;
-                            defaultbranchOrganisation.IsBranch = true;
-                            defaultbranchOrganisation.IsActive = true;
-                            defaultbranchOrganisation.IsDeleted = false;
-                            defaultbranchOrganisation.OrganisationTypeID = 1006; // branch
-                            defaultbranchOrganisation.OrganisationID = System.Guid.NewGuid();
+            //                defaultbranchOrganisation.IsHeadOffice = false;
+            //                defaultbranchOrganisation.IsBranch = true;
+            //                defaultbranchOrganisation.IsActive = true;
+            //                defaultbranchOrganisation.IsDeleted = false;
+            //                defaultbranchOrganisation.OrganisationTypeID = 1006; // branch
+            //                defaultbranchOrganisation.OrganisationID = System.Guid.NewGuid();
 
-                            defaultbranch.ParentID = defaultbranchOrganisation.OrganisationID;
-                            defaultbranch.IsPrimaryContact = false;
-                            defaultbranch.IsActive = true;
-                            defaultbranch.IsDeleted = false;
-                            defaultbranch.ContactName = dto.Detail.Name;
+            //                defaultbranch.ParentID = defaultbranchOrganisation.OrganisationID;
+            //                defaultbranch.IsPrimaryContact = false;
+            //                defaultbranch.IsActive = true;
+            //                defaultbranch.IsDeleted = false;
+            //                defaultbranch.ContactName = dto.Detail.Name;
 
-                            //SetAuditFields<Contact>(defaultbranch, true);
-                            contactRepos.Add(defaultbranch);
+            //                //SetAuditFields<Contact>(defaultbranch, true);
+            //                contactRepos.Add(defaultbranch);
 
-                            //SetAuditFields<Organisation>(defaultbranchOrganisation, true);
-                            organRepos.Add(defaultbranchOrganisation);
+            //                //SetAuditFields<Organisation>(defaultbranchOrganisation, true);
+            //                organRepos.Add(defaultbranchOrganisation);
 
-                            var defaultbranchDetail = new OrganisationDetail();
+            //                var defaultbranchDetail = new OrganisationDetail();
 
-                            defaultbranchDetail.OrganisationDetailID = System.Guid.NewGuid();
-                            defaultbranchDetail.OrganisationID = defaultbranchOrganisation.OrganisationID;
-                            defaultbranchDetail.Name = defaultbranch.ContactName;
-                            defaultbranchDetail.IsActive = true;
-                            defaultbranchDetail.IsDeleted = false;
+            //                defaultbranchDetail.OrganisationDetailID = System.Guid.NewGuid();
+            //                defaultbranchDetail.OrganisationID = defaultbranchOrganisation.OrganisationID;
+            //                defaultbranchDetail.Name = defaultbranch.ContactName;
+            //                defaultbranchDetail.IsActive = true;
+            //                defaultbranchDetail.IsDeleted = false;
 
-                            //SetAuditFields<OrganisationDetail>(defaultbranchDetail, true);
-                            organDetailRepos.Add(defaultbranchDetail);
+            //                //SetAuditFields<OrganisationDetail>(defaultbranchDetail, true);
+            //                organDetailRepos.Add(defaultbranchDetail);
 
-                            // create structure
-                            var defaultbranchOrganisationStructure = new OrganisationStructure();
+            //                // create structure
+            //                var defaultbranchOrganisationStructure = new OrganisationStructure();
 
-                            defaultbranchOrganisationStructure.OrganisationStructureID = System.Guid.NewGuid();
-                            defaultbranchOrganisationStructure.OrganisationID = defaultbranchOrganisation.OrganisationID;
-                            defaultbranchOrganisationStructure.IsLeafNode = true;
-                            defaultbranchOrganisationStructure.IsActive = true;
-                            defaultbranchOrganisationStructure.IsDeleted = false;
-                            defaultbranchOrganisationStructure.Name = defaultbranch.ContactName;
-                            defaultbranchOrganisationStructure.ParentOrganisationStructureID =
-                                organisationStructure.OrganisationStructureID;
+            //                defaultbranchOrganisationStructure.OrganisationStructureID = System.Guid.NewGuid();
+            //                defaultbranchOrganisationStructure.OrganisationID = defaultbranchOrganisation.OrganisationID;
+            //                defaultbranchOrganisationStructure.IsLeafNode = true;
+            //                defaultbranchOrganisationStructure.IsActive = true;
+            //                defaultbranchOrganisationStructure.IsDeleted = false;
+            //                defaultbranchOrganisationStructure.Name = defaultbranch.ContactName;
+            //                defaultbranchOrganisationStructure.ParentOrganisationStructureID =
+            //                    organisationStructure.OrganisationStructureID;
 
-                            //SetAuditFields<OrganisationStructure>(defaultbranchOrganisationStructure, true);
-                            organStructureRepos.Add(defaultbranchOrganisationStructure);
-                        }
-                        if (dto.Branches != null)
-                            dto.Branches.ForEach(it =>
-                            {
-                                var branch = new Contact();
+            //                //SetAuditFields<OrganisationStructure>(defaultbranchOrganisationStructure, true);
+            //                organStructureRepos.Add(defaultbranchOrganisationStructure);
+            //            }
+            //            if (dto.Branches != null)
+            //                dto.Branches.ForEach(it =>
+            //                {
+            //                    var branch = new Contact();
 
-                                branch.InjectFrom(it);
-                                branch.ContactID = System.Guid.NewGuid();
+            //                    branch.InjectFrom(it);
+            //                    branch.ContactID = System.Guid.NewGuid();
 
-                                // create organisation for branch
-                                var branchOrganisation = new Organisation();
+            //                    // create organisation for branch
+            //                    var branchOrganisation = new Organisation();
 
-                                branchOrganisation.IsHeadOffice = it.IsHeadOffice;
-                                branchOrganisation.OrganisationTypeID = 1006; // branch
-                                branchOrganisation.OrganisationID = System.Guid.NewGuid();
+            //                    branchOrganisation.IsHeadOffice = it.IsHeadOffice;
+            //                    branchOrganisation.OrganisationTypeID = 1006; // branch
+            //                    branchOrganisation.OrganisationID = System.Guid.NewGuid();
 
-                                branch.ParentID = branchOrganisation.OrganisationID;
-                                branch.IsPrimaryContact = it.IsPrimaryContact;
+            //                    branch.ParentID = branchOrganisation.OrganisationID;
+            //                    branch.IsPrimaryContact = it.IsPrimaryContact;
 
-                                //SetAuditFields<Contact>(branch, true);
-                                contactRepos.Add(branch);
+            //                    //SetAuditFields<Contact>(branch, true);
+            //                    contactRepos.Add(branch);
 
-                                branchOrganisation.IsHeadOffice = it.IsHeadOffice;
-                                branchOrganisation.IsBranch = true;
+            //                    branchOrganisation.IsHeadOffice = it.IsHeadOffice;
+            //                    branchOrganisation.IsBranch = true;
 
-                                //SetAuditFields<Organisation>(branchOrganisation, true);
-                                organRepos.Add(branchOrganisation);
+            //                    //SetAuditFields<Organisation>(branchOrganisation, true);
+            //                    organRepos.Add(branchOrganisation);
 
-                                var branchDetail = new OrganisationDetail();
+            //                    var branchDetail = new OrganisationDetail();
 
-                                branchDetail.OrganisationDetailID = System.Guid.NewGuid();
-                                branchDetail.OrganisationID = branchOrganisation.OrganisationID;
-                                branchDetail.Name = branch.ContactName;
+            //                    branchDetail.OrganisationDetailID = System.Guid.NewGuid();
+            //                    branchDetail.OrganisationID = branchOrganisation.OrganisationID;
+            //                    branchDetail.Name = branch.ContactName;
 
-                                //SetAuditFields<OrganisationDetail>(branchDetail, true);
-                                organDetailRepos.Add(branchDetail);
+            //                    //SetAuditFields<OrganisationDetail>(branchDetail, true);
+            //                    organDetailRepos.Add(branchDetail);
 
-                                // create structure
-                                var branchOrganisationStructure = new OrganisationStructure();
+            //                    // create structure
+            //                    var branchOrganisationStructure = new OrganisationStructure();
 
-                                branchOrganisationStructure.OrganisationStructureID = System.Guid.NewGuid();
-                                branchOrganisationStructure.OrganisationID = branchOrganisation.OrganisationID;
-                                branchOrganisationStructure.IsLeafNode = true;
-                                branchOrganisationStructure.Name = branch.ContactName;
-                                branchOrganisationStructure.ParentOrganisationStructureID =
-                                    organisationStructure.OrganisationStructureID;
+            //                    branchOrganisationStructure.OrganisationStructureID = System.Guid.NewGuid();
+            //                    branchOrganisationStructure.OrganisationID = branchOrganisation.OrganisationID;
+            //                    branchOrganisationStructure.IsLeafNode = true;
+            //                    branchOrganisationStructure.Name = branch.ContactName;
+            //                    branchOrganisationStructure.ParentOrganisationStructureID =
+            //                        organisationStructure.OrganisationStructureID;
 
-                                //SetAuditFields<OrganisationStructure>(branchOrganisationStructure, true);
-                                organStructureRepos.Add(branchOrganisationStructure);
+            //                    //SetAuditFields<OrganisationStructure>(branchOrganisationStructure, true);
+            //                    organStructureRepos.Add(branchOrganisationStructure);
 
-                                // create contact addresses
-                                if (it.Addresses != null)
-                                    it.Addresses.ForEach(ad =>
-                                    {
-                                        var address = new Address();
+            //                    // create contact addresses
+            //                    if (it.Addresses != null)
+            //                        it.Addresses.ForEach(ad =>
+            //                        {
+            //                            var address = new Address();
 
-                                        address.InjectFrom(ad);
-                                        address.ParentID = branch.ContactID;
-                                        address.AddressID = System.Guid.NewGuid();
-                                        //SetAuditFields<Address>(address, true);
-                                        addressRepos.Add(address);
-                                    });
-                            });
+            //                            address.InjectFrom(ad);
+            //                            address.ParentID = branch.ContactID;
+            //                            address.AddressID = System.Guid.NewGuid();
+            //                            //SetAuditFields<Address>(address, true);
+            //                            addressRepos.Add(address);
+            //                        });
+            //                });
 
-                        scope.Save();
-                    }
+            //            scope.Save();
+            //        }
 
-                    tscope.Complete();
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //        tscope.Complete();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+            //}
 
-            // now add the users
-            using (
-                var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing,
-                    this.Logger,
-                    true))
-            {
-                var organRepos = scope.GetGenericRepository<Organisation, Guid>();
-                var organStructureRepos = scope.GetGenericRepository<OrganisationStructure, Guid>();
-                var organDetailRepos = scope.GetGenericRepository<OrganisationDetail, Guid>();
-                var organUnitRepos = scope.GetGenericRepository<OrganisationUnit, Guid>();
-                var contactRepos = scope.GetGenericRepository<Contact, Guid>();
-                var addressRepos = scope.GetGenericRepository<Address, Guid>();
+            //// now add the users
+            //using (
+            //    var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing,
+            //        this.Logger,
+            //        true))
+            //{
+            //    var organRepos = scope.GetGenericRepository<Organisation, Guid>();
+            //    var organStructureRepos = scope.GetGenericRepository<OrganisationStructure, Guid>();
+            //    var organDetailRepos = scope.GetGenericRepository<OrganisationDetail, Guid>();
+            //    var organUnitRepos = scope.GetGenericRepository<OrganisationUnit, Guid>();
+            //    var contactRepos = scope.GetGenericRepository<Contact, Guid>();
+            //    var addressRepos = scope.GetGenericRepository<Address, Guid>();
 
-                Ensure.That(OrganisationID);
+            //    Ensure.That(OrganisationID);
 
-                organisationUnits =
-                    organUnitRepos.FindAll(
-                        item =>
-                            item.OrganisationID.HasValue &&
-                            item.OrganisationID.Value.Equals(OrganisationID))
-                        .ToList();
+            //    organisationUnits =
+            //        organUnitRepos.FindAll(
+            //            item =>
+            //                item.OrganisationID.HasValue &&
+            //                item.OrganisationID.Value.Equals(OrganisationID))
+            //            .ToList();
 
-                var mainOrganisationStructure =
-                    organStructureRepos.Find(
-                        it => it.OrganisationID.HasValue && it.OrganisationID.Value.Equals(OrganisationID));
+            //    var mainOrganisationStructure =
+            //        organStructureRepos.Find(
+            //            it => it.OrganisationID.HasValue && it.OrganisationID.Value.Equals(OrganisationID));
 
-                var organStructures =
-                    organStructureRepos.FindAll(
-                        it =>
-                            it.ParentOrganisationStructureID.HasValue &&
-                            it.ParentOrganisationStructureID.Value.Equals(
-                                mainOrganisationStructure.OrganisationStructureID))
-                        .ToList();
-
-
-                var userAccountDetailRepos = scope.GetGenericRepository<UserAccountDetail, Guid>();
-                var userOrganisationUnitRepos =
-                    scope.GetGenericRepository<UserAccountOrganisation, Guid, int>();
-
-                if (dto.Users != null)
-                    dto.Users.ForEach(it =>
-                    {
-                        // create user
-                        // TBD
-                        var uaccount = m_UaService.CreateAccount(it.ContactName, RandomPasswordGenerator.Generate(10),
-                            it.EmailAddress1, true, Guid.NewGuid());
-
-                        var userContact = new Contact();
-                        userContact.InjectFrom(it);
-                        userContact.ContactID = Guid.NewGuid();
-                        userContact.ParentID = uaccount.ID;
-
-                        //SetAuditFields<Contact>(userContact, true);
-                        contactRepos.Add(userContact);
-
-                        // create user detail
-                        var userDetail = new UserAccountDetail();
-
-                        userDetail.UserID = uaccount.ID;
-                        userDetail.UserDetailID = Guid.NewGuid();
-
-                        //SetAuditFields<UserAccountDetail>(userDetail, true);
-                        userAccountDetailRepos.Add(userDetail);
+            //    var organStructures =
+            //        organStructureRepos.FindAll(
+            //            it =>
+            //                it.ParentOrganisationStructureID.HasValue &&
+            //                it.ParentOrganisationStructureID.Value.Equals(
+            //                    mainOrganisationStructure.OrganisationStructureID))
+            //            .ToList();
 
 
+            //    var userAccountDetailRepos = scope.GetGenericRepository<UserAccountDetail, Guid>();
+            //    var userOrganisationUnitRepos =
+            //        scope.GetGenericRepository<UserAccountOrganisation, Guid, int>();
 
-                        var userBranch = organStructures.Single(ub => ub.Name.Equals(it.OrganisationBranchID));
-                        var userOUnit = organisationUnits.Single(uu => uu.Name.Equals(it.OrganisationUnitID));
+            //    if (dto.Users != null)
+            //        dto.Users.ForEach(it =>
+            //        {
+            //            // create user
+            //            // TBD
+            //            var uaccount = m_UaService.CreateAccount(it.ContactName, RandomPasswordGenerator.Generate(10),
+            //                it.EmailAddress1, true, Guid.NewGuid());
 
-                        // user organisationunit
-                        //var userUnit = new UserAccountOrganisationUnit();
-                        //userUnit.InternalEmailAddress = it.EmailAddress1;
-                        //userUnit.JobTitle = it.JobTitle;
-                        //userUnit.NickName = it.NickName;
-                        //userUnit.OrganisationID = userBranch.OrganisationID.Value;
-                        //userUnit.OrganisationUnitID = userOUnit.OrganisationUnitID;
-                        //userUnit.UserID = uaccount.ID;
-                        //userUnit.UserDetailID = userDetail.UserDetailID;
-                        //SetAuditFields<UserAccountOrganisationUnit>(userUnit, true);
-                        //userOrganisationUnitRepos.Add(userUnit);
+            //            var userContact = new Contact();
+            //            userContact.InjectFrom(it);
+            //            userContact.ContactID = Guid.NewGuid();
+            //            userContact.ParentID = uaccount.ID;
 
-                        // create contact addresses
-                        if (it.Addresses != null)
-                            it.Addresses.ForEach(ad =>
-                            {
-                                var address = new Address();
+            //            //SetAuditFields<Contact>(userContact, true);
+            //            contactRepos.Add(userContact);
 
-                                address.InjectFrom(ad);
-                                address.ParentID = userContact.ContactID;
-                                address.AddressID = Guid.NewGuid();
-                                //SetAuditFields<Address>(address, true);
-                                addressRepos.Add(address);
-                            });
-                    });
+            //            // create user detail
+            //            var userDetail = new UserAccountDetail();
 
-                scope.Save();
-            }
+            //            userDetail.UserID = uaccount.ID;
+            //            userDetail.UserDetailID = Guid.NewGuid();
+
+            //            //SetAuditFields<UserAccountDetail>(userDetail, true);
+            //            userAccountDetailRepos.Add(userDetail);
+
+
+
+            //            var userBranch = organStructures.Single(ub => ub.Name.Equals(it.OrganisationBranchID));
+            //            var userOUnit = organisationUnits.Single(uu => uu.Name.Equals(it.OrganisationUnitID));
+
+            //            // user organisationunit
+            //            //var userUnit = new UserAccountOrganisationUnit();
+            //            //userUnit.InternalEmailAddress = it.EmailAddress1;
+            //            //userUnit.JobTitle = it.JobTitle;
+            //            //userUnit.NickName = it.NickName;
+            //            //userUnit.OrganisationID = userBranch.OrganisationID.Value;
+            //            //userUnit.OrganisationUnitID = userOUnit.OrganisationUnitID;
+            //            //userUnit.UserID = uaccount.ID;
+            //            //userUnit.UserDetailID = userDetail.UserDetailID;
+            //            //SetAuditFields<UserAccountOrganisationUnit>(userUnit, true);
+            //            //userOrganisationUnitRepos.Add(userUnit);
+
+            //            // create contact addresses
+            //            if (it.Addresses != null)
+            //                it.Addresses.ForEach(ad =>
+            //                {
+            //                    var address = new Address();
+
+            //                    address.InjectFrom(ad);
+            //                    address.ParentID = userContact.ContactID;
+            //                    address.AddressID = Guid.NewGuid();
+            //                    //SetAuditFields<Address>(address, true);
+            //                    addressRepos.Add(address);
+            //                });
+            //        });
+
+            //    scope.Save();
+            //}
 
         }
 

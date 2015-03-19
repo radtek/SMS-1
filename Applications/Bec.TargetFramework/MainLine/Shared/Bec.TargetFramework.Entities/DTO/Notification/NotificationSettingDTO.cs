@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Entities
 {
-    using Ext.Net;
 
     [Serializable]
     [DataContract]
