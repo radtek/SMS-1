@@ -10,7 +10,6 @@ using Bec.TargetFramework.Business.Product.Processor;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
-using Remotion.Linq.Parsing.Structure.NodeTypeProviders;
 
 namespace Bec.TargetFramework.Business.Product.Steps
 {
