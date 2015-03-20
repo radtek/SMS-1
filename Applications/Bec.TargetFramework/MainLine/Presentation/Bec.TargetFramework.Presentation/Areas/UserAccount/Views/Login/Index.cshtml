@@ -25,7 +25,7 @@
                             </label>
 
                             <!-- ko if: $data.isWaitingForResponse() == false -->
-                            <input class="form-control" id="username" placeholder="Username" type="text" data-bind="value: $data.username, valueUpdate: 'afterkeydown'"> @*, css: { 'red-glow': $data.username.error()}*@
+                            <input class="form-control" id="username" placeholder="Username" type="text" data-bind="value: $data.username, valueUpdate: 'afterkeydown'" data-required="true"> @*, css: { 'red-glow': $data.username.error()}*@
                             <!-- /ko -->
                             <!-- ko if: $data.isWaitingForResponse() == true -->
                             <div style="padding-top:7px; padding-left:13px" class="text-pulled-left" data-bind="text: $data.username"></div>
