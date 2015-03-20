@@ -63,6 +63,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ServiceStack.Interfaces">
       <HintPath>..\..\References\ServiceStack.Interfaces.dll</HintPath>

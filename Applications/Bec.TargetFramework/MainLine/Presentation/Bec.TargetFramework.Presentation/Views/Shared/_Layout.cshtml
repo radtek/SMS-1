@@ -1,206 +1,45 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en-us" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Be Consultancy Demo</title>
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/bootstrap")
-    @Styles.Render("~/Content/kendo")
-    @Styles.Render("~/Content/font-awesome")
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    @Scripts.Render("~/bundles/jquery")
-
-    @Scripts.Render("~/bundles/kendo")
-    @Scripts.Render("~/bundles/knockout")
-    @Scripts.Render("~/bundles/site")
-    @Scripts.Render("~/bundles/require")
-
+    <meta charset=" utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> SmartAdmin - MVC5 </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Basic Styles -->
+    @Styles.Render("~/content/smartadmin")
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/content/img/favicon/favicon.ico" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <!-- Specifying a Webpage Icon for Web Clip
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link rel="apple-touch-icon" href="~/content/img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/content/img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/content/img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/content/img/splash/touch-icon-ipad-retina.png">
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Startup image for web apps -->
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 </head>
-<body>
-    <div id="wrapper">
-        <div id="main-navigations">
-            <!-- top-navigation -->
-            @Html.Partial("~/Views/Shared/Partials/TopNavigation.cshtml")
-            <!-- /top-navigation -->
-            <!-- side-navigation -->
-            @Html.Partial("~/Views/Shared/Partials/SideNavigation.cshtml")
-            <!-- /side-navigation -->
-        </div>
-        <div id="main-page-wrapper">
-            @RenderBody()
-        </div>
+<body class="@ViewBag.PageClass @Settings.CurrentTheme">
+    @{ Html.RenderPartial("_Header", RenderSection("topright", false)); }
+    @{ Html.RenderPartialIf("_Aside", Request.IsAuthenticated); }
+    <div id="main" role="main">
+        @{ Html.RenderPartialIf("_Ribbon", Request.IsAuthenticated); }
+        @RenderBody()
     </div>
-
-    <div id="modal-container">
-    </div>
-
-
-    <!-- Footer -->
-    <!-- End Footer -->
-    @*@RenderSection("scripts", required: false)
-        @RenderSection("styles", required: false)*@
+    @if (Request.IsAuthenticated)
+    {
+        Html.RenderPartial("_Footer");
+        Html.RenderPartialIf("_Tiles", Settings.EnableTiles);
+    }
+    @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
 </body>
 </html>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        require(['Layout/LayoutVM'], function (LayoutVM) {
-            //layoutModel parsed to javascript model from json
-            var layoutModel = {};
-
-            //layout contains the topNav and sideNav models
-            //We'll initialize objects that will originally come from backend
-            var topNavModel = {};
-            topNavModel.name = "TopNavModel!";
-
-            var sideNavModel = {};
-            sideNavModel.name = "SideNavModel!";
-            var captions = {};
-            captions.clients = "Clients";
-            captions.orders = "Orders";
-            captions.projects = "Projects";
-            captions.testDynamic = "Test Dynamic";
-            captions.testLoadingView = "Test Loading View";
-            sideNavModel.captions = captions;
-
-            layoutModel.name = "LayoutName!";
-            layoutModel.sideNavModel = sideNavModel;
-            layoutModel.topNavModel = topNavModel;
-
-            var vm = new LayoutVM(layoutModel);
-            ko.applyBindings(vm, document.getElementById("main-navigations"));
-
-            var getTree = function () {
-                // Some logic to retrieve, or generate tree structure
-
-                var tree = [
-                    {
-                        text: "Personal Home Page",
-                        selectable: false,
-                        tags: [],
-                    },
-                    {
-                        text: "Company",
-                        icon: "glyphicon glyphicon-list",
-                        selectable: false,
-                        tags: [],
-                        nodes: [
-                        //{
-                        //    text: "Add Unverified Company",
-                        //    href: "/home/Order",
-                        //    selectable: true
-                        //},
-                        {
-                            text: "Temporary",
-                            href: "@Url.Action("ViewTemporaryCompanies", "Company", new { area = "" }, String.Empty)"
-                        }
-                        ]
-                    },
-            @*{
-                      text: "Test",
-                      nodes: [
-                          {
-                              text: "Test View",
-                              href: "@Url.Action("Client", "Home", new { area = "" }, String.Empty)"
-                           },
-                      ]
-                  }*@
-            @*{
-                      text: "Test",
-                      nodes: [
-                        {
-                            text: "Test",
-                            href: "@Url.Action("Client", "Home", new { area = "" }, String.Empty)"
-                        }
-                      ]
-                  },
-                  @*{
-                      text: "User",
-                      icon: "glyphicon glyphicon-user",
-                      href: "",
-                      nodes: [
-                          {
-                              text: "Add User"
-                          },
-                          {
-                              text: "List Users"
-                          }
-                      ]
-                  },
-                  {
-                      text: "Demo",
-                      icon: "glyphicon glyphicon-user",
-                      href: "",
-                      nodes: [
-                           {
-                               text: "TestingDynamic",
-                               href: "@Url.Action("TestingDynamic", "Home", new { area = "" }, String.Empty)"
-                           },
-                           {
-                               text: "TestLoadingView",
-                               href: "@Url.Action("TestLoadingView", "Home", new { area = "" }, String.Empty)"
-                           }
-                      ]
-                  }*@
-                ];
-
-                return tree;
-            }
-
-            var treeOptions = {
-
-                onNodeSelected: function (event, node) {
-                    //console.log(event);
-                    //console.log(node);
-
-                    //if (node.href) {
-                    //    window.location.href = node.href;
-                    //}
-
-                },
-                showTags: true,
-                selectedColor: 'black',
-                selectedBackColor: '#e6e6e6',
-                enableLinks: true,
-                nodeIcon: 'glyphicon glyphicon-stop'
-            };
-
-            $('#sidebar-main').
-                treeview({
-
-                    backColor: 'black',
-                    color: '#9d9d9d',
-                    showBorder: false,
-                    onhoverColor: '#4d4d4d',
-                    data: getTree(),
-                });
-
-            $('#sidebar-main').
-               treeview(treeOptions);
-
-            $('.menu-toggle').click(function () {
-                var menuText = $('.menu-toggle span');
-                var icon = $('.menu-toggle-icon');
-
-                if (menuText.text() == 'Hide SideBar') {
-                    //icon.removeClass('glyphicon-chevron-up');
-                    //icon.addClass('glyphicon-chevron-down');
-
-                    menuText.text("Show SideBar");
-                }
-                else {
-                    //icon.removeClass('glyphicon-chevron-down');
-                    //icon.addClass('glyphicon-chevron-up');
-                    menuText.text("Hide SideBar");
-                }
-            });
-        })
-    });
-</script>

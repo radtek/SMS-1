@@ -8,77 +8,72 @@ namespace Bec.TargetFramework.Presentation
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            RegisterScriptBundles(bundles);
-            RegisterStyleBundles(bundles);
-            BundleTable.EnableOptimizations = false;
-        }
+            bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css"));
 
-        private static void RegisterScriptBundles(BundleCollection bundles)
-        {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/Libs/Vendor/jQuery/jquery-{version}.js",
-                "~/Scripts.Libs.Vendor/jQuery/jquery.unobtrusive-ajax.min.js"));
+            bundles.Add(new ScriptBundle("~/scripts/smartadmin").Include(
+                "~/scripts/app.config.js",
+                "~/scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
+                "~/scripts/bootstrap/bootstrap.min.js",
+                "~/scripts/notification/SmartNotification.min.js",
+                "~/scripts/smartwidgets/jarvis.widget.min.js",
+                "~/scripts/plugin/jquery-validate/jquery.validate.min.js",
+                "~/scripts/plugin/masked-input/jquery.maskedinput.min.js",
+                "~/scripts/plugin/select2/select2.min.js",
+                "~/scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
+                "~/scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
+                "~/scripts/plugin/msie-fix/jquery.mb.browser.min.js",
+                "~/scripts/plugin/fastclick/fastclick.min.js",
+                "~/scripts/app.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery-validate").Include(
-                "~/Scripts/Libs/Vendor/jQuery/jquery.validate.min.js",
-                "~/Scripts/Libs/Vendor/jQuery/jquery.validate.unobtrusive.min.js",
-                "~/Scripts/Libs/Vendor/jQuery/jquery.validate.unobtrusive.bootstrap.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
-            "~/Scripts/Libs/Vendor/Kendo/kendo.all.min.js",
-            "~/Scripts/Libs/Vendor/Kendo/kendo.aspnetmvc.min.js",
-            "~/Scripts/Libs/Vendor/Kendo/kendo.timezones.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                "~/Scripts/Libs/Vendor/Knockout/knockout-{version}.js",
-                "~/Scripts/Libs/Vendor/Knockout/koExternalTemplateEngine_all.js",
-                "~/Scripts/Libs/Vendor/Knockout/knockout.mapping-latest.js",
-                "~/Scirpts/Libs/Vendor/Knockout/knockout.validation.js",
-                "~/Scripts/Libs/Vendor/Knockout/knockout-postbox.js",
-                "~/Scripts/Libs/Vendor/Knockout/knockout-kendo.js",
-                "~/Scripts/Libs/Vendor/Knockout/knockout.validation.min.js",
-                "~/Scripts/Libs/Vendor/Knockout/knockout-bootstrap.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/site").Include(
-                "~/Scripts/Libs/Vendor/Bootstrap/bootstrap.min.js",
-                "~/Scripts/Libs/Vendor/Bootstrap/bootstrap-treeview.min.js",
-                "~/Scripts/Libs/Vendor/Bootstrap/bootbox.min.js",
-                "~/Scripts/Libs/Site/customBinders.js",
-                "~/Scripts/Libs/Site/customValidationBinders.js",
-                //"~/Scripts/Libs/Site/knockoutWigets.js",
-                "~/Scripts/site.js",
-                "~/Scripts/Libs/Vendor/date.js",
-                "~/Scripts/Libs/Vendor/Moment/moment-with-locales.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                "~/Scripts/Libs/Vendor/modernizr-*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/require").Include(
-                "~/Scripts/Libs/Vendor/Require/require.js",
-                "~/Scripts/Libs/Vendor/Require/r.js"));
-        }
-
-        private static void RegisterStyleBundles(BundleCollection bundles)
-        {
-            bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
-                "~/Content/Vendor/AwesomeFonts/font-awesome.min.css"));
-
-            bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
-                "~/Content/Vendor/Bootstrap/bootstrap.css",
-                "~/Content/Vendor/Bootstrap/bootstrap.customize.css",
-                "~/Content/Vendor/Bootstrap/bootstrap-treeview.min.css"));
-
-            bundles.Add(new StyleBundle("~/Content/kendo").Include(
-                "~/Content/Vendor/Kendo/kendo.common.min.css",
-                "~/Content/Vendor/Kendo/kendo.bootstrap.min.css"
-                //"~/Content/Vendor/Kendo/kendo/kendo.blueopal.min.css",
-                //"~/Content/Vendor/Kendo/kendo/kendo.blueopal.mobile.min.css"
-                //"~/Content/Vendor/Custom/Kendo/kendo.customize.css",
-                //"~/Content/Vendor/Custom/Kendo/kendo.flatgreen.css"
+            bundles.Add(new ScriptBundle("~/scripts/full-calendar").Include(
+                "~/scripts/plugin/moment/moment.min.js",
+                "~/scripts/plugin/fullcalendar/jquery.fullcalendar.min.js"
                 ));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/Site/site-main.css"));
+            bundles.Add(new ScriptBundle("~/scripts/charts").Include(
+                "~/scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js",
+                "~/scripts/plugin/sparkline/jquery.sparkline.min.js",
+                "~/scripts/plugin/morris/morris.min.js",
+                "~/scripts/plugin/morris/raphael.min.js",
+                "~/scripts/plugin/flot/jquery.flot.cust.min.js",
+                "~/scripts/plugin/flot/jquery.flot.resize.min.js",
+                "~/scripts/plugin/flot/jquery.flot.time.min.js",
+                "~/scripts/plugin/flot/jquery.flot.fillbetween.min.js",
+                "~/scripts/plugin/flot/jquery.flot.orderBar.min.js",
+                "~/scripts/plugin/flot/jquery.flot.pie.min.js",
+                "~/scripts/plugin/flot/jquery.flot.tooltip.min.js",
+                "~/scripts/plugin/dygraphs/dygraph-combined.min.js",
+                "~/scripts/plugin/chartjs/chart.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/scripts/datatables").Include(
+                "~/scripts/plugin/datatables/jquery.dataTables.min.js",
+                "~/scripts/plugin/datatables/dataTables.colVis.min.js",
+                "~/scripts/plugin/datatables/dataTables.tableTools.min.js",
+                "~/scripts/plugin/datatables/dataTables.bootstrap.min.js",
+                "~/scripts/plugin/datatable-responsive/datatables.responsive.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/scripts/jq-grid").Include(
+                "~/scripts/plugin/jqgrid/jquery.jqGrid.min.js",
+                "~/scripts/plugin/jqgrid/grid.locale-en.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/scripts/forms").Include(
+                "~/scripts/plugin/jquery-form/jquery-form.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/scripts/smart-chat").Include(
+                "~/scripts/smart-chat-ui/smart.chat.ui.min.js",
+                "~/scripts/smart-chat-ui/smart.chat.manager.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/scripts/vector-map").Include(
+                "~/scripts/plugin/vectormap/jquery-jvectormap-1.2.2.min.js",
+                "~/scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
+                ));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

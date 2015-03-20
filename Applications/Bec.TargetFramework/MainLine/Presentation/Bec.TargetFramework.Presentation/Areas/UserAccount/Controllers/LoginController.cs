@@ -18,6 +18,7 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 using System.Net;
 using System.Web.Script.Serialization;
 using Hangfire;
+using System.Threading.Tasks;
 
 
 namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
@@ -35,14 +36,15 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
         public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogic userLogic)
         {
             this.logger = logger;
+
             this.authSvc = authSvc;
             m_UserLogic = userLogic;
         }
 
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl)
         {
-           return View(new UserLoginValidation());
+           return View(new LoginDTO{ReturnUrl = returnUrl});
 
         }
 
@@ -55,8 +57,8 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult AuthenticateUser(LoginDTO model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(LoginDTO model)
         {
             var a = Request.ContentType;
 
@@ -68,20 +70,17 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
 
                 if (!result.valid)
                 {
-                    if (Request.IsAjaxRequest())
-                    {
-                        return Json(result);
-                    }
+                    ModelState.AddModelError("", result.validationMessage);
                 }
                 else
                 {
                    InitialiseUserSession(account);
 
-                    return Json(new { returnUrl = model.ReturnUrl });
+                   return RedirectToAction("Index","Home",new { area = "" });
                 }
             }
 
-            return null;
+            return View(model);
         }
 
         private void InitialiseUserSession(BrockAllen.MembershipReboot.UserAccount account)
