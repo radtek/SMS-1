@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="True" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="true">
-    <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01.bec.local;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+    <Connection ConnectionString="User Id=postgres;Password=admin;Host=localhost;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFramework.TargetFrameworkEntities.cs" Project="Bec.TargetFramework.Data" />

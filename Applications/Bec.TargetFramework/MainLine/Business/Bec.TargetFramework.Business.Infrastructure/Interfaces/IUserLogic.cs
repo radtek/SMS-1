@@ -12,6 +12,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     using Bec.TargetFramework.Infrastructure.Log;
     using Bec.TargetFramework.Entities;
     using System.ServiceModel.Web;
+    using System.Threading.Tasks;
 
     [ServiceContract(Namespace = Bec.TargetFramework.Business.Infrastructure.BecTargetFrameworkBusinessServiceNamespaces.BusinessNamespace + "/UserLogic")]
     public interface IUserLogic : IBusinessLogicService
@@ -29,7 +30,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByUsername(string username);
 
         [OperationContract]
-        UserLoginValidation AuthenticateUser(string username, string password);
+        Task<UserLoginValidation> AuthenticateUser(string username, string password);
         
         [OperationContract]
         List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(

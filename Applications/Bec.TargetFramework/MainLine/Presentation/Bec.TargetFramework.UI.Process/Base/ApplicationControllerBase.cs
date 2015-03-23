@@ -19,11 +19,12 @@ namespace Bec.TargetFramework.UI.Process.Base
 {
     /// <summary>
     /// TF Base Controller
-    /// </summary>
+    ///// </summary>
     [PreventMultipleLoginsActionFilter]
     //[PreventMultipleSubmitsActionFilter]
     [SessionExpireFilter]
     //[AuditActionFilter(AuditingLevel = 1)]
+    [Authorize]
     public class ApplicationControllerBase : Controller
     {
         private ILogger m_Logger { get; set; }

@@ -1,102 +1,83 @@
-﻿@Styles.Render("~/Content/css")
-@Styles.Render("~/Content/bootstrap")
-@Styles.Render("~/Content/kendo")
-@Styles.Render("~/Content/font-awesome")
+﻿@using Bec.TargetFramework.Entities
+@model LoginDTO
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-@Scripts.Render("~/bundles/jquery")
-
-@Scripts.Render("~/bundles/kendo")
-@Scripts.Render("~/bundles/knockout")
-@Scripts.Render("~/bundles/site")
-@Scripts.Render("~/bundles/require")
-
-<div class="container">
-    <div>Version @ViewContext.Controller.GetType().Assembly.GetName().Version Date @File.GetCreationTime(ViewContext.Controller.GetType().Assembly.Location)</div>
-    <div id="login-wrapper">
-        <form class="form login-form" >
-            <fieldset>
-                <legend>Log in to <span class="blue">BE Consultancy</span></legend>
-
-                <div class="body">
-                    <div class="form-group">
-                        <div class="login-field-wrapper">
-                            <label for="username">
-                                <span data-bind="text:$data.usernameCaption"></span>:
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="@Url.Action("Index", "Login",new { area = "UserAccount"})" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Sign In
+                    </header>
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">Username</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.Username)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
                             </label>
-
-                            <!-- ko if: $data.isWaitingForResponse() == false -->
-                            <input class="form-control" id="username" placeholder="Username" type="text" data-bind="value: $data.username, valueUpdate: 'afterkeydown'" data-required="true"> @*, css: { 'red-glow': $data.username.error()}*@
-                            <!-- /ko -->
-                            <!-- ko if: $data.isWaitingForResponse() == true -->
-                            <div style="padding-top:7px; padding-left:13px" class="text-pulled-left" data-bind="text: $data.username"></div>
-                            <!-- /ko -->
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="login-field-wrapper">
-                            <label for="password">
-                                <span data-bind="text:$data.passwordCaption"></span>:
+                        </section>
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.Password)
+                                @*<input type="password" name="txtPassor" value="demo">*@
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
                             </label>
-
-                            <!-- ko if: $data.isWaitingForResponse() == false -->
-                            <input class="form-control" id="password" placeholder="Password" type="password" data-bind="value: $data.password, valueUpdate: 'afterkeydown', visibility: !$data.isWaitingForResponse()"> @*, css: { 'red-glow': $data.password.error()}*@
-                            <!-- /ko -->
-                            <!-- ko if: $data.isWaitingForResponse() == true -->
-                            <div style="padding-top:7px; padding-left:13px" class="text-pulled-left" data-bind="text: $data.passwordStars, visibility: $data.isWaitingForResponse()"></div>
-                            <!-- /ko -->
-                        </div>
-                    </div>
-
-                    <!-- ko if: $data.customErrMessage() != '' -->
-                    <span style="visibility:hidden" class="error-span" data-bind="visibility: true,  attr: { title: $data.customErrMessage }, text: $data.customErrMessage"></span>
-                    <!-- /ko -->
-
-                    <!-- ko if: $data.showErrors() != '' -->
-                    <span style="visibility:hidden" data-bind="visibility: true" class="error-span">Invalid Username or Password</span>
-                    <!-- /ko -->
-
-                     
-                </div>
-            </fieldset>
-        </form>
-        <div class="login-btn-wrapper">
-            <button id="login-btn" class="btn btn-success" data-bind="click:  $data.confirmLogin, executeOnEnter: $data.confirmLogin">Login</button>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" class="btn btn-primary">
+                            Sign in
+                        </button>
+                    </footer>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+@section pagespecific {
+    <script type="text/javascript">
+        $(function () {
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    Username: {
+                        required: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
 
+                // Messages for form validation
+                messages: {
+                    Username: {
+                        required: 'Please enter your username'
+                    },
+                    Password: {
+                        required: 'Please enter your password'
+                    }
+                },
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        require(['Login/LoginVM'], function (LoginVM) {
-
-            var data = {};
-
-            data.authenticateUserURL = '@Url.Action("AuthenticateUser", "Login", new { area = "UserAccount" }, String.Empty)';
-            data.returnURL = '@Url.Action("Index", "Home", new { area = String.Empty }, String.Empty)';
-
-            data.usernameCaption = "Username";
-            data.passwordCaption = "Password";
-
-            data.errorMessages = {};
-            data.errorMessages.required = "{0} is required!";
-
-            var vm = new LoginVM(data);
-            ko.applyBindings(vm, document.getElementById("login-wrapper"));
-
-            //click the button on Enter
-            $(document).keydown(function (e) {
-                if (e.keyCode === 13) {
-                    vm.confirmLogin();
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
                 }
             });
-
-
-            //no back in history
-            history.pushState(null, null, '/home/index');
-            window.addEventListener('popstate', function (event) {
-                history.pushState(null, null, '/home/index');
-            });
-        })
-    });
-</script>
+        });
+    </script>
+}
