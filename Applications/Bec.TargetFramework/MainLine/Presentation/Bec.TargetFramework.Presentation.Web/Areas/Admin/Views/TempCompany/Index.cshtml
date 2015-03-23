@@ -138,8 +138,8 @@
                                     }
 
                                 },
-                                schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } },
-                                serverPaging: true
+                                schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } }
+                                //serverPaging: true,
                                 //serverFiltering: true,
                                 //serverSorting: true
                             },
@@ -147,13 +147,14 @@
                             selectable: true,
                             filterable: false,
                             sortable: true,
-                            pageable: {
-                                pageSize: 500,
-                                refresh: true,
-                                messages: {
-                                    refresh: "Refresh the grid"
-                                }
-                            },
+                            navigatable: true,
+                            //pageable: {
+                            //    pageSize: 500,
+                            //    refresh: true,
+                            //    messages: {
+                            //        refresh: "Refresh the grid"
+                            //    }
+                            //},
                             columns: [
                                 {
                                     field: "CompanyId",
@@ -192,6 +193,11 @@
                                     field: "SystemAdminEmail",
                                     title: "Email",
                                     sortable: false
+                                },
+                                {
+                                    field: "CompanyCreatedOnDate",
+                                    title: "Record Created",
+                                    sortable: true
                                 }
                             ],
                             dataBound: function(e) {
