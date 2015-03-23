@@ -28,10 +28,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult LoadUnverifiedCompanies(int page, int pageSize, int take)
+        public ActionResult LoadUnverifiedCompanies(/*int page, int pageSize, int take*/)
         {
             var allUnverifiedCompanies = m_OrganisationLogic.GetAllUnverifiedCompanies();
-            var filteredList = allUnverifiedCompanies.Skip((page - 1)*pageSize).Take(pageSize).ToList();
+            var filteredList = allUnverifiedCompanies;//.Skip((page - 1)*pageSize).Take(pageSize).ToList();
 
             // set datetime for display
             filteredList.ForEach(item =>
