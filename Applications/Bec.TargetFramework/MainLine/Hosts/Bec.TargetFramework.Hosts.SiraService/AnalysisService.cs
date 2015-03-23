@@ -59,7 +59,7 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                 list.ForEach(item =>
                     {
                         Type serviceType = Type.GetType(item.Name + ", Bec.TargetFramework.Analysis.Services");
-                        Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Single(t => t.Contract.Contains("Bec.TargetFramework")).Contract + ", Bec.TargetFramework.Analysis.Interfaces");
+                        Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Where(t => t.Contract.Contains("Bec.TargetFramework")).First().Contract + ", Bec.TargetFramework.Analysis.Interfaces");
 
                         try
                         {

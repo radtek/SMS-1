@@ -14,7 +14,7 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
             try
             {
                 //TAG001 Set this to true when deploying as windows service. Set this to false when debugging!
-                bool runAsWindowsService = false;
+                bool runAsWindowsService = true;
 
                 if (args != null && args.Length > 0)
                 {

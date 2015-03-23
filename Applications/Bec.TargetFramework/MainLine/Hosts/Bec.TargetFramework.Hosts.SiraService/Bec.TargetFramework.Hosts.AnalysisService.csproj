@@ -191,9 +191,17 @@
       <Project>{d56bf17d-b356-4b5c-9161-ec5263797983}</Project>
       <Name>Bec.TargetFramework.Analysis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Analysis\Bec.TargetFramework.Analysis.Infrastructure\Bec.TargetFramework.Analysis.Infrastructure.csproj">
+      <Project>{2ee04923-16b5-4795-84e7-e30410ac393b}</Project>
+      <Name>Bec.TargetFramework.Analysis.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Analysis\Bec.TargetFramework.Analysis.Interfaces\Bec.TargetFramework.Analysis.Interfaces.csproj">
       <Project>{de16f746-3b02-4152-9d3b-28e35654a952}</Project>
       <Name>Bec.TargetFramework.Analysis.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Analysis\Bec.TargetFramework.Analysis.Services\Bec.TargetFramework.Analysis.Services.csproj">
+      <Project>{317225a7-331e-449a-a3d8-bd43cd6e67b7}</Project>
+      <Name>Bec.TargetFramework.Analysis.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Bec.TargetFramework.Aop\Bec.TargetFramework.Aop.csproj">
       <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
