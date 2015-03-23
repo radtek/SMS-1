@@ -1,0 +1,90 @@
+﻿@using Bec.TargetFramework.Entities
+@model LoginDTO
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section topright{
+    
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form action="@Url.Action("Index", "Login",new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Sign In
+                    </header>
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">Username</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.Username)
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.Password)
+                                @*<input type="password" name="txtPassor" value="demo">*@
+                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" id="formSubmit" class="btn btn-primary">
+                            Sign in
+                        </button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+
+        $(function () {
+
+           
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    Username: {
+                        required: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    Username: {
+                        required: 'Please enter your username'
+                    },
+                    Password: {
+                        required: 'Please enter your password'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            });
+        });
+    </script>
+}

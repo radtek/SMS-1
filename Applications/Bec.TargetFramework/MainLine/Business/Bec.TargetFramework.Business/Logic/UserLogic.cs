@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
@@ -42,6 +43,17 @@ namespace Bec.TargetFramework.Business.Logic
             m_AuthSvc = authSvc;
             m_DataLogic = dataLogic;
             m_OrganisationLogic = oLogic;
+        }
+
+        public Task<UserLoginValidation> AuthenticateUser(string username, string password)
+        {
+            BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
+
+            UserLoginValidation result = m_UaService.AuthenticateWithUsername(account, username, password);
+
+            result.UserAccount = account;
+
+            return Task.FromResult(result);
         }
 
         public List<UserDetailDTO> GetAllUserDetailDTO()
@@ -934,16 +946,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         }
 
-        public UserLoginValidation AuthenticateUser(string username, string password)
-        {
-            BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
-
-            UserLoginValidation result = m_UaService.AuthenticateWithUsername(account,username, password);
-
-            result.UserAccount = account;
-
-            return result;
-        }
+        
 
         public List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
         {

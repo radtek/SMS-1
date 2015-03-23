@@ -15,14 +15,14 @@ namespace Bec.TargetFramework.Presentation
         /// </summary>
         /// <param name="requestContext">The context of the given (current) request.</param>
         /// <returns></returns>
-        protected override IHttpHandler GetHttpHandler(RequestContext requestContext)
-        {
-            var routeValues = requestContext.RouteData.Values;
+        //protected override IHttpHandler GetHttpHandler(RequestContext requestContext)
+        //{
+        //    var routeValues = requestContext.RouteData.Values;
 
-            routeValues["action"] = routeValues["action"].UnDash();
-            routeValues["controller"] = routeValues["controller"].UnDash();
+        //    routeValues["action"] = routeValues["action"].UnDash();
+        //    routeValues["controller"] = routeValues["controller"].UnDash();
 
-            return base.GetHttpHandler(requestContext);
-        }
+        //    return base.GetHttpHandler(requestContext);
+        //}
     }
 }

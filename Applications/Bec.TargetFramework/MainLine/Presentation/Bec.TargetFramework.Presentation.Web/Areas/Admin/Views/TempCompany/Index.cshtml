@@ -1,0 +1,293 @@
+﻿@using System.Activities.Statements
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string companyId = string.Empty;
+
+    if (Request["companyId"] != null)
+    {
+        companyId = Request["companyId"].ToString();
+    }
+}
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header"> View Temporary Companies </h2>
+        <hr class="simple">
+        <div class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+  
+            <ul id="myTab1" class="nav nav-tabs bordered">
+                <li class="active">
+                    <a href="#s1" data-toggle="tab"> Unverified </a>
+                </li>
+                <li>
+                    <a href="#s2" data-toggle="tab"> Verified </a>
+                </li>
+            </ul>
+            <div id="myTabContent1" class="tab-content padding-10">
+                <div class="tab-pane fade in active" id="s1">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <a href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModal" data-modal="">Add Company</a>
+                            </div>
+                                <div class="well">
+                                    <div id="unverifiedGrid"></div>
+                                </div>
+                        </div>
+                    </div>
+             
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <h5>Company</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddCompanyName"></p></dd>
+                                    <dt>Address:</dt>
+                                    <dd><p id="ddCompanyAddress1"></p></dd>
+                                    <dd><p id="ddCompanyAddress2"></p></dd>
+                                    <dd><p id="ddCompanyTownCity"></p></dd>
+                                    <dd><p id="ddCompanyCounty"></p></dd>
+                                    <dd><p id="ddCompanyPostCode"></p></dd>
+                                    <dt>Regulator:</dt>
+                                    <dd><p id="ddRegulator"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                            <div class="col-sm-6">
+                                <!-- well -->
+                                <div class="well">
+                                    <h5>System Administrator</h5>
+                                    <dl class="dl-horizontal">
+                                        <dt>Name:</dt>
+                                        <dd><p id="ddSystemAdminName"></p></dd>
+                                        <dt>Email:</dt>
+                                        <dd><p id="ddSystemAdminEmail"></p></dd>
+                                        <dt>Telephone:</dt>
+                                        <dd><p id="ddSystemAdminTel"></p></dd>
+                                    </dl>
+                                    <h5>Other Details</h5>
+                                    <dl class="dl-horizontal">
+                                        <dt>Record Created:</dt>
+                                        <dd><p id="ddCompanyRecordCreated"></p></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="tab-pane fade" id="s2">
+
+                </div>
+            </div>
+                   
+        </div>
+    </div>
+    </div>
+    <div class="modal fade in" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="addModalContent"></div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="addModalLabel">Are you sure you want to Cancel?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    No
+                </button>
+                <button type="button" id="closeModals" class="btn btn-primary">
+                    Yes
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+        @section pagespecific {
+            <script type="text/javascript">
+
+    var newCompanyId = '@TempData["AddTempCompanyId"]';
+
+    // close modals
+    $("#closeModals").click(function() {
+        $('#cancelModal').modal('hide');
+        $('#addModal').modal('hide');
+    });
+
+    var getUnverifiedCompaniesUrl = '@Url.Action("LoadUnverifiedCompanies", "TempCompany", new {area = "Admin"})';
+
+                var refresh = function() {
+                    var grid = $('#unverifiedGrid');
+                    if (grid.length < 1) {
+                        return;
+                    }
+
+                    grid.data("kendoGrid").dataSource.read();
+                };
+
+
+                $(document).ready(function() {
+                    $("#unverifiedGrid").kendoGrid({
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url: getUnverifiedCompaniesUrl,
+                                        type: "POST"
+                                    }
+
+                                },
+                                schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } },
+                                serverPaging: true,
+                                serverFiltering: true,
+                                serverSorting: true
+                            },
+                            height: 300,
+                            selectable: true,
+                            filterable: false,
+                            sortable: true,
+                            pageable: {
+                                pageSize: 500,
+                                refresh: true,
+                                messages: {
+                                    refresh: "Refresh the grid"
+                                }
+                            },
+                            columns: [
+                                {
+                                    field: "CompanyId",
+
+                                    hidden: true,
+                                },
+                                {
+                                    field: "CompanyName",
+                                    title: "Company Name",
+                                    sortable: true
+                                },
+                                {
+                                    field: "CompanyAddress1",
+                                    title: "Address 1",
+                                    sortable: false
+                                },
+                                {
+                                    field: "CompanyPostCode",
+                                    title: "Post Code",
+                                    sortable: false
+                                },
+                                {
+                                    field: "SystemAdminFirstName",
+                                    title: "System Administrator",
+                                    template: function(dataItem) {
+                                        return kendo.htmlEncode(dataItem.SystemAdminFirstName) + " " + kendo.htmlEncode(dataItem.SystemAdminLastName);
+                                    },
+                                    sortable: false
+                                },
+                                {
+                                    field: "SystemAdminTel",
+                                    title: "Telephone Number",
+                                    sortable: false
+                                },
+                                {
+                                    field: "SystemAdminEmail",
+                                    title: "Email",
+                                    sortable: false
+                                }
+                            ],
+                            dataBound: function(e) {
+                                var selectedItem;
+
+                                var gridData = $("#unverifiedGrid").data().kendoGrid.dataSource.data();
+
+                                if (gridData.length == 0)
+                                    return;
+
+                                if (newCompanyId != "") {
+                                    for (var i = 0; i < gridData.length; i++) {
+
+                                        var dataItem = gridData[i];
+
+                                        if (newCompanyId.replace(/-/g, "") == (dataItem.CompanyId)) {
+                                            console.log('boo');
+
+                                            var row = $("#unverifiedGrid").find("tr[data-uid='" + dataItem.uid + "']");
+                                            $("#unverifiedGrid").data().kendoGrid.select(row);
+
+                                            var scrollContentOffset = $("#unverifiedGrid").find("tbody").offset().top;
+                                            var selectContentOffset = $("#unverifiedGrid").data().kendoGrid.select().offset().top;
+                                            var distance = selectContentOffset - scrollContentOffset;
+
+                                            //    animate our scroll
+                                            $("#unverifiedGrid").find(".k-grid-content").animate({
+                                                scrollTop: distance
+                                            }, 400);
+
+                                            newCompanyId = null;
+
+                                            @{TempData["AddTempCompanyId"] = null;}
+                                        }
+                                    }
+                                }
+                        },
+                        change:
+
+                    function(e) {
+                        var selectedRows = this.select();
+                        for (var i = 0; i < selectedRows.length; i++) {
+                            var dataItem = this.dataItem(selectedRows[i]);
+                            $("p#ddCompanyName").text(dataItem.CompanyName);
+                            $("p#ddCompanyRecordCreated").text(dataItem.CompanyCreatedOnDate);
+                            $("p#ddCompanyCounty").text(dataItem.CompanyCounty);
+                            $("p#ddCompanyPostCode").text(dataItem.CompanyPostCode);
+                            $("p#ddCompanyTownCity").text(dataItem.CompanyTownCity);
+                            $("p#ddCompanyAddress2").text(dataItem.CompanyAddress2);
+                            $("p#ddCompanyAddress1").text(dataItem.CompanyAddress1);
+                            $("p#ddSystemAdminEmail").text(dataItem.SystemAdminEmail);
+                            $("p#ddSystemAdminTel").text(dataItem.SystemAdminTel);
+                            $("p#ddSystemAdminName").text(dataItem.SystemAdminTitle + " " + dataItem.SystemAdminFirstName + " " + dataItem.SystemAdminLastName);
+
+                            var regulatorName = dataItem.CompanyRegulator;
+
+                            if (regulatorName.toLowerCase() == 'other')
+                                regulatorName = dataItem.CompanyOtherRegulator;
+
+                            $("p#ddRegulator").text(regulatorName);
+                        }
+
+
+                    }
+
+                });
+
+                $.ajaxSetup({ cache: false });
+
+                $("a[data-modal]").on("click", function(e) {
+
+                    $('#addModalContent').load(this.href, function() {
+
+
+                        $('#addModal').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        }, 'show');
+
+                    });
+
+                    return false;
+                });
+            });
+
+            </script>
+        }
+

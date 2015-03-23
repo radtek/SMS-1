@@ -60,25 +60,25 @@ namespace Bec.TargetFramework.Presentation.Areas.UserAccount.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginDTO model)
         {
-            var a = Request.ContentType;
+            //var a = Request.ContentType;
 
-            if (ModelState.IsValid)
-            {
-                UserLoginValidation result = m_UserLogic.AuthenticateUser(model.Username, model.Password);
+            //if (ModelState.IsValid)
+            //{
+            //    var result = m_UserLogic.AuthenticateUser(model.Username, model.Password);
 
-                BrockAllen.MembershipReboot.UserAccount account = result.UserAccount;
+            //    BrockAllen.MembershipReboot.UserAccount account = result.UserAccount;
 
-                if (!result.valid)
-                {
-                    ModelState.AddModelError("", result.validationMessage);
-                }
-                else
-                {
-                   InitialiseUserSession(account);
+            //    if (!result.valid)
+            //    {
+            //        ModelState.AddModelError("", result.validationMessage);
+            //    }
+            //    else
+            //    {
+            //       InitialiseUserSession(account);
 
-                   return RedirectToAction("Index","Home",new { area = "" });
-                }
-            }
+            //       return RedirectToAction("Index","Home",new { area = "" });
+            //    }
+            //}
 
             return View(model);
         }

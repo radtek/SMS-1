@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +18,12 @@ namespace Bec.TargetFramework.UI.Process.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (filterContext.HttpContext.User.Identity is WindowsIdentity)
+            {
+                throw new InvalidOperationException("Windows Authentication is not supported");
+            }
+
+
             HttpContext ctx = HttpContext.Current;
 
             string url = "~/UserAccount/Logout/Landing";
@@ -37,9 +44,9 @@ namespace Bec.TargetFramework.UI.Process.Filters
                     // will, in turn, redirect to the logon page.
                     filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary {
-                        { "Controller", "Logout" },
-                        { "Action", "Landing" },
-                        { "Area" , "UserAccount"}
+                        { "Controller", "Login" },
+                        { "Action", "Index" },
+                        { "Area" , "Account"}
                 });
                 }
             }

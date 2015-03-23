@@ -62,17 +62,17 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 {
                     // logout
                     filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "LoggedOutByAnother" }, { "action", "Index" }, { "area", "UserAccount" } });
+                        new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" }, { "area", "Account" } });
                 }
             }
             else
             {
                 if (filterContext.HttpContext.Request.RawUrl == "/" || filterContext.HttpContext.Request.RawUrl == "/home/index")
                     filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "Controller", "Login" }, { "Action", "Index" }, { "Area", "UserAccount" } });
+                        new RouteValueDictionary { { "Controller", "Login" }, { "Action", "Index" }, { "Area", "Account" } });
                 else
                     filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "SessionExpired" }, { "action", "Index" }, { "area", "UserAccount" } });
+                        new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" }, { "area", "Account" } });
             }
         }
     }

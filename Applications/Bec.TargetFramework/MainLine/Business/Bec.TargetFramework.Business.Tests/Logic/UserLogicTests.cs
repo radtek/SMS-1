@@ -117,8 +117,8 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
             var result = serviceInstance.AuthenticateUser(username, password);
 
-            Assert.IsFalse(result.valid);
-            Assert.AreEqual("Invalid Username or Password", result.validationMessage);
+            Assert.IsFalse(result.Result.valid);
+            Assert.AreEqual("Invalid Username or Password", result.Result.validationMessage);
         }
 
         [TestMethod()]
@@ -182,7 +182,7 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
             // Test authenticate logic
             var result = serviceInstance.AuthenticateUser(userAccount.Username, VALID_PASSWORD);
-            Assert.IsTrue(result.valid);
+            Assert.IsTrue(result.Result.valid);
             Assert.AreEqual("Authentication success", result.validationMessage);
 
             // Clean up the temporary user
