@@ -20,7 +20,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             try
             {
-                bool runAsWindowsService = false;
+                bool runAsWindowsService = true;
 
                 if (args != null && args.Length > 0)
                 {
