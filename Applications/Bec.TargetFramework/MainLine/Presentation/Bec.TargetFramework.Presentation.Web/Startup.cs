@@ -26,8 +26,6 @@ namespace Bec.TargetFramework.Presentation.Web
 
                 config.UsePostgreSqlStorage(sb.ToString(), options);
 
-
-
                 config.UseServer();
             });
         }
