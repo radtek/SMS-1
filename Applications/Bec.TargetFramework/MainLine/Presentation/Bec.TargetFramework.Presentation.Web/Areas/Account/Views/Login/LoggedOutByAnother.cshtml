@@ -1,0 +1,19 @@
+﻿@using Bec.TargetFramework.Entities
+@model LoginDTO
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section topright{
+    
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <p>You have been logged out by another user. Please <a href="~/Account/Login">Log in</a></p>
+        </div>
+    </div>
+</div>

@@ -46,17 +46,17 @@ namespace Bec.TargetFramework.Presentation.Web
         /// <param name="value">The action value to compare to the requested route action.</param>
         /// <param name="attribute">The attribute value to return in the current action matches the given action value.</param>
         /// <returns>A HtmlString containing the given attribute value; otherwise an empty string.</returns>
-        public static IHtmlString RouteIf(this HtmlHelper helper, string value, string attribute)
+        public static IHtmlString RouteIf(this HtmlHelper helper, string attribute, string controller, string action = "")
         {
             var currentController =
                 (helper.ViewContext.RequestContext.RouteData.Values["controller"] ?? string.Empty).ToString().UnDash();
             var currentAction =
                 (helper.ViewContext.RequestContext.RouteData.Values["action"] ?? string.Empty).ToString().UnDash();
 
-            var hasController = value.Equals(currentController, StringComparison.InvariantCultureIgnoreCase);
-            var hasAction = value.Equals(currentAction, StringComparison.InvariantCultureIgnoreCase);
+            var hasController = controller.Equals(currentController, StringComparison.InvariantCultureIgnoreCase);
+            var hasAction = action.Equals(currentAction, StringComparison.InvariantCultureIgnoreCase);
 
-            return hasAction || hasController ? new HtmlString(attribute) : new HtmlString(string.Empty);
+            return hasAction && hasController ? new HtmlString(attribute) : new HtmlString(string.Empty);
         }
 
         /// <summary>

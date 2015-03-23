@@ -38,13 +38,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
+        public ActionResult LoggedOutByAnother(string returnUrl)
+        {
+            // We do not want to use any existing identity information
+            EnsureLoggedOut();
+            return View(new LoginDTO { ReturnUrl = returnUrl });
+        }
+
+        [AllowAnonymous]
+        public ActionResult SessionExpired(string returnUrl)
+        {
+            // We do not want to use any existing identity information
+            EnsureLoggedOut();
+            return View(new LoginDTO { ReturnUrl = returnUrl });
+        }
+
+        [AllowAnonymous]
         public ActionResult Index(string returnUrl)
         {
             // We do not want to use any existing identity information
             EnsureLoggedOut();
-
             return View(new LoginDTO { ReturnUrl = returnUrl });
-
         }
 
 

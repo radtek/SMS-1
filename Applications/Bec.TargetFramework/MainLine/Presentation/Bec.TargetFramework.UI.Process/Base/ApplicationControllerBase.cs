@@ -20,7 +20,7 @@ namespace Bec.TargetFramework.UI.Process.Base
     /// <summary>
     /// TF Base Controller
     ///// </summary>
-    //[PreventMultipleLoginsActionFilter]
+    [PreventMultipleLoginsActionFilter]
     //[PreventMultipleSubmitsActionFilter]
     [SessionExpireFilter]
     //[AuditActionFilter(AuditingLevel = 1)]

@@ -129,30 +129,19 @@
 
     var getUnverifiedCompaniesUrl = '@Url.Action("LoadUnverifiedCompanies", "TempCompany", new {area = "Admin"})';
 
-                var refresh = function() {
-                    var grid = $('#unverifiedGrid');
-                    if (grid.length < 1) {
-                        return;
-                    }
-
-                    grid.data("kendoGrid").dataSource.read();
-                };
-
-
                 $(document).ready(function() {
                     $("#unverifiedGrid").kendoGrid({
                             dataSource: {
                                 transport: {
                                     read: {
-                                        url: getUnverifiedCompaniesUrl,
-                                        type: "POST"
+                                        url: getUnverifiedCompaniesUrl
                                     }
 
                                 },
                                 schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } },
-                                serverPaging: true,
-                                serverFiltering: true,
-                                serverSorting: true
+                                serverPaging: true
+                                //serverFiltering: true,
+                                //serverSorting: true
                             },
                             height: 300,
                             selectable: true,
@@ -213,7 +202,7 @@
                                 if (gridData.length == 0)
                                     return;
 
-                                if (newCompanyId != "") {
+                                if (newCompanyId != null && newCompanyId != "") {
                                     for (var i = 0; i < gridData.length; i++) {
 
                                         var dataItem = gridData[i];

@@ -808,6 +808,8 @@
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
     <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.cshtml" />
+    <Content Include="Areas\Account\Views\Login\SessionExpired.cshtml" />
+    <Content Include="Areas\Account\Views\Login\LoggedOutByAnother.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

@@ -62,7 +62,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 {
                     // logout
                     filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" }, { "area", "Account" } });
+                        new RouteValueDictionary { { "controller", "Login" }, { "action", "LoggedOutByAnother" }, { "area", "Account" } });
                 }
             }
             else
@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
                         new RouteValueDictionary { { "Controller", "Login" }, { "Action", "Index" }, { "Area", "Account" } });
                 else
                     filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" }, { "area", "Account" } });
+                        new RouteValueDictionary { { "controller", "Login" }, { "action", "SessionExpired" }, { "area", "Account" } });
             }
         }
     }

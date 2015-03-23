@@ -20,13 +20,13 @@
                 -->
 
             <ul>
-                <li class="@Html.RouteIf("index", "active")">
+                <li class="@Html.RouteIf("active", "home", "index")">
                     <a href="@Url.Action("index", "home")" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
                 </li>
-                <li class="@Html.RouteIf("inbox", "active")">
+                <li class="@Html.RouteIf("open", "TempCompany")">
                     <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
                     <ul>
-                        <li class="@Html.RouteIf("general", "active")">
+                        <li class="@Html.RouteIf("active", "TempCompany", "Index")">
                             <a href="@Url.Action("Index", "TempCompany",new {area="Admin"})">Temporary</a>
                         </li>
                     </ul>
