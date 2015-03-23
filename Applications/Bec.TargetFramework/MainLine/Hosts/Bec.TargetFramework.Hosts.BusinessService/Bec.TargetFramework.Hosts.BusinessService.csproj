@@ -243,7 +243,6 @@
     <Compile Include="BusinessService.Designer.cs">
       <DependentUpon>BusinessService.cs</DependentUpon>
     </Compile>
-    <Compile Include="EndpointConfig.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -258,9 +257,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="App_Readme\Elmah.PostgreSQL.sql" />
-    <Content Include="App_Readme\Elmah.PostgreSQL.txt" />
-    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Bec.TargetFramework.Hosts.BusinessService.nuspec" />
     <None Include="Properties\licenses.config" />
     <None Include="packages.config" />
