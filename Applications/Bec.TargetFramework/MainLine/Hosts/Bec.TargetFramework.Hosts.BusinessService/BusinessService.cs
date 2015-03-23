@@ -121,6 +121,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
                         }
                         catch (Exception ex)
                         {
+                            Console.WriteLine(ex.Message + ":" + ex.StackTrace);
                             if (Serilog.Log.Logger == null)
                                 new SerilogLogger(true, false, "BusinessService").Error(ex);
                             else
