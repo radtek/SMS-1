@@ -25,6 +25,9 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
         public LoggerConfiguration m_LogConfiguration;
         public ILogger m_Log;
 
+        private const string m_EmailOutputTemplate =
+            "{Timestamp:HH:mm} [{Level}] {MachineName} {AppDomainFriendlyName} {ProcessID} ({ThreadId}) {Message} {MachineName} {AppDomainFriendlyName} {ProcessID} {NewLine} {NewLine}{Exception}";
+
         public SerilogLogger(bool useDefault = true,bool useWebEnrichers =false, string logCategory = null)
         {
             if (useDefault)
@@ -47,13 +50,14 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
             // defaults are seq and eventLog
             config.Enrich.With(new ApplicationDetailsEnricher())
                 .Enrich.With(new ExceptionDataEnricher())
+                .Enrich.With(new AppDomainFriendlyNameEnricher("AppDomainFriendlyName"))
                 .Enrich.With(new ProcessSessionIdEnricher("ProcessID"))
                 .Enrich.With(new PrincipalIdentityNameEnricher("PrincipalID"))
                 .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"])
                 .WriteTo.EventLog(ConfigurationManager.AppSettings["SerilogEventLogSource"],
                     ConfigurationManager.AppSettings["SerilogEventLogName"],restrictedToMinimumLevel: LogEventLevel.Error)
                 .WriteTo.Email(ConfigurationManager.AppSettings["SerilogFromEmail"],
-                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials,
+                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials,m_EmailOutputTemplate,
                     restrictedToMinimumLevel: LogEventLevel.Error);
 
             if (!string.IsNullOrEmpty(logCategory))
@@ -89,6 +93,8 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
             // defaults are seq and eventLog
             config.Enrich.With(new ApplicationDetailsEnricher())
                 .Enrich.With(new ExceptionDataEnricher())
+                .Enrich.With(new ProcessSessionIdEnricher("ProcessID"))
+                .Enrich.With(new PrincipalIdentityNameEnricher("PrincipalID"))
                 .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"])
                 .WriteTo.EventLog(ConfigurationManager.AppSettings["SerilogEventLogSource"],
                     ConfigurationManager.AppSettings["SerilogEventLogName"], restrictedToMinimumLevel: LogEventLevel.Error)

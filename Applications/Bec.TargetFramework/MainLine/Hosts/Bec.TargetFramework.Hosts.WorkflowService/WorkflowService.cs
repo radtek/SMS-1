@@ -110,10 +110,7 @@ namespace Bec.TargetFramework.Hosts.WorkflowService
             }
             catch (Exception ex)
             {
-                if (Serilog.Log.Logger == null)
-                    new SerilogLogger(true, false, "WorkflowService").Error(ex);
-                else
-                    Serilog.Log.Logger.Error(ex, ex.Message, null);
+                    
                 OnStop();
             }
         }

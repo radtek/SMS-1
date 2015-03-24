@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Wcf;
+using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.ServiceModel.Configuration;
 using System.ServiceProcess;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Hosts.AnalysisService
 {
@@ -48,7 +50,10 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
 
             try
             {
+               
                 InitialiseIOC();
+
+                throw new Exception("test");
      
                 System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -71,7 +76,11 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                         }
                         catch (System.Exception ex)
                         {
-                            SerilogHelper.LogException("AnalysisService", ex);
+                            eventLog.WriteEntry(ex.Dump());
+
+                            var logger = m_IocContainer.Resolve<ILogger>();
+
+                            logger.Error(ex, ex.Message);
 
                             throw;
                         }
@@ -81,10 +90,16 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
             }
             catch (Exception ex)
             {
-                string message = ex.FlattenException();
-                eventLog.WriteEntry("error: " + message);
+                eventLog.WriteEntry(ex.Dump());
 
-                SerilogHelper.LogException("AnalysisService",ex);
+                if (m_IocContainer != null)
+                {
+                    var logger = m_IocContainer.Resolve<ILogger>();
+
+                    logger.Error(ex, ex.Message);
+                }
+                else
+                    SerilogHelper.LogException(AppDomain.CurrentDomain.FriendlyName, ex);
 
                 OnStop();
             }
