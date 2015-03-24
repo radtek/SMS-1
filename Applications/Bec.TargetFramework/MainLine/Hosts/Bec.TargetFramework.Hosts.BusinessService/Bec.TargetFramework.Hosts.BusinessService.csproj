@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FFA3DDD3-A1F8-4BF0-92B3-272FD8CE3765}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.Hosts.BusinessService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.Hosts.BusinessService</AssemblyName>

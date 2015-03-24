@@ -71,8 +71,8 @@
                                     </dl>
                                     <h5>Other Details</h5>
                                     <dl class="dl-horizontal">
-                                        <dt>Record Created:</dt>
-                                        <dd><p id="ddCompanyRecordCreated"></p></dd>
+                                        <dt>Created On:</dt>
+                                        <dd><p id="ddCompanyCreatedOn"></p></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -158,46 +158,38 @@
                             columns: [
                                 {
                                     field: "CompanyId",
-
                                     hidden: true,
                                 },
                                 {
                                     field: "CompanyName",
-                                    title: "Company Name",
-                                    sortable: true
+                                    title: "Company Name"
                                 },
                                 {
                                     field: "CompanyAddress1",
-                                    title: "Address 1",
-                                    sortable: false
+                                    title: "Address 1"
                                 },
                                 {
                                     field: "CompanyPostCode",
-                                    title: "Post Code",
-                                    sortable: false
+                                    title: "Post Code"
                                 },
                                 {
                                     field: "SystemAdminFirstName",
                                     title: "System Administrator",
                                     template: function(dataItem) {
                                         return kendo.htmlEncode(dataItem.SystemAdminFirstName) + " " + kendo.htmlEncode(dataItem.SystemAdminLastName);
-                                    },
-                                    sortable: false
+                                    }
                                 },
                                 {
                                     field: "SystemAdminTel",
-                                    title: "Telephone Number",
-                                    sortable: false
+                                    title: "Telephone Number"
                                 },
                                 {
                                     field: "SystemAdminEmail",
-                                    title: "Email",
-                                    sortable: false
+                                    title: "Email"
                                 },
                                 {
                                     field: "CompanyCreatedOnDate",
-                                    title: "Record Created",
-                                    sortable: true
+                                    title: "Created On"
                                 }
                             ],
                             dataBound: function(e) {
@@ -241,21 +233,23 @@
                         var selectedRows = this.select();
                         for (var i = 0; i < selectedRows.length; i++) {
                             var dataItem = this.dataItem(selectedRows[i]);
-                            $("p#ddCompanyName").text(dataItem.CompanyName);
-                            $("p#ddCompanyRecordCreated").text(dataItem.CompanyCreatedOnDate);
-                            $("p#ddCompanyCounty").text(dataItem.CompanyCounty);
-                            $("p#ddCompanyPostCode").text(dataItem.CompanyPostCode);
-                            $("p#ddCompanyTownCity").text(dataItem.CompanyTownCity);
-                            $("p#ddCompanyAddress2").text(dataItem.CompanyAddress2);
-                            $("p#ddCompanyAddress1").text(dataItem.CompanyAddress1);
-                            $("p#ddSystemAdminEmail").text(dataItem.SystemAdminEmail);
-                            $("p#ddSystemAdminTel").text(dataItem.SystemAdminTel);
+                            $("p#ddCompanyName").text(dataItem.CompanyName || "");
+                            $("p#ddCompanyCreatedOn").text(dataItem.CompanyCreatedOnDate || "");
+                            $("p#ddCompanyCounty").text(dataItem.CompanyCounty || "");
+                            $("p#ddCompanyPostCode").text(dataItem.CompanyPostCode || "");
+                            $("p#ddCompanyTownCity").text(dataItem.CompanyTownCity || "");
+                            $("p#ddCompanyAddress2").text(dataItem.CompanyAddress2 || "");
+                            $("p#ddCompanyAddress1").text(dataItem.CompanyAddress1 || "");
+                            $("p#ddSystemAdminEmail").text(dataItem.SystemAdminEmail || "");
+                            $("p#ddSystemAdminTel").text(dataItem.SystemAdminTel || "");
                             $("p#ddSystemAdminName").text(dataItem.SystemAdminTitle + " " + dataItem.SystemAdminFirstName + " " + dataItem.SystemAdminLastName);
 
-                            var regulatorName = dataItem.CompanyRegulator;
+                            var regulatorName = dataItem.CompanyRegulator || "";
 
                             if (regulatorName.toLowerCase() == 'other')
                                 regulatorName = dataItem.CompanyOtherRegulator;
+                            else 
+                                regulatorName = "";
 
                             $("p#ddRegulator").text(regulatorName);
                         }
