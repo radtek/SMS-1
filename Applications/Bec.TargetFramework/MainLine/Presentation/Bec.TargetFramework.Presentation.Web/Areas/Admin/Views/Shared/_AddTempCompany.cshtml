@@ -36,10 +36,45 @@
                 <fieldset>
                     <div class="row">
                         <section class="col col-6">
+                            <label class="label">Lookup Postcode</label>
+                            <label class="input">
+                                <input id="postcodelookup" type="text" />
+                            </label>
+                        </section>
+
+                        <section class="col col-6">
+                            <label class="label">&nbsp;</label>
+                            <button id="findaddressbutton" type="button" class="btn btn-default btn-sm">Find Address</button>
+                        </section>
+                    </div>
+
+                    <div class="row" id="resRow">
+                        <section class="col col-12">
+                            <label class="input">
+                                <select id="addressresults" size="15"><option>Placeholder</option></select>
+                            </label>
+                        </section>
+                    </div>
+
+                    <div class="row" id="noMatch">
+                        <section class="col col-12">
+                            <em class="invalid">No matches found</em>
+                        </section>
+                    </div>
+
+                    <div class="row" id="manAddRow">
+                        <section class="col col-12">
+                            <input type="checkbox" id="manualAddress" />
+                            <label for="manualAddress"> Enter address manually</label>
+                        </section>
+                    </div>
+
+                    <div class="row">
+                        <section class="col col-6">
                             <label class="label">Company Name</label>
                             <label class="input ">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                @Html.TextBoxFor(m => m.CompanyName)
+                                @Html.TextBoxFor(m => m.CompanyName, new { id = "companyname" })
                             </label>
                         </section>
 
@@ -58,7 +93,7 @@
                             <label class="label">Company Address</label>
                             <label class="input">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                @Html.TextBoxFor(m => m.CompanyAddress1, new { placeholder = "Address Line 1" })
+                                @Html.TextBoxFor(m => m.CompanyAddress1, new { id = "addressline1", @readonly = "readonly", placeholder = "Address Line 1" })
                             </label>
                         </section>
 
@@ -74,7 +109,7 @@
                     <div class="row">
                         <section class="col col-6">
                             <label class="input">
-                                @Html.TextBoxFor(m => m.CompanyAddress2, new { placeholder = "Address Line 2" })
+                                @Html.TextBoxFor(m => m.CompanyAddress2, new { id = "addressline2", @readonly = "readonly", placeholder = "Address Line 2" })
                             </label>
                         </section>
                     </div>
@@ -83,7 +118,7 @@
                         <section class="col col-6">
                             <label class="input">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                @Html.TextBoxFor(m => m.CompanyTownCity, new { placeholder = "Town/City" })
+                                @Html.TextBoxFor(m => m.CompanyTownCity, new { id = "town", @readonly = "readonly", placeholder = "Town/City" })
                             </label>
                         </section>
                     </div>
@@ -91,7 +126,7 @@
                     <div class="row">
                         <section class="col col-6">
                             <label class="input">
-                                @Html.TextBoxFor(m => m.CompanyCounty, new { placeholder = "County" })
+                                @Html.TextBoxFor(m => m.CompanyCounty, new { id = "county", @readonly = "readonly", placeholder = "County" })
                             </label>
                         </section>
                     </div>
@@ -100,7 +135,7 @@
                         <section class="col col-6">
                             <label class="input">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                @Html.TextBoxFor(m => m.CompanyPostCode, new { placeholder = "Post Code" })
+                                @Html.TextBoxFor(m => m.CompanyPostCode, new { id = "postcode", @readonly = "readonly", placeholder = "Post Code" })
                             </label>
                         </section>
                     </div>
@@ -171,101 +206,5 @@
         Save
     </button>
 </div>
-<script type="text/javascript">
 
-    // submit from when Save button clicked
-    $("#formSubmit").click(function () {
-        $("#addTempCompany-form").submit();
-    });
-    
-
-    $.validator.addMethod("regulatorOtherSelected", function (value, element) {
-        if (value.toLowerCase() == 'other') {
-            return true;
-        } else if (value == "")
-            return false;
-        else
-            return true;
-    }, "This field is required");
-
-    $.validator.addMethod("regulatorOtherSelectedAndNoOtherValue", function (value, element) {
-        if (!$("#CompanyOtherRegulator").is(":visible"))
-            return true;
-        else if (value == "")
-            return false;
-        else
-            return true;
-    }, "This field is required");
-
-    // Validation
-    $("#addTempCompany-form").validate({
-        ignore: '.skip',
-        // Rules for form validation
-        rules: {
-            CompanyName: {
-                required: true
-            },
-            CompanyAddress1: {
-                required: true
-            },
-            CompanyTownCity: {
-                required: true
-            },
-            CompanyPostCode: {
-                required: true
-            },
-            CompanyRegulator: {
-                regulatorOtherSelected: true
-            },
-            CompanyOtherRegulator: {
-                regulatorOtherSelectedAndNoOtherValue: true
-            },
-            SystemAdminTitle: {
-                required: true
-            },
-            SystemAdminFirstName: {
-                required: true
-            },
-            SystemAdminLastName: {
-                required: true
-            },
-            SystemAdminEmail: {
-                required: true,
-                email: true
-            },
-            SystemAdminTel: {
-                required: true
-            }
-
-        },
-
-        // Messages for form validation
-        messages: {
-            CompanyName: {
-                required: 'Please enter a Company Name'
-            }
-        },
-
-        // Do not change code below
-        errorPlacement: function (error, element) {
-            error.insertAfter(element.parent());
-        }
-    });
-
-    $("#otherRegulatorLabel").hide();
-    $("#CompanyRegulator").change(function() {
-        var selectedValue = this.value;
-
-        if (selectedValue.toLowerCase() == 'other') {
-            $("#otherRegulatorLabel").show();
-
-        } else {
-            $("#otherRegulatorLabel").next('em[for="CompanyOtherRegulator"]').remove();
-            $("#otherRegulatorLabel").removeClass("state-error");
-            $("#otherRegulatorLabel").hide();
-            $("#CompanyOtherRegulator").val(null);
-        }
-    });
-
-</script>
-
+<script type="text/javascript" src="~/Scripts/AddCompany.js"></script>
