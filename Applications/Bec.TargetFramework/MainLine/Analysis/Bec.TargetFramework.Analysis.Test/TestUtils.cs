@@ -2,6 +2,8 @@
 using Bec.TargetFramework.Data.Analysis;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.Test.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.XmlDiffPatch;
 using System;
 using System.Collections.Generic;
@@ -103,3 +105,33 @@ namespace Bec.TargetFramework.Analysis.Test
         }   
     }
 }
+
+namespace Bec.TargetFramework.Infrastructure.Test.Base
+{
+    public class UnitTestBase : IUnitTest
+    {
+        public const string TESTINGPATH = @"C:\Testing";
+
+        [TestCleanup]
+        public virtual void TestCleanUp()
+        {
+        }
+
+        [TestInitialize]
+        public virtual void TestInitialise()
+        {
+            if (!Directory.Exists(TESTINGPATH))
+                Directory.CreateDirectory(TESTINGPATH);
+        }
+    }
+}
+
+namespace Bec.TargetFramework.Infrastructure.Test.Interfaces
+{
+    public interface IUnitTest
+    {
+        void TestCleanUp();
+        void TestInitialise();
+    }
+}
+

@@ -245,10 +245,6 @@
       <Project>{47e8b5c9-9cb2-41dc-bf30-219e9682425d}</Project>
       <Name>Bec.TargetFramework.Infrastructure.Serilog</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Test\Bec.TargetFramework.Infrastructure.Test.csproj">
-      <Project>{6ade87ac-9e25-48b1-b0bf-333bf0f25418}</Project>
-      <Name>Bec.TargetFramework.Infrastructure.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
       <Name>Bec.TargetFramework.Infrastructure</Name>
