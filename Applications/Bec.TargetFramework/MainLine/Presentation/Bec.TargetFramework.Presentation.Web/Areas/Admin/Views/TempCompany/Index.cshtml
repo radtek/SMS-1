@@ -116,10 +116,11 @@
 </div><!-- /.modal -->
 
 
-        @section pagespecific {
-            <script type="text/javascript">
+@section pagespecific {
+    <script type="text/javascript">
 
-    var newCompanyId = '@TempData["AddTempCompanyId"]';
+        var newCompanyId = '@TempData["AddTempCompanyId"]';
+        var selectedRowId;
 
     // close modals
     $("#closeModals").click(function() {
@@ -129,154 +130,149 @@
 
     var getUnverifiedCompaniesUrl = '@Url.Action("LoadUnverifiedCompanies", "TempCompany", new {area = "Admin"})';
 
-                $(document).ready(function() {
-                    $("#unverifiedGrid").kendoGrid({
-                            dataSource: {
-                                transport: {
-                                    read: {
-                                        url: getUnverifiedCompaniesUrl
-                                    }
-
-                                },
-                                schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } }
-                                //serverPaging: true,
-                                //serverFiltering: true,
-                                //serverSorting: true
-                            },
-                            height: 300,
-                            selectable: true,
-                            filterable: false,
-                            sortable: true,
-                            navigatable: true,
-                            //pageable: {
-                            //    pageSize: 500,
-                            //    refresh: true,
-                            //    messages: {
-                            //        refresh: "Refresh the grid"
-                            //    }
-                            //},
-                            columns: [
-                                {
-                                    field: "CompanyId",
-                                    hidden: true,
-                                },
-                                {
-                                    field: "CompanyName",
-                                    title: "Company Name"
-                                },
-                                {
-                                    field: "CompanyAddress1",
-                                    title: "Address 1"
-                                },
-                                {
-                                    field: "CompanyPostCode",
-                                    title: "Post Code"
-                                },
-                                {
-                                    field: "SystemAdminFirstName",
-                                    title: "System Administrator",
-                                    template: function(dataItem) {
-                                        return kendo.htmlEncode(dataItem.SystemAdminFirstName) + " " + kendo.htmlEncode(dataItem.SystemAdminLastName);
-                                    }
-                                },
-                                {
-                                    field: "SystemAdminTel",
-                                    title: "Telephone Number"
-                                },
-                                {
-                                    field: "SystemAdminEmail",
-                                    title: "Email"
-                                },
-                                {
-                                    field: "CompanyCreatedOnDate",
-                                    title: "Created On"
-                                }
-                            ],
-                            dataBound: function(e) {
-                                var selectedItem;
-
-                                var gridData = $("#unverifiedGrid").data().kendoGrid.dataSource.data();
-
-                                if (gridData.length == 0)
-                                    return;
-
-                                if (newCompanyId != null && newCompanyId != "") {
-                                    for (var i = 0; i < gridData.length; i++) {
-
-                                        var dataItem = gridData[i];
-
-                                        if (newCompanyId.replace(/-/g, "") == (dataItem.CompanyId)) {
-                                            console.log('boo');
-
-                                            var row = $("#unverifiedGrid").find("tr[data-uid='" + dataItem.uid + "']");
-                                            $("#unverifiedGrid").data().kendoGrid.select(row);
-
-                                            var scrollContentOffset = $("#unverifiedGrid").find("tbody").offset().top;
-                                            var selectContentOffset = $("#unverifiedGrid").data().kendoGrid.select().offset().top;
-                                            var distance = selectContentOffset - scrollContentOffset;
-
-                                            //    animate our scroll
-                                            $("#unverifiedGrid").find(".k-grid-content").animate({
-                                                scrollTop: distance
-                                            }, 400);
-
-                                            newCompanyId = null;
-
-                                            @{TempData["AddTempCompanyId"] = null;}
-                                        }
-                                    }
-                                }
-                        },
-                        change:
-
-                    function(e) {
-                        var selectedRows = this.select();
-                        for (var i = 0; i < selectedRows.length; i++) {
-                            var dataItem = this.dataItem(selectedRows[i]);
-                            $("p#ddCompanyName").text(dataItem.CompanyName || "");
-                            $("p#ddCompanyCreatedOn").text(dataItem.CompanyCreatedOnDate || "");
-                            $("p#ddCompanyCounty").text(dataItem.CompanyCounty || "");
-                            $("p#ddCompanyPostCode").text(dataItem.CompanyPostCode || "");
-                            $("p#ddCompanyTownCity").text(dataItem.CompanyTownCity || "");
-                            $("p#ddCompanyAddress2").text(dataItem.CompanyAddress2 || "");
-                            $("p#ddCompanyAddress1").text(dataItem.CompanyAddress1 || "");
-                            $("p#ddSystemAdminEmail").text(dataItem.SystemAdminEmail || "");
-                            $("p#ddSystemAdminTel").text(dataItem.SystemAdminTel || "");
-                            $("p#ddSystemAdminName").text(dataItem.SystemAdminTitle + " " + dataItem.SystemAdminFirstName + " " + dataItem.SystemAdminLastName);
-
-                            var regulatorName = dataItem.CompanyRegulator || "";
-
-                            if (regulatorName.toLowerCase() == 'other')
-                                regulatorName = dataItem.CompanyOtherRegulator;
-                            else 
-                                regulatorName = "";
-
-                            $("p#ddRegulator").text(regulatorName);
+        $(document).ready(function () {
+            $("#unverifiedGrid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: getUnverifiedCompaniesUrl
                         }
 
-
+                    },
+                    schema: { data: "filteredList", total: "total", model: { id: "CompanyId" } }
+                    //serverPaging: true,
+                    //serverFiltering: true,
+                    //serverSorting: true
+                },
+                height: 300,
+                selectable: "row",
+                filterable: false,
+                sortable: true,
+                navigatable: true,
+                pageable: {
+                    numeric: false,
+                    previousNext: false,
+                    messages: {
+                        display: "{2} rows"
                     }
+                },
+                columns: [
+                    {
+                        field: "CompanyId",
+                        hidden: true,
+                    },
+                    {
+                        field: "CompanyName",
+                        title: "Company Name"
+                    },
+                    {
+                        field: "CompanyAddress1",
+                        title: "Address 1"
+                    },
+                    {
+                        field: "CompanyPostCode",
+                        title: "Post Code"
+                    },
+                    {
+                        field: "SystemAdminFirstName",
+                        title: "System Administrator",
+                        template: function (dataItem) {
+                            return kendo.htmlEncode(dataItem.SystemAdminFirstName) + " " + kendo.htmlEncode(dataItem.SystemAdminLastName);
+                        }
+                    },
+                    {
+                        field: "SystemAdminTel",
+                        title: "Telephone Number"
+                    },
+                    {
+                        field: "SystemAdminEmail",
+                        title: "Email"
+                    },
+                    {
+                        field: "CompanyCreatedOnDate",
+                        title: "Created On"
+                    }
+                ],
+                dataBound: function (e) {
+                    var grid = $("#unverifiedGrid").data("kendoGrid");
+                    var gridData = grid.dataSource.data();
+                    if (gridData.length == 0) return;
 
-                });
+                    if (newCompanyId != null && newCompanyId != "") {
+                        for (var i = 0; i < gridData.length; i++) {
+                            if (newCompanyId.replace(/-/g, "") == (gridData[i].CompanyId)) {
+                                scrollToRow(grid, gridData[i].uid);
+                                newCompanyId = null;
+                                @{TempData["AddTempCompanyId"] = null;}
+                            }
+                        }
+                    }
+                    else
+                    {
+                        scrollToRow(grid, selectedRowId);
+                    }
+                },
+                change:
 
-                $.ajaxSetup({ cache: false });
+            function (e) {
+                var selectedRows = this.select();
+                if (selectedRows.length == 1) {
+                    
+                    var dataItem = this.dataItem(selectedRows[0]);
+                    selectedRowId = dataItem.uid;                
+                    
+                    $("p#ddCompanyName").text(dataItem.CompanyName || "");
+                    $("p#ddCompanyCreatedOn").text(dataItem.CompanyCreatedOnDate || "");
+                    $("p#ddCompanyCounty").text(dataItem.CompanyCounty || "");
+                    $("p#ddCompanyPostCode").text(dataItem.CompanyPostCode || "");
+                    $("p#ddCompanyTownCity").text(dataItem.CompanyTownCity || "");
+                    $("p#ddCompanyAddress2").text(dataItem.CompanyAddress2 || "");
+                    $("p#ddCompanyAddress1").text(dataItem.CompanyAddress1 || "");
+                    $("p#ddSystemAdminEmail").text(dataItem.SystemAdminEmail || "");
+                    $("p#ddSystemAdminTel").text(dataItem.SystemAdminTel || "");
+                    $("p#ddSystemAdminName").text(dataItem.SystemAdminTitle + " " + dataItem.SystemAdminFirstName + " " + dataItem.SystemAdminLastName);
 
-                $("a[data-modal]").on("click", function(e) {
+                    var regulatorName = dataItem.CompanyRegulator || "";
 
-                    $('#addModalContent').load(this.href, function() {
+                    if (regulatorName.toLowerCase() == 'other')
+                        regulatorName = dataItem.CompanyOtherRegulator;
+                    else
+                        regulatorName = "";
+
+                    $("p#ddRegulator").text(regulatorName);
+                }
 
 
-                        $('#addModal').modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        }, 'show');
+            }
 
-                    });
-
-                    return false;
-                });
             });
 
-            </script>
-        }
+            $.ajaxSetup({ cache: false });
 
+            $("a[data-modal]").on("click", function (e) {
+                $('#addModalContent').load(this.href, function () {
+                    $('#addModal').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    }, 'show');
+                });
+                return false;
+            });
+        });
+
+        function scrollToRow(grid, uid) {
+            if (!grid || !uid) return;
+            var row = grid.tbody.find("tr[data-uid='" + uid + "']");
+            grid.select(row);
+
+            var scrollContentOffset = grid.tbody.offset().top;
+            var selectContentOffset = grid.select().offset().top;
+            var distance = selectContentOffset - scrollContentOffset;
+
+            grid.content.animate({
+                scrollTop: distance
+            }, 400);
+        };
+
+    </script>
+}
