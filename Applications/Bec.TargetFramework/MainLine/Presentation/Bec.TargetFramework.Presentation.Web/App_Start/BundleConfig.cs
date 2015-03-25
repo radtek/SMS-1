@@ -8,7 +8,7 @@ namespace Bec.TargetFramework.Presentation.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css"));
+            bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css").Include("~/content/site.css"));
 
             bundles.Add(new ScriptBundle("~/Scripts/smartadmin").Include(
                 "~/Scripts/app.config.js",

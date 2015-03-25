@@ -1,7 +1,6 @@
-﻿
-@using Bec.TargetFramework.Entities
+﻿@using Bec.TargetFramework.Entities
 @model VCompanyDTO
-           
+
 @{
     List<SelectListItem> regulators = new List<SelectListItem>
     {
@@ -28,42 +27,42 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
 
             <form action="@Url.Action("AddTempCompany", "TempCompany", new { area = "Admin" })" method="POST" id="addTempCompany-form" class="smart-form">
                 @Html.ValidationBootstrap()
                 @Html.AntiForgeryToken()
                 <fieldset>
                     <div class="row">
-                        <section class="col col-6">
+                        <section class="col col-4">
                             <label class="label">Lookup Postcode</label>
                             <label class="input">
                                 <input id="postcodelookup" type="text" />
                             </label>
                         </section>
 
-                        <section class="col col-6">
+                        <section class="col">
                             <label class="label">&nbsp;</label>
                             <button id="findaddressbutton" type="button" class="btn btn-default btn-sm">Find Address</button>
                         </section>
                     </div>
 
-                    <div class="row" id="resRow">
-                        <section class="col col-12">
-                            <label class="input">
-                                <select id="addressresults" size="15"><option>Placeholder</option></select>
-                            </label>
-                        </section>
-                    </div>
+                    <section>
+                        <label class="select">
+                            <select id="addressresults"></select>
+                            <i></i>
+                        </label>
+                    </section>
 
-                    <div class="row" id="noMatch">
-                        <section class="col col-12">
-                            <em class="invalid">No matches found</em>
+
+                    <div class="row" >
+                        <section class="col" id="noMatch">
+                            <em style="color:#d56161">No matches found</em>
                         </section>
                     </div>
 
                     <div class="row" id="manAddRow">
-                        <section class="col col-12">
+                        <section class="col">
                             <input type="checkbox" id="manualAddress" />
                             <label for="manualAddress"> Enter address manually</label>
                         </section>
@@ -79,13 +78,12 @@
                         </section>
 
                         <section class="col col-6">
-                            <label class="label">Regulator</label>
-                            <label class="select">
-
-                                @Html.DropDownListFor(m => m.CompanyRegulator, new SelectList(regulators, "Value", "Text"), "Please Select")
-
+                            <label class="label">Additional Address Information</label>
+                            <label class="input">
+                                @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { id = "aa" })
                             </label>
                         </section>
+
                     </div>
 
                     <div class="row">
@@ -98,18 +96,27 @@
                         </section>
 
                         <section class="col col-6">
-                            <label class="input" id="otherRegulatorLabel">
-                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                @Html.TextBoxFor(m => m.CompanyOtherRegulator, new { placeholder = "Enter Regulator" })
-
+                            <label class="label">Regulator</label>
+                            <label class="select">
+                                @Html.DropDownListFor(m => m.CompanyRegulator, new SelectList(regulators, "Value", "Text"), "Please Select")
+                                <i></i>
                             </label>
                         </section>
+
                     </div>
 
                     <div class="row">
                         <section class="col col-6">
                             <label class="input">
                                 @Html.TextBoxFor(m => m.CompanyAddress2, new { id = "addressline2", @readonly = "readonly", placeholder = "Address Line 2" })
+                            </label>
+                        </section>
+
+                        <section class="col col-6">
+                            <label class="input" id="otherRegulatorLabel">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.TextBoxFor(m => m.CompanyOtherRegulator, new { placeholder = "Enter Regulator" })
+
                             </label>
                         </section>
                     </div>
@@ -140,63 +147,55 @@
                         </section>
                     </div>
 
-                    <div class="row">
-                        <section class="col col-6">
-                            <label class="label">Additional Address Information</label>
-                            <label class="input">
-                                <input type="text" name="aa" placeholder="">
-                            </label>
-                        </section>
-                    </div>
-
                 </fieldset>
                 <fieldset>
                     <div class="row">
-                        <section class="col col-3">
+                        <section class="col col-2">
                             <label class="label">Title</label>
                             <label class="select">
                                 @Html.DropDownListFor(m => m.SystemAdminTitle, new SelectList(titles, "Value", "Text"), "Please Select")
+                                <i></i>
                             </label>
                         </section>
-                        <section class="col col-4">
+                        <section class="col col-5">
                             <label class="label">First Name</label>
                             <label class="input">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                 @Html.TextBoxFor(m => m.SystemAdminFirstName)
                             </label>
                         </section>
-                            <section class="col col-5">
-                                <label class="label">Last Name</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    @Html.TextBoxFor(m => m.SystemAdminLastName)
-                                </label>
-                            </section>
-                        
-                        </div>
+                        <section class="col col-5">
+                            <label class="label">Last Name</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.TextBoxFor(m => m.SystemAdminLastName)
+                            </label>
+                        </section>
+
+                    </div>
                     <div class="row">
-                        <section class="col col-6">
+                        <section class="col col-8">
                             <label class="label">Email</label>
                             <label class="input">
                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                 @Html.TextBoxFor(m => m.SystemAdminEmail)
                             </label>
                         </section>
-                            <section class="col col-6">
-                                <label class="label">Telephone Number</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    @Html.TextBoxFor(m => m.SystemAdminTel)
-                                </label>
-                            </section>
+                        <section class="col col-4">
+                            <label class="label">Telephone Number</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.TextBoxFor(m => m.SystemAdminTel)
+                            </label>
+                        </section>
                     </div>
                 </fieldset>
-        
-        </form>
 
+            </form>
+
+        </div>
     </div>
-    </div>
-    
+
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" data-toggle="modal" data-target="#cancelModal">

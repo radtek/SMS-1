@@ -63,7 +63,10 @@ $("#findaddressbutton").click(function () {
         else {
             noMatch.show();
         }
-    }).always(function () {
+    }).error(function () {
+        noMatch.show();
+    })
+    .always(function () {
         fa.prop('disabled', false);
         manAddRow.show();
     });
