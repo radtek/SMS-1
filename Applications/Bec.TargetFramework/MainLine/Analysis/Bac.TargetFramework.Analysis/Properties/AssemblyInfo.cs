@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Bac.TargetFramework.Analysis")]
+[assembly: AssemblyTitle("Bec.TargetFramework.Analysis.Entities")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Bac.TargetFramework.Analysis")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("Bec.TargetFramework.Analysis.Entities")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3e405eb5-b0c9-4a7a-b33a-9e67bfddf858")]
+[assembly: Guid("bebaa1ef-5ea2-4cb1-a598-f32cd683c4b7")]
 
 // Version information for an assembly consists of the following four values:
 //

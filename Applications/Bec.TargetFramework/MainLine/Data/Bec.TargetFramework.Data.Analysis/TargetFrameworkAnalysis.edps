@@ -1,125 +1,120 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkAnalysisEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="False" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="false">
-    <Connection ConnectionString="User Id=postgres;Password=admin;Host=localhost;Port=5433;Database=TargetFrameworkAnalysis;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+    <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01;Port=5433;Database=TargetFrameworkAnalysis;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFrameworkAnalysis.TargetFrameworkAnalysisEntities.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisBatchSender.cs" />
         <File Name="TargetFrameworkAnalysis.AnalysisEngineMutator.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisBatchCollator.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisInput.cs" />
         <File Name="TargetFrameworkAnalysis.AnalysisEngine.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisBatchSender.cs" />
         <File Name="TargetFrameworkAnalysis.AnalysisMutator.cs" />
         <File Name="TargetFrameworkAnalysis.AnalysisMutatorInput.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisInput.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisProcessLog.cs" />
-        <File Name="TargetFrameworkAnalysis.StatusType.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogStep.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogStepOutput.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisBatchScheduler.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisBatchReceiver.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisBatchProcessor.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisInterface.cs" />
         <File Name="TargetFrameworkAnalysis.StatusTypeTemplate.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogBatch.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogBatchDetail.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisXMLSchema.cs" />
+        <File Name="TargetFrameworkAnalysis.StatusType.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisProcessLog.cs" />
         <File Name="TargetFrameworkAnalysis.StatusTypeValue.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisMortgageApplicationDetail.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisMortgageApplicationHistory.cs" />
-        <File Name="TargetFrameworkAnalysis.AnalysisMortgageApplication.cs" />
-        <File Name="AnalysisBatchSenderDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisBatchSenderDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisEngineMutatorDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisEngineMutatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisBatchCollatorDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisBatchCollatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisEngineDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisEngineDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisMutatorDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisMutatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisMutatorInputDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisMutatorInputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisInputDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisInputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisProcessLogDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="StatusTypeDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="StatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisProcessLogStepDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogStepDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisProcessLogStepOutputDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogStepOutputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisBatchSchedulerDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisBatchSchedulerDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisBatchReceiverDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisBatchReceiverDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisBatchProcessorDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisBatchProcessorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisInterfaceDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisInterfaceDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="StatusTypeTemplateDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="StatusTypeTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisProcessLogBatchDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogBatchDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisProcessLogBatchDetailDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogBatchDetailDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisXMLSchemaDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisXMLSchemaDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="StatusTypeValueDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="StatusTypeValueDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisMortgageApplicationDetailDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationDetailDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisMortgageApplicationHistoryDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationHistoryDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisMortgageApplicationDTO.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationDTO.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="DataDTOs" />
-        <File Name="AnalysisBatchSenderConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisBatchSenderConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisEngineMutatorConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisEngineMutatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisBatchCollatorConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisBatchCollatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisEngineConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisEngineConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisMutatorConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisMutatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisMutatorInputConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisMutatorInputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisInputConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisInputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisProcessLogConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="StatusTypeConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="StatusTypeConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisProcessLogStepConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogStepConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisProcessLogStepOutputConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogStepOutputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisBatchSchedulerConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisBatchSchedulerConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisBatchReceiverConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisBatchReceiverConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisBatchProcessorConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisBatchProcessorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisInterfaceConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisInterfaceConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="StatusTypeTemplateConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="StatusTypeTemplateConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisProcessLogBatchConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogBatchConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisProcessLogBatchDetailConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisProcessLogBatchDetailConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisXMLSchemaConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisXMLSchemaConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="StatusTypeValueConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="StatusTypeValueConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisMortgageApplicationDetailConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationDetailConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisMortgageApplicationHistoryConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationHistoryConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
-        <File Name="AnalysisMortgageApplicationConverter.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" OverwriteMode="None" />
-        <File Name="AnalysisMortgageApplicationConverter.Generated.cs" Project="Bec.TargetFramework.Analysis" ProjectFolder="Converters" />
+        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogStep.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisInterface.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisInputMortgageApplicationDetail.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisInputMortgageApplication.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisBatchCollator.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisBatchProcessor.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisBatchReceiver.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisBatchScheduler.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogBatchDetail.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogBatch.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisProcessLogStepOutput.cs" />
+        <File Name="TargetFrameworkAnalysis.AnalysisInputSchema.cs" />
+        <File Name="AnalysisEngineMutatorDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisEngineMutatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisInputDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisInputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisEngineDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisEngineDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisBatchSenderDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisBatchSenderDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisMutatorDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisMutatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisMutatorInputDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisMutatorInputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="StatusTypeTemplateDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="StatusTypeTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="StatusTypeDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="StatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisProcessLogDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="StatusTypeValueDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="StatusTypeValueDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisProcessLogStepDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogStepDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisInterfaceDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisInterfaceDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisInputMortgageApplicationDetailDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisInputMortgageApplicationDetailDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisInputMortgageApplicationDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisInputMortgageApplicationDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisBatchCollatorDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisBatchCollatorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisBatchProcessorDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisBatchProcessorDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisBatchReceiverDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisBatchReceiverDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisBatchSchedulerDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisBatchSchedulerDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisProcessLogBatchDetailDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogBatchDetailDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisProcessLogBatchDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogBatchDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisProcessLogStepOutputDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogStepOutputDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisInputSchemaDTO.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" OverwriteMode="None" />
+        <File Name="AnalysisInputSchemaDTO.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedDTO" />
+        <File Name="AnalysisEngineMutatorConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisEngineMutatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisInputConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisInputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisEngineConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisEngineConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisBatchSenderConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisBatchSenderConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisMutatorConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisMutatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisMutatorInputConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisMutatorInputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="StatusTypeTemplateConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="StatusTypeTemplateConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="StatusTypeConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="StatusTypeConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisProcessLogConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="StatusTypeValueConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="StatusTypeValueConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisProcessLogStepConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogStepConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisInterfaceConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisInterfaceConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisInputMortgageApplicationDetailConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisInputMortgageApplicationDetailConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisInputMortgageApplicationConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisInputMortgageApplicationConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisBatchCollatorConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisBatchCollatorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisBatchProcessorConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisBatchProcessorConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisBatchReceiverConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisBatchReceiverConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisBatchSchedulerConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisBatchSchedulerConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisProcessLogBatchDetailConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogBatchDetailConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisProcessLogBatchConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogBatchConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisProcessLogStepOutputConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisProcessLogStepOutputConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
+        <File Name="AnalysisInputSchemaConverter.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" OverwriteMode="None" />
+        <File Name="AnalysisInputSchemaConverter.Generated.cs" Project="Bec.TargetFramework.Analysis.Entities" ProjectFolder="GeneratedConverter" />
       </GeneratedFiles>
     </Generation>
     <DatabaseFirstNamingRules>
@@ -230,15 +225,15 @@
         </ed:Property>
         <ed:Property Name="DtosOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=5.7.541.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <OutputInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-            <Project>Bec.TargetFramework.Analysis</Project>
-            <ProjectFolder>DataDTOs</ProjectFolder>
+            <Project>Bec.TargetFramework.Analysis.Entities</Project>
+            <ProjectFolder>GeneratedDTO</ProjectFolder>
             <DestinationFolder />
           </OutputInfo>
         </ed:Property>
         <ed:Property Name="ConvertersOutput" Type="EntityDeveloper.TemplateEngine.OutputInfo, EntityDeveloper.Common, Version=5.7.541.0, Culture=neutral, PublicKeyToken=09af7300eec23701">
           <OutputInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-            <Project>Bec.TargetFramework.Analysis</Project>
-            <ProjectFolder>Converters</ProjectFolder>
+            <Project>Bec.TargetFramework.Analysis.Entities</Project>
+            <ProjectFolder>GeneratedConverter</ProjectFolder>
             <DestinationFolder />
           </OutputInfo>
         </ed:Property>
@@ -249,7 +244,7 @@
           <boolean>true</boolean>
         </ed:Property>
         <ed:Property Name="DtoNamespace" Type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <string>Bec.TargetFramework.Analysis</string>
+          <string>Bec.TargetFramework.Analysis.Entities</string>
         </ed:Property>
         <ed:Property Name="HeaderTimestampVersionControlTag" Type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <string d6p1:nil="true" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance" />
