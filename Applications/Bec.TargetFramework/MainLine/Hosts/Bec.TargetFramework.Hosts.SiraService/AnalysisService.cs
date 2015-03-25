@@ -1,5 +1,7 @@
-﻿using Autofac;
+﻿using System.Net;
+using Autofac;
 using Autofac.Integration.Wcf;
+using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using System.ServiceModel.Configuration;
 using System.ServiceProcess;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
+using ServiceStack.ServiceHost;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Hosts.AnalysisService
 {
@@ -48,8 +52,9 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
 
             try
             {
+               
                 InitialiseIOC();
-     
+
                 System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
                 var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
@@ -59,7 +64,7 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                 list.ForEach(item =>
                     {
                         Type serviceType = Type.GetType(item.Name + ", Bec.TargetFramework.Analysis.Services");
-                        Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Single(t => t.Contract.Contains("Bec.TargetFramework")).Contract + ", Bec.TargetFramework.Analysis.Interfaces");
+                        Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Where(t => t.Contract.Contains("Bec.TargetFramework")).First().Contract + ", Bec.TargetFramework.Analysis.Interfaces");
 
                         try
                         {
@@ -67,11 +72,17 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                             host.AddDependencyInjectionBehavior(interfaceType, m_IocContainer);
                             host.Open();
 
+                            Console.WriteLine(serviceType.ToString() + " service started");
+                            eventLog.WriteEntry(serviceType.ToString() + " service started");
                             m_ServiceHosts.Add(host);
                         }
                         catch (System.Exception ex)
                         {
-                            SerilogHelper.LogException("AnalysisService", ex);
+                            eventLog.WriteEntry(ex.Dump());
+
+                            var logger = m_IocContainer.Resolve<ILogger>();
+
+                            logger.Error(ex, ex.Message);
 
                             throw;
                         }
@@ -81,10 +92,16 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
             }
             catch (Exception ex)
             {
-                string message = ex.FlattenException();
-                eventLog.WriteEntry("error: " + message);
+                eventLog.WriteEntry(ex.Dump());
 
-                SerilogHelper.LogException("AnalysisService",ex);
+                if (m_IocContainer != null)
+                {
+                    var logger = m_IocContainer.Resolve<ILogger>();
+
+                    logger.Error(ex, ex.Message);
+                }
+                else
+                    SerilogHelper.LogException(AppDomain.CurrentDomain.FriendlyName, ex);
 
                 OnStop();
             }

@@ -32,6 +32,10 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
             m_Client = new CouchbaseClient();
         }
 
+        public CouchBaseCacheClient()
+        {
+        }
+
         public ICacheClient CreateCacheClient(ILogger logger)
         {
             return new CouchBaseCacheClient(logger);

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Xml.Linq;
+using Autofac.Integration.Wcf;
 
 namespace Bec.TargetFramework.Analysis.Test
 {

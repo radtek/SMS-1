@@ -89,16 +89,16 @@
     <Compile Include="TargetFrameworkAnalysis.AnalysisInput.cs">
       <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
     </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisInputMortgageApplication.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisInputMortgageApplicationDetail.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
+    <Compile Include="TargetFrameworkAnalysis.AnalysisInputSchema.cs">
+      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
+    </Compile>
     <Compile Include="TargetFrameworkAnalysis.AnalysisInterface.cs">
-      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
-    </Compile>
-    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplication.cs">
-      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
-    </Compile>
-    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplicationDetail.cs">
-      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
-    </Compile>
-    <Compile Include="TargetFrameworkAnalysis.AnalysisMortgageApplicationHistory.cs">
       <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
     </Compile>
     <Compile Include="TargetFrameworkAnalysis.AnalysisMutator.cs">
@@ -120,9 +120,6 @@
       <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
     </Compile>
     <Compile Include="TargetFrameworkAnalysis.AnalysisProcessLogStepOutput.cs">
-      <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
-    </Compile>
-    <Compile Include="TargetFrameworkAnalysis.AnalysisXMLSchema.cs">
       <DependentUpon>TargetFrameworkAnalysis.edml</DependentUpon>
     </Compile>
     <Compile Include="TargetFrameworkAnalysis.StatusType.cs">

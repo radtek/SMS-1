@@ -121,11 +121,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message + ":" + ex.StackTrace);
-                            if (Serilog.Log.Logger == null)
-                                new SerilogLogger(true, false, "BusinessService").Error(ex);
-                            else
-                                Serilog.Log.Logger.Error(ex, ex.Message, null);
+                            var logger = m_IocContainer.Resolve<ILogger>();
+
+                            logger.Error(ex, ex.Message);
 
                             Console.WriteLine(s);
                         }
@@ -134,8 +132,12 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             }
             catch (Exception ex)
             {
-                if (Serilog.Log.Logger == null)
-                    new SerilogLogger(true, false, "BusinessService").Error(ex);
+                if (m_IocContainer != null)
+                {
+                    var logger = m_IocContainer.Resolve<ILogger>();
+
+                    logger.Error(ex, ex.Message);
+                }
                 else
                     Serilog.Log.Logger.Error(ex, ex.Message, null);
 

@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D34293D-AEFD-4060-A252-43BE867E68A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Analysis.Entities</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Analysis.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GeneratedConverter\AnalysisBatchCollatorConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisBatchCollatorConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchCollatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisBatchProcessorConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisBatchProcessorConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchProcessorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisBatchReceiverConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisBatchReceiverConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchReceiverConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisBatchSchedulerConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisBatchSchedulerConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchSchedulerConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisBatchSenderConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisBatchSenderConverter.Generated.cs">
+      <DependentUpon>AnalysisBatchSenderConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisEngineConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisEngineConverter.Generated.cs">
+      <DependentUpon>AnalysisEngineConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisEngineMutatorConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisEngineMutatorConverter.Generated.cs">
+      <DependentUpon>AnalysisEngineMutatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisInputConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisInputConverter.Generated.cs">
+      <DependentUpon>AnalysisInputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisInputMortgageApplicationConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisInputMortgageApplicationConverter.Generated.cs">
+      <DependentUpon>AnalysisInputMortgageApplicationConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisInputMortgageApplicationDetailConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisInputMortgageApplicationDetailConverter.Generated.cs">
+      <DependentUpon>AnalysisInputMortgageApplicationDetailConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisInputSchemaConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisInputSchemaConverter.Generated.cs">
+      <DependentUpon>AnalysisInputSchemaConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisInterfaceConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisInterfaceConverter.Generated.cs">
+      <DependentUpon>AnalysisInterfaceConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisMutatorConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisMutatorConverter.Generated.cs">
+      <DependentUpon>AnalysisMutatorConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisMutatorInputConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisMutatorInputConverter.Generated.cs">
+      <DependentUpon>AnalysisMutatorInputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisProcessLogBatchConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisProcessLogBatchConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisProcessLogBatchDetailConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisProcessLogBatchDetailConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDetailConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisProcessLogConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisProcessLogConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisProcessLogStepConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisProcessLogStepConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\AnalysisProcessLogStepOutputConverter.cs" />
+    <Compile Include="GeneratedConverter\AnalysisProcessLogStepOutputConverter.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepOutputConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\StatusTypeConverter.cs" />
+    <Compile Include="GeneratedConverter\StatusTypeConverter.Generated.cs">
+      <DependentUpon>StatusTypeConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\StatusTypeTemplateConverter.cs" />
+    <Compile Include="GeneratedConverter\StatusTypeTemplateConverter.Generated.cs">
+      <DependentUpon>StatusTypeTemplateConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedConverter\StatusTypeValueConverter.cs" />
+    <Compile Include="GeneratedConverter\StatusTypeValueConverter.Generated.cs">
+      <DependentUpon>StatusTypeValueConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisBatchCollatorDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisBatchCollatorDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchCollatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisBatchProcessorDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisBatchProcessorDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchProcessorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisBatchReceiverDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisBatchReceiverDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchReceiverDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisBatchSchedulerDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisBatchSchedulerDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchSchedulerDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisBatchSenderDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisBatchSenderDTO.Generated.cs">
+      <DependentUpon>AnalysisBatchSenderDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisEngineDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisEngineDTO.Generated.cs">
+      <DependentUpon>AnalysisEngineDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisEngineMutatorDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisEngineMutatorDTO.Generated.cs">
+      <DependentUpon>AnalysisEngineMutatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisInputDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisInputDTO.Generated.cs">
+      <DependentUpon>AnalysisInputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisInputMortgageApplicationDetailDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisInputMortgageApplicationDetailDTO.Generated.cs">
+      <DependentUpon>AnalysisInputMortgageApplicationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisInputMortgageApplicationDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisInputMortgageApplicationDTO.Generated.cs">
+      <DependentUpon>AnalysisInputMortgageApplicationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisInputSchemaDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisInputSchemaDTO.Generated.cs">
+      <DependentUpon>AnalysisInputSchemaDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisInterfaceDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisInterfaceDTO.Generated.cs">
+      <DependentUpon>AnalysisInterfaceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisMutatorDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisMutatorDTO.Generated.cs">
+      <DependentUpon>AnalysisMutatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisMutatorInputDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisMutatorInputDTO.Generated.cs">
+      <DependentUpon>AnalysisMutatorInputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisProcessLogBatchDetailDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisProcessLogBatchDetailDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisProcessLogBatchDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisProcessLogBatchDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogBatchDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisProcessLogDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisProcessLogDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisProcessLogStepDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisProcessLogStepDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\AnalysisProcessLogStepOutputDTO.cs" />
+    <Compile Include="GeneratedDTO\AnalysisProcessLogStepOutputDTO.Generated.cs">
+      <DependentUpon>AnalysisProcessLogStepOutputDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\StatusTypeDTO.cs" />
+    <Compile Include="GeneratedDTO\StatusTypeDTO.Generated.cs">
+      <DependentUpon>StatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\StatusTypeTemplateDTO.cs" />
+    <Compile Include="GeneratedDTO\StatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeneratedDTO\StatusTypeValueDTO.cs" />
+    <Compile Include="GeneratedDTO\StatusTypeValueDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Analysis\Bec.TargetFramework.Data.Analysis.csproj">
+      <Project>{2e204ffe-4cbe-4575-b4c7-13595a4196a1}</Project>
+      <Name>Bec.TargetFramework.Data.Analysis</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
