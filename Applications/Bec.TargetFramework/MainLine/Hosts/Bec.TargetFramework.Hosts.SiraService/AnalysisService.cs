@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Net;
+using Autofac;
 using Autofac.Integration.Wcf;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
@@ -11,6 +12,7 @@ using System.ServiceModel.Configuration;
 using System.ServiceProcess;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
+using ServiceStack.ServiceHost;
 using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Hosts.AnalysisService
@@ -53,8 +55,6 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                
                 InitialiseIOC();
 
-                throw new Exception("test");
-     
                 System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
                 var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
@@ -72,6 +72,8 @@ namespace Bec.TargetFramework.Hosts.AnalysisService
                             host.AddDependencyInjectionBehavior(interfaceType, m_IocContainer);
                             host.Open();
 
+                            Console.WriteLine(serviceType.ToString() + " service started");
+                            eventLog.WriteEntry(serviceType.ToString() + " service started");
                             m_ServiceHosts.Add(host);
                         }
                         catch (System.Exception ex)

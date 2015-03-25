@@ -102,6 +102,18 @@
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
       <Name>Bec.TargetFramework.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bac.TargetFramework.Analysis\Bec.TargetFramework.Analysis.csproj">
+      <Project>{d56bf17d-b356-4b5c-9161-ec5263797983}</Project>
+      <Name>Bec.TargetFramework.Analysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Analysis.Entities\Bec.TargetFramework.Analysis.Entities.csproj">
+      <Project>{2d34293d-aefd-4060-a252-43be867e68a3}</Project>
+      <Name>Bec.TargetFramework.Analysis.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Analysis.Enums\Bec.TargetFramework.Analysis.Enums.csproj">
+      <Project>{b8e292cc-170e-4b8e-a9f8-0a537871d992}</Project>
+      <Name>Bec.TargetFramework.Analysis.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.Analysis.Infrastructure\Bec.TargetFramework.Analysis.Infrastructure.csproj">
       <Project>{2ee04923-16b5-4795-84e7-e30410ac393b}</Project>
       <Name>Bec.TargetFramework.Analysis.Infrastructure</Name>
