@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
 
             HttpContext ctx = HttpContext.Current;
 
-            string url = "~/UserAccount/Logout/Landing";
+            string url = "~/Account/Login/SessionExpired";
 
             // If the browser session or authentication session has expired...
             if (filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] == null || !filterContext.HttpContext.Request.IsAuthenticated)
