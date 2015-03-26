@@ -233,12 +233,7 @@
                     $("p#ddSystemAdminName").text(dataItem.SystemAdminTitle + " " + dataItem.SystemAdminFirstName + " " + dataItem.SystemAdminLastName);
 
                     var regulatorName = dataItem.CompanyRegulator || "";
-
-                    if (regulatorName.toLowerCase() == 'other')
-                        regulatorName = dataItem.CompanyOtherRegulator;
-                    else
-                        regulatorName = "";
-
+                    if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.CompanyOtherRegulator;
                     $("p#ddRegulator").text(regulatorName);
                 }
 
