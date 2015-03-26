@@ -13,9 +13,8 @@ namespace Bec.TargetFramework.Entities.Enums
         Branch = 34,
         Personal = 29,
         Conveyancing = 28,
-        SCP = 32,
         Supplier = 33,
-        SP =31,
-        Temporary = 27
+        Temporary = 27,
+        Professional = 31
     }
 }
