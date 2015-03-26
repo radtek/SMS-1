@@ -51,6 +51,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             UserLoginValidation result = m_UaService.AuthenticateWithUsername(account, username, password);
 
+
             result.UserAccount = account;
 
             return Task.FromResult(result);

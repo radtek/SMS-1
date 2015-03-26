@@ -50,6 +50,13 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 dtoList = VCompanyConverter.ToDtos(scope.DbContext.VCompanies);
+
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(),
+                    ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
+
+
+                var boo = scope.DbContext.VOrganisationWithStatusAndAdmins.Where(
+                    item => item.StatusTypeValueID.Equals(status.StatusTypeValueID));
             }
 
             return dtoList;
