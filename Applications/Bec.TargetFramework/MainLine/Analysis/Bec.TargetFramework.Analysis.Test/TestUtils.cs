@@ -2,6 +2,8 @@
 using Bec.TargetFramework.Data.Analysis;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.Test.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.XmlDiffPatch;
 using System;
 using System.Collections.Generic;
@@ -20,26 +22,26 @@ namespace Bec.TargetFramework.Analysis.Test
             using (var scope = new UnitOfWorkScope<TargetFrameworkAnalysisEntities>(UnitOfWorkScopePurpose.Writing, new NullLogger(), true))
             {
                 // Get the repos
-                var analysisMortgageApplicationRepos = scope.GetGenericRepository<AnalysisMortgageApplication, Guid>();
-                var analysisMortgageApplicationDetailRepos = scope.GetGenericRepository<AnalysisMortgageApplicationDetail, Guid>();
+                var AnalysisInputMortgageApplicationRepos = scope.GetGenericRepository<AnalysisInputMortgageApplication, Guid>();
+                var AnalysisInputMortgageApplicationDetailRepos = scope.GetGenericRepository<AnalysisInputMortgageApplicationDetail, Guid>();
 
                 // Find the applications to delete
-                var list = analysisMortgageApplicationDetailRepos.GetAll().ToList();
+                var list = AnalysisInputMortgageApplicationDetailRepos.GetAll().ToList();
 
                 list.ForEach(it =>
                 {
                     it.IsDeleted = true;
                     it.IsActive = false;
-                    analysisMortgageApplicationDetailRepos.Update(it);
+                    AnalysisInputMortgageApplicationDetailRepos.Update(it);
                 });
 
-                var list2 = analysisMortgageApplicationRepos.GetAll().ToList();
+                var list2 = AnalysisInputMortgageApplicationRepos.GetAll().ToList();
 
                 list2.ForEach(it =>
                 {
                     it.IsDeleted = true;
                     it.IsActive = false;
-                    analysisMortgageApplicationRepos.Update(it);
+                    AnalysisInputMortgageApplicationRepos.Update(it);
                 });
 
                 scope.Save();
@@ -51,11 +53,11 @@ namespace Bec.TargetFramework.Analysis.Test
             using (var scope = new UnitOfWorkScope<TargetFrameworkAnalysisEntities>(UnitOfWorkScopePurpose.Writing, new NullLogger(), true))
             {
                 // Get the repos
-                var analysisMortgageApplicationRepos = scope.GetGenericRepository<AnalysisMortgageApplication, Guid>();
-                var analysisMortgageApplicationDetailRepos = scope.GetGenericRepository<AnalysisMortgageApplicationDetail, Guid>();
+                var AnalysisInputMortgageApplicationRepos = scope.GetGenericRepository<AnalysisInputMortgageApplication, Guid>();
+                var AnalysisInputMortgageApplicationDetailRepos = scope.GetGenericRepository<AnalysisInputMortgageApplicationDetail, Guid>();
 
                 // Find the applications to delete
-                var list = analysisMortgageApplicationDetailRepos.FindAll(
+                var list = AnalysisInputMortgageApplicationDetailRepos.FindAll(
                     s => s.Lender.Equals(requestDTO.Lender)
                         && s.Domain.Equals(requestDTO.Domain)
                         && s.MortgageApplicationNumber.Equals(requestDTO.MortgageApplicationNumber))
@@ -66,10 +68,10 @@ namespace Bec.TargetFramework.Analysis.Test
                 {
                     it.IsDeleted = true;
                     it.IsActive = false;
-                    it.AnalysisMortgageApplication.IsDeleted = true;
-                    it.AnalysisMortgageApplication.IsActive = false;
-                    analysisMortgageApplicationDetailRepos.Update(it);
-                    analysisMortgageApplicationRepos.Update(it.AnalysisMortgageApplication);
+                    it.AnalysisInputMortgageApplication.IsDeleted = true;
+                    it.AnalysisInputMortgageApplication.IsActive = false;
+                    AnalysisInputMortgageApplicationDetailRepos.Update(it);
+                    AnalysisInputMortgageApplicationRepos.Update(it.AnalysisInputMortgageApplication);
                 });
 
                 scope.Save();
@@ -103,3 +105,33 @@ namespace Bec.TargetFramework.Analysis.Test
         }   
     }
 }
+
+namespace Bec.TargetFramework.Infrastructure.Test.Base
+{
+    public class UnitTestBase : IUnitTest
+    {
+        public const string TESTINGPATH = @"C:\Testing";
+
+        [TestCleanup]
+        public virtual void TestCleanUp()
+        {
+        }
+
+        [TestInitialize]
+        public virtual void TestInitialise()
+        {
+            if (!Directory.Exists(TESTINGPATH))
+                Directory.CreateDirectory(TESTINGPATH);
+        }
+    }
+}
+
+namespace Bec.TargetFramework.Infrastructure.Test.Interfaces
+{
+    public interface IUnitTest
+    {
+        void TestCleanUp();
+        void TestInitialise();
+    }
+}
+

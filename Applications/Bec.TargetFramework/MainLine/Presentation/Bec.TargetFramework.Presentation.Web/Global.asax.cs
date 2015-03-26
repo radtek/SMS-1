@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
 using System.Web.Helpers;
 using System.Security.Claims;
@@ -53,10 +54,11 @@ namespace Bec.TargetFramework.Presentation.Web
 
         protected void LogException(Exception exc)
         {
-            if (exc == null)
-                return;
+            var resolver = DependencyResolver.Current as AutofacDependencyResolver;
 
-            SerilogHelper.LogException(AppDomain.CurrentDomain.FriendlyName,exc);
+            var logger = resolver.ApplicationContainer.Resolve<ILogger>();
+
+            logger.Error(exc, AppDomain.CurrentDomain.FriendlyName);
         }
     }
 }

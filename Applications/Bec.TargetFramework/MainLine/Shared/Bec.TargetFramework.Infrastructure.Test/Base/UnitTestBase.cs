@@ -13,7 +13,7 @@ namespace Bec.TargetFramework.Infrastructure.Test.Base
     {
         public const string TESTINGPATH = @"C:\Testing";
 
-        [TestCleanup]
+        [TestCleanup] 
         public virtual void TestCleanUp()
         {
         }

@@ -1,27 +1,84 @@
-﻿using Bec.TargetFramework.Analysis.Infrastructure;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity;
+using System.ServiceModel;
+using System.ServiceModel.Configuration;
+using Autofac;
+using Bec.TargetFramework.Analysis.Infrastructure;
 using Bec.TargetFramework.Analysis.Interfaces;
 using Bec.TargetFramework.Analysis.Services;
 using Bec.TargetFramework.Analysis.Test.Properties;
 using Bec.TargetFramework.Data.Analysis;
+using Bec.TargetFramework.Analysis;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.Infrastructure.Test.Base;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Bec.TargetFramework.Analysis.Entities;
+using Autofac.Integration.Wcf;
+
 
 namespace Bec.TargetFramework.Analysis.Test
 {
     [TestClass]
     public class Interaction1RequestTests : UnitTestBase
-    {   
+    {
+        public static IContainer m_IocContainer;
+        public static ServiceHost m_MortgageApplicationLogicService;
+
+        [ClassInitialize()]
+        public static void SetupTestClass(TestContext context)
+        {
+            try
+            {
+                InitialiseIOC();
+                System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
+
+                m_MortgageApplicationLogicService = new ServiceHost(typeof(MortgageApplicationLogicService));
+                m_MortgageApplicationLogicService.AddDependencyInjectionBehavior(typeof(IMortgageApplicationLogic), m_IocContainer);
+                m_MortgageApplicationLogicService.Open();
+            }
+            catch (Exception ex)
+            {
+                if (Serilog.Log.Logger == null)
+                    new SerilogLogger(true, false, "MortgageApplicationLogicService").Error(ex);
+                else
+                    Serilog.Log.Logger.Error(ex, ex.Message, null);
+            }
+        }
+
+        [ClassCleanup()]
+        public static void TearDownTestClass()
+        {
+            m_MortgageApplicationLogicService.Close();
+            m_IocContainer.Dispose();
+        }
+
+        private static void InitialiseIOC()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+
+            var registrar = new 
+                IOC.DependencyRegistrar();
+
+            registrar.Register(builder, null);
+
+            m_IocContainer = builder.Build();
+        }
+
         [TestMethod]
         public void MortgageApplicationLogicService_Sample_Valid()
         {
-            var service = new MortgageApplicationLogicService(new NullLogger(), null);            
+            var serviceInstance = m_IocContainer.Resolve<IMortgageApplicationLogic>();
+
             var requestDTO = SearchDetailHelper.Deserialize<SearchDetail>(Resources.Interaction1RequestSample);
-            var responseDTO = service.ProcessMortgageApplication(requestDTO);
+            var responseDTO = serviceInstance.ProcessMortgageApplication(requestDTO);
 
             AssertResponseIsCorrect(responseDTO);
         }
@@ -395,36 +452,15 @@ namespace Bec.TargetFramework.Analysis.Test
             // Firstly, mark all current mortgage applications that match this one as deleted.
             TestUtils.DeletePreviousTestMortgageApplications(requestDTO);
 
-            //var mockContext = new Mock<BecTargetFrameworkAnalysisEntities>();
+            var data = new List<AnalysisInputMortgageApplicationDetail> 
+            { 
+                new AnalysisInputMortgageApplicationDetail { SearchReferenceKey = "BBB", IsActive = true, IsDeleted = false }, 
+            }.AsQueryable();
 
-            //var data = new List<AnalysisMortgageApplicationDetail> 
-            //{ 
-            //    new AnalysisMortgageApplicationDetail { SearchReferenceKey = "BBB", IsActive = true, IsDeleted = false }, 
-            //}.AsQueryable();
-
-            //var mockSetDetail = new Mock<DbSet<AnalysisMortgageApplicationDetail>>();
-            //mockSetDetail.As<IQueryable<AnalysisMortgageApplicationDetail>>().Setup(m => m.Provider).Returns(data.Provider);
-            //mockSetDetail.As<IQueryable<AnalysisMortgageApplicationDetail>>().Setup(m => m.Expression).Returns(data.Expression);
-            //mockSetDetail.As<IQueryable<AnalysisMortgageApplicationDetail>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            //mockSetDetail.As<IQueryable<AnalysisMortgageApplicationDetail>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            //mockContext.Setup(m => m.AnalysisMortgageApplicationDetails).Returns(mockSetDetail.Object);
-
-            //var mockSetApplication = new Mock<DbSet<AnalysisMortgageApplication>>();
-            //mockContext.Setup(m => m.AnalysisMortgageApplications).Returns(mockSetApplication.Object);
-
-            // Trigger the logic
-            //using (MortgageApplicationLogic logic = new MortgageApplicationLogic(new NullLogger(), null, mockContext.Object))
-            //    logic.ProcessMortgageApplication(requestDTO);
-
-            using (var logic = new MortgageApplicationLogic(new NullLogger(), null))
+            using (MortgageApplicationLogic logic = new MortgageApplicationLogic(new NullLogger(), null))
+            {
                 logic.ProcessMortgageApplication(requestDTO);
-
-            //mockSetDetail.Verify(m => m.Add(It.IsAny<AnalysisMortgageApplicationDetail>()), Times.Once());
-            //mockSetApplication.Verify(m => m.Add(It.IsAny<AnalysisMortgageApplication>()), Times.Once());
-            //mockContext.Verify(m => m.SaveChanges(), Times.Once());
-
-            // Check that the new mortgage application was saved
-            //MortgageApplicationLogic_Sample_Save_CheckIt(requestDTO, mockContext.Object);
+            }
 
             MortgageApplicationLogic_Sample_Save_CheckIt(requestDTO);
 
@@ -439,48 +475,40 @@ namespace Bec.TargetFramework.Analysis.Test
             using (var scope = new UnitOfWorkScope<TargetFrameworkAnalysisEntities>(UnitOfWorkScopePurpose.Writing, new NullLogger(), true))
             {
                 // Check the detail table
-                var analysisMortgageApplicationDetailDTO =
-                    AnalysisMortgageApplicationDetailConverter.ToDto(
-                        scope.DbContext.AnalysisMortgageApplicationDetails.Single(
+                var AnalysisInputMortgageApplicationDetailDTO =
+                    AnalysisInputMortgageApplicationDetailConverter.ToDto(
+                        scope.DbContext.AnalysisInputMortgageApplicationDetails.Single(
                             s => s.Lender.Equals(requestDTO.Lender)
                                 && s.Domain.Equals(requestDTO.Domain)
                                 && s.MortgageApplicationNumber.Equals(requestDTO.MortgageApplicationNumber)
                                 && s.IsActive
                                 && !s.IsDeleted));
 
-                Assert.IsNotNull(analysisMortgageApplicationDetailDTO);
-                Assert.AreEqual(requestDTO.Lender, analysisMortgageApplicationDetailDTO.Lender);
-                Assert.AreEqual(requestDTO.Domain, analysisMortgageApplicationDetailDTO.Domain);
-                Assert.AreEqual(requestDTO.MortgageApplicationNumber, analysisMortgageApplicationDetailDTO.MortgageApplicationNumber);
-                Assert.AreEqual(requestDTO.Lender + "|" + requestDTO.Domain + "|" + requestDTO.MortgageApplicationNumber, analysisMortgageApplicationDetailDTO.SearchReferenceKey);
-                Assert.AreEqual(true, analysisMortgageApplicationDetailDTO.IsActive);
-                Assert.AreEqual(false, analysisMortgageApplicationDetailDTO.IsDeleted);
+                Assert.IsNotNull(AnalysisInputMortgageApplicationDetailDTO);
+                Assert.AreEqual(requestDTO.Lender, AnalysisInputMortgageApplicationDetailDTO.Lender);
+                Assert.AreEqual(requestDTO.Domain, AnalysisInputMortgageApplicationDetailDTO.Domain);
+                Assert.AreEqual(requestDTO.MortgageApplicationNumber, AnalysisInputMortgageApplicationDetailDTO.MortgageApplicationNumber);
+                Assert.AreEqual(requestDTO.Lender + "|" + requestDTO.Domain + "|" + requestDTO.MortgageApplicationNumber, AnalysisInputMortgageApplicationDetailDTO.SearchReferenceKey);
+                Assert.AreEqual(true, AnalysisInputMortgageApplicationDetailDTO.IsActive);
+                Assert.AreEqual(false, AnalysisInputMortgageApplicationDetailDTO.IsDeleted);
 
                 // Check the header table
-                var analysisMortgageApplicationDTO =
-                    AnalysisMortgageApplicationConverter.ToDto(
-                        scope.DbContext.AnalysisMortgageApplications.Single(
-                            s => s.AnalysisMortgageApplicationID == analysisMortgageApplicationDetailDTO.AnalysisMortgageApplicationID));
+                var analysisInputMortgageApplicationDTO =
+                    AnalysisInputMortgageApplicationConverter.ToDto(
+                        scope.DbContext.AnalysisInputMortgageApplications.Single(
+                            s => s.AnalysisInputMortgageApplicationID == AnalysisInputMortgageApplicationDetailDTO.AnalysisInputMortgageApplicationID));
 
-                Assert.IsNotNull(analysisMortgageApplicationDTO);
-                Assert.AreEqual(JsonHelper.SerializeData(requestDTO), analysisMortgageApplicationDTO.ApplicationData);
-                Assert.AreEqual(DateTime.Now.Date, analysisMortgageApplicationDTO.LastUpdated.Date);
-                Assert.AreEqual(Guid.Parse("8967ae42-97fa-11e4-9023-e7ad5fae5a2c"), analysisMortgageApplicationDTO.SchemaID);
-                Assert.AreEqual(0, analysisMortgageApplicationDTO.SchemaVersionNumber);
-                Assert.AreEqual(true, analysisMortgageApplicationDTO.IsActive);
-                Assert.AreEqual(false, analysisMortgageApplicationDTO.IsDeleted);
+                Assert.IsNotNull(analysisInputMortgageApplicationDTO);
+                Assert.AreEqual(JsonHelper.SerializeData(requestDTO), analysisInputMortgageApplicationDTO.InputData);
+                Assert.AreEqual(DateTime.Now.Date, analysisInputMortgageApplicationDTO.CreatedOn.Date);
+
+                var defaultSchema = scope.DbContext.AnalysisInputSchemata.Single(s => s.Name.Equals("Default Mortgage Application from SIRA"));
+
+                Assert.AreEqual(defaultSchema.AnalysisInputSchemaID, analysisInputMortgageApplicationDTO.AnalysisInputSchemaID);
+                Assert.AreEqual(defaultSchema.AnalysisInputSchemaVersionNumber, analysisInputMortgageApplicationDTO.AnalysisInputSchemaVersionNumber);
+                Assert.AreEqual(true, analysisInputMortgageApplicationDTO.IsActive);
+                Assert.AreEqual(false, analysisInputMortgageApplicationDTO.IsDeleted);
             }
-        }
-
-        
-        [TestMethod]
-        public void MortgageApplicationLogic_NullRequest()
-        {
-            SearchDetail requestDTO = null;
-
-            // Trigger the logic
-            using (var logic = new MortgageApplicationLogic(new NullLogger(), null))
-                AssertResponseIsInvalid_NullRequest(logic.ProcessMortgageApplication(requestDTO));
         }
 
         private void AssertResponseIsInvalid_NullRequest(SearchDetail responseDTO)
