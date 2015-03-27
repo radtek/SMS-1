@@ -82,6 +82,6 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         System.Collections.Generic.List<Bec.TargetFramework.Entities.VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(int typeId);
 
         [OperationContract]
-        List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies();
+        List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum orgStatus);
     }
 }

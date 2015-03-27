@@ -114,6 +114,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.SB.ProductMessages", "Bec.TargetFramework.SB.ProductMessages\Bec.TargetFramework.SB.ProductMessages.csproj", "{EA409E2F-315B-4BE4-9439-BEC7127C4C98}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.Hosts.AnalysisService", "Hosts\Bec.TargetFramework.Hosts.SiraService\Bec.TargetFramework.Hosts.AnalysisService.csproj", "{D016F748-16D4-46E3-BE1E-7E3138194C7E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2D34293D-AEFD-4060-A252-43BE867E68A3} = {2D34293D-AEFD-4060-A252-43BE867E68A3}
+		{317225A7-331E-449A-A3D8-BD43CD6E67B7} = {317225A7-331E-449A-A3D8-BD43CD6E67B7}
+		{B8E292CC-170E-4B8E-A9F8-0A537871D992} = {B8E292CC-170E-4B8E-A9F8-0A537871D992}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis", "Analysis", "{3079F421-6575-450A-9E54-F41394B669B4}"
 EndProject

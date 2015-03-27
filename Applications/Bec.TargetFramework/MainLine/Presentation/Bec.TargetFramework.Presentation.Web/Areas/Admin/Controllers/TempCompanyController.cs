@@ -17,7 +17,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     {
         private IOrganisationLogic m_OrganisationLogic;
 
-        public TempCompanyController(ILogger logger,IOrganisationLogic oLogic) : base(logger)
+        public TempCompanyController(ILogger logger, IOrganisationLogic oLogic)
+            : base(logger)
         {
             m_OrganisationLogic = oLogic;
         }
@@ -28,23 +29,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult LoadUnverifiedCompanies(/*int page, int pageSize, int take*/)
+        public ActionResult LoadCompanies(Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var allUnverifiedCompanies = m_OrganisationLogic.GetAllUnverifiedCompanies();
-            var filteredList = allUnverifiedCompanies;//.Skip((page - 1)*pageSize).Take(pageSize).ToList();
-
-            // set datetime for display
-            filteredList.ForEach(item =>
-            {
-                if (item.CompanyRecordCreated.HasValue)
-                    item.CompanyCreatedOnDate =  item.CompanyRecordCreated.Value.ToString("dd/MM/yyyy hh:MM:ss");
-                else
-                {
-                    item.CompanyCreatedOnDate =  string.Empty;
-                }
-            });
-
-            var jsonData = new { total = allUnverifiedCompanies.Count, filteredList };
+            var companies = m_OrganisationLogic.GetCompanies(orgStatus);
+            var jsonData = new { total = companies.Count, companies };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 

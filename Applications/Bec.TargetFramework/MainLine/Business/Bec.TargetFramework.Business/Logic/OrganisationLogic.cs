@@ -43,28 +43,21 @@ namespace Bec.TargetFramework.Business.Logic
             m_AuthSvc = authSvc;
         }
 
-        public List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies()
+        public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var dtoList = new  List<Bec.TargetFramework.Entities.VCompanyDTO>();
-
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                dtoList = VCompanyConverter.ToDtos(scope.DbContext.VCompanies);
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), orgStatus.GetStringValue());
 
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(),
-                    ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
-
-
-                var boo = scope.DbContext.VOrganisationWithStatusAndAdmins.Where(
-                    item => item.StatusTypeValueID.Equals(status.StatusTypeValueID));
+                return VOrganisationWithStatusAndAdminConverter.ToDtos(
+                    scope.DbContext.VOrganisationWithStatusAndAdmins.Where(
+                    item => item.StatusTypeValueID.Equals(status.StatusTypeValueID)));
             }
-
-            return dtoList;
         }
 
         public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
         {
-            
+
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 // create organisation
@@ -108,14 +101,14 @@ namespace Bec.TargetFramework.Business.Logic
                 scope.DbContext.Contacts.Add(contact);
 
                 var contactRegulator = new ContactRegulator
-                {   
+                {
                     ContactID = contact.ContactID,
                     RegulatorName = dto.CompanyRegulator,
                     RegulatorOtherName = dto.CompanyOtherRegulator
                 };
 
                 scope.DbContext.ContactRegulators.Add(contactRegulator);
-                
+
                 //address to contact, organisation to the contact
 
                 var address = new Address
