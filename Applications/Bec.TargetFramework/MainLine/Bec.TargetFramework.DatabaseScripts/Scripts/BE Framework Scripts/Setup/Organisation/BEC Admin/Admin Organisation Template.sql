@@ -121,8 +121,8 @@ VALUES (
   true,
   false,
   DoVersionNumber,
-  (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Organisation Status'),
- (select "StatusTypeTemplateVersionNumber" from "StatusTypeTemplate" where "Name" = 'Organisation Status')
+  (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Professional Organisation Status'),
+ (select "StatusTypeTemplateVersionNumber" from "StatusTypeTemplate" where "Name" = 'Professional Organisation Status')
 );
 
 -- set organisation branch target
