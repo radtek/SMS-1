@@ -18,8 +18,8 @@ namespace Bec.TargetFramework.Business.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class OrganisationLogicService : OrganisationLogic, IOrganisationLogic, IBusinessLogicService
     {
-        public OrganisationLogicService(UserAccountService uaService, AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings) 
-            : base(uaService, authSvc, logger, cacheProvider, commonSettings)
+        public OrganisationLogicService(UserAccountService uaService, AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings,IUserLogic uLogic,IDataLogic dLogic)
+            : base(uaService, authSvc, logger, cacheProvider, commonSettings, uLogic, dLogic)
         {
         }
 

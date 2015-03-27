@@ -34,32 +34,41 @@ namespace Bec.TargetFramework.Business.Logic
             string building = "";
             if (!string.IsNullOrEmpty(buildingNameOrNumber))
             {
-                building = buildingNameOrNumber;
+                building = buildingNameOrNumber.ToLowerInvariant();
             }
 
-            var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "",
-                postCode.Replace(" ", "").Trim(), userName);
+            var pcTrimmed = postCode.Replace(" ", "").Trim().ToLowerInvariant();
 
-            List<PostCodeDTO> dtos = new List<PostCodeDTO>();
-
-            response.ToList().ForEach(item =>
+            using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
             {
-                PostCodeDTO dto = new PostCodeDTO();
-                dto.Company = item.Company;
-                dto.County = item.County;
-                dto.Department = item.Department;
-                dto.BuildingName = item.BuildingName;
-                dto.Line1 = item.Line1;
-                dto.Line2 = item.Line2;
-                dto.Line3 = item.Line3;
-                dto.PostCode = item.Postcode;
-                dto.PostTown = item.PostTown;
-                dto.PrimaryStreet = item.PrimaryStreet;
+                string cacheKey = pcTrimmed + "*" + building;
+                var cacheResult = cacheClient.Get<List<PostCodeDTO>>(cacheKey);
 
-                dtos.Add(dto);
-            });
+                if (cacheResult != null)
+                    return cacheResult;
+                else
+                {
+                    var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
 
-            return dtos;
+                    var dtos = response.Select(item => new PostCodeDTO
+                    {
+                        Company = item.Company,
+                        County = item.County,
+                        Department = item.Department,
+                        BuildingName = item.BuildingName,
+                        Line1 = item.Line1,
+                        Line2 = item.Line2,
+                        Line3 = item.Line3,
+                        Postcode = item.Postcode,
+                        PostTown = item.PostTown,
+                        PrimaryStreet = item.PrimaryStreet
+                    }).ToList();
+
+                    cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+
+                    return dtos;
+                }
+            }
         }
 
         public GoogleGeoCodeResponse GeoCodePostcode(string postCode)

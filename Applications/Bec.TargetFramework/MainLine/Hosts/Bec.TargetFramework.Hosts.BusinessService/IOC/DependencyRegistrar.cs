@@ -81,12 +81,15 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new ValidationLogicService(c.Resolve<ILogger>()
                           , c.Resolve<ICacheProvider>())).As<IValidationLogic>();
 
+            builder.Register(c => new UserLogicService(c.Resolve<UserAccountService>()
+                           , c.Resolve<AuthenticationService>(), c.Resolve<IDataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>())).As<IUserLogic>();
+
             // reference first to load assemblies
             builder.Register(c => new OrganisationLogicService(c.Resolve<UserAccountService>()
                             , c.Resolve<AuthenticationService>()
                             , c.Resolve<ILogger>()
                             , c.Resolve<ICacheProvider>()
-                            , c.Resolve<CommonSettings>())).As<IOrganisationLogic>();
+                            , c.Resolve<CommonSettings>(), c.Resolve<IUserLogic>(), c.Resolve<IDataLogic>())).As<IOrganisationLogic>();
 
             builder.Register(c => new ProductLogicService( c.Resolve<ILogger>()
                             , c.Resolve<ICacheProvider>(),c.Resolve<DeductionLogic>())).As<IProductLogic>();
@@ -140,9 +143,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new PaymentLogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<PaymentSettings>())).As<IPaymentLogic>();
 
-            builder.Register(c => new UserLogicService(c.Resolve<UserAccountService>()
-                            , c.Resolve<AuthenticationService>(), c.Resolve<IDataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>(),c.Resolve<IOrganisationLogic>())).As<IUserLogic>();
-
+           
             builder.Register(c => new ExperianIDCheckLogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianIDCheckLogic>();
 

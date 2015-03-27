@@ -46,6 +46,11 @@ namespace Bec.TargetFramework.Presentation.Web
         public static readonly string CurrentTheme = GetValue<string>("CurrentTheme");
 
         /// <summary>
+        ///     Retrieves the entry value for the following composed key: "octo:version" as a string.
+        /// </summary>
+        public static readonly string OctoVersion = GetValue<string>("version", "octo");
+
+        /// <summary>
         ///     Gets the entry for the given key and prefix and retrieves its value as the specified type.
         ///     <para>If no prefix is specified the default prefix value ("config") will be used.</para>
         ///     <para>

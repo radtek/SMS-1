@@ -100,7 +100,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
         {
             var result = m_Client.ExecuteGet<T>(key);
 
-            if (!result.Success)
+            if (!result.Success && result.StatusCode != 1) //key not found
             {
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
@@ -118,7 +118,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
         {
             var result = m_Client.ExecuteGet(key);
 
-            if (!result.Success)
+            if (!result.Success && result.StatusCode != 1) //key not found
             {
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {

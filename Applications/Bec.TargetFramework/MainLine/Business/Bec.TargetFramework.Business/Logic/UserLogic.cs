@@ -35,15 +35,15 @@ namespace Bec.TargetFramework.Business.Logic
         private UserAccountService m_UaService;
         private AuthenticationService m_AuthSvc;
         private IDataLogic m_DataLogic;
-        private IOrganisationLogic m_OrganisationLogic;
-        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, IDataLogic dataLogic,  ILogger logger, ICacheProvider cacheProvider,IOrganisationLogic oLogic)
+        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, IDataLogic dataLogic,  ILogger logger, ICacheProvider cacheProvider)
             : base(logger, cacheProvider)
         {
             m_UaService = uaService;
             m_AuthSvc = authSvc;
             m_DataLogic = dataLogic;
-            m_OrganisationLogic = oLogic;
         }
+
+       
 
         public Task<UserLoginValidation> AuthenticateUser(string username, string password)
         {
@@ -1188,37 +1188,6 @@ namespace Bec.TargetFramework.Business.Logic
             return result;
         }
 
-        public bool DoesTemporaryUserBelongToTempOrganisation(Guid userID)
-        {
-            bool result = false;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                Guid? tempOrganisationBranchID = m_OrganisationLogic.GetTemporaryOrganisationBranchID();
-
-                result =
-                    scope.DbContext.UserAccountOrganisations.Any(
-                        s => s.UserID.Equals(userID) && s.OrganisationID.Equals(tempOrganisationBranchID.Value));
-            }
-
-            return result;
-        }
-
-        public UserAccountOrganisationDTO GetTemporaryUAO(Guid userID)
-        {
-            UserAccountOrganisationDTO dto = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                Guid? tempOrganisationBranchID = m_OrganisationLogic.GetTemporaryOrganisationBranchID();
-
-                dto = UserAccountOrganisationConverter.ToDto(
-                    scope.DbContext.UserAccountOrganisations.Single(
-                        s => s.UserID.Equals(userID) && s.OrganisationID.Equals(tempOrganisationBranchID.Value)));
-            }
-
-            return dto;
-        }
 
         public UserAccountOrganisationDTO GetPermanentUAO(Guid userID)
         {
@@ -1255,49 +1224,49 @@ namespace Bec.TargetFramework.Business.Logic
             return result;
         }
 
-        [EnsureArgumentAspect]
-        public Guid? CreateAndAddUserToPersonalOrganisation(Guid userID)
-        {
-            Guid? uaoID = null;
+        //[EnsureArgumentAspect]
+        //public Guid? CreateAndAddUserToPersonalOrganisation(Guid userID)
+        //{
+        //    Guid? uaoID = null;
 
-            Guid orgID = Guid.Empty;
+        //    Guid orgID = Guid.Empty;
 
-            int personalOrgTypeID = OrganisationTypeEnum.Personal.GetIntValue();
+        //    int personalOrgTypeID = OrganisationTypeEnum.Personal.GetIntValue();
 
-            var doPersonalOrganisationTemplate = new VDefaultOrganisationUserTypeOrganisationType();
+        //    var doPersonalOrganisationTemplate = new VDefaultOrganisationUserTypeOrganisationType();
 
-            //Get default organisation id for personal organisation
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                doPersonalOrganisationTemplate = scope.DbContext.VDefaultOrganisationUserTypeOrganisationTypes.Single(item => item.OrganisationTypeID.Equals(personalOrgTypeID));
+        //    //Get default organisation id for personal organisation
+        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+        //    {
+        //        doPersonalOrganisationTemplate = scope.DbContext.VDefaultOrganisationUserTypeOrganisationTypes.Single(item => item.OrganisationTypeID.Equals(personalOrgTypeID));
 
-                orgID = scope.DbContext.FnCreateOrganisationFromDefault(doPersonalOrganisationTemplate.OrganisationTypeID, doPersonalOrganisationTemplate.DefaultOrganisationID, doPersonalOrganisationTemplate.DefaultOrganisationVersionNumber, "Personal Organisation", "PersonalOrganisation").GetValueOrDefault();
+        //        orgID = scope.DbContext.FnCreateOrganisationFromDefault(doPersonalOrganisationTemplate.OrganisationTypeID, doPersonalOrganisationTemplate.DefaultOrganisationID, doPersonalOrganisationTemplate.DefaultOrganisationVersionNumber, "Personal Organisation", "PersonalOrganisation").GetValueOrDefault();
 
-                scope.Save();
-            }
+        //        scope.Save();
+        //    }
 
-            // add user to personal organisation
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var branches = m_OrganisationLogic.GetOrgansationBranchDTOs(orgID);
+        //    // add user to personal organisation
+        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+        //    {
+        //        var branches = m_OrganisationLogic.GetOrgansationBranchDTOs(orgID);
 
-                Ensure.That(branches.Count > 0).IsTrue();
+        //        Ensure.That(branches.Count > 0).IsTrue();
 
-                //Add user to newly created personal organisation
-                scope.DbContext.FnAddUserToOrganisation(userID, orgID, doPersonalOrganisationTemplate.UserTypeID, branches.First().OrganisationID);
-                scope.Save();
+        //        //Add user to newly created personal organisation
+        //        scope.DbContext.FnAddUserToOrganisation(userID, orgID, doPersonalOrganisationTemplate.UserTypeID, branches.First().OrganisationID);
+        //        scope.Save();
 
-                var organisationID = branches.First().OrganisationID;
+        //        var organisationID = branches.First().OrganisationID;
 
-                // get uao
-                uaoID =
-                    scope.DbContext.UserAccountOrganisations.Single(
-                        s => s.UserID.Equals(userID) && s.OrganisationID.Equals(organisationID)).UserAccountOrganisationID;
-            }
+        //        // get uao
+        //        uaoID =
+        //            scope.DbContext.UserAccountOrganisations.Single(
+        //                s => s.UserID.Equals(userID) && s.OrganisationID.Equals(organisationID)).UserAccountOrganisationID;
+        //    }
 
-            return uaoID;
+        //    return uaoID;
 
-        }
+        //}
 
         public Guid GetPersonalUserAccountOrganisation(Guid userId)
 
