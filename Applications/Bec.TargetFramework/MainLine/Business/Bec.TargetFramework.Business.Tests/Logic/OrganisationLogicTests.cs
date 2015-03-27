@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac.Integration.Wcf;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Business.Tests.Logic
 {
@@ -20,7 +21,7 @@ namespace Bec.TargetFramework.Business.Tests.Logic
     public class OrganisationLogicTests
     {
         public static IContainer m_IocContainer;
-        public static ServiceHost m_OrganisationLogicService;
+        public static List<ServiceHost> m_ServiceHosts = new List<ServiceHost>();
 
         [ClassInitialize()]
         public static void SetupTestClass(TestContext context)
@@ -32,9 +33,23 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
                 var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
 
-                m_OrganisationLogicService = new ServiceHost(typeof(OrganisationLogicService));
-                m_OrganisationLogicService.AddDependencyInjectionBehavior(typeof(IOrganisationLogic), m_IocContainer);
-                m_OrganisationLogicService.Open();
+                var os = new ServiceHost(typeof(OrganisationLogicService));
+                os.AddDependencyInjectionBehavior(typeof(IOrganisationLogic), m_IocContainer);
+                os.Open();
+
+                m_ServiceHosts.Add(os);
+
+                var us = new ServiceHost(typeof(UserLogicService));
+                us.AddDependencyInjectionBehavior(typeof(IUserLogic), m_IocContainer);
+                us.Open();
+
+                m_ServiceHosts.Add(us);
+
+                var dl = new ServiceHost(typeof(DataLogicService));
+                dl.AddDependencyInjectionBehavior(typeof(IDataLogic), m_IocContainer);
+                dl.Open();
+
+                m_ServiceHosts.Add(dl);
             }
             catch (Exception ex)
             {
@@ -54,6 +69,43 @@ namespace Bec.TargetFramework.Business.Tests.Logic
             registrar.Register(builder, null);
 
             m_IocContainer = builder.Build();
+        }
+
+        [TestMethod()]
+        public void AddOrganisationTest()
+        {
+            var serviceInstance = m_IocContainer.Resolve<IOrganisationLogic>();
+
+            var boo =  serviceInstance.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Professional, new VOrganisationWithStatusAndAdminDTO
+                {
+                    OrganisationAdminTelephone = "1234",
+                    PostalCode = "SE9",
+                    Regulator = "Other",
+                    RegulatorOther = "Test",
+                    Line1 = "Add",
+                    County = "Kent",
+                    Line2 = "Add2",
+                    CreatedOn = DateTime.Now,
+                    Name = Guid.NewGuid().ToString(),
+                    OrganisationAdminEmail = "c.misson@beconsultancy.co.uk",
+                    OrganisationAdminLastName = "Foo",
+                    OrganisationAdminFirstName = "Foo",
+                    OrganisationAdminSalutation = "Mr",
+                    Town = "Sidcup"
+                });
+
+            boo.Wait();
+
+            var result = boo.Result;
+
+            //var dto = new OrganisationDTO();
+            //dto.Detail = new OrganisationDetailDTO();
+            //dto.Detail.Name = "testname";
+            //dto.Detail.OrganisationTypeID = 1006;
+            //serviceInstance.AddNewOrganisationFromWizard(dto);
+
+            //var exists = serviceInstance.DoesOrganisationNameExist("testname");
+            //Assert.IsTrue(exists);
         }
 
         [TestMethod()]

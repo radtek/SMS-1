@@ -18,8 +18,8 @@ namespace Bec.TargetFramework.Business.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class UserLogicService : UserLogic, IUserLogic, IBusinessLogicService
     {
-        public UserLogicService(UserAccountService uaService, AuthenticationService authSvc, IDataLogic dataLogic, ILogger logger, ICacheProvider cacheProvider,IOrganisationLogic oLogic) 
-            : base(uaService, authSvc, dataLogic, logger, cacheProvider,oLogic)
+        public UserLogicService(UserAccountService uaService, AuthenticationService authSvc, IDataLogic dataLogic, ILogger logger, ICacheProvider cacheProvider) 
+            : base(uaService, authSvc, dataLogic, logger, cacheProvider)
         {
         }
 

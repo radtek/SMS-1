@@ -13,10 +13,12 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     using Bec.TargetFramework.Entities;
     using System.ServiceModel.Web;
     using System.Threading.Tasks;
+    using Bec.TargetFramework.Entities.Enums;
 
     [ServiceContract(Namespace = Bec.TargetFramework.Business.Infrastructure.BecTargetFrameworkBusinessServiceNamespaces.BusinessNamespace + "/UserLogic")]
     public interface IUserLogic : IBusinessLogicService
     {
+       
         [OperationContract]
         BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByEmailAndNotID(string email, Guid id);
 
@@ -40,9 +42,9 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID);
 
 
-        [OperationContract]
+        //[OperationContract]
 
-        UserAccountOrganisationDTO GetTemporaryUAO(Guid userID);
+        //UserAccountOrganisationDTO GetTemporaryUAO(Guid userID);
 
         [OperationContract]
 
@@ -54,8 +56,8 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         [OperationContract]
         void LockUserTemporaryAccount(Guid tempUserId);
 
-        [OperationContract]
-        bool DoesTemporaryUserBelongToTempOrganisation(Guid userID);
+        //[OperationContract]
+        //bool DoesTemporaryUserBelongToTempOrganisation(Guid userID);
         [OperationContract]
         bool DoesPermanentUserHavePersonalOrganisation(Guid userID);
 
@@ -179,8 +181,8 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         [OperationContract]
         List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID);
 
-        [OperationContract]
-        Guid? CreateAndAddUserToPersonalOrganisation(Guid userID);
+        //[OperationContract]
+        //Guid? CreateAndAddUserToPersonalOrganisation(Guid userID);
 
         [OperationContract]
         VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID, bool personalOrg);

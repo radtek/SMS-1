@@ -3,12 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
 {
     [ServiceContract(Namespace = Bec.TargetFramework.Business.Infrastructure.BecTargetFrameworkBusinessServiceNamespaces.BusinessNamespace + "/OrganisationLogicService")]
     public interface IOrganisationLogic : IBusinessLogicService
     {
+        [OperationContract]
+        Task<Guid> AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO dto);
+
+
+
         [OperationContract]
         Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto);
 
