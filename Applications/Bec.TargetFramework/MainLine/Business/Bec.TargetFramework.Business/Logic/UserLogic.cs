@@ -1096,7 +1096,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<string> UserLoginSessions(Guid userId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 return scope.DbContext.UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID.Equals(userId))
                     .Select(item => item.UserSessionID)
