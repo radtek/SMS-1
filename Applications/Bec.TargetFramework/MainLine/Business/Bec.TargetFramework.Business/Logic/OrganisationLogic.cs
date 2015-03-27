@@ -26,7 +26,6 @@ namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
     using EnsureThat;
-    using System.Threading.Tasks;
     //Bec.TargetFramework.Entities
 
     [Trace(TraceExceptionsOnly = true)]
@@ -48,19 +47,19 @@ namespace Bec.TargetFramework.Business.Logic
             m_DataLogic = dLogic;
         }
 
-        public List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies()
+        public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var dtoList = new  List<Bec.TargetFramework.Entities.VCompanyDTO>();
-
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                dtoList = VCompanyConverter.ToDtos(scope.DbContext.VCompanies);
-            }
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), orgStatus.GetStringValue());
 
-            return dtoList;
+                return VOrganisationWithStatusAndAdminConverter.ToDtos(
+                    scope.DbContext.VOrganisationWithStatusAndAdmins.Where(
+                    item => item.StatusTypeValueID.Equals(status.StatusTypeValueID)));
+            }
         }
 
-        public Task<Guid> AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO dto)
+        public Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             DefaultOrganisation defaultOrganisation = null;
             // get status type for professional organisation
@@ -83,7 +82,7 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation
             },UserTypeEnum.OrganisationAdministrator);
 
-            return Task.FromResult(organisationID.Value);
+            return organisationID.Value;
         }
 
         private Guid AddNewUserToOrganisation(Guid organisationID,ContactDTO userContactDto,UserTypeEnum userTypeValue)
@@ -99,6 +98,8 @@ namespace Bec.TargetFramework.Business.Logic
                 var userId = Guid.NewGuid();
 
                 ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false, userId);
+
+                Logger.Trace(string.Format("new user: {0} password: {1}", randomUsername, randomPassword));
 
                 // add user to organisation
                 scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
@@ -148,7 +149,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        private Guid? AddOrganisation(int organisationTypeID,DefaultOrganisation defaultOrg,Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO dto)
+        private Guid? AddOrganisation(int organisationTypeID, DefaultOrganisation defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             Guid? organisationID = null;
 
@@ -224,11 +225,11 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
-        {
+        //public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
+        //{
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
+        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+        //    {
                 //scope.DbContext.Organisations.Add(organisation);
 
                 //// create organisation detail
@@ -283,9 +284,9 @@ namespace Bec.TargetFramework.Business.Logic
                 //scope.DbContext.Addresses.Add(address);
                 //scope.Save();
                 //dto.CompanyId = organisation.OrganisationID;
-            }
-            return dto;
-        }
+        //    }
+        //    return dto;
+        //}
 
         public Guid? GetTemporaryOrganisationBranchID()
         {

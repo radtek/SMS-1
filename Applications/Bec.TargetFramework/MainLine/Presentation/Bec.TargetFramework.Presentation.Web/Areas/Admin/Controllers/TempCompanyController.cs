@@ -16,10 +16,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class TempCompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         private IOrganisationLogic m_OrganisationLogic;
+        private IAddressLogic m_AddressLogic;
 
-        public TempCompanyController(ILogger logger,IOrganisationLogic oLogic) : base(logger)
+        public TempCompanyController(ILogger logger, IOrganisationLogic oLogic, IAddressLogic addressLogic) : base(logger)
         {
             m_OrganisationLogic = oLogic;
+            m_AddressLogic = addressLogic;
         }
 
         // GET: Admin/TempCompany
@@ -28,23 +30,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult LoadUnverifiedCompanies(/*int page, int pageSize, int take*/)
+        public ActionResult LoadCompanies(Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var allUnverifiedCompanies = m_OrganisationLogic.GetAllUnverifiedCompanies();
-            var filteredList = allUnverifiedCompanies;//.Skip((page - 1)*pageSize).Take(pageSize).ToList();
+            var companies = m_OrganisationLogic.GetCompanies(orgStatus);
 
-            // set datetime for display
-            filteredList.ForEach(item =>
-            {
-                if (item.CompanyRecordCreated.HasValue)
-                    item.CompanyCreatedOnDate =  item.CompanyRecordCreated.Value.ToString("dd/MM/yyyy hh:MM:ss");
-                else
-                {
-                    item.CompanyCreatedOnDate =  string.Empty;
-                }
-            });
+            companies.ForEach(s => s.CreatedOnAsString = s.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"));
 
-            var jsonData = new { total = allUnverifiedCompanies.Count, filteredList };
+            var jsonData = new { total = companies.Count, companies };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
@@ -54,16 +46,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTempCompany(VCompanyDTO model)
+        public ActionResult AddTempCompany(AddCompanyDTO model)
         {
             if (ModelState.IsValid)
             {
-                model = m_OrganisationLogic.AddNewOrganisation(model);
-
-                TempData["AddTempCompanyId"] = model.CompanyId;
+                TempData["AddTempCompanyId"] = m_OrganisationLogic.AddNewUnverifiedOrganisationAndAdministrator(Entities.Enums.OrganisationTypeEnum.Conveyancing, model);
             }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult FindAddress(string postcode)
+        {
+            return Json(m_AddressLogic.FindAddressesByPostCode(postcode, null), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -3019,6 +3019,7 @@
     <Compile Include="Convertors\WorkflowTreeStructureActionTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureTemplateConverter.cs" />
+    <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
     <Compile Include="DTO\Event\EventPayload.cs" />
     <Compile Include="DTO\FieldDetailsAndValidationsContainerDTO.cs" />

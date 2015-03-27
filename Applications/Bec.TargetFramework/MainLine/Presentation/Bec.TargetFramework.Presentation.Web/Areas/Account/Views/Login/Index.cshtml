@@ -41,6 +41,7 @@
                         </section>
                     </fieldset>
                     <footer>
+                        <label style="float:left;margin-top:15px;">Version @TempData["version"]</label>
                         <button type="submit" id="formSubmit" class="btn btn-primary">
                             Sign in
                         </button>
@@ -83,6 +84,11 @@
                 // Do not change code below
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
+                },
+
+                submitHandler: function (form) {
+                    $('#formSubmit').prop('disabled', true);
+                    form.submit();
                 }
             });
         });
