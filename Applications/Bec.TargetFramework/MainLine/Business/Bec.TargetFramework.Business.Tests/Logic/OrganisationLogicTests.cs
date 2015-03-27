@@ -76,7 +76,7 @@ namespace Bec.TargetFramework.Business.Tests.Logic
         {
             var serviceInstance = m_IocContainer.Resolve<IOrganisationLogic>();
 
-            var boo =  serviceInstance.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Professional, new VOrganisationWithStatusAndAdminDTO
+            var boo =  serviceInstance.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Professional, new AddCompanyDTO
                 {
                     OrganisationAdminTelephone = "1234",
                     PostalCode = "SE9",
@@ -85,7 +85,6 @@ namespace Bec.TargetFramework.Business.Tests.Logic
                     Line1 = "Add",
                     County = "Kent",
                     Line2 = "Add2",
-                    CreatedOn = DateTime.Now,
                     Name = Guid.NewGuid().ToString(),
                     OrganisationAdminEmail = "c.misson@beconsultancy.co.uk",
                     OrganisationAdminLastName = "Foo",
@@ -93,10 +92,6 @@ namespace Bec.TargetFramework.Business.Tests.Logic
                     OrganisationAdminSalutation = "Mr",
                     Town = "Sidcup"
                 });
-
-            boo.Wait();
-
-            var result = boo.Result;
 
             //var dto = new OrganisationDTO();
             //dto.Detail = new OrganisationDetailDTO();

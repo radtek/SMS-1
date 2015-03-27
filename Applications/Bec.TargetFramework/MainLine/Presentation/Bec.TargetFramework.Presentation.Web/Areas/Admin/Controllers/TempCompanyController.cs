@@ -43,13 +43,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTempCompany(VCompanyDTO model)
+        public ActionResult AddTempCompany(AddCompanyDTO model)
         {
             if (ModelState.IsValid)
             {
-                model = m_OrganisationLogic.AddNewOrganisation(model);
-
-                TempData["AddTempCompanyId"] = model.CompanyId;
+                TempData["AddTempCompanyId"] = m_OrganisationLogic.AddNewUnverifiedOrganisationAndAdministrator(Entities.Enums.OrganisationTypeEnum.Conveyancing, model);
             }
 
             return RedirectToAction("Index");

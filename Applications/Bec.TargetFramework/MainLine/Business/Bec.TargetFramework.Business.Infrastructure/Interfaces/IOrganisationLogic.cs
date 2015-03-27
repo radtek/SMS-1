@@ -12,12 +12,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     public interface IOrganisationLogic : IBusinessLogicService
     {
         [OperationContract]
-        Task<Guid> AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO dto);
-
-
-
-        [OperationContract]
-        Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto);
+        Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto);
 
         [OperationContract]
         List<OrganisationDTO> GetOrgansationBranchDTOs(Guid orgId);
