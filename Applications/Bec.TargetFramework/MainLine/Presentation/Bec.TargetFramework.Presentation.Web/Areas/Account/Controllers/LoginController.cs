@@ -56,6 +56,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [AllowAnonymous]
         public ActionResult Index(string returnUrl)
         {
+            TempData["version"] = Settings.OctoVersion;
             // We do not want to use any existing identity information
             EnsureLoggedOut();
             return View(new LoginDTO { ReturnUrl = returnUrl });

@@ -16,10 +16,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class TempCompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         private IOrganisationLogic m_OrganisationLogic;
+        private IAddressLogic m_AddressLogic;
 
-        public TempCompanyController(ILogger logger,IOrganisationLogic oLogic) : base(logger)
+        public TempCompanyController(ILogger logger, IOrganisationLogic oLogic, IAddressLogic addressLogic) : base(logger)
         {
             m_OrganisationLogic = oLogic;
+            m_AddressLogic = addressLogic;
         }
 
         // GET: Admin/TempCompany
@@ -64,6 +66,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult FindAddress(string postcode)
+        {
+            return Json(m_AddressLogic.FindAddressesByPostCode(postcode, null), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -9,11 +9,12 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Entities
 {
+    [Serializable]
     [DataContract]
     public class PostCodeDTO
     {
         [DataMember]
-        public string PostCode { get; set; }
+        public string Postcode { get; set; }
 
         [DataMember]
         public string Line1 { get; set; }
@@ -59,23 +60,9 @@ namespace Bec.TargetFramework.Entities
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
-
-                if (!string.IsNullOrEmpty(Company))
-                    sb.Append(Company + ", ");
-
-                sb.Append(Line1);
-                if (!string.IsNullOrEmpty(Line2))
-                    sb.Append(", " + Line2);
-                if (!string.IsNullOrEmpty(Line3))
-                    sb.Append(", " + Line3);
-                if (!string.IsNullOrEmpty(PostTown))
-                    sb.Append(", " + PostTown);
-
-                return sb.ToString();
-
+                return string.Join(", ", new List<string> { Company, BuildingName, Line1, Line2, Line3, PostTown }.Where(x => !string.IsNullOrWhiteSpace(x)));
             }
-            set { value = ""; }
+            set { }
         }
     }
 }
