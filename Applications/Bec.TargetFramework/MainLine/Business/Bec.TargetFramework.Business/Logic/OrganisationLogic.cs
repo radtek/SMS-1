@@ -10,7 +10,6 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
-using BrockAllen.MembershipReboot;
 
 using Omu.ValueInjecter;
 using ServiceStack.Text;
@@ -32,104 +31,262 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class OrganisationLogic : LogicBase, IOrganisationLogic
     {
-        private UserAccountService m_UaService;
-        private AuthenticationService m_AuthSvc;
+        private BrockAllen.MembershipReboot.UserAccountService m_UaService;
+        private BrockAllen.MembershipReboot.AuthenticationService m_AuthSvc;
         private readonly CommonSettings m_CommonSettings;
-        public OrganisationLogic(UserAccountService uaService, AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings)
+        private IUserLogic m_UserLogic;
+        private IDataLogic m_DataLogic;
+        public OrganisationLogic(BrockAllen.MembershipReboot.UserAccountService uaService, BrockAllen.MembershipReboot.AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings
+            ,IUserLogic uLogic,IDataLogic dLogic)
             : base(logger, cacheProvider)
         {
              this.m_CommonSettings = commonSettings;
             m_UaService = uaService;
             m_AuthSvc = authSvc;
+            m_UserLogic = uLogic;
+            m_DataLogic = dLogic;
         }
 
-        public List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies()
+        public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var dtoList = new  List<Bec.TargetFramework.Entities.VCompanyDTO>();
-
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                dtoList = VCompanyConverter.ToDtos(scope.DbContext.VCompanies);
-            }
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), orgStatus.GetStringValue());
 
-            return dtoList;
+                return VOrganisationWithStatusAndAdminConverter.ToDtos(
+                    scope.DbContext.VOrganisationWithStatusAndAdmins.Where(
+                    item => item.StatusTypeValueID.Equals(status.StatusTypeValueID)));
+            }
         }
 
-        public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
+        public Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
-            
+            DefaultOrganisation defaultOrganisation = null;
+            // get status type for professional organisation
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                // get professional default organisation template
+                defaultOrganisation = scope.DbContext.DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation"));
+            }
+
+            Ensure.That(defaultOrganisation).IsNotNull();
+
+            // add organisation
+            var organisationID = AddOrganisation(organisationType.GetIntValue(), defaultOrganisation, dto);
+
+            var userAccountOrganisationID = AddNewUserToOrganisation(organisationID.Value,new ContactDTO{
+                 Telephone1 = dto.OrganisationAdminTelephone,
+                FirstName = dto.OrganisationAdminFirstName,
+                LastName = dto.OrganisationAdminLastName,
+                EmailAddress1 = dto.OrganisationAdminEmail,
+                Salutation = dto.OrganisationAdminSalutation
+            },UserTypeEnum.OrganisationAdministrator);
+
+            return organisationID.Value;
+        }
+
+        private Guid AddNewUserToOrganisation(Guid organisationID,ContactDTO userContactDto,UserTypeEnum userTypeValue)
+        {
+            Guid uaoID;
+            BrockAllen.MembershipReboot.UserAccount ua;
+
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                // create organisation
-                var organisation = new Organisation
-                {
-                    OrganisationID = Guid.NewGuid(),
-                    OrganisationTypeID = OrganisationTypeEnum.Administration.GetIntValue(),
-                    DefaultOrganisationID = Guid.Parse("32ab37d2-b2ca-11e4-81d7-00155d0a1426"),
-                    DefaultOrganisationVersionNumber = 1,
-                    IsBranch = false,
-                    IsHeadOffice = false,
-                    CreatedBy = "Dimo",
-                    CreatedOn = DateTime.Now
-                };
+                // generate username and password
+                var randomPassword = RandomPasswordGenerator.Generate(10);
+                var randomUsername = m_DataLogic.GenerateRandomName();
+                var userId = Guid.NewGuid();
 
-                scope.DbContext.Organisations.Add(organisation);
+                ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false, userId);
 
-                // create organisation detail
-                var orgDetail = new OrganisationDetail
-                {
-                    OrganisationID = organisation.OrganisationID,
-                    OrganisationDetailID = Guid.NewGuid(),
-                    Name = dto.CompanyName
-                };
+                Logger.Trace(string.Format("new user: {0} password: {1}", randomUsername, randomPassword));
 
-                scope.DbContext.OrganisationDetails.Add(orgDetail);
+                // add user to organisation
+                scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
 
-                // now create contact for the organisation
+                bool success = scope.Save();
+
+                if (!success)
+                    throw new Exception(scope.EntityErrors.Dump());
+            }
+
+            Ensure.That(ua).IsNotNull();
+
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+
+                var userTypeGuid = userTypeValue.GetGuidValue();
+
+                // get uao
+                var uao = scope.DbContext.UserAccountOrganisations.Single(s => s.UserID.Equals(ua.ID) && s.OrganisationID.Equals(organisationID)
+                    && s.UserTypeID.Equals(userTypeGuid));
+
+                // create contact
                 var contact = new Contact
                 {
-                    ParentID = organisation.OrganisationID,
                     ContactID = Guid.NewGuid(),
-                    ContactName = string.Empty,
-                    FirstName = dto.SystemAdminFirstName,
-                    LastName = dto.SystemAdminLastName,
-                    Telephone1 = dto.SystemAdminTel,
-                    EmailAddress1 = dto.SystemAdminEmail,
-                    Salutation = dto.SystemAdminTitle
+                    ParentID = uao.UserAccountOrganisationID,
+                    ContactName = "",
+                    IsPrimaryContact = true,
+                    Telephone1 = userContactDto.Telephone1,
+                    FirstName = userContactDto.FirstName,
+                    LastName = userContactDto.LastName,
+                    EmailAddress1 = userContactDto.EmailAddress1,
+                    Salutation = userContactDto.Salutation
                 };
 
                 scope.DbContext.Contacts.Add(contact);
 
+                bool success = scope.Save();
+
+                if (!success)
+                    throw new Exception(scope.EntityErrors.Dump());
+
+                uaoID = uao.UserAccountOrganisationID;
+            }
+
+            return uaoID;
+        }
+
+
+        private Guid? AddOrganisation(int organisationTypeID, DefaultOrganisation defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
+        {
+            Guid? organisationID = null;
+
+            // create company 
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                // create organisation from do template using stored procedure
+                organisationID = scope.DbContext.FnCreateOrganisationFromDefault(
+                    organisationTypeID,
+                    defaultOrg.DefaultOrganisationID,
+                    defaultOrg.DefaultOrganisationVersionNumber,
+                    dto.Name,
+                    "");
+
+                bool success = scope.Save();
+
+                if (!success)
+                    throw new Exception(scope.EntityErrors.Dump());
+            }
+
+            // perform other operations
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                // ensure guid has a value
+                Ensure.That(organisationID).IsNotNull();
+
+                // create contact for organisation
+                var contact = new Contact
+                {
+                    ContactID = Guid.NewGuid(),
+                    ParentID = organisationID.Value,
+                    ContactName = "",
+                    IsPrimaryContact = true
+
+                };
+
+                scope.DbContext.Contacts.Add(contact);
+
+                // contact regulator
                 var contactRegulator = new ContactRegulator
-                {   
+                {
                     ContactID = contact.ContactID,
-                    RegulatorName = dto.CompanyRegulator,
-                    RegulatorOtherName = dto.CompanyOtherRegulator
+                    RegulatorName = dto.Regulator,
+                    RegulatorOtherName = dto.RegulatorOther
                 };
 
                 scope.DbContext.ContactRegulators.Add(contactRegulator);
-                
-                //address to contact, organisation to the contact
 
+                //address to contact, organisation to the contact
                 var address = new Address
                 {
                     AddressID = Guid.NewGuid(),
                     ParentID = contact.ContactID,
-                    Line1 = dto.CompanyAddress1,
-                    Line2 = dto.CompanyAddress2,
-                    Town = dto.CompanyTownCity,
-                    County = dto.CompanyCounty,
-                    PostalCode = dto.CompanyPostCode,
+                    Line1 = dto.Line1,
+                    Line2 = dto.Line2,
+                    Town = dto.Town,
+                    County = dto.County,
+                    PostalCode = dto.PostalCode,
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = String.Empty,
+                    IsPrimaryAddress = true,
                     AdditionalAddressInformation = dto.AdditionalAddressInformation
                 };
                 scope.DbContext.Addresses.Add(address);
-                scope.Save();
-                dto.CompanyId = organisation.OrganisationID;
+
+                bool success = scope.Save();
+
+                if(!success)
+                    throw new Exception(scope.EntityErrors.Dump());
             }
-            return dto;
+
+            return organisationID;
         }
+
+
+        //public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
+        //{
+
+        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+        //    {
+                //scope.DbContext.Organisations.Add(organisation);
+
+                //// create organisation detail
+                //var orgDetail = new OrganisationDetail
+                //{
+                //    OrganisationID = organisation.OrganisationID,
+                //    OrganisationDetailID = Guid.NewGuid(),
+                //    Name = dto.CompanyName
+                //};
+
+                //scope.DbContext.OrganisationDetails.Add(orgDetail);
+
+                //// now create contact for the organisation
+                //var contact = new Contact
+                //{
+                //    ParentID = organisation.OrganisationID,
+                //    ContactID = Guid.NewGuid(),
+                //    ContactName = string.Empty,
+                //    FirstName = dto.SystemAdminFirstName,
+                //    LastName = dto.SystemAdminLastName,
+                //    Telephone1 = dto.SystemAdminTel,
+                //    EmailAddress1 = dto.SystemAdminEmail,
+                //    Salutation = dto.SystemAdminTitle
+                //};
+
+                //scope.DbContext.Contacts.Add(contact);
+
+                //var contactRegulator = new ContactRegulator
+                //{
+                //    ContactID = contact.ContactID,
+                //    RegulatorName = dto.CompanyRegulator,
+                //    RegulatorOtherName = dto.CompanyOtherRegulator
+                //};
+
+                //scope.DbContext.ContactRegulators.Add(contactRegulator);
+
+                ////address to contact, organisation to the contact
+
+                //var address = new Address
+                //{
+                //    AddressID = Guid.NewGuid(),
+                //    ParentID = contact.ContactID,
+                //    Line1 = dto.CompanyAddress1,
+                //    Line2 = dto.CompanyAddress2,
+                //    Town = dto.CompanyTownCity,
+                //    County = dto.CompanyCounty,
+                //    PostalCode = dto.CompanyPostCode,
+                //    AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
+                //    Name = String.Empty,
+                //    AdditionalAddressInformation = dto.AdditionalAddressInformation
+                //};
+                //scope.DbContext.Addresses.Add(address);
+                //scope.Save();
+                //dto.CompanyId = organisation.OrganisationID;
+        //    }
+        //    return dto;
+        //}
 
         public Guid? GetTemporaryOrganisationBranchID()
         {

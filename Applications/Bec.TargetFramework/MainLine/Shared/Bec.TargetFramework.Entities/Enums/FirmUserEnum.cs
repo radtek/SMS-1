@@ -28,7 +28,9 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("9e8d6786-2139-11e4-9216-972bcf724500")]
         Temporary = 4,
         [StringValue("ff3a49be-3ce1-11e4-be94-a761c0833a3a")]
-        BranchAdministrator = 5
+        BranchAdministrator = 5,
+        [StringValue("62885ba9-36ba-4035-836b-8e0c127098a2")]
+        OrganisationAdministrator = 6
     }
 
 }

@@ -109,15 +109,15 @@ namespace Bec.TargetFramework.Workflow.Providers
                 // get parameters
                 workflowContainerBase.Parameters = CreateParameters(workflow.WorkflowMainParameterTemplates.ToList<object>(), "WorkflowTemplateID");
 
-                workflowContainerBase.StartConditions = CreateConditions( scope,workflow.WorkflowMainStartConditionTemplates.ToList<object>(), "WorkflowTemplateID");
+                //workflowContainerBase.StartConditions = CreateConditions( scope,workflow.WorkflowMainStartConditionTemplates.ToList<object>(), "WorkflowTemplateID");
 
-                workflowContainerBase.CompleteConditions = CreateConditions(scope, workflow.WorkflowMainCompleteConditionTemplates.ToList<object>(), "WorkflowTemplateID");
+                //workflowContainerBase.CompleteConditions = CreateConditions(scope, workflow.WorkflowMainCompleteConditionTemplates.ToList<object>(), "WorkflowTemplateID");
 
-                workflowContainerBase.PreCommands = CreateCommands(scope, workflow.WorkflowMainPreCommandTemplates.ToList<object>(), "WorkflowTemplateID");
+                //workflowContainerBase.PreCommands = CreateCommands(scope, workflow.WorkflowMainPreCommandTemplates.ToList<object>(), "WorkflowTemplateID");
 
-                workflowContainerBase.ExecuteCommands = CreateCommands(scope, workflow.WorkflowMainExecuteCommandTemplates.ToList<object>(), "WorkflowTemplateID");
+                //workflowContainerBase.ExecuteCommands = CreateCommands(scope, workflow.WorkflowMainExecuteCommandTemplates.ToList<object>(), "WorkflowTemplateID");
 
-                workflowContainerBase.PostCommands = CreateCommands(scope, workflow.WorkflowMainPostCommandTemplates.ToList<object>(), "WorkflowTemplateID");
+                //workflowContainerBase.PostCommands = CreateCommands(scope, workflow.WorkflowMainPostCommandTemplates.ToList<object>(), "WorkflowTemplateID");
 
                 workflowContainerBase.Transistions = CreateTransistions(scope,workflow.WorkflowTransistionTemplates.ToList());
 
@@ -199,42 +199,42 @@ namespace Bec.TargetFramework.Workflow.Providers
             return ot;
         }
 
-        private List<IWorkflowCondition> CreateConditions(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> conditions,string id)
-        {
-            List<IWorkflowCondition> wfConditions = new List<IWorkflowCondition>();
+        //private List<IWorkflowCondition> CreateConditions(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> conditions,string id)
+        //{
+        //    List<IWorkflowCondition> wfConditions = new List<IWorkflowCondition>();
 
-            if (conditions.Count > 0)
-            {
-                var typeDescriptor = TypeDescriptor.GetProperties(conditions[0]);
+        //    if (conditions.Count > 0)
+        //    {
+        //        var typeDescriptor = TypeDescriptor.GetProperties(conditions[0]);
 
-            conditions.ToList().ForEach(pr =>
-                {
-                    var childId = (Guid)typeDescriptor["WorkflowConditionTemplateID"].GetValue(pr);
-                    var parentId = (Guid)typeDescriptor[id].GetValue(pr);
+        //    conditions.ToList().ForEach(pr =>
+        //        {
+        //            var childId = (Guid)typeDescriptor["WorkflowConditionTemplateID"].GetValue(pr);
+        //            var parentId = (Guid)typeDescriptor[id].GetValue(pr);
 
-                    var condition = scope.DbContext.WorkflowConditionTemplates
-                        .Include("WorkflowConditionParameterTemplates")
-                        .Single(s => s.WorkflowConditionTemplateID.Equals(childId));
+        //            var condition = scope.DbContext.WorkflowConditionTemplates
+        //                .Include("WorkflowConditionParameterTemplates")
+        //                .Single(s => s.WorkflowConditionTemplateID.Equals(childId));
 
-                    WorkflowConditionBase pb = new WorkflowConditionBase
-                    {
-                        Description = condition.Description,
-                        Name = condition.Name,
-                        WorkflowVersionNumber = condition.WorkflowTemplateVersionNumber,
-                        WorkflowID = condition.WorkflowTemplateID,
-                        ID = condition.WorkflowConditionTemplateID,
-                        Parameters = CreateParameters(condition.WorkflowConditionParameterTemplates.ToList<object>(),"WorkflowConditionTemplateID")
-                    };
+        //            WorkflowConditionBase pb = new WorkflowConditionBase
+        //            {
+        //                Description = condition.Description,
+        //                Name = condition.Name,
+        //                WorkflowVersionNumber = condition.WorkflowTemplateVersionNumber,
+        //                WorkflowID = condition.WorkflowTemplateID,
+        //                ID = condition.WorkflowConditionTemplateID,
+        //                Parameters = CreateParameters(condition.WorkflowConditionParameterTemplates.ToList<object>(),"WorkflowConditionTemplateID")
+        //            };
 
-                    if(condition.WorkflowObjectTypeTemplateID.HasValue)
-                        pb.ObjectType = CreateObjectType(condition.WorkflowObjectTypeTemplateID.Value);
+        //            if(condition.WorkflowObjectTypeTemplateID.HasValue)
+        //                pb.ObjectType = CreateObjectType(condition.WorkflowObjectTypeTemplateID.Value);
 
-                    wfConditions.Add(pb);
-                });
-            }
+        //            wfConditions.Add(pb);
+        //        });
+        //    }
 
-            return wfConditions;
-        }
+        //    return wfConditions;
+        //}
 
         private List<IWorkflowCommand> CreateCommands(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> commands, string id)
         {
@@ -554,87 +554,87 @@ namespace Bec.TargetFramework.Workflow.Providers
                         }
                     );
 
-                List<WorkflowCondition> conditions = new List<WorkflowCondition>();
+                //List<WorkflowCondition> conditions = new List<WorkflowCondition>();
 
-                workflowTemplate.WorkflowConditionTemplates.ToList().ForEach(item =>
-                    {
-                        if (!conditions.Any(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID)))
-                        {
-                            var conditionTemplate = scope.DbContext.WorkflowConditionTemplates
-                            .Include("WorkflowConditionParameterTemplates")
-                            .Single(s => s.WorkflowConditionTemplateID.Equals(item.WorkflowConditionTemplateID));
+                //workflowTemplate.WorkflowConditionTemplates.ToList().ForEach(item =>
+                //    {
+                //        if (!conditions.Any(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID)))
+                //        {
+                //            var conditionTemplate = scope.DbContext.WorkflowConditionTemplates
+                //            .Include("WorkflowConditionParameterTemplates")
+                //            .Single(s => s.WorkflowConditionTemplateID.Equals(item.WorkflowConditionTemplateID));
 
-                            WorkflowCondition command = new WorkflowCondition();
-                            command.InjectFrom<NullableInjection>(conditionTemplate);
-                            command.WorkflowID = workflow.WorkflowID;
-                            command.WorkflowVersionNumber = workflow.WorkflowVersionNumber;
-                            command.WorkflowConditionID = item.WorkflowConditionTemplateID;
-                            command.WorkflowObjectTypeID = item.WorkflowObjectTypeTemplateID.Value;
+                //            WorkflowCondition command = new WorkflowCondition();
+                //            command.InjectFrom<NullableInjection>(conditionTemplate);
+                //            command.WorkflowID = workflow.WorkflowID;
+                //            command.WorkflowVersionNumber = workflow.WorkflowVersionNumber;
+                //            command.WorkflowConditionID = item.WorkflowConditionTemplateID;
+                //            command.WorkflowObjectTypeID = item.WorkflowObjectTypeTemplateID.Value;
 
-                            // add parameters
-                            conditionTemplate.WorkflowConditionParameterTemplates.ToList().ForEach(cp =>
-                                {
-                                    command.WorkflowConditionParameters.Add(new WorkflowConditionParameter
-                                    {
-                                        WorkflowVersionNumber = versionNumber,
-                                        WorkflowConditionID = command.WorkflowConditionID,
-                                        WorkflowParameterID = cp.WorkflowParameterTemplateID,
-                                        WorkflowID = workflow.WorkflowID
-                                    });
-                                });
+                //            // add parameters
+                //            conditionTemplate.WorkflowConditionParameterTemplates.ToList().ForEach(cp =>
+                //                {
+                //                    command.WorkflowConditionParameters.Add(new WorkflowConditionParameter
+                //                    {
+                //                        WorkflowVersionNumber = versionNumber,
+                //                        WorkflowConditionID = command.WorkflowConditionID,
+                //                        WorkflowParameterID = cp.WorkflowParameterTemplateID,
+                //                        WorkflowID = workflow.WorkflowID
+                //                    });
+                //                });
 
-                            conditions.Add(command);
+                //            conditions.Add(command);
 
-                            scope.DbContext.WorkflowConditions.Add(command);
-                        }
+                //            scope.DbContext.WorkflowConditions.Add(command);
+                //        }
 
-                        //// add main parameters to context
-                        //command.WorkflowConditionParameters.ToList().ForEach(p =>
-                        //    {
-                        //        scope.DbContext.WorkflowConditionParameters.Add(p);
-                        //    });
-                    });
+                //        //// add main parameters to context
+                //        //command.WorkflowConditionParameters.ToList().ForEach(p =>
+                //        //    {
+                //        //        scope.DbContext.WorkflowConditionParameters.Add(p);
+                //        //    });
+                //    });
 
-                List<WorkflowCommand> commands = new List<WorkflowCommand>();
+                //List<WorkflowCommand> commands = new List<WorkflowCommand>();
 
-                workflowTemplate.WorkflowCommandTemplates.ToList().ForEach(item =>
-                    {
-                        if (!commands.Any(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID)))
-                        {
-                            var commandTemplate = scope.DbContext.WorkflowCommandTemplates
-                            .Include("WorkflowCommandParameterTemplates")
-                            .Single(s => s.WorkflowCommandTemplateID.Equals(item.WorkflowCommandTemplateID));
+                //workflowTemplate.WorkflowCommandTemplates.ToList().ForEach(item =>
+                //    {
+                //        if (!commands.Any(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID)))
+                //        {
+                //            var commandTemplate = scope.DbContext.WorkflowCommandTemplates
+                //            .Include("WorkflowCommandParameterTemplates")
+                //            .Single(s => s.WorkflowCommandTemplateID.Equals(item.WorkflowCommandTemplateID));
 
-                            WorkflowCommand command = new WorkflowCommand();
-                            command.InjectFrom<NullableInjection>(commandTemplate);
-                            command.WorkflowID = workflow.WorkflowID;
-                            command.WorkflowVersionNumber = workflow.WorkflowVersionNumber;
-                            command.WorkflowCommandID = item.WorkflowCommandTemplateID;
-                            command.WorkflowObjectTypeID = item.WorkflowObjectTypeTemplateID.Value;
+                //            WorkflowCommand command = new WorkflowCommand();
+                //            command.InjectFrom<NullableInjection>(commandTemplate);
+                //            command.WorkflowID = workflow.WorkflowID;
+                //            command.WorkflowVersionNumber = workflow.WorkflowVersionNumber;
+                //            command.WorkflowCommandID = item.WorkflowCommandTemplateID;
+                //            command.WorkflowObjectTypeID = item.WorkflowObjectTypeTemplateID.Value;
 
-                            // add parameters
-                            commandTemplate.WorkflowCommandParameterTemplates.ToList().ForEach(cp =>
-                                {
-                                    command.WorkflowCommandParameters.Add(new WorkflowCommandParameter
-                                    {
-                                        WorkflowVersionNumber = versionNumber,
-                                        WorkflowCommandID = command.WorkflowCommandID,
-                                        WorkflowParameterID = cp.WorkflowParameterTemplateID,
-                                        WorkflowID = workflow.WorkflowID
-                                    });
-                                });
+                //            // add parameters
+                //            commandTemplate.WorkflowCommandParameterTemplates.ToList().ForEach(cp =>
+                //                {
+                //                    command.WorkflowCommandParameters.Add(new WorkflowCommandParameter
+                //                    {
+                //                        WorkflowVersionNumber = versionNumber,
+                //                        WorkflowCommandID = command.WorkflowCommandID,
+                //                        WorkflowParameterID = cp.WorkflowParameterTemplateID,
+                //                        WorkflowID = workflow.WorkflowID
+                //                    });
+                //                });
 
-                            commands.Add(command);
+                //            commands.Add(command);
 
-                            scope.DbContext.WorkflowCommands.Add(command);
+                //            scope.DbContext.WorkflowCommands.Add(command);
 
-                            // add main parameters to context
-                            command.WorkflowCommandParameters.ToList().ForEach(p =>
-                                {
-                                    scope.DbContext.WorkflowCommandParameters.Add(p);
-                                });
-                        }
-                    });
+                //            // add main parameters to context
+                //            command.WorkflowCommandParameters.ToList().ForEach(p =>
+                //                {
+                //                    scope.DbContext.WorkflowCommandParameters.Add(p);
+                //                });
+                //        }
+                //    });
 
 
 
@@ -651,60 +651,60 @@ namespace Bec.TargetFramework.Workflow.Providers
                     });
 
 
-                workflowTemplate.WorkflowMainCompleteConditionTemplates.ToList().ForEach(item =>
-                    {
-                        var wp = conditions.Single(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID));
-                        workflow.WorkflowMainCompleteConditions.Add(new WorkflowMainCompleteCondition
-                            {
-                                WorkflowVersionNumber = versionNumber,
-                                WorkflowID = workflow.WorkflowID,
-                                WorkflowConditionID = item.WorkflowConditionTemplateID
-                            });
-                    });
+                //workflowTemplate.WorkflowMainCompleteConditionTemplates.ToList().ForEach(item =>
+                //    {
+                //        var wp = conditions.Single(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID));
+                //        workflow.WorkflowMainCompleteConditions.Add(new WorkflowMainCompleteCondition
+                //            {
+                //                WorkflowVersionNumber = versionNumber,
+                //                WorkflowID = workflow.WorkflowID,
+                //                WorkflowConditionID = item.WorkflowConditionTemplateID
+                //            });
+                //    });
 
-                workflowTemplate.WorkflowMainStartConditionTemplates.ToList().ForEach(item =>
-                    {
-                        var wp = conditions.Single(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID));
-                        workflow.WorkflowMainStartConditions.Add(new WorkflowMainStartCondition
-                            {
-                                WorkflowVersionNumber = versionNumber,
-                                WorkflowID = workflow.WorkflowID,
-                                WorkflowConditionID = item.WorkflowConditionTemplateID
-                            });
-                    });
+                //workflowTemplate.WorkflowMainStartConditionTemplates.ToList().ForEach(item =>
+                //    {
+                //        var wp = conditions.Single(s => s.WorkflowConditionID.Equals(item.WorkflowConditionTemplateID));
+                //        workflow.WorkflowMainStartConditions.Add(new WorkflowMainStartCondition
+                //            {
+                //                WorkflowVersionNumber = versionNumber,
+                //                WorkflowID = workflow.WorkflowID,
+                //                WorkflowConditionID = item.WorkflowConditionTemplateID
+                //            });
+                //    });
 
-                workflowTemplate.WorkflowMainExecuteCommandTemplates.ToList().ForEach(item =>
-                    {
-                        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
-                        workflow.WorkflowMainExecuteCommands.Add(new WorkflowMainExecuteCommand
-                            {
-                                WorkflowVersionNumber = versionNumber,
-                                WorkflowID = workflow.WorkflowID,
-                                WorkflowCommandID = item.WorkflowCommandTemplateID
-                            });
-                    });
+                //workflowTemplate.WorkflowMainExecuteCommandTemplates.ToList().ForEach(item =>
+                //    {
+                //        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
+                //        workflow.WorkflowMainExecuteCommands.Add(new WorkflowMainExecuteCommand
+                //            {
+                //                WorkflowVersionNumber = versionNumber,
+                //                WorkflowID = workflow.WorkflowID,
+                //                WorkflowCommandID = item.WorkflowCommandTemplateID
+                //            });
+                //    });
 
-                workflowTemplate.WorkflowMainPostCommandTemplates.ToList().ForEach(item =>
-                    {
-                        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
-                        workflow.WorkflowMainPostCommands.Add(new WorkflowMainPostCommand
-                            {
-                                WorkflowVersionNumber = versionNumber,
-                                WorkflowID = workflow.WorkflowID,
-                                WorkflowCommandID = item.WorkflowCommandTemplateID
-                            });
-                    });
+                //workflowTemplate.WorkflowMainPostCommandTemplates.ToList().ForEach(item =>
+                //    {
+                //        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
+                //        workflow.WorkflowMainPostCommands.Add(new WorkflowMainPostCommand
+                //            {
+                //                WorkflowVersionNumber = versionNumber,
+                //                WorkflowID = workflow.WorkflowID,
+                //                WorkflowCommandID = item.WorkflowCommandTemplateID
+                //            });
+                //    });
 
-                workflowTemplate.WorkflowMainPreCommandTemplates.ToList().ForEach(item =>
-                    {
-                        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
-                        workflow.WorkflowMainPreCommands.Add(new WorkflowMainPreCommand
-                            {
-                                WorkflowVersionNumber = versionNumber,
-                                WorkflowID = workflow.WorkflowID,
-                                WorkflowCommandID = item.WorkflowCommandTemplateID
-                            }); ;
-                    });
+                //workflowTemplate.WorkflowMainPreCommandTemplates.ToList().ForEach(item =>
+                //    {
+                //        var wp = commands.Single(s => s.WorkflowCommandID.Equals(item.WorkflowCommandTemplateID));
+                //        workflow.WorkflowMainPreCommands.Add(new WorkflowMainPreCommand
+                //            {
+                //                WorkflowVersionNumber = versionNumber,
+                //                WorkflowID = workflow.WorkflowID,
+                //                WorkflowCommandID = item.WorkflowCommandTemplateID
+                //            }); ;
+                //    });
 
                 //// save workflow other
                 //// create action
@@ -744,29 +744,29 @@ namespace Bec.TargetFramework.Workflow.Providers
                                         });
                                 });
 
-                            transistionTemplate.WorkflowTransistionCompleteConditionTemplates.ToList().ForEach(it =>
-                            {
-                                var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
-                                transistion.WorkflowTransistionCompleteConditions.Add(new WorkflowTransistionCompleteCondition
-                                    {
-                                        WorkflowVersionNumber = versionNumber,
-                                        WorkflowConditionID = it.WorkflowConditionTemplateID,
-                                        WorkflowTransistionID = transistion.WorkflowTransistionID,
-                                        WorkflowID = workflow.WorkflowID
-                                    });
-                            });
+                            //transistionTemplate.WorkflowTransistionCompleteConditionTemplates.ToList().ForEach(it =>
+                            //{
+                            //    var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
+                            //    transistion.WorkflowTransistionCompleteConditions.Add(new WorkflowTransistionCompleteCondition
+                            //        {
+                            //            WorkflowVersionNumber = versionNumber,
+                            //            WorkflowConditionID = it.WorkflowConditionTemplateID,
+                            //            WorkflowTransistionID = transistion.WorkflowTransistionID,
+                            //            WorkflowID = workflow.WorkflowID
+                            //        });
+                            //});
 
-                            transistionTemplate.WorkflowTransistionStartConditionTemplates.ToList().ForEach(it =>
-                            {
-                                var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
-                                transistion.WorkflowTransistionStartConditions.Add(new WorkflowTransistionStartCondition
-                                    {
-                                        WorkflowVersionNumber = versionNumber,
-                                        WorkflowConditionID = it.WorkflowConditionTemplateID,
-                                        WorkflowTransistionID = transistion.WorkflowTransistionID,
-                                        WorkflowID = workflow.WorkflowID
-                                    });
-                            });
+                            //transistionTemplate.WorkflowTransistionStartConditionTemplates.ToList().ForEach(it =>
+                            //{
+                            //    var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
+                            //    transistion.WorkflowTransistionStartConditions.Add(new WorkflowTransistionStartCondition
+                            //        {
+                            //            WorkflowVersionNumber = versionNumber,
+                            //            WorkflowConditionID = it.WorkflowConditionTemplateID,
+                            //            WorkflowTransistionID = transistion.WorkflowTransistionID,
+                            //            WorkflowID = workflow.WorkflowID
+                            //        });
+                            //});
 
                             // actions
                             transistionTemplate.WorkflowTransistionWorkflowActionTemplates.ToList().ForEach(act =>
@@ -802,69 +802,69 @@ namespace Bec.TargetFramework.Workflow.Providers
                                                 });
                                         });
 
-                                        actionTemplate.WorkflowActionCompleteConditionTemplates.ToList().ForEach(it =>
-                                        {
-                                            var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
-                                            action.WorkflowActionCompleteConditions.Add(new WorkflowActionCompleteCondition
-                                                {
-                                                    WorkflowVersionNumber = versionNumber,
-                                                    WorkflowConditionID = it.WorkflowConditionTemplateID,
-                                                    WorkflowActionID = action.WorkflowActionID,
-                                                    WorkflowID = workflow.WorkflowID
-                                                });
-                                        });
+                                        //actionTemplate.WorkflowActionCompleteConditionTemplates.ToList().ForEach(it =>
+                                        //{
+                                        //    var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
+                                        //    action.WorkflowActionCompleteConditions.Add(new WorkflowActionCompleteCondition
+                                        //        {
+                                        //            WorkflowVersionNumber = versionNumber,
+                                        //            WorkflowConditionID = it.WorkflowConditionTemplateID,
+                                        //            WorkflowActionID = action.WorkflowActionID,
+                                        //            WorkflowID = workflow.WorkflowID
+                                        //        });
+                                        //});
 
 
-                                        actionTemplate.WorkflowActionStartConditionTemplates.ToList().ForEach(it =>
-                                        {
-                                            var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
-                                            action.WorkflowActionStartConditions.Add(new WorkflowActionStartCondition
-                                                {
-                                                    WorkflowVersionNumber = versionNumber,
-                                                    WorkflowConditionID = it.WorkflowConditionTemplateID,
-                                                    WorkflowActionID = action.WorkflowActionID,
-                                                    WorkflowID = workflow.WorkflowID
-                                                });
-                                        });
+                                        //actionTemplate.WorkflowActionStartConditionTemplates.ToList().ForEach(it =>
+                                        //{
+                                        //    var wp = conditions.Single(s => s.WorkflowConditionID.Equals(it.WorkflowConditionTemplateID));
+                                        //    action.WorkflowActionStartConditions.Add(new WorkflowActionStartCondition
+                                        //        {
+                                        //            WorkflowVersionNumber = versionNumber,
+                                        //            WorkflowConditionID = it.WorkflowConditionTemplateID,
+                                        //            WorkflowActionID = action.WorkflowActionID,
+                                        //            WorkflowID = workflow.WorkflowID
+                                        //        });
+                                        //});
 
 
-                                        actionTemplate.WorkflowActionExecuteCommandTemplates.ToList().ForEach(it =>
-                                        {
-                                            var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
-                                            action.WorkflowActionExecuteCommands.Add(new WorkflowActionExecuteCommand
-                                                {
-                                                    WorkflowVersionNumber = versionNumber,
-                                                    WorkflowCommandID = it.WorkflowCommandTemplateID,
-                                                    WorkflowActionID = action.WorkflowActionID,
-                                                    WorkflowID = workflow.WorkflowID
-                                                });
-                                        });
+                                        //actionTemplate.WorkflowActionExecuteCommandTemplates.ToList().ForEach(it =>
+                                        //{
+                                        //    var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
+                                        //    action.WorkflowActionExecuteCommands.Add(new WorkflowActionExecuteCommand
+                                        //        {
+                                        //            WorkflowVersionNumber = versionNumber,
+                                        //            WorkflowCommandID = it.WorkflowCommandTemplateID,
+                                        //            WorkflowActionID = action.WorkflowActionID,
+                                        //            WorkflowID = workflow.WorkflowID
+                                        //        });
+                                        //});
 
 
-                                        actionTemplate.WorkflowActionPostCommandTemplates.ToList().ForEach(it =>
-                                        {
-                                            var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
-                                            action.WorkflowActionPostCommands.Add(new WorkflowActionPostCommand
-                                                {
-                                                    WorkflowVersionNumber = versionNumber,
-                                                    WorkflowCommandID = it.WorkflowCommandTemplateID,
-                                                    WorkflowActionID = action.WorkflowActionID,
-                                                    WorkflowID = workflow.WorkflowID
-                                                });
-                                        });
+                                        //actionTemplate.WorkflowActionPostCommandTemplates.ToList().ForEach(it =>
+                                        //{
+                                        //    var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
+                                        //    action.WorkflowActionPostCommands.Add(new WorkflowActionPostCommand
+                                        //        {
+                                        //            WorkflowVersionNumber = versionNumber,
+                                        //            WorkflowCommandID = it.WorkflowCommandTemplateID,
+                                        //            WorkflowActionID = action.WorkflowActionID,
+                                        //            WorkflowID = workflow.WorkflowID
+                                        //        });
+                                        //});
 
 
-                                        actionTemplate.WorkflowActionPreCommandTemplates.ToList().ForEach(it =>
-                                        {
-                                            var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
-                                            action.WorkflowActionPreCommands.Add(new WorkflowActionPreCommand
-                                                {
-                                                    WorkflowVersionNumber = versionNumber,
-                                                    WorkflowCommandID = it.WorkflowCommandTemplateID,
-                                                    WorkflowActionID = action.WorkflowActionID,
-                                                    WorkflowID = workflow.WorkflowID
-                                                });
-                                        });
+                                        //actionTemplate.WorkflowActionPreCommandTemplates.ToList().ForEach(it =>
+                                        //{
+                                        //    var wp = commands.Single(s => s.WorkflowCommandID.Equals(it.WorkflowCommandTemplateID));
+                                        //    action.WorkflowActionPreCommands.Add(new WorkflowActionPreCommand
+                                        //        {
+                                        //            WorkflowVersionNumber = versionNumber,
+                                        //            WorkflowCommandID = it.WorkflowCommandTemplateID,
+                                        //            WorkflowActionID = action.WorkflowActionID,
+                                        //            WorkflowID = workflow.WorkflowID
+                                        //        });
+                                        //});
 
 
                                         actions.Add(action);

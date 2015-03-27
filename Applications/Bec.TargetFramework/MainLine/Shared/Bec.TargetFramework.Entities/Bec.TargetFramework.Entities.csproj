@@ -1961,6 +1961,10 @@
     <Compile Include="Boo\VOrganisationUserTypeDTO.Generated.cs">
       <DependentUpon>VOrganisationUserTypeDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VOrganisationWithStatusAndAdminDTO.cs" />
+    <Compile Include="Boo\VOrganisationWithStatusAndAdminDTO.Generated.cs">
+      <DependentUpon>VOrganisationWithStatusAndAdminDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VOrgansiationClaimDTO.cs" />
     <Compile Include="Boo\VOrgansiationClaimDTO.Generated.cs">
       <DependentUpon>VOrgansiationClaimDTO.cs</DependentUpon>
@@ -2196,14 +2200,15 @@
     <Compile Include="Boo\WorkflowCommandParameterTemplateDTO.Generated.cs">
       <DependentUpon>WorkflowCommandParameterTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\WorkflowCommandTemplate1DTO.cs" />
+    <Compile Include="Boo\WorkflowCommandTemplate1DTO.Generated.cs">
+      <DependentUpon>WorkflowCommandTemplate1DTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\WorkflowCommandTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowCommandTemplateDTO.Generated.cs">
       <DependentUpon>WorkflowCommandTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\WorkflowConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowConditionParameterDTO.cs" />
     <Compile Include="Boo\WorkflowConditionParameterDTO.Generated.cs">
       <DependentUpon>WorkflowConditionParameterDTO.cs</DependentUpon>
@@ -2213,9 +2218,6 @@
       <DependentUpon>WorkflowConditionParameterTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\WorkflowConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionDTO.Generated.cs">
       <DependentUpon>WorkflowDecisionDTO.cs</DependentUpon>
@@ -2324,21 +2326,9 @@
       <DependentUpon>WorkflowInstanceSessionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\WorkflowMainCompleteConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowMainCompleteConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowMainCompleteConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainCompleteConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainCompleteConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainCompleteConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainExecuteCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowMainExecuteCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowMainExecuteCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainExecuteCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainExecuteCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainExecuteCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainParameterDTO.cs" />
     <Compile Include="Boo\WorkflowMainParameterDTO.Generated.cs">
       <DependentUpon>WorkflowMainParameterDTO.cs</DependentUpon>
@@ -2348,31 +2338,13 @@
       <DependentUpon>WorkflowMainParameterTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\WorkflowMainPostCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowMainPostCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowMainPostCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainPostCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainPostCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainPostCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainPreCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowMainPreCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowMainPreCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainPreCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainPreCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainPreCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainRestrictionDTO.cs" />
     <Compile Include="Boo\WorkflowMainRestrictionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowMainStartConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowMainStartConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowMainStartConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainStartConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainStartConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainStartConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowNotificationConstructDTO.cs" />
     <Compile Include="Boo\WorkflowNotificationConstructDTO.Generated.cs">
       <DependentUpon>WorkflowNotificationConstructDTO.cs</DependentUpon>
@@ -2928,6 +2900,7 @@
     <Compile Include="Convertors\VOrganisationPaymentMethodStatusConverter.cs" />
     <Compile Include="Convertors\VOrganisationStatusConverter.cs" />
     <Compile Include="Convertors\VOrganisationUserTypeConverter.cs" />
+    <Compile Include="Convertors\VOrganisationWithStatusAndAdminConverter.cs" />
     <Compile Include="Convertors\VOrgansiationClaimConverter.cs" />
     <Compile Include="Convertors\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusConverter.cs" />
     <Compile Include="Convertors\VProductAttributeConverter.cs" />
@@ -2986,11 +2959,10 @@
     <Compile Include="Convertors\WorkflowCommandConverter.cs" />
     <Compile Include="Convertors\WorkflowCommandParameterConverter.cs" />
     <Compile Include="Convertors\WorkflowCommandParameterTemplateConverter.cs" />
+    <Compile Include="Convertors\WorkflowCommandTemplate1Converter.cs" />
     <Compile Include="Convertors\WorkflowCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowConditionConverter.cs" />
     <Compile Include="Convertors\WorkflowConditionParameterConverter.cs" />
     <Compile Include="Convertors\WorkflowConditionParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowConditionTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowConverter.cs" />
     <Compile Include="Convertors\WorkflowDecisionConverter.cs" />
     <Compile Include="Convertors\WorkflowDecisionErrorConverter.cs" />
@@ -3016,18 +2988,8 @@
     <Compile Include="Convertors\WorkflowInstanceExecutionTraceConverter.cs" />
     <Compile Include="Convertors\WorkflowInstanceRestrictionConverter.cs" />
     <Compile Include="Convertors\WorkflowInstanceSessionConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainCompleteConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainCompleteConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainExecuteCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainExecuteCommandTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowMainParameterConverter.cs" />
     <Compile Include="Convertors\WorkflowMainParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainPostCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainPostCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainPreCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainPreCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainStartConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainStartConditionTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowNotificationConstructConverter.cs" />
     <Compile Include="Convertors\WorkflowNotificationConstructTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowObjectTypeConverter.cs" />
@@ -3057,6 +3019,7 @@
     <Compile Include="Convertors\WorkflowTreeStructureActionTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureTemplateConverter.cs" />
+    <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
     <Compile Include="DTO\Event\EventPayload.cs" />
     <Compile Include="DTO\FieldDetailsAndValidationsContainerDTO.cs" />

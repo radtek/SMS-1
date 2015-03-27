@@ -161,40 +161,40 @@ namespace Bec.TargetFramework.Workflow.Providers
                     workflow.WorkflowParameters.ToList<object>(),
                     "WorkflowID");
 
-                workflowContainerBase.StartConditions = CreateConditions(
-                    scope,
-                    workflow.WorkflowMainStartConditions.ToList<object>(),
-                    "WorkflowID",
-                    id,
-                    versionNumber);
+                //workflowContainerBase.StartConditions = CreateConditions(
+                //    scope,
+                //    workflow.WorkflowMainStartConditions.ToList<object>(),
+                //    "WorkflowID",
+                //    id,
+                //    versionNumber);
 
-                workflowContainerBase.CompleteConditions = CreateConditions(
-                    scope,
-                    workflow.WorkflowMainCompleteConditions.ToList<object>(),
-                    "WorkflowID",
-                    id,
-                    versionNumber);
+                //workflowContainerBase.CompleteConditions = CreateConditions(
+                //    scope,
+                //    workflow.WorkflowMainCompleteConditions.ToList<object>(),
+                //    "WorkflowID",
+                //    id,
+                //    versionNumber);
 
-                workflowContainerBase.PreCommands = CreateCommands(
-                    scope,
-                    workflow.WorkflowMainPreCommands.ToList<object>(),
-                    "WorkflowID",
-                    id,
-                    versionNumber);
+                //workflowContainerBase.PreCommands = CreateCommands(
+                //    scope,
+                //    workflow.WorkflowMainPreCommands.ToList<object>(),
+                //    "WorkflowID",
+                //    id,
+                //    versionNumber);
 
-                workflowContainerBase.ExecuteCommands = CreateCommands(
-                    scope,
-                    workflow.WorkflowMainExecuteCommands.ToList<object>(),
-                    "WorkflowID",
-                    id,
-                    versionNumber);
+                //workflowContainerBase.ExecuteCommands = CreateCommands(
+                //    scope,
+                //    workflow.WorkflowMainExecuteCommands.ToList<object>(),
+                //    "WorkflowID",
+                //    id,
+                //    versionNumber);
 
-                workflowContainerBase.PostCommands = CreateCommands(
-                    scope,
-                    workflow.WorkflowMainPostCommands.ToList<object>(),
-                    "WorkflowID",
-                    id,
-                    versionNumber);
+                //workflowContainerBase.PostCommands = CreateCommands(
+                //    scope,
+                //    workflow.WorkflowMainPostCommands.ToList<object>(),
+                //    "WorkflowID",
+                //    id,
+                //    versionNumber);
 
                 workflowContainerBase.Transistions = CreateTransistions(
                     scope,
@@ -298,78 +298,78 @@ namespace Bec.TargetFramework.Workflow.Providers
             return ot;
         }
 
-        private List<IWorkflowCondition> CreateConditions(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> conditions,string id,Guid wid,int version)
-        {
-            List<IWorkflowCondition> wfConditions = new List<IWorkflowCondition>();
+        //private List<IWorkflowCondition> CreateConditions(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> conditions,string id,Guid wid,int version)
+        //{
+        //    List<IWorkflowCondition> wfConditions = new List<IWorkflowCondition>();
 
-            if (conditions.Count > 0)
-            {
-                var typeDescriptor = TypeDescriptor.GetProperties(conditions[0]);
+        //    if (conditions.Count > 0)
+        //    {
+        //        var typeDescriptor = TypeDescriptor.GetProperties(conditions[0]);
 
-            conditions.ToList().ForEach(pr =>
-                {
-                    var childId = (Guid)typeDescriptor["WorkflowConditionID"].GetValue(pr);
-                    var parentId = (Guid)typeDescriptor[id].GetValue(pr);
+        //    conditions.ToList().ForEach(pr =>
+        //        {
+        //            var childId = (Guid)typeDescriptor["WorkflowConditionID"].GetValue(pr);
+        //            var parentId = (Guid)typeDescriptor[id].GetValue(pr);
 
-                    var condition = scope.DbContext.WorkflowConditions
-                        .Include("WorkflowConditionParameters")
-                        .Single(s => s.WorkflowConditionID.Equals(childId) && s.WorkflowID.Equals(wid) && s.WorkflowVersionNumber.Equals(version));
+        //            var condition = scope.DbContext.WorkflowConditions
+        //                .Include("WorkflowConditionParameters")
+        //                .Single(s => s.WorkflowConditionID.Equals(childId) && s.WorkflowID.Equals(wid) && s.WorkflowVersionNumber.Equals(version));
 
-                    WorkflowConditionBase pb = new WorkflowConditionBase
-                    {
-                        Description = condition.Description,
-                        Name = condition.Name,
-                        WorkflowVersionNumber = condition.WorkflowVersionNumber,
-                        WorkflowID = condition.WorkflowID,
-                        ID = condition.WorkflowConditionID,
-                        Parameters = CreateParameters(condition.WorkflowConditionParameters.ToList<object>(),"WorkflowConditionID")
-                    };
+        //            WorkflowConditionBase pb = new WorkflowConditionBase
+        //            {
+        //                Description = condition.Description,
+        //                Name = condition.Name,
+        //                WorkflowVersionNumber = condition.WorkflowVersionNumber,
+        //                WorkflowID = condition.WorkflowID,
+        //                ID = condition.WorkflowConditionID,
+        //                Parameters = CreateParameters(condition.WorkflowConditionParameters.ToList<object>(),"WorkflowConditionID")
+        //            };
 
-                    pb.ObjectType = CreateObjectType(condition.WorkflowObjectTypeID);
+        //            pb.ObjectType = CreateObjectType(condition.WorkflowObjectTypeID);
 
-                    wfConditions.Add(pb);
-                });
-            }
+        //            wfConditions.Add(pb);
+        //        });
+        //    }
 
-            return wfConditions;
-        }
+        //    return wfConditions;
+        //}
 
-        private List<IWorkflowCommand> CreateCommands(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> commands, string id,Guid wid,int version)
-        {
-            List<IWorkflowCommand> wfCommands = new List<IWorkflowCommand>();
+        //private List<IWorkflowCommand> CreateCommands(UnitOfWorkScope<TargetFrameworkEntities> scope, List<object> commands, string id,Guid wid,int version)
+        //{
+        //    List<IWorkflowCommand> wfCommands = new List<IWorkflowCommand>();
 
-            if (commands.Count > 0)
-            {
-                var typeDescriptor = TypeDescriptor.GetProperties(commands[0]);
+        //    if (commands.Count > 0)
+        //    {
+        //        var typeDescriptor = TypeDescriptor.GetProperties(commands[0]);
 
-                commands.ToList().ForEach(pr =>
-                    {
-                        var childId = (Guid)typeDescriptor["WorkflowCommandID"].GetValue(pr);
-                        var parentId = (Guid)typeDescriptor[id].GetValue(pr);
+        //        commands.ToList().ForEach(pr =>
+        //            {
+        //                var childId = (Guid)typeDescriptor["WorkflowCommandID"].GetValue(pr);
+        //                var parentId = (Guid)typeDescriptor[id].GetValue(pr);
 
-                        var command = scope.DbContext.WorkflowCommands
-                            .Include("WorkflowCommandParameters")
-                            .Single(s => s.WorkflowCommandID.Equals(childId) && s.WorkflowID.Equals(wid) && s.WorkflowVersionNumber.Equals(version));
+        //                var command = scope.DbContext.WorkflowCommands
+        //                    .Include("WorkflowCommandParameters")
+        //                    .Single(s => s.WorkflowCommandID.Equals(childId) && s.WorkflowID.Equals(wid) && s.WorkflowVersionNumber.Equals(version));
 
-                        WorkflowCommandBase pb = new WorkflowCommandBase
-                        {
-                            Description = command.Description,
-                            Name = command.Name,
-                            WorkflowVersionNumber = command.WorkflowVersionNumber,
+        //                WorkflowCommandBase pb = new WorkflowCommandBase
+        //                {
+        //                    Description = command.Description,
+        //                    Name = command.Name,
+        //                    WorkflowVersionNumber = command.WorkflowVersionNumber,
                             
-                            WorkflowID = command.WorkflowID,
-                            ID = command.WorkflowCommandID,
-                            Parameters = CreateParameters(command.WorkflowCommandParameters.ToList<object>(), "WorkflowCommandID")
-                        };
+        //                    WorkflowID = command.WorkflowID,
+        //                    ID = command.WorkflowCommandID,
+        //                    Parameters = CreateParameters(command.WorkflowCommandParameters.ToList<object>(), "WorkflowCommandID")
+        //                };
 
-                        pb.ObjectType = CreateObjectType(command.WorkflowObjectTypeID);
+        //                pb.ObjectType = CreateObjectType(command.WorkflowObjectTypeID);
 
-                        wfCommands.Add(pb);
-                    });
-            }
+        //                wfCommands.Add(pb);
+        //            });
+        //    }
 
-            return wfCommands;
-        }
+        //    return wfCommands;
+        //}
 
         private List<IWorkflowTransistion> CreateTransistions(UnitOfWorkScope<TargetFrameworkEntities> scope, List<WorkflowTransistion> transistions,Guid id,int version)
         {
@@ -421,13 +421,13 @@ namespace Bec.TargetFramework.Workflow.Providers
                             Parameters =
                                 CreateParameters(transistion.WorkflowTransistionParameters.ToList<object>(),
                                     "WorkflowTransistionID"),
-                            StartConditions =
-                                CreateConditions(scope, transistion.WorkflowTransistionStartConditions.ToList<object>(),
-                                    "WorkflowTransistionID", id, version),
-                            CompleteConditions =
-                                CreateConditions(scope,
-                                    transistion.WorkflowTransistionCompleteConditions.ToList<object>(),
-                                    "WorkflowTransistionID", id, version)
+                            //StartConditions =
+                            //    CreateConditions(scope, transistion.WorkflowTransistionStartConditions.ToList<object>(),
+                            //        "WorkflowTransistionID", id, version),
+                            //CompleteConditions =
+                            //    CreateConditions(scope,
+                            //        transistion.WorkflowTransistionCompleteConditions.ToList<object>(),
+                            //        "WorkflowTransistionID", id, version)
                         };
 
                         pb.TransistionComponents = new List<IWorkflowMainComponent>();
@@ -484,17 +484,17 @@ namespace Bec.TargetFramework.Workflow.Providers
                             ab.WorkflowVersionNumber = action.WorkflowVersionNumber;
                             ab.Parameters = CreateParameters(action.WorkflowActionParameters.ToList<object>(),
                                 "WorkflowActionID");
-                            ab.StartConditions = CreateConditions(scope,
-                                action.WorkflowActionStartConditions.ToList<object>(), "WorkflowActionID", id, version);
-                            ab.CompleteConditions = CreateConditions(scope,
-                                action.WorkflowActionCompleteConditions.ToList<object>(), "WorkflowActionID", id,
-                                version);
-                            ab.PreCommands = CreateCommands(scope, action.WorkflowActionPreCommands.ToList<object>(),
-                                "WorkflowActionID", id, version);
-                            ab.ExecuteCommands = CreateCommands(scope,
-                                action.WorkflowActionExecuteCommands.ToList<object>(), "WorkflowActionID", id, version);
-                            ab.PostCommands = CreateCommands(scope, action.WorkflowActionPostCommands.ToList<object>(),
-                                "WorkflowActionID", id, version);
+                            //ab.StartConditions = CreateConditions(scope,
+                            //    action.WorkflowActionStartConditions.ToList<object>(), "WorkflowActionID", id, version);
+                            //ab.CompleteConditions = CreateConditions(scope,
+                            //    action.WorkflowActionCompleteConditions.ToList<object>(), "WorkflowActionID", id,
+                            //    version);
+                            //ab.PreCommands = CreateCommands(scope, action.WorkflowActionPreCommands.ToList<object>(),
+                            //    "WorkflowActionID", id, version);
+                            //ab.ExecuteCommands = CreateCommands(scope,
+                            //    action.WorkflowActionExecuteCommands.ToList<object>(), "WorkflowActionID", id, version);
+                            //ab.PostCommands = CreateCommands(scope, action.WorkflowActionPostCommands.ToList<object>(),
+                            //    "WorkflowActionID", id, version);
                             ab.ObjectType = CreateObjectType(action.WorkflowObjectTypeID);
 
                             pb.TransistionComponents.Add(ab);
@@ -542,12 +542,12 @@ namespace Bec.TargetFramework.Workflow.Providers
                                     CreateParameters(
                                         decision.WorkflowDecisionParameters.ToList<object>(),
                                         "WorkflowDecisionID");
-                                ab.ExecuteCommands = CreateCommands(
-                                    scope,
-                                    decision.WorkflowDecisionExecuteCommands.ToList<object>(),
-                                    "WorkflowDecisionID",
-                                    id,
-                                    version);
+                                //ab.ExecuteCommands = CreateCommands(
+                                //    scope,
+                                //    decision.WorkflowDecisionExecuteCommands.ToList<object>(),
+                                //    "WorkflowDecisionID",
+                                //    id,
+                                //    version);
                                 ab.ObjectType = CreateObjectType(decision.WorkflowObjectTypeID);
 
 

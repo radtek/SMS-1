@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
 {
@@ -10,7 +12,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     public interface IOrganisationLogic : IBusinessLogicService
     {
         [OperationContract]
-        Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto);
+        Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto);
 
         [OperationContract]
         List<OrganisationDTO> GetOrgansationBranchDTOs(Guid orgId);
@@ -82,6 +84,6 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         System.Collections.Generic.List<Bec.TargetFramework.Entities.VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(int typeId);
 
         [OperationContract]
-        List<Bec.TargetFramework.Entities.VCompanyDTO> GetAllUnverifiedCompanies();
+        List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum orgStatus);
     }
 }

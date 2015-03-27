@@ -13,22 +13,21 @@ manAddRow.hide();
 noMatch.hide();
 
 $('#manualAddress').change(function () {
-    $('#addressline1').attr('readonly', !this.checked);
-    $('#addressline2').attr('readonly', !this.checked);
-    $('#town').attr('readonly', !this.checked);
-    $('#county').attr('readonly', !this.checked);
-    $('#postcode').attr('readonly', !this.checked);
-    $('#AdditionalAddressInformation').attr('readonly', !this.checked);
+    $('#Line1').attr('readonly', !this.checked);
+    $('#Line2').attr('readonly', !this.checked);
+    $('#Town').attr('readonly', !this.checked);
+    $('#County').attr('readonly', !this.checked);
+    $('#PostalCode').attr('readonly', !this.checked);
 });
 
 resList.change(function () {
     var selOpt = resList.find(":selected");
-    $('#companyname').val(selOpt.attr('data-Company')).valid();
-    $('#addressline1').val(selOpt.attr('data-Line1')).valid();
-    $('#addressline2').val(selOpt.attr('data-Line2')).valid();
-    $('#town').val(selOpt.attr('data-PostTown')).valid();
-    $('#county').val(selOpt.attr('data-County')).valid();
-    $('#postcode').val(selOpt.attr('data-Postcode')).valid();
+    $('#Name').val(selOpt.attr('data-Company')).valid();
+    $('#Line1').val(selOpt.attr('data-Line1')).valid();
+    $('#Line2').val(selOpt.attr('data-Line2')).valid();
+    $('#Town').val(selOpt.attr('data-PostTown')).valid();
+    $('#County').val(selOpt.attr('data-County')).valid();
+    $('#PostalCode').val(selOpt.attr('data-Postcode')).valid();
 });
 
 $("#findaddressbutton").click(function () {
@@ -49,7 +48,6 @@ $("#findaddressbutton").click(function () {
         noMatch.hide();
 
         if (result && result.length > 0) {
-            resList.append($("<option>Please select an address:</option>"));
             $.each(result, function (i, item) {
                 var opt = $("<option>" + item.FullAddress + "</option>");
                 opt.attr('data-Company', item.Company);
@@ -79,42 +77,42 @@ $("#addTempCompany-form").validate({
     ignore: '.skip',
     // Rules for form validation
     rules: {
-        CompanyName: {
+        Name: {
             required: true
         },
-        CompanyAddress1: {
+        Line1: {
             required: true
         },
-        CompanyTownCity: {
+        Town: {
             required: true
         },
-        CompanyPostCode: {
+        PostalCode: {
             required: true
         },
-        CompanyRegulator: {
+        Regulator: {
             required: true
         },
-        CompanyOtherRegulator: {
+        RegulatorOther: {
             required: {
                 depends: function (element) {
-                    return $("#CompanyOtherRegulator").is(":visible")
+                    return $("#RegulatorOther").is(":visible")
                 }
             }
         },
-        SystemAdminTitle: {
+        OrganisationAdminSalutation: {
             required: true
         },
-        SystemAdminFirstName: {
+        OrganisationAdminFirstName: {
             required: true
         },
-        SystemAdminLastName: {
+        OrganisationAdminLastName: {
             required: true
         },
-        SystemAdminEmail: {
+        OrganisationAdminEmail: {
             required: true,
             email: true
         },
-        SystemAdminTel: {
+        OrganisationAdminTelephone: {
             required: true
         }
 
@@ -122,7 +120,7 @@ $("#addTempCompany-form").validate({
 
     // Messages for form validation
     messages: {
-        CompanyName: {
+        Name: {
             required: 'Please enter a Company Name'
         }
     },
@@ -139,16 +137,16 @@ $("#addTempCompany-form").validate({
 });
 
 $("#otherRegulatorLabel").hide();
-$("#CompanyRegulator").change(function () {
+$("#Regulator").change(function () {
     var selectedValue = this.value;
 
     if (selectedValue.toLowerCase() == 'other') {
         $("#otherRegulatorLabel").show();
 
     } else {
-        $("#otherRegulatorLabel").next('em[for="CompanyOtherRegulator"]').remove();
+        $("#otherRegulatorLabel").next('em[for="RegulatorOther"]').remove();
         $("#otherRegulatorLabel").removeClass("state-error");
         $("#otherRegulatorLabel").hide();
-        $("#CompanyOtherRegulator").val(null);
+        $("#RegulatorOther").val(null);
     }
 });

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="True" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="true">
-    <Connection ConnectionString="User Id=postgres;Password=admin;Host=localhost;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+    <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFramework.TargetFrameworkEntities.cs" Project="Bec.TargetFramework.Data" />
@@ -93,15 +93,10 @@
         <File Name="TargetFramework.PlanProduct.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Resource.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationUnitOrganisationRole.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainCompleteConditionTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainStartConditionTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowExecution.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.PlanBilling.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowExecutionTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Discount.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainExecuteCommandTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainPostCommandTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainPreCommandTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Artefact.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.PackageProductSpecificationBlueprint.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ProductRelationshipBlueprint.cs" Project="Bec.TargetFramework.Data" />
@@ -229,11 +224,9 @@
         <File Name="TargetFramework.GroupRole.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ModulePluginTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ModuleSettingTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowActionParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowConditionParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecisionParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionHierarchyTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.InterfacePanelOrganisationType.cs" Project="Bec.TargetFramework.Data" />
@@ -250,15 +243,8 @@
         <File Name="TargetFramework.WorkflowDecisionSuccess.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionWorkflowAction.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecisionError.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowCommand.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowCommandParameter.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainExecuteCommand.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainPostCommand.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainPreCommand.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowCondition.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowConditionParameter.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainCompleteCondition.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainStartCondition.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionCompleteCondition.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionStartCondition.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecision.cs" Project="Bec.TargetFramework.Data" />
@@ -272,8 +258,6 @@
         <File Name="TargetFramework.WorkflowInstanceExecutionTrace.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowInstanceExecutionDataItem.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.RepositoryStructure.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowMainParameter.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowParameter.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistion.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionHierarchy.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowNotificationConstruct.cs" Project="Bec.TargetFramework.Data" />
@@ -293,7 +277,6 @@
         <File Name="TargetFramework.WorkflowActionValidationTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecisionFailureTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecisionSuccessTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.WorkflowConditionTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowDecisionTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowTransistionWorkflowDecisionTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowHierarchyTemplate.cs" Project="Bec.TargetFramework.Data" />
@@ -554,6 +537,13 @@
         <File Name="TargetFramework.BusMessageProcessLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VCompany.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Organisation.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.VOrganisationWithStatusAndAdmin.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowParameter.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowCommandTemplate1.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowCommand.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowMainParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.WorkflowMainParameter.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" />
         <File Name="WorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -731,10 +721,6 @@
         <File Name="ResourceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationUnitOrganisationRoleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationUnitOrganisationRoleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainCompleteConditionTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainCompleteConditionTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainStartConditionTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainStartConditionTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowExecutionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowExecutionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="PlanBillingDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -743,12 +729,6 @@
         <File Name="WorkflowExecutionTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DiscountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DiscountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainExecuteCommandTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainExecuteCommandTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainPostCommandTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainPostCommandTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainPreCommandTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainPreCommandTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ArtefactDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ArtefactDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="PackageProductSpecificationBlueprintDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1003,16 +983,12 @@
         <File Name="ModulePluginTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ModuleSettingTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ModuleSettingTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowActionParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowActionParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowConditionParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowConditionParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowDecisionParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowDecisionParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTransistionParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionHierarchyTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1045,24 +1021,10 @@
         <File Name="WorkflowTransistionWorkflowActionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowDecisionErrorDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowDecisionErrorDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowCommandDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowCommandDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowCommandParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowCommandParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainExecuteCommandDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainExecuteCommandDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainPostCommandDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainPostCommandDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainPreCommandDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainPreCommandDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowConditionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowConditionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowConditionParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowConditionParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainCompleteConditionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainCompleteConditionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainStartConditionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainStartConditionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionCompleteConditionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTransistionCompleteConditionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionStartConditionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1089,10 +1051,6 @@
         <File Name="WorkflowInstanceExecutionDataItemDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="RepositoryStructureDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="RepositoryStructureDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowMainParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowMainParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTransistionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionHierarchyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1131,8 +1089,6 @@
         <File Name="WorkflowDecisionFailureTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowDecisionSuccessTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowDecisionSuccessTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="WorkflowConditionTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="WorkflowConditionTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowDecisionTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowDecisionTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTransistionWorkflowDecisionTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1653,6 +1609,20 @@
         <File Name="VCompanyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VOrganisationWithStatusAndAdminDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VOrganisationWithStatusAndAdminDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowCommandTemplate1DTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowCommandTemplate1DTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowCommandDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowCommandDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowMainParameterTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowMainParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="WorkflowMainParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="WorkflowMainParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1743,15 +1713,10 @@
         <File Name="PlanProductConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ResourceConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationUnitOrganisationRoleConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainCompleteConditionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainStartConditionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowExecutionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="PlanBillingConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowExecutionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DiscountConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainExecuteCommandTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainPostCommandTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainPreCommandTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ArtefactConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="PackageProductSpecificationBlueprintConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ProductRelationshipBlueprintConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1879,11 +1844,9 @@
         <File Name="GroupRoleConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ModulePluginTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ModuleSettingTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowActionParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowConditionParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionHierarchyTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="InterfacePanelOrganisationTypeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1900,15 +1863,8 @@
         <File Name="WorkflowDecisionSuccessConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionWorkflowActionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionErrorConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowCommandParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainExecuteCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainPostCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainPreCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowConditionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowConditionParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainCompleteConditionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainStartConditionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionCompleteConditionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionStartConditionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1922,8 +1878,6 @@
         <File Name="WorkflowInstanceExecutionTraceConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowInstanceExecutionDataItemConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="RepositoryStructureConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowMainParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionHierarchyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowNotificationConstructConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -1943,7 +1897,6 @@
         <File Name="WorkflowActionValidationTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionFailureTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionSuccessTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="WorkflowConditionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowDecisionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowTransistionWorkflowDecisionTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowHierarchyTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2204,6 +2157,13 @@
         <File Name="BusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VCompanyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="VOrganisationWithStatusAndAdminConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowCommandTemplate1Converter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowMainParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="WorkflowMainParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
       </GeneratedFiles>
     </Generation>
@@ -2638,6 +2598,89 @@
       <Exclude Name="WorkflowActionID" Table="public.vWorkflowTree" Type="Column" />
       <Exclude Name="IsVisible" Table="public.vWorkflowTree" Type="Column" />
       <Exclude Name="ConditionString" Table="public.vWorkflowTree" Type="Column" />
+      <Exclude Name="WorkflowActionID" Table="public.WorkflowActionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowActionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowActionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowActionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowActionCompleteCondition_pkey" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionCompleteCondition_WorkflowAction" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionCompleteCondition_WorkflowCondition" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
+      <Exclude Name="WorkflowActionTemplateID" Table="public.WorkflowActionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowActionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowActionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowActionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowActionCompleteConditionTemplate_pkey" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionCompleteConditionTe" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionCompleteConditionTemate" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="WorkflowActionID" Table="public.WorkflowActionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowActionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowActionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowActionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowActionStartCondition_pkey" Table="public.WorkflowActionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartCondition_WorkflowAction" Table="public.WorkflowActionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartCondition_WorkflowCondition" Table="public.WorkflowActionStartCondition" Type="Constraint" />
+      <Exclude Name="WorkflowActionTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowActionStartConditionTemplate_pkey" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartConditionTemplate_WorkflowActionTemplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="Name" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="Description" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="WorkflowObjectTypeTemplateID" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="WorkflowCommandTemplateID" Table="public.WorkflowCommandTemplates" Type="Column" />
+      <Exclude Name="" Table="public.WorkflowCommandTemplates" Type="Constraint" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowConditionParameter" Type="Column" />
+      <Exclude Name="WorkflowParameterID" Table="public.WorkflowConditionParameter" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowConditionParameter" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowConditionParameter" Type="Column" />
+      <Exclude Name="WorkflowConditionParameter_pkey" Table="public.WorkflowConditionParameter" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_Workflow" Table="public.WorkflowConditionParameter" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowCondition" Table="public.WorkflowConditionParameter" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowParameter" Table="public.WorkflowConditionParameter" Type="Constraint" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
+      <Exclude Name="WorkflowParameterTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionParameterTemplate_pkey" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameterTemplate_WorkflowTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowConditionTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowParameterTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
+      <Exclude Name="WorkflowTransistionID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
+      <Exclude Name="WorkflowTransistionCompleteCondition_pkey" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteCondition_Workflow" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowCondition" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowTransistion" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
+      <Exclude Name="WorkflowTransistionTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTransistionCompleteConditionTemplate_pkey" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteConditionTempate" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteConditionTemplate_WorkflowTemplat" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteConditionTeplate" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="WorkflowTransistionID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowTransistionStartCondition" Type="Column" />
+      <Exclude Name="WorkflowTransistionStartCondition_pkey" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartCondition_Workflow" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartCondition_WorkflowCondition" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartCondition_WorkflowTransistion" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
+      <Exclude Name="WorkflowTransistionTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTransistionStartConditionTemplate_pkey" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartConditionTeate" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartConditionTemplate_WorkflowTemplate" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartConditionTete" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplateID" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
       <Exclude Name="WorkflowTreeStructureTemplateID" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
       <Exclude Name="WorkflowActionTemplateID" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
@@ -2703,6 +2746,16 @@
       <Exclude Name="UserID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="ID" Table="public.vWorkflowTree" Type="Column" />
+      <Exclude Name="fk_WorkflowActionCompleteCondition_WorkflowCondition" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionCompleteConditionTemate" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartCondition_WorkflowCondition" Table="public.WorkflowActionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowCondition" Table="public.WorkflowConditionParameter" Type="Constraint" />
+      <Exclude Name="fk_WorkflowConditionParameter_WorkflowConditionTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowCondition" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionCompleteConditionTempate" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartCondition_WorkflowCondition" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowTransistionStartConditionTeate" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
       <Exclude Name="LRTitleID" Table="sts.LRTitle" Type="Column" />
       <Exclude Name="TitleNumber" Table="sts.LRTitle" Type="Column" />

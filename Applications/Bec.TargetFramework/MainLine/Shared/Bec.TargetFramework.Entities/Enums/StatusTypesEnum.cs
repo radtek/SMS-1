@@ -97,6 +97,16 @@ namespace Bec.TargetFramework.Entities.Enums
         Rejected = 3
     }
 
+    public enum ProfessionalOrganisationStatusEnum : int
+    {
+        [StringValue("Unverified")]
+        Unverified = 1,
+        [StringValue("Verified")]
+        Verified = 2,
+        [StringValue("Rejected")]
+        Rejected = 3
+    }
+
 
     public enum BusTaskScheduleStatusEnum : int
     {
@@ -191,7 +201,9 @@ namespace Bec.TargetFramework.Entities.Enums
        [StringValue("Product Purchase Bus Task Process Log Status")]
        ProductPurchaseBusTaskProcessLogStatus = 13,
        [StringValue("Bus Message Process Log Status")]
-       BusMessageProcessLogStatus = 14
+       BusMessageProcessLogStatus = 14,
+       [StringValue("Professional Organisation Status")]
+       ProfessionalOrganisation = 15,
     }
 
     
