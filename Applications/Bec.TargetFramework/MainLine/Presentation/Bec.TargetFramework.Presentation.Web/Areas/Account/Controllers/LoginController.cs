@@ -78,6 +78,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
                 if (!taskResult.valid)
                 {
+                    TempData["version"] = Settings.OctoVersion;
                     ModelState.AddModelError("", taskResult.validationMessage);
                 }
                 else
