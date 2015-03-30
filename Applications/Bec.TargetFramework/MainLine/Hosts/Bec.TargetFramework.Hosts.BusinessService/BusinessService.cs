@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
     public partial class BusinessService : ServiceBase
     {
-        public string baseAddress = "http://localhost:9000/";
+        public string baseAddress = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
 
         private Autofac.IContainer m_IocContainer { get; set; }
 
