@@ -33254,6 +33254,24 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Interfaces
 		/// <returns></returns>
 		List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber);
 
+		/// <param name="manual"></param>
+		/// <param name="line1"></param>
+		/// <param name="line2"></param>
+		/// <param name="town"></param>
+		/// <param name="county"></param>
+		/// <param name="postalCode"></param>
+		/// <returns></returns>
+		Task<HttpResponseMessage> FindDuplicateOrganisationsAsync(Boolean manual,String line1,String line2,String town,String county,String postalCode);
+
+		/// <param name="manual"></param>
+		/// <param name="line1"></param>
+		/// <param name="line2"></param>
+		/// <param name="town"></param>
+		/// <param name="county"></param>
+		/// <param name="postalCode"></param>
+		/// <returns></returns>
+		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode);
+
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode);
@@ -35032,6 +35050,40 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Clients
 				 
 			 			 			 
 			 return result.Content.ReadAsAsync<List<PostCodeDTO>>().Result;
+			 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="manual"></param>
+		/// <param name="line1"></param>
+		/// <param name="line2"></param>
+		/// <param name="town"></param>
+		/// <param name="county"></param>
+		/// <param name="postalCode"></param>
+		/// <returns></returns>
+		public virtual async Task<HttpResponseMessage> FindDuplicateOrganisationsAsync(Boolean manual,String line1,String line2,String town,String county,String postalCode)
+		{
+			return await HttpClient.PostAsJsonAsync("api/OrganisationLogic/FindDuplicateOrganisations?manual=" + manual + "&line1=" + line1 + "&line2=" + line2 + "&town=" + town + "&county=" + county + "&postalCode=" + postalCode, default(HttpResponseMessage));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="manual"></param>
+		/// <param name="line1"></param>
+		/// <param name="line2"></param>
+		/// <param name="town"></param>
+		/// <param name="county"></param>
+		/// <param name="postalCode"></param>
+		public virtual List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode)
+		{
+						 var result = Task.Run(() => FindDuplicateOrganisationsAsync(manual, line1, line2, town, county, postalCode)).Result;		 
+			 
+			EnsureSuccess(result);
+				 
+			 			 			 
+			 return result.Content.ReadAsAsync<List<VOrganisationWithStatusAndAdminDTO>>().Result;
 			 		}
 
 		/// <summary>

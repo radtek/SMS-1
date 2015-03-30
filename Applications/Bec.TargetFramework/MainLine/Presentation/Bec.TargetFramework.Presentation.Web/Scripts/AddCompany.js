@@ -63,7 +63,7 @@ $("#findaddressbutton").click(function () {
         else {
             noMatch.show();
         }
-    }).error(function () {
+    }).fail(function () {
         noMatch.show();
     })
     .always(function () {
@@ -130,11 +130,81 @@ $("#addTempCompany-form").validate({
         error.insertAfter(element.parent());
     },
 
-    submitHandler: function (form) {
-        $("#formSubmit").prop('disabled', true);
-        form.submit();
-    }
+    submitHandler: validateSubmit
 });
+
+function validateSubmit(form) {
+    $("#formSubmit").prop('disabled', true);
+
+    //check for duplicates
+    $.ajax({
+        url: '/TempCompany/ValidateAddress',
+        data: {
+            Manual: $('#manualAddress').prop('checked'),
+            Line1: $('#Line1').val(),
+            Line2: $('#Line2').val(),
+            Town: $('#Town').val(),
+            County: $('#County').val(),
+            Postalcode: $('#PostalCode').val()
+        }
+    }).done(function (res) {
+        if (res && res.length > 0) {
+            $('#duplicatesModal').modal('show')
+            //as the modal is re-used, only subscribe one-off
+            .one('shown.bs.modal', function () {
+                createDuplicatesList(res);
+            })
+            .one('hidden.bs.modal', function () {
+                if (dupesOK) {
+                    form.submit();
+                }
+                else {
+                    $("#formSubmit").prop('disabled', false);
+                }
+            });
+        }
+        else {
+            form.submit();
+        }
+    }).fail(function (err) {
+        //oh dear
+        $("#formSubmit").prop('disabled', false);
+    });
+}
+
+function createDuplicatesList(dupes) {
+    $('#duplicatesGrid').kendoGrid({
+        dataSource: dupes,
+        height: 300,
+        columns: [
+            {
+                field: "Name",
+                title: "Company Name"
+            },
+            {
+                field: "Line1",
+                title: "Address Line 1"
+            },
+            {
+                field: "Line2",
+                title: "Address Line 2"
+            },
+            {
+                field: "Town",
+                title: "Town"
+            },
+            {
+                field: "County",
+                title: "County"
+            },
+            {
+                field: "PostalCode",
+                title: "Post Code"
+            },
+        ]
+    });
+}
+
 
 $("#otherRegulatorLabel").hide();
 $("#Regulator").change(function () {

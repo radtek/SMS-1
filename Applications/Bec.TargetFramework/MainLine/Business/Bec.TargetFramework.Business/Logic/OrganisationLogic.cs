@@ -73,26 +73,51 @@ namespace Bec.TargetFramework.Business.Logic
                     return cacheResult;
                 else
                 {
-                    var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
-
-                    var dtos = response.Select(item => new PostCodeDTO
+                    try
                     {
-                        Company = item.Company,
-                        County = item.County,
-                        Department = item.Department,
-                        BuildingName = item.BuildingName,
-                        Line1 = item.Line1,
-                        Line2 = item.Line2,
-                        Line3 = item.Line3,
-                        Postcode = item.Postcode,
-                        PostTown = item.PostTown,
-                        PrimaryStreet = item.PrimaryStreet
-                    }).ToList();
+                        var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
 
-                    cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+                        var dtos = response.Select(item => new PostCodeDTO
+                        {
+                            Company = item.Company,
+                            County = item.County,
+                            Department = item.Department,
+                            BuildingName = item.BuildingName,
+                            Line1 = item.Line1,
+                            Line2 = item.Line2,
+                            Line3 = item.Line3,
+                            Postcode = item.Postcode,
+                            PostTown = item.PostTown,
+                            PrimaryStreet = item.PrimaryStreet
+                        }).ToList();
 
-                    return dtos;
+                        cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+
+                        return dtos;
+                    }
+                    catch (System.ServiceModel.FaultException)
+                    {
+                        return null;
+                    }
                 }
+            }
+        }
+
+        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(bool manual, string line1, string line2, string town, string county, string postalCode)
+        {
+            Ensure.That(postalCode).IsNotNullOrWhiteSpace();
+
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var query = scope.DbContext.VOrganisationWithStatusAndAdmins.Where(item => item.PostalCode == postalCode);
+                if(!manual)
+                {
+                    if(!string.IsNullOrWhiteSpace(line1)) query = query.Where(item => item.Line1 == line1);
+                    if(!string.IsNullOrWhiteSpace(line2)) query = query.Where(item => item.Line2 == line2);
+                    if(!string.IsNullOrWhiteSpace(town)) query = query.Where(item => item.Town == town);
+                    if(!string.IsNullOrWhiteSpace(county)) query = query.Where(item => item.County == county);
+                }
+                return VOrganisationWithStatusAndAdminConverter.ToDtos(query);
             }
         }
 
@@ -278,70 +303,6 @@ namespace Bec.TargetFramework.Business.Logic
 
             return organisationID;
         }
-
-
-        //public Bec.TargetFramework.Entities.VCompanyDTO AddNewOrganisation(Bec.TargetFramework.Entities.VCompanyDTO dto)
-        //{
-
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-        //    {
-                //scope.DbContext.Organisations.Add(organisation);
-
-                //// create organisation detail
-                //var orgDetail = new OrganisationDetail
-                //{
-                //    OrganisationID = organisation.OrganisationID,
-                //    OrganisationDetailID = Guid.NewGuid(),
-                //    Name = dto.CompanyName
-                //};
-
-                //scope.DbContext.OrganisationDetails.Add(orgDetail);
-
-                //// now create contact for the organisation
-                //var contact = new Contact
-                //{
-                //    ParentID = organisation.OrganisationID,
-                //    ContactID = Guid.NewGuid(),
-                //    ContactName = string.Empty,
-                //    FirstName = dto.SystemAdminFirstName,
-                //    LastName = dto.SystemAdminLastName,
-                //    Telephone1 = dto.SystemAdminTel,
-                //    EmailAddress1 = dto.SystemAdminEmail,
-                //    Salutation = dto.SystemAdminTitle
-                //};
-
-                //scope.DbContext.Contacts.Add(contact);
-
-                //var contactRegulator = new ContactRegulator
-                //{
-                //    ContactID = contact.ContactID,
-                //    RegulatorName = dto.CompanyRegulator,
-                //    RegulatorOtherName = dto.CompanyOtherRegulator
-                //};
-
-                //scope.DbContext.ContactRegulators.Add(contactRegulator);
-
-                ////address to contact, organisation to the contact
-
-                //var address = new Address
-                //{
-                //    AddressID = Guid.NewGuid(),
-                //    ParentID = contact.ContactID,
-                //    Line1 = dto.CompanyAddress1,
-                //    Line2 = dto.CompanyAddress2,
-                //    Town = dto.CompanyTownCity,
-                //    County = dto.CompanyCounty,
-                //    PostalCode = dto.CompanyPostCode,
-                //    AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
-                //    Name = String.Empty,
-                //    AdditionalAddressInformation = dto.AdditionalAddressInformation
-                //};
-                //scope.DbContext.Addresses.Add(address);
-                //if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-                //dto.CompanyId = organisation.OrganisationID;
-        //    }
-        //    return dto;
-        //}
 
         public Guid? GetTemporaryOrganisationBranchID()
         {

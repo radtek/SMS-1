@@ -86,5 +86,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ValidateAddress(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
+        {
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                return Json(client.FindDuplicateOrganisations(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
