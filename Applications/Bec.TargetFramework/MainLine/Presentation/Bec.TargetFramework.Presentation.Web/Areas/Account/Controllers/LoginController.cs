@@ -114,6 +114,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             using (var client = new UserLogicClient())
             {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+
                 client.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
 
             }
