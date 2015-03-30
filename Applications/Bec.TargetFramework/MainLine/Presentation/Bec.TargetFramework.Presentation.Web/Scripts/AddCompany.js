@@ -18,6 +18,8 @@ $('#manualAddress').change(function () {
     $('#Town').attr('readonly', !this.checked);
     $('#County').attr('readonly', !this.checked);
     $('#PostalCode').attr('readonly', !this.checked);
+    $('#AdditionalAddressInformation').attr('readonly', !this.checked);
+
 });
 
 resList.change(function () {
