@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,6 +25,7 @@ using Bec.TargetFramework.Presentation.Web.Api.Client.Clients;
 using System.Net.Http.Formatting;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities;
+using UserLoginValidation = Bec.TargetFramework.Presentation.Web.Api.Client.Models.UserLoginValidation;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -64,6 +66,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             return View(new LoginDTO { ReturnUrl = returnUrl });
         }
 
+        private string EncodePassword(string password)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(password);
+
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
@@ -78,19 +87,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
 
-                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(model.Password);
+                    var taskResult = await client.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
 
-                    var taskResult = client.AuthenticateUser(model.Username, System.Convert.ToBase64String(plainTextBytes));
+                    var loginValidationResult = taskResult.Content.ReadAsAsync<UserLoginValidation>();
 
-                    if (!taskResult.valid)
+                    if (!loginValidationResult.Result.valid)
                     {
                         TempData["version"] = Settings.OctoVersion;
-                        ModelState.AddModelError("", taskResult.validationMessage);
+                        ModelState.AddModelError("", loginValidationResult.Result.validationMessage);
                     }
                     else
                     {
-                        //  additional claims are added during signin but not persisted
-                        InitialiseUserSession(taskResult.UserAccount);
+                        var ua = new BrockAllen.MembershipReboot.UserAccount();
+
+                        ua.InjectFrom<NullableInjection>(loginValidationResult.Result.UserAccount);
+
+                        authSvc.SignIn(ua, false, null);
+
+                        //  create web user object in session
+                        var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
+
+                        var result = await client.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
 
                         return RedirectToAction("Index", "Home", new { area = "" });
                     }
@@ -98,34 +115,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             return View(model);
-        }
-
-        private void InitialiseUserSession(Api.Client.Models.UserAccount account)
-        {
-            //  additional claims are added during signin but not persisted
-            BrockAllen.MembershipReboot.UserAccount ua = new BrockAllen.MembershipReboot.UserAccount();
-
-            ua.InjectFrom<NullableInjection>(account);
-
-            authSvc.SignIn(ua, false, null);
-
-            //  create web user object in session
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, account.ID);
-
-            using (var client = new UserLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-
-                client.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
-
-            }
-
-            // save login session - needed for authenticated pages extending ApplicationControllerBase
-           
-            // get all request parameters
-            var requestParameters = UserAccountLogicHelper.CreateRequestDictionary(this.Request);
-
-            //BackgroundJob.Enqueue(() => UserAccountLogicHelper.SaveLoginSessionData(userObject.UserID, userObject.SessionIdentifier, requestParameters));
         }
 
         private ActionResult RedirectToLocal(string returnUrl = "")
