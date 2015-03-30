@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -7,8 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
-using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
 using Bec.TargetFramework.UI.Process.Filters;
@@ -20,6 +20,10 @@ using Bec.TargetFramework.Web.Framework.Helpers;
 using Hangfire;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Microsoft.Ajax.Utilities;
+using Bec.TargetFramework.Presentation.Web.Api.Client.Clients;
+using System.Net.Http.Formatting;
+using Omu.ValueInjecter;
+using Bec.TargetFramework.Entities;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -28,13 +32,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     {
         AuthenticationService authSvc;
         private ILogger logger;
-        private IUserLogic m_UserLogic;
-        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogic userLogic)
+        public LoginController(ILogger logger, AuthenticationService authSvc)
         {
             this.logger = logger;
 
             this.authSvc = authSvc;
-            m_UserLogic = userLogic;
         }
 
         [AllowAnonymous]
@@ -72,42 +74,56 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var taskResult = await m_UserLogic.AuthenticateUser(model.Username, model.Password);
-
-                BrockAllen.MembershipReboot.UserAccount account = taskResult.UserAccount;
-
-                if (!taskResult.valid)
+                using(var client = new UserLogicClient())
                 {
-                    TempData["version"] = Settings.OctoVersion;
-                    ModelState.AddModelError("", taskResult.validationMessage);
-                }
-                else
-                {
-                    //  additional claims are added during signin but not persisted
-                    InitialiseUserSession(account);
+                    client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
 
-                    return RedirectToAction("Index", "Home",new {area = ""});
+                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(model.Password);
+
+                    var taskResult = client.AuthenticateUser(model.Username, System.Convert.ToBase64String(plainTextBytes));
+
+                    if (!taskResult.valid)
+                    {
+                        TempData["version"] = Settings.OctoVersion;
+                        ModelState.AddModelError("", taskResult.validationMessage);
+                    }
+                    else
+                    {
+                        //  additional claims are added during signin but not persisted
+                        InitialiseUserSession(taskResult.UserAccount);
+
+                        return RedirectToAction("Index", "Home", new { area = "" });
+                    }
                 }
             }
 
             return View(model);
         }
 
-        private void InitialiseUserSession(BrockAllen.MembershipReboot.UserAccount account)
+        private void InitialiseUserSession(Api.Client.Models.UserAccount account)
         {
             //  additional claims are added during signin but not persisted
-            authSvc.SignIn(account, false, null);
+            BrockAllen.MembershipReboot.UserAccount ua = new BrockAllen.MembershipReboot.UserAccount();
+
+            ua.InjectFrom<NullableInjection>(account);
+
+            authSvc.SignIn(ua, false, null);
 
             //  create web user object in session
             var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, account.ID);
 
-            // save login session - needed for authenticated pages extending ApplicationControllerBase
-            m_UserLogic.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
+            using (var client = new UserLogicClient())
+            {
+                client.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
 
+            }
+
+            // save login session - needed for authenticated pages extending ApplicationControllerBase
+           
             // get all request parameters
             var requestParameters = UserAccountLogicHelper.CreateRequestDictionary(this.Request);
 
-            BackgroundJob.Enqueue(() => UserAccountLogicHelper.SaveLoginSessionData(userObject.UserID, userObject.SessionIdentifier, requestParameters));
+            //BackgroundJob.Enqueue(() => UserAccountLogicHelper.SaveLoginSessionData(userObject.UserID, userObject.SessionIdentifier, requestParameters));
         }
 
         private ActionResult RedirectToLocal(string returnUrl = "")

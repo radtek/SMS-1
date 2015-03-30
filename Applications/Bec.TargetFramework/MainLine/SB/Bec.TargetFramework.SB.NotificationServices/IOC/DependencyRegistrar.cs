@@ -10,8 +10,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
     using System.Linq;
     using System.Reflection;
     using System.ServiceModel;
-    using System.Web.Http;
-    using System.Web.Http.SelfHost;
 
     using Autofac.Integration.Wcf;
 

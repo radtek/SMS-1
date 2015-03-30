@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+﻿
+using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
@@ -15,11 +16,9 @@ namespace Bec.TargetFramework.Business.Services
     using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.WCF.Exception;
 
-    [WcfGlobalExceptionOperationBehaviorAttribute(typeof(WcfGlobalErrorHandler))]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class AddressLogicService : AddressLogic, IAddressLogic, IBusinessLogicService
+     public class AddressLogicController : AddressLogic, IAddressLogic, IBusinessLogicService
     {
-        public AddressLogicService(ILogger logger, ICacheProvider cacheProvider) 
+         public AddressLogicController(ILogger logger, ICacheProvider cacheProvider) 
             : base(logger, cacheProvider)
         {
         }

@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Business.Logic
                var stsInviteRepo = scope.GetGenericRepository<StsInvite, Guid>();
                StsInvite inv = StsInviteConverter.ToEntity(invite);
                stsInviteRepo.Add(inv);
-               scope.Save();
+               if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
            }
        }
 

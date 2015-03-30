@@ -13,6 +13,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using Omu.ValueInjecter;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -254,7 +255,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -310,7 +311,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -336,7 +337,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.ShoppingCartItems.Remove(item);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -463,7 +464,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
 
             return dto;
@@ -609,7 +610,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -696,7 +697,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.ShoppingCarts.Remove(item);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 

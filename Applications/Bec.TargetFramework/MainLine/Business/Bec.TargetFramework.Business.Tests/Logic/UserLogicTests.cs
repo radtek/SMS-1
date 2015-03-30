@@ -117,8 +117,8 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
             var result = serviceInstance.AuthenticateUser(username, password);
 
-            Assert.IsFalse(result.Result.valid);
-            Assert.AreEqual("Invalid Username or Password", result.Result.validationMessage);
+            Assert.IsFalse(result.valid);
+            Assert.AreEqual("Invalid Username or Password", result.validationMessage);
         }
 
         [TestMethod()]

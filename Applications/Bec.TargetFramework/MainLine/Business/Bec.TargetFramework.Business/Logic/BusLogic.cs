@@ -10,6 +10,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using BrockAllen.MembershipReboot;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -92,7 +93,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                     scope.DbContext.BusMessages.Add(BusMessageConverter.ToEntity(messageDto));
 
-                    scope.Save();
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
                 }
 
                 using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
@@ -109,7 +110,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                     scope.DbContext.BusMessageContents.Add(messageContent);
 
-                    success = scope.Save();
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
                 }
             }
 
@@ -123,7 +124,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 BusMessageHelper.CreateProcessLog(scope,busMessage.BusMessageID,null,hasError,handler,subscriber,null,null,status);
 
-                success = scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
 
             return success;

@@ -73,7 +73,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public Nullable<bool> IsDeleted { get; set; }
 
-        public List<PropertyInfo> SearchQueryTargetProperties { get; set; }
 
         public string SearchQuery { get; set; }
 

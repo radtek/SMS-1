@@ -13,6 +13,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using Omu.ValueInjecter;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -147,7 +148,7 @@ namespace Bec.TargetFramework.Business.Logic
                 // create initial process status log entry
                 TransactionHelper.CreateTransactionOrderProcessLog(scope,order.TransactionOrderID,TransactionOrderStatusEnum.Active);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
 
             return tDto;
@@ -229,7 +230,7 @@ namespace Bec.TargetFramework.Business.Logic
                 ti.IsDeleted = true;
                 ti.IsActive = false;
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -313,7 +314,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -371,7 +372,7 @@ namespace Bec.TargetFramework.Business.Logic
                     }
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -415,7 +416,7 @@ namespace Bec.TargetFramework.Business.Logic
                 ti.IsDeleted = true;
                 ti.IsActive = false;
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
     }

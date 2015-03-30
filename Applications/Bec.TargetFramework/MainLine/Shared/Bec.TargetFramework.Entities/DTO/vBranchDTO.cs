@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Entities
         public vBranchDTO()
         {
             Addresses = new List<AddressDTO>();
-            AddressListItems = new List<ListItem>();
+   
             CurrentAddress = new AddressDTO();
             AddressesJson = JsonSerializer.SerializeToString(new List<AddressDTO>());
         }
@@ -75,8 +75,7 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string AddressesJson { get; set; }
-        [DataMember]
-        public List<ListItem> AddressListItems { get; set; }
+
         [DataMember]
         public AddressDTO CurrentAddress { get; set; }
         [DataMember]

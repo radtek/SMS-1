@@ -12,22 +12,22 @@ namespace Bec.TargetFramework.Presentation.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseHangfire(config =>
-            {
-                var sb = new NpgsqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["HangFireConnectionString"].ConnectionString);
+            //app.UseHangfire(config =>
+            //{
+            //    var sb = new NpgsqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["HangFireConnectionString"].ConnectionString);
 
-                sb.Pooling = false;
+            //    sb.Pooling = true;
 
-                var options = new PostgreSqlStorageOptions
-                {
-                    PrepareSchemaIfNecessary = true,
-                    UseNativeDatabaseTransactions = true
-                };
+            //    var options = new PostgreSqlStorageOptions
+            //    {
+            //        PrepareSchemaIfNecessary = true,
+            //        UseNativeDatabaseTransactions = true
+            //    };
 
-                config.UsePostgreSqlStorage(sb.ToString(), options);
+            //    config.UsePostgreSqlStorage(sb.ToString(), options);
 
-                config.UseServer();
-            });
+            //    config.UseServer();
+            //});
         }
     }
 }

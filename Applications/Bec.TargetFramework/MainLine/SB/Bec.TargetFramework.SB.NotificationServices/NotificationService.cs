@@ -17,8 +17,6 @@ namespace Bec.TargetFramework.SB.NotificationServices
     using System.Configuration;
     using System.ServiceModel;
     using System.ServiceModel.Configuration;
-    using System.Web.Http;
-    using System.Web.Http.SelfHost;
     using System.Web.Mvc;
 
     using Autofac;
@@ -39,8 +37,6 @@ namespace Bec.TargetFramework.SB.NotificationServices
     partial class NotificationService : ServiceBase
     {
         private List<ServiceHost> m_ServiceHosts { get; set; }
-
-        private HttpSelfHostServer m_SelfServer;
 
         public static Autofac.IContainer m_IocContainer { get; set; }
 
@@ -120,8 +116,6 @@ namespace Bec.TargetFramework.SB.NotificationServices
                     item.Close());
             }
 
-            if (m_SelfServer != null) m_SelfServer.CloseAsync().Wait();
-
             base.OnStop();
         }
 
@@ -134,8 +128,6 @@ namespace Bec.TargetFramework.SB.NotificationServices
                 m_ServiceHosts.ForEach(item =>
                     item.Close());
             }
-
-            if (m_SelfServer != null) m_SelfServer.CloseAsync().Wait();
 
             base.OnShutdown();
         }

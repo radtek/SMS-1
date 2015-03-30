@@ -32,9 +32,8 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
     using Bec.TargetFramework.Infrastructure.Caching;
     using System.ServiceModel;
     using Autofac.Integration.Wcf;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using System.Configuration;
-    using Bec.TargetFramework.UI.Web.Base;
+ 
     using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
     using Bec.TargetFramework.Framework.Infrastructure;
     using Bec.TargetFramework.Framework.Configuration;
@@ -63,44 +62,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
             builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
 
-            // register settings service and all ISettings 
-            RegisterService<ISettingLogic>(builder, BuildBaseUrlForServices("SettingLogicService"));
-            builder.Register(c => new SettingService(c.Resolve<ISettingLogic>())).As<SettingService>();
-
-            var type = typeof(ISettings);
-            AppDomain.CurrentDomain.GetAssemblies().Where(it => it.FullName.StartsWith("Bec.TargetFramework"))
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
-                .ToList().ForEach(item =>
-                {
-                    builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
-                });
-
-            RegisterService<IDataLogic>(builder, BuildBaseUrlForServices("DataLogicService"));
-            RegisterService<IValidationLogic>(builder, BuildBaseUrlForServices("ValidationLogicService"));
-            RegisterService<IAddressLogic>(builder, BuildBaseUrlForServices("AddressLogicService"));
-            RegisterService<IUserLogic>(builder, BuildBaseUrlForServices("UserLogicService"));
-            RegisterService<IUserAccountAuditLogic>(builder, BuildBaseUrlForServices("UserAccountAuditLogicService"));
-            RegisterService<IStateLogic>(builder, BuildBaseUrlForServices("StateLogicService"));
-            RegisterService<IRoleLogic>(builder, BuildBaseUrlForServices("RoleLogicService"));
-            RegisterService<IResourceLogic>(builder, BuildBaseUrlForServices("ResourceLogicService"));
-            RegisterService<IOrganisationUserStateTemplateLogic>(builder, BuildBaseUrlForServices("OrganisationUserStateTemplateLogicService"));
-            RegisterService<IOperationLogic>(builder, BuildBaseUrlForServices("OperationLogicService"));
-            RegisterService<IGroupLogic>(builder,BuildBaseUrlForServices("GroupLogicService"));
-            RegisterService<IClassificationDataLogic>(builder, BuildBaseUrlForServices("ClassificationDataLogicService"));
-            RegisterService<IOrganisationLogic>(builder,BuildBaseUrlForServices("OrganisationLogicService"));
-            RegisterService<IWorkflowProcessService>(builder, this.BuildBaseUrlForWorkflowServices("WorkflowProcessService"));
-            //RegisterService<INotificationDataService>(builder, BuildBaseUrlForNotificationServices("NotificationDataService"));
-            RegisterService<IBusLogic>(builder, BuildBaseUrlForServices("BusLogicService"));
-            RegisterService<IProductLogic>(builder, BuildBaseUrlForServices("ProductLogicService"));
-            RegisterService<IShoppingCartLogic>(builder, BuildBaseUrlForServices("ShoppingCartLogicService"));
-            RegisterService<ITransactionOrderLogic>(builder, BuildBaseUrlForServices("TransactionOrderLogicService"));
-            RegisterService<IPaymentLogic>(builder, BuildBaseUrlForServices("PaymentLogicService"));
-            RegisterService<INotificationLogic>(builder, BuildBaseUrlForServices("NotificationLogicService"));
-            RegisterService<ITaskLogic>(builder, BuildBaseUrlForServices("TaskLogicService"));
-            RegisterService<IInvoiceLogic>(builder, BuildBaseUrlForServices("InvoiceLogicService"));
-
-            //builder.Register(c => new FieldDetailsAndValidationsContainerDTO(c.Resolve<IDataLogic>().LoadUIDetails())).SingleInstance();
         }
 
         private string BuildBaseUrlForNotificationServices(string serviceName)
@@ -110,12 +71,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             return baseUrl + serviceName;
         }
 
-        private string BuildBaseUrlForServices(string serviceName)
-        {
-            string baseUrl = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
-
-            return baseUrl + serviceName;
-        }
 
         private string BuildBaseUrlForWorkflowServices(string serviceName)
         {

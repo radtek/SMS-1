@@ -16,6 +16,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -59,7 +60,7 @@ namespace Bec.TargetFramework.Business.Logic
                     SaveLRDocument(scope, item);
                 });
 
-                        scope.Save();
+                        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
                     }
 
         }
@@ -91,7 +92,7 @@ namespace Bec.TargetFramework.Business.Logic
                 // add and save title
                 scope.DbContext.LRTitles.Add(title);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -126,7 +127,7 @@ namespace Bec.TargetFramework.Business.Logic
                     
                 });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -149,7 +150,7 @@ namespace Bec.TargetFramework.Business.Logic
                     });
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -163,7 +164,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.LRRegisterExtracts.Add(register);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
     }

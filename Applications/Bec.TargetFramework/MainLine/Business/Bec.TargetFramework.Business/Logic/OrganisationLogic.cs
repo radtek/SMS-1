@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Transactions;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
@@ -47,6 +48,68 @@ namespace Bec.TargetFramework.Business.Logic
             m_DataLogic = dLogic;
         }
 
+        public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
+        {
+            Ensure.That(postCode).IsNotNullOrEmpty();
+
+            var client = new PostcodeAnywhere.PostcodeAnywhere_SoapClient();
+
+            var key = "EN93-RT99-CK59-GP54";
+            var userName = "CLEAR11146";
+            string building = "";
+            if (!string.IsNullOrEmpty(buildingNameOrNumber))
+            {
+                building = buildingNameOrNumber.ToLowerInvariant();
+            }
+
+            var pcTrimmed = postCode.Replace(" ", "").Trim().ToLowerInvariant();
+
+            using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
+            {
+                string cacheKey = pcTrimmed + "*" + building;
+                var cacheResult = cacheClient.Get<List<PostCodeDTO>>(cacheKey);
+
+                if (cacheResult != null)
+                    return cacheResult;
+                else
+                {
+                    var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
+
+                    var dtos = response.Select(item => new PostCodeDTO
+                    {
+                        Company = item.Company,
+                        County = item.County,
+                        Department = item.Department,
+                        BuildingName = item.BuildingName,
+                        Line1 = item.Line1,
+                        Line2 = item.Line2,
+                        Line3 = item.Line3,
+                        Postcode = item.Postcode,
+                        PostTown = item.PostTown,
+                        PrimaryStreet = item.PrimaryStreet
+                    }).ToList();
+
+                    cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+
+                    return dtos;
+                }
+            }
+        }
+
+        public GoogleGeoCodeResponse GeoCodePostcode(string postCode)
+        {
+            Ensure.That(postCode).IsNotNullOrEmpty();
+
+            WebRequest request =
+                WebRequest.Create(string.Format("http://maps.googleapis.com/maps/api/geocode/json?address={0}&sensor=false", postCode.Trim().Replace(" ", "")));
+
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            var result = JsonSerializer.DeserializeResponse<GoogleGeoCodeResponse>(request.GetResponse());
+
+            return result;
+        }
+
         public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
@@ -74,13 +137,14 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = AddOrganisation(organisationType.GetIntValue(), defaultOrganisation, dto);
 
-            var userAccountOrganisationID = AddNewUserToOrganisation(organisationID.Value,new ContactDTO{
-                 Telephone1 = dto.OrganisationAdminTelephone,
+            var userAccountOrganisationID = AddNewUserToOrganisation(organisationID.Value, new ContactDTO
+            {
+                Telephone1 = dto.OrganisationAdminTelephone,
                 FirstName = dto.OrganisationAdminFirstName,
                 LastName = dto.OrganisationAdminLastName,
                 EmailAddress1 = dto.OrganisationAdminEmail,
                 Salutation = dto.OrganisationAdminSalutation
-            },UserTypeEnum.OrganisationAdministrator);
+            }, UserTypeEnum.OrganisationAdministrator);
 
             return organisationID.Value;
         }
@@ -89,25 +153,24 @@ namespace Bec.TargetFramework.Business.Logic
         {
             Guid uaoID;
             BrockAllen.MembershipReboot.UserAccount ua;
+            var randomPassword = RandomPasswordGenerator.Generate(10);
+            var randomUsername = m_DataLogic.GenerateRandomName();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            var userId = Guid.NewGuid();
+
+            ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false,
+                userId);
+
+            using (
+                var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                // generate username and password
-                var randomPassword = RandomPasswordGenerator.Generate(10);
-                var randomUsername = m_DataLogic.GenerateRandomName();
-                var userId = Guid.NewGuid();
-
-                ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false, userId);
-
                 Logger.Trace(string.Format("new user: {0} password: {1}", randomUsername, randomPassword));
 
                 // add user to organisation
                 scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
 
-                bool success = scope.Save();
-
-                if (!success)
-                    throw new Exception(scope.EntityErrors.Dump());
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+                  
             }
 
             Ensure.That(ua).IsNotNull();
@@ -137,10 +200,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.Contacts.Add(contact);
 
-                bool success = scope.Save();
-
-                if (!success)
-                    throw new Exception(scope.EntityErrors.Dump());
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
 
                 uaoID = uao.UserAccountOrganisationID;
             }
@@ -164,10 +224,8 @@ namespace Bec.TargetFramework.Business.Logic
                     dto.Name,
                     "");
 
-                bool success = scope.Save();
-
-                if (!success)
-                    throw new Exception(scope.EntityErrors.Dump());
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+                   
             }
 
             // perform other operations
@@ -215,10 +273,7 @@ namespace Bec.TargetFramework.Business.Logic
                 };
                 scope.DbContext.Addresses.Add(address);
 
-                bool success = scope.Save();
-
-                if(!success)
-                    throw new Exception(scope.EntityErrors.Dump());
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
 
             return organisationID;
@@ -282,7 +337,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //    AdditionalAddressInformation = dto.AdditionalAddressInformation
                 //};
                 //scope.DbContext.Addresses.Add(address);
-                //scope.Save();
+                //if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
                 //dto.CompanyId = organisation.OrganisationID;
         //    }
         //    return dto;
@@ -317,13 +372,13 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
 
-                if(!string.IsNullOrEmpty(searchText))
-                {
-                    vOrgDTO.SearchQuery = searchText;
-                    vOrgDTO.SearchQueryTargetProperties = new List<PropertyInfo>();
-                    vOrgDTO.RowObject.GetType().GetProperties().Where(item => item.Name.Equals("Name") || item.Name.Equals("Description"))
-                                .ToList().ForEach(pi => vOrgDTO.SearchQueryTargetProperties.Add(pi));
-                }
+                //if(!string.IsNullOrEmpty(searchText))
+                //{
+                //    vOrgDTO.SearchQuery = searchText;
+                //    vOrgDTO.SearchQueryTargetProperties = new List<PropertyInfo>();
+                //    vOrgDTO.RowObject.GetType().GetProperties().Where(item => item.Name.Equals("Name") || item.Name.Equals("Description"))
+                //                .ToList().ForEach(pi => vOrgDTO.SearchQueryTargetProperties.Add(pi));
+                //}
 
                 var repos = scope.GetGenericRepositoryNoTracking<VOrganisation, Guid>();
 
@@ -533,7 +588,7 @@ namespace Bec.TargetFramework.Business.Logic
                 organisationDetailRepos.Update(organisationDetail);
                 organisationStructureRepos.Update(organisationStructure);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -598,7 +653,7 @@ namespace Bec.TargetFramework.Business.Logic
             //                    organUnitRepos.Add(unit);
             //                });
 
-            //            scope.Save();
+            //            if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
             //            // process branches
             //            var contactRepos = scope.GetGenericRepository<Contact, Guid>();
@@ -725,7 +780,7 @@ namespace Bec.TargetFramework.Business.Logic
             //                        });
             //                });
 
-            //            scope.Save();
+            //            if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //        }
 
             //        tscope.Complete();
@@ -831,7 +886,7 @@ namespace Bec.TargetFramework.Business.Logic
             //                });
             //        });
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
 
         }
@@ -999,7 +1054,7 @@ namespace Bec.TargetFramework.Business.Logic
                     
 
             }
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1231,7 +1286,7 @@ namespace Bec.TargetFramework.Business.Logic
                     attachmentDetailRepos.Add(attachmentDetail);
                     attachmentRepos.Add(attachment);
                 }
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1251,7 +1306,7 @@ namespace Bec.TargetFramework.Business.Logic
                         orgLogo.IsActive = true;
                     logoRepos.Update(orgLogo);
                 }
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1274,7 +1329,7 @@ namespace Bec.TargetFramework.Business.Logic
                     attachmentDet.IsActive = true;
                     logoRepos.Update(attachmentDet);
                 }
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         #endregion
@@ -1300,7 +1355,7 @@ namespace Bec.TargetFramework.Business.Logic
                     unitRepos.Update(orgUnit);
                 else
                     unitRepos.Add(orgUnit);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         public OrganisationUnitDTO GetOrganisationUnit(int unitID)
@@ -1333,7 +1388,7 @@ namespace Bec.TargetFramework.Business.Logic
                 orgUnit.InjectFrom<NullableInjection>(new IgnoreProps("OrganisationID"), orgUnit);
                 if (unitID > 0)
                     unitRepos.Update(orgUnit);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         #endregion
@@ -1532,7 +1587,7 @@ namespace Bec.TargetFramework.Business.Logic
                             });
                     }
                 }
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         public vBranchDTO GetOrganisationBranch(int branchID)
@@ -1594,7 +1649,7 @@ namespace Bec.TargetFramework.Business.Logic
                     organRepos.Update(branchOrganisation);
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         public List<AddressDTO> GetAllBranchAddresses(Guid id)

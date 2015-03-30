@@ -175,10 +175,7 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         [Display(Name = "Organisation Branch")]
         public string OrganisationBranchID { get; set; }
-        [DataMember]
-        public List<ListItem> OrgansationsUnits { get; set; }
-        [DataMember]
-        public List<ListItem> OrgansationsBranches { get; set; }
+
         [DataMember]
         public List<AddressDTO> Addresses { get; set; }
         [DataMember]

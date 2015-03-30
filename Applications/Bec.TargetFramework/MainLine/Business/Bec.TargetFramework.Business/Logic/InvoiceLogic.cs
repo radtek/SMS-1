@@ -16,6 +16,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -170,7 +171,7 @@ namespace Bec.TargetFramework.Business.Logic
                             invoiceLineItems.Add(lineItem);
                         });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 dto = InvoiceConverter.ToDto(invoice);
                 dto.InvoiceLineItems = InvoiceLineItemConverter.ToDtos(invoiceLineItems);
@@ -197,7 +198,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.Invoices.Remove(invoice);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -212,7 +213,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 invoice.IsFrozenPendingPayment = true;
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -227,7 +228,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 invoice.IsClosed = true;
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         
@@ -258,7 +259,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 //TBD recalculate invoice
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -278,7 +279,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 //TBD recalculate invoice
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -294,7 +295,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 latestProcessLog.InvoiceAccountingStatusID = value.GetIntValue();
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -309,7 +310,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Paid, InvoiceAccountingStatusIDEnum.Paid);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -321,7 +322,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Unpaid, InvoiceAccountingStatusIDEnum.Paid_Late);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -333,7 +334,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Cancelled, InvoiceAccountingStatusIDEnum.Invoice_Withdrawn);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -345,7 +346,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Processing, InvoiceAccountingStatusIDEnum.Pending);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -357,7 +358,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.PaymentDue, InvoiceAccountingStatusIDEnum.Pending);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -369,7 +370,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Active, InvoiceAccountingStatusIDEnum.Pending);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -381,7 +382,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.PaymentScheduled, InvoiceAccountingStatusIDEnum.Pending);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 

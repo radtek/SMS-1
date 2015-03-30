@@ -19,6 +19,7 @@ using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using System.IO;
 using System.Reflection;
 using Bec.TargetFramework.Business.Logic.Helper;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -105,244 +106,6 @@ using Bec.TargetFramework.Framework.Configuration;
             }
             return statustypes;
         }
-        #endregion
-
-        #region Field Detail
-
-        public
-             VFieldDetailForUIDTO GetFieldDetail(string interfacePanelName, string fieldDetailName,int? organisationType = null,Guid? userType = null)
-        {
-            Ensure.That(fieldDetailName);
-
-            VFieldDetailForUIDTO field = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var fieldQuery =
-                    scope.DbContext.VFieldDetailForUIs.Where(s => s.IsActive.Equals(true) && s.IsDeleted.Equals(false));
-
-                if (organisationType == null)
-                    fieldQuery = fieldQuery.Where(s => !s.OrganisationTypeID.HasValue);
-                else
-                    fieldQuery = fieldQuery.Where(s => s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(organisationType.Value));
-
-                if (userType == null)
-                    fieldQuery = fieldQuery.Where(s => !s.UserTypeID.HasValue);
-                else
-                    fieldQuery = fieldQuery.Where(s => s.UserTypeID.HasValue && s.UserTypeID.Value.Equals(userType.Value));
-
-
-                var fields = fieldQuery.Where(s => s.InterfacePanelName.Equals(interfacePanelName)
-                                                               && s.Name.Equals(fieldDetailName)).ToList();
-
-                Ensure.That(fields.Count).IsNot(0);
-
-                field = VFieldDetailForUIConverter.ToDto(fields.First());
-            }
-
-            return field;
-        }
-
-        public List<VFieldDetailForUIDTO> GetAllFieldDetails()
-        {
-            List<VFieldDetailForUIDTO> fields = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var fieldQuery =
-                    scope.DbContext.VFieldDetailForUIs.Where(s => s.IsActive.Equals(true) && s.IsDeleted.Equals(false));
-
-
-                fields = VFieldDetailForUIConverter.ToDtos(fieldQuery);
-
-                Ensure.That(fields);
-            }
-
-            return fields;
-        }
-
-        #endregion
-
-        #region InterfacePanel Details
-
-        public VInterfacePanelForUIDTO GetInterfacePanelDetails(string interfacePanelName, int? organisationType = null, Guid? userType = null)
-        {
-            Ensure.That(interfacePanelName);
-
-            VInterfacePanelForUIDTO ipdetail = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var ipQuery =
-                    scope.DbContext.VInterfacePanelForUIs.Where(s => s.IsActive.Equals(true) && s.IsDeleted.Equals(false));
-
-                if (organisationType == null)
-                    ipQuery = ipQuery.Where(s => !s.OrganisationTypeID.HasValue);
-                else
-                    ipQuery = ipQuery.Where(s => s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(organisationType.Value));
-
-                if (userType == null)
-                    ipQuery = ipQuery.Where(s => !s.UserTypeID.HasValue);
-                else
-                    ipQuery = ipQuery.Where(s => s.UserTypeID.HasValue && s.UserTypeID.Value.Equals(userType.Value));
-
-
-                var ipdetails = ipQuery.Where(x => x.Name.Equals(interfacePanelName)).ToList();
-
-                Ensure.That(ipdetails.Count).IsNot(0);
-
-
-                ipdetail = VInterfacePanelForUIConverter.ToDto(ipdetails.First());
-            }
-
-            return ipdetail;
-        }
-
-        public List<VInterfacePanelForUIDTO> GetAllInterfacePanels()
-        {
-            List<VInterfacePanelForUIDTO> interfacePanels = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var interfacePanelQuery =
-                    scope.DbContext.VInterfacePanelForUIs.Where(s => s.IsActive.Equals(true) && s.IsDeleted.Equals(false));
-
-
-                interfacePanels = VInterfacePanelForUIConverter.ToDtos(interfacePanelQuery);
-
-                Ensure.That(interfacePanels);
-            }
-
-            return interfacePanels;
-        }
-        #endregion
-
-        #region Panel Validations
-
-        public VInterfacePanelValidationForUIDTO GetInterfacePanelValidationMessage(string interfacePanelName, string validationName, int? organisationType = null, Guid? userType = null)
-        {
-            Ensure.That(validationName);
-
-            VInterfacePanelValidationForUIDTO ipValidation = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var ipValidationQuery =
-                    scope.DbContext.VInterfacePanelValidationForUIs.Where(s => s.IsActive.HasValue && s.IsDeleted.HasValue && s.IsActive.Value.Equals(true) && s.IsDeleted.Value.Equals(false));
-
-                if (organisationType == null)
-                    ipValidationQuery = ipValidationQuery.Where(s => !s.OrganisationTypeID.HasValue);
-                else
-                    ipValidationQuery = ipValidationQuery.Where(s => s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(organisationType.Value));
-
-                if (userType == null)
-                    ipValidationQuery = ipValidationQuery.Where(s => !s.UserTypeID.HasValue);
-                else
-                    ipValidationQuery = ipValidationQuery.Where(s => s.UserTypeID.HasValue && s.UserTypeID.Value.Equals(userType.Value));
-
-
-                var validation = ipValidationQuery.Where(x => x.Name.Equals(interfacePanelName) && x.ValidationName.Equals(validationName)).ToList();
-
-                Ensure.That(validation.Count).IsNot(0);	
-
-                ipValidation = VInterfacePanelValidationForUIConverter.ToDto(validation.First());
-            }
-
-            return ipValidation;
-        }
-
-        public List<VInterfacePanelValidationForUIDTO> GetAllInterfacePanelValidationMessages()
-        {
-
-            List<VInterfacePanelValidationForUIDTO> ipValidations = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var ipValidationQuery = scope.DbContext.VInterfacePanelValidationForUIs.Where(s => s.IsActive.HasValue && s.IsDeleted.HasValue && s.IsActive.Value.Equals(true) && s.IsDeleted.Value.Equals(false)); ;
-
-                ipValidations = VInterfacePanelValidationForUIConverter.ToDtos(ipValidationQuery);
-
-                Ensure.That(ipValidations);
-            }
-            return ipValidations;
-           
-        }
-        #endregion
-
-        #region Field Detail Validations
-
-        public VFieldDetailValidationForUIDTO GetFieldDetailValidationMessage(string fieldDetailName, string validationName, int? organisationType = null, Guid? userType = null)
-        {
-            Ensure.That(validationName);
-
-            VFieldDetailValidationForUIDTO fdValidation = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var fdValidationQuery =
-                    scope.DbContext.VFieldDetailValidationForUIs.Where(s => s.IsActive.HasValue && s.IsDeleted.HasValue && s.IsActive.Value.Equals(true) && s.IsDeleted.Value.Equals(false));
-
-                if (organisationType == null)
-                    fdValidationQuery = fdValidationQuery.Where(s => !s.OrganisationTypeID.HasValue);
-                else
-                    fdValidationQuery = fdValidationQuery.Where(s => s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(organisationType.Value));
-
-                if (userType == null)
-                    fdValidationQuery = fdValidationQuery.Where(s => !s.UserTypeID.HasValue);
-                else
-                    fdValidationQuery = fdValidationQuery.Where(s => s.UserTypeID.HasValue && s.UserTypeID.Value.Equals(userType.Value));
-
-
-                var validation = fdValidationQuery.Where(x => x.Name.Equals(fieldDetailName) && x.InterfacePanelFieldDetailValidationName.Equals(validationName)).ToList();
-
-                if(validation.Count == 0)
-                    throw new ArgumentException("No validation found validation name:" + validationName + " FieldDetailName:" + fieldDetailName);
-
-
-                fdValidation = VFieldDetailValidationForUIConverter.ToDto(validation.First());
-            }
-
-            return fdValidation;
-        }
-
-        public List<VFieldDetailValidationForUIDTO> GetAllFieldDetailValidationMessages()
-        {
-
-            List<VFieldDetailValidationForUIDTO> fdValidations = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var fdValidationQuery = scope.DbContext.VFieldDetailValidationForUIs.Where(s => s.IsActive.HasValue && s.IsDeleted.HasValue && s.IsActive.Value.Equals(true) && s.IsDeleted.Value.Equals(false)); ;
-
-                fdValidations = VFieldDetailValidationForUIConverter.ToDtos(fdValidationQuery);
-
-                Ensure.That(fdValidations);
-            }
-            return fdValidations;
-
-        }
-                
-        #endregion
-
-        #region cache validations and field details data
-
-        public FieldDetailsAndValidationsDTO LoadUIDetails()
-        {
-
-            FieldDetailsAndValidationsDTO dto = new FieldDetailsAndValidationsDTO();
-
-            dto.InterfacePanelValidationsForUI = GetAllInterfacePanelValidationMessages();
-
-            dto.FieldDetailValidationsForUI = GetAllFieldDetailValidationMessages();
-
-            dto.FieldDetailsForUI = GetAllFieldDetails();
-
-            dto.InterfacePanelForUI = GetAllInterfacePanels();
-
-            return dto;
-
-        }
-
         #endregion
 
         #region BaseNameGenerator
@@ -529,7 +292,7 @@ using Bec.TargetFramework.Framework.Configuration;
                 ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
                     productPurchaseProductTaskID, parentID, data,null,ServiceInterfaceStatusEnum.Pending);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -542,7 +305,7 @@ using Bec.TargetFramework.Framework.Configuration;
                 ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
                     productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Processing);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -555,7 +318,7 @@ using Bec.TargetFramework.Framework.Configuration;
                 ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
                     productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Failed);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         [EnsureArgumentAspect]
@@ -568,7 +331,7 @@ using Bec.TargetFramework.Framework.Configuration;
                 ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
                     productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Successful);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
        

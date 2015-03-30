@@ -9,6 +9,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 //using Fabrik.Common;
 using Omu.ValueInjecter;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -90,7 +91,7 @@ namespace Bec.TargetFramework.Business.Logic
                     operationRepos.Add(operation);
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -109,7 +110,7 @@ namespace Bec.TargetFramework.Business.Logic
                                   it.IsActive = false;
                                   operationRepos.Update(it);
                               });
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -122,7 +123,7 @@ namespace Bec.TargetFramework.Business.Logic
                     var operation = operationRepos.Get(operationID);
                     operation.IsActive = !operation.IsActive;
                     operationRepos.Update(operation);
-                    scope.Save();
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 

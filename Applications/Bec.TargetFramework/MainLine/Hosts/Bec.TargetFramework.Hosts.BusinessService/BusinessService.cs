@@ -22,6 +22,7 @@ using System.ServiceModel.Configuration;
 using System.Configuration;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Infrastructure.Log;
+using Microsoft.Owin.Hosting;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
 using NServiceBus.Serilog.Tracing;
@@ -33,9 +34,11 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
     public partial class BusinessService : ServiceBase
     {
-        private List<ServiceHost> m_ServiceHosts { get; set; }
-        private List<IBusinessLogicService> m_ServiceInstances { get; set; }
+        public string baseAddress = "http://localhost:9000/";
+
         private Autofac.IContainer m_IocContainer { get; set; }
+
+        private IDisposable m_Server = null;
 
         private IBus m_Bus;
 
@@ -46,9 +49,6 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
         protected override void OnStart(string[] args)
         {
-
-
-
             StartService(args);
         }
 
@@ -90,45 +90,11 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             eventLog.WriteEntry("Starting Service");
 
-            m_ServiceHosts = new List<ServiceHost>();
-
             try
             {
                 InitialiseIOC();
-                System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                var serviceModel = ServiceModelSectionGroup.GetSectionGroup(config);
-
-                var s = "";
-                serviceModel.Services.Services.OfType<ServiceElement>().ToList()
-                    .ForEach(item =>
-                    {
-                        try
-                        {
-
-                            Type serviceType = Type.GetType(item.Name + ", Bec.TargetFramework.Business.Services");
-                            s = serviceType.Name;
-                            //if (s == "UserLogicService")
-                            //{
-                                Type interfaceType = Type.GetType(item.Endpoints.OfType<ServiceEndpointElement>().Single(t => t.Contract.Contains("Bec.TargetFramework")).Contract + ", Bec.TargetFramework.Business.Infrastructure");
-                                ServiceHost host = new ServiceHost(serviceType);
-                                host.AddDependencyInjectionBehavior(interfaceType, m_IocContainer);
-                                host.Open();
-
-
-                                m_ServiceHosts.Add(host);
-                            //}
-                        }
-                        catch (Exception ex)
-                        {
-                            var logger = m_IocContainer.Resolve<ILogger>();
-
-                            logger.Error(ex, ex.Message);
-
-                            Console.WriteLine(s);
-                        }
-
-                    });
+                m_Server = WebApp.Start<Startup>(url: baseAddress);
             }
             catch (Exception ex)
             {
@@ -150,11 +116,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             eventLog.WriteEntry("Stopping Service");
 
-            if (m_ServiceHosts != null)
-            {
-                m_ServiceHosts.ForEach(item =>
-                    item.Close());
-            }
+            if(m_Server != null)
+                m_Server.Dispose();
 
             base.OnStop();
         }

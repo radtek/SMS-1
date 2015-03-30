@@ -6,6 +6,7 @@ using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Web.Framework.Helpers;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -38,7 +39,7 @@ namespace Bec.TargetFramework.Business.Logic
                 };
 
                 scope.DbContext.UserAccountAudits.Add(audit);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
     }

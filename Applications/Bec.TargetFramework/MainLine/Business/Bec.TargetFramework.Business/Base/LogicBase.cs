@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
 using System.ServiceModel;
+using System.Web.Http;
 using Bec.TargetFramework.Aop.Aspects;
 using Bec.TargetFramework.Entities.DTO;
 using Bec.TargetFramework.Infrastructure.Caching;
@@ -15,7 +16,7 @@ using Bec.TargetFramework.Entities;
 
 namespace Bec.TargetFramework.Business.Logic
 {
-    public class LogicBase
+    public class LogicBase : ApiController
     {
         public LogicBase(ILogger logger, ICacheProvider cacheProvider)
         {

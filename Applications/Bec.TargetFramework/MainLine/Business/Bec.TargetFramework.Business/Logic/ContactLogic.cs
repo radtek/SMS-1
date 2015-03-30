@@ -14,7 +14,7 @@ namespace Bec.TargetFramework.Business.Logic
             : base(logger, cacheProvider)
         {
         }
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
         //        if (operationIds != null && operationIds.Length > 0)
@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Business.Logic
         //    {
         //        // delete existing ros
         //        var saveContact = new Contact();
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
         //        if (selectedOperations != null && selectedOperations.Length > 0)

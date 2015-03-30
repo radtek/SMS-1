@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Bec.TargetFramework.Data;
@@ -43,18 +45,21 @@ namespace Bec.TargetFramework.Business.Logic
             m_DataLogic = dataLogic;
         }
 
+
        
 
-        public Task<UserLoginValidation> AuthenticateUser(string username, string password)
+        public UserLoginValidation AuthenticateUser(string username, string password)
         {
             BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
 
-            UserLoginValidation result = m_UaService.AuthenticateWithUsername(account, username, password);
+            var decodedPassword = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(password));
+
+            UserLoginValidation result = m_UaService.AuthenticateWithUsername(account, username, decodedPassword);
 
 
             result.UserAccount = account;
 
-            return Task.FromResult(result);
+            return result;
         }
 
         public List<UserDetailDTO> GetAllUserDetailDTO()
@@ -279,7 +284,7 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 userRepos.Update(user);
-                scope.Save(); 
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());; 
             }
         }
 
@@ -317,7 +322,7 @@ namespace Bec.TargetFramework.Business.Logic
                 SetAuditFields<UserAccountDetail>(userDetail, true);
                 userAccountDetailRepos.Add(userDetail);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 var contactDTO = new ContactDTO();
                 contactDTO.InjectFrom<NullableInjection>(userContact);
@@ -378,7 +383,7 @@ namespace Bec.TargetFramework.Business.Logic
             //      });
 
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
 
         }
@@ -458,7 +463,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             //    }
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
 
@@ -552,7 +557,7 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 userRepos.Update(user);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -627,7 +632,7 @@ namespace Bec.TargetFramework.Business.Logic
                 address.IsDeleted = true;
                 
                 addressRepos.Update(address);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -666,7 +671,7 @@ namespace Bec.TargetFramework.Business.Logic
             //    //    userRoleRepos.Add(userRole);
             //    //});
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
         
@@ -705,7 +710,7 @@ namespace Bec.TargetFramework.Business.Logic
             //    //    userGroupRepos.Add(userGroup);
             //    //});
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
 
@@ -1014,7 +1019,7 @@ namespace Bec.TargetFramework.Business.Logic
                       passwordResetSecretRepos.Add(secret);
                   });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1026,7 +1031,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.UserAccounts.Remove(uaDb);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1063,7 +1068,7 @@ namespace Bec.TargetFramework.Business.Logic
                         }
                     });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1096,11 +1101,13 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<string> UserLoginSessions(Guid userId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var entities = new TargetFrameworkEntities())
             {
-                return scope.DbContext.UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID.Equals(userId))
-                    .Select(item => item.UserSessionID)
-                    .ToList();
+                var results = entities.UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID.Equals(userId))
+                   .Select(item => item.UserSessionID)
+                   .ToList();
+
+                return results;
             }
         }
 
@@ -1117,7 +1124,7 @@ namespace Bec.TargetFramework.Business.Logic
                     item.UserHasLoggedOut = true;
                 });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1138,7 +1145,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.UserAccountLoginSessions.Add(session);
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
              }
         }
 
@@ -1157,7 +1164,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.UserAccountLoginSessionData.Add(sessionData);
                 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -1242,7 +1249,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         //        orgID = scope.DbContext.FnCreateOrganisationFromDefault(doPersonalOrganisationTemplate.OrganisationTypeID, doPersonalOrganisationTemplate.DefaultOrganisationID, doPersonalOrganisationTemplate.DefaultOrganisationVersionNumber, "Personal Organisation", "PersonalOrganisation").GetValueOrDefault();
 
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
 
         //    // add user to personal organisation
@@ -1254,7 +1261,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         //        //Add user to newly created personal organisation
         //        scope.DbContext.FnAddUserToOrganisation(userID, orgID, doPersonalOrganisationTemplate.UserTypeID, branches.First().OrganisationID);
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
         //        var organisationID = branches.First().OrganisationID;
 
@@ -1296,7 +1303,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 scope.DbContext.FnAddUserToTemporaryOrganisation(userID);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 // get temp branch
                 var tempOrganisationGuid =
@@ -1343,7 +1350,7 @@ namespace Bec.TargetFramework.Business.Logic
                 Contact contact = ContactConverter.ToEntity(contactDTO);
                 SetAuditFields<Contact>(contact, true);
                 contactRepos.Add(contact);
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
         public bool ContactExists(Guid parentID)

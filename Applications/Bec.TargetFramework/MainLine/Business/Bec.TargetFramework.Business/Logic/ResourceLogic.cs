@@ -8,6 +8,7 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using Omu.ValueInjecter;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -124,7 +125,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //    this.RebuildOperationResource(selectedOperationsList, resource);
                 //}
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -156,7 +157,7 @@ namespace Bec.TargetFramework.Business.Logic
             //    }
 
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
         //public void SaveResource(ResourceDTO dto, string[] selectedOperations)
@@ -191,7 +192,7 @@ namespace Bec.TargetFramework.Business.Logic
         //            this.RebuildOperationResource(new List<string>(selectedOperations), resource);
         //        }
 
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
@@ -223,7 +224,7 @@ namespace Bec.TargetFramework.Business.Logic
         //        }
 
 
-        //        scope.Save();
+        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
@@ -253,7 +254,7 @@ namespace Bec.TargetFramework.Business.Logic
             //                     it.IsActive = false;
             //                     resourceRepos.Update(it);
             //                 });
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
 
@@ -301,7 +302,7 @@ namespace Bec.TargetFramework.Business.Logic
             //            it.IsActive = !active;
             //            resourceRepos.Update(it);
             //        });
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
     }

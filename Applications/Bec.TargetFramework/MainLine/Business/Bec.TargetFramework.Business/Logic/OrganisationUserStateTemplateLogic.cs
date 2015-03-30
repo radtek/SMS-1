@@ -130,7 +130,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //    visibilityClaimRepos.Add(list);
 
                 //}
-             //   scope.Save();
+             //   if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
 
@@ -169,7 +169,7 @@ namespace Bec.TargetFramework.Business.Logic
             //    visibilityStateRepos.Update(OrganisationUserStateTemplate);
             //    //scope.DbContext.VisibilitySchemeTemplates.RemoveRange(col);
 
-            //    scope.Save();
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             //}
         }
 

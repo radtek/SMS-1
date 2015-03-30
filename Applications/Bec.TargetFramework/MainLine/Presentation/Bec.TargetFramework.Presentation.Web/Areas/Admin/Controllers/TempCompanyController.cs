@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
-using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Presentation.Web.Api.Client.Clients;
+using Bec.TargetFramework.Presentation.Web.Api.Client.Models;
 using Bec.TargetFramework.UI.Process.Base;
 using JSM;
+using Bec.TargetFramework.Presentation.Web.Api.Client;
 using JSM.MVC4;
+using ServiceStack.ServiceHost;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     public class TempCompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
-        private IOrganisationLogic m_OrganisationLogic;
-        private IAddressLogic m_AddressLogic;
 
-        public TempCompanyController(ILogger logger, IOrganisationLogic oLogic, IAddressLogic addressLogic) : base(logger)
+        public TempCompanyController(ILogger logger) : base(logger)
         {
-            m_OrganisationLogic = oLogic;
-            m_AddressLogic = addressLogic;
         }
 
         // GET: Admin/TempCompany
@@ -30,13 +29,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult LoadCompanies(Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum orgStatus)
+        public ActionResult LoadCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            var companies = m_OrganisationLogic.GetCompanies(orgStatus);
+            List<VOrganisationWithStatusAndAdminDTO> list = null;
 
-            companies.ForEach(s => s.CreatedOnAsString = s.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"));
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
 
-            var jsonData = new { total = companies.Count, companies };
+                var companies = client.GetCompanies(orgStatus);
+
+                companies.ForEach(s => s.CreatedOnAsString = s.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"));
+
+                list = companies;
+            }
+
+            var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
@@ -50,7 +58,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["AddTempCompanyId"] = m_OrganisationLogic.AddNewUnverifiedOrganisationAndAdministrator(Entities.Enums.OrganisationTypeEnum.Conveyancing, model);
+                using (var client = new OrganisationLogicClient())
+                {
+                    client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+
+                    var id = client.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Conveyancing, model);
+
+                    TempData["AddTempCompanyId"] = id;
+                }
+                
             }
 
             return RedirectToAction("Index");
@@ -58,7 +74,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public ActionResult FindAddress(string postcode)
         {
-            return Json(m_AddressLogic.FindAddressesByPostCode(postcode, null), JsonRequestBehavior.AllowGet);
+            List<PostCodeDTO> list = null;
+
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+
+                list = client.FindAddressesByPostCode(postcode, null);
+
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }

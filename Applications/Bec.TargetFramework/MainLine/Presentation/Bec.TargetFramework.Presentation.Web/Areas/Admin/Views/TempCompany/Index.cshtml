@@ -178,8 +178,8 @@
             $('#addModal').modal('hide');
         });
 
-        var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Unverified})';
-        var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified})';
+        var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Unverified})';
+        var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Verified })';
 
         $(document).ready(function() {
             makeUnverifiedGrid();
@@ -212,7 +212,7 @@
 
                     },
                     schema: {
-                        data: "companies",
+                        data: "list",
                         total: "total",
                         model: { id: "OrganisationID" }
                     },
@@ -279,7 +279,7 @@
                         }
 
                     },
-                    schema: { data: "companies", total: "total", model: { id: "OrganisationID" } },
+                    schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
                     sort: { field: "CreatedOn", dir: "asc" }
                 },
                 height: 300,

@@ -6,6 +6,7 @@ using ServiceStack.Caching;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -42,7 +43,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 repos.Add(SettingConverter.ToEntity(dto));
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 // Reset the cache
                 ResetCache();
@@ -57,7 +58,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 repos.Update(SettingConverter.ToEntity(dto));
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 // Reset the cache
                 ResetCache();
@@ -72,7 +73,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 repos.Delete(SettingConverter.ToEntity(dto));
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
 
                 // Reset the cache
                 ResetCache();

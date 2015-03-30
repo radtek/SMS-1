@@ -10,6 +10,8 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
+using NHibernate.Hql.Ast.ANTLR;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -123,7 +125,10 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContext.Notifications.Add(notification);
 
-                success = scope.Save();
+                if (!scope.Save())
+                    throw new Exception(scope.EntityErrors.Dump());
+                else
+                    success = true;
             }
 
             return success;

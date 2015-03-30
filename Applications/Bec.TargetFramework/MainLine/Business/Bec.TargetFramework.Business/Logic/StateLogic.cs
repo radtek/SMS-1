@@ -10,6 +10,7 @@ using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 //using Fabrik.Common;
 using Omu.ValueInjecter;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -90,7 +91,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StateRepos.Add(State);
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -280,7 +281,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StateRepos.Add(stateItem);
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -310,7 +311,7 @@ namespace Bec.TargetFramework.Business.Logic
                            siRepos.Update(it);
                        });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -338,7 +339,7 @@ namespace Bec.TargetFramework.Business.Logic
                                   this.DeleteStateItem(it.StateItemID);
                               });
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -365,7 +366,7 @@ namespace Bec.TargetFramework.Business.Logic
                         it.IsActive = !active;
                         stateRepos.Update(it);
                     });
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 

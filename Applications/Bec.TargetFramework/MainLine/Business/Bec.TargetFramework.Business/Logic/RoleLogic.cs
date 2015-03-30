@@ -11,6 +11,7 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Caching;
+using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -145,7 +146,7 @@ namespace Bec.TargetFramework.Business.Logic
                     }
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 
@@ -287,7 +288,7 @@ namespace Bec.TargetFramework.Business.Logic
                             it.IsActive = false;
                             roleRepos.Update(it);
                         });
-                    scope.Save();
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
                 }                
             }
         
@@ -315,7 +316,7 @@ namespace Bec.TargetFramework.Business.Logic
                         it.IsActive = !active;
                         roleRepos.Update(it);
                     });
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
         }
 

@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByUsername(string username);
 
         [OperationContract]
-        Task<UserLoginValidation> AuthenticateUser(string username, string password);
+        UserLoginValidation AuthenticateUser(string username, string password);
         
         [OperationContract]
         List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(

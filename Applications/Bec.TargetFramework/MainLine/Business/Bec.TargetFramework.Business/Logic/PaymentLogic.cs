@@ -329,7 +329,7 @@ namespace Bec.TargetFramework.Business.Logic
                     TransactionHelper.CreateTransactionOrderProcessLog(scope,transactionOrderDto.TransactionOrderID,TransactionOrderStatusEnum.Successful,transactionOrderPayment.TransactionOrderPaymentID);
                 }
 
-                scope.Save();
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
             }
 
             return responseDto;

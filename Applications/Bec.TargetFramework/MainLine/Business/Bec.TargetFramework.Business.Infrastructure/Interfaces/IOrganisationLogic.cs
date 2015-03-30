@@ -11,6 +11,13 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
     [ServiceContract(Namespace = Bec.TargetFramework.Business.Infrastructure.BecTargetFrameworkBusinessServiceNamespaces.BusinessNamespace + "/OrganisationLogicService")]
     public interface IOrganisationLogic : IBusinessLogicService
     {
+
+        [OperationContract]
+        List<PostCodeDTO> FindAddressesByPostCode(string postCode, string building);
+
+        [OperationContract]
+        GoogleGeoCodeResponse GeoCodePostcode(string postCode);
+
         [OperationContract]
         Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto);
 

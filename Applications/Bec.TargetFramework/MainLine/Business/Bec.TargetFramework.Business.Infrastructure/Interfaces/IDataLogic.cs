@@ -86,27 +86,6 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         [OperationContract]
         string GenerateRandomName();
 
-        [OperationContract]
-        VFieldDetailForUIDTO GetFieldDetail(string interfacePanelName, string fieldDetailName,
-            int? organisationType = null, Guid? userType = null);
-
-        [OperationContract]
-        VInterfacePanelForUIDTO GetInterfacePanelDetails(string interfacePanelName, int? organisationType = null, Guid? userType = null);
-
-        [OperationContract]
-        VInterfacePanelValidationForUIDTO GetInterfacePanelValidationMessage(string interfacePanelName, string validationName,
-            int? organisationType = null, Guid? userType = null);
-        [OperationContract]
-        List<VFieldDetailValidationForUIDTO> GetAllFieldDetailValidationMessages();
-        [OperationContract]
-        VFieldDetailValidationForUIDTO GetFieldDetailValidationMessage(string fieldDetailName, string validationName, 
-            int? organisationType = null, Guid? userType = null);
-
-        [OperationContract]
-        FieldDetailsAndValidationsDTO LoadUIDetails();
-
-        [OperationContract]
-        List<VInterfacePanelValidationForUIDTO> GetAllInterfacePanelValidationMessages();
         
                 
     }

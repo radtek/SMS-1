@@ -15,14 +15,12 @@ namespace BrockAllen.MembershipReboot.Ef
     public class DefaultUserAccountRepository
            : IUserAccountRepository
     {
-        private ChannelFactory<IUserLogic> m_UserLogicChannel;
         private IUserLogic m_UserLogic;
 
         public DefaultUserAccountRepository()
         {
             
 
-            m_UserLogicChannel = new ChannelFactory<IUserLogic>(Bec.TargetFramework.Infrastructure.WCF.NetTcpBindingConfiguration.GetDefaultNetTcpBinding(), System.Configuration.ConfigurationManager.AppSettings["BusinessServiceBaseURL"] + "UserLogicService");
         }
 
         private void SetupUserLogicIfInBusinessService()
@@ -33,126 +31,76 @@ namespace BrockAllen.MembershipReboot.Ef
 
         public List<UserAccount> GetAll()
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            var result = proxy.GetAllUserAccount();
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.GetAllUserAccount();
         }
 
         public UserAccount GetByEmail(string email)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            var result = proxy.GetBAUserAccountByEmail(email);
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.GetBAUserAccountByEmail(email);
         }
 
         public UserAccount GetByEmailNotID(string email,Guid id)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            var result = proxy.GetBAUserAccountByEmailAndNotID(email,id);
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.GetBAUserAccountByEmailAndNotID(email, id);
         }
 
         public UserAccount GetByUsername(string username)
         {
             SetupUserLogicIfInBusinessService();
 
-            if(m_UserLogic == null)
-            { 
-                var proxy = m_UserLogicChannel.CreateChannel();
-
-                var result = proxy.GetBAUserAccountByUsername(username);
-
-                ((ICommunicationObject)proxy).Close();
-
-                return result;
-            }
-            else
-                return m_UserLogic.GetBAUserAccountByUsername(username);
+            return m_UserLogic.GetBAUserAccountByUsername(username);
         }
 
         public UserAccount GetByVerificationKey(string key)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
-
-            var result = proxy.GetBAUserAccountByVerificationKey(key);
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.GetBAUserAccountByVerificationKey(key);
         }
 
         public UserAccount Get(System.Guid key)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            var result = proxy.GetUserAccount(key);
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.GetUserAccount(key);
         }
 
         public UserAccount Create()
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            var result = proxy.CreateUserAccount();
-
-            ((ICommunicationObject)proxy).Close();
-
-            return result;
+            return m_UserLogic.CreateUserAccount();
         }
 
         public void Add(UserAccount item)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            proxy.AddUserAccount(item);
-
-            ((ICommunicationObject)proxy).Close();
+             m_UserLogic.AddUserAccount(item);
+           
         }
 
         public void Remove(UserAccount item)
         {
-            var proxy = m_UserLogicChannel.CreateChannel();
+            SetupUserLogicIfInBusinessService();
 
-            proxy.RemoveUserAccount(item);
-
-            ((ICommunicationObject)proxy).Close();
+            m_UserLogic.RemoveUserAccount(item);
         }
 
         public void Update(UserAccount item)
         {
             SetupUserLogicIfInBusinessService();
 
-            if(m_UserLogic == null)
-            { 
-                var proxy = m_UserLogicChannel.CreateChannel();
-
-               proxy.UpdateUserAccount(item);
-
-               ((ICommunicationObject)proxy).Close();
-            }
-            else
-                m_UserLogic.UpdateUserAccount(item);
+            m_UserLogic.UpdateUserAccount(item);
         }
 
         public void Dispose()
         {
-            if (m_UserLogicChannel != null)
-                m_UserLogicChannel.TryDispose();
+             
         }
     }
 }

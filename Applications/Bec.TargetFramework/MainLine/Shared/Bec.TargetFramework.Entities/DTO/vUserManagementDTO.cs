@@ -15,7 +15,7 @@ namespace Bec.TargetFramework.Entities
     {
         public vUserManagementDTO()
         {
-            AddressListItems = new List<ListItem>();
+    
             UserContact = new ContactDTO();
         }
 
@@ -138,8 +138,7 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public Nullable<bool> IsLeafNode { get; set; }
 
-        [DataMember]
-        public List<ListItem> AddressListItems { get; set; }
+
         
         
         [DataMember]

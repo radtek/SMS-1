@@ -17,7 +17,6 @@ namespace Bec.TargetFramework.Entities
     {
         public ContactJsonDTO()
         {
-            AddressListItems = new List<ListItem>();
             CurrentAddress = new AddressDTO();
             AddressesJson =new  List<AddressDTO>();
         }
@@ -156,8 +155,7 @@ namespace Bec.TargetFramework.Entities
         public Nullable<int> ContactCategoryID { get; set; }
         [DataMember]
         public List<AddressDTO> AddressesJson { get; set; }
-        [DataMember]
-        public List<ListItem> AddressListItems { get; set; }
+
         [DataMember]
         public AddressDTO CurrentAddress { get; set; }
         [DataMember]
