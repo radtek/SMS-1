@@ -48,6 +48,7 @@ $("#findaddressbutton").click(function () {
         noMatch.hide();
 
         if (result && result.length > 0) {
+            resList.append($("<option>Please select an address:</option>"));
             $.each(result, function (i, item) {
                 var opt = $("<option>" + item.FullAddress + "</option>");
                 opt.attr('data-Company', item.Company);
