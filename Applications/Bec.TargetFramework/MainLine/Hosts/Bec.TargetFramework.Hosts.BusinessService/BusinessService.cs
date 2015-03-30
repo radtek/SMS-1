@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
     public partial class BusinessService : ServiceBase
     {
-        public string baseAddress = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
+        public string m_BaseAddress { get; set; }
 
         private Autofac.IContainer m_IocContainer { get; set; }
 
@@ -94,7 +94,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             {
                 InitialiseIOC();
 
-                m_Server = WebApp.Start<Startup>(url: baseAddress);
+                m_BaseAddress = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
+
+                m_Server = WebApp.Start<Startup>(url: m_BaseAddress);
             }
             catch (Exception ex)
             {
