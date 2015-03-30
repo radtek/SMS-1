@@ -18,6 +18,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             var config = new HttpConfiguration();
 
+            config.Formatters.RemoveAt(0);
+            config.Formatters.Insert(0, new JilMediaTypeFormatter());
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
