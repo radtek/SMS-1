@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -12,67 +14,78 @@ using Jil;
 
 namespace Bec.TargetFramework.Hosts.BusinessService.Formatters
 {
-    public class JilFormatter : MediaTypeFormatter
+    public class JilMediaTypeFormatter : MediaTypeFormatter
     {
-        private readonly Options _jilOptions;
-        public JilFormatter()
-        {
-            _jilOptions = new Options(dateFormat: DateTimeFormat.ISO8601);
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
+        private static readonly MediaTypeHeaderValue _applicationJsonMediaType = new MediaTypeHeaderValue("application/json");
+        private static readonly MediaTypeHeaderValue _textJsonMediaType = new MediaTypeHeaderValue("text/json");
+        private static readonly Task<bool> _done = Task.FromResult(true);
 
-            SupportedEncodings.Add(new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true));
-            SupportedEncodings.Add(new UnicodeEncoding(bigEndian: false, byteOrderMark: true, throwOnInvalidBytes: true));
+        private readonly Options _options;
+
+        public JilMediaTypeFormatter(Options options)
+        {
+            _options = options;
+            SupportedMediaTypes.Add(_applicationJsonMediaType);
+            SupportedMediaTypes.Add(_textJsonMediaType);
+
+            SupportedEncodings.Add(new UTF8Encoding(false, true));
+            SupportedEncodings.Add(new UnicodeEncoding(false, true, true));
         }
+
+        public JilMediaTypeFormatter() : this(GetDefaultOptions()) { }
+
+        private static Options GetDefaultOptions()
+        {
+            return new Options();
+        }
+
         public override bool CanReadType(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
             return true;
         }
 
         public override bool CanWriteType(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
             return true;
         }
 
-        public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, System.Net.Http.HttpContent content, IFormatterLogger formatterLogger)
+        public override Task<object> ReadFromStreamAsync(Type type, Stream input, HttpContent content, IFormatterLogger formatterLogger)
         {
-            return Task.FromResult(this.DeserializeFromStream(type, readStream));
+            var reader = new StreamReader(input);
+            var deserialize = TypedDeserializers.GetTyped(type);
+            var result = deserialize(reader, _options);
+            return Task.FromResult(result);
         }
 
-
-        private object DeserializeFromStream(Type type, Stream readStream)
+        public override Task WriteToStreamAsync(Type type, object value, Stream output, HttpContent content, TransportContext transportContext)
         {
-            try
-            {
-                using (var reader = new StreamReader(readStream))
-                {
-                    MethodInfo method = typeof(JSON).GetMethod("Deserialize", new Type[] { typeof(TextReader), typeof(Options) });
-                    MethodInfo generic = method.MakeGenericMethod(type);
-                    return generic.Invoke(this, new object[] { reader, _jilOptions });
-                }
-            }
-            catch
-            {
-                return null;
-            }
+            var writer = new StreamWriter(output);
+            JSON.Serialize(value, writer, _options);
+            writer.Flush();
+            return _done;
+        }
+    }
 
+    static class TypedDeserializers
+    {
+        private static readonly ConcurrentDictionary<Type, Func<TextReader, Options, object>> _methods;
+        private static readonly MethodInfo _method = typeof(JSON).GetMethod("Deserialize", new[] { typeof(TextReader), typeof(Options) });
+
+        static TypedDeserializers()
+        {
+            _methods = new ConcurrentDictionary<Type, Func<TextReader, Options, object>>();
         }
 
-
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, TransportContext transportContext)
+        public static Func<TextReader, Options, object> GetTyped(Type type)
         {
-            using (TextWriter streamWriter = new StreamWriter(writeStream))
-            {
-                JSON.Serialize(value, streamWriter, _jilOptions);
-                return Task.FromResult(writeStream);
-            }
+            return _methods.GetOrAdd(type, CreateDelegate);
+        }
+
+        private static Func<TextReader, Options, object> CreateDelegate(Type type)
+        {
+            return (Func<TextReader, Options, object>)_method
+                .MakeGenericMethod(type)
+                .CreateDelegate(typeof(Func<TextReader, Options, object>));
         }
     }
 }
