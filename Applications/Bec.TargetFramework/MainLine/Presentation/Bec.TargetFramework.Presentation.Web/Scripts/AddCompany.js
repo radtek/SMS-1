@@ -44,11 +44,14 @@ $("#findaddressbutton").click(function () {
     $.ajax({
         url: 'TempCompany/FindAddress',
         data: { postcode: pc }
-    }).done(function (result) {
-
+    })
+    .always(function () {
         resList.empty();
+        fa.prop('disabled', false);
+        manAddRow.show();
+    })
+    .done(function (result) {
         noMatch.hide();
-
         if (result && result.length > 0) {
             resList.append($("<option>Please select an address:</option>"));
             $.each(result, function (i, item) {
@@ -66,12 +69,9 @@ $("#findaddressbutton").click(function () {
         else {
             noMatch.show();
         }
-    }).fail(function () {
-        noMatch.show();
     })
-    .always(function () {
-        fa.prop('disabled', false);
-        manAddRow.show();
+    .fail(function () {
+        noMatch.show();
     });
 });
 
@@ -90,7 +90,8 @@ $("#addTempCompany-form").validate({
             required: true
         },
         PostalCode: {
-            required: true
+            required: true,
+            minlength: 5
         },
         Regulator: {
             required: true
