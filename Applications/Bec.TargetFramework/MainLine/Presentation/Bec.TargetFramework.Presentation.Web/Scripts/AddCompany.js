@@ -118,14 +118,6 @@ $("#addTempCompany-form").validate({
         OrganisationAdminTelephone: {
             required: true
         }
-
-    },
-
-    // Messages for form validation
-    messages: {
-        Name: {
-            required: 'Please enter a Company Name'
-        }
     },
 
     // Do not change code below
