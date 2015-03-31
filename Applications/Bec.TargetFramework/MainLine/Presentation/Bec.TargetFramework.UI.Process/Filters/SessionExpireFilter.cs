@@ -23,10 +23,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 throw new InvalidOperationException("Windows Authentication is not supported");
             }
 
-
-            HttpContext ctx = HttpContext.Current;
-
-            string url = "~/Account/Login/SessionExpired";
+            string url = new UrlHelper(filterContext.RequestContext).Action("SessionExpired", "Login", new { Area = "Account" });
 
             // If the browser session or authentication session has expired...
             if (filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] == null || !filterContext.HttpContext.Request.IsAuthenticated)
@@ -35,7 +32,8 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 {
                     // For AJAX requests, we're overriding the returned JSON result with a simple string,
                     // indicating to the calling JavaScript code that a redirect should be performed.
-                    filterContext.Result = new JsonResult { Data = new AjaxRequestErrorDTO{RedirectUrl= url,HasError = true,HasRedirectUrl = true }.ToJson()};
+                    filterContext.Result = new JsonResult { Data = new AjaxRequestErrorDTO { RedirectUrl = url, HasRedirectUrl = true }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+                    filterContext.HttpContext.Response.StatusCode = 403;
                 }
                 else
                 {
@@ -45,7 +43,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
                     filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary {
                         { "Controller", "Login" },
-                        { "Action", "Index" },
+                        { "Action", "SessionExpired" },
                         { "Area" , "Account"}
                 });
                 }

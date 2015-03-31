@@ -41,7 +41,7 @@ $("#findaddressbutton").click(function () {
     fa.prop('disabled', true);
     resRow.hide();
 
-    $.ajax({
+    ajaxWrapper({
         url: 'TempCompany/FindAddress',
         data: { postcode: pc }
     })
@@ -133,7 +133,7 @@ function validateSubmit(form) {
     $("#formSubmit").prop('disabled', true);
 
     //check for duplicates
-    $.ajax({
+    ajaxWrapper({
         url: '/TempCompany/ValidateAddress',
         data: {
             Manual: $('#manualAddress').prop('checked'),
@@ -162,7 +162,7 @@ function validateSubmit(form) {
         else {
             form.submit();
         }
-    }).fail(function (err) {
+    }).fail(function () {
         //oh dear
         $("#formSubmit").prop('disabled', false);
     });

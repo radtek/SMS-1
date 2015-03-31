@@ -222,11 +222,15 @@
             $.ajaxSetup({ cache: false });
 
             $("a[data-modal]").on("click", function (e) {
-                $('#addModalContent').load(this.href, function () {
-                    $('#addModal').modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    }, 'show');
+                $('#addModalContent').load(this.href, function (response, status) {
+                    if (status == "error")
+                        checkRedirect(JSON.parse(response));
+                    else {
+                        $('#addModal').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        }, 'show');
+                    }
                 });
                 return false;
             });
@@ -241,10 +245,7 @@
             $("#unverifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
-                        read: {
-                            url: getUnverifiedCompaniesUrl
-                        }
-
+                        read: getGridDataFromUrl(getUnverifiedCompaniesUrl)
                     },
                     schema: {
                         data: "list",
@@ -309,10 +310,7 @@
             $("#verifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
-                        read: {
-                            url: getVerifiedCompaniesUrl
-                        }
-
+                        read: getGridDataFromUrl(getVerifiedCompaniesUrl)
                     },
                     schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
                     sort: { field: "CreatedOn", dir: "asc" }
