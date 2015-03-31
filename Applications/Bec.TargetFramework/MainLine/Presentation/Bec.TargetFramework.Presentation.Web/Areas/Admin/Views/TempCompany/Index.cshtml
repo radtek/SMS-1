@@ -52,6 +52,7 @@
                                     <dd><p id="dduCompanyTownCity"></p></dd>
                                     <dd><p id="dduCompanyCounty"></p></dd>
                                     <dd><p id="dduCompanyPostCode"></p></dd>
+                                    <dd><p id="dduAdditional"></p></dd>
                                     <dt>Regulator:</dt>
                                     <dd><p id="dduRegulator"></p></dd>
                                 </dl>
@@ -101,6 +102,7 @@
                                     <dd><p id="ddvCompanyTownCity"></p></dd>
                                     <dd><p id="ddvCompanyCounty"></p></dd>
                                     <dd><p id="ddvCompanyPostCode"></p></dd>
+                                    <dd><p id="ddvAdditional"></p></dd>
                                     <dt>Regulator:</dt>
                                     <dd><p id="ddvRegulator"></p></dd>
                                 </dl>
@@ -409,6 +411,7 @@
                 $("p#dduCompanyTownCity").text(dataItem.Town || "");
                 $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
                 $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
+                $("p#dduAdditional").text(dataItem.AdditionalAddressInformation || "");
                 $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
                 $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
                 $("p#dduSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
@@ -433,6 +436,7 @@
                 $("p#ddvCompanyTownCity").text(dataItem.Town || "");
                 $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
                 $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
+                $("p#ddvAdditional").text(dataItem.AdditionalAddressInformation || "");
                 $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
                 $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
                 $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
