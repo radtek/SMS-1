@@ -165,14 +165,20 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="addModalLabel">Duplicate companies found</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col">
+                        <p id="dupeMessage"></p>
+                        <p>Please confirm that you have checked for potential duplicates and you wish to continue with your save. This will create a new temporary company on the system.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <div id="duplicatesGrid"></div>
                     </div>
                 </div>

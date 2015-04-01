@@ -165,6 +165,7 @@ function validateSubmit(form) {
             true,
             function () {
                 createDuplicatesList(res);
+                $('#dupeMessage').text($.validator.format('There are {0} companies on the system that match the {1} entered.', res.length, $('#manualAddress').prop('checked') ? 'post code' : 'address'));
             });
         }
         else {
@@ -187,24 +188,31 @@ function createDuplicatesList(dupes) {
             },
             {
                 field: "Line1",
-                title: "Address Line 1"
-            },
-            {
-                field: "Line2",
-                title: "Address Line 2"
-            },
-            {
-                field: "Town",
-                title: "Town"
-            },
-            {
-                field: "County",
-                title: "County"
+                title: "Address 1"
             },
             {
                 field: "PostalCode",
                 title: "Post Code"
             },
+            {
+                field: "OrganisationAdminLastName",
+                title: "System Administrator",
+                template: function (dataItem) {
+                    return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
+                }
+            },
+            {
+                field: "Status",
+                title: "Status"
+            },
+            {
+                field: "CreatedOnAsString",
+                title: "Created On"
+            },
+            {
+                field: "CreatedBy",
+                title: "Created By"
+            }
         ]
     });
 }
