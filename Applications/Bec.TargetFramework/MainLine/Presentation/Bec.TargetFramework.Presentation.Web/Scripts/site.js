@@ -17,3 +17,27 @@ function getGridDataFromUrl(url) {
         });
     };
 }
+
+function handleModal(m, handlers, fixScroll, shownFunction) {
+    var vals = [];
+    for (var id in handlers) {
+        vals[id] = false;
+        $('#' + id).on('click.handleModal', { id: id }, function (e) {
+            vals[e.data.id] = true;
+        });
+    }
+    m.modal({
+        backdrop: 'static',
+        keyboard: false
+    }).one('shown.bs.modal', function () {
+        if (shownFunction) shownFunction();
+    }).one('hidden.bs.modal', function (e) {
+        if (fixScroll) $('body').addClass('modal-open');
+        for (var id in handlers) {
+            $('#' + id).off('click.handleModal');
+            if (vals[id]) {
+                handlers[id]();
+            }
+        }
+    });
+}

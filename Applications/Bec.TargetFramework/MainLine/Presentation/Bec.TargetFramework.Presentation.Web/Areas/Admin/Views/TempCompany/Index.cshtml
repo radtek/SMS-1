@@ -153,10 +153,10 @@
                 <h4 class="modal-title" id="addModalLabel">Are you sure you want to Cancel?</h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" id="cancelNo" class="btn btn-default" data-dismiss="modal">
                     No
                 </button>
-                <button type="button" id="closeModals" class="btn btn-primary">
+                <button type="button" id="cancelYes" class="btn btn-primary" data-dismiss="modal">
                     Yes
                 </button>
             </div>
@@ -194,21 +194,6 @@
         var newCompanyId = '@TempData["AddTempCompanyId"]';
         var selectedRowId;
         var verifiedLoaded = false;
-        var dupesOK = false;
-
-        // close modals
-        $("#closeModals").click(function () {
-            $('#cancelModal').modal('hide');
-            $('#addModal').modal('hide');
-        });
-
-        $('#abortSave').click(function () {
-            dupesOK = false;
-        });
-
-        $('#saveWithDuplicates').click(function () {
-            dupesOK = true;
-        });
 
         var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Unverified})';
         var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Verified })';

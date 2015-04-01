@@ -3,6 +3,14 @@ $("#formSubmit").click(function () {
     $("#addTempCompany-form").submit();
 });
 
+$('#cancelAdd').click(function () {
+    handleModal($('#cancelModal'), {
+        cancelYes: function () {
+            $('#addModal').modal('hide');
+        }
+    }, true);
+});
+
 var resRow = $('#resRow');
 var resList = $('#addressresults');
 var manAddRow = $("#manAddRow");
@@ -145,18 +153,18 @@ function validateSubmit(form) {
         }
     }).done(function (res) {
         if (res && res.length > 0) {
-            $('#duplicatesModal').modal('show')
-            //as the modal is re-used, only subscribe one-off
-            .one('shown.bs.modal', function () {
-                createDuplicatesList(res);
-            })
-            .one('hidden.bs.modal', function () {
-                if (dupesOK) {
+
+            handleModal($('#duplicatesModal'), {
+                abortSave: function () {
+                    $("#formSubmit").prop('disabled', false);
+                },
+                saveWithDuplicates: function () {
                     form.submit();
                 }
-                else {
-                    $("#formSubmit").prop('disabled', false);
-                }
+            },
+            true,
+            function () {
+                createDuplicatesList(res);
             });
         }
         else {
