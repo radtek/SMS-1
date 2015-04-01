@@ -199,9 +199,9 @@
         var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Verified })';
 
         $(document).ready(function () {
-            makeUnverifiedGrid();
-
             $.ajaxSetup({ cache: false });
+
+            makeUnverifiedGrid();
 
             $("a[data-modal]").on("click", function (e) {
                 $('#addModalContent').load(this.href, function (response, status) {
