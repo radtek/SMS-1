@@ -285,8 +285,11 @@
                         title: "Email"
                     },
                     {
-                        field: "CreatedOnAsString",
-                        title: "Created On"
+                        field: "CreatedOn",
+                        title: "Created On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.CreatedOn);
+                        }
                     }
                 ],
                 dataBound: unverifiedDataBound,

@@ -41,3 +41,7 @@ function handleModal(m, handlers, fixScroll, shownFunction) {
         }
     });
 }
+
+function dateString(date) {
+    return new Date(date).toLocaleDateString();
+}
