@@ -27206,10 +27206,6 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual String CreatedOnAsString { get; set; }
-		/// <summary>
-		/// 
-		/// </summary>
 		public virtual Guid OrganisationID { get; set; }
 		/// <summary>
 		/// 
@@ -27299,6 +27295,10 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 		/// 
 		/// </summary>
 		public virtual Nullable<Guid> OrganisationAdminUserID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String StatusValueName { get; set; }
 		#endregion
 	}	
 	

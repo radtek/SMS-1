@@ -202,7 +202,7 @@ function createDuplicatesList(dupes) {
                 }
             },
             {
-                field: "Status",
+                field: "StatusValueName",
                 title: "Status"
             },
             {

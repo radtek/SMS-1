@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="True" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="true">
-    <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+    <Connection ConnectionString="User Id=postgres;Password=0277922cdd;Host=bec-dev-01;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFramework.TargetFrameworkEntities.cs" Project="Bec.TargetFramework.Data" />
@@ -2626,6 +2626,22 @@
       <Exclude Name="WorkflowActionStartConditionTemplate_pkey" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTemplate_WorkflowActionTemplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="WorkflowCommandID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowCommandCondition_pkey" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_Workflow" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCommand" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCondition" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="WorkflowCommandTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowCommandConditionTemplate_pkey" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowCommandTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowConditionTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
       <Exclude Name="Name" Table="public.WorkflowCommandTemplates" Type="Column" />
       <Exclude Name="Description" Table="public.WorkflowCommandTemplates" Type="Column" />
       <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandTemplates" Type="Column" />
@@ -2690,19 +2706,6 @@
       <Exclude Name="ConditionString" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_pkey" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
-      <Exclude Name="OrganisationID" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsVATRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="VATNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsCompanyHouseRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="RegisteredCompanyNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="PartnersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="RegisteredPractitionersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="StaffCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="MonthlyCompletionsCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsActive" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsDeleted" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="pkLegalOrganisationDetails" Table="legal.LegalOrganisationDetails" Type="Constraint" />
-      <Exclude Name="fk_LegalOrganisationDetails_Organisation" Table="legal.LegalOrganisationDetails" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -2750,6 +2753,8 @@
       <Exclude Name="fk_WorkflowActionCompleteConditionTemate" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartCondition_WorkflowCondition" Table="public.WorkflowActionStartCondition" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCondition" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowConditionTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowConditionParameter_WorkflowCondition" Table="public.WorkflowConditionParameter" Type="Constraint" />
       <Exclude Name="fk_WorkflowConditionParameter_WorkflowConditionTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowCondition" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
@@ -2757,24 +2762,6 @@
       <Exclude Name="fk_WorkflowTransistionStartCondition_WorkflowCondition" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
       <Exclude Name="fk_WorkflowTransistionStartConditionTeate" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
-      <Exclude Name="LRTitleID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="TitleNumber" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="StsPropertyID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="Description" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="CreatedBy" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="ParentID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="ProductPurchaseProductTaskID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="StsSearchPropertyID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="LRPropertyTenureTypeID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="AddressID" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="IsActive" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sts.LRTitle" Type="Column" />
-      <Exclude Name="pkLRTitle" Table="sts.LRTitle" Type="Constraint" />
-      <Exclude Name="fk_LRTitle_StsProperty" Table="sts.LRTitle" Type="Constraint" />
-      <Exclude Name="fk_LRTitle_StsSearchProperty" Table="sts.LRTitle" Type="Constraint" />
-      <Exclude Name="fk_LRTitle_Address" Table="sts.LRTitle" Type="Constraint" />
-      <Exclude Name="fk_LRTitle_ProductPurchaseProductTask" Table="sts.LRTitle" Type="Constraint" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>
