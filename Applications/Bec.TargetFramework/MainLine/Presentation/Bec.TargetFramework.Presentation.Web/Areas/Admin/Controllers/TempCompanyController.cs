@@ -36,12 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             using (var client = new OrganisationLogicClient())
             {
                 client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-
-                var companies = client.GetCompanies(orgStatus);
-
-                companies.ForEach(s => s.CreatedOnAsString = s.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss"));
-
-                list = companies;
+                list = client.GetCompanies(orgStatus);
             }
 
             var jsonData = new { total = list.Count, list };

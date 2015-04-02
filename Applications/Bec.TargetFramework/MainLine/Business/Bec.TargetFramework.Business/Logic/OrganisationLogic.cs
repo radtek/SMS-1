@@ -117,7 +117,7 @@ namespace Bec.TargetFramework.Business.Logic
                     if(!string.IsNullOrWhiteSpace(town)) query = query.Where(item => item.Town == town);
                     if(!string.IsNullOrWhiteSpace(county)) query = query.Where(item => item.County == county);
                 }
-                return VOrganisationWithStatusAndAdminConverter.ToDtos(query);
+                return VOrganisationWithStatusAndAdminConverter.ToDtos(query.OrderBy(c => c.Name).ThenBy(c => c.CreatedOn));
             }
         }
 
