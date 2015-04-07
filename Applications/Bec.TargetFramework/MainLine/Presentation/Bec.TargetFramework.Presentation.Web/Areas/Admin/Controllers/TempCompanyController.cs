@@ -90,5 +90,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 return Json(client.FindDuplicateOrganisations(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult ViewRejectTempCompany(Guid orgId)
+        {
+            using (var client = new OrganisationLogicClient())
+            {
+                var org = client.GetOrganisationDTO(orgId);
+                if (org == null) return new HttpNotFoundResult("Organisation not found");
+                ViewBag.orgId = orgId;
+                ViewBag.companyName = org.Name;
+                return PartialView("_RejectTempCompany");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RejectTempCompany(RejectCompanyDTO model)
+        {
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                client.RejectOrganisation(model);
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

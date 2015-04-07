@@ -2,7 +2,6 @@
 using System.ServiceModel.Description;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.Presentation.Web.WCF;
 using Enyim.Caching.Configuration;
 using Serilog.Extras.Web;
 

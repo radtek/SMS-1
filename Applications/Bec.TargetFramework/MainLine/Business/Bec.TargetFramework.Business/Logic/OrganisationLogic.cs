@@ -121,6 +121,29 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public void RejectOrganisation(RejectCompanyDTO dto)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Rejected.GetStringValue());
+                Ensure.That(status);
+
+                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+                {
+                    OrganisationID = dto.OrganisationId,
+                    ReasonID = dto.Reason,
+                    Notes = dto.Notes,
+                    StatusTypeID = status.StatusTypeID,
+                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
+                    StatusTypeValueID = status.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Today,
+                    StatusChangedBy = "System"
+                });
+
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+        }
+
         public GoogleGeoCodeResponse GeoCodePostcode(string postCode)
         {
             Ensure.That(postCode).IsNotNullOrEmpty();
@@ -360,11 +383,11 @@ namespace Bec.TargetFramework.Business.Logic
             return dtoList;
         }
 
-        public vOrganisationDTO GetOrganisationDTO(Guid id)
+        public VOrganisationDTO GetOrganisationDTO(Guid id)
         {
             Ensure.That(id).IsNot(Guid.Empty);
 
-            var dto = new vOrganisationDTO();
+            var dto = new VOrganisationDTO();
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {

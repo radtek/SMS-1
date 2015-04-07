@@ -15646,6 +15646,14 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 		/// <summary>
 		/// 
 		/// </summary>
+		public virtual Nullable<Int32> ReasonID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String Notes { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
 		public virtual StatusTypeDTO StatusType { get; set; }
 		/// <summary>
 		/// 
@@ -21845,6 +21853,30 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 	/// <summary>
 	/// 
 	/// </summary>
+	public partial class RejectCompanyDTO
+	{
+		#region Constants
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid OrganisationId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Int32 Reason { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String Notes { get; set; }
+		#endregion
+	}	
+	
+	/// <summary>
+	/// 
+	/// </summary>
 	public partial class RepositoryDTO
 	{
 		#region Constants
@@ -27185,6 +27217,54 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 	/// <summary>
 	/// 
 	/// </summary>
+	public partial class VOrganisationDTO
+	{
+		#region Constants
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid OrganisationID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String TypeName { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Int32 OrganisationTypeID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String Name { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String Description { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Boolean IsBranch { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Boolean IsHeadOffice { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Boolean IsActive { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Boolean IsDeleted { get; set; }
+		#endregion
+	}	
+	
+	/// <summary>
+	/// 
+	/// </summary>
 	public partial class VOrganisationTemplateDTO
 	{
 		#region Constants
@@ -27215,6 +27295,10 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 		/// 
 		/// </summary>
 		public virtual DateTime CreatedOn { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String CreatedBy { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -33272,6 +33356,12 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode);
 
+		/// <returns></returns>
+		Task<HttpResponseMessage> RejectOrganisationAsync(RejectCompanyDTO dto);
+
+		/// <returns></returns>
+		void RejectOrganisation(RejectCompanyDTO dto);
+
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode);
@@ -33316,7 +33406,7 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Interfaces
 
 		/// <param name="id"></param>
 		/// <returns></returns>
-		vOrganisationDTO GetOrganisationDTO(Guid id);
+		VOrganisationDTO GetOrganisationDTO(Guid id);
 
 		/// <param name="id"></param>
 		/// <param name="delete"></param>
@@ -35089,6 +35179,26 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<HttpResponseMessage> RejectOrganisationAsync(RejectCompanyDTO dto)
+		{
+			return await HttpClient.PostAsJsonAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisation", dto);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void RejectOrganisation(RejectCompanyDTO dto)
+		{
+						 var result = Task.Run(() => RejectOrganisationAsync(dto)).Result;		 
+			 
+			EnsureSuccess(result);
+				 
+			 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		public virtual async Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode)
@@ -35218,14 +35328,14 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
-		public virtual vOrganisationDTO GetOrganisationDTO(Guid id)
+		public virtual VOrganisationDTO GetOrganisationDTO(Guid id)
 		{
 						 var result = Task.Run(() => GetOrganisationDTOAsync(id)).Result;		 
 			 
 			EnsureSuccess(result);
 				 
 			 			 			 
-			 return result.Content.ReadAsAsync<vOrganisationDTO>().Result;
+			 return result.Content.ReadAsAsync<VOrganisationDTO>().Result;
 			 		}
 
 		/// <summary>

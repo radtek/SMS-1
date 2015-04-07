@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <a href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModal" data-modal="">Add Company</a>
+                                <a data-href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" id="aModalAdd" class="btn btn-primary btn-sm" data-target="#addModal" data-modal="">Add Company</a>
                             </div>
                             <div class="well">
                                 <div id="unverifiedGrid"></div>
@@ -42,6 +42,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
+                                <a data-href="@Url.Action("ViewRejectTempCompany","TempCompany",new {area  = "Admin"})" id="aModalReject" class="btn btn-primary btn-sm" data-target="#rejectModal" data-modal="">Reject Company</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -145,6 +146,13 @@
         </div>
     </div>
 </div>
+<div class="modal fade in" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="rejectModalContent"></div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -198,7 +206,7 @@
     <script type="text/javascript">
 
         var newCompanyId = '@TempData["AddTempCompanyId"]';
-        var selectedRowId;
+        var uSelectedItem, vSelectedItem;
         var verifiedLoaded = false;
 
         var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Unverified})';
@@ -209,8 +217,9 @@
 
             makeUnverifiedGrid();
 
-            $("a[data-modal]").on("click", function (e) {
-                $('#addModalContent').load(this.href, function (response, status) {
+            $("#aModalAdd").on("click", function (e) {
+                e.preventDefault();
+                $('#addModalContent').load($(this).data('href'), function (response, status) {
                     if (status == "error")
                         checkRedirect(JSON.parse(response));
                     else {
@@ -221,6 +230,23 @@
                     }
                 });
                 return false;
+            });
+
+            $("#aModalReject").on("click", function (e) {
+                e.preventDefault();
+                if (uSelectedItem) {
+                    $('#rejectModalContent').load($(this).data('href') + '?orgId=' + uSelectedItem.OrganisationID, function (response, status) {
+                        if (status == "error")
+                            checkRedirect(JSON.parse(response));
+                        else {
+                            $('#rejectModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            }, 'show');
+                        }
+                    });
+                    return false;
+                }
             });
 
             $('#tabv').click(function () {
@@ -371,13 +397,13 @@
             if (newCompanyId != null && newCompanyId != "") {
                 for (var i = 0; i < gridData.length; i++) {
                     if (newCompanyId.replace(/-/g, "") == (gridData[i].OrganisationID)) {
-                        scrollToRow(grid, gridData[i].uid);
+                        scrollToRow(grid, gridData[i]);
                         newCompanyId = null;
                         break;
                     }
                 }
             } else {
-                scrollToRow(grid, selectedRowId);
+                scrollToRow(grid, uSelectedItem);
             }
         }
 
@@ -385,7 +411,7 @@
             var grid = $("#verifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
-            scrollToRow(grid, selectedRowId);
+            scrollToRow(grid, vSelectedItem);
         }
 
         function unverifiedChange(e) {
@@ -393,7 +419,7 @@
             if (selectedRows.length == 1) {
 
                 var dataItem = this.dataItem(selectedRows[0]);
-                selectedRowId = dataItem.uid;
+                uSelectedItem = dataItem;
 
                 $("p#dduCompanyName").text(dataItem.Name || "");
                 $("p#dduCompanyCreatedOn").text(dataItem.CreatedOnAsString || "");
@@ -418,7 +444,7 @@
             if (selectedRows.length == 1) {
 
                 var dataItem = this.dataItem(selectedRows[0]);
-                selectedRowId = dataItem.uid;
+                vSelectedItem = dataItem;
 
                 $("p#ddvCompanyName").text(dataItem.Name || "");
                 $("p#ddvCompanyCreatedOn").text(dataItem.CreatedOn || "");
@@ -441,9 +467,9 @@
             }
         }
 
-        function scrollToRow(grid, uid) {
-            if (!grid || !uid) return;
-            var row = grid.tbody.find("tr[data-uid='" + uid + "']");
+        function scrollToRow(grid, item) {
+            if (!grid || !item) return;
+            var row = grid.tbody.find("tr[data-uid='" + item.uid + "']");
             grid.select(row);
 
             var scrollContentOffset = grid.tbody.offset().top;

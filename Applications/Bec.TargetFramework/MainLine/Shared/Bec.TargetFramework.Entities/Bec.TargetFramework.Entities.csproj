@@ -3064,6 +3064,7 @@
     <Compile Include="DTO\RegistrationSummaryDTO.cs" />
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\RejectCompanyDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\xCompanyDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />

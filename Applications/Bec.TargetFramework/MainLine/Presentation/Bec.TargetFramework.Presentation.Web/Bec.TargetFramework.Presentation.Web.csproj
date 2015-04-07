@@ -317,7 +317,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="WCF\ClientMessageInspector.cs" />
     <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -840,6 +839,7 @@
     <Content Include="Areas\Account\Views\Login\SessionExpired.cshtml" />
     <Content Include="Areas\Account\Views\Login\LoggedOutByAnother.cshtml" />
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
+    <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />
@@ -1778,6 +1778,7 @@
     <Content Include="Scripts\plugin\x-editable\x-editable.min.js" />
     <Content Include="Scripts\pubsub.js" />
     <Content Include="Scripts\pubsubjs\pubsub.js" />
+    <Content Include="Scripts\RejectCompany.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\site.js" />

@@ -120,3 +120,20 @@ VALUES
   public."ClassificationType"("ClassificationTypeID", "Name", "Description", "ClassificationTypeCategoryID", "IsActive", "IsDeleted")
 VALUES
   (5018, 'CILEx','',8503,true,false);
+
+   ---Rejection Type  ---
+INSERT INTO
+  public."ClassificationTypeCategory"("ClassificationTypeCategoryID", "Name")
+VALUES
+  (8504,'RejectionTypeID');
+
+
+  INSERT INTO
+  public."ClassificationType"("ClassificationTypeID", "Name", "Description", "ClassificationTypeCategoryID", "IsActive", "IsDeleted")
+VALUES
+  (5231, 'No match to regulator','',8504,true,false);
+
+   INSERT INTO
+  public."ClassificationType"("ClassificationTypeID", "Name", "Description", "ClassificationTypeCategoryID", "IsActive", "IsDeleted")
+VALUES
+  (5232, 'Failed to validate callback','',8504,true,false);
