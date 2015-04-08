@@ -43,5 +43,19 @@ function handleModal(m, handlers, fixScroll, shownFunction) {
 }
 
 function dateString(date) {
-    return new Date(date).toLocaleDateString();
+    return new Date(date).toLocaleString();
+}
+
+function saveGridSort(gridElementId) {
+    var sort = $("#unverifiedGrid").data("kendoGrid").getOptions().dataSource.sort;
+    sessionStorage["gridSort-" + gridElementId] = JSON.stringify(sort);
+}
+
+function loadGridSort(gridElementId) {
+    try {
+        return JSON.parse(sessionStorage["gridSort-" + gridElementId]);
+    }
+    catch (ex) {
+        return null;
+    }
 }

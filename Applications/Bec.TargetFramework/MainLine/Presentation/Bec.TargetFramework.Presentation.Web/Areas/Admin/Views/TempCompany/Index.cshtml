@@ -266,7 +266,7 @@
                         total: "total",
                         model: { id: "OrganisationID" }
                     },
-                    sort: { field: "CreatedOn", dir: "asc" }
+                    sort: loadGridSort("unverifiedGrid") || { field: "CreatedOn", dir: "asc" }
                 },
                 height: 300,
                 selectable: "row",
@@ -331,7 +331,7 @@
                         read: getGridDataFromUrl(getVerifiedCompaniesUrl)
                     },
                     schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                    sort: { field: "CreatedOn", dir: "asc" }
+                    sort: loadGridSort("verifiedGrid") || { field: "CreatedOn", dir: "asc" }
                 },
                 height: 300,
                 selectable: "row",
@@ -390,7 +390,9 @@
         };
 
         function unverifiedDataBound(e) {
-            var grid = $("#unverifiedGrid").data("kendoGrid");
+            saveGridSort("unverifiedGrid");
+
+            var grid = $("#unverifiedGrid").data("kendoGrid");            
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
 
@@ -408,6 +410,8 @@
         }
 
         function verifiedDataBound(e) {
+            saveGridSort("verifiedGrid");
+
             var grid = $("#verifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
