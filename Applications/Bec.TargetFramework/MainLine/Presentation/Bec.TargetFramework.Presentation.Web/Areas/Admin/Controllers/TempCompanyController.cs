@@ -95,6 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             using (var client = new OrganisationLogicClient())
             {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
                 var org = client.GetOrganisationDTO(orgId);
                 if (org == null) return new HttpNotFoundResult("Organisation not found");
                 ViewBag.orgId = orgId;
