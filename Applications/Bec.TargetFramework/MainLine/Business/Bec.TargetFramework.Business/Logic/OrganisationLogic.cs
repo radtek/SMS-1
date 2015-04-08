@@ -136,6 +136,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusTypeID = status.StatusTypeID,
                     StatusTypeVersionNumber = status.StatusTypeVersionNumber,
                     StatusTypeValueID = status.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Now,
                     StatusChangedBy = "System"
                 });
 
