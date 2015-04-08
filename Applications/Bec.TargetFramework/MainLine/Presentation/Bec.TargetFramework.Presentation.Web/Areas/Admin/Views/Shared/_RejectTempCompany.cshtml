@@ -9,7 +9,7 @@
     {
         var member = eType.GetMember(item.ToString())[0];
         StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
-        rejects.Add(new {Text = attr.StringValue, Value = (int)item});
+        rejects.Add(new { Text = attr.StringValue, Value = (int)item });
     }
     var r = new SelectList(rejects, "Value", "Text");
 }
@@ -36,8 +36,11 @@
                         </section>
                     </div>
                     <div class="row">
-                        <section class="col col-3">
-                            @Html.DropDownListFor(model => model.Reason, r, "Please Select")
+                        <section class="col col-4">
+                            <label class="select">
+                                @Html.DropDownListFor(model => model.Reason, r, "Please Select")
+                                <i></i>
+                            </label>
                         </section>
                     </div>
                     <div class="row">
@@ -46,8 +49,11 @@
                         </section>
                     </div>
                     <div class="row">
-                        <section class="col col-6">
-                            @Html.TextAreaFor(model => model.Notes, new { style="width:400px;height:150px;" })
+                        <section class="col col-8">
+                            <label class="textarea">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.TextAreaFor(model => model.Notes, new { rows = "5" })
+                            </label>
                         </section>
                     </div>
                 </fieldset>
