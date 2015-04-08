@@ -43,7 +43,12 @@ function handleModal(m, handlers, fixScroll, shownFunction) {
 }
 
 function dateString(date) {
-    return new Date(date).toLocaleString();
+    try {
+        return new Date(date).toLocaleString();
+    }
+    catch (ex) {
+        return "";
+    }
 }
 
 function saveGridSort(gridElementId) {

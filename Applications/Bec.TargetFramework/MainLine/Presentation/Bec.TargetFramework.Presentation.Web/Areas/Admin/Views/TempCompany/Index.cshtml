@@ -380,8 +380,11 @@
                         title: "Email"
                     },
                     {
-                        field: "CreatedOnAsString",
-                        title: "Created On"
+                        field: "CreatedOn",
+                        title: "Created On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.CreatedOn);
+                        }
                     }
                 ],
                 dataBound: verifiedDataBound,
@@ -426,7 +429,7 @@
                 uSelectedItem = dataItem;
 
                 $("p#dduCompanyName").text(dataItem.Name || "");
-                $("p#dduCompanyCreatedOn").text(dataItem.CreatedOnAsString || "");
+                $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
                 $("p#dduCompanyCounty").text(dataItem.County || "");
                 $("p#dduCompanyPostCode").text(dataItem.PostalCode || "");
                 $("p#dduCompanyTownCity").text(dataItem.Town || "");
@@ -451,7 +454,7 @@
                 vSelectedItem = dataItem;
 
                 $("p#ddvCompanyName").text(dataItem.Name || "");
-                $("p#ddvCompanyCreatedOn").text(dataItem.CreatedOn || "");
+                $("p#ddvCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
                 $("p#ddvCompanyCounty").text(dataItem.County || "");
                 $("p#ddvCompanyPostCode").text(dataItem.PostalCode || "");
                 $("p#ddvCompanyTownCity").text(dataItem.Town || "");
