@@ -44,15 +44,15 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
-                var fieldQuery =
-                    scope.DbContext.TFEvents.Include("TFEventMessageSubscribers").SingleOrDefault(s => s.TFEventID.Equals(tfEventId));
+                //var fieldQuery =
+                //    scope.DbContext.Bus.Include("BusEventMessageSubscribers").SingleOrDefault(s => s.TFEventID.Equals(tfEventId));
 
-                Ensure.That(fieldQuery);
+                //Ensure.That(fieldQuery);
 
-                fieldQuery.TFEventMessageSubscribers.ToList().ForEach(item =>
-                {
-                    list.Add(TFEventMessageSubscriberConverter.ToDto(item));
-                });
+                //fieldQuery.TFEventMessageSubscribers.ToList().ForEach(item =>
+                //{
+                //    list.Add(TFEventMessageSubscriberConverter.ToDto(item));
+                //});
             }
 
             return list;

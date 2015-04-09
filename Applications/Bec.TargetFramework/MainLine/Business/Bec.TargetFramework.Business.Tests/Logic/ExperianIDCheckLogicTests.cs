@@ -10,6 +10,8 @@ using Bec.TargetFramework.Business.Services;
 using Bec.TargetFramework.Entities.Experian;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure;
 
 namespace Bec.TargetFramework.Business.Tests.Logic
 {
@@ -44,13 +46,9 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
         private static void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            IOCExtensions.BuildAndRegisterIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
 
-            var registrar = new Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            m_IocContainer = builder.Build();
+            m_IocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
         }
 
         [TestMethod()]

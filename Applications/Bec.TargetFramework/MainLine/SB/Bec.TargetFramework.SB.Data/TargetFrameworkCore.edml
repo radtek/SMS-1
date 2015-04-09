@@ -1,0 +1,1931 @@
+﻿<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Bec.TargetFramework.SB.Data.Store" Alias="Self" Provider="Devart.Data.PostgreSql" ProviderManifestToken="PostgreSQL, 9.4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:devart="http://devart.com/schemas/edml/StorageSchemaExtensions/1.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="TargetFrameworkCoreEntitiesStoreContainer">
+          <EntitySet Name="BusTaskHandlers" EntityType="Bec.TargetFramework.SB.Data.Store.BusTaskHandler" store:Type="Tables" Schema="public" Table="BusTaskHandler" />
+          <EntitySet Name="BusTasks" EntityType="Bec.TargetFramework.SB.Data.Store.BusTask" store:Type="Tables" Schema="public" Table="BusTask" />
+          <EntitySet Name="BusMessages" EntityType="Bec.TargetFramework.SB.Data.Store.BusMessage" store:Type="Tables" Schema="public" Table="BusMessage" />
+          <EntitySet Name="BusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.Store.BusTaskSchedule" store:Type="Tables" Schema="public" Table="BusTaskSchedule" />
+          <EntitySet Name="StatusTypeTemplates" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeTemplate" store:Type="Tables" Schema="public" Table="StatusTypeTemplate" />
+          <EntitySet Name="StatusTypes" EntityType="Bec.TargetFramework.SB.Data.Store.StatusType" store:Type="Tables" Schema="public" Table="StatusType" />
+          <EntitySet Name="BusMessageProcessLogs" EntityType="Bec.TargetFramework.SB.Data.Store.BusMessageProcessLog" store:Type="Tables" Schema="public" Table="BusMessageProcessLog" />
+          <EntitySet Name="StatusTypeValueTemplates" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeValueTemplate" store:Type="Tables" Schema="public" Table="StatusTypeValueTemplate" />
+          <EntitySet Name="StatusTypeStructureTemplates" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTemplate" store:Type="Tables" Schema="public" Table="StatusTypeStructureTemplate" />
+          <EntitySet Name="StatusTypeStructureTransitionTemplates" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransitionTemplate" store:Type="Tables" Schema="public" Table="StatusTypeStructureTransitionTemplate" />
+          <EntitySet Name="StatusTypeStructures" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeStructure" store:Type="Tables" Schema="public" Table="StatusTypeStructure" />
+          <EntitySet Name="StatusTypeStructureTransitions" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransition" store:Type="Tables" Schema="public" Table="StatusTypeStructureTransition" />
+          <EntitySet Name="StatusTypeValues" EntityType="Bec.TargetFramework.SB.Data.Store.StatusTypeValue" store:Type="Tables" Schema="public" Table="StatusTypeValue" />
+          <EntitySet Name="BusTaskScheduleProcessLogs" EntityType="Bec.TargetFramework.SB.Data.Store.BusTaskScheduleProcessLog" store:Type="Tables" Schema="public" Table="BusTaskScheduleProcessLog" />
+          <EntitySet Name="BusEventTypes" EntityType="Bec.TargetFramework.SB.Data.Store.BusEventType" store:Type="Tables" Schema="public" Table="BusEventType" />
+          <EntitySet Name="BusEvents" EntityType="Bec.TargetFramework.SB.Data.Store.BusEvent" store:Type="Tables" Schema="public" Table="BusEvent" />
+          <EntitySet Name="BusEventMessageSubscribers" EntityType="Bec.TargetFramework.SB.Data.Store.BusEventMessageSubscriber" store:Type="Tables" Schema="public" Table="BusEventMessageSubscriber" />
+          <EntitySet Name="BusEventBusEventMessageSubscribers" EntityType="Bec.TargetFramework.SB.Data.Store.BusEventBusEventMessageSubscriber" store:Type="Tables" Schema="public" Table="BusEventBusEventMessageSubscriber" />
+          <EntitySet Name="ClassificationTypeCategories" EntityType="Bec.TargetFramework.SB.Data.Store.ClassificationTypeCategory" store:Type="Tables" Schema="public" Table="ClassificationTypeCategory" />
+          <EntitySet Name="ClassificationTypes" EntityType="Bec.TargetFramework.SB.Data.Store.ClassificationType" store:Type="Tables" Schema="public" Table="ClassificationType" />
+          <EntitySet Name="Settings" EntityType="Bec.TargetFramework.SB.Data.Store.Setting" store:Type="Tables" Schema="public" Table="Setting" />
+          <EntitySet Name="BusMessageContents" EntityType="Bec.TargetFramework.SB.Data.Store.BusMessageContent" store:Type="Tables" Schema="public" Table="BusMessageContent" />
+          <EntitySet Name="vBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.Store.vBusTaskSchedule" store:Type="Views" Schema="public" Table="vBusTaskSchedule" />
+          <EntitySet Name="vStatusTypes" EntityType="Bec.TargetFramework.SB.Data.Store.vStatusType" store:Type="Views" Schema="public" Table="vStatusType" />
+          <AssociationSet Name="fk_BusTask_BusTaskHandler" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTask_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTask" EntitySet="BusTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskSchedule_BusTask" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskSchedule_BusTask">
+            <End Role="BusTask" EntitySet="BusTasks" />
+            <End Role="BusTaskSchedule" EntitySet="BusTaskSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusType_StatusTypeTemplate" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusType_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusType" EntitySet="StatusTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageStatus_BusMessage" Association="Bec.TargetFramework.SB.Data.Store.fk_BusMessageStatus_BusMessage">
+            <End Role="BusMessage" EntitySet="BusMessages" />
+            <End Role="BusMessageProcessLog" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageProcessLog_StatusType" Association="Bec.TargetFramework.SB.Data.Store.fk_BusMessageProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="BusMessageProcessLog" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageProcessLog_StatusTypeValue" Association="Bec.TargetFramework.SB.Data.Store.fk_BusMessageProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="BusMessageProcessLog" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueTemplateID_StatusTypeTemplate" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeValueTemplateID_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypeValueTemplate" EntitySet="StatusTypeValueTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureTemplate_StatusTypeTemplate" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureTemplate_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypeStructureTemplate" EntitySet="StatusTypeStructureTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID">
+            <End Role="StatusTypeValueTemplate" EntitySet="StatusTypeValueTemplates" />
+            <End Role="StatusTypeStructureTemplate" EntitySet="StatusTypeStructureTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla">
+            <End Role="StatusTypeStructureTemplate" EntitySet="StatusTypeStructureTemplates" />
+            <End Role="StatusTypeStructureTransitionTemplate" EntitySet="StatusTypeStructureTransitionTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappeStructureTemplate" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureMappeStructureTemplate">
+            <End Role="StatusTypeStructureTemplate" EntitySet="StatusTypeStructureTemplates" />
+            <End Role="StatusTypeStructureTransitionTemplate" EntitySet="StatusTypeStructureTransitionTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructure_StatusType" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructure_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeStructure" EntitySet="StatusTypeStructures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructure_StatusTypeValueID" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructure_StatusTypeValueID">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="StatusTypeStructure" EntitySet="StatusTypeStructures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMapping_StatusTypeStructureTempla" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureMapping_StatusTypeStructureTempla">
+            <End Role="StatusTypeStructure" EntitySet="StatusTypeStructures" />
+            <End Role="StatusTypeStructureTransition" EntitySet="StatusTypeStructureTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappeStructure" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeStructureMappeStructure">
+            <End Role="StatusTypeStructure" EntitySet="StatusTypeStructures" />
+            <End Role="StatusTypeStructureTransition" EntitySet="StatusTypeStructureTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueID_StatusType" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusTypeValueID_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskProcessLog_BusTaskSchedule" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskProcessLog_BusTaskSchedule">
+            <End Role="BusTaskSchedule" EntitySet="BusTaskSchedules" />
+            <End Role="BusTaskScheduleProcessLog" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_StatusType" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskScheduleProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="BusTaskScheduleProcessLog" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_StatusTypeValue" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskScheduleProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="BusTaskScheduleProcessLog" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="TFEvent_fk" Association="Bec.TargetFramework.SB.Data.Store.TFEvent_fk">
+            <End Role="BusEventType" EntitySet="BusEventTypes" />
+            <End Role="BusEvent" EntitySet="BusEvents" />
+          </AssociationSet>
+          <AssociationSet Name="TFEventTFEventMessageSubscriber_fk" Association="Bec.TargetFramework.SB.Data.Store.TFEventTFEventMessageSubscriber_fk">
+            <End Role="BusEvent" EntitySet="BusEvents" />
+            <End Role="BusEventBusEventMessageSubscriber" EntitySet="BusEventBusEventMessageSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="TFEventTFEventMessageSubscriber_fk1" Association="Bec.TargetFramework.SB.Data.Store.TFEventTFEventMessageSubscriber_fk1">
+            <End Role="BusEventMessageSubscriber" EntitySet="BusEventMessageSubscribers" />
+            <End Role="BusEventBusEventMessageSubscriber" EntitySet="BusEventBusEventMessageSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassificationType_ClassificationTypeCategory2" Association="Bec.TargetFramework.SB.Data.Store.FK_ClassificationType_ClassificationTypeCategory2">
+            <End Role="ClassificationTypeCategory" EntitySet="ClassificationTypeCategories" />
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassificationType_ClassificationTypeCategory" Association="Bec.TargetFramework.SB.Data.Store.FK_ClassificationType_ClassificationTypeCategory">
+            <End Role="ClassificationTypeCategory" EntitySet="ClassificationTypeCategories" />
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageContent_BusMessage" Association="Bec.TargetFramework.SB.Data.Store.fk_BusMessageContent_BusMessage">
+            <End Role="BusMessage" EntitySet="BusMessages" />
+            <End Role="BusMessageContent" EntitySet="BusMessageContents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BusTaskHandler">
+          <Key>
+            <PropertyRef Name="BusTaskHandlerID" />
+          </Key>
+          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ObjectTypeName" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="ObjectTypeAssembly" Type="varchar" MaxLength="300" />
+          <Property Name="MessageTypeName" Type="varchar" MaxLength="300" />
+          <Property Name="MessageTypeAssembly" Type="varchar" MaxLength="300" />
+          <Property Name="HandlerMessageTypeName" Type="varchar" MaxLength="500" />
+          <Property Name="HandlerMessageTypeAssembly" Type="varchar" MaxLength="500" />
+          <Property Name="IsHandlerBasedTask" Type="boolean" DefaultValue="false" />
+          <Property Name="NumberOfRetries" Type="int" DefaultValue="1" />
+          <Property Name="TaskDataHasExpiry" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="TaskDataExpiryPeriodUnitID" Type="int" />
+          <Property Name="TaskDataExpiryPeriod" Type="int" />
+          <Property Name="DefaultProcessDataTypeID" Type="int" />
+          <Property Name="DefaultProcessDataCategoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="BusTask">
+          <Key>
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="BusTaskVersionNumber" />
+          </Key>
+          <Property Name="BusTaskID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" StoreGeneratedPattern="Identity" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusMessage">
+          <Key>
+            <PropertyRef Name="BusMessageID" />
+          </Key>
+          <Property Name="MessageId" Type="uuid" Nullable="false" />
+          <Property Name="CorrelationId" Type="uuid" Nullable="false" />
+          <Property Name="BusMessageID" Type="uuid" Nullable="false" />
+          <Property Name="ConversationId" Type="uuid" Nullable="false" />
+          <Property Name="SentOn" Type="timestamp" />
+          <Property Name="EnclosedMessageTypes" Type="varchar" Nullable="false" />
+          <Property Name="WinIdName" Type="varchar" Nullable="false" />
+          <Property Name="ProcessingMachine" Type="varchar" Nullable="false" />
+          <Property Name="ProcessingStarted" Type="timestamp" />
+          <Property Name="BusMessageTypeID" Type="int" Nullable="false" />
+          <Property Name="MessageSentFrom" Type="varchar" MaxLength="300" />
+          <Property Name="Source" Type="varchar" MaxLength="300" />
+          <Property Name="ParentID" Type="uuid" />
+          <Property Name="EventReference" Type="varchar" MaxLength="1000" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="BusTaskSchedule">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleID" />
+          </Key>
+          <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BusTaskID" Type="uuid" Nullable="false" />
+          <Property Name="IntervalInMinutes" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="BusTaskVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeTemplate">
+          <Key>
+            <PropertyRef Name="StatusTypeTemplateID" />
+            <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusType">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusMessageProcessLog">
+          <Key>
+            <PropertyRef Name="BusMessageProcessLogID" />
+          </Key>
+          <Property Name="BusMessageID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" StoreGeneratedPattern="Identity" />
+          <Property Name="BusMessageProcessLogID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProcessDetail" Type="json" />
+          <Property Name="ProcessMessage" Type="varchar" MaxLength="2000" />
+          <Property Name="ParentID" Type="uuid" />
+          <Property Name="BusMessageSubscriber" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="BusMessageHandler" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="HasError" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="NumberOfRetries" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="IsComplete" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeValueTemplate">
+          <Key>
+            <PropertyRef Name="StatusTypeValueTemplateID" />
+          </Key>
+          <Property Name="StatusTypeValueTemplateID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTemplate">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTemplateID" />
+          </Key>
+          <Property Name="StatusTypeStructureTemplateID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeTemplateID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueTemplateID" Type="uuid" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="IsStart" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsEnd" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTransitionTemplate">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTransitionTemplateID" />
+          </Key>
+          <Property Name="StatusTypeStructureTransitionTemplateID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CurrentStatusTypeStructureTemplateID" Type="uuid" Nullable="false" />
+          <Property Name="NextStatusTypeStructureTemplateID" Type="uuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructure">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureID" />
+          </Key>
+          <Property Name="StatusTypeStructureID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="IsStart" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsEnd" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTransition">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTransitionID" />
+          </Key>
+          <Property Name="StatusTypeStructureTransitionID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CurrentStatusTypeStructureID" Type="uuid" Nullable="false" />
+          <Property Name="NextStatusTypeStructureID" Type="uuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusTypeValue">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="BusTaskScheduleProcessLog">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleProcessLogID" />
+          </Key>
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="HasError" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsComplete" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="ProcessMessage" Type="varchar" MaxLength="2000" />
+          <Property Name="ProcessDetail" Type="json" />
+          <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskScheduleProcessLogID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="uuid" />
+          <Property Name="NumberOfRetries" Type="int" Nullable="false" DefaultValue="0" />
+        </EntityType>
+        <EntityType Name="BusEventType">
+          <Key>
+            <PropertyRef Name="BusEventTypeID" />
+          </Key>
+          <Property Name="BusEventTypeID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="BusEvent">
+          <Key>
+            <PropertyRef Name="BusEventID" />
+          </Key>
+          <Property Name="BusEventID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BusEventName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="BusEventDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="BusEventTypeID" Type="uuid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BusEventMessageSubscriber">
+          <Key>
+            <PropertyRef Name="BusEventMessageSubscriberID" />
+          </Key>
+          <Property Name="BusEventMessageSubscriberID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ObjectName" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="ObjectAssembly" Type="varchar" MaxLength="300" />
+          <Property Name="DefaultMessageSubscriberFilter" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="BusEventBusEventMessageSubscriber">
+          <Key>
+            <PropertyRef Name="BusEventID" />
+            <PropertyRef Name="BusEventMessageSubscriberID" />
+          </Key>
+          <Property Name="BusEventID" Type="uuid" Nullable="false" />
+          <Property Name="BusEventMessageSubscriberID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="BusEventMessageSubscriberFilter" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ClassificationTypeCategory">
+          <Key>
+            <PropertyRef Name="ClassificationTypeCategoryID" />
+          </Key>
+          <Property Name="ClassificationTypeCategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="ClassificationType">
+          <Key>
+            <PropertyRef Name="ClassificationTypeID" />
+          </Key>
+          <Property Name="ClassificationTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Description" Type="varchar" />
+          <Property Name="ClassificationTypeCategoryID" Type="int" Nullable="false" />
+          <Property Name="ParentClassificationTypeCategoryID" Type="int" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Value" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="BusMessageContent">
+          <Key>
+            <PropertyRef Name="BusMessageContentID" />
+          </Key>
+          <Property Name="BusMessageContentID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="BusMessageContent" Type="bytea" Nullable="false" />
+          <Property Name="BusMessageID" Type="uuid" Nullable="false" />
+          <Property Name="BusMessageContentType" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="BusMessageHeader" Type="json" />
+        </EntityType>
+        <EntityType Name="vBusTaskSchedule">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleID" />
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="IntervalInMinutes" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="ObjectTypeName" />
+          </Key>
+          <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskID" Type="uuid" Nullable="false" />
+          <Property Name="IntervalInMinutes" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
+          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
+          <Property Name="ObjectTypeName" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="ObjectTypeAssembly" Type="varchar" MaxLength="300" />
+          <Property Name="MessageTypeName" Type="varchar" MaxLength="300" />
+          <Property Name="MessageTypeAssembly" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="vStatusType">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StatusOrder" />
+            <PropertyRef Name="IsStart" />
+            <PropertyRef Name="IsEnd" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="StatusTypeName" Type="varchar" MaxLength="300" />
+          <Property Name="StatusOrder" Type="int" Nullable="false" />
+          <Property Name="IsStart" Type="boolean" Nullable="false" />
+          <Property Name="IsEnd" Type="boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_BusTask_BusTaskHandler">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.Store.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+            </Principal>
+            <Dependent Role="BusTask">
+              <PropertyRef Name="BusTaskHandlerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskSchedule_BusTask">
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="1" />
+          <End Role="BusTaskSchedule" Type="Bec.TargetFramework.SB.Data.Store.BusTaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTask">
+              <PropertyRef Name="BusTaskID" />
+              <PropertyRef Name="BusTaskVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskSchedule">
+              <PropertyRef Name="BusTaskID" />
+              <PropertyRef Name="BusTaskVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusType_StatusTypeTemplate">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusType">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageStatus_BusMessage">
+          <End Role="BusMessage" Type="Bec.TargetFramework.SB.Data.Store.BusMessage" Multiplicity="1" />
+          <End Role="BusMessageProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusMessage">
+              <PropertyRef Name="BusMessageID" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLog">
+              <PropertyRef Name="BusMessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageProcessLog_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="1" />
+          <End Role="BusMessageProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLog">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageProcessLog_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="BusMessageProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLog">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueTemplateID_StatusTypeTemplate">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypeValueTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValueTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValueTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureTemplate_StatusTypeTemplate">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID">
+          <End Role="StatusTypeValueTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValueTemplate" Multiplicity="0..1" />
+          <End Role="StatusTypeStructureTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValueTemplate">
+              <PropertyRef Name="StatusTypeValueTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTemplate">
+              <PropertyRef Name="StatusTypeValueTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla">
+          <End Role="StatusTypeStructureTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitionTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransitionTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructureTemplate">
+              <PropertyRef Name="StatusTypeStructureTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitionTemplate">
+              <PropertyRef Name="CurrentStatusTypeStructureTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappeStructureTemplate">
+          <End Role="StatusTypeStructureTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitionTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransitionTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructureTemplate">
+              <PropertyRef Name="StatusTypeStructureTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitionTemplate">
+              <PropertyRef Name="NextStatusTypeStructureTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructure_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeStructure" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeStructure">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructure_StatusTypeValueID">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValue" Multiplicity="0..1" />
+          <End Role="StatusTypeStructure" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructure">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMapping_StatusTypeStructureTempla">
+          <End Role="StatusTypeStructure" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructure" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransition" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructure">
+              <PropertyRef Name="StatusTypeStructureID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransition">
+              <PropertyRef Name="CurrentStatusTypeStructureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappeStructure">
+          <End Role="StatusTypeStructure" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructure" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransition" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeStructureTransition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructure">
+              <PropertyRef Name="StatusTypeStructureID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransition">
+              <PropertyRef Name="NextStatusTypeStructureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueID_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskProcessLog_BusTaskSchedule">
+          <End Role="BusTaskSchedule" Type="Bec.TargetFramework.SB.Data.Store.BusTaskSchedule" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskSchedule">
+              <PropertyRef Name="BusTaskScheduleID" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLog">
+              <PropertyRef Name="BusTaskScheduleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_StatusType">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLog">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_StatusTypeValue">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeValue" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLog">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEvent_fk">
+          <End Role="BusEventType" Type="Bec.TargetFramework.SB.Data.Store.BusEventType" Multiplicity="1" />
+          <End Role="BusEvent" Type="Bec.TargetFramework.SB.Data.Store.BusEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEventType">
+              <PropertyRef Name="BusEventTypeID" />
+            </Principal>
+            <Dependent Role="BusEvent">
+              <PropertyRef Name="BusEventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEventTFEventMessageSubscriber_fk">
+          <End Role="BusEvent" Type="Bec.TargetFramework.SB.Data.Store.BusEvent" Multiplicity="1" />
+          <End Role="BusEventBusEventMessageSubscriber" Type="Bec.TargetFramework.SB.Data.Store.BusEventBusEventMessageSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEvent">
+              <PropertyRef Name="BusEventID" />
+            </Principal>
+            <Dependent Role="BusEventBusEventMessageSubscriber">
+              <PropertyRef Name="BusEventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEventTFEventMessageSubscriber_fk1">
+          <End Role="BusEventMessageSubscriber" Type="Bec.TargetFramework.SB.Data.Store.BusEventMessageSubscriber" Multiplicity="1" />
+          <End Role="BusEventBusEventMessageSubscriber" Type="Bec.TargetFramework.SB.Data.Store.BusEventBusEventMessageSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEventMessageSubscriber">
+              <PropertyRef Name="BusEventMessageSubscriberID" />
+            </Principal>
+            <Dependent Role="BusEventBusEventMessageSubscriber">
+              <PropertyRef Name="BusEventMessageSubscriberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassificationType_ClassificationTypeCategory2">
+          <End Role="ClassificationTypeCategory" Type="Bec.TargetFramework.SB.Data.Store.ClassificationTypeCategory" Multiplicity="0..1" />
+          <End Role="ClassificationType" Type="Bec.TargetFramework.SB.Data.Store.ClassificationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationTypeCategory">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Principal>
+            <Dependent Role="ClassificationType">
+              <PropertyRef Name="ParentClassificationTypeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassificationType_ClassificationTypeCategory">
+          <End Role="ClassificationTypeCategory" Type="Bec.TargetFramework.SB.Data.Store.ClassificationTypeCategory" Multiplicity="1" />
+          <End Role="ClassificationType" Type="Bec.TargetFramework.SB.Data.Store.ClassificationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationTypeCategory">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Principal>
+            <Dependent Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageContent_BusMessage">
+          <End Role="BusMessage" Type="Bec.TargetFramework.SB.Data.Store.BusMessage" Multiplicity="1" />
+          <End Role="BusMessageContent" Type="Bec.TargetFramework.SB.Data.Store.BusMessageContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusMessage">
+              <PropertyRef Name="BusMessageID" />
+            </Principal>
+            <Dependent Role="BusMessageContent">
+              <PropertyRef Name="BusMessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bec.TargetFramework.SB.Data" Alias="Self" d4p1:ViewGeneration="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:devart="http://devart.com/schemas/edml/ConceptualSchemaExtensions/1.0" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" annotation:UseStrongSpatialTypes="false" xmlns:d4p1="http://devart.com/schemas/edml/ConceptualSchemaExtensions/1.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TargetFrameworkCoreEntities" ed:Namespace="Bec.TargetFramework.SB.Data" annotation:LazyLoadingEnabled="true" ed:Guid="029a1b9c-74ce-4e5b-b3d8-f2c96f112bcc">
+          <EntitySet Name="BusTaskHandlers" EntityType="Bec.TargetFramework.SB.Data.BusTaskHandler" />
+          <EntitySet Name="BusTasks" EntityType="Bec.TargetFramework.SB.Data.BusTask" />
+          <EntitySet Name="BusMessages" EntityType="Bec.TargetFramework.SB.Data.BusMessage" />
+          <EntitySet Name="BusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.BusTaskSchedule" />
+          <EntitySet Name="StatusTypeTemplates" EntityType="Bec.TargetFramework.SB.Data.StatusTypeTemplate" />
+          <EntitySet Name="StatusTypes" EntityType="Bec.TargetFramework.SB.Data.StatusType" />
+          <EntitySet Name="BusMessageProcessLogs" EntityType="Bec.TargetFramework.SB.Data.BusMessageProcessLog" />
+          <EntitySet Name="StatusTypeValueTemplates" EntityType="Bec.TargetFramework.SB.Data.StatusTypeValueTemplate" />
+          <EntitySet Name="StatusTypeStructureTemplates" EntityType="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate" />
+          <EntitySet Name="StatusTypeStructureTransitionTemplates" EntityType="Bec.TargetFramework.SB.Data.StatusTypeStructureTransitionTemplate" />
+          <EntitySet Name="StatusTypeStructures" EntityType="Bec.TargetFramework.SB.Data.StatusTypeStructure" />
+          <EntitySet Name="StatusTypeStructureTransitions" EntityType="Bec.TargetFramework.SB.Data.StatusTypeStructureTransition" />
+          <EntitySet Name="StatusTypeValues" EntityType="Bec.TargetFramework.SB.Data.StatusTypeValue" />
+          <EntitySet Name="BusTaskScheduleProcessLogs" EntityType="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog" />
+          <EntitySet Name="BusEventTypes" EntityType="Bec.TargetFramework.SB.Data.BusEventType" />
+          <EntitySet Name="BusEvents" EntityType="Bec.TargetFramework.SB.Data.BusEvent" />
+          <EntitySet Name="BusEventMessageSubscribers" EntityType="Bec.TargetFramework.SB.Data.BusEventMessageSubscriber" />
+          <EntitySet Name="BusEventBusEventMessageSubscribers" EntityType="Bec.TargetFramework.SB.Data.BusEventBusEventMessageSubscriber" />
+          <EntitySet Name="ClassificationTypeCategories" EntityType="Bec.TargetFramework.SB.Data.ClassificationTypeCategory" />
+          <EntitySet Name="ClassificationTypes" EntityType="Bec.TargetFramework.SB.Data.ClassificationType" />
+          <EntitySet Name="Settings" EntityType="Bec.TargetFramework.SB.Data.Setting" />
+          <EntitySet Name="BusMessageContents" EntityType="Bec.TargetFramework.SB.Data.BusMessageContent" />
+          <EntitySet Name="VBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.VBusTaskSchedule" />
+          <EntitySet Name="VStatusTypes" EntityType="Bec.TargetFramework.SB.Data.VStatusType" />
+          <AssociationSet Name="fk_BusTask_BusTaskHandlerSet" Association="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTasks" EntitySet="BusTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskSchedule_BusTaskSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask">
+            <End Role="BusTask" EntitySet="BusTasks" />
+            <End Role="BusTaskSchedules" EntitySet="BusTaskSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusType_StatusTypeTemplateSet" Association="Bec.TargetFramework.SB.Data.fk_StatusType_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypes" EntitySet="StatusTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageStatus_BusMessageSet" Association="Bec.TargetFramework.SB.Data.fk_BusMessageStatus_BusMessage">
+            <End Role="BusMessage" EntitySet="BusMessages" />
+            <End Role="BusMessageProcessLogs" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageProcessLog_StatusTypeSet" Association="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="BusMessageProcessLogs" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageProcessLog_StatusTypeValueSet" Association="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="BusMessageProcessLogs" EntitySet="BusMessageProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueTemplateID_StatusTypeTemplateSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeValueTemplateID_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypeValueTemplates" EntitySet="StatusTypeValueTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureTemplate_StatusTypeTemplateSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeTemplate">
+            <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
+            <End Role="StatusTypeStructureTemplates" EntitySet="StatusTypeStructureTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureTemplate_StatusTypeValueTemplateIDSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID">
+            <End Role="StatusTypeValueTemplate" EntitySet="StatusTypeValueTemplates" />
+            <End Role="StatusTypeStructureTemplates" EntitySet="StatusTypeStructureTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTemplaSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla">
+            <End Role="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID" EntitySet="StatusTypeStructureTemplates" />
+            <End Role="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID" EntitySet="StatusTypeStructureTransitionTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappeStructureTemplateSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructureTemplate">
+            <End Role="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID" EntitySet="StatusTypeStructureTemplates" />
+            <End Role="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID" EntitySet="StatusTypeStructureTransitionTemplates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructure_StatusTypeSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeStructures" EntitySet="StatusTypeStructures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructure_StatusTypeValueIDSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusTypeValueID">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="StatusTypeStructures" EntitySet="StatusTypeStructures" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMapping_StatusTypeStructureTemplaSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMapping_StatusTypeStructureTempla">
+            <End Role="StatusTypeStructure_CurrentStatusTypeStructureID" EntitySet="StatusTypeStructures" />
+            <End Role="StatusTypeStructureTransitions_CurrentStatusTypeStructureID" EntitySet="StatusTypeStructureTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeStructureMappeStructureSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructure">
+            <End Role="StatusTypeStructure_NextStatusTypeStructureID" EntitySet="StatusTypeStructures" />
+            <End Role="StatusTypeStructureTransitions_NextStatusTypeStructureID" EntitySet="StatusTypeStructureTransitions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StatusTypeValueID_StatusTypeSet" Association="Bec.TargetFramework.SB.Data.fk_StatusTypeValueID_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="StatusTypeValues" EntitySet="StatusTypeValues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskProcessLog_BusTaskScheduleSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskProcessLog_BusTaskSchedule">
+            <End Role="BusTaskSchedule" EntitySet="BusTaskSchedules" />
+            <End Role="BusTaskScheduleProcessLogs" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_StatusTypeSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusType">
+            <End Role="StatusType" EntitySet="StatusTypes" />
+            <End Role="BusTaskScheduleProcessLogs" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_StatusTypeValueSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusTypeValue">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="BusTaskScheduleProcessLogs" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
+          <AssociationSet Name="TFEvent_fkSet" Association="Bec.TargetFramework.SB.Data.TFEvent_fk">
+            <End Role="BusEventType" EntitySet="BusEventTypes" />
+            <End Role="BusEvents" EntitySet="BusEvents" />
+          </AssociationSet>
+          <AssociationSet Name="TFEventTFEventMessageSubscriber_fkSet" Association="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk">
+            <End Role="BusEvent" EntitySet="BusEvents" />
+            <End Role="BusEventBusEventMessageSubscribers" EntitySet="BusEventBusEventMessageSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="TFEventTFEventMessageSubscriber_fk1Set" Association="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk1">
+            <End Role="BusEventMessageSubscriber" EntitySet="BusEventMessageSubscribers" />
+            <End Role="BusEventBusEventMessageSubscribers" EntitySet="BusEventBusEventMessageSubscribers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassificationType_ClassificationTypeCategory2Set" Association="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory2">
+            <End Role="ClassificationTypeCategory_ParentClassificationTypeCategoryID" EntitySet="ClassificationTypeCategories" />
+            <End Role="ClassificationTypes_ParentClassificationTypeCategoryID" EntitySet="ClassificationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassificationType_ClassificationTypeCategorySet" Association="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory">
+            <End Role="ClassificationTypeCategory_ClassificationTypeCategoryID" EntitySet="ClassificationTypeCategories" />
+            <End Role="ClassificationTypes_ClassificationTypeCategoryID" EntitySet="ClassificationTypes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusMessageContent_BusMessageSet" Association="Bec.TargetFramework.SB.Data.fk_BusMessageContent_BusMessage">
+            <End Role="BusMessage" EntitySet="BusMessages" />
+            <End Role="BusMessageContents" EntitySet="BusMessageContents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BusTaskHandler" ed:Guid="8370f086-fa95-4693-ba17-cf5acb2d134f">
+          <Key>
+            <PropertyRef Name="BusTaskHandlerID" />
+          </Key>
+          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d1618b1d-c4ff-4c20-8bba-37166519b855" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="81aa6b6f-de41-4641-995d-0987ef1ea86e" />
+          <Property Name="ObjectTypeName" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="61cda032-b66a-4e98-8619-3bed2b475bf6" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="5a9cb9be-5a79-440a-a6c8-3d52bf5a82c9" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="bbe61fbf-814a-47a9-94d3-3796406690a3" />
+          <Property Name="ObjectTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="4b9dec33-e2d2-43e6-9dec-2dcf1387effe" />
+          <Property Name="MessageTypeName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="04a14390-bbc5-42cb-bb81-b000011c0659" />
+          <Property Name="MessageTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="0e9f55bd-8b34-4e5c-9935-f818ee651d31" />
+          <Property Name="HandlerMessageTypeName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="04142253-1fe7-488d-8287-81ac7a837f79" />
+          <Property Name="HandlerMessageTypeAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5a0eb281-470d-4343-ad26-00818a699f3f" />
+          <Property Name="IsHandlerBasedTask" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="02b78e44-78b5-4460-a47b-628723b40d65" />
+          <Property Name="NumberOfRetries" Type="Int32" DefaultValue="1" ed:ValidateRequired="False" ed:Guid="1380bf6b-8f29-4b5a-9824-64c3e732bef8" />
+          <Property Name="TaskDataHasExpiry" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b4dedd07-a832-43e6-ba51-5c05673b4582" />
+          <Property Name="TaskDataExpiryPeriodUnitID" Type="Int32" ed:ValidateRequired="False" ed:Guid="cc660e08-0e9b-46cc-a4b3-1dcf94cbc46e" />
+          <Property Name="TaskDataExpiryPeriod" Type="Int32" ed:ValidateRequired="False" ed:Guid="48ef2385-cef5-4efb-96bd-090fd91183cd" />
+          <Property Name="DefaultProcessDataTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="b2463214-b118-4e76-bff4-209f944d54d0" />
+          <Property Name="DefaultProcessDataCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="40de5346-fbc1-478d-8ea5-72c64b58b31d" />
+          <NavigationProperty Name="BusTasks" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTaskHandler" ToRole="BusTasks" ed:Guid="42f27b0a-817a-409b-815b-6e0f2a1a26bc" />
+        </EntityType>
+        <EntityType Name="BusTask" ed:Guid="ef755e8a-fd50-41cf-92be-560e0524ff82">
+          <Key>
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="BusTaskVersionNumber" />
+          </Key>
+          <Property Name="BusTaskID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="93849f2d-802b-4a0c-9fc6-7131bc010bf5" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="4baaa36b-7f58-4808-a684-af8dd1a7c654" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="bd3ac3ca-257c-4776-a6ee-5e9f8278b5db" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="f3dc8337-e55c-499c-8cea-5b053af7715a" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="3fd3f0bc-60dd-4830-a6dd-8771fe7635e7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="921e2238-2f29-487f-9dae-7ec1de84f7aa" />
+          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ecde0e76-25cf-4a15-9ca8-015ac1d64e7b" />
+          <Property Name="BusTaskVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="6460d781-623c-4b90-9640-79f27ddacafc" />
+          <NavigationProperty Name="BusTaskHandler" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTasks" ToRole="BusTaskHandler" ed:Guid="c96ae96c-f36a-4ab7-a34d-305e5d231353" />
+          <NavigationProperty Name="BusTaskSchedules" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTask" ToRole="BusTaskSchedules" ed:Guid="ab9d0e25-fb23-46f4-91f3-310c53bdd924" />
+        </EntityType>
+        <EntityType Name="BusMessage" ed:Guid="70ceb582-1a1a-43e4-8ea6-8d8eb9d1de93">
+          <Key>
+            <PropertyRef Name="BusMessageID" />
+          </Key>
+          <Property Name="MessageId" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a0505d14-f243-4b05-ae05-203dc007847a" />
+          <Property Name="CorrelationId" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="4f40b5b7-9516-47da-b5ef-39e4a616b5ac" />
+          <Property Name="BusMessageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d594c2d6-d4bd-4ebf-8b24-93988eec3549" />
+          <Property Name="ConversationId" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="000fa6c7-67ee-47eb-a04e-3e69d2fd8af9" />
+          <Property Name="SentOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="bcbda695-c93c-424c-b385-63330eef03b9" />
+          <Property Name="EnclosedMessageTypes" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="e7129a0f-9882-4630-8ff6-deece48708e6" />
+          <Property Name="WinIdName" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="ca8e3a29-b418-4ca9-bc5c-179d64fdc393" />
+          <Property Name="ProcessingMachine" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="4adadf87-6bb0-4db2-94de-4dc040da6dab" />
+          <Property Name="ProcessingStarted" Type="DateTime" ed:ValidateRequired="False" ed:Guid="a1cf3dc0-92b1-4b9e-8c8a-dae1a6abeb05" />
+          <Property Name="BusMessageTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="1b45030e-5d79-479d-b1aa-3dc036b32b38" />
+          <Property Name="MessageSentFrom" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="b0d53e8f-5b41-42ab-99c3-41332067c7d7" />
+          <Property Name="Source" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="203d5277-2192-454a-8313-a523c510ec75" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="5640af79-60d6-42db-96b3-5912cdf0c064" />
+          <Property Name="EventReference" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="aca3ef1d-c6cd-4e56-8bc6-a5c4277ca7f0" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="701e9fd3-7b03-43f2-9f25-2233f902c024" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e4c01d18-f618-4bc9-a90f-57bf06ee531e" />
+          <NavigationProperty Name="BusMessageProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageStatus_BusMessage" FromRole="BusMessage" ToRole="BusMessageProcessLogs" ed:Guid="434f6b85-bccb-42b1-8ea0-f9c749e4fc9a" />
+          <NavigationProperty Name="BusMessageContents" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageContent_BusMessage" FromRole="BusMessage" ToRole="BusMessageContents" ed:Guid="307e5b56-987c-42b6-a7e5-c0d52ef7acc4" />
+        </EntityType>
+        <EntityType Name="BusTaskSchedule" ed:Guid="b384f36c-ecee-4ead-84d5-f62a44514bf6">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleID" />
+          </Key>
+          <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="867ce38a-d2d6-46b4-98fd-3445ee9c32a1" />
+          <Property Name="BusTaskID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8643d775-08e7-4de8-b69e-218392d00784" />
+          <Property Name="IntervalInMinutes" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="75cacc35-c2f4-46ef-a380-d78d29938488" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c61188dd-9e9f-4ec3-966e-e5e6ee8f9320" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="42dff97d-dbb9-4f1e-a18b-ba602f5f31ec" />
+          <Property Name="BusTaskVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="17a2f8d7-cd60-4ae0-ae64-7761edf0dbb0" />
+          <NavigationProperty Name="BusTask" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTaskSchedules" ToRole="BusTask" ed:Guid="ea042741-915a-4146-a13a-c87da8157bbc" />
+          <NavigationProperty Name="BusTaskScheduleProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskProcessLog_BusTaskSchedule" FromRole="BusTaskSchedule" ToRole="BusTaskScheduleProcessLogs" ed:Guid="75bad584-da95-4122-9c00-594a32c1d786" />
+        </EntityType>
+        <EntityType Name="StatusTypeTemplate" ed:Guid="a0f0fe12-fb8a-4fbe-9b24-4cdeee82600b">
+          <Key>
+            <PropertyRef Name="StatusTypeTemplateID" />
+            <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="810731ef-dd26-4958-9000-e52eba283b09" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="67dbee78-46f0-4a73-8297-12c92fedfc4b" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="bcbac27f-572f-4ee6-9b15-bc19dd303a50" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="18c9fdc4-9ca1-4029-86ee-622ba3230914" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="8d39c0ab-5f4c-499d-b5f9-3a0163261ae1" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="e406c8c8-cf43-4e8c-bb57-63f25bc5deb6" />
+          <NavigationProperty Name="StatusTypes" Relationship="Bec.TargetFramework.SB.Data.fk_StatusType_StatusTypeTemplate" FromRole="StatusTypeTemplate" ToRole="StatusTypes" ed:Guid="31358378-0fb1-420a-b182-994641f1ef80" />
+          <NavigationProperty Name="StatusTypeValueTemplates" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeValueTemplateID_StatusTypeTemplate" FromRole="StatusTypeTemplate" ToRole="StatusTypeValueTemplates" ed:Guid="fb050f2b-bd34-4e84-94c5-e5314b92417c" />
+          <NavigationProperty Name="StatusTypeStructureTemplates" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeTemplate" FromRole="StatusTypeTemplate" ToRole="StatusTypeStructureTemplates" ed:Guid="a0db84b9-71ab-48bb-bed0-989c34cb7ff4" />
+        </EntityType>
+        <EntityType Name="StatusType" ed:Guid="5728d28d-f36f-44eb-9dc2-fc12dccd9293">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+          </Key>
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="cd541b0b-e6cc-43dd-937d-e8457e03ce80" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="f1682b26-0c87-441c-b388-14159082a577" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="5582fbcd-fd69-483e-898d-0b7f389c2da6" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9ffe87cb-7be4-4b9c-8045-c8ec8e42c254" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="985e7b3f-f5b9-4507-b839-6208a30c3758" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="0d927016-be12-4317-8d95-da8d061c4a29" />
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ec8e3401-3b22-4fcc-be2c-e0370dead4f6" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="239a4909-c3e0-4eb9-87af-f423a27562af" />
+          <NavigationProperty Name="StatusTypeTemplate" Relationship="Bec.TargetFramework.SB.Data.fk_StatusType_StatusTypeTemplate" FromRole="StatusTypes" ToRole="StatusTypeTemplate" ed:Guid="3719064b-652e-464b-9cfb-82af8e120dc5" />
+          <NavigationProperty Name="BusMessageProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusType" FromRole="StatusType" ToRole="BusMessageProcessLogs" ed:Guid="1ca70058-d1c6-4d41-aab8-f0a9b9cdced5" />
+          <NavigationProperty Name="StatusTypeStructures" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusType" FromRole="StatusType" ToRole="StatusTypeStructures" ed:Guid="dbfc64e1-fe27-4eea-b336-a81b3d1a7b33" />
+          <NavigationProperty Name="StatusTypeValues" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeValueID_StatusType" FromRole="StatusType" ToRole="StatusTypeValues" ed:Guid="5e2144f3-5b45-428c-8ebf-135e989f895e" />
+          <NavigationProperty Name="BusTaskScheduleProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusType" FromRole="StatusType" ToRole="BusTaskScheduleProcessLogs" ed:Guid="ba4c5d35-bedb-4346-bb31-d5e92567eb88" />
+        </EntityType>
+        <EntityType Name="BusMessageProcessLog" ed:Guid="3382ff9a-fba3-4f44-a724-abcb408e4fc6">
+          <Key>
+            <PropertyRef Name="BusMessageProcessLogID" />
+          </Key>
+          <Property Name="BusMessageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="04221eef-24c4-4619-93ba-dc09b143100d" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="bc4a12d1-9dad-4bbc-bfb4-f72c95293804" />
+          <Property Name="BusMessageProcessLogID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="4ab3f3d5-29b0-4629-9a52-c1982a12db71" />
+          <Property Name="ProcessDetail" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="5df7b253-b79f-4c90-87d7-42788531f6a3" />
+          <Property Name="ProcessMessage" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="6345ddb7-8912-40d2-818b-869acc1c9def" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="c94b2e6c-047a-42a0-905d-ecb22f84a24d" />
+          <Property Name="BusMessageSubscriber" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="d8698595-a208-4d3a-ab66-5c7bae9f18e2" />
+          <Property Name="BusMessageHandler" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="ae7bb9ce-14a5-44dc-b25c-250c5fc17cad" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b83f07f0-13ad-4297-8908-e88b9229ce5f" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="d808c35d-f80f-401d-9fb0-3dcb962311d7" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="be66a6fd-e02e-4890-a065-d9f5f5991ac5" />
+          <Property Name="HasError" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="10c5c06a-9d6b-493a-bd7a-b494eb6cfbd2" />
+          <Property Name="NumberOfRetries" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="fce7d788-e25b-4881-9113-e83538621a32" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="9d9cc449-6644-489b-95b3-4e6f68dd8699" />
+          <NavigationProperty Name="BusMessage" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageStatus_BusMessage" FromRole="BusMessageProcessLogs" ToRole="BusMessage" ed:Guid="a141a3fb-fe19-4ec0-ae23-f05e59f0ab55" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusType" FromRole="BusMessageProcessLogs" ToRole="StatusType" ed:Guid="9b897acd-f85b-45d4-98f6-ff3d20a8bc92" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusTypeValue" FromRole="BusMessageProcessLogs" ToRole="StatusTypeValue" ed:Guid="98c30007-a6ef-4a70-97b0-cdbca79363ce" />
+        </EntityType>
+        <EntityType Name="StatusTypeValueTemplate" ed:Guid="721c7ab4-851d-4d3b-844e-ae9e3fcf604d">
+          <Key>
+            <PropertyRef Name="StatusTypeValueTemplateID" />
+          </Key>
+          <Property Name="StatusTypeValueTemplateID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="bdebabe7-892f-43b3-a77a-132f77b680e1" />
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2caf4ec9-c305-4983-bce2-abc1be0f2a83" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="9dd10ac5-2c11-4548-868c-6a8b7594ed01" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="8464e170-593c-43bf-84c6-d7ba6f29d733" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="23b06e96-352b-4bd9-9ec8-a10b06544c15" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="1daf1e03-287f-4dcd-8c29-6f8769209caa" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="5922fe79-f72c-4bbd-a377-9d67ae6086fe" />
+          <NavigationProperty Name="StatusTypeTemplate" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeValueTemplateID_StatusTypeTemplate" FromRole="StatusTypeValueTemplates" ToRole="StatusTypeTemplate" ed:Guid="115372ff-3dbe-48bf-857b-1a3193f27343" />
+          <NavigationProperty Name="StatusTypeStructureTemplates" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID" FromRole="StatusTypeValueTemplate" ToRole="StatusTypeStructureTemplates" ed:Guid="0d8d9120-081e-41ae-8a99-1d095470dffb" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTemplate" ed:Guid="d329aed5-4288-4a42-a58d-e7988915fe0b">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTemplateID" />
+          </Key>
+          <Property Name="StatusTypeStructureTemplateID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="f782e6f7-b327-4f85-a9c3-9c501b1fbbd3" />
+          <Property Name="StatusTypeTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0577953b-f981-44f3-8512-0b1ef25e6e22" />
+          <Property Name="StatusTypeTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="2ce679a3-bb3d-4449-a2ba-c19063805682" />
+          <Property Name="StatusTypeValueTemplateID" Type="Guid" ed:ValidateRequired="False" ed:Guid="9358fde9-62e6-490a-b892-f1037cbe765c" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="5520250e-e092-45cd-bae9-a27f80750bba" />
+          <Property Name="IsStart" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="e937b7bd-80af-4b83-b121-3ba6c5d15cdb" />
+          <Property Name="IsEnd" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b9846782-dcd9-4eb6-977f-6327349b07a2" />
+          <NavigationProperty Name="StatusTypeTemplate" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeTemplate" FromRole="StatusTypeStructureTemplates" ToRole="StatusTypeTemplate" ed:Guid="47437fe6-cd8a-4a4c-938d-0976b0bd8d67" />
+          <NavigationProperty Name="StatusTypeValueTemplate" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID" FromRole="StatusTypeStructureTemplates" ToRole="StatusTypeValueTemplate" ed:Guid="def4a30d-8590-424c-bbc9-4b468e4c056b" />
+          <NavigationProperty Name="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla" FromRole="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID" ToRole="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID" ed:Guid="8efc80d4-f761-4c02-bb5f-e688fc438baf" />
+          <NavigationProperty Name="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructureTemplate" FromRole="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID" ToRole="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID" ed:Guid="a30c24ea-0cbd-49ec-b4b9-548b57d4aa0c" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTransitionTemplate" ed:Guid="7995978f-aa4b-45b0-a6ff-ad726133430d">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTransitionTemplateID" />
+          </Key>
+          <Property Name="StatusTypeStructureTransitionTemplateID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="cbce1b96-77dc-4598-b04a-ba8624c9c82c" />
+          <Property Name="CurrentStatusTypeStructureTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="6571e26b-154a-4aab-beec-1c01d5a79e3f" />
+          <Property Name="NextStatusTypeStructureTemplateID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="deb800f2-a801-4f36-825f-9a03140b9cc0" />
+          <NavigationProperty Name="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla" FromRole="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID" ToRole="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID" ed:Guid="95de1256-73df-4bd1-b2ce-e0650fd5b066" />
+          <NavigationProperty Name="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructureTemplate" FromRole="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID" ToRole="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID" ed:Guid="1a18bc08-7bab-446f-96e0-98583ed031d9" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructure" ed:Guid="d6fa62c0-086a-45b1-85ce-3471b9294528">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureID" />
+          </Key>
+          <Property Name="StatusTypeStructureID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="c8127119-daa6-4285-b49e-666bd2543bfa" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f885101c-eaef-4833-b41f-beba20abcd8e" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="acf169c6-32fa-45cc-91cd-5e7a5d622a4c" />
+          <Property Name="StatusTypeValueID" Type="Guid" ed:ValidateRequired="False" ed:Guid="f2eb1c97-da21-4313-9c51-a3e656551a72" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="dd9e4909-1b2b-4b17-8a79-98b844af1346" />
+          <Property Name="IsStart" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="9be796cc-de82-4724-ad72-aebb921a17dd" />
+          <Property Name="IsEnd" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="d9503f22-ebab-41f6-bf4a-4e49690e2509" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusType" FromRole="StatusTypeStructures" ToRole="StatusType" ed:Guid="2d4e3f85-5794-4aeb-9118-4c6066881210" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusTypeValueID" FromRole="StatusTypeStructures" ToRole="StatusTypeValue" ed:Guid="51b56304-d236-4107-96b0-50e3c431fcfa" />
+          <NavigationProperty Name="StatusTypeStructureTransitions_CurrentStatusTypeStructureID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMapping_StatusTypeStructureTempla" FromRole="StatusTypeStructure_CurrentStatusTypeStructureID" ToRole="StatusTypeStructureTransitions_CurrentStatusTypeStructureID" ed:Guid="acc69971-73ce-4d6a-b583-9d386dc16245" />
+          <NavigationProperty Name="StatusTypeStructureTransitions_NextStatusTypeStructureID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructure" FromRole="StatusTypeStructure_NextStatusTypeStructureID" ToRole="StatusTypeStructureTransitions_NextStatusTypeStructureID" ed:Guid="70f4169d-be56-45e8-83ce-4852056f9fed" />
+        </EntityType>
+        <EntityType Name="StatusTypeStructureTransition" ed:Guid="0228ffb4-13a4-4c13-87ca-699531d0f696">
+          <Key>
+            <PropertyRef Name="StatusTypeStructureTransitionID" />
+          </Key>
+          <Property Name="StatusTypeStructureTransitionID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="1d10631e-ef25-4232-9b2a-83b86b94c2fc" />
+          <Property Name="CurrentStatusTypeStructureID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e10ba4ba-155b-46af-ae52-f9cfe9665a13" />
+          <Property Name="NextStatusTypeStructureID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b3deb5e7-bb25-44aa-a975-0516b3a1d662" />
+          <NavigationProperty Name="StatusTypeStructure_CurrentStatusTypeStructureID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMapping_StatusTypeStructureTempla" FromRole="StatusTypeStructureTransitions_CurrentStatusTypeStructureID" ToRole="StatusTypeStructure_CurrentStatusTypeStructureID" ed:Guid="2b5cb76b-fbe7-4dea-ac38-aa1a469a90ac" />
+          <NavigationProperty Name="StatusTypeStructure_NextStatusTypeStructureID" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructureMappeStructure" FromRole="StatusTypeStructureTransitions_NextStatusTypeStructureID" ToRole="StatusTypeStructure_NextStatusTypeStructureID" ed:Guid="bd11f4f5-c0ae-4226-8e77-7f596aed6f9f" />
+        </EntityType>
+        <EntityType Name="StatusTypeValue" ed:Guid="f528e370-e7ec-4010-a7d8-d7ef33b6b773">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="8b8f271a-9f7d-46a6-9eac-d6a8a9f4d292" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="98928c1d-6334-4964-a574-3e3ad11fd69b" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="e71d79e8-41ea-457a-9b1e-30cf981115cb" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="943c7017-8ec7-41ce-ad18-b04f30868cde" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="a45e85eb-c875-441c-8e38-dccd0e6557f1" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="9351874a-2175-47d1-8780-af54f99ffdeb" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a4fd4e17-ae6f-45dd-b9a4-728a727b0a7f" />
+          <NavigationProperty Name="BusMessageProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageProcessLog_StatusTypeValue" FromRole="StatusTypeValue" ToRole="BusMessageProcessLogs" ed:Guid="67686ab0-ac02-4fac-a21a-dba60e70b5e5" />
+          <NavigationProperty Name="StatusTypeStructures" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeStructure_StatusTypeValueID" FromRole="StatusTypeValue" ToRole="StatusTypeStructures" ed:Guid="540a9896-082b-4545-a8c8-d0e89f74b48d" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.SB.Data.fk_StatusTypeValueID_StatusType" FromRole="StatusTypeValues" ToRole="StatusType" ed:Guid="a80d244a-9c51-4e0b-998b-b13843126051" />
+          <NavigationProperty Name="BusTaskScheduleProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusTypeValue" FromRole="StatusTypeValue" ToRole="BusTaskScheduleProcessLogs" ed:Guid="17790129-295f-4a05-acd0-d82ace57efb6" />
+        </EntityType>
+        <EntityType Name="BusTaskScheduleProcessLog" ed:Guid="6fe774ca-55f3-461c-83ec-fb2a6e816aaf">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleProcessLogID" />
+          </Key>
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3fbce23f-bdac-436a-a5f7-0a16a6905819" />
+          <Property Name="HasError" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="de507188-1e56-47a2-9eab-30281111e261" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="df80d8a8-a192-4ee3-832b-449b5a17994e" />
+          <Property Name="ProcessMessage" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="ac7324cd-50e2-4e76-851b-f0c75f9d2a11" />
+          <Property Name="ProcessDetail" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="67eaf420-42f7-44e4-a977-609da0d0af8e" />
+          <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2c84735c-3d95-48e3-9599-f868f081f5bc" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7650d77b-518a-4b87-ab0f-ff43c6017164" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="abd060d4-c125-4e92-9118-5ef662b340e6" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7b22ceb6-7d0f-40ac-adb0-4352e5cf746d" />
+          <Property Name="BusTaskScheduleProcessLogID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7ba961ce-82aa-4e89-bab9-d491aa299f25" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b6c3a844-b27d-42f1-8258-88c0af8fc0ee" />
+          <Property Name="NumberOfRetries" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="35f2ca7f-aa5d-49df-8d37-3c876c3cd870" />
+          <NavigationProperty Name="BusTaskSchedule" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskProcessLog_BusTaskSchedule" FromRole="BusTaskScheduleProcessLogs" ToRole="BusTaskSchedule" ed:Guid="485ed7ff-de85-485b-9712-d72af7e90194" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusType" FromRole="BusTaskScheduleProcessLogs" ToRole="StatusType" ed:Guid="720535dc-b9eb-4f27-be92-7e9297e82d6c" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusTypeValue" FromRole="BusTaskScheduleProcessLogs" ToRole="StatusTypeValue" ed:Guid="771d64dc-73c4-401f-ba1b-3d8724eb04a3" />
+        </EntityType>
+        <EntityType Name="BusEventType" ed:Guid="a6091029-fde8-4993-9d7b-974d9566c65f">
+          <Key>
+            <PropertyRef Name="BusEventTypeID" />
+          </Key>
+          <Property Name="BusEventTypeID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="eb5089d6-65ef-4a4f-912a-ed47c7d5056c" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="16d5d3ed-ae56-43f5-8a87-55960a9b1d1d" />
+          <NavigationProperty Name="BusEvents" Relationship="Bec.TargetFramework.SB.Data.TFEvent_fk" FromRole="BusEventType" ToRole="BusEvents" ed:Guid="64138456-1967-4b17-bd79-61980becc831" />
+        </EntityType>
+        <EntityType Name="BusEvent" ed:Guid="e25d829a-d8ee-4f4e-bd49-ef660879a3c0">
+          <Key>
+            <PropertyRef Name="BusEventID" />
+          </Key>
+          <Property Name="BusEventID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="e01fea54-e960-4b8c-84bd-be304b3fe631" />
+          <Property Name="BusEventName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="5bf2a15e-6b67-4306-8c57-5679ce2a8e1c" />
+          <Property Name="BusEventDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="5a80a9d3-31e6-486b-907d-527c01c542f8" />
+          <Property Name="BusEventTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="dd11bcad-7298-49f9-8d7e-6a4084d5003a" />
+          <NavigationProperty Name="BusEventType" Relationship="Bec.TargetFramework.SB.Data.TFEvent_fk" FromRole="BusEvents" ToRole="BusEventType" ed:Guid="f63e2b2b-e2b6-475e-a4b9-72df0aac40dc" />
+          <NavigationProperty Name="BusEventBusEventMessageSubscribers" Relationship="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk" FromRole="BusEvent" ToRole="BusEventBusEventMessageSubscribers" ed:Guid="f7a77a72-eb56-4b22-814c-659572a966a6" />
+        </EntityType>
+        <EntityType Name="BusEventMessageSubscriber" ed:Guid="7c879f87-d58d-4a30-9711-4932a39438b8">
+          <Key>
+            <PropertyRef Name="BusEventMessageSubscriberID" />
+          </Key>
+          <Property Name="BusEventMessageSubscriberID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="92952756-23d7-425c-8b37-fb9993c79812" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="f6ec1db0-a481-4c05-aeae-f03662cb65f6" />
+          <Property Name="ObjectName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="e98f20a7-a5aa-4eeb-92f5-db7327be0ef6" />
+          <Property Name="ObjectAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="ff8ea24e-9959-4e5d-aaca-37419fbc5d7d" />
+          <Property Name="DefaultMessageSubscriberFilter" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="553432dd-817c-430b-a6fc-d44976c8f50a" />
+          <NavigationProperty Name="BusEventBusEventMessageSubscribers" Relationship="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk1" FromRole="BusEventMessageSubscriber" ToRole="BusEventBusEventMessageSubscribers" ed:Guid="e4047b50-19e3-42a9-9f6f-8b1ccd81574c" />
+        </EntityType>
+        <EntityType Name="BusEventBusEventMessageSubscriber" ed:Guid="10db10de-3622-4487-9251-69625836b55f">
+          <Key>
+            <PropertyRef Name="BusEventID" />
+            <PropertyRef Name="BusEventMessageSubscriberID" />
+          </Key>
+          <Property Name="BusEventID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="eb7d4865-32a9-4a9b-b8a6-587f7270ba13" />
+          <Property Name="BusEventMessageSubscriberID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="dbffae60-e159-4edd-9f96-b04e5d9511e2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="fadef6da-f3da-4be8-85ca-885d6f5ca33a" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="4b04b75f-0b40-4cba-8618-ecb6e2470613" />
+          <Property Name="BusEventMessageSubscriberFilter" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="b5eb814c-1507-44f6-abfc-8715921d93ed" />
+          <NavigationProperty Name="BusEvent" Relationship="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk" FromRole="BusEventBusEventMessageSubscribers" ToRole="BusEvent" ed:Guid="0cc17f27-3fef-4c01-8fd8-5fda9789be64" />
+          <NavigationProperty Name="BusEventMessageSubscriber" Relationship="Bec.TargetFramework.SB.Data.TFEventTFEventMessageSubscriber_fk1" FromRole="BusEventBusEventMessageSubscribers" ToRole="BusEventMessageSubscriber" ed:Guid="e19c1e39-48f1-437a-ab74-deb6cee12b3c" />
+        </EntityType>
+        <EntityType Name="ClassificationTypeCategory" ed:Guid="9957da3e-7c27-4409-8940-e502b0342d89">
+          <Key>
+            <PropertyRef Name="ClassificationTypeCategoryID" />
+          </Key>
+          <Property Name="ClassificationTypeCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="a3350075-9f8f-4307-85a7-5adf9cd39e06" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="True" ed:Guid="d2b12c93-b02f-442d-a584-7c26c196140d" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="cd977e5a-8bd3-4bf6-86fd-262bd9be7859" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6339a61d-f018-483d-9705-82c0f50b6960" />
+          <NavigationProperty Name="ClassificationTypes_ParentClassificationTypeCategoryID" Relationship="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory2" FromRole="ClassificationTypeCategory_ParentClassificationTypeCategoryID" ToRole="ClassificationTypes_ParentClassificationTypeCategoryID" ed:Guid="f955d627-4fff-4178-8447-13861cf412c7" />
+          <NavigationProperty Name="ClassificationTypes_ClassificationTypeCategoryID" Relationship="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory" FromRole="ClassificationTypeCategory_ClassificationTypeCategoryID" ToRole="ClassificationTypes_ClassificationTypeCategoryID" ed:Guid="5ff5cd46-077a-4f00-9da6-f12333ee1be7" />
+        </EntityType>
+        <EntityType Name="ClassificationType" ed:Guid="a931578f-c9d3-44f7-bfec-6118dd372a27">
+          <Key>
+            <PropertyRef Name="ClassificationTypeID" />
+          </Key>
+          <Property Name="ClassificationTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="c6939f82-8b7f-48d2-b6d5-bbca15d99a1d" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="c0fc25fc-e589-4f36-b10d-1672664e6320" />
+          <Property Name="Description" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="dd7b57de-16e5-4bf9-8415-6121162db2c7" />
+          <Property Name="ClassificationTypeCategoryID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="13bcd343-e3a7-4eec-8e3b-b87c614902ae" />
+          <Property Name="ParentClassificationTypeCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="a868d532-6653-440a-a263-c61b614edb62" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="faed04fd-0cca-4401-ba8b-d0a94a19c784" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8d98fd05-6c42-414a-9a70-a450eda6104c" />
+          <NavigationProperty Name="ClassificationTypeCategory_ParentClassificationTypeCategoryID" Relationship="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory2" FromRole="ClassificationTypes_ParentClassificationTypeCategoryID" ToRole="ClassificationTypeCategory_ParentClassificationTypeCategoryID" ed:Guid="93bec8a7-33bf-4f56-b247-6c1074fc1cbf" />
+          <NavigationProperty Name="ClassificationTypeCategory_ClassificationTypeCategoryID" Relationship="Bec.TargetFramework.SB.Data.FK_ClassificationType_ClassificationTypeCategory" FromRole="ClassificationTypes_ClassificationTypeCategoryID" ToRole="ClassificationTypeCategory_ClassificationTypeCategoryID" ed:Guid="2f61df8e-0d23-422b-ac3f-60f83e82a99b" />
+        </EntityType>
+        <EntityType Name="Setting" ed:Guid="bacf95ba-1df9-4642-ba84-74292a54a0b8">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="52e89697-d97f-46fb-97b3-4769cbae267b" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="360fea71-4abb-4348-bfb8-f517a9c0abf6" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="d36e69ac-4677-4e46-bda6-2605df8e0d44" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="faebfe5d-c8f9-428d-876e-a6f811911dac" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="213ae236-8960-4282-ba16-a658a2bd0902" />
+        </EntityType>
+        <EntityType Name="BusMessageContent" ed:Guid="4d677c89-0c36-4882-b3b7-4a7da7ecc100">
+          <Key>
+            <PropertyRef Name="BusMessageContentID" />
+          </Key>
+          <Property Name="BusMessageContentID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="42666f3f-14e6-445e-9a11-2535fd4cedd2" />
+          <Property Name="BusMessageContent1" Type="Binary" Nullable="false" ed:ValidateRequired="True" ed:Guid="1cd0dc6e-608c-4170-857b-e990a33768ff" />
+          <Property Name="BusMessageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d8091df7-f97e-434a-9243-c002040ba613" />
+          <Property Name="BusMessageContentType" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="77b6dfb9-ec0e-449c-8a03-77afd3897f57" />
+          <Property Name="BusMessageHeader" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="8e98fc42-7b92-40fa-b7bc-454f2f0ca77f" />
+          <NavigationProperty Name="BusMessage" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageContent_BusMessage" FromRole="BusMessageContents" ToRole="BusMessage" ed:Guid="eb6c1641-f2fa-4d31-b1e3-7e80eafa3352" />
+        </EntityType>
+        <EntityType Name="VBusTaskSchedule" ed:Guid="a489eecc-16e7-458c-b6e7-fbdc4e3663f1">
+          <Key>
+            <PropertyRef Name="BusTaskScheduleID" />
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="IntervalInMinutes" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="IsDeleted" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="ObjectTypeName" />
+          </Key>
+          <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0665cc87-1a99-4e50-8242-318953db2f6c" />
+          <Property Name="BusTaskID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fd8289e0-ecd6-4392-8546-ea8a65318851" />
+          <Property Name="IntervalInMinutes" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="4505d4c4-f83b-48dd-85cf-4fd170c75a58" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="68dc8920-352c-4d70-b775-8c62037c0885" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="0dea6263-8a80-4ada-a2d6-c10be7820a6a" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="04053471-1141-485a-bd17-cd772303b376" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ee7a4dcc-3404-49b3-8772-37d2960e2848" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="153f5037-7dda-4781-978b-02f89318470f" />
+          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7bfd2dba-977d-4ed4-b5ee-2355f7bd8df5" />
+          <Property Name="ObjectTypeName" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="8971ad34-d905-48df-a880-8cf2bcbcab59" />
+          <Property Name="ObjectTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="5f51858c-3e38-4ff8-a9b5-681811ad42db" />
+          <Property Name="MessageTypeName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="8658439d-4484-4d87-bbec-11776705a1f4" />
+          <Property Name="MessageTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="451bf81d-7deb-426b-ad7f-6008b5668145" />
+        </EntityType>
+        <EntityType Name="VStatusType" ed:Guid="27504f08-88ee-4317-8083-04d9bc5b7daa">
+          <Key>
+            <PropertyRef Name="StatusTypeValueID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StatusOrder" />
+            <PropertyRef Name="IsStart" />
+            <PropertyRef Name="IsEnd" />
+          </Key>
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c109f246-5195-4abf-87f7-3c009d919208" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="36a79cd3-0a84-4412-a4a7-bddb18e22228" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="7bc93295-8789-4e88-ad02-9981da32b99e" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="7b72ec5a-120e-40c5-a7f7-5b96f7ca484d" />
+          <Property Name="StatusTypeName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="4a173b86-e4a9-43d0-ba4e-df1021b93842" />
+          <Property Name="StatusOrder" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="d5e79949-b392-49c9-ac7c-74324519fecd" />
+          <Property Name="IsStart" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="c8e91821-545c-4e19-9985-1cfb13412565" />
+          <Property Name="IsEnd" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="47df677c-b0f1-4afd-a911-923de9e67c95" />
+        </EntityType>
+        <Association Name="fk_BusTask_BusTaskHandler" ed:Guid="c8cda293-0cfc-49ee-81fb-e188ec939bcd">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTasks" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+            </Principal>
+            <Dependent Role="BusTasks">
+              <PropertyRef Name="BusTaskHandlerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskSchedule_BusTask" ed:Guid="27e6905e-ddc8-4c76-b0d4-9f5658b67d7f">
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="1" />
+          <End Role="BusTaskSchedules" Type="Bec.TargetFramework.SB.Data.BusTaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTask">
+              <PropertyRef Name="BusTaskID" />
+              <PropertyRef Name="BusTaskVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskSchedules">
+              <PropertyRef Name="BusTaskID" />
+              <PropertyRef Name="BusTaskVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusType_StatusTypeTemplate" ed:Guid="1de85bf6-8ac0-43be-be04-401a29b2000c">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypes" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypes">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageStatus_BusMessage" ed:Guid="f2128552-3370-4112-a7a1-9e6c09bcdcf8">
+          <End Role="BusMessage" Type="Bec.TargetFramework.SB.Data.BusMessage" Multiplicity="1" />
+          <End Role="BusMessageProcessLogs" Type="Bec.TargetFramework.SB.Data.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusMessage">
+              <PropertyRef Name="BusMessageID" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLogs">
+              <PropertyRef Name="BusMessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageProcessLog_StatusType" ed:Guid="ec3f6cde-43a0-4dac-976a-99ec0bf18a76">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="1" />
+          <End Role="BusMessageProcessLogs" Type="Bec.TargetFramework.SB.Data.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLogs">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageProcessLog_StatusTypeValue" ed:Guid="7868378f-86ff-4c49-b792-ce63c99b1e12">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.StatusTypeValue" Multiplicity="1" />
+          <End Role="BusMessageProcessLogs" Type="Bec.TargetFramework.SB.Data.BusMessageProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="BusMessageProcessLogs">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueTemplateID_StatusTypeTemplate" ed:Guid="a72ca7d0-33e0-48b2-a307-0d4db353a661">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypeValueTemplates" Type="Bec.TargetFramework.SB.Data.StatusTypeValueTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValueTemplates">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureTemplate_StatusTypeTemplate" ed:Guid="01b2bbe5-cb9e-4c7e-917e-d2a411dfb83b">
+          <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.StatusTypeTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTemplates" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeTemplate">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTemplates">
+              <PropertyRef Name="StatusTypeTemplateID" />
+              <PropertyRef Name="StatusTypeTemplateVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureTemplate_StatusTypeValueTemplateID" ed:Guid="647fcff8-6568-4966-9156-f94fcd8ebefe">
+          <End Role="StatusTypeValueTemplate" Type="Bec.TargetFramework.SB.Data.StatusTypeValueTemplate" Multiplicity="0..1" />
+          <End Role="StatusTypeStructureTemplates" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValueTemplate">
+              <PropertyRef Name="StatusTypeValueTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTemplates">
+              <PropertyRef Name="StatusTypeValueTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappingTemplate_StatusTypeStructureTempla" ed:Guid="5296a8af-1407-4364-b41a-9bbe2fd72a23">
+          <End Role="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTransitionTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructureTemplate_CurrentStatusTypeStructureTemplateID">
+              <PropertyRef Name="StatusTypeStructureTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitionTemplates_CurrentStatusTypeStructureTemplateID">
+              <PropertyRef Name="CurrentStatusTypeStructureTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappeStructureTemplate" ed:Guid="a72ad01d-071d-4bb9-8b3f-0785c423b6cc">
+          <End Role="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTransitionTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructureTemplate_NextStatusTypeStructureTemplateID">
+              <PropertyRef Name="StatusTypeStructureTemplateID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitionTemplates_NextStatusTypeStructureTemplateID">
+              <PropertyRef Name="NextStatusTypeStructureTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructure_StatusType" ed:Guid="41375e0f-fa33-4d5a-b9dc-b32764ea8cef">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeStructures" Type="Bec.TargetFramework.SB.Data.StatusTypeStructure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeStructures">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructure_StatusTypeValueID" ed:Guid="5868f793-367e-4763-a26a-ee12404d9c61">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.StatusTypeValue" Multiplicity="0..1" />
+          <End Role="StatusTypeStructures" Type="Bec.TargetFramework.SB.Data.StatusTypeStructure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructures">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMapping_StatusTypeStructureTempla" ed:Guid="442d01a1-04d9-43fd-baab-a848e2516509">
+          <End Role="StatusTypeStructure_CurrentStatusTypeStructureID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructure" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitions_CurrentStatusTypeStructureID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTransition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructure_CurrentStatusTypeStructureID">
+              <PropertyRef Name="StatusTypeStructureID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitions_CurrentStatusTypeStructureID">
+              <PropertyRef Name="CurrentStatusTypeStructureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeStructureMappeStructure" ed:Guid="26f08714-bada-4aa9-913c-a8bb5a2f713f">
+          <End Role="StatusTypeStructure_NextStatusTypeStructureID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructure" Multiplicity="1" />
+          <End Role="StatusTypeStructureTransitions_NextStatusTypeStructureID" Type="Bec.TargetFramework.SB.Data.StatusTypeStructureTransition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeStructure_NextStatusTypeStructureID">
+              <PropertyRef Name="StatusTypeStructureID" />
+            </Principal>
+            <Dependent Role="StatusTypeStructureTransitions_NextStatusTypeStructureID">
+              <PropertyRef Name="NextStatusTypeStructureID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StatusTypeValueID_StatusType" ed:Guid="9cea3147-2981-4fb9-9c99-2b35e1d4b9e1">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="1" />
+          <End Role="StatusTypeValues" Type="Bec.TargetFramework.SB.Data.StatusTypeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="StatusTypeValues">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskProcessLog_BusTaskSchedule" ed:Guid="2794e42a-ad62-491f-884a-1db9d047f4b8">
+          <End Role="BusTaskSchedule" Type="Bec.TargetFramework.SB.Data.BusTaskSchedule" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLogs" Type="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskSchedule">
+              <PropertyRef Name="BusTaskScheduleID" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLogs">
+              <PropertyRef Name="BusTaskScheduleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_StatusType" ed:Guid="d2c3b081-51db-4f68-9d1a-4d41e1fe8928">
+          <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLogs" Type="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusType">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLogs">
+              <PropertyRef Name="StatusTypeID" />
+              <PropertyRef Name="StatusTypeVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_StatusTypeValue" ed:Guid="93aaadfa-8977-4666-8f19-db1c023b81c1">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.SB.Data.StatusTypeValue" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLogs" Type="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLogs">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEvent_fk" ed:Guid="2ad8c078-e48b-4bf9-b2e7-04a711b2a3d7">
+          <End Role="BusEventType" Type="Bec.TargetFramework.SB.Data.BusEventType" Multiplicity="1" />
+          <End Role="BusEvents" Type="Bec.TargetFramework.SB.Data.BusEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEventType">
+              <PropertyRef Name="BusEventTypeID" />
+            </Principal>
+            <Dependent Role="BusEvents">
+              <PropertyRef Name="BusEventTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEventTFEventMessageSubscriber_fk" ed:Guid="7a075c6d-efa0-4430-8ce2-5115119c2f9d">
+          <End Role="BusEvent" Type="Bec.TargetFramework.SB.Data.BusEvent" Multiplicity="1" />
+          <End Role="BusEventBusEventMessageSubscribers" Type="Bec.TargetFramework.SB.Data.BusEventBusEventMessageSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEvent">
+              <PropertyRef Name="BusEventID" />
+            </Principal>
+            <Dependent Role="BusEventBusEventMessageSubscribers">
+              <PropertyRef Name="BusEventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TFEventTFEventMessageSubscriber_fk1" ed:Guid="20c61850-2ff9-4e19-9c15-54d4b200b0c8">
+          <End Role="BusEventMessageSubscriber" Type="Bec.TargetFramework.SB.Data.BusEventMessageSubscriber" Multiplicity="1" />
+          <End Role="BusEventBusEventMessageSubscribers" Type="Bec.TargetFramework.SB.Data.BusEventBusEventMessageSubscriber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusEventMessageSubscriber">
+              <PropertyRef Name="BusEventMessageSubscriberID" />
+            </Principal>
+            <Dependent Role="BusEventBusEventMessageSubscribers">
+              <PropertyRef Name="BusEventMessageSubscriberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassificationType_ClassificationTypeCategory2" ed:Guid="96984d90-8bbf-443b-9533-3b4da75f0753">
+          <End Role="ClassificationTypeCategory_ParentClassificationTypeCategoryID" Type="Bec.TargetFramework.SB.Data.ClassificationTypeCategory" Multiplicity="0..1" />
+          <End Role="ClassificationTypes_ParentClassificationTypeCategoryID" Type="Bec.TargetFramework.SB.Data.ClassificationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationTypeCategory_ParentClassificationTypeCategoryID">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Principal>
+            <Dependent Role="ClassificationTypes_ParentClassificationTypeCategoryID">
+              <PropertyRef Name="ParentClassificationTypeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassificationType_ClassificationTypeCategory" ed:Guid="a1c0f698-cd74-45cd-9024-4a47c48f9757">
+          <End Role="ClassificationTypeCategory_ClassificationTypeCategoryID" Type="Bec.TargetFramework.SB.Data.ClassificationTypeCategory" Multiplicity="1" />
+          <End Role="ClassificationTypes_ClassificationTypeCategoryID" Type="Bec.TargetFramework.SB.Data.ClassificationType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationTypeCategory_ClassificationTypeCategoryID">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Principal>
+            <Dependent Role="ClassificationTypes_ClassificationTypeCategoryID">
+              <PropertyRef Name="ClassificationTypeCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusMessageContent_BusMessage" ed:Guid="1c5842d2-7afe-4744-8bc1-8beaafb8ef71">
+          <End Role="BusMessage" Type="Bec.TargetFramework.SB.Data.BusMessage" Multiplicity="1" />
+          <End Role="BusMessageContents" Type="Bec.TargetFramework.SB.Data.BusMessageContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusMessage">
+              <PropertyRef Name="BusMessageID" />
+            </Principal>
+            <Dependent Role="BusMessageContents">
+              <PropertyRef Name="BusMessageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- MSL content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TargetFrameworkCoreEntitiesStoreContainer" CdmEntityContainer="TargetFrameworkCoreEntities">
+          <EntitySetMapping Name="BusTaskHandlers">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusTaskHandler">
+              <MappingFragment StoreEntitySet="BusTaskHandlers">
+                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ObjectTypeName" ColumnName="ObjectTypeName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ObjectTypeAssembly" ColumnName="ObjectTypeAssembly" />
+                <ScalarProperty Name="MessageTypeName" ColumnName="MessageTypeName" />
+                <ScalarProperty Name="MessageTypeAssembly" ColumnName="MessageTypeAssembly" />
+                <ScalarProperty Name="HandlerMessageTypeName" ColumnName="HandlerMessageTypeName" />
+                <ScalarProperty Name="HandlerMessageTypeAssembly" ColumnName="HandlerMessageTypeAssembly" />
+                <ScalarProperty Name="IsHandlerBasedTask" ColumnName="IsHandlerBasedTask" />
+                <ScalarProperty Name="NumberOfRetries" ColumnName="NumberOfRetries" />
+                <ScalarProperty Name="TaskDataHasExpiry" ColumnName="TaskDataHasExpiry" />
+                <ScalarProperty Name="TaskDataExpiryPeriodUnitID" ColumnName="TaskDataExpiryPeriodUnitID" />
+                <ScalarProperty Name="TaskDataExpiryPeriod" ColumnName="TaskDataExpiryPeriod" />
+                <ScalarProperty Name="DefaultProcessDataTypeID" ColumnName="DefaultProcessDataTypeID" />
+                <ScalarProperty Name="DefaultProcessDataCategoryID" ColumnName="DefaultProcessDataCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusTasks">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusTask">
+              <MappingFragment StoreEntitySet="BusTasks">
+                <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
+                <ScalarProperty Name="BusTaskVersionNumber" ColumnName="BusTaskVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusMessages">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusMessage">
+              <MappingFragment StoreEntitySet="BusMessages">
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+                <ScalarProperty Name="CorrelationId" ColumnName="CorrelationId" />
+                <ScalarProperty Name="BusMessageID" ColumnName="BusMessageID" />
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="SentOn" ColumnName="SentOn" />
+                <ScalarProperty Name="EnclosedMessageTypes" ColumnName="EnclosedMessageTypes" />
+                <ScalarProperty Name="WinIdName" ColumnName="WinIdName" />
+                <ScalarProperty Name="ProcessingMachine" ColumnName="ProcessingMachine" />
+                <ScalarProperty Name="ProcessingStarted" ColumnName="ProcessingStarted" />
+                <ScalarProperty Name="BusMessageTypeID" ColumnName="BusMessageTypeID" />
+                <ScalarProperty Name="MessageSentFrom" ColumnName="MessageSentFrom" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="EventReference" ColumnName="EventReference" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusTaskSchedules">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusTaskSchedule">
+              <MappingFragment StoreEntitySet="BusTaskSchedules">
+                <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
+                <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
+                <ScalarProperty Name="IntervalInMinutes" ColumnName="IntervalInMinutes" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BusTaskVersionNumber" ColumnName="BusTaskVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeTemplates">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeTemplate">
+              <MappingFragment StoreEntitySet="StatusTypeTemplates">
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusType">
+              <MappingFragment StoreEntitySet="StatusTypes">
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusMessageProcessLogs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusMessageProcessLog">
+              <MappingFragment StoreEntitySet="BusMessageProcessLogs">
+                <ScalarProperty Name="BusMessageID" ColumnName="BusMessageID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="BusMessageProcessLogID" ColumnName="BusMessageProcessLogID" />
+                <ScalarProperty Name="ProcessDetail" ColumnName="ProcessDetail" />
+                <ScalarProperty Name="ProcessMessage" ColumnName="ProcessMessage" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="BusMessageSubscriber" ColumnName="BusMessageSubscriber" />
+                <ScalarProperty Name="BusMessageHandler" ColumnName="BusMessageHandler" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="HasError" ColumnName="HasError" />
+                <ScalarProperty Name="NumberOfRetries" ColumnName="NumberOfRetries" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeValueTemplates">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeValueTemplate">
+              <MappingFragment StoreEntitySet="StatusTypeValueTemplates">
+                <ScalarProperty Name="StatusTypeValueTemplateID" ColumnName="StatusTypeValueTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeStructureTemplates">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeStructureTemplate">
+              <MappingFragment StoreEntitySet="StatusTypeStructureTemplates">
+                <ScalarProperty Name="StatusTypeStructureTemplateID" ColumnName="StatusTypeStructureTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateID" ColumnName="StatusTypeTemplateID" />
+                <ScalarProperty Name="StatusTypeTemplateVersionNumber" ColumnName="StatusTypeTemplateVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueTemplateID" ColumnName="StatusTypeValueTemplateID" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+                <ScalarProperty Name="IsStart" ColumnName="IsStart" />
+                <ScalarProperty Name="IsEnd" ColumnName="IsEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeStructureTransitionTemplates">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeStructureTransitionTemplate">
+              <MappingFragment StoreEntitySet="StatusTypeStructureTransitionTemplates">
+                <ScalarProperty Name="StatusTypeStructureTransitionTemplateID" ColumnName="StatusTypeStructureTransitionTemplateID" />
+                <ScalarProperty Name="CurrentStatusTypeStructureTemplateID" ColumnName="CurrentStatusTypeStructureTemplateID" />
+                <ScalarProperty Name="NextStatusTypeStructureTemplateID" ColumnName="NextStatusTypeStructureTemplateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeStructures">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeStructure">
+              <MappingFragment StoreEntitySet="StatusTypeStructures">
+                <ScalarProperty Name="StatusTypeStructureID" ColumnName="StatusTypeStructureID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+                <ScalarProperty Name="IsStart" ColumnName="IsStart" />
+                <ScalarProperty Name="IsEnd" ColumnName="IsEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeStructureTransitions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeStructureTransition">
+              <MappingFragment StoreEntitySet="StatusTypeStructureTransitions">
+                <ScalarProperty Name="StatusTypeStructureTransitionID" ColumnName="StatusTypeStructureTransitionID" />
+                <ScalarProperty Name="CurrentStatusTypeStructureID" ColumnName="CurrentStatusTypeStructureID" />
+                <ScalarProperty Name="NextStatusTypeStructureID" ColumnName="NextStatusTypeStructureID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypeValues">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.StatusTypeValue">
+              <MappingFragment StoreEntitySet="StatusTypeValues">
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusTaskScheduleProcessLogs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog">
+              <MappingFragment StoreEntitySet="BusTaskScheduleProcessLogs">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="HasError" ColumnName="HasError" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="ProcessMessage" ColumnName="ProcessMessage" />
+                <ScalarProperty Name="ProcessDetail" ColumnName="ProcessDetail" />
+                <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="BusTaskScheduleProcessLogID" ColumnName="BusTaskScheduleProcessLogID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="NumberOfRetries" ColumnName="NumberOfRetries" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusEventTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusEventType">
+              <MappingFragment StoreEntitySet="BusEventTypes">
+                <ScalarProperty Name="BusEventTypeID" ColumnName="BusEventTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusEvents">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusEvent">
+              <MappingFragment StoreEntitySet="BusEvents">
+                <ScalarProperty Name="BusEventID" ColumnName="BusEventID" />
+                <ScalarProperty Name="BusEventName" ColumnName="BusEventName" />
+                <ScalarProperty Name="BusEventDescription" ColumnName="BusEventDescription" />
+                <ScalarProperty Name="BusEventTypeID" ColumnName="BusEventTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusEventMessageSubscribers">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusEventMessageSubscriber">
+              <MappingFragment StoreEntitySet="BusEventMessageSubscribers">
+                <ScalarProperty Name="BusEventMessageSubscriberID" ColumnName="BusEventMessageSubscriberID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+                <ScalarProperty Name="ObjectAssembly" ColumnName="ObjectAssembly" />
+                <ScalarProperty Name="DefaultMessageSubscriberFilter" ColumnName="DefaultMessageSubscriberFilter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusEventBusEventMessageSubscribers">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusEventBusEventMessageSubscriber">
+              <MappingFragment StoreEntitySet="BusEventBusEventMessageSubscribers">
+                <ScalarProperty Name="BusEventID" ColumnName="BusEventID" />
+                <ScalarProperty Name="BusEventMessageSubscriberID" ColumnName="BusEventMessageSubscriberID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BusEventMessageSubscriberFilter" ColumnName="BusEventMessageSubscriberFilter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassificationTypeCategories">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.ClassificationTypeCategory">
+              <MappingFragment StoreEntitySet="ClassificationTypeCategories">
+                <ScalarProperty Name="ClassificationTypeCategoryID" ColumnName="ClassificationTypeCategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClassificationTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.ClassificationType">
+              <MappingFragment StoreEntitySet="ClassificationTypes">
+                <ScalarProperty Name="ClassificationTypeID" ColumnName="ClassificationTypeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ClassificationTypeCategoryID" ColumnName="ClassificationTypeCategoryID" />
+                <ScalarProperty Name="ParentClassificationTypeCategoryID" ColumnName="ParentClassificationTypeCategoryID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusMessageContents">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.BusMessageContent">
+              <MappingFragment StoreEntitySet="BusMessageContents">
+                <ScalarProperty Name="BusMessageContentID" ColumnName="BusMessageContentID" />
+                <ScalarProperty Name="BusMessageContent1" ColumnName="BusMessageContent" />
+                <ScalarProperty Name="BusMessageID" ColumnName="BusMessageID" />
+                <ScalarProperty Name="BusMessageContentType" ColumnName="BusMessageContentType" />
+                <ScalarProperty Name="BusMessageHeader" ColumnName="BusMessageHeader" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VBusTaskSchedules">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VBusTaskSchedule">
+              <MappingFragment StoreEntitySet="vBusTaskSchedules">
+                <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
+                <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
+                <ScalarProperty Name="IntervalInMinutes" ColumnName="IntervalInMinutes" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
+                <ScalarProperty Name="ObjectTypeName" ColumnName="ObjectTypeName" />
+                <ScalarProperty Name="ObjectTypeAssembly" ColumnName="ObjectTypeAssembly" />
+                <ScalarProperty Name="MessageTypeName" ColumnName="MessageTypeName" />
+                <ScalarProperty Name="MessageTypeAssembly" ColumnName="MessageTypeAssembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VStatusTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VStatusType">
+              <MappingFragment StoreEntitySet="vStatusTypes">
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusTypeName" ColumnName="StatusTypeName" />
+                <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
+                <ScalarProperty Name="IsStart" ColumnName="IsStart" />
+                <ScalarProperty Name="IsEnd" ColumnName="IsEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <edmx:Diagrams>
+      <Diagram Name="Main" />
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

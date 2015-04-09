@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             try
             {
-                bool runAsWindowsService = false;
+                bool runAsWindowsService = true;
                 
                 if (args != null && args.Length > 0)
                 {
@@ -40,33 +40,13 @@ namespace Bec.TargetFramework.SB.TaskServices
                 }
                 else
                 {
-                    string[] servicePorts = ConfigurationManager.AppSettings["ServicesNeededOnStartupPorts"].Split(',');
-
-                    bool serviceRunning = false;
-
-                    while (!serviceRunning)
-                    {
-                        try
-                        {
-                            servicePorts.ForEach(sp =>
-                                new TcpClient().Connect("localhost", int.Parse(sp)));
-
-                            serviceRunning = true;
-                        }
-                        catch (Exception)
-                        {
-                        }
-
-                        Thread.Sleep(1000);
-                    }
-
                     TaskService service = new TaskService();
 
                     try
                     {
                         service.StartService(args);
 
-                        Console.WriteLine("Press <Enter> to stop the Task Services service.");
+                        Console.WriteLine("Press <Enter> to stop the Task Services.");
                         Console.ReadLine();
 
                     }

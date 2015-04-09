@@ -13,21 +13,19 @@ using Bec.TargetFramework.Infrastructure.Serilog.Helpers;
 using System.Web.Helpers;
 using System.Security.Claims;
 using FluentValidation.Mvc;
-
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure;
 namespace Bec.TargetFramework.Presentation.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
         private void InitializeIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            IOCExtensions.BuildAndRegisterIocContainer<BEC.TargetFramework.Presentation.Web.IOC.DependencyRegistrar>();
 
-            var registrar = new BEC.TargetFramework.Presentation.Web.IOC.DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            IContainer container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            // get and register in dependencyresolver
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName)));
+            
         }
 
         protected void Application_Start()

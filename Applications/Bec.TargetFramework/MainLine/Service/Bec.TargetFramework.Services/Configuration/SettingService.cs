@@ -1,12 +1,12 @@
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+
 using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Framework;
-using Bec.TargetFramework.Framework.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure.Settings;
 
 namespace Bec.TargetFramework.Service.Configuration
 {
@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// </summary>
         private const string SETTINGS_PATTERN_KEY = "TargetFramework.setting.";
 
-        private ISettingLogic m_SettingLogic;
+        private ISettingsLogicClient m_SettingLogic;
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="cacheManager">Cache manager</param>
         /// <param name="eventPublisher">Event publisher</param>
         /// <param name="settingRepository">Setting repository</param>
-        public SettingService(ISettingLogic logic)
+        public SettingService(ISettingsLogicClient logic)
         {
             m_SettingLogic = logic;
         }

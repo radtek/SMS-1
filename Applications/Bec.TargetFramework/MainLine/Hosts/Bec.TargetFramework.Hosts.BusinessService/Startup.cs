@@ -8,7 +8,10 @@ using Bec.TargetFramework.Hosts.BusinessService.Formatters;
 using Bec.TargetFramework.Infrastructure;
 using Owin;
 using Swashbuckle.Application;
+using Autofac;
 using WebApiProxy.Server;
+using System.Web.Http.ExceptionHandling;
+using Bec.TargetFramework.Infrastructure.Log;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
@@ -18,8 +21,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             var config = new HttpConfiguration();
 
-            config.Formatters.RemoveAt(0);
-            config.Formatters.Insert(0, new JilMediaTypeFormatter());
+            // TBC fix issue with Jil for de-serializing NotificationDTO
+            //config.Formatters.RemoveAt(0);
+            //config.Formatters.Insert(0, new JilFormatter());
 
             config.MapHttpAttributeRoutes();
 
@@ -33,11 +37,27 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             config.EnableSwagger(c => c.SingleApiVersion("v1","BEF Business Services"))
                 .EnableSwaggerUi();
 
+            config.Services.Add(typeof(IExceptionLogger), new TraceExceptionLogger());
+
             app.UseWebApi(config);
 
             var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
             app.UseAutofacMiddleware(iocContainer);
+        }
+
+        public class TraceExceptionLogger : ExceptionLogger
+        {
+            public override void Log(ExceptionLoggerContext context)
+            {
+                var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+
+                var logger = iocContainer.Resolve<ILogger>();
+
+
+                logger.Error(context.Exception);
+
+            }
         }
     }
 }

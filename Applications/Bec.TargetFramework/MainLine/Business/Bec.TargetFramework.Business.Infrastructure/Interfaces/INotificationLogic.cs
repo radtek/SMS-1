@@ -33,8 +33,10 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
 
          [OperationContract]
         NotificationConstructDTO GetNotificationConstruct(Guid organisationNotificationConstructID, int version);
-         [OperationContract]
-         List<VDefaultEmailAddressDTO> GetRecipientAddressDetails(List<NotificationRecipientDTO> recipients );
+
+          [OperationContract]
+         VDefaultEmailAddressDTO RecipientAddressDetail(Guid? organisationID,Guid? userAccountOrganisationID);
+
           [OperationContract]
          VNotificationConstructDTO GetNotificationConstructViewData(Guid organisationNotificationConstructID, int versionNumber);
           [OperationContract]

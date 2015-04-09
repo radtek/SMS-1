@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Framework.Configuration;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Handlers.Base;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Messages.Commands;
-using Bec.TargetFramework.SB.Infrastructure.Extensions;
 using Bec.TargetFramework.Security;
 using EnsureThat;
 using NServiceBus;
+using Bec.TargetFramework.SB.Entities;
+using Bec.TargetFramework.Infrastructure.Settings;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
 {
@@ -25,14 +25,21 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
         private IUserLogic m_UserLogic;
 
         private INotificationLogic m_NotificationLogic { get; set; }
-        private INotificationDataService m_NotificationDataService { get; set; }
+        //private INotificationDataService m_NotificationDataService { get; set; }
 
-        public UserNotLoggedInScheduledTask(ILogger logger,IBusLogic bLogic, IUserLogic uLogic,INotificationDataService ndLogic,INotificationLogic nLogic,CommonSettings commonSettings)
-            : base(logger, bLogic, commonSettings)
+        private CommonSettings m_CommonSettings { get; set; }
+
+        public UserNotLoggedInScheduledTask(ILogger logger,
+            SB.Interfaces.IBusLogicClient bLogic,
+            IUserLogic uLogic,
+            INotificationLogic nLogic,
+            CommonSettings commonSettings, SBSettings settings,IEventPublishClient publishClient)
+            : base(logger, bLogic, settings, publishClient)
         {
             m_UserLogic = uLogic;
             m_NotificationLogic = nLogic;
-            m_NotificationDataService = ndLogic;
+           // m_NotificationDataService = ndLogic;
+            m_CommonSettings = commonSettings;
         }
 
         public override void HandleMessage(TestTaskHandlerMessage message)
@@ -53,7 +60,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
                             // if no reminders sent then send one
                             if (s.COLPRemindersNotReadBetween7and14Days.GetValueOrDefault(0).Equals(0))
                             {
-                                
+
 
                                 if (string.IsNullOrEmpty(s.LoginWorkflowDataContent))
                                     m_Logger.Info("User " + s.Username + " has no login workflow");
@@ -67,11 +74,11 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
                                                 p.UserTypeID.Equals(userTypeGuid)).First()
                                         .UserAccountOrganisationID;
 
-                                    SendReminder(s,uaoID);
+                                    SendReminder(s, uaoID);
                                 }
-                                   
+
                             }
-                                
+
                         });
 
                     // 14 - 21
@@ -102,8 +109,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
                         .ToList()
                         .ForEach(s =>
                         {
-                            if(string.IsNullOrEmpty(s.LoginWorkflowDataContent))
-                                m_Logger.Info("User "+ s.Username + " has no login workflow");
+                            if (string.IsNullOrEmpty(s.LoginWorkflowDataContent))
+                                m_Logger.Info("User " + s.Username + " has no login workflow");
                             else
                             {
                                 var uaoID =
@@ -131,7 +138,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
             }
 
             // get all users
-            
+
         }
 
         private void ResetPassword(VUserAccountNotLoggedInDTO notLoggedIn, Guid uaoID)
@@ -151,20 +158,20 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
             try
             {
                 // rest password so cannot login thus preventing access
-                m_UserLogic.ResetUserPassword(temporaryAccountDto.TemporaryUserId,newPassword);
+                m_UserLogic.ResetUserPassword(temporaryAccountDto.TemporaryUserId, newPassword);
             }
             catch (Exception)
             {
                 // reset password back
-                m_UserLogic.ResetUserPassword(temporaryAccountDto.TemporaryUserId,oldPassword);
-                
+                m_UserLogic.ResetUserPassword(temporaryAccountDto.TemporaryUserId, oldPassword);
+
                 throw;
             }
 
-           
+
         }
 
-        private void SendReminder(VUserAccountNotLoggedInDTO notLoggedIn,Guid uaoID)
+        private void SendReminder(VUserAccountNotLoggedInDTO notLoggedIn, Guid uaoID)
         {
             var workflowStateBaseDto =
                 JsonHelper.DeserializeData<WorkflowStateBaseDTO>(notLoggedIn.LoginWorkflowDataContent);
@@ -174,17 +181,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.ScheduledTaskHandlers
 
             var registrationDto = workflowStateBaseDto.WorkflowDictionaryDto.WorkflowDictionary[WorkflowDataEnum.RegistrationData.GetStringValue()] as RegistrationDTO;
 
-            Bus.SendNotificationToUserViaUAO<UserNotLoggedInScheduledTask>(m_NotificationLogic,
-                m_CommonSettings,
-                NotificationConstructEnum.ColpRegistration.GetStringValue(),
-                uaoID,
-                new NotificationDictionaryDTO { NotificationDictionary = workflowStateBaseDto.WorkflowDictionaryDto.WorkflowDictionary }
-                );
+            //Bus.SendNotificationToUserViaUAO<UserNotLoggedInScheduledTask>(m_NotificationLogic,
+            //    m_CommonSettings,
+            //    NotificationConstructEnum.ColpRegistration.GetStringValue(),
+            //    uaoID,
+            //    new NotificationDictionaryDTO { NotificationDictionary = workflowStateBaseDto.WorkflowDictionaryDto.WorkflowDictionary }
+            //    );
         }
     }
 
     public class TestTaskHandlerMessage : IEvent
     {
-        
+
     }
 }

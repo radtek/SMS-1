@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
-using Bec.TargetFramework.Framework.Configuration;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.Settings;
 using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;

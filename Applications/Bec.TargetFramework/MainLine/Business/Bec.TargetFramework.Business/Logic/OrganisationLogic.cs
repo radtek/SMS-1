@@ -21,12 +21,13 @@ using Bec.TargetFramework.Data.Infrastructure.Specifications;
 using System.Linq.Expressions;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using System.Data.Entity.Core.Objects;
-using Bec.TargetFramework.Framework.Configuration;
+
 
 namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
     using EnsureThat;
+    using Bec.TargetFramework.Infrastructure.Settings;
     //Bec.TargetFramework.Entities
 
     [Trace(TraceExceptionsOnly = true)]

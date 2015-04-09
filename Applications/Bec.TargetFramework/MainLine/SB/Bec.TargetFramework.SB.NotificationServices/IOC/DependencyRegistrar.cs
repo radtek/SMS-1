@@ -1,5 +1,8 @@
-﻿using Bec.TargetFramework.Infrastructure;
+﻿using System.Drawing.Text;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
+using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Infrastructure;
 using Seq;
 
@@ -21,9 +24,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
     using Autofac.Core;
     using System.Collections.Generic;
     using Autofac.Builder;
-    using Bec.TargetFramework.Framework.Configuration;
-    using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
-    using Bec.TargetFramework.Framework.Infrastructure;
     using Bec.TargetFramework.SB.NotificationServices.Controllers;
     using Bec.TargetFramework.SB.NotificationServices.Report;
     using Bec.TargetFramework.Service.Configuration;
@@ -35,6 +35,10 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
     using NServiceBus;
     using NServiceBus.Installation.Environments;
     using Bec.TargetFramework.Infrastructure.Helpers;
+    using Bec.TargetFramework.SB.Client.Clients;
+    using Bec.TargetFramework.SB.Interfaces;
+    using Bec.TargetFramework.Infrastructure.IOC;
+    using Bec.TargetFramework.Infrastructure.Settings;
 
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
@@ -44,20 +48,21 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
         /// <summary>
         /// Starts the IOC Container
         /// </summary>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public virtual void Register(ContainerBuilder builder)
         {
-            // register logger
-            builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>();
-            builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
-            builder.Register(c => new SerilogLogger(true, false, "NotificationService")).As<ILogger>().SingleInstance();
+            builder.Register(c => new SerilogLogger(true, false, "TaskService")).As<ILogger>().SingleInstance();
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
-            builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
+        
+            builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
+                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
 
-            RegisterService<ISettingLogic>(builder, BuildBaseUrlForServices("SettingLogicService"));
-            builder.Register(c => new SettingService(c.Resolve<ISettingLogic>())).As<SettingService>();
+            builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
+                ConfigurationManager.AppSettings["SBServiceBaseURL"]);
+
+            builder.Register(c => new SettingService(c.Resolve<ISettingsLogicClient>())).As<SettingService>();
 
             var type = typeof(ISettings);
-            AppDomain.CurrentDomain.GetAssemblies().Where(it => it.FullName.StartsWith("Bec.TargetFramework"))
+            AllAssemblies.Matching("Bec.TargetFramework")
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
                 .ToList().ForEach(item =>
@@ -65,75 +70,21 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
                     builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
                 });
 
-            RegisterService<IAddressLogic>(builder, BuildBaseUrlForServices("AddressLogicService"));
-            RegisterService<IUserLogic>(builder, BuildBaseUrlForServices("UserLogicService"));
-            RegisterService<IUserAccountAuditLogic>(builder, BuildBaseUrlForServices("UserAccountAuditLogicService"));
-            RegisterService<IStateLogic>(builder, BuildBaseUrlForServices("StateLogicService"));
-            RegisterService<IRoleLogic>(builder, BuildBaseUrlForServices("RoleLogicService"));
-            RegisterService<IResourceLogic>(builder, BuildBaseUrlForServices("ResourceLogicService"));
-            RegisterService<IOrganisationUserStateTemplateLogic>(builder, BuildBaseUrlForServices("OrganisationUserStateTemplateLogicService"));
-            RegisterService<IOperationLogic>(builder, BuildBaseUrlForServices("OperationLogicService"));
-            RegisterService<IGroupLogic>(builder, BuildBaseUrlForServices("GroupLogicService"));
-            RegisterService<IClassificationDataLogic>(builder, BuildBaseUrlForServices("ClassificationDataLogicService"));
-            RegisterService<IOrganisationLogic>(builder, BuildBaseUrlForServices("OrganisationLogicService"));
-            RegisterService<IProductLogic>(builder, BuildBaseUrlForServices("ProductLogicService"));
-            RegisterService<IShoppingCartLogic>(builder, BuildBaseUrlForServices("ShoppingCartLogicService"));
-            RegisterService<ITransactionOrderLogic>(builder, BuildBaseUrlForServices("TransactionOrderLogicService"));
-            RegisterService<IPaymentLogic>(builder, BuildBaseUrlForServices("PaymentLogicService"));
-            RegisterService<INotificationLogic>(builder, BuildBaseUrlForServices("NotificationLogicService"));
-            RegisterService<IBusLogic>(builder, BuildBaseUrlForServices("BusLogicService"));
-            RegisterService<IInvoiceLogic>(builder, BuildBaseUrlForServices("InvoiceLogicService"));
-            RegisterService<ITaskLogic>(builder, BuildBaseUrlForServices("TaskLogicService"));
-            RegisterService<IDataLogic>(builder, BuildBaseUrlForServices("DataLogicService"));
+            builder.Register(c => new StandaloneReportGenerator(c.Resolve<IClassificationDataLogicClient>())).As<StandaloneReportGenerator>();
 
-
-            builder.Register(c => new StandaloneReportGenerator(c.Resolve<IClassificationDataLogic>())).As<StandaloneReportGenerator>();
         }
 
-        private string BuildBaseUrlForServices(string serviceName)
+        private void RegisterProxyClients(ContainerBuilder builder, string proxyClientName, string url)
         {
-            string baseUrl = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
-
-            return baseUrl + serviceName;
-        }
-
-        private void RegisterService<T>(ContainerBuilder builder, string url)
-        {
-            builder.Register(c => new ChannelFactory<T>(
-                 Bec.TargetFramework.Infrastructure.WCF.NetTcpBindingConfiguration.GetDefaultNetTcpBinding(),
-                 new EndpointAddress(url)))
-                 .SingleInstance();
-
-            builder.Register(c => c.Resolve<ChannelFactory<T>>().CreateChannel())
-              .UseWcfSafeRelease();
-        }
-
-        public int Order
-        {
-            get { return 2; }
+             Assembly.Load(proxyClientName).GetTypes()
+                .Where(p => p.Name.EndsWith("Client") && !p.IsInterface)
+                .ToList().ForEach(item =>
+                    {
+                        var typeInstance = Activator.CreateInstance(item, new object[] { url });
+                        var typeInterface = item.GetInterface("I" + item.Name);
+                        builder.RegisterInstance(typeInstance).As(typeInterface);
+                    });
         }
     }
 
-
-
-    public class SettingsSource : IRegistrationSource
-    {
-        static readonly MethodInfo BuildMethod = typeof(SettingsSource).GetMethod(
-            "BuildRegistration",
-            BindingFlags.Static | BindingFlags.NonPublic);
-
-        public IEnumerable<IComponentRegistration> RegistrationsFor(
-                Service service,
-                Func<Service, IEnumerable<IComponentRegistration>> registrations)
-        {
-            var ts = service as TypedService;
-            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
-            {
-                var buildMethod = BuildMethod.MakeGenericMethod(ts.ServiceType);
-                yield return (IComponentRegistration)buildMethod.Invoke(null, null);
-            }
-        }
-
-        public bool IsAdapterForIndividualComponents { get { return false; } }
-    }
 }

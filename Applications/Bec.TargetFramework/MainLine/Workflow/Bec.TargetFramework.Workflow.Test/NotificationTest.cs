@@ -16,7 +16,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using NServiceBus.Serilog.Tracing;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Entities.Enums;
@@ -27,7 +26,7 @@ namespace Bec.TargetFramework.Workflow.Test
     using System.Text.RegularExpressions;
     using System.Web.Script.Serialization;
 
-    using Bec.TargetFramework.Framework.Configuration;
+
     
     using Bec.TargetFramework.SB.Messages.Commands;
     using Bec.TargetFramework.SB.NotificationServices.Report;
@@ -55,21 +54,21 @@ namespace Bec.TargetFramework.Workflow.Test
             // wait for all services to load
             
             
-            ContainerBuilder builder = new ContainerBuilder();
+         //   ContainerBuilder builder = new ContainerBuilder();
 
-            var registrar = new DependencyRegistrar();
+         //   var registrar = new DependencyRegistrar();
 
-            registrar.Register(builder, null);
+          //  registrar.Register(builder, null);
 
-            m_IocContainer = builder.Build();
+          //  m_IocContainer = builder.Build();
 
-            m_NotificationLogic = m_IocContainer.Resolve<INotificationLogic>();
+          //  m_NotificationLogic = m_IocContainer.Resolve<INotificationLogic>();
 
-            INotificationDataService services = m_IocContainer.Resolve<INotificationDataService>();
+           // INotificationDataService services = m_IocContainer.Resolve<INotificationDataService>();
 
             //var data1 = services.GetNotificationData(Guid.Parse("36149692-3e90-11e4-9c84-d7289f4b389c"));
 
-            TracingLog.Disable();
+
 
             
 

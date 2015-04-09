@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,11 +7,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Serilog;
+using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Infrastructure;
-using NServiceBus.Serilog.Tracing;
 using Task = System.Threading.Tasks.Task;
+using NServiceBus.Serilog.Tracing;
 
 namespace Bec.TargetFramework.SB.NotificationServices
 {
@@ -31,13 +35,16 @@ namespace Bec.TargetFramework.SB.NotificationServices
     using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.Log;
     using Bec.TargetFramework.Infrastructure;
+    using NServiceBus.Serilog;
+    using Bec.TargetFramework.Entities;
+    using NServiceBus.Logging;
+    using Bec.TargetFramework.Infrastructure.IOC;
+    using Bec.TargetFramework.SB.Messages.Events;
 
 
 
     partial class NotificationService : ServiceBase
     {
-        private List<ServiceHost> m_ServiceHosts { get; set; }
-
         public static Autofac.IContainer m_IocContainer { get; set; }
 
         private static IBus m_Bus;
@@ -54,47 +61,61 @@ namespace Bec.TargetFramework.SB.NotificationServices
 
         private void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            IOCExtensions.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
-            var registrar = new DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            builder.Register(c => new NotificationDataService(c.Resolve<ILogger>(),c.Resolve<INotificationLogic>())).As<INotificationDataService>();
-
-            m_IocContainer = builder.Build();
-
-            var nLogic = m_IocContainer.Resolve<INotificationLogic>();
-
-//            Task.Factory.StartNew(() =>
-//            {
-//                TracingLog.Disable();
-//NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus()
-//                var startableBus = ;
-
-//                Configure.Instance.ForInstallationOn<Windows>().Install();
-
-//                SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
-
-//                m_Bus = startableBus.Start();
-//            });
+            // create default configuration
+            m_Bus = NServiceBus.Bus.Create(
+                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
+                ).Start();
         }
 
         public void StartService(string[] args)
         {
             eventLog.WriteEntry("Starting Service");
 
-            m_ServiceHosts = new List<ServiceHost>();
-        
             try
             {
                 InitialiseIOC();
 
-                ServiceHost host = new ServiceHost(typeof(NotificationDataService));
-                host.AddDependencyInjectionBehavior(typeof(INotificationDataService), m_IocContainer);
-                host.Open();
+                Thread.Sleep(10000);
 
-                m_ServiceHosts.Add(host);
+                using (var proxy = m_IocContainer.Resolve<IEventPublishClient>())
+                {
+                    var tempAccountDto = new TemporaryAccountDTO
+                    {
+                        EmailAddress = "c.misson@beconsultancy.co.uk",
+                        UserName = "test",
+                        Password = "test",
+                        AccountExpiry = DateTime.Now.AddDays(5),
+                        UserAccountOrganisationID = Guid.Parse("3ac48762-d867-11e4-a114-00155d0a1426")
+                    };
+
+                    var orgWithAdmin = new VOrganisationWithStatusAndAdminDTO
+                    {
+                        Name = "Test Ltd",
+                        OrganisationAdminFirstName = "Chris",
+                        OrganisationAdminLastName = "Misson",
+                        OrganisationAdminSalutation = "Mr"
+                    };
+                    var dictionary = new ConcurrentDictionary<string, object>();
+
+                    dictionary.TryAdd("TemporaryAccountDTO", tempAccountDto);
+                    dictionary.TryAdd("VOrganisationWithStatusAndAdminDTO", orgWithAdmin);
+
+                    string payLoad = JsonHelper.SerializeData(new object[] { tempAccountDto, orgWithAdmin });
+
+                    var dto = new EventPayloadDTO
+                    {
+                        EventName =  "TestEvent",
+                        EventSource = AppDomain.CurrentDomain.FriendlyName,
+                        EventReference = "1212",
+                        PayloadAsJson = payLoad
+                    };
+
+                    proxy.PublishEvent(dto);
+                }
+
+                
             }
             catch (Exception ex)
             {
@@ -110,11 +131,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
         {
             eventLog.WriteEntry("Stopping Service");
 
-            if(m_ServiceHosts != null)
-            {
-                m_ServiceHosts.ForEach(item =>
-                    item.Close());
-            }
+            StopServices();
 
             base.OnStop();
         }
@@ -123,13 +140,15 @@ namespace Bec.TargetFramework.SB.NotificationServices
         {
             eventLog.WriteEntry("Shutting Down Service");
 
-            if (m_ServiceHosts != null)
-            {
-                m_ServiceHosts.ForEach(item =>
-                    item.Close());
-            }
+            StopServices();
 
             base.OnShutdown();
+        }
+
+        private void StopServices()
+        {
+            if (m_Bus != null)
+                m_Bus.Dispose();
         }
     }
 }

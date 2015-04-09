@@ -13,13 +13,12 @@ using Bec.TargetFramework.Data.Repositories;
 using Bec.TargetFramework.Data.Infrastructure;
 using System.Web.Security;
 using System.Web.Routing;
-using Bec.TargetFramework.Web.Framework.Helpers;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
-using Bec.TargetFramework.Framework.Infrastructure;
 
 namespace Bec.TargetFramework.UI.Process.Filters
 {
     using ServiceStack.Text;
+    using Bec.TargetFramework.Entities;
+    using Bec.TargetFramework.Business.Client.Interfaces;
 
     public class PreventMultipleLoginsActionFilter : ActionFilterAttribute
     {
@@ -36,7 +35,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
 
             var container = resolver.ApplicationContainer;
 
-            var logic = container.Resolve<IUserLogic>();
+            var logic = container.Resolve<IUserLogicClient>();
 
             if (filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] != null)
             {
@@ -74,6 +73,8 @@ namespace Bec.TargetFramework.UI.Process.Filters
                     filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary { { "controller", "Login" }, { "action", "SessionExpired" }, { "area", "Account" } });
             }
+
+            logic.Dispose();
         }
     }
 
@@ -124,9 +125,10 @@ namespace Bec.TargetFramework.UI.Process.Filters
 
             var container = resolver.ApplicationContainer;
 
-            var logic = container.Resolve<IUserLogic>();
-
-            logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
+            using(var logic = container.Resolve<IUserLogicClient>())
+            {
+                logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
+            }
         }
 
     }

@@ -108,6 +108,10 @@
     <Compile Include="TargetFramework.BillingTemplate.cs" />
     <Compile Include="TargetFramework.Bucket.cs" />
     <Compile Include="TargetFramework.BucketTemplate.cs" />
+    <Compile Include="TargetFramework.BusEvent.cs" />
+    <Compile Include="TargetFramework.BusEventBusEventMessageSubscriber.cs" />
+    <Compile Include="TargetFramework.BusEventMessageSubscriber.cs" />
+    <Compile Include="TargetFramework.BusEventType.cs" />
     <Compile Include="TargetFramework.BusMessage.cs" />
     <Compile Include="TargetFramework.BusMessageContent.cs" />
     <Compile Include="TargetFramework.BusMessageProcessLog.cs" />
@@ -439,9 +443,6 @@
     <Compile Include="TargetFramework.TaxRate.cs" />
     <Compile Include="TargetFramework.TaxRateTemplate.cs" />
     <Compile Include="TargetFramework.Tenant.cs" />
-    <Compile Include="TargetFramework.TFEvent.cs" />
-    <Compile Include="TargetFramework.TFEventMessageSubscriber.cs" />
-    <Compile Include="TargetFramework.TFEventType.cs" />
     <Compile Include="TargetFramework.Timeoutentity.cs" />
     <Compile Include="TargetFramework.TransactionLevelComponent.cs" />
     <Compile Include="TargetFramework.TransactionLevelComponentTemplate.cs" />

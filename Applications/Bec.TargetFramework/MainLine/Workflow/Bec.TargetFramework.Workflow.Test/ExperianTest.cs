@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.Workflow.Test
     using System.Text.RegularExpressions;
     using System.Web.Script.Serialization;
 
-    using Bec.TargetFramework.Framework.Configuration;
+  
 
     using Bec.TargetFramework.SB.Messages.Commands;
     using Bec.TargetFramework.SB.NotificationServices.Report;
@@ -69,49 +69,49 @@ namespace Bec.TargetFramework.Workflow.Test
         public ExperianTest()
         {
             // wait for all services to load
-            System.Threading.Thread.Sleep(30000);
+            //System.Threading.Thread.Sleep(30000);
             
-            ContainerBuilder builder = new ContainerBuilder();
+            //ContainerBuilder builder = new ContainerBuilder();
 
-            var registrar = new DependencyRegistrar();
+            //var registrar = new DependencyRegistrar();
 
-            registrar.Register(builder, null);
+            //registrar.Register(builder, null);
 
-            m_IocContainer = builder.Build();
+            //m_IocContainer = builder.Build();
 
-            var experianLogic = m_IocContainer.Resolve<IExperianIDCheckLogic>();
+            //var experianLogic = m_IocContainer.Resolve<IExperianIDCheckLogic>();
 
-            var search = new Bec.TargetFramework.Entities.Experian.Search();
+            //var search = new Bec.TargetFramework.Entities.Experian.Search();
 
-            search.CountryCode = "GBR";
-            search.Addresses = new Bec.TargetFramework.Entities.Experian.SearchAddresses();
-            search.Addresses.Address = new Bec.TargetFramework.Entities.Experian.SearchAddressesAddress();
-            search.Addresses.Address.CountryCode = "GBR";
-            search.Addresses.Address.Premise = "134";
-            search.Addresses.Address.Postcode = "BN271JQ";
-            search.Person = new Bec.TargetFramework.Entities.Experian.SearchPerson();
-            search.Person.DateOfBirth = DateTime.Parse("15/06/1980");
-            search.Person.Gender = "M";
-            search.Person.Name = new Bec.TargetFramework.Entities.Experian.SearchPersonName();
-            search.Person.Name.Forename = "Bharat";
-            search.Person.Name.Surname = "Nave";
-            search.Person.Name.Title = "Mr";
-            search.Orders = new Bec.TargetFramework.Entities.Experian.SearchOrders();
-            search.Orders.Order = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrder();
-            search.Orders.Order.Payment = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPayment();
-            search.Orders.Order.Payment.Cards = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPaymentCards();
-            search.Orders.Order.Payment.Cards.Card = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPaymentCardsCard();
-            search.Orders.Order.Payment.Cards.Card.Number = "4844400123456265";
-            search.Orders.Order.Payment.Cards.Card.ExpiresEnd = 1215;
+            //search.CountryCode = "GBR";
+            //search.Addresses = new Bec.TargetFramework.Entities.Experian.SearchAddresses();
+            //search.Addresses.Address = new Bec.TargetFramework.Entities.Experian.SearchAddressesAddress();
+            //search.Addresses.Address.CountryCode = "GBR";
+            //search.Addresses.Address.Premise = "134";
+            //search.Addresses.Address.Postcode = "BN271JQ";
+            //search.Person = new Bec.TargetFramework.Entities.Experian.SearchPerson();
+            //search.Person.DateOfBirth = DateTime.Parse("15/06/1980");
+            //search.Person.Gender = "M";
+            //search.Person.Name = new Bec.TargetFramework.Entities.Experian.SearchPersonName();
+            //search.Person.Name.Forename = "Bharat";
+            //search.Person.Name.Surname = "Nave";
+            //search.Person.Name.Title = "Mr";
+            //search.Orders = new Bec.TargetFramework.Entities.Experian.SearchOrders();
+            //search.Orders.Order = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrder();
+            //search.Orders.Order.Payment = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPayment();
+            //search.Orders.Order.Payment.Cards = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPaymentCards();
+            //search.Orders.Order.Payment.Cards.Card = new Bec.TargetFramework.Entities.Experian.SearchOrdersOrderPaymentCardsCard();
+            //search.Orders.Order.Payment.Cards.Card.Number = "4844400123456265";
+            //search.Orders.Order.Payment.Cards.Card.ExpiresEnd = 1215;
 
-            // set datablock requirement
-            search.SearchOptions = new Bec.TargetFramework.Entities.Experian.SearchSearchOptions();
-            search.SearchOptions.Datablocks = new Bec.TargetFramework.Entities.Experian.SearchSearchOptionsDatablocks();
-            //search.SearchOptions.Datablocks.DatablockCode = "CardHolder";
-            //search.SearchOptions.Datablocks.DatablockCode = "CardHolderX";
+            //// set datablock requirement
+            //search.SearchOptions = new Bec.TargetFramework.Entities.Experian.SearchSearchOptions();
+            //search.SearchOptions.Datablocks = new Bec.TargetFramework.Entities.Experian.SearchSearchOptionsDatablocks();
+            ////search.SearchOptions.Datablocks.DatablockCode = "CardHolder";
+            ////search.SearchOptions.Datablocks.DatablockCode = "CardHolderX";
       
 
-            var result = experianLogic.PerformExperianProveIDQuery(search);
+            //var result = experianLogic.PerformExperianProveIDQuery(search);
         }
 
     }

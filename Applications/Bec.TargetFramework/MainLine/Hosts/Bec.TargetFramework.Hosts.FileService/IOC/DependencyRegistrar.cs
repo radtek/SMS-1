@@ -8,8 +8,7 @@ namespace Bec.TargetFramework.Hosts.FileService.IOC
 
     using Bec.TargetFramework.Infrastructure.Log;
     using Autofac;
-    using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
-    using Bec.TargetFramework.Framework.Infrastructure;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
 
     /// <summary>
@@ -20,15 +19,11 @@ namespace Bec.TargetFramework.Hosts.FileService.IOC
         /// <summary>
         /// Starts the IOC Container
         /// </summary>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public virtual void Register(ContainerBuilder builder)
         {
             builder.Register(c => new SerilogLogger(true, false, "FileService")).As<ILogger>().SingleInstance();
         }
-        
-        public int Order
-        {
-            get { return 2; }
-        }
+
     }
 
 }

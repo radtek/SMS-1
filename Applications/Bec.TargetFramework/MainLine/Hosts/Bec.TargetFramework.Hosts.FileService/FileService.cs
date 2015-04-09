@@ -30,15 +30,15 @@ namespace Bec.TargetFramework.Hosts.FileService
 
         private void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            //ContainerBuilder builder = new ContainerBuilder();
 
-            var registrar = new Bec.TargetFramework.Hosts.FileService.IOC.DependencyRegistrar();
+            //var registrar = new Bec.TargetFramework.Hosts.FileService.IOC.DependencyRegistrar();
 
-            registrar.Register(builder, null);
+            //registrar.Register(builder, null);
 
-            builder.Register(c => new FileProcessService()).As<IFileProcessService>();
+            //builder.Register(c => new FileProcessService()).As<IFileProcessService>();
 
-            m_IocContainer = builder.Build();
+            //m_IocContainer = builder.Build();
 
         }
 

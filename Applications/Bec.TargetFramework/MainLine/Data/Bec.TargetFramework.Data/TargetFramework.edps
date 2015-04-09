@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EntityDeveloper Version="5.7.541.0">
   <ModelSettings xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" AppConnectionStringName="TargetFrameworkEntitiesConnectionString" ConnectionStringInAppConfig="True" RegenareteConnectionStringInAppConfig="False" TargetFramework="Net45" DetectTPTInheritance="True" EntityFrameworkVersion="Version6" IncludeForeignKeysInModel="true" DetectFunctionBasedColumnDefault="true">
-    <Connection ConnectionString="User Id=postgres;Password=admin;Host=bec-dev-01;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
+    <Connection ConnectionString="User Id=postgres;Password=0277922cdd;Host=bec-dev-01;Port=5433;Database=TargetFramework;Unicode=True;Persist Security Info=True;Initial Schema=public" Provider="Devart.Data.PostgreSql" />
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFramework.TargetFrameworkEntities.cs" Project="Bec.TargetFramework.Data" />
@@ -479,14 +479,11 @@
         <File Name="TargetFramework.OrganisationDirectDebitMandateProcessLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.DefaultOrganisationPaymentMethod.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.DefaultOrganisationPaymentMethodTemplate.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.TFEventType.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.TFEvent.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VGlobalAccountingCurrentPeriod.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VOrganisationFinancialStatus.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VOrganisationPaymentMethodStatus.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VInvoiceWithCurrentTransactionOrderStatus.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VPlanSubscriptionStatusWithBillingAndPaymentMethodStatus.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.TFEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VUserRoleRegulatorDetail.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VOrganisationComplianceOfficer.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VWorkflowTree.cs" Project="Bec.TargetFramework.Data" />
@@ -544,6 +541,10 @@
         <File Name="TargetFramework.WorkflowCommand.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowMainParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowMainParameter.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.BusEventType.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.BusEvent.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.BusEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" />
+        <File Name="TargetFramework.BusEventBusEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" />
         <File Name="WorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1493,10 +1494,6 @@
         <File Name="DefaultOrganisationPaymentMethodDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationPaymentMethodTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationPaymentMethodTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="TFEventTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="TFEventTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="TFEventDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="TFEventDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VGlobalAccountingCurrentPeriodDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VGlobalAccountingCurrentPeriodDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationFinancialStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1507,8 +1504,6 @@
         <File Name="VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="TFEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="TFEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VUserRoleRegulatorDetailDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VUserRoleRegulatorDetailDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationComplianceOfficerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1623,6 +1618,14 @@
         <File Name="WorkflowMainParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowMainParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowMainParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusEventTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusEventTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusEventDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusEventDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="BusEventBusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="BusEventBusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2099,14 +2102,11 @@
         <File Name="OrganisationDirectDebitMandateProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DefaultOrganisationPaymentMethodConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DefaultOrganisationPaymentMethodTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="TFEventTypeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="TFEventConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VGlobalAccountingCurrentPeriodConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VOrganisationFinancialStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VOrganisationPaymentMethodStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VInvoiceWithCurrentTransactionOrderStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="TFEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VUserRoleRegulatorDetailConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VOrganisationComplianceOfficerConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VWorkflowTreeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2164,6 +2164,10 @@
         <File Name="WorkflowCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowMainParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowMainParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="BusEventTypeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="BusEventConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="BusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
+        <File Name="BusEventBusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
       </GeneratedFiles>
     </Generation>
@@ -2321,6 +2325,24 @@
     </Templates>
     <AttributeAssemblies />
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="id" Table="public.containsagadata" Type="Column" />
+      <Exclude Name="originator" Table="public.containsagadata" Type="Column" />
+      <Exclude Name="originalmessageid" Table="public.containsagadata" Type="Column" />
+      <Exclude Name="" Table="public.containsagadata" Type="Constraint" />
+      <Exclude Name="subscriberendpoint" Table="public.subscription" Type="Column" />
+      <Exclude Name="messagetype" Table="public.subscription" Type="Column" />
+      <Exclude Name="version" Table="public.subscription" Type="Column" />
+      <Exclude Name="typename" Table="public.subscription" Type="Column" />
+      <Exclude Name="" Table="public.subscription" Type="Constraint" />
+      <Exclude Name="id" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="destination" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="sagaid" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="state" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="time" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="correlationid" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="headers" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="endpoint" Table="public.timeoutentity" Type="Column" />
+      <Exclude Name="" Table="public.timeoutentity" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -2508,6 +2530,31 @@
       <Exclude Name="IsActive" Table="public.vOrganisationComplianceOfficer" Type="Column" />
       <Exclude Name="IsDeleted" Table="public.vOrganisationComplianceOfficer" Type="Column" />
       <Exclude Name="" Table="public.vOrganisationComplianceOfficer" Type="Constraint" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Name" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationVerified" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationPinCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationPinCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Regulator" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorOther" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line1" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line2" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Town" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="County" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PostalCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminUserID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
@@ -2626,6 +2673,22 @@
       <Exclude Name="WorkflowActionStartConditionTemplate_pkey" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTemplate_WorkflowActionTemplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="WorkflowCommandID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowConditionID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowID" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowCommandCondition" Type="Column" />
+      <Exclude Name="WorkflowCommandCondition_pkey" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_Workflow" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCommand" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCondition" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="WorkflowCommandTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
+      <Exclude Name="WorkflowCommandConditionTemplate_pkey" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowCommandTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowConditionTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
       <Exclude Name="Name" Table="public.WorkflowCommandTemplates" Type="Column" />
       <Exclude Name="Description" Table="public.WorkflowCommandTemplates" Type="Column" />
       <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandTemplates" Type="Column" />
@@ -2722,6 +2785,8 @@
       <Exclude Name="UserTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountOrganisation" Type="Column" />
@@ -2750,6 +2815,8 @@
       <Exclude Name="fk_WorkflowActionCompleteConditionTemate" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartCondition_WorkflowCondition" Table="public.WorkflowActionStartCondition" Type="Constraint" />
       <Exclude Name="fk_WorkflowActionStartConditionTememplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCondition" Table="public.WorkflowCommandCondition" Type="Constraint" />
+      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowConditionTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowConditionParameter_WorkflowCondition" Table="public.WorkflowConditionParameter" Type="Constraint" />
       <Exclude Name="fk_WorkflowConditionParameter_WorkflowConditionTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
       <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowCondition" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />

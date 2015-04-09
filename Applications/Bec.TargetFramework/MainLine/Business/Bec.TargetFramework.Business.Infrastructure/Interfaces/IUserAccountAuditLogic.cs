@@ -2,7 +2,7 @@
 {
     using System.ServiceModel;
 
-    using Bec.TargetFramework.Web.Framework.Helpers;
+    using Bec.TargetFramework.Entities;
 
     [ServiceContract(Namespace = Bec.TargetFramework.Business.Infrastructure.BecTargetFrameworkBusinessServiceNamespaces.BusinessNamespace + "/UserAccountAuditLogic")]
     public interface IUserAccountAuditLogic : IBusinessLogicService

@@ -8,7 +8,6 @@ using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Entities
 {
-    using Bec.TargetFramework.Framework.Configuration;
  
     using Fabrik.Common;
 

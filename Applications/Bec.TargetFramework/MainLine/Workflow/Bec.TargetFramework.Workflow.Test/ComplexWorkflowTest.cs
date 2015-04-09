@@ -64,34 +64,34 @@ namespace Bec.TargetFramework.Workflow.Test
 
             try
             {
-                ContainerBuilder builder = new ContainerBuilder();
+                //ContainerBuilder builder = new ContainerBuilder();
 
-                var registrar = new DependencyRegistrar();
+                //var registrar = new DependencyRegistrar();
 
-                registrar.Register(builder, null);
+                //registrar.Register(builder, null);
 
-                m_IocContainer = builder.Build();
+                //m_IocContainer = builder.Build();
 
-                var genericData = new ConcurrentDictionary<string, object>();
+                //var genericData = new ConcurrentDictionary<string, object>();
 
-                genericData["MyNumber"] = 10;
+                //genericData["MyNumber"] = 10;
 
-                var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
+                //var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
 
-                var service = m_IocContainer.Resolve<IWorkflowProcessService>();
+                //var service = m_IocContainer.Resolve<IWorkflowProcessService>();
 
-                Thread.Sleep(30000);
-                // create workflow and start
-                // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
-                var dto = service.CreateAndStartWorkflowInstance(
-                    Guid.Parse("eece7982-0ce0-11e4-a20c-1f37aebf8b3e"),
-                    1,
-                    new WorkflowDictionaryDTO { WorkflowDictionary = genericData },
-                    Guid.NewGuid(),
-                    new List<UserAccountOrganisationDTO>());
-                // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+                //Thread.Sleep(30000);
+                //// create workflow and start
+                //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+                //var dto = service.CreateAndStartWorkflowInstance(
+                //    Guid.Parse("eece7982-0ce0-11e4-a20c-1f37aebf8b3e"),
+                //    1,
+                //    new WorkflowDictionaryDTO { WorkflowDictionary = genericData },
+                //    Guid.NewGuid(),
+                //    new List<UserAccountOrganisationDTO>());
+                //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
 
-                // restart
+                //// restart
                 //var restartDto = service.RestartWorkflowInstance(dto.InstanceDTO.WorkflowInstanceID, dto.InstanceDTO.ParentID);
 
             }
@@ -109,35 +109,35 @@ namespace Bec.TargetFramework.Workflow.Test
 
             try
             {
-                ContainerBuilder builder = new ContainerBuilder();
+                //ContainerBuilder builder = new ContainerBuilder();
 
-                var registrar = new DependencyRegistrar();
+                //var registrar = new DependencyRegistrar();
 
-                registrar.Register(builder, null);
+                //registrar.Register(builder, null);
 
-                m_IocContainer = builder.Build();
+                //m_IocContainer = builder.Build();
 
-                var genericData = new ConcurrentDictionary<string, object>();
+                //var genericData = new ConcurrentDictionary<string, object>();
 
-                genericData["MyNumber"] = 10;
+                //genericData["MyNumber"] = 10;
 
-                var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
+                //var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
 
-                var service = m_IocContainer.Resolve<IWorkflowProcessService>();
+                //var service = m_IocContainer.Resolve<IWorkflowProcessService>();
 
-                Thread.Sleep(15000);
-                // create workflow and start
-                // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
-                var dto = service.CreateAndStartWorkflowInstance(
-                    Guid.Parse("ba038e5c-006c-11e4-8d1e-cfad80eb14ee"),
-                    1,
-                    new WorkflowDictionaryDTO { WorkflowDictionary = genericData },
-                    Guid.NewGuid(),
-                    new List<UserAccountOrganisationDTO>());
-                // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+                //Thread.Sleep(15000);
+                //// create workflow and start
+                //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+                //var dto = service.CreateAndStartWorkflowInstance(
+                //    Guid.Parse("ba038e5c-006c-11e4-8d1e-cfad80eb14ee"),
+                //    1,
+                //    new WorkflowDictionaryDTO { WorkflowDictionary = genericData },
+                //    Guid.NewGuid(),
+                //    new List<UserAccountOrganisationDTO>());
+                //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
 
-                // restart
-                //var restartDto = service.RestartWorkflowInstance(dto.InstanceDTO.WorkflowInstanceID, dto.InstanceDTO.ParentID);
+                //// restart
+                ////var restartDto = service.RestartWorkflowInstance(dto.InstanceDTO.WorkflowInstanceID, dto.InstanceDTO.ParentID);
 
             }
             catch (System.Exception ex)
@@ -154,29 +154,29 @@ namespace Bec.TargetFramework.Workflow.Test
 
             try
             {
-                ContainerBuilder builder = new ContainerBuilder();
+               // ContainerBuilder builder = new ContainerBuilder();
 
-                var registrar = new DependencyRegistrar();
+               // var registrar = new DependencyRegistrar();
 
-                registrar.Register(builder, null);
+               // registrar.Register(builder, null);
 
-                m_IocContainer = builder.Build();
+               // m_IocContainer = builder.Build();
 
-                var genericData = new ConcurrentDictionary<string, object>(); 
+               // var genericData = new ConcurrentDictionary<string, object>(); 
 
-                genericData["MyNumber"] = 10;
+               // genericData["MyNumber"] = 10;
 
-                var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
+               // var jsonString = ServiceStack.Text.JsonSerializer.SerializeToString(genericData);
 
-                var service = m_IocContainer.Resolve<IWorkflowProcessService>();
+               // var service = m_IocContainer.Resolve<IWorkflowProcessService>();
 
-                Thread.Sleep(15000);
-                // create workflow and start
-               // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
-                var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("6c38886c-44b9-11e4-9646-43268a25b72c"), 1, new WorkflowDictionaryDTO { WorkflowDictionary = genericData }, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
-               // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+               // Thread.Sleep(15000);
+               // // create workflow and start
+               //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("0307e776-0070-11e4-9f54-dfffa1f5fab4"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+               // var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("6c38886c-44b9-11e4-9646-43268a25b72c"), 1, new WorkflowDictionaryDTO { WorkflowDictionary = genericData }, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
+               //// var dto = service.CreateAndStartWorkflowInstance(Guid.Parse("9b25fdb3-6696-43e9-bae3-1e06383f478b"), 1, jsonString, Guid.NewGuid(), new List<UserAccountOrganisationDTO>());
 
-                // restart
+               // // restart
                 //var restartDto = service.RestartWorkflowInstance(dto.InstanceDTO.WorkflowInstanceID, dto.InstanceDTO.ParentID);
 
             }

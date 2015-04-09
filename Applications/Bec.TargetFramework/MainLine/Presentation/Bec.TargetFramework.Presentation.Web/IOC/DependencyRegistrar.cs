@@ -33,11 +33,8 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
     using System.ServiceModel;
     using Autofac.Integration.Wcf;
     using System.Configuration;
- 
-    using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
-    using Bec.TargetFramework.Framework.Infrastructure;
-    using Bec.TargetFramework.Framework.Configuration;
     using Bec.TargetFramework.Service.Configuration;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
 
     /// <summary>
@@ -48,7 +45,7 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
         /// <summary>
         /// Starts the IOC Container
         /// </summary>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public virtual void Register(ContainerBuilder builder)
         {
             // disable lifycycle tracing
             ApplicationLifecycleModule.IsEnabled = false;
@@ -64,71 +61,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
 
         }
 
-        private string BuildBaseUrlForNotificationServices(string serviceName)
-        {
-            string baseUrl = ConfigurationManager.AppSettings["NotificationServiceBaseURL"];
-
-            return baseUrl + serviceName;
-        }
-
-
-        private string BuildBaseUrlForWorkflowServices(string serviceName)
-        {
-            string baseUrl = ConfigurationManager.AppSettings["WorkflowServiceBaseURL"];
-
-            return baseUrl + serviceName;
-        }
-
-        private void RegisterService<T>(ContainerBuilder builder, string url)
-        {
-            builder.Register(c => new ChannelFactory<T>(
-                Bec.TargetFramework.Infrastructure.WCF.NetTcpBindingConfiguration.GetDefaultNetTcpBinding(),
-                new EndpointAddress(url))).SingleInstance();
-
-            builder.Register(c => c.Resolve<ChannelFactory<T>>().CreateChannel()).As<T>().UseWcfSafeRelease();
-        }
-
-        public int Order
-        {
-            get { return 2; }
-        }
     }
 
-    public class SettingsSource : IRegistrationSource
-    {
-        static readonly MethodInfo BuildMethod = typeof(SettingsSource).GetMethod(
-            "BuildRegistration",
-            BindingFlags.Static | BindingFlags.NonPublic);
-
-        public IEnumerable<IComponentRegistration> RegistrationsFor(
-                Service service,
-                Func<Service, IEnumerable<IComponentRegistration>> registrations)
-        {
-            var ts = service as TypedService;
-            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
-            {
-                var buildMethod = BuildMethod.MakeGenericMethod(ts.ServiceType);
-                yield return (IComponentRegistration)buildMethod.Invoke(null, null);
-            }
-        }
-
-        static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new()
-        {
-            return RegistrationBuilder
-                .ForDelegate((c, p) =>
-                {
-                    //uncomment the code below if you want load settings per store only when you have two stores installed.
-                    //var currentStoreId = c.Resolve<IStoreService>().GetAllStores().Count > 1
-                    //    c.Resolve<IStoreContext>().CurrentStore.Id : 0;
-
-                    //although it's better to connect to your database and execute the following SQL:
-                    //DELETE FROM [Setting] WHERE [StoreId] > 0
-                    return c.Resolve<ISettingService>().LoadSetting<TSettings>();
-                })
-                .InstancePerHttpRequest()
-                .CreateRegistration();
-        }
-
-        public bool IsAdapterForIndividualComponents { get { return false; } }
-    }
 }

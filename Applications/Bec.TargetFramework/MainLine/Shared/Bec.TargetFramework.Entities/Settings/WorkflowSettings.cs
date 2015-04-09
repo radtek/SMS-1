@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Bec.TargetFramework.Infrastructure.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Framework.Configuration;
 
 namespace Bec.TargetFramework.Entities.Settings
 {

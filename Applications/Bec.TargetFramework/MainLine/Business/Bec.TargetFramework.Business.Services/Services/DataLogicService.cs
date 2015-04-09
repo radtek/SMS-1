@@ -1,6 +1,5 @@
 ﻿using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
-using Bec.TargetFramework.Framework.Configuration;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using BrockAllen.MembershipReboot;
@@ -14,6 +13,7 @@ using System.Text;
 namespace Bec.TargetFramework.Business.Services
 {
     using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+    using Bec.TargetFramework.Infrastructure.Settings;
     using Bec.TargetFramework.Infrastructure.WCF.Exception;
 
     [WcfGlobalExceptionOperationBehaviorAttribute(typeof(WcfGlobalErrorHandler))]

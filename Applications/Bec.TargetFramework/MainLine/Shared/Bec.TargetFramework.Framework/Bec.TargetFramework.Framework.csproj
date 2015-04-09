@@ -128,7 +128,6 @@
     <Compile Include="Data\DataSettingsHelper.cs" />
     <Compile Include="Data\DataSettingsManager.cs" />
     <Compile Include="Data\IDataProvider.cs" />
-    <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="Domain\Logging\ActivityLog.cs" />
     <Compile Include="Domain\Logging\ActivityLogType.cs" />
     <Compile Include="Domain\Logging\Log.cs" />
@@ -156,11 +155,6 @@
     <Compile Include="Helpers\PagingObjectHelper.cs" />
     <Compile Include="Helpers\WebUserHelper.cs" />
     <Compile Include="Infrastructure\AppDomainTypeFinder.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\AutofacRequestLifetimeHttpModule.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\ComponentLifeStyle.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\ContainerConfigurer.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\ContainerManager.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\IDependencyRegistrar.cs" />
     <Compile Include="Infrastructure\EngineContext.cs" />
     <Compile Include="Infrastructure\EventBroker.cs" />
     <Compile Include="Infrastructure\IEngine.cs" />

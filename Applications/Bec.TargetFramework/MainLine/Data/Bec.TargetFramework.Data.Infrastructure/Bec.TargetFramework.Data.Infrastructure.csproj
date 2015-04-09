@@ -242,10 +242,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Framework\Bec.TargetFramework.Framework.csproj">
-      <Project>{099954fd-7359-4209-9661-6aaea763ceae}</Project>
-      <Name>Bec.TargetFramework.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Serilog\Bec.TargetFramework.Infrastructure.Serilog.csproj">
       <Project>{47e8b5c9-9cb2-41dc-bf30-219e9682425d}</Project>
       <Name>Bec.TargetFramework.Infrastructure.Serilog</Name>

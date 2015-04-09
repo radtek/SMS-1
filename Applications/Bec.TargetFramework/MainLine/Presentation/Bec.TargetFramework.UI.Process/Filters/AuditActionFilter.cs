@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Web.Framework.Helpers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Helpers;
 using Bec.TargetFramework.UI.Process.Base;
-using Bec.TargetFramework.Framework.Infrastructure;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+using Bec.TargetFramework.Entities;
 
 namespace Bec.TargetFramework.UI.Process.Filters
 {
@@ -31,9 +30,9 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 var baseController = (ApplicationControllerBase)filterContext.Controller;
 
                 //TODO Need to provide ChannelFactory for this
-                var auditLogic = EngineContext.Current.Resolve<IUserAccountAuditLogic>();
+                //var auditLogic = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserAccountAuditLogicClient>();
 
-                auditLogic.CreateAndSaveAudit(webUser, SerializeRequest(request));
+                //auditLogic.CreateAndSaveAudit(webUser, SerializeRequest(request));
             }
 
             base.OnActionExecuting(filterContext);

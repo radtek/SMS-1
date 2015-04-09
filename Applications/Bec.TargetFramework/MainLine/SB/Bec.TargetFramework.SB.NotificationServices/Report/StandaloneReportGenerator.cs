@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using EnsureThat;
 //Bec.TargetFramework.Entities
 
@@ -30,12 +31,12 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
 
     public sealed class StandaloneReportGenerator
     {
-        private IClassificationDataLogic m_CLogic;
+        private IClassificationDataLogicClient m_CLogic;
         private NotificationConstructDTO m_NotificationDTO;
         private List<NotificationRenderObjectDTO> m_BusinessObjects; 
         private NotificationDictionaryDTO m_NotificationDictionary;
 
-        public StandaloneReportGenerator(IClassificationDataLogic cLogic)
+        public StandaloneReportGenerator(IClassificationDataLogicClient cLogic)
         {
             m_CLogic = cLogic;
         }

@@ -23,102 +23,102 @@ using EnsureThat;
 namespace Bec.TargetFramework.SB.NotificationServices.Service
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "NotificationDataService" in both code and config file together.
-    [WcfGlobalExceptionOperationBehaviorAttribute(typeof(WcfGlobalErrorHandler))]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class NotificationDataService : INotificationDataService
-    {
-        private ILogger m_Logger;
-        private INotificationLogic m_Logic;
+    //[WcfGlobalExceptionOperationBehaviorAttribute(typeof(WcfGlobalErrorHandler))]
+    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    //public class NotificationDataService : INotificationDataService
+    //{
+    //    private ILogger m_Logger;
+    //    private INotificationLogic m_Logic;
 
-        public NotificationDataService(ILogger logger,INotificationLogic logic)
-        {
-            m_Logger = logger;
-            m_Logic = logic;
-        }
+    //    public NotificationDataService(ILogger logger,INotificationLogic logic)
+    //    {
+    //        m_Logger = logger;
+    //        m_Logic = logic;
+    //    }
 
-        public byte[] GenerateNotificationOutputFromNotificationID(Guid notificationID)
-        {
-            Ensure.That(notificationID.Equals(Guid.Empty)).IsFalse();
+    //    public byte[] GenerateNotificationOutputFromNotificationID(Guid notificationID)
+    //    {
+    //        Ensure.That(notificationID.Equals(Guid.Empty)).IsFalse();
 
-            byte[] data = null;
+    //        byte[] data = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
-            {
-                var notification = scope.DbContext.Notifications.Single(s => s.NotificationID.Equals(notificationID));
+    //        using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
+    //        {
+    //            var notification = scope.DbContext.Notifications.Single(s => s.NotificationID.Equals(notificationID));
 
-                var constructDto = m_Logic.GetNotificationConstruct(notification.NotificationConstructID,notification.NotificationConstructVersionNumber);
-                StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
+    //            var constructDto = m_Logic.GetNotificationConstruct(notification.NotificationConstructID,notification.NotificationConstructVersionNumber);
+    //            StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
 
-                data = generator.GenerateReport(constructDto,JsonHelper.DeserializeData<NotificationDictionaryDTO>( notification.NotificationData));
-            }
+    //            data = generator.GenerateReport(constructDto,JsonHelper.DeserializeData<NotificationDictionaryDTO>( notification.NotificationData));
+    //        }
 
-            return data;
-        }
+    //        return data;
+    //    }
 
-        public byte[] GenericNotificationtOutputFromNotificationConstruct(Guid notificationConstructID, int notificationConstructVersionNumber, NotificationDictionaryDTO dto, NotificationExportFormatIDEnum exportFormatEnumValue)
-        {
-            Ensure.That(notificationConstructID.Equals(Guid.Empty)).IsFalse();
+    //    public byte[] GenericNotificationtOutputFromNotificationConstruct(Guid notificationConstructID, int notificationConstructVersionNumber, NotificationDictionaryDTO dto, NotificationExportFormatIDEnum exportFormatEnumValue)
+    //    {
+    //        Ensure.That(notificationConstructID.Equals(Guid.Empty)).IsFalse();
 
-            byte[] data = null;
+    //        byte[] data = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
-            {
-                var constructDto = m_Logic.GetNotificationConstruct(notificationConstructID, notificationConstructVersionNumber);
+    //        using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
+    //        {
+    //            var constructDto = m_Logic.GetNotificationConstruct(notificationConstructID, notificationConstructVersionNumber);
 
-                // determine whether has mutator
-                if (!string.IsNullOrEmpty(constructDto.NotificationConstructMutatorObjectType))
-                {
-                    // create mutator and execute
-                    Type mutatorType = Type.GetType(constructDto.NotificationConstructMutatorObjectType, false);
+    //            // determine whether has mutator
+    //            if (!string.IsNullOrEmpty(constructDto.NotificationConstructMutatorObjectType))
+    //            {
+    //                // create mutator and execute
+    //                Type mutatorType = Type.GetType(constructDto.NotificationConstructMutatorObjectType, false);
 
-                    Ensure.That(mutatorType).IsNotNull();
+    //                Ensure.That(mutatorType).IsNotNull();
 
-                    BaseNotificationMutator mutator = Activator.CreateInstance(mutatorType) as BaseNotificationMutator;
+    //                BaseNotificationMutator mutator = Activator.CreateInstance(mutatorType) as BaseNotificationMutator;
 
-                    mutator.IocContainer = NotificationService.m_IocContainer;
+    //                mutator.IocContainer = NotificationService.m_IocContainer;
 
-                    // initialise main 
-                    mutator.InitialiseBase(dto);
+    //                // initialise main 
+    //                mutator.InitialiseBase(dto);
 
-                    // initialuse mutation
-                    mutator.InitialiseMutator();
+    //                // initialuse mutation
+    //                mutator.InitialiseMutator();
 
-                    // perform mutation
-                    dto = mutator.MutateNotification();
-                }
+    //                // perform mutation
+    //                dto = mutator.MutateNotification();
+    //            }
 
-                StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
+    //            StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
 
-                data = generator.GenerateReport(constructDto, dto, exportFormatEnumValue);
-            }
+    //            data = generator.GenerateReport(constructDto, dto, exportFormatEnumValue);
+    //        }
 
-            return data;
-        }
+    //        return data;
+    //    }
 
-        public NotificationRenderDTO GenerateNotificationNotCompiledOutputFromNotificationID(Guid notificationID)
-        {
-            Ensure.That(notificationID.Equals(Guid.Empty)).IsFalse();
+    //    public NotificationRenderDTO GenerateNotificationNotCompiledOutputFromNotificationID(Guid notificationID)
+    //    {
+    //        Ensure.That(notificationID.Equals(Guid.Empty)).IsFalse();
 
-            NotificationRenderDTO dto = new NotificationRenderDTO();
+    //        NotificationRenderDTO dto = new NotificationRenderDTO();
 
-            byte[] data = null;
+    //        byte[] data = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
-            {
-                var notification = scope.DbContext.Notifications.Single(s => s.NotificationID.Equals(notificationID));
+    //        using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, m_Logger))
+    //        {
+    //            var notification = scope.DbContext.Notifications.Single(s => s.NotificationID.Equals(notificationID));
 
-                var constructDto = m_Logic.GetNotificationConstruct(notification.NotificationConstructID, notification.NotificationConstructVersionNumber);
-                StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
+    //            var constructDto = m_Logic.GetNotificationConstruct(notification.NotificationConstructID, notification.NotificationConstructVersionNumber);
+    //            StandaloneReportGenerator generator = NotificationService.m_IocContainer.Resolve<StandaloneReportGenerator>();
 
-                data = generator.GenerateReportMrt(constructDto,JsonHelper.DeserializeData<NotificationDictionaryDTO>(notification.NotificationData));
+    //            data = generator.GenerateReportMrt(constructDto,JsonHelper.DeserializeData<NotificationDictionaryDTO>(notification.NotificationData));
 
-                dto.ReportTemplate = data;
-                dto.NotificationConstructDTO = constructDto;
-                dto.json = notification.NotificationData;
-                dto.BusinessObjects = generator.BusinessObjects;
-            }
+    //            dto.ReportTemplate = data;
+    //            dto.NotificationConstructDTO = constructDto;
+    //            dto.json = notification.NotificationData;
+    //            dto.BusinessObjects = generator.BusinessObjects;
+    //        }
 
-            return dto;
-        }        
-    }
+    //        return dto;
+    //    }        
+    //}
 }
