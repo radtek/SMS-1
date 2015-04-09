@@ -160,6 +160,7 @@ namespace Bec.TargetFramework.Business.Logic
                 scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
                 {
                     OrganisationID = dto.OrganisationId,
+                    Notes = dto.ContactedTelephoneNumber,
                     StatusTypeID = status.StatusTypeID,
                     StatusTypeVersionNumber = status.StatusTypeVersionNumber,
                     StatusTypeValueID = status.StatusTypeValueID,
