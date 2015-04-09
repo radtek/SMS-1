@@ -33,7 +33,8 @@ namespace Bec.TargetFramework.UI.Process.Filters
                     // For AJAX requests, we're overriding the returned JSON result with a simple string,
                     // indicating to the calling JavaScript code that a redirect should be performed.
                     filterContext.Result = new JsonResult { Data = new AjaxRequestErrorDTO { RedirectUrl = url, HasRedirectUrl = true }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-                    filterContext.HttpContext.Response.StatusCode = 418;
+                    filterContext.HttpContext.Response.StatusCode = 403;
+                    filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
                 }
                 else
                 {
