@@ -1,5 +1,5 @@
 ﻿function checkRedirect(response) {
-    if (response.HasRedirectUrl) window.location.href = response.RedirectUrl;
+    if (response && response.HasRedirectUrl) window.location.href = response.RedirectUrl;
 }
 
 function ajaxWrapper(options) {
