@@ -135,7 +135,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
                 client.GeneratePin(model);
-                return RedirectToAction("Index", new { tab = "Verified", orgID = model.OrganisationId });
+
+                TempData["VerifiedCompanyId"] = model.OrganisationId;
+                return RedirectToAction("Index");
             }
         }
     }

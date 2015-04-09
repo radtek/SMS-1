@@ -10,16 +10,16 @@
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
 
-            <ul id="myTab1" class="nav nav-tabs bordered">
-                <li class="active">
-                    <a href="#s1" data-toggle="tab"> Unverified </a>
+            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
+                <li id="tabu">
+                    <a data-target="#s1" data-toggle="tab"> Unverified </a>
                 </li>
                 <li id="tabv">
-                    <a href="#s2" data-toggle="tab"> Verified </a>
+                    <a data-target="#s2" data-toggle="tab"> Verified </a>
                 </li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
-                <div class="tab-pane fade in active" id="s1">
+                <div class="tab-pane fade in active" id="s1" role="tabpanel">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="s2">
+                <div class="tab-pane fade" id="s2" role="tabpanel">
                     <div class="row">
                         <div class="col-12">
                             <div class="well">
@@ -205,10 +205,11 @@
 </div>
 @section pagespecific {
     <script type="text/javascript">
+        var verifiedId = '@TempData["VerifiedCompanyId"]';
 
         var newCompanyId = '@TempData["AddTempCompanyId"]';
         var uSelectedItem, vSelectedItem;
-        var verifiedLoaded = false;
+        var unVerifiedLoaded = false, verifiedLoaded = false;
 
         var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Unverified})';
         var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Verified })';
@@ -216,7 +217,17 @@
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
 
-            makeUnverifiedGrid();
+            $('#myTab1 li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if ($(e.target).data('target') == '#s1') makeUnverifiedGrid();
+                if ($(e.target).data('target') == '#s2') makeVerifiedGrid();
+            });
+
+            if (verifiedId) {
+                $('#myTab1 li:eq(1) a').tab('show');
+            }
+            else {
+                $('#myTab1 li:eq(0) a').tab('show');
+            }
 
             $("#aModalAdd").on("click", function (e) {
                 e.preventDefault();
@@ -266,14 +277,11 @@
                     return false;
                 }
             });
-
-            $('#tabv').click(function () {
-                if (!verifiedLoaded) makeVerifiedGrid();
-                verifiedLoaded = true;
-            });
         });
 
         function makeUnverifiedGrid() {
+            if (unVerifiedLoaded) return;
+            unVerifiedLoaded = true;
             $("#unverifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
@@ -343,6 +351,8 @@
 
 
         function makeVerifiedGrid() {
+            if (verifiedLoaded) return;
+            verifiedLoaded = true;
             $("#verifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
@@ -416,13 +426,13 @@
         function unverifiedDataBound(e) {
             saveGridSort("unverifiedGrid");
 
-            var grid = $("#unverifiedGrid").data("kendoGrid");            
+            var grid = $("#unverifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
 
             if (newCompanyId != null && newCompanyId != "") {
                 for (var i = 0; i < gridData.length; i++) {
-                    if (newCompanyId.replace(/-/g, "") == (gridData[i].OrganisationID)) {
+                    if (newCompanyId.replace(/-/g, "") == gridData[i].OrganisationID) {
                         scrollToRow(grid, gridData[i]);
                         newCompanyId = null;
                         break;
@@ -439,7 +449,19 @@
             var grid = $("#verifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
-            scrollToRow(grid, vSelectedItem);
+
+            if (verifiedId != null && verifiedId != "") {
+                for (var i = 0; i < gridData.length; i++) {
+                    if (verifiedId.replace(/-/g, "") == gridData[i].OrganisationID) {
+                        scrollToRow(grid, gridData[i]);
+                        verifiedId = null;
+                        break;
+                    }
+                }
+            }
+            else {
+                scrollToRow(grid, vSelectedItem);
+            }
         }
 
         function unverifiedChange(e) {

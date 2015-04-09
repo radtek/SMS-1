@@ -52,7 +52,7 @@ function dateString(date) {
 }
 
 function saveGridSort(gridElementId) {
-    var sort = $("#unverifiedGrid").data("kendoGrid").getOptions().dataSource.sort;
+    var sort = $("#" + gridElementId).data("kendoGrid").getOptions().dataSource.sort;
     sessionStorage["gridSort-" + gridElementId] = JSON.stringify(sort);
 }
 
