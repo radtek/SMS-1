@@ -2325,6 +2325,49 @@
       <Exclude Name="originator" Table="public.containsagadata" Type="Column" />
       <Exclude Name="originalmessageid" Table="public.containsagadata" Type="Column" />
       <Exclude Name="" Table="public.containsagadata" Type="Constraint" />
+      <Exclude Name="NotificationConstructDataID" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationConstructID" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationConstructVersionNumber" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationData" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationDataLength" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationDataMimeType" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="NotificationDataFileName" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="IsActive" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="UsesBusinessObjects" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="UsesDataSources" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="pkNotificationConstructData" Table="public.NotificationConstructData" Type="Constraint" />
+      <Exclude Name="fk_NotificationConstructData_NotificationConstruct" Table="public.NotificationConstructData" Type="Constraint" />
+      <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsBranch" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsHeadOffice" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsActive" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsUserOrganisation" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsPaymentProvider" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PrimaryContactID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyVerified" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
+      <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="subscriberendpoint" Table="public.subscription" Type="Column" />
       <Exclude Name="messagetype" Table="public.subscription" Type="Column" />
       <Exclude Name="version" Table="public.subscription" Type="Column" />
@@ -2747,6 +2790,9 @@
       <Exclude Name="ConditionString" Table="public.WorkflowTreeStructureActionTemplate" Type="Column" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_pkey" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
       <Exclude Name="WorkflowTreeStructureActionTemplate_fk" Table="public.WorkflowTreeStructureActionTemplate" Type="Constraint" />
+      <Exclude Name="CreatedOn" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />

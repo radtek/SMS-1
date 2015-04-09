@@ -1,0 +1,49 @@
+﻿@using Bec.TargetFramework.Entities
+@model GeneratePinDTO
+
+<div class="modal-header">
+    <h4 class="modal-title">Generate PIN</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12">
+            <form action="@Url.Action("GeneratePin", "TempCompany", new { area = "Admin" })" method="POST" id="generatePin-form" class="smart-form">
+                @Html.ValidationBootstrap()
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    @Html.HiddenFor(model => model.OrganisationId, new { Value = ViewBag.orgId })
+
+                    <div class="row">
+                        <section class="col col-7">
+                            <label class="label">Please enter the number you contacted this company on</label>
+                        </section>
+
+                        <section class="col col-5">
+                            <label class="input">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.EditorFor(model => model.ContactedTelephoneNumber)
+                            </label>
+                        </section>
+                    </div>
+
+                    <div class="row">
+                        <section class="col">
+                            <label class="label">Are you sure you wish to generate a PIN number for @ViewBag.companyName?</label>
+                        </section>
+                    </div>
+                    
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button typw="button" id="cancelGeneratePin" class="btn btn-default">
+        Cancel
+    </button>
+    <button type="button" id="submitGeneratePin" class="btn btn-primary">
+        Generate PIN
+    </button>
+</div>
+
+<script type="text/javascript" src="~/Scripts/GeneratePin.js"></script>

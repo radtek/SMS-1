@@ -840,6 +840,7 @@
     <Content Include="Areas\Account\Views\Login\LoggedOutByAnother.cshtml" />
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />
@@ -1778,6 +1779,7 @@
     <Content Include="Scripts\plugin\x-editable\x-editable.min.js" />
     <Content Include="Scripts\pubsub.js" />
     <Content Include="Scripts\pubsubjs\pubsub.js" />
+    <Content Include="Scripts\GeneratePin.js" />
     <Content Include="Scripts\RejectCompany.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

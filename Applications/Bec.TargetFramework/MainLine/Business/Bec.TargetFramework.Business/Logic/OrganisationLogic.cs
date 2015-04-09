@@ -27,6 +27,7 @@ namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
     using EnsureThat;
+    using System.Text;
     //Bec.TargetFramework.Entities
 
     [Trace(TraceExceptionsOnly = true)]
@@ -141,6 +142,61 @@ namespace Bec.TargetFramework.Business.Logic
                 });
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+        }
+
+        public void GeneratePin(GeneratePinDTO dto)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var org = scope.DbContext.Organisations.Single(o => o.OrganisationID == dto.OrganisationId);
+                org.CompanyPinCode = createPin(4);
+                org.CompanyPinCreated = DateTime.Now;
+                org.IsCompanyPinCreated = true;
+
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                Ensure.That(status);
+
+                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+                {
+                    OrganisationID = dto.OrganisationId,
+                    StatusTypeID = status.StatusTypeID,
+                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
+                    StatusTypeValueID = status.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Now,
+                    StatusChangedBy = "System"
+                });
+
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+        }
+
+        private string createPin(int length)
+        {
+            Random r = new Random();
+            StringBuilder pin = new StringBuilder(length);
+            int thisNum;
+            int? prevNum = null;
+            do
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    do
+                    {
+                        thisNum = r.Next(0, 36);
+                    } while (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)); //avoid repeated or consecutive characters
+                    prevNum = thisNum;
+                    pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
+                }
+            } while (pinExists(pin.ToString()));
+            return pin.ToString();
+        }
+
+        private bool pinExists(string pin)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.Organisations.Any(o => o.CompanyPinCode == pin);
             }
         }
 

@@ -7293,6 +7293,26 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 	/// <summary>
 	/// 
 	/// </summary>
+	public partial class GeneratePinDTO
+	{
+		#region Constants
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual Guid OrganisationId { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual String ContactedTelephoneNumber { get; set; }
+		#endregion
+	}	
+	
+	/// <summary>
+	/// 
+	/// </summary>
 	public partial class geometry
 	{
 		#region Constants
@@ -27310,7 +27330,7 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual Nullable<DateTime> OrganisationPinCode { get; set; }
+		public virtual String OrganisationPinCode { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -33362,6 +33382,12 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Interfaces
 		/// <returns></returns>
 		void RejectOrganisation(RejectCompanyDTO dto);
 
+		/// <returns></returns>
+		Task<HttpResponseMessage> GeneratePinAsync(GeneratePinDTO dto);
+
+		/// <returns></returns>
+		void GeneratePin(GeneratePinDTO dto);
+
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode);
@@ -35191,6 +35217,26 @@ namespace Bec.TargetFramework.Presentation.Web.Api.Client.Clients
 		public virtual void RejectOrganisation(RejectCompanyDTO dto)
 		{
 						 var result = Task.Run(() => RejectOrganisationAsync(dto)).Result;		 
+			 
+			EnsureSuccess(result);
+				 
+			 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<HttpResponseMessage> GeneratePinAsync(GeneratePinDTO dto)
+		{
+			return await HttpClient.PostAsJsonAsync<GeneratePinDTO>("api/OrganisationLogic/GeneratePin", dto);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void GeneratePin(GeneratePinDTO dto)
+		{
+						 var result = Task.Run(() => GeneratePinAsync(dto)).Result;		 
 			 
 			EnsureSuccess(result);
 				 

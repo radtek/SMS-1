@@ -114,5 +114,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult ViewGeneratePin(Guid orgId)
+        {
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                var org = client.GetOrganisationDTO(orgId);
+                if (org == null) return new HttpNotFoundResult("Organisation not found");
+                ViewBag.orgId = orgId;
+                ViewBag.companyName = org.Name;
+                return PartialView("_GeneratePin");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GeneratePin(GeneratePinDTO model)
+        {
+            using (var client = new OrganisationLogicClient())
+            {
+                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                client.GeneratePin(model);
+                return RedirectToAction("Index", new { tab = "Verified", orgID = model.OrganisationId });
+            }
+        }
     }
 }
