@@ -12,10 +12,10 @@
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
                 <li id="tabu">
-                    <a data-target="#s1" data-toggle="tab"> Unverified </a>
+                    <a href="#s1" data-toggle="tab"> Unverified </a>
                 </li>
                 <li id="tabv">
-                    <a data-target="#s2" data-toggle="tab"> Verified </a>
+                    <a href="#s2" data-toggle="tab"> Verified </a>
                 </li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
@@ -218,8 +218,8 @@
             $.ajaxSetup({ cache: false });
 
             $('#myTab1 li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                if ($(e.target).data('target') == '#s1') makeUnverifiedGrid();
-                if ($(e.target).data('target') == '#s2') makeVerifiedGrid();
+                if ($(e.target).attr('href') == '#s1') makeUnverifiedGrid();
+                if ($(e.target).attr('href') == '#s2') makeVerifiedGrid();
             });
 
             if (verifiedId) {
@@ -359,7 +359,7 @@
                         read: getGridDataFromUrl(getVerifiedCompaniesUrl)
                     },
                     schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                    sort: loadGridSort("verifiedGrid") || { field: "CreatedOn", dir: "asc" }
+                    sort: loadGridSort("verifiedGrid") || { field: "OrganisationPinCreated", dir: "desc" }
                 },
                 height: 300,
                 selectable: "row",
