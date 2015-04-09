@@ -10,9 +10,6 @@ using System.Web.Routing;
 using Bec.TargetFramework.Web.Framework.Helpers;
 using Bec.TargetFramework.Entities;
 using ServiceStack.Text;
-using Autofac;
-using Autofac.Integration.Mvc;
-using Bec.TargetFramework.Infrastructure.Log;
 
 namespace Bec.TargetFramework.UI.Process.Filters
 {
@@ -21,12 +18,6 @@ namespace Bec.TargetFramework.UI.Process.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
-            var container = resolver.ApplicationContainer;
-            var logger = container.Resolve<ILogger>();
-
-            logger.Trace("In OnActionExecuting, IsAjaxRequest = {0}", filterContext.HttpContext.Request.IsAjaxRequest());
-
             if (filterContext.HttpContext.User.Identity is WindowsIdentity)
             {
                 throw new InvalidOperationException("Windows Authentication is not supported");
@@ -37,15 +28,12 @@ namespace Bec.TargetFramework.UI.Process.Filters
             // If the browser session or authentication session has expired...
             if (filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] == null || !filterContext.HttpContext.Request.IsAuthenticated)
             {
-                logger.Trace("expired");
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
                     // For AJAX requests, we're overriding the returned JSON result with a simple string,
                     // indicating to the calling JavaScript code that a redirect should be performed.
                     filterContext.Result = new JsonResult { Data = new AjaxRequestErrorDTO { RedirectUrl = url, HasRedirectUrl = true }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-                    filterContext.HttpContext.Response.StatusCode = 403;
-                    filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-                    logger.Trace("returning json");
+                    filterContext.HttpContext.Response.StatusCode = 418;
                 }
                 else
                 {
@@ -57,9 +45,7 @@ namespace Bec.TargetFramework.UI.Process.Filters
                             { "Controller", "Login" },
                             { "Action", "SessionExpired" },
                             { "Area" , "Account"}
-                        }
-                        );
-                    logger.Trace("returning 302");
+                });
                 }
             }
 
