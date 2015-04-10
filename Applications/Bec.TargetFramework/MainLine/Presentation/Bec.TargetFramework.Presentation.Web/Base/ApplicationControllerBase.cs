@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bec.TargetFramework.UI.Process.Filters;
+using Bec.TargetFramework.Presentation.Web.Filters;
 using EnsureThat;
 
-namespace Bec.TargetFramework.UI.Process.Base
+namespace Bec.TargetFramework.Presentation.Web.Base
 {
     /// <summary>
     /// TF Base Controller
     ///// </summary>
-    //[PreventMultipleLoginsActionFilter]
+    [PreventMultipleLoginsActionFilter]
     //[PreventMultipleSubmitsActionFilter]
     [SessionExpireFilter]
     //[AuditActionFilter(AuditingLevel = 1)]

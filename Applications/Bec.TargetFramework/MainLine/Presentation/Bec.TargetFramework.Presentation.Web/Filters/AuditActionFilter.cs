@@ -7,8 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Helpers;
-using Bec.TargetFramework.UI.Process.Base;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Presentation.Web.Base;
 
 namespace Bec.TargetFramework.UI.Process.Filters
 {

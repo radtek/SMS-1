@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.UI.Process.Base;
+using Bec.TargetFramework.Presentation.Web.Base;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {

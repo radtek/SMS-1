@@ -90,8 +90,6 @@ namespace Bec.TargetFramework.SB.TaskServices
                 m_Scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
                 m_Scheduler.Start();
-
-                SentTestMessage();
             }
             catch (Exception ex)
             {
@@ -143,7 +141,7 @@ namespace Bec.TargetFramework.SB.TaskServices
             {
                 var tempAccountDto = new Bec.TargetFramework.Entities.TemporaryAccountDTO
                 {
-                    EmailAddress = "c.misson@beconsultancy.co.uk",
+                    EmailAddress = "k.howie@beconsultancy.co.uk",
                     UserName = "test",
                     Password = "test",
                     AccountExpiry = DateTime.Now.AddDays(5),

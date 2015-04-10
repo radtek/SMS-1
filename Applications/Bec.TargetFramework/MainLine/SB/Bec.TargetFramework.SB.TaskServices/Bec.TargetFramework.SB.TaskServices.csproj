@@ -361,10 +361,6 @@
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
       <Name>Bec.TargetFramework.SB.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bec.TargetFramework.SB.Handlers\Bec.TargetFramework.SB.Handlers.csproj">
-      <Project>{e8fb612b-2578-46f2-ba4b-5040583f2445}</Project>
-      <Name>Bec.TargetFramework.SB.Handlers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
       <Name>Bec.TargetFramework.SB.Infrastructure</Name>

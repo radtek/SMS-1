@@ -8,7 +8,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
-using Bec.TargetFramework.UI.Process.Base;
+using Bec.TargetFramework.Presentation.Web.Base;
 using BrockAllen.MembershipReboot;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers

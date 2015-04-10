@@ -316,6 +316,7 @@
     <Compile Include="Filters\LocsAuthorizeFilter.cs" />
     <Compile Include="Filters\PreventMultipleLoginsActionFilter.cs" />
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
+    <Compile Include="Filters\RedirectHelper.cs" />
     <Compile Include="Filters\SessionExpireFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

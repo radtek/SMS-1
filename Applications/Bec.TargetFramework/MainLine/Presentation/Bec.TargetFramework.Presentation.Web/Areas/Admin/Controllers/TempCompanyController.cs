@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.UI.Process.Base;
+using Bec.TargetFramework.Presentation.Web.Base;
 using JSM;
 using JSM.MVC4;
 using ServiceStack.ServiceHost;

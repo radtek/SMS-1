@@ -11,7 +11,7 @@ using Autofac.Integration.Mvc;
 using System.Web.Security;
 using System.Web.Routing;
 
-namespace Bec.TargetFramework.UI.Process.Filters
+namespace Bec.TargetFramework.Presentation.Web.Filters
 {
     using ServiceStack.Text;
     using Bec.TargetFramework.Entities;
@@ -28,16 +28,12 @@ namespace Bec.TargetFramework.UI.Process.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
-
-            var container = resolver.ApplicationContainer;
-
-            var logic = container.Resolve<IUserLogicClient>();
-
             if (filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] != null)
             {
+                AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
+                var container = resolver.ApplicationContainer;
+                var logic = container.Resolve<IUserLogicClient>();
                 var webUser = WebUserHelper.GetWebUserObject(filterContext.HttpContext);
-
                 var logins = logic.UserLoginSessions(webUser.UserID);
 
                 if (logins.Any(sessionID => sessionID.Equals(webUser.SessionIdentifier)))
@@ -57,76 +53,71 @@ namespace Bec.TargetFramework.UI.Process.Filters
                 else
                 {
                     // logout
-                    filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "Login" }, { "action", "LoggedOutByAnother" }, { "area", "Account" } });
+                    filterContext.JsonFriendlyRedirect(action: "LoggedOutByAnother");
                 }
             }
             else
             {
                 if (filterContext.HttpContext.Request.RawUrl == "/" || filterContext.HttpContext.Request.RawUrl == "/home/index")
-                    filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "Controller", "Login" }, { "Action", "Index" }, { "Area", "Account" } });
+                    filterContext.JsonFriendlyRedirect(action: "Index");
                 else
-                    filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary { { "controller", "Login" }, { "action", "SessionExpired" }, { "area", "Account" } });
+                    filterContext.JsonFriendlyRedirect();
             }
-
-            logic.Dispose();
         }
     }
 
-    public class UserAccountLogicHelper
-    {
-        public static Dictionary<string, string> CreateRequestDictionary(HttpRequestBase request)
-        {
-            Dictionary<string, string> requestParameters = new Dictionary<string, string>();
+    //public class UserAccountLogicHelper
+    //{
+    //    public static Dictionary<string, string> CreateRequestDictionary(HttpRequestBase request)
+    //    {
+    //        Dictionary<string, string> requestParameters = new Dictionary<string, string>();
 
-            // params
-            request.Params.AllKeys.ToList().ForEach(
-                item =>
-                {
-                    var value = request.Params.GetValues(item);
+    //        // params
+    //        request.Params.AllKeys.ToList().ForEach(
+    //            item =>
+    //            {
+    //                var value = request.Params.GetValues(item);
 
-                    if (!item.ToLowerInvariant().StartsWith("username") && !item.ToLowerInvariant().StartsWith("password") && !item.ToLowerInvariant().StartsWith("fedauth") && !item.ToLowerInvariant().StartsWith("allraw") && !item.ToLowerInvariant().StartsWith("__request") && !item.ToLowerInvariant().StartsWith("all_"))
-                        requestParameters.Add(item, value.Dump());
-                });
+    //                if (!item.ToLowerInvariant().StartsWith("username") && !item.ToLowerInvariant().StartsWith("password") && !item.ToLowerInvariant().StartsWith("fedauth") && !item.ToLowerInvariant().StartsWith("allraw") && !item.ToLowerInvariant().StartsWith("__request") && !item.ToLowerInvariant().StartsWith("all_"))
+    //                    requestParameters.Add(item, value.Dump());
+    //            });
 
-            // browser properties
-            request.Browser.ToStringDictionary()
-                .ToList()
-                .ForEach(
-                    item =>
-                    {
-                        if (item.Key != null && item.Value != null)
-                            if (!requestParameters.ContainsKey(item.Key))
-                                requestParameters.Add(item.Key, item.Value);
-                    });
+    //        // browser properties
+    //        request.Browser.ToStringDictionary()
+    //            .ToList()
+    //            .ForEach(
+    //                item =>
+    //                {
+    //                    if (item.Key != null && item.Value != null)
+    //                        if (!requestParameters.ContainsKey(item.Key))
+    //                            requestParameters.Add(item.Key, item.Value);
+    //                });
 
-            // header data
-            request.Headers.AllKeys
-                .ToList()
-                .ForEach(
-                    item =>
-                    {
-                        if (item != null)
-                            if (!requestParameters.ContainsKey(item))
-                                requestParameters.Add(item, request.Headers[item]);
-                    });
+    //        // header data
+    //        request.Headers.AllKeys
+    //            .ToList()
+    //            .ForEach(
+    //                item =>
+    //                {
+    //                    if (item != null)
+    //                        if (!requestParameters.ContainsKey(item))
+    //                            requestParameters.Add(item, request.Headers[item]);
+    //                });
 
-            return requestParameters;
-        }
+    //        return requestParameters;
+    //    }
 
-        public static void SaveLoginSessionData(Guid userId, string sessionIndentifier,Dictionary<string, string> requestParameters)
-        {
-            AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
+    //    public static void SaveLoginSessionData(Guid userId, string sessionIndentifier,Dictionary<string, string> requestParameters)
+    //    {
+    //        AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
 
-            var container = resolver.ApplicationContainer;
+    //        var container = resolver.ApplicationContainer;
 
-            using(var logic = container.Resolve<IUserLogicClient>())
-            {
-                logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
-            }
-        }
+    //        using(var logic = container.Resolve<IUserLogicClient>())
+    //        {
+    //            logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
+    //        }
+    //    }
 
-    }
+    //}
 }
