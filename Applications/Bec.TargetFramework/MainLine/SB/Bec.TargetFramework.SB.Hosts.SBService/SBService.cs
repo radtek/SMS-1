@@ -27,6 +27,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
     using Bec.TargetFramework.SB.Infrastructure;
     using NServiceBus.Serilog;
     using NServiceBus.Logging;
+    using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
 
 
@@ -57,27 +59,19 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
         private void InitialiseIOC()
         {
-            //ContainerBuilder builder = new ContainerBuilder();
+            IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar>();
 
-            //var registrar = new Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar();
+            // create default configuration
+            var configuration = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true);
 
-            //registrar.Register(builder, null);
-
-            //m_IocContainer = builder.Build();
-
-            //IocContainerBase.AddIocContiner(m_IocContainer, AppDomain.CurrentDomain.FriendlyName);
-
-            //// create default configuration
-            //var configuration = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer, true);
-
-            //// start bus
-            //m_Bus = NServiceBus.Bus.Create(configuration).Start();
+            // start bus
+            m_Bus = NServiceBus.Bus.Create(configuration).Start();
 
             //Task.Factory.StartNew(
             //    () =>
             //    {
-            //        Bec.TargetFramework.Aop.AspectServiceLocator.Initialize(m_IocContainer, true,
-            //            m_IocContainer.Resolve<CommonSettings>().EnableTrace);
+            //        Bec.TargetFramework.Aop.AspectServiceLocator.Initialize(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true,
+            //            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>().EnableTrace);
             //    });
         }
 
@@ -89,15 +83,15 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             {
                 InitialiseIOC();
 
-                m_BaseAddress = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
+                m_BaseAddress = ConfigurationManager.AppSettings["SBServiceBaseURL"];
 
                 m_Server = WebApp.Start<Startup>(url: m_BaseAddress);
             }
             catch (Exception ex)
             {
-                if (m_IocContainer != null)
+                if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
                 {
-                    var logger = m_IocContainer.Resolve<ILogger>();
+                    var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }

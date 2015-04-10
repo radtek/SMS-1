@@ -2,7 +2,6 @@
 using System.ServiceModel.Description;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.Presentation.Web.WCF;
 using Enyim.Caching.Configuration;
 using Serilog.Extras.Web;
 
@@ -35,6 +34,9 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
     using System.Configuration;
     using Bec.TargetFramework.Service.Configuration;
     using Bec.TargetFramework.Infrastructure.IOC;
+    using NServiceBus;
+    using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.Business.Client.Interfaces;
 
 
     /// <summary>
@@ -59,6 +61,19 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
             builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
 
+            builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
+               ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+
+            builder.Register(c => new SettingService(c.Resolve<ISettingsLogicClient>())).As<SettingService>();
+
+            var type = typeof(ISettings);
+            AllAssemblies.Matching("Bec.TargetFramework")
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
+                .ToList().ForEach(item =>
+                {
+                    builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
+                });
         }
 
     }

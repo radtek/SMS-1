@@ -3045,6 +3045,7 @@
     <Compile Include="DTO\ForgotUsernameWithSecretDTO.cs" />
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
+    <Compile Include="DTO\GeneratePinDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
@@ -3074,6 +3075,7 @@
     <Compile Include="DTO\RegistrationSummaryDTO.cs" />
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\RejectCompanyDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\xCompanyDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />

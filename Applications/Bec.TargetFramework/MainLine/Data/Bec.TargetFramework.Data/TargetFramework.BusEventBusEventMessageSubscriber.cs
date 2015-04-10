@@ -84,23 +84,7 @@ namespace Bec.TargetFramework.Data
 
         #region Navigation Properties
     
-        /// <summary>
-        /// There are no comments for BusEvent in the schema.
-        /// </summary>
-        public virtual BusEvent BusEvent
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for BusEventMessageSubscriber in the schema.
-        /// </summary>
-        public virtual BusEventMessageSubscriber BusEventMessageSubscriber
-        {
-            get;
-            set;
-        }
+
 
         #endregion
     }

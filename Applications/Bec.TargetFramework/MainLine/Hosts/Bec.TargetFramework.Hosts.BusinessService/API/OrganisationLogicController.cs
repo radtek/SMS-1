@@ -13,19 +13,20 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.Hosts.BusinessService.API
 {
     public class OrganisationLogicController : OrganisationLogic, IOrganisationLogic
     {
         public OrganisationLogicController()
-            : base(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<UserAccountService>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<AuthenticationService>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserLogic>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IDataLogic>()
+            : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<UserAccountService>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<AuthenticationService>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserLogic>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IDataLogic>()
             )
         {
             

@@ -128,7 +128,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql, Version=2.2.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -291,6 +291,10 @@
       <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
       <Name>Bec.TargetFramework.Aop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj">
+      <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
+      <Name>Bec.TargetFramework.Business.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>
@@ -298,10 +302,6 @@
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
       <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
       <Name>Bec.TargetFramework.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Infrastructure\Bec.TargetFramework.Services.Infrastructure.csproj">
-      <Project>{6b72bada-4c28-42de-8c82-527162fb40bb}</Project>
-      <Name>Bec.TargetFramework.Services.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
       <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>

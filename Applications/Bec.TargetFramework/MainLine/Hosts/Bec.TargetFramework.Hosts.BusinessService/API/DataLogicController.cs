@@ -3,6 +3,7 @@ using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
+using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using BrockAllen.MembershipReboot;
@@ -19,9 +20,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService.API
     {
 
         public DataLogicController()
-            : base(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>()
+            : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>()
             )
         {
             

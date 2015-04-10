@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 {
     using Bec.TargetFramework.Infrastructure;
     using Bec.TargetFramework.SB.Messages.Commands;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
     public partial class BusinessService : ServiceBase
     {
@@ -54,27 +55,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
         private void InitialiseIOC()
         {
-            //ContainerBuilder builder = new ContainerBuilder();
-
-            //var registrar = new Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar();
-
-            //registrar.Register(builder, null);
-
-            //m_IocContainer = builder.Build();
-
-            //IocContainerBase.AddIocContiner(m_IocContainer,AppDomain.CurrentDomain.FriendlyName);
-        }
-
-        private static IEnumerable<Assembly> GetAssembliesToScan()
-        {
-            return new[]
-             {
-                 Assembly.LoadFrom("NServiceBus.Testing.dll"),
-                 Assembly.LoadFrom("NServiceBus.Core.dll"),
-                 Assembly.LoadFrom("NServiceBus.ObjectBuilder.Autofac.dll"),
-                  Assembly.LoadFrom("NServiceBus.Transports.RabbitMQ.dll"),
-                 Assembly.LoadFrom("NServiceBus.PostgreSQL.dll")
-             };
+            IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
         }
 
         public void StartService(string[] args)
@@ -91,9 +72,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             }
             catch (Exception ex)
             {
-                if (m_IocContainer != null)
+                if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
                 {
-                    var logger = m_IocContainer.Resolve<ILogger>();
+                    var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }

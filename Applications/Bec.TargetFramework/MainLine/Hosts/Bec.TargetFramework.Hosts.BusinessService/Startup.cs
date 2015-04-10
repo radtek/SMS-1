@@ -12,6 +12,7 @@ using Autofac;
 using WebApiProxy.Server;
 using System.Web.Http.ExceptionHandling;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
@@ -41,7 +42,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
             app.UseWebApi(config);
 
-            var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
             app.UseAutofacMiddleware(iocContainer);
         }
@@ -50,7 +51,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         {
             public override void Log(ExceptionLoggerContext context)
             {
-                var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+                var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
                 var logger = iocContainer.Resolve<ILogger>();
 

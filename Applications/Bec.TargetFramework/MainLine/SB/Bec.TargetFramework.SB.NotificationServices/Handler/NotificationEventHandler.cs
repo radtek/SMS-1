@@ -36,6 +36,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
     using Bec.TargetFramework.SB.Entities;
     using Bec.TargetFramework.SB.Messages.Events;
     using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
     public class NotificationEventHandler : ConcurrentBaseHandler<NotificationEvent>
     {
@@ -57,11 +58,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
         public override void Dispose()
         {
-            m_UserLogic.Dispose();
-            m_NotificationLogic.Dispose();
-            m_ClassificationLogic.Dispose();
-            m_BusLogic.Dispose();
-            m_EventClient.Dispose();
+
         }
 
 
@@ -103,7 +100,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
         {
             var exportMethodList = m_ClassificationLogic.GetRootClassificationDataForTypeName("NotificationExportFormatID");
 
-            var reportGenerator = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<StandaloneReportGenerator>() ;
+            var reportGenerator = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<StandaloneReportGenerator>();
 
             // add settings to json
             m_NotificationDictionaryDto = JsonHelper.DeserializeData<NotificationDictionaryDTO>(m_NotificationContainerDto.DataAsJson);
@@ -118,7 +115,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
                 BaseNotificationMutator mutator = Activator.CreateInstance(mutatorType) as BaseNotificationMutator;
 
-                mutator.IocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+                mutator.IocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
                 // initialise main 
                 mutator.InitialiseBase(m_NotificationDictionaryDto);

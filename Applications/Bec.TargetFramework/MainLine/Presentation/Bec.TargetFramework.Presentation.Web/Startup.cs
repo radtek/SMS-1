@@ -4,6 +4,7 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Npgsql;
 using System.Configuration;
+using ServiceStack.Text;
 
 [assembly: OwinStartupAttribute(typeof(Bec.TargetFramework.Presentation.Web.Startup))]
 namespace Bec.TargetFramework.Presentation.Web
@@ -12,6 +13,7 @@ namespace Bec.TargetFramework.Presentation.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            JsConfig.DateHandler = JsonDateHandler.ISO8601;
             //app.UseHangfire(config =>
             //{
             //    var sb = new NpgsqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["HangFireConnectionString"].ConnectionString);

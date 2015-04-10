@@ -9,6 +9,7 @@ using Bec.TargetFramework.Infrastructure;
 using Owin;
 using Swashbuckle.Application;
 using WebApiProxy.Server;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService
 {
@@ -35,7 +36,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
             app.UseWebApi(config);
 
-            var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
             app.UseAutofacMiddleware(iocContainer);
         }

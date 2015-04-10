@@ -1,0 +1,73 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model RejectCompanyDTO
+@{
+    List<object> rejects = new List<object>();
+    Type eType = typeof(RejectionTypeIDEnum);
+    foreach (var item in Enum.GetValues(eType))
+    {
+        var member = eType.GetMember(item.ToString())[0];
+        StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
+        rejects.Add(new { Text = attr.StringValue, Value = (int)item });
+    }
+    var r = new SelectList(rejects, "Value", "Text");
+}
+
+<div class="modal-header">
+    <h4 class="modal-title">Reject Company</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12">
+            <form action="@Url.Action("RejectTempCompany", "TempCompany", new { area = "Admin" })" method="POST" id="rejectTempCompany-form" class="smart-form">
+                @Html.ValidationBootstrap()
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    @Html.HiddenFor(model => model.OrganisationId, new { Value = ViewBag.orgId })
+                    <div class="row">
+                        <section class="col">
+                            <label class="label">Are you sure you want to reject @ViewBag.companyName?</label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col">
+                            <label class="label">Reason for rejection</label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-4">
+                            <label class="select">
+                                @Html.DropDownListFor(model => model.Reason, r, "Please Select")
+                                <i></i>
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col">
+                            <label class="label">Notes</label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-8">
+                            <label class="textarea">
+                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                @Html.TextAreaFor(model => model.Notes, new { rows = "5" })
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button typw="button" id="cancelReject" class="btn btn-default">
+        Cancel
+    </button>
+    <button type="button" id="submitReject" class="btn btn-primary">
+        Reject
+    </button>
+</div>
+
+<script type="text/javascript" src="~/Scripts/RejectCompany.js"></script>

@@ -9,8 +9,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Entities.DTO.Event;
+using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
@@ -20,6 +19,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using Bec.TargetFramework.Infrastructure.IOC;
+using System.Collections.Concurrent;
 
 namespace Bec.TargetFramework.SB.TaskServices
 {
@@ -41,6 +41,8 @@ namespace Bec.TargetFramework.SB.TaskServices
     using NServiceBus.Logging;
     using NServiceBus.Features;
     using Bec.TargetFramework.SB.Messages.Events;
+    using Bec.TargetFramework.Infrastructure.Helpers;
+    using System.Collections.Concurrent;
 
 
 
@@ -64,11 +66,11 @@ namespace Bec.TargetFramework.SB.TaskServices
 
         private void InitialiseIOC()
         {
-            IOCExtensions.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
+            IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
             // create default configuration
             m_Bus = NServiceBus.Bus.Create(
-                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
+                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
                 ).Start();
 
             m_Bus.Unsubscribe<SBEvent>();
@@ -83,17 +85,19 @@ namespace Bec.TargetFramework.SB.TaskServices
             {
                 InitialiseIOC();
 
-                var factry = m_IocContainer.Resolve<IJobFactory>();
+                var factry = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IJobFactory>();
 
                 m_Scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
                 m_Scheduler.Start();
+
+                SentTestMessage();
             }
             catch (Exception ex)
             {
-                if (m_IocContainer != null)
+                if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
                 {
-                    var logger = m_IocContainer.Resolve<ILogger>();
+                    var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }
@@ -129,6 +133,47 @@ namespace Bec.TargetFramework.SB.TaskServices
 
             if(m_Scheduler != null && !m_Scheduler.IsShutdown)
                 m_Scheduler.Shutdown();
+        }
+
+        private void SentTestMessage()
+        {
+            Thread.Sleep(10000);
+
+            using (var proxy = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IEventPublishClient>())
+            {
+                var tempAccountDto = new Bec.TargetFramework.Entities.TemporaryAccountDTO
+                {
+                    EmailAddress = "c.misson@beconsultancy.co.uk",
+                    UserName = "test",
+                    Password = "test",
+                    AccountExpiry = DateTime.Now.AddDays(5),
+                    UserAccountOrganisationID = Guid.Parse("3ac48762-d867-11e4-a114-00155d0a1426")
+                };
+
+                var orgWithAdmin = new Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO
+                {
+                    Name = "Test Ltd",
+                    OrganisationAdminFirstName = "Chris",
+                    OrganisationAdminLastName = "Misson",
+                    OrganisationAdminSalutation = "Mr"
+                };
+                var dictionary = new ConcurrentDictionary<string, object>();
+
+                dictionary.TryAdd("TemporaryAccountDTO", tempAccountDto);
+                dictionary.TryAdd("VOrganisationWithStatusAndAdminDTO", orgWithAdmin);
+
+                string payLoad = JsonHelper.SerializeData(new object[] { tempAccountDto, orgWithAdmin });
+
+                var dto = new EventPayloadDTO
+                {
+                    EventName = "TestEvent",
+                    EventSource = AppDomain.CurrentDomain.FriendlyName,
+                    EventReference = "1212",
+                    PayloadAsJson = payLoad
+                };
+
+                proxy.PublishEvent(dto);
+            }
         }
     }
 

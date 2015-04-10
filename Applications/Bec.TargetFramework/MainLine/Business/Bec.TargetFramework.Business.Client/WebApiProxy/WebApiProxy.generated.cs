@@ -413,6 +413,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode);
 
+		/// <returns></returns>
+		Task<HttpResponseMessage> RejectOrganisationAsync(RejectCompanyDTO dto);
+
+		/// <returns></returns>
+		void RejectOrganisation(RejectCompanyDTO dto);
+
+		/// <returns></returns>
+		Task<HttpResponseMessage> GeneratePinAsync(GeneratePinDTO dto);
+
+		/// <returns></returns>
+		void GeneratePin(GeneratePinDTO dto);
+
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode);
@@ -457,7 +469,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="id"></param>
 		/// <returns></returns>
-		vOrganisationDTO GetOrganisationDTO(Guid id);
+		VOrganisationDTO GetOrganisationDTO(Guid id);
 
 		/// <param name="id"></param>
 		/// <param name="delete"></param>
@@ -2454,6 +2466,46 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<HttpResponseMessage> RejectOrganisationAsync(RejectCompanyDTO dto)
+		{
+			return await HttpClient.PostAsJsonAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisation", dto);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void RejectOrganisation(RejectCompanyDTO dto)
+		{
+						 var result = Task.Run(() => RejectOrganisationAsync(dto)).Result;		 
+			 
+			EnsureSuccess(result);
+				 
+			 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<HttpResponseMessage> GeneratePinAsync(GeneratePinDTO dto)
+		{
+			return await HttpClient.PostAsJsonAsync<GeneratePinDTO>("api/OrganisationLogic/GeneratePin", dto);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void GeneratePin(GeneratePinDTO dto)
+		{
+						 var result = Task.Run(() => GeneratePinAsync(dto)).Result;		 
+			 
+			EnsureSuccess(result);
+				 
+			 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		public virtual async Task<HttpResponseMessage> GeoCodePostcodeAsync(String postCode)
@@ -2583,14 +2635,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="id"></param>
-		public virtual vOrganisationDTO GetOrganisationDTO(Guid id)
+		public virtual VOrganisationDTO GetOrganisationDTO(Guid id)
 		{
 						 var result = Task.Run(() => GetOrganisationDTOAsync(id)).Result;		 
 			 
 			EnsureSuccess(result);
 				 
 			 			 			 
-			 return result.Content.ReadAsAsync<vOrganisationDTO>().Result;
+			 return result.Content.ReadAsAsync<VOrganisationDTO>().Result;
 			 		}
 
 		/// <summary>

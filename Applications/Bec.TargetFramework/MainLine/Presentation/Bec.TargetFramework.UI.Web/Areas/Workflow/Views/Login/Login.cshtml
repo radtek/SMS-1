@@ -1,9 +1,0 @@
-﻿@model Bec.TargetFramework.Entities.Workflow.WorkflowInstanceCurrentStateDTO
-
-@Html.TextBox("txtName", "Login")
-
-@using (Html.BeginForm("Login", "Login", new { area = "Workflow" }))
-{
-    @Html.HiddenFor(model => model.CurrentActionDTO)
-    <button name="next" type="submit">Next</button>
-}

@@ -21,10 +21,10 @@ namespace Bec.TargetFramework.Presentation.Web
     {
         private void InitializeIOC()
         {
-            IOCExtensions.BuildAndRegisterIocContainer<BEC.TargetFramework.Presentation.Web.IOC.DependencyRegistrar>();
+            var iocContainer = IocProvider.BuildAndReturnIocContainer<BEC.TargetFramework.Presentation.Web.IOC.DependencyRegistrar>();
 
             // get and register in dependencyresolver
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName)));
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(iocContainer));
             
         }
 

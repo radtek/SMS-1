@@ -57,8 +57,6 @@ namespace Bec.TargetFramework.SB.Handlers.Base
 
         public virtual void Dispose()
         {
-            m_BusLogic.Dispose();
-            m_EventPublish.Dispose();
         }
     }
 }

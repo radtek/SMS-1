@@ -62,9 +62,7 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
         private static void InitialiseIOC()
         {
-            IOCExtensions.BuildAndRegisterIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
-
-            m_IocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+            m_IocContainer = IocProvider.BuildAndReturnIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
         }
 
         [TestMethod()]

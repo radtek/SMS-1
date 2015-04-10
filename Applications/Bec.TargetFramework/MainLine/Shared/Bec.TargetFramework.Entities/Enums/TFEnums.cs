@@ -1103,4 +1103,12 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Invoice Withdrawn")]
         Invoice_Withdrawn = 801707
     }
+
+    public enum RejectionTypeIDEnum : int
+    {
+        [StringValue("No match to regulator")]
+        No_match_to_regulator = 5231,
+        [StringValue("Failed to validate callback")]
+        Failed_to_validate_callback = 5232
+    }
 }

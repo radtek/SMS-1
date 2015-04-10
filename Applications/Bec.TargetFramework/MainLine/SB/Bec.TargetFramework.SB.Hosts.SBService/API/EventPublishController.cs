@@ -10,15 +10,16 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Hosts.SBService.Logic;
 using Bec.TargetFramework.SB.Hosts.SBService.Logic;
 using Bec.TargetFramework.SB.Interfaces;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService.API
 {
     public class EventPublishController : EventPublishLogic
     {
         public EventPublishController()
-            : base(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
-            IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<BusLogic>()
+            : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<BusLogic>()
             )
         {
 

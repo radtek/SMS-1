@@ -1,8 +1,0 @@
-﻿<label data-bind="text: $data.title, attr:{for: ($parents[2].name + '_' + $data.name + '_' +  $data.title)}, id: ($parents[2].name + '_' + $data.name + '_' +  $data.title + ' ' + ' label'), css: { 'requiredField': $data.isRequired }"></label>
-<input class="k-ff" data-bind="kendoDropDownList: $root.form().getOptions($data.name), attr: { title: $data.title, name: $data.name, id: ($parents[2].name + '_' + $data.name + '_' + $data.title)}" />
-<div>
-    <span class="validationMessage" data-bind="validationMessage: $root.form()[$data.name]"></span>
-</div>
-
-<label data-bind="text: $data.title, attr:{for: ($parents[2].name + '_' + $data.name + '_' +  $data.title)}, id: ($parents[2].name + '_' + $data.name + '_' +  $data.title + ' ' + ' label'), css: { 'requiredField': $data.isRequired }"></label>
-<input type="text" class="form-control" data-bind="value: $data.value, attr: { title: $data.title, name: $data.name, id: ($parents[2].name + '_' + $data.name + '_' + $data.title)}" />

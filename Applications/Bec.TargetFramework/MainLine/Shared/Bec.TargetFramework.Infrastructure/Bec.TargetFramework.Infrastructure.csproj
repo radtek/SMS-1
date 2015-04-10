@@ -50,11 +50,11 @@
     </Reference>
     <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Serilog.1.4.1\lib\net45\Serilog.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Serilog.1.4.1\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\..\References\ServiceStack.dll</HintPath>
@@ -103,8 +103,7 @@
     <Compile Include="Helpers\AssemblyHelper.cs" />
     <Compile Include="Helpers\EncodingHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
-    <Compile Include="IocContainerBase.cs" />
-    <Compile Include="IOC\IOCExtensions.cs" />
+    <Compile Include="IOC\IocProvider.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\NullLogger.cs" />
     <Compile Include="Log\TargetFrameworkLogDTO.cs" />

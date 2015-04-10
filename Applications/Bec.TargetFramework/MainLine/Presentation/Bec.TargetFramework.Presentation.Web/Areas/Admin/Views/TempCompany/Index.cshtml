@@ -1,13 +1,6 @@
 ﻿@using System.Activities.Statements
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    string companyId = string.Empty;
-
-    if (Request["companyId"] != null)
-    {
-        companyId = Request["companyId"].ToString();
-    }
 }
 <!-- MAIN CONTENT -->
 <div id="content">
@@ -17,8 +10,8 @@
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
 
-            <ul id="myTab1" class="nav nav-tabs bordered">
-                <li class="active">
+            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
+                <li id="tabu">
                     <a href="#s1" data-toggle="tab"> Unverified </a>
                 </li>
                 <li id="tabv">
@@ -26,11 +19,11 @@
                 </li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
-                <div class="tab-pane fade in active" id="s1">
+                <div class="tab-pane fade in active" id="s1" role="tabpanel">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <a href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModal" data-modal="">Add Company</a>
+                                <a data-href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" id="aModalAdd" class="btn btn-primary btn-sm" data-target="#addModal" data-modal="">Add Company</a>
                             </div>
                             <div class="well">
                                 <div id="unverifiedGrid"></div>
@@ -42,6 +35,8 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
+                                <a data-href="@Url.Action("ViewRejectTempCompany","TempCompany",new {area  = "Admin"})" id="aModalReject" class="btn btn-primary btn-sm" data-target="#rejectModal" data-modal="">Reject Company</a>
+                                <a data-href="@Url.Action("ViewGeneratePin","TempCompany",new {area  = "Admin"})" id="aModalGeneratePin" class="btn btn-primary btn-sm" data-target="#generatePinModal" data-modal="">Generate PIN</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -79,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="s2">
+                <div class="tab-pane fade" id="s2" role="tabpanel">
                     <div class="row">
                         <div class="col-12">
                             <div class="well">
@@ -124,9 +119,9 @@
                                 <dl class="dl-horizontal">
                                     <dt>Created On:</dt>
                                     <dd><p id="ddvCompanyCreatedOn"></p></dd>
-                                    <dt>Pin Code:</dt>
+                                    <dt>PIN Number:</dt>
                                     <dd><p id="ddvPINNumber"></p></dd>
-                                    <dt>Pin Created On:</dt>
+                                    <dt>PIN Created On:</dt>
                                     <dd><p id="ddvPINCreatedOn"></p></dd>
                                 </dl>
                             </div>
@@ -142,6 +137,20 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div id="addModalContent"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade in" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="rejectModalContent"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade in" id="generatePinModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="generatePinModalContent"></div>
         </div>
     </div>
 </div>
@@ -196,21 +205,33 @@
 </div>
 @section pagespecific {
     <script type="text/javascript">
+        var verifiedId = '@TempData["VerifiedCompanyId"]';
 
         var newCompanyId = '@TempData["AddTempCompanyId"]';
-        var selectedRowId;
-        var verifiedLoaded = false;
+        var uSelectedItem, vSelectedItem;
+        var unVerifiedLoaded = false, verifiedLoaded = false;
 
-        var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Unverified})';
-        var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Presentation.Web.Api.Client.Models.ProfessionalOrganisationStatusEnum.Verified })';
+        var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Unverified})';
+        var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified })';
 
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
 
-            makeUnverifiedGrid();
+            $('#myTab1 li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if ($(e.target).attr('href') == '#s1') makeUnverifiedGrid();
+                if ($(e.target).attr('href') == '#s2') makeVerifiedGrid();
+            });
 
-            $("a[data-modal]").on("click", function (e) {
-                $('#addModalContent').load(this.href, function (response, status) {
+            if (verifiedId) {
+                $('#myTab1 li:eq(1) a').tab('show');
+            }
+            else {
+                $('#myTab1 li:eq(0) a').tab('show');
+            }
+
+            $("#aModalAdd").on("click", function (e) {
+                e.preventDefault();
+                $('#addModalContent').load($(this).data('href'), function (response, status) {
                     if (status == "error")
                         checkRedirect(JSON.parse(response));
                     else {
@@ -223,13 +244,44 @@
                 return false;
             });
 
-            $('#tabv').click(function () {
-                if (!verifiedLoaded) makeVerifiedGrid();
-                verifiedLoaded = true;
+            $("#aModalReject").on("click", function (e) {
+                e.preventDefault();
+                if (uSelectedItem) {
+                    $('#rejectModalContent').load($(this).data('href') + '?orgId=' + uSelectedItem.OrganisationID, function (response, status) {
+                        if (status == "error")
+                            checkRedirect(JSON.parse(response));
+                        else {
+                            $('#rejectModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            }, 'show');
+                        }
+                    });
+                    return false;
+                }
+            });
+
+            $("#aModalGeneratePin").on("click", function (e) {
+                e.preventDefault();
+                if (uSelectedItem) {
+                    $('#generatePinModalContent').load($(this).data('href') + '?orgId=' + uSelectedItem.OrganisationID, function (response, status) {
+                        if (status == "error")
+                            checkRedirect(JSON.parse(response));
+                        else {
+                            $('#generatePinModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            }, 'show');
+                        }
+                    });
+                    return false;
+                }
             });
         });
 
         function makeUnverifiedGrid() {
+            if (unVerifiedLoaded) return;
+            unVerifiedLoaded = true;
             $("#unverifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
@@ -240,7 +292,7 @@
                         total: "total",
                         model: { id: "OrganisationID" }
                     },
-                    sort: { field: "CreatedOn", dir: "asc" }
+                    sort: loadGridSort("unverifiedGrid") || { field: "CreatedOn", dir: "asc" }
                 },
                 height: 300,
                 selectable: "row",
@@ -285,8 +337,11 @@
                         title: "Email"
                     },
                     {
-                        field: "CreatedOnAsString",
-                        title: "Created On"
+                        field: "CreatedOn",
+                        title: "Created On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.CreatedOn);
+                        }
                     }
                 ],
                 dataBound: unverifiedDataBound,
@@ -296,13 +351,15 @@
 
 
         function makeVerifiedGrid() {
+            if (verifiedLoaded) return;
+            verifiedLoaded = true;
             $("#verifiedGrid").kendoGrid({
                 dataSource: {
                     transport: {
                         read: getGridDataFromUrl(getVerifiedCompaniesUrl)
                     },
                     schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                    sort: { field: "CreatedOn", dir: "asc" }
+                    sort: loadGridSort("verifiedGrid") || { field: "OrganisationPinCreated", dir: "desc" }
                 },
                 height: 300,
                 selectable: "row",
@@ -329,7 +386,10 @@
                     },
                     {
                         field: "OrganisationPinCreated",
-                        title: "PIN Created"
+                        title: "PIN Created",
+                        template: function (dataItem) {
+                            return dateString(dataItem.OrganisationPinCreated);
+                        }
                     },
                     {
                         field: "PostalCode",
@@ -351,8 +411,11 @@
                         title: "Email"
                     },
                     {
-                        field: "CreatedOnAsString",
-                        title: "Created On"
+                        field: "CreatedOn",
+                        title: "Created On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.CreatedOn);
+                        }
                     }
                 ],
                 dataBound: verifiedDataBound,
@@ -361,28 +424,44 @@
         };
 
         function unverifiedDataBound(e) {
+            saveGridSort("unverifiedGrid");
+
             var grid = $("#unverifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
 
             if (newCompanyId != null && newCompanyId != "") {
                 for (var i = 0; i < gridData.length; i++) {
-                    if (newCompanyId.replace(/-/g, "") == (gridData[i].OrganisationID)) {
-                        scrollToRow(grid, gridData[i].uid);
+                    if (newCompanyId.replace(/-/g, "") == gridData[i].OrganisationID) {
+                        scrollToRow(grid, gridData[i]);
                         newCompanyId = null;
                         break;
                     }
                 }
             } else {
-                scrollToRow(grid, selectedRowId);
+                scrollToRow(grid, uSelectedItem);
             }
         }
 
         function verifiedDataBound(e) {
+            saveGridSort("verifiedGrid");
+
             var grid = $("#verifiedGrid").data("kendoGrid");
             var gridData = grid.dataSource.data();
             if (gridData.length == 0) return;
-            scrollToRow(grid, selectedRowId);
+
+            if (verifiedId != null && verifiedId != "") {
+                for (var i = 0; i < gridData.length; i++) {
+                    if (verifiedId.replace(/-/g, "") == gridData[i].OrganisationID) {
+                        scrollToRow(grid, gridData[i]);
+                        verifiedId = null;
+                        break;
+                    }
+                }
+            }
+            else {
+                scrollToRow(grid, vSelectedItem);
+            }
         }
 
         function unverifiedChange(e) {
@@ -390,10 +469,10 @@
             if (selectedRows.length == 1) {
 
                 var dataItem = this.dataItem(selectedRows[0]);
-                selectedRowId = dataItem.uid;
+                uSelectedItem = dataItem;
 
                 $("p#dduCompanyName").text(dataItem.Name || "");
-                $("p#dduCompanyCreatedOn").text(dataItem.CreatedOnAsString || "");
+                $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
                 $("p#dduCompanyCounty").text(dataItem.County || "");
                 $("p#dduCompanyPostCode").text(dataItem.PostalCode || "");
                 $("p#dduCompanyTownCity").text(dataItem.Town || "");
@@ -415,10 +494,10 @@
             if (selectedRows.length == 1) {
 
                 var dataItem = this.dataItem(selectedRows[0]);
-                selectedRowId = dataItem.uid;
+                vSelectedItem = dataItem;
 
                 $("p#ddvCompanyName").text(dataItem.Name || "");
-                $("p#ddvCompanyCreatedOn").text(dataItem.CreatedOn || "");
+                $("p#ddvCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
                 $("p#ddvCompanyCounty").text(dataItem.County || "");
                 $("p#ddvCompanyPostCode").text(dataItem.PostalCode || "");
                 $("p#ddvCompanyTownCity").text(dataItem.Town || "");
@@ -431,16 +510,16 @@
 
                 var regulatorName = dataItem.Regulator || "";
                 if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-                $("p#dduRegulator").text(regulatorName);
+                $("p#ddvRegulator").text(regulatorName);
 
                 $("p#ddvPINNumber").text(dataItem.OrganisationPinCode);
-                $("p#ddvPINCreatedOn").text(dataItem.OrganisationPinCreated);
+                $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
             }
         }
 
-        function scrollToRow(grid, uid) {
-            if (!grid || !uid) return;
-            var row = grid.tbody.find("tr[data-uid='" + uid + "']");
+        function scrollToRow(grid, item) {
+            if (!grid || !item) return;
+            var row = grid.tbody.find("tr[data-uid='" + item.uid + "']");
             grid.select(row);
 
             var scrollContentOffset = grid.tbody.offset().top;

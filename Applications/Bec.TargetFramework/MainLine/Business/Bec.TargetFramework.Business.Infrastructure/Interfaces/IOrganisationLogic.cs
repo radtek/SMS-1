@@ -62,7 +62,7 @@ namespace Bec.TargetFramework.Business.Infrastructure.Interfaces
         [OperationContract]
         System.Collections.Generic.List<Bec.TargetFramework.Entities.OrganisationDetailDTO> GetOrganisationDetailsIncludingBranches(string id);
         [OperationContract]
-        Bec.TargetFramework.Entities.vOrganisationDTO GetOrganisationDTO(Guid id);
+        Bec.TargetFramework.Entities.VOrganisationDTO GetOrganisationDTO(Guid id);
         [OperationContract]
         Bec.TargetFramework.Entities.vAttachmentDTO GetOrganisationLogo(Guid attachmentDetailID);
         [OperationContract]

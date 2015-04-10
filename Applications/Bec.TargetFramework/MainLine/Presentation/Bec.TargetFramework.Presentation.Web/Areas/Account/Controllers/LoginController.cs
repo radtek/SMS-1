@@ -19,11 +19,10 @@ using BrockAllen.MembershipReboot;
 using Hangfire;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Microsoft.Ajax.Utilities;
-using Bec.TargetFramework.Presentation.Web.Api.Client.Clients;
 using System.Net.Http.Formatting;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities;
-using UserLoginValidation = Bec.TargetFramework.Presentation.Web.Api.Client.Models.UserLoginValidation;
+using Bec.TargetFramework.Business.Client.Interfaces;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -31,12 +30,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     public class LoginController : Controller
     {
         AuthenticationService authSvc;
+        IUserLogicClient m_UserLogicClient;
         private ILogger logger;
-        public LoginController(ILogger logger, AuthenticationService authSvc)
+        public LoginController(ILogger logger, AuthenticationService authSvc,IUserLogicClient userClient)
         {
             this.logger = logger;
 
             this.authSvc = authSvc;
+
+            m_UserLogicClient = userClient;
         }
 
         [AllowAnonymous]
@@ -81,34 +83,29 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                using(var client = new UserLogicClient())
+                var taskResult = await m_UserLogicClient.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
+
+                var loginValidationResult = taskResult.Content.ReadAsAsync<UserLoginValidation>();
+
+                if (!loginValidationResult.Result.valid)
                 {
-                    client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                    TempData["version"] = Settings.OctoVersion;
+                    ModelState.AddModelError("", loginValidationResult.Result.validationMessage);
+                }
+                else
+                {
+                    var ua = new BrockAllen.MembershipReboot.UserAccount();
 
-                    var taskResult = await client.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
+                    ua.InjectFrom<NullableInjection>(loginValidationResult.Result.UserAccount);
 
-                    var loginValidationResult = taskResult.Content.ReadAsAsync<UserLoginValidation>();
+                    authSvc.SignIn(ua, false, null);
 
-                    if (!loginValidationResult.Result.valid)
-                    {
-                        TempData["version"] = Settings.OctoVersion;
-                        ModelState.AddModelError("", loginValidationResult.Result.validationMessage);
-                    }
-                    else
-                    {
-                        var ua = new BrockAllen.MembershipReboot.UserAccount();
+                    //  create web user object in session
+                    var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
 
-                        ua.InjectFrom<NullableInjection>(loginValidationResult.Result.UserAccount);
+                    var result = await m_UserLogicClient.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
 
-                        authSvc.SignIn(ua, false, null);
-
-                        //  create web user object in session
-                        var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
-
-                        var result = await client.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
-
-                        return RedirectToAction("Index", "Home", new { area = "" });
-                    }
+                    return RedirectToAction("Index", "Home", new { area = "" });
                 }
             }
 

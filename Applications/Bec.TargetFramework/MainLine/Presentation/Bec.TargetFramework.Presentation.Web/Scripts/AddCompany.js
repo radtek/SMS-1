@@ -202,12 +202,15 @@ function createDuplicatesList(dupes) {
                 }
             },
             {
-                field: "Status",
+                field: "StatusValueName",
                 title: "Status"
             },
             {
-                field: "CreatedOnAsString",
-                title: "Created On"
+                field: "CreatedOn",
+                title: "Created On",
+                template: function (dataItem) {
+                    return dateString(dataItem.CreatedOn);
+                }
             },
             {
                 field: "CreatedBy",

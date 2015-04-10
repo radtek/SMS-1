@@ -91,7 +91,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,11 +115,11 @@
     </Reference>
     <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Serilog.1.4.1\lib\net45\Serilog.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Serilog.1.4.1\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\..\References\ServiceStack.dll</HintPath>
@@ -219,10 +219,6 @@
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
       <Name>Bec.TargetFramework.SB.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Infrastructure\Bec.TargetFramework.Services.Infrastructure.csproj">
-      <Project>{6b72bada-4c28-42de-8c82-527162fb40bb}</Project>
-      <Name>Bec.TargetFramework.Services.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
       <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>

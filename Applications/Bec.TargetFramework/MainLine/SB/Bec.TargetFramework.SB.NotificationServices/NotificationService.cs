@@ -61,11 +61,11 @@ namespace Bec.TargetFramework.SB.NotificationServices
 
         private void InitialiseIOC()
         {
-            IOCExtensions.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
+            IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
             // create default configuration
             m_Bus = NServiceBus.Bus.Create(
-                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
+                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
                 ).Start();
         }
 
@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
 
                 Thread.Sleep(10000);
 
-                using (var proxy = m_IocContainer.Resolve<IEventPublishClient>())
+                using (var proxy = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IEventPublishClient>())
                 {
                     var tempAccountDto = new TemporaryAccountDTO
                     {
@@ -106,7 +106,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
 
                     var dto = new EventPayloadDTO
                     {
-                        EventName =  "TestEvent",
+                        EventName = "TestEvent",
                         EventSource = AppDomain.CurrentDomain.FriendlyName,
                         EventReference = "1212",
                         PayloadAsJson = payLoad

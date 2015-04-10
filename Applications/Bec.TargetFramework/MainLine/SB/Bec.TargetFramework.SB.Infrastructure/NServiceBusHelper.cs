@@ -12,6 +12,7 @@ using NServiceBus.Logging;
 using NServiceBus.Serilog.Tracing;
 using NServiceBus.Serilog;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.IOC;
 namespace Bec.TargetFramework.SB.Infrastructure
 {
     public class NServiceBusHelper
@@ -34,7 +35,7 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
         public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container, bool purgeOnStartup = true,bool traceEnable = false)
         {
-            var iocContainer = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
+            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
             var iLogger = iocContainer.Resolve<ILogger>();
             iLogger.CreateLogger();

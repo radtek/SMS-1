@@ -33,8 +33,6 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
         public override void Dispose()
         {
-            m_nLogic.Dispose();
-            m_BusLogic.Dispose();
         }
 
         public override void HandleMessage(Messages.Events.AddNewCompanyAndAdministratorEvent handlerEvent)

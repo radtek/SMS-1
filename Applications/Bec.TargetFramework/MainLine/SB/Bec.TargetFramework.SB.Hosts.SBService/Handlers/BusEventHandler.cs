@@ -37,7 +37,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
         public override void Dispose()
         {
-            m_BusLogic.Dispose();
         }
 
         public override void HandleMessage(SBEvent tfEvent)

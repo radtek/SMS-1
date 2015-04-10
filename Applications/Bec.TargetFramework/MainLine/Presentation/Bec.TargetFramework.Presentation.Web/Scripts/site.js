@@ -1,5 +1,5 @@
 ﻿function checkRedirect(response) {
-    if (response.HasRedirectUrl) window.location.href = response.RedirectUrl;
+    if (response && response.HasRedirectUrl) window.location.href = response.RedirectUrl;
 }
 
 function ajaxWrapper(options) {
@@ -40,4 +40,27 @@ function handleModal(m, handlers, fixScroll, shownFunction) {
             }
         }
     });
+}
+
+function dateString(date) {
+    try {
+        return new Date(date).toLocaleString();
+    }
+    catch (ex) {
+        return "";
+    }
+}
+
+function saveGridSort(gridElementId) {
+    var sort = $("#" + gridElementId).data("kendoGrid").getOptions().dataSource.sort;
+    sessionStorage["gridSort-" + gridElementId] = JSON.stringify(sort);
+}
+
+function loadGridSort(gridElementId) {
+    try {
+        return JSON.parse(sessionStorage["gridSort-" + gridElementId]);
+    }
+    catch (ex) {
+        return null;
+    }
 }

@@ -401,10 +401,6 @@
       <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
       <Name>Bec.TargetFramework.Services.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Infrastructure\Bec.TargetFramework.Services.Infrastructure.csproj">
-      <Project>{6b72bada-4c28-42de-8c82-527162fb40bb}</Project>
-      <Name>Bec.TargetFramework.Services.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
       <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
       <Name>Bec.TargetFramework.Services</Name>
