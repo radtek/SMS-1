@@ -5,7 +5,6 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Framework.Domain.Logging;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Log = Serilog.Log;
 

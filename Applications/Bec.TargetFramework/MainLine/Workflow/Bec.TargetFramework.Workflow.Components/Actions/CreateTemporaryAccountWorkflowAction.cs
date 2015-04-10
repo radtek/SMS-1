@@ -14,8 +14,6 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.Framework.Configuration;
-using Bec.TargetFramework.SB.Infrastructure.EventSource;
 using EnsureThat;
 
 namespace Bec.TargetFramework.Workflow.Components.Actions

@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Bec.TargetFramework.Framework.Configuration;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
+using Bec.TargetFramework.Infrastructure.Settings;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

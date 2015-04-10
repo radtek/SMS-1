@@ -48,11 +48,13 @@
     <Reference Include="Npgsql">
       <HintPath>..\..\References\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog">
-      <HintPath>..\..\packages\Serilog.1.3.42\lib\net45\Serilog.dll</HintPath>
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.FullNetFx">
-      <HintPath>..\..\packages\Serilog.1.3.42\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack">
       <HintPath>..\..\References\ServiceStack.dll</HintPath>
@@ -90,6 +92,7 @@
     <Compile Include="Collections\IGenericData.cs" />
     <Compile Include="Collections\TreeNodeSamples.cs" />
     <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="IOC\IDependencyRegistrar.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -100,11 +103,13 @@
     <Compile Include="Helpers\AssemblyHelper.cs" />
     <Compile Include="Helpers\EncodingHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
-    <Compile Include="IocContainerBase.cs" />
+    <Compile Include="IOC\IocProvider.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\NullLogger.cs" />
     <Compile Include="Log\TargetFrameworkLogDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\CommonSettings.cs" />
+    <Compile Include="Settings\ISettings.cs" />
     <Compile Include="WCF\DataContractExtensions.cs" />
     <Compile Include="WCF\Event\WcfGlobalEvent.cs" />
     <Compile Include="WCF\Exception\Fault.cs" />
@@ -118,9 +123,7 @@
     <Compile Include="WCF\Faults\ValidationFault.cs" />
     <Compile Include="WCF\NetTcpBindingConfiguration.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IOC\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

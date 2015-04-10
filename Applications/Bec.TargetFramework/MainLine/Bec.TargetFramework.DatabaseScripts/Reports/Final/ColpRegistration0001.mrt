@@ -23,34 +23,7 @@
         <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <RegistrationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>RegistrationDTO</Alias>
-        <BusinessObjects isList="true" count="0" />
-        <Category>General</Category>
-        <Columns isList="true" count="17">
-          <value>AmIComplianceOfficer,System.Boolean</value>
-          <value>COEmail,System.String</value>
-          <value>COFirstName,System.String</value>
-          <value>COLastName,System.String</value>
-          <value>COOfficeAddressAdditionalInformation,System.String</value>
-          <value>COOfficeBranchRegulatorNumber,System.String</value>
-          <value>CORegulator,System.String</value>
-          <value>CORegulatorNumber,System.String</value>
-          <value>COTitle,System.String</value>
-          <value>Email,System.String</value>
-          <value>FirmRegisteredName,System.String</value>
-          <value>FirmRegulator,System.String</value>
-          <value>FirmTradingName,System.String</value>
-          <value>FirstName,System.String</value>
-          <value>IsCOOfficeHeadOffice,System.Boolean</value>
-          <value>LastName,System.String</value>
-          <value>Title,System.String</value>
-        </Columns>
-        <Dictionary isRef="1" />
-        <Guid>963bbc5cf3d94c5fb625ebff4bd5ad65</Guid>
-        <Name>RegistrationDTO</Name>
-      </RegistrationDTO>
-      <TemporaryAccountDTO Ref="4" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+      <TemporaryAccountDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
         <Alias>TemporaryAccountDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
@@ -69,6 +42,40 @@
         <Guid>dd67a21305b1439fbbef832bfb646c75</Guid>
         <Name>TemporaryAccountDTO</Name>
       </TemporaryAccountDTO>
+      <VOrganisationWithStatusAndAdminDTO Ref="4" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>VOrganisationWithStatusAndAdminDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="24">
+          <value>AdditionalAddressInformation,System.String</value>
+          <value>County,System.String</value>
+          <value>CreatedOn,System.DateTime</value>
+          <value>CreatedOnAsString,System.String</value>
+          <value>Line1,System.String</value>
+          <value>Line2,System.String</value>
+          <value>Name,System.String</value>
+          <value>OrganisationAdminEmail,System.String</value>
+          <value>OrganisationAdminFirstName,System.String</value>
+          <value>OrganisationAdminLastName,System.String</value>
+          <value>OrganisationAdminSalutation,System.String</value>
+          <value>OrganisationAdminTelephone,System.String</value>
+          <value>OrganisationAdminUserID,System.Nullable`1[System.Guid]</value>
+          <value>OrganisationID,System.Guid</value>
+          <value>OrganisationPinCode,System.Nullable`1[System.DateTime]</value>
+          <value>OrganisationPinCreated,System.Nullable`1[System.DateTime]</value>
+          <value>OrganisationVerified,System.Nullable`1[System.Boolean]</value>
+          <value>PostalCode,System.String</value>
+          <value>Regulator,System.String</value>
+          <value>RegulatorOther,System.String</value>
+          <value>StatusTypeID,System.Guid</value>
+          <value>StatusTypeValueID,System.Guid</value>
+          <value>StatusTypeVersionNumber,System.Int32</value>
+          <value>Town,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>860b66f547c14f149160e6e3323a7653</Guid>
+        <Name>VOrganisationWithStatusAndAdminDTO</Name>
+      </VOrganisationWithStatusAndAdminDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
@@ -85,69 +92,35 @@
     <Page1 Ref="5" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="3">
-        <Image1 Ref="6" type="Image" isKey="true">
+      <Components isList="true" count="2">
+        <Text2 Ref="6" type="Text" isKey="true">
           <Brush>Transparent</Brush>
-          <CanGrow>True</CanGrow>
-          <CanShrink>True</CanShrink>
-          <ClientRectangle>0,4.2,3.6,1.4</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <ImageURL>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.ServerNotificationImageContentURLFolder}{NotificationSettingDTO.ServerLogoImageFileNameWithExtension}</ImageURL>
-          <Name>Image1</Name>
-          <Page isRef="5" />
-          <Parent isRef="5" />
-        </Image1>
-        <Text1 Ref="7" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <AutoWidth>True</AutoWidth>
-          <Brush>Transparent</Brush>
-          <CanBreak>True</CanBreak>
-          <CanGrow>True</CanGrow>
-          <CanShrink>True</CanShrink>
-          <ClientRectangle>0,0,19,3.6</ClientRectangle>
+          <ClientRectangle>0,0,14.4,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Arial,8</Font>
-          <GrowToHeight>True</GrowToHeight>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text1</Name>
-          <Page isRef="5" />
-          <Parent isRef="5" />
-          <Text>Dear {RegistrationDTO.COTitle} {RegistrationDTO.COFirstName}, {RegistrationDTO.COLastName}
-&lt;br&gt;&lt;br&gt;
-We have received a request to register {RegistrationDTO.FirmRegisteredName} ({RegistrationDTO.FirmTradingName}) on the Safe Move Scheme.
-&lt;br&gt;&lt;br&gt;
-Please click on the login link using the temporary details below.
-&lt;br&gt;&lt;br&gt;
-Username : {TemporaryAccountDTO.UserName}
-&lt;br&gt;
-Password : {TemporaryAccountDTO.Password}
-&lt;br&gt;&lt;br&gt;
-Please note that these are temporary login details to enable you to register and create your own login details. These temporary login details will expire on the {TemporaryAccountDTO.AccountExpiry}.
-</Text>
-          <TextBrush>Black</TextBrush>
-          <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text1>
-        <Text2 Ref="8" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <CanGrow>True</CanGrow>
-          <CanShrink>True</CanShrink>
-          <ClientRectangle>0,3.6,8.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Arial,8</Font>
-          <Hyperlink>{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
           <Margins>0,0,0,0</Margins>
           <Name>Text2</Name>
           <Page isRef="5" />
           <Parent isRef="5" />
-          <Text>Click here to Login to the Safe Move Scheme</Text>
+          <Text>Dear {VOrganisationWithStatusAndAdminDTO.OrganisationAdminSalutation} {VOrganisationWithStatusAndAdminDTO.OrganisationAdminLastName}</Text>
           <TextBrush>Black</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <ToolTip>Login</ToolTip>
           <Type>Expression</Type>
         </Text2>
+        <Text3 Ref="7" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.6,7.6,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="5" />
+          <Parent isRef="5" />
+          <Text>Username: {TemporaryAccountDTO.UserName}
+
+Password: {TemporaryAccountDTO.Password}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text3>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>1b83758dda4046518274d0b090f93e62</Guid>
@@ -157,13 +130,13 @@ Please note that these are temporary login details to enable you to register and
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="9" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="8" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="10" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="9" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -175,13 +148,13 @@ Please note that these are temporary login details to enable you to register and
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/30/2014 2:04:51 PM</ReportChanged>
+  <ReportChanged>4/9/2015 1:20:18 PM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>D:\BecSoftware\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\ColpRegistration.mrt</ReportFile>
-  <ReportGuid>d2d048aae90a4bd6a56243fcf023940c</ReportGuid>
+  <ReportFile>D:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\Final\ColpRegistration0001.mrt</ReportFile>
+  <ReportGuid>5c2d8c05783448ac8a8ef4df1b3f12ef</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
-  <ReportVersion>2014.2.1915</ReportVersion>
+  <ReportVersion>2014.3.0</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;

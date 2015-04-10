@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
     using Bec.TargetFramework.Aop.Aspects;
     using System.Net;
     using EnsureThat;
-using Bec.TargetFramework.Framework.Configuration;
+    using Bec.TargetFramework.Infrastructure.Settings;
    
     [Trace(TraceExceptionsOnly = true)]
     public class DataLogic : LogicBase, IDataLogic
@@ -59,12 +59,12 @@ using Bec.TargetFramework.Framework.Configuration;
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
-                var fieldQuery =
-                    scope.DbContext.TFEvents.SingleOrDefault(s => s.TFEventName.Equals(eventName));
+                //var fieldQuery =
+                //    scope.DbContext.TFEvents.SingleOrDefault(s => s.TFEventName.Equals(eventName));
 
-                Ensure.That(fieldQuery);
+                //Ensure.That(fieldQuery);
 
-                dto = TFEventConverter.ToDto(fieldQuery);
+                //dto = TFEventConverter.ToDto(fieldQuery);
             }
 
             return dto;

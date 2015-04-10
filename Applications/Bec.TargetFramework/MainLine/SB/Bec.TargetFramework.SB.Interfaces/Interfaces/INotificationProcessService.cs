@@ -1,5 +1,4 @@
-﻿using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Entities.Workflow;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +10,10 @@ namespace Bec.TargetFramework.SB.Interfaces
 {
     //Bec.TargetFramework.Entities
 
-    [ServiceContract(Namespace = BecTargetFrameworkSBServiceNamespaces.NotificationServiceNamespace + "/NotificationProcessService")]
-    public interface INotificationProcessService
-    {
-        [OperationContract]
-        void GenerateNotificationDataForWebViewer();
-    }
+    //[ServiceContract(Namespace = "/NotificationProcessService")]
+    //public interface INotificationProcessService
+    //{
+    //    [OperationContract]
+    //    void GenerateNotificationDataForWebViewer();
+    //}
 }

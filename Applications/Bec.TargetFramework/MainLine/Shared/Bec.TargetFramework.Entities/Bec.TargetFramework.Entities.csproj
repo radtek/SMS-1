@@ -76,6 +76,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -242,6 +243,22 @@
     <Compile Include="Boo\BucketTemplateDTO.cs" />
     <Compile Include="Boo\BucketTemplateDTO.Generated.cs">
       <DependentUpon>BucketTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BusEventBusEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\BusEventBusEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>BusEventBusEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BusEventDTO.cs" />
+    <Compile Include="Boo\BusEventDTO.Generated.cs">
+      <DependentUpon>BusEventDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BusEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\BusEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>BusEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BusEventTypeDTO.cs" />
+    <Compile Include="Boo\BusEventTypeDTO.Generated.cs">
+      <DependentUpon>BusEventTypeDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\BusMessageContentDTO.cs" />
     <Compile Include="Boo\BusMessageContentDTO.Generated.cs">
@@ -1699,17 +1716,8 @@
       <DependentUpon>TenantDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\TFEventDTO.cs" />
-    <Compile Include="Boo\TFEventDTO.Generated.cs">
-      <DependentUpon>TFEventDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\TFEventMessageSubscriberDTO.cs" />
-    <Compile Include="Boo\TFEventMessageSubscriberDTO.Generated.cs">
-      <DependentUpon>TFEventMessageSubscriberDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\TFEventTypeDTO.cs" />
-    <Compile Include="Boo\TFEventTypeDTO.Generated.cs">
-      <DependentUpon>TFEventTypeDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\TimeoutentityDTO.cs" />
     <Compile Include="Boo\TimeoutentityDTO.Generated.cs">
       <DependentUpon>TimeoutentityDTO.cs</DependentUpon>
@@ -2477,6 +2485,7 @@
     <Compile Include="Boo\WorkflowTreeStructureTemplateDTO.Generated.cs">
       <DependentUpon>WorkflowTreeStructureTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonHelper.cs" />
     <Compile Include="Convertors\AccountConverter.cs" />
     <Compile Include="Convertors\ActorClaimRoleMappingConverter.cs" />
     <Compile Include="Convertors\ActorConverter.cs" />
@@ -2509,6 +2518,10 @@
     <Compile Include="Convertors\BillingTemplateConverter.cs" />
     <Compile Include="Convertors\BucketConverter.cs" />
     <Compile Include="Convertors\BucketTemplateConverter.cs" />
+    <Compile Include="Convertors\BusEventBusEventMessageSubscriberConverter.cs" />
+    <Compile Include="Convertors\BusEventConverter.cs" />
+    <Compile Include="Convertors\BusEventMessageSubscriberConverter.cs" />
+    <Compile Include="Convertors\BusEventTypeConverter.cs" />
     <Compile Include="Convertors\BusMessageContentConverter.cs" />
     <Compile Include="Convertors\BusMessageConverter.cs" />
     <Compile Include="Convertors\BusMessageProcessLogConverter.cs" />
@@ -2839,9 +2852,6 @@
     <Compile Include="Convertors\TaxRateConverter.cs" />
     <Compile Include="Convertors\TaxRateTemplateConverter.cs" />
     <Compile Include="Convertors\TenantConverter.cs" />
-    <Compile Include="Convertors\TFEventConverter.cs" />
-    <Compile Include="Convertors\TFEventMessageSubscriberConverter.cs" />
-    <Compile Include="Convertors\TFEventTypeConverter.cs" />
     <Compile Include="Convertors\TimeoutentityConverter.cs" />
     <Compile Include="Convertors\TransactionLevelComponentConverter.cs" />
     <Compile Include="Convertors\TransactionLevelComponentTemplateConverter.cs" />
@@ -3134,6 +3144,7 @@
     <Compile Include="Enums\TFEnums.cs" />
     <Compile Include="Enums\TFEventEnum.cs" />
     <Compile Include="Enums\WorkflowEnums.cs" />
+    <Compile Include="GenericListTypeConverter.cs" />
     <Compile Include="Helpers\RegexExpressions.cs" />
     <Compile Include="Injections\IgnoreProps.cs" />
     <Compile Include="Injections\CaseInsensitiveInjection.cs" />
@@ -3164,6 +3175,7 @@
     <Compile Include="Validators\vUserManagementDTOValidator.cs" />
     <Compile Include="Validators\WizardContactDTOValidator.cs" />
     <Compile Include="Validators\UserAccountLoginSessionDTOValidator.cs" />
+    <Compile Include="WebUserHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
@@ -3181,10 +3193,6 @@
     <ProjectReference Include="..\..\External\FluentValidation\FluentValidation\FluentValidation.csproj">
       <Project>{dae0249b-4f69-4ac9-9a17-aa23e0795316}</Project>
       <Name>FluentValidation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bec.TargetFramework.Framework\Bec.TargetFramework.Framework.csproj">
-      <Project>{099954fd-7359-4209-9661-6aaea763ceae}</Project>
-      <Name>Bec.TargetFramework.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>

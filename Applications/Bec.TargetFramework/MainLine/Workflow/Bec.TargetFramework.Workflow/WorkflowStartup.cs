@@ -22,18 +22,18 @@ namespace Bec.TargetFramework.Workflow
 
         public static void InitializeIOC()
         {
-            var containerBuilder = new ContainerBuilder();
+            //var containerBuilder = new ContainerBuilder();
 
-            var webRegistrar = new DependencyRegistrar();
+            //var webRegistrar = new DependencyRegistrar();
 
-            webRegistrar.Register(containerBuilder, null);
+            //webRegistrar.Register(containerBuilder, null);
 
-            var container = containerBuilder.Build();
+            //var container = containerBuilder.Build();
 
-            // initialize DB 
-            DbInitializer.Initialize(container);
+            //// initialize DB 
+            //DbInitializer.Initialize(container);
 
-            m_DependencyContainer = container;
+            //m_DependencyContainer = container;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Autofac;
-using Bec.TargetFramework.Framework;
 using Bec.TargetFramework.Hosts.FileService.Clam;
 using System;
 using System.Collections.Generic;
@@ -17,30 +16,30 @@ namespace Bec.TargetFramework.Workflow.Test
     {
         public VirusScanningTest()
         {
-            System.Threading.Thread.Sleep(30000);
+            //System.Threading.Thread.Sleep(30000);
 
-            ContainerBuilder builder = new ContainerBuilder();
+            //ContainerBuilder builder = new ContainerBuilder();
 
-            var registrar = new BEC.TargetFramework.Workflow.Test.IOC.DependencyRegistrar();
+            //var registrar = new BEC.TargetFramework.Workflow.Test.IOC.DependencyRegistrar();
 
-            registrar.Register(builder, null);
+            //registrar.Register(builder, null);
 
-            var container = builder.Build();
+            //var container = builder.Build();
 
 
-            byte[] fileBytes = System.IO.File.ReadAllBytes("C:\\virus\\eicar_com.zip");
+            //byte[] fileBytes = System.IO.File.ReadAllBytes("C:\\virus\\eicar_com.zip");
 
-            var logic = container.Resolve<IFileProcessService>();
+            //var logic = container.Resolve<IFileProcessService>();
 
-            try
-            {
-                string result = logic.ScanByteArrayForVirus(fileBytes);
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    string result = logic.ScanByteArrayForVirus(fileBytes);
+            //}
+            //catch (Exception ex)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
             
         }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Framework.Configuration;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Workflow.Configuration;
 

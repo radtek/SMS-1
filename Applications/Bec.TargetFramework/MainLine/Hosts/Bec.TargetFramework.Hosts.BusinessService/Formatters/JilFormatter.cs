@@ -83,6 +83,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.Formatters
 
         private static Func<TextReader, Options, object> CreateDelegate(Type type)
         {
+            Console.WriteLine("CreateDelegate:" + type);
             return (Func<TextReader, Options, object>)_method
                 .MakeGenericMethod(type)
                 .CreateDelegate(typeof(Func<TextReader, Options, object>));

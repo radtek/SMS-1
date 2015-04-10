@@ -17,16 +17,9 @@ namespace Bec.TargetFramework.SB.Notifications.Base
 
         private NotificationDictionaryDTO m_NotificationDictionary;
 
-        public Autofac.IContainer IocContainer
-        {
-            get
-            {
-                //Ensure.That(Infrastructure.IocContainerBase.IocContainer).IsNotNull();
 
-                return null;
-            }
-            set { object s = value; }
-        }
+
+        public Autofac.IContainer IocContainer { get; set; }
 
         public NotificationDictionaryDTO NotificationDictionary
         {

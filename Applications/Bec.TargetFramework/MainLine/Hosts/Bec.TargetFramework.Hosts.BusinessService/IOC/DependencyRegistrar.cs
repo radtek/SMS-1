@@ -23,9 +23,6 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     using Autofac.Core;
     using System.Collections.Generic;
     using Autofac.Builder;
-    using Bec.TargetFramework.Framework.Configuration;
-    using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
-    using Bec.TargetFramework.Framework.Infrastructure;
     using Bec.TargetFramework.Infrastructure.Caching;
     using System.ServiceModel;
     using Bec.TargetFramework.Business.Services;
@@ -40,6 +37,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     using Bec.TargetFramework.Infrastructure.Helpers;
     using Bec.TargetFramework.Infrastructure.CouchBaseCache;
     using System.Configuration;
+    using Bec.TargetFramework.Infrastructure.IOC;
+    using Bec.TargetFramework.Infrastructure.Settings;
 
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
@@ -49,7 +48,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
         /// <summary>
         /// Starts the IOC Container
         /// </summary>
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public virtual void Register(ContainerBuilder builder)
         {
             builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>();
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
@@ -57,18 +56,18 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
             builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
 
-            builder.Register(c => new SettingLogicService(c.Resolve<ILogger>(), c.Resolve<ICacheProvider>()))
+            builder.Register(c => new SettingLogic(c.Resolve<ILogger>(), c.Resolve<ICacheProvider>()))
                 .As<ISettingLogic>();
 
-            builder.Register(c => new SettingService(c.Resolve<ISettingLogic>())).As<SettingService>();
+            builder.Register(c => new SettingServiceLocal(c.Resolve<ISettingLogic>())).As<SettingServiceLocal>();
 
             var type = typeof(ISettings);
-            AppDomain.CurrentDomain.GetAssemblies().Where(it => it.FullName.StartsWith("Bec.TargetFramework"))
+            AllAssemblies.Matching("Bec.TargetFramework")
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
                 .ToList().ForEach(item =>
                 {
-                    builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
+                    builder.Register(c => c.Resolve<SettingServiceLocal>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingServiceLocal>(), new object[1] { 0 })).As(item);
                 });
 
             // register all logic classes
@@ -156,30 +155,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
         }
 
 
-        public int Order
-        {
-            get { return 2; }
-        }
+
     }
 
-    public class SettingsSource : IRegistrationSource
-    {
-        static readonly MethodInfo BuildMethod = typeof(SettingsSource).GetMethod(
-            "BuildRegistration",
-            BindingFlags.Static | BindingFlags.NonPublic);
-
-        public IEnumerable<IComponentRegistration> RegistrationsFor(
-                Service service,
-                Func<Service, IEnumerable<IComponentRegistration>> registrations)
-        {
-            var ts = service as TypedService;
-            if (ts != null && typeof(ISettings).IsAssignableFrom(ts.ServiceType))
-            {
-                var buildMethod = BuildMethod.MakeGenericMethod(ts.ServiceType);
-                yield return (IComponentRegistration)buildMethod.Invoke(null, null);
-            }
-        }
-
-        public bool IsAdapterForIndividualComponents { get { return false; } }
-    }
 }

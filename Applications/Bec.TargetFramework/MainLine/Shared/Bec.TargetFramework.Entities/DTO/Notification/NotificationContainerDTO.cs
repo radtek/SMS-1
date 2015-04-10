@@ -10,9 +10,9 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 
 namespace Bec.TargetFramework.Entities
 {
-    using Bec.TargetFramework.Framework.Configuration;
 
     using Fabrik.Common;
+    using Bec.TargetFramework.Infrastructure.Settings;
 
     [Serializable]
     [DataContract]
@@ -24,10 +24,24 @@ namespace Bec.TargetFramework.Entities
         public bool DataSentAsJson { get; set; }
         [DataMember]
         public string DataAsJson { get; set; }
-
+         [DataMember]
+        public string NotificationConstructName { get; set; }
 
         public NotificationContainerDTO()
         { }
+
+        public NotificationContainerDTO(List<NotificationRecipientDTO> recipients,
+            NotificationDictionaryDTO data, string notificationConstructName)
+        {
+            Ensure.Argument.NotNull(recipients);
+            Recipients = recipients;
+
+            NotificationConstructName = notificationConstructName;
+
+            data.NotificationDictionary.TryAdd("NotificationSettingDTO", NotificationSetting);
+
+            DataAsJson = JsonHelper.SerializeData(data);
+        }
 
         public NotificationContainerDTO(CommonSettings commonSettings, Guid notificationConstructID, int notificationConstructVersionNumber, List<NotificationRecipientDTO> recipients,
                NotificationDictionaryDTO data, int exportFormatEnumValue = (int) NotificationExportFormatIDEnum.HTML5)

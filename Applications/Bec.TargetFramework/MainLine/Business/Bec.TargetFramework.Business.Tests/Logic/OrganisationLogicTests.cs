@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using Autofac.Integration.Wcf;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure;
 
 namespace Bec.TargetFramework.Business.Tests.Logic
 {
@@ -62,13 +64,7 @@ namespace Bec.TargetFramework.Business.Tests.Logic
 
         private static void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
-
-            var registrar = new Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            m_IocContainer = builder.Build();
+            m_IocContainer = IocProvider.BuildAndReturnIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
         }
 
         [TestMethod()]

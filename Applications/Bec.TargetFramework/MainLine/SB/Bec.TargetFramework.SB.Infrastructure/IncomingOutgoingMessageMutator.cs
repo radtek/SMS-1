@@ -4,64 +4,38 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
-using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Log;
 using NServiceBus;
+using NServiceBus.Logging;
 using NServiceBus.MessageMutator;
-using Bec.TargetFramework.Entities;
+using NServiceBus.Unicast;
 using NServiceBus.Unicast.Subscriptions;
 using NServiceBus.Unicast.Subscriptions.MessageDrivenSubscriptions;
 using ServiceStack.Text;
+using Bec.TargetFramework.SB.Interfaces;
+using Bec.TargetFramework.SB.Entities;
+using Bec.TargetFramework.SB.Entities.Enums;
 
 namespace Bec.TargetFramework.SB.Infrastructure
 {
-    public class IncomingOutgoingMessageMutator : IMutateOutgoingTransportMessages,IMutateIncomingTransportMessages
+    public class IncomingOutgoingMessageMutator : IMutateTransportMessages
     {
-        public  ILogger m_Logger {get;set;}
-        public IBusLogic m_BusLogic { get; set; }
+        public  ILog m_Logger {get;set;}
+        public IBusLogicClient m_BusLogic { get; set; }
+
+        public IBus m_Bus { get; set; }
+
 
         public IncomingOutgoingMessageMutator()
         {
-            //m_Logger = Configure.Instance.Builder.Build<ILogger>();
-           // m_BusLogic = Configure.Instance.Builder.Build<IBusLogic>();
+            m_Logger = NServiceBus.Logging.LogManager.GetLogger("NServiceBusLogger");
         }
 
-        public void MutateOutgoing(object[] messages, TransportMessage transportMessage)
+        void IMutateIncomingTransportMessages.MutateIncoming(TransportMessage transportMessage)
         {
-            if (transportMessage.Headers.ContainsKey("Source"))
-            {
-                var dto = NServiceBusHelper.GetBusMessageDto(transportMessage.Headers);
+            if (m_BusLogic == null)
+                m_BusLogic = (m_Bus as UnicastBus).Builder.Build<IBusLogicClient>();
 
-                BusMessageContentDTO messageContent= new BusMessageContentDTO();
-                messageContent.BusMessageContent1 = transportMessage.Body;
-                messageContent.BusMessageHeader = transportMessage.ToJson();
-
-                dto.MessageSentFrom = dto.ProcessingMachine;
-                dto.Source = dto.ProcessingMachine;
-
-                if (transportMessage.Headers.ContainsKey("ParentID"))
-                    dto.ParentID = Guid.Parse(transportMessage.Headers["ParentID"]);
-
-                if (transportMessage.Headers.ContainsKey("MessageType"))
-                    messageContent.BusMessageContentType = transportMessage.Headers["MessageType"];
-                else
-                    messageContent.BusMessageContentType = "";
-
-                dto.BusMessageContents = new List<BusMessageContentDTO>();
-                dto.BusMessageContents.Add(messageContent);
-
-
-                if(dto.ProcessingMachine.Equals("Task"))
-                    m_BusLogic.SaveBusMessage(dto, BusMessageStatusEnum.Sent, "Mutator", "Mutate", true);
-                else
-                    m_BusLogic.SaveBusMessage(dto, BusMessageStatusEnum.Sent, "Mutator", "Mutate", false);
-            }
-        }
-
-        public void MutateIncoming(TransportMessage transportMessage)
-        {
-            // change status to received
             if (transportMessage.Headers.ContainsKey("Source"))
             {
                 var dto = NServiceBusHelper.GetBusMessageDto(transportMessage.Headers);
@@ -72,6 +46,9 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
                 dto.MessageSentFrom = dto.ProcessingMachine;
                 dto.Source = dto.ProcessingMachine;
+
+                if (dto.ProcessingMachine == null)
+                    dto.ProcessingMachine = dto.WinIdName;
 
                 if (transportMessage.Headers.ContainsKey("ParentID"))
                     dto.ParentID = Guid.Parse(transportMessage.Headers["ParentID"]);
@@ -85,17 +62,49 @@ namespace Bec.TargetFramework.SB.Infrastructure
                 dto.BusMessageContents.Add(messageContent);
 
                 if (dto.ProcessingMachine.Equals("Task"))
-                    m_BusLogic.SaveBusMessage(dto, BusMessageStatusEnum.Received, "Mutator", "Mutate", true);
+                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Received, "Mutator", "Mutate", true,dto);
                 else
-                    m_BusLogic.SaveBusMessage(dto, BusMessageStatusEnum.Received, "Mutator", "Mutate", false);
+                    m_BusLogic.SaveBusMessage(BusMessageStatusEnum.Received, "Mutator", "Mutate", false,dto );
             }
-               
-          
         }
 
-        public void MutateOutgoing(NServiceBus.Unicast.Messages.LogicalMessage logicalMessage, TransportMessage transportMessage)
+        void IMutateOutgoingTransportMessages.MutateOutgoing(NServiceBus.Unicast.Messages.LogicalMessage logicalMessage, TransportMessage transportMessage)
         {
-            throw new NotImplementedException();
+            if (m_BusLogic == null)
+                m_BusLogic = (m_Bus as UnicastBus).Builder.Build<IBusLogicClient>();
+                
+
+            if (transportMessage.Headers.ContainsKey("Source"))
+            {
+                var dto = NServiceBusHelper.GetBusMessageDto(transportMessage.Headers);
+
+                BusMessageContentDTO messageContent = new BusMessageContentDTO();
+                messageContent.BusMessageContent1 = transportMessage.Body;
+                messageContent.BusMessageHeader = transportMessage.ToJson();
+
+                dto.MessageSentFrom = dto.ProcessingMachine;
+                dto.Source = dto.ProcessingMachine;
+
+                if (dto.ProcessingMachine == null)
+                    dto.ProcessingMachine = dto.WinIdName;
+
+                if (transportMessage.Headers.ContainsKey("ParentID"))
+                    dto.ParentID = Guid.Parse(transportMessage.Headers["ParentID"]);
+
+                if (transportMessage.Headers.ContainsKey("MessageType"))
+                    messageContent.BusMessageContentType = transportMessage.Headers["MessageType"];
+                else
+                    messageContent.BusMessageContentType = "";
+
+                dto.BusMessageContents = new List<BusMessageContentDTO>();
+                dto.BusMessageContents.Add(messageContent);
+
+
+                if (dto.ProcessingMachine.Equals("Task"))
+                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Sent, "Mutator", "Mutate", true,dto);
+                else
+                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Sent, "Mutator", "Mutate", false,dto);
+            }
         }
     }
 }

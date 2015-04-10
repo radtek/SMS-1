@@ -47,7 +47,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         private ICacheProvider m_CacheProvider { get; set; }
 
-        public void SetAuditFields<T>(T entity, bool isNew) where T : class
+        protected void SetAuditFields<T>(T entity, bool isNew) where T : class
         {
             var userIdentityDto = GetUserIdentificationMessageDTOFromContext();
 

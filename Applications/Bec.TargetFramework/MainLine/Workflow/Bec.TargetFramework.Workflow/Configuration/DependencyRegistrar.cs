@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Integration.Wcf;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
-using Bec.TargetFramework.Framework.Configuration;
-using Bec.TargetFramework.Framework.Infrastructure.DependencyManagement;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.CouchBaseCache;
 using Bec.TargetFramework.Infrastructure.Log;
@@ -23,29 +21,19 @@ using Bec.TargetFramework.Workflow.Scheduler;
 
 using System.Configuration;
 using Seq;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure.Settings;
 
 namespace Bec.TargetFramework.Workflow.Configuration
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
 
-        public void Register(Autofac.ContainerBuilder builder, Framework.Infrastructure.ITypeFinder typeFinder)
+        public void Register(Autofac.ContainerBuilder builder)
         {
             // register logger
             builder.Register(c => new SerilogLogger(true,false, "Workflow")).As<ILogger>().SingleInstance();
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
-
-            RegisterService<ISettingLogic>(builder, BuildBaseUrlForServices("SettingLogicService"));
-            builder.Register(c => new SettingService(c.Resolve<ISettingLogic>())).As<SettingService>();
-
-            var type = typeof(ISettings);
-            AppDomain.CurrentDomain.GetAssemblies().Where(it => it.FullName.StartsWith("Bec.TargetFramework"))
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
-                .ToList().ForEach(item =>
-                {
-                    builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
-                });
 
             // register scheduler
             builder.RegisterType<WorkflowTaskScheduler>().As<WorkflowTaskScheduler>().SingleInstance();

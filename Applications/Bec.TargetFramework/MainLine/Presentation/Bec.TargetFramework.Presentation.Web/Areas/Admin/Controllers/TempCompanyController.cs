@@ -6,21 +6,23 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.Presentation.Web.Api.Client.Clients;
-using Bec.TargetFramework.Presentation.Web.Api.Client.Models;
 using Bec.TargetFramework.UI.Process.Base;
 using JSM;
-using Bec.TargetFramework.Presentation.Web.Api.Client;
 using JSM.MVC4;
 using ServiceStack.ServiceHost;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Business.Client.Interfaces;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     public class TempCompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
+        private IOrganisationLogicClient m_OrganisationClient;
 
-        public TempCompanyController(ILogger logger) : base(logger)
+        public TempCompanyController(ILogger logger,IOrganisationLogicClient oClient) : base(logger)
         {
+            m_OrganisationClient = oClient;
         }
 
         // GET: Admin/TempCompany
@@ -31,13 +33,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public ActionResult LoadCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            List<VOrganisationWithStatusAndAdminDTO> list = null;
-
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                list = client.GetCompanies(orgStatus);
-            }
+            List<VOrganisationWithStatusAndAdminDTO> list =m_OrganisationClient.GetCompanies(orgStatus);
 
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -53,15 +49,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var client = new OrganisationLogicClient())
-                {
-                    client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+                var id = m_OrganisationClient.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Conveyancing, model);
 
-                    var id = client.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Conveyancing, model);
-
-                    TempData["AddTempCompanyId"] = id;
-                }
-                
+                TempData["AddTempCompanyId"] = id;
             }
 
             return RedirectToAction("Index");
@@ -69,76 +59,48 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public ActionResult FindAddress(string postcode)
         {
-            List<PostCodeDTO> list = null;
-
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-
-                list = client.FindAddressesByPostCode(postcode, null);
-
-            }
+            List<PostCodeDTO> list = m_OrganisationClient.FindAddressesByPostCode(postcode, null);
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ValidateAddress(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
         {
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                return Json(client.FindDuplicateOrganisations(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
-            }
+            return Json(m_OrganisationClient.FindDuplicateOrganisations(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewRejectTempCompany(Guid orgId)
         {
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                var org = client.GetOrganisationDTO(orgId);
-                if (org == null) return new HttpNotFoundResult("Organisation not found");
-                ViewBag.orgId = orgId;
-                ViewBag.companyName = org.Name;
-                return PartialView("_RejectTempCompany");
-            }
+            var org = m_OrganisationClient.GetOrganisationDTO(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            ViewBag.orgId = orgId;
+            ViewBag.companyName = org.Name;
+            return PartialView("_RejectTempCompany");
         }
 
         [HttpPost]
         public ActionResult RejectTempCompany(RejectCompanyDTO model)
         {
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                client.RejectOrganisation(model);
-                return RedirectToAction("Index");
-            }
+            m_OrganisationClient.RejectOrganisation(model);
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewGeneratePin(Guid orgId)
         {
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                var org = client.GetOrganisationDTO(orgId);
-                if (org == null) return new HttpNotFoundResult("Organisation not found");
-                ViewBag.orgId = orgId;
-                ViewBag.companyName = org.Name;
-                return PartialView("_GeneratePin");
-            }
+            var org = m_OrganisationClient.GetOrganisationDTO(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            ViewBag.orgId = orgId;
+            ViewBag.companyName = org.Name;
+            return PartialView("_GeneratePin");
         }
 
         [HttpPost]
         public ActionResult GeneratePin(GeneratePinDTO model)
         {
-            using (var client = new OrganisationLogicClient())
-            {
-                client.HttpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-                client.GeneratePin(model);
+            m_OrganisationClient.GeneratePin(model);
 
-                TempData["VerifiedCompanyId"] = model.OrganisationId;
-                return RedirectToAction("Index");
-            }
+            TempData["VerifiedCompanyId"] = model.OrganisationId;
+            return RedirectToAction("Index");
         }
     }
 }

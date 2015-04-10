@@ -1,5 +1,5 @@
 using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Framework.Configuration;
+using Bec.TargetFramework.Infrastructure.Settings;
 using System;
 using System.Runtime.CompilerServices;
 

@@ -5,8 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using NServiceBus;
-using Bec.TargetFramework.Entities;
-
+using NServiceBus.PostgreSQL;
+using Bec.TargetFramework.SB.Entities;
+using Bec.TargetFramework.Infrastructure;
+using NServiceBus.Logging;
+using NServiceBus.Serilog.Tracing;
+using NServiceBus.Serilog;
+using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.IOC;
 namespace Bec.TargetFramework.SB.Infrastructure
 {
     public class NServiceBusHelper
@@ -27,20 +33,45 @@ namespace Bec.TargetFramework.SB.Infrastructure
             return null;
         }
 
-        public static Configure CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container)
+        public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container, bool purgeOnStartup = true,bool traceEnable = false)
         {
-            //Configure.ScaleOut(s => s.UseSingleBrokerQueue());
+            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
-            //return
-            //    Configure.With(
-            //        AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
-            //        .AutofacBuilder(container)
-            //        .UseTransport<NServiceBus.SqlServer>()
-            //        .UnicastBus()
-            //        .RunHandlersUnderIncomingPrincipal(false)
-            //        .RijndaelEncryptionService();
+            var iLogger = iocContainer.Resolve<ILogger>();
+            iLogger.CreateLogger();
 
-            return null;
+            LogManager.Use<SerilogFactory>();
+
+            BusConfiguration configuration = new BusConfiguration();
+
+            // persistence provider for subscribers, publishers
+            configuration.UsePersistence<InMemoryPersistence>();
+
+            configuration.ScaleOut();
+
+            // IOC configuration
+            configuration.UseContainer<AutofacBuilder>(s => s.ExistingLifetimeScope(container));
+        
+            // transport mechanism
+            configuration.UseTransport<RabbitMQTransport>().DisableCallbackReceiver();
+
+            configuration.EnableOutbox();
+           
+            // whether to clean the queues on startup
+            configuration.PurgeOnStartup(purgeOnStartup);
+            // encryption of messages
+            //configuration.RijndaelEncryptionService();
+            // whether to use encryption of messages
+            configuration.EnableInstallers();
+
+            configuration.SerilogTracingTarget(Serilog.Log.Logger);
+
+            configuration.RegisterComponents(c =>
+            {
+                c.ConfigureComponent<IncomingOutgoingMessageMutator>(DependencyLifecycle.SingleInstance);
+            });
+
+            return configuration;
         }
 
         public static BusMessageDTO GetBusMessageDto(IDictionary<string, string> headers)
@@ -49,7 +80,7 @@ namespace Bec.TargetFramework.SB.Infrastructure
             {
                 CorrelationId = Guid.Parse(headers["NServiceBus.CorrelationId"]),
                 MessageId = Guid.Parse(headers["NServiceBus.MessageId"]),
-                TimeSent = DateTime.Now,
+                SentOn = DateTime.Now,
                 EnclosedMessageTypes = headers["NServiceBus.EnclosedMessageTypes"],
                 ProcessingStarted = DateTime.Now
             };

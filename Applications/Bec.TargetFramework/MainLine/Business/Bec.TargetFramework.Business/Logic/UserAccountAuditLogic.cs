@@ -5,7 +5,6 @@ using Bec.TargetFramework.Data.Infrastructure;
 //Bec.TargetFramework.Entities
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.Web.Framework.Helpers;
 using ServiceStack.Text;
 
 namespace Bec.TargetFramework.Business.Logic

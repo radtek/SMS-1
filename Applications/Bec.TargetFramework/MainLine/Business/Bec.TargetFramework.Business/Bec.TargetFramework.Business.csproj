@@ -73,7 +73,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
@@ -281,10 +281,6 @@
       <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
       <Name>Bec.TargetFramework.Services.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Infrastructure\Bec.TargetFramework.Services.Infrastructure.csproj">
-      <Project>{6b72bada-4c28-42de-8c82-527162fb40bb}</Project>
-      <Name>Bec.TargetFramework.Services.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities.Experian\Bec.TargetFramework.Entities.Experian.csproj">
       <Project>{0d8d76f4-98f1-4571-9b59-180026144ce3}</Project>
       <Name>Bec.TargetFramework.Entities.Experian</Name>
@@ -292,10 +288,6 @@
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
       <Name>Bec.TargetFramework.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Framework\Bec.TargetFramework.Framework.csproj">
-      <Project>{099954fd-7359-4209-9661-6aaea763ceae}</Project>
-      <Name>Bec.TargetFramework.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>

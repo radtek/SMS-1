@@ -1,6 +1,6 @@
 
 using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Framework.Configuration;
+using Bec.TargetFramework.Infrastructure.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;

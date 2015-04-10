@@ -14,6 +14,7 @@ using Bec.TargetFramework.Hosts.Infrastructure.Interfaces;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using System.ServiceModel;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.Hosts.FileService
 {
@@ -30,16 +31,7 @@ namespace Bec.TargetFramework.Hosts.FileService
 
         private void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
-
-            var registrar = new Bec.TargetFramework.Hosts.FileService.IOC.DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            builder.Register(c => new FileProcessService()).As<IFileProcessService>();
-
-            m_IocContainer = builder.Build();
-
+            IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.Hosts.FileService.IOC.DependencyRegistrar>();
         }
 
         protected override void OnStart(string[] args)
@@ -58,7 +50,7 @@ namespace Bec.TargetFramework.Hosts.FileService
                 InitialiseIOC();
 
                 ServiceHost host = new ServiceHost(typeof(FileProcessService));
-                host.AddDependencyInjectionBehavior(typeof(IFileProcessService),m_IocContainer);
+                host.AddDependencyInjectionBehavior(typeof(IFileProcessService), IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName));
                 host.Open();
 
                 m_ServiceHosts.Add(host);

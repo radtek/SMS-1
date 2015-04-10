@@ -3,7 +3,6 @@ using Bec.TargetFramework.Business.Services;
 using Bec.TargetFramework.Entities.DTO.Event;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
-using Bec.TargetFramework.SB.Infrastructure.EventSource;
 using Bec.TargetFramework.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -22,15 +21,17 @@ using System.ServiceModel.Configuration;
 using System.Configuration;
 using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Infrastructure.Log;
+using Enyim.Caching;
 using Microsoft.Owin.Hosting;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
-using NServiceBus.Serilog.Tracing;
+using NServiceBus.Serilog;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
-    using Bec.TargetFramework.Framework.Configuration;
     using Bec.TargetFramework.Infrastructure;
+    using Bec.TargetFramework.SB.Messages.Commands;
+    using Bec.TargetFramework.Infrastructure.IOC;
 
     public partial class BusinessService : ServiceBase
     {
@@ -54,36 +55,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
         private void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
-
-            var registrar = new Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar();
-
-            registrar.Register(builder, null);
-
-            m_IocContainer = builder.Build();
-
-            IocContainerBase.AddIocContiner(m_IocContainer,AppDomain.CurrentDomain.FriendlyName);
-
-            // use autofac container
-            //Task.Factory.StartNew(() =>
-            //{
-            //    TracingLog.Disable();
-
-            //    var startableBus = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(m_IocContainer).PurgeOnStartup(true).CreateBus();
-
-            //    Configure.Instance.ForInstallationOn<Windows>().Install();
-
-            //    SB.Infrastructure.HookMessageMutators.InitialiseMessageMutators();
-
-            //    m_Bus = startableBus.Start();
-            //});
-
-            Task.Factory.StartNew(
-                () =>
-                {
-                    Bec.TargetFramework.Aop.AspectServiceLocator.Initialize(m_IocContainer, true,
-                        m_IocContainer.Resolve<CommonSettings>().EnableTrace);
-                });
+            IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.Hosts.BusinessService.IOC.DependencyRegistrar>();
         }
 
         public void StartService(string[] args)
@@ -100,9 +72,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             }
             catch (Exception ex)
             {
-                if (m_IocContainer != null)
+                if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
                 {
-                    var logger = m_IocContainer.Resolve<ILogger>();
+                    var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }

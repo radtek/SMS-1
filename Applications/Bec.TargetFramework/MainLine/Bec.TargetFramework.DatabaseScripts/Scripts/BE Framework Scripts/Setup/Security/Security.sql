@@ -30,3 +30,5 @@ INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID"
 VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Organisation Employee Role',
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
+
+ 

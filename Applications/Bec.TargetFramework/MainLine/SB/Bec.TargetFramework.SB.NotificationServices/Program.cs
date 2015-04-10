@@ -20,7 +20,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
         {
             try
             {
-                bool runAsWindowsService = false;
+                bool runAsWindowsService = true;
                 
                 if (args != null && args.Length > 0)
                 {
@@ -39,26 +39,6 @@ namespace Bec.TargetFramework.SB.NotificationServices
                 }
                 else
                 {
-                    string[] servicePorts = ConfigurationManager.AppSettings["ServicesNeededOnStartupPorts"].Split(',');
-
-                    bool serviceRunning = false;
-
-                    while (!serviceRunning)
-                    {
-                        try
-                        {
-                            servicePorts.ToList().ForEach(sp =>
-                                new TcpClient().Connect("localhost", int.Parse(sp)));
-
-                            serviceRunning = true;
-                        }
-                        catch (Exception)
-                        {
-                        }
-
-                        Thread.Sleep(1000);
-                    }
-
                     NotificationService service = new NotificationService();
 
                     try

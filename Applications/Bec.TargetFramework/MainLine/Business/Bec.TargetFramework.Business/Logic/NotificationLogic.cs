@@ -23,6 +23,7 @@ namespace Bec.TargetFramework.Business.Logic
 
     using Omu.ValueInjecter;
     using EnsureThat;
+    using System.Web.Http;
 
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogic : LogicBase, INotificationLogic
@@ -249,30 +250,27 @@ namespace Bec.TargetFramework.Business.Logic
             return dto;
         }
 
-        public List<VDefaultEmailAddressDTO> GetRecipientAddressDetails(List<NotificationRecipientDTO> recipients )
+        public VDefaultEmailAddressDTO RecipientAddressDetail(Guid? organisationID,Guid? userAccountOrganisationID)
         {
-            List<VDefaultEmailAddressDTO> list = new List<VDefaultEmailAddressDTO>();
+            VDefaultEmailAddressDTO rdto = null;
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
                 // load org construct include module and notification constructs direct
                 // deterimne users or organisations
-                if(recipients.Any(s => s.OrganisationID.HasValue))
+                if (organisationID.HasValue)
                 {
-                    List<Guid> orgIds = recipients.Where(w => w.OrganisationID.HasValue).Select(o =>  o.OrganisationID.Value).ToList();
-                    list = VDefaultEmailAddressConverter.ToDtos(scope.DbContext.VDefaultEmailAddresses.Where(s => orgIds.Contains(s.OrganisationID)));
+                    rdto = VDefaultEmailAddressConverter.ToDto(scope.DbContext.VDefaultEmailAddresses.Single(s => s.OrganisationID.Equals(organisationID.Value)));
                 }
-                    
+
                 else
                 {
-                    List<Guid> orgIds = recipients.Where(w => w.UserAccountOrganisationID.HasValue).Select(o => o.UserAccountOrganisationID.Value).ToList();
-
-                     list = VDefaultEmailAddressConverter.ToDtos(scope.DbContext.VDefaultEmailAddresses.Where(s => orgIds.Contains(s.UserAccountOrganisationID)));
-            }
+                    rdto = VDefaultEmailAddressConverter.ToDto(scope.DbContext.VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID.Equals(userAccountOrganisationID.Value)));
                 }
-                   
+            }
 
-            return list;
+
+            return rdto;
         }
     }
 }

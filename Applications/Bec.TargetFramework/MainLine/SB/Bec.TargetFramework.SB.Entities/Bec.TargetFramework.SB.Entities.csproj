@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{90C7DDD5-CC14-411E-99FE-B2515BCF6AA1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.SB.Entities</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.SB.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Serilog.Tracing, Version=2.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.Serilog.Tracing.2.0.1.1\Lib\NET45\NServiceBus.Serilog.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Transports.SQLServer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.SqlServer.2.1.2\lib\net45\NServiceBus.Transports.SQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converter\BusEventBusEventMessageSubscriberConverter.cs" />
+    <Compile Include="Converter\BusEventConverter.cs" />
+    <Compile Include="Converter\BusEventMessageSubscriberConverter.cs" />
+    <Compile Include="Converter\BusEventTypeConverter.cs" />
+    <Compile Include="Converter\BusMessageContentConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converter\BusMessageConverter.cs" />
+    <Compile Include="Converter\BusMessageProcessLogConverter.cs" />
+    <Compile Include="Converter\BusTaskConverter.cs" />
+    <Compile Include="Converter\BusTaskHandlerConverter.cs" />
+    <Compile Include="Converter\BusTaskScheduleConverter.cs" />
+    <Compile Include="Converter\BusTaskScheduleProcessLogConverter.cs" />
+    <Compile Include="Converter\ClassificationTypeCategoryConverter.cs" />
+    <Compile Include="Converter\ClassificationTypeConverter.cs" />
+    <Compile Include="Converter\SettingConverter.cs" />
+    <Compile Include="Converter\StatusTypeConverter.cs" />
+    <Compile Include="Converter\StatusTypeStructureConverter.cs" />
+    <Compile Include="Converter\StatusTypeStructureTemplateConverter.cs" />
+    <Compile Include="Converter\StatusTypeStructureTransitionConverter.cs" />
+    <Compile Include="Converter\StatusTypeStructureTransitionTemplateConverter.cs" />
+    <Compile Include="Converter\StatusTypeTemplateConverter.cs" />
+    <Compile Include="Converter\StatusTypeValueConverter.cs" />
+    <Compile Include="Converter\StatusTypeValueTemplateConverter.cs" />
+    <Compile Include="Converter\VBusTaskScheduleConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converter\VStatusTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\BusEventBusEventMessageSubscriberDTO.cs" />
+    <Compile Include="DTO\BusEventBusEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>BusEventBusEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusEventDTO.cs" />
+    <Compile Include="DTO\BusEventDTO.Generated.cs">
+      <DependentUpon>BusEventDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusEventMessageSubscriberDTO.cs" />
+    <Compile Include="DTO\BusEventMessageSubscriberDTO.Generated.cs">
+      <DependentUpon>BusEventMessageSubscriberDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusEventTypeDTO.cs" />
+    <Compile Include="DTO\BusEventTypeDTO.Generated.cs">
+      <DependentUpon>BusEventTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusMessageContent1DTO.cs" />
+    <Compile Include="DTO\BusMessageContentDTO.cs" />
+    <Compile Include="DTO\BusMessageContentDTO.Generated.cs">
+      <DependentUpon>BusMessageContentDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\BusMessageDTO.cs" />
+    <Compile Include="DTO\BusMessageDTO.Generated.cs">
+      <DependentUpon>BusMessageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusMessageProcessLogDTO.cs" />
+    <Compile Include="DTO\BusMessageProcessLogDTO.Generated.cs">
+      <DependentUpon>BusMessageProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusTaskDTO.cs" />
+    <Compile Include="DTO\BusTaskDTO.Generated.cs">
+      <DependentUpon>BusTaskDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusTaskHandlerDTO.cs" />
+    <Compile Include="DTO\BusTaskHandlerDTO.Generated.cs">
+      <DependentUpon>BusTaskHandlerDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusTaskScheduleDTO.cs" />
+    <Compile Include="DTO\BusTaskScheduleDTO.Generated.cs">
+      <DependentUpon>BusTaskScheduleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\BusTaskScheduleProcessLogDTO.cs" />
+    <Compile Include="DTO\BusTaskScheduleProcessLogDTO.Generated.cs">
+      <DependentUpon>BusTaskScheduleProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\ClassificationTypeCategoryDTO.cs" />
+    <Compile Include="DTO\ClassificationTypeCategoryDTO.Generated.cs">
+      <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\ClassificationTypeDTO.cs" />
+    <Compile Include="DTO\ClassificationTypeDTO.Generated.cs">
+      <DependentUpon>ClassificationTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\Custom\EventPayload.cs" />
+    <Compile Include="DTO\Custom\SBSettings.cs" />
+    <Compile Include="DTO\SettingDTO.cs" />
+    <Compile Include="DTO\SettingDTO.Generated.cs">
+      <DependentUpon>SettingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeDTO.cs" />
+    <Compile Include="DTO\StatusTypeDTO.Generated.cs">
+      <DependentUpon>StatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeStructureDTO.cs" />
+    <Compile Include="DTO\StatusTypeStructureDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeStructureTemplateDTO.cs" />
+    <Compile Include="DTO\StatusTypeStructureTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeStructureTransitionDTO.cs" />
+    <Compile Include="DTO\StatusTypeStructureTransitionDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTransitionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeStructureTransitionTemplateDTO.cs" />
+    <Compile Include="DTO\StatusTypeStructureTransitionTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTransitionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeTemplateDTO.cs" />
+    <Compile Include="DTO\StatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeValueDTO.cs" />
+    <Compile Include="DTO\StatusTypeValueDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\StatusTypeValueTemplateDTO.cs" />
+    <Compile Include="DTO\StatusTypeValueTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\VBusTaskScheduleDTO.cs" />
+    <Compile Include="DTO\VBusTaskScheduleDTO.Generated.cs">
+      <DependentUpon>VBusTaskScheduleDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\VStatusTypeDTO.cs" />
+    <Compile Include="DTO\VStatusTypeDTO.Generated.cs">
+      <DependentUpon>VStatusTypeDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Enums\TargetFrameworkCoreEnums.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Data\Bec.TargetFramework.SB.Data.csproj">
+      <Project>{df0b93f6-efbb-43fc-af47-a75bf771d110}</Project>
+      <Name>Bec.TargetFramework.SB.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

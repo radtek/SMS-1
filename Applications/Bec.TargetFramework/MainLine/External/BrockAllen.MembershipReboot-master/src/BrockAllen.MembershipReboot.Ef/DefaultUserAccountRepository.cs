@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using Autofac;
 using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.IOC;
 namespace BrockAllen.MembershipReboot.Ef
 {
     public class DefaultUserAccountRepository
@@ -26,7 +27,7 @@ namespace BrockAllen.MembershipReboot.Ef
         private void SetupUserLogicIfInBusinessService()
         {
             if (m_UserLogic == null &&  AppDomain.CurrentDomain.FriendlyName.Contains(".Hosts.BusinessService"))
-                m_UserLogic = IocContainerBase.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserLogic>();
+                m_UserLogic = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserLogic>();
         }
 
         public List<UserAccount> GetAll()

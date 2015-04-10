@@ -24,7 +24,6 @@ using Bec.TargetFramework.Workflow.Scheduler;
 using Bec.TargetFramework.Workflow.Engine;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
-using NServiceBus.Serilog.Tracing;
 
 namespace Bec.TargetFramework.Hosts.WorkflowService
 {
@@ -55,15 +54,15 @@ namespace Bec.TargetFramework.Hosts.WorkflowService
 
         private void InitialiseIOC()
         {
-            ContainerBuilder builder = new ContainerBuilder();
+            //ContainerBuilder builder = new ContainerBuilder();
 
-            var registrar = new Bec.TargetFramework.Hosts.WorkflowService.IOC.DependencyRegistrar();
+            //var registrar = new Bec.TargetFramework.Hosts.WorkflowService.IOC.DependencyRegistrar();
 
-            registrar.Register(builder, null);
+            //registrar.Register(builder, null);
 
-            builder.Register(c => new WorkflowTaskManager(c.Resolve<WorkflowSettings>(), c.Resolve<ILogger>(),c.Resolve<WorkflowTaskScheduler>(),c.Resolve<WorkflowEngine>())).As<WorkflowTaskManager>().SingleInstance();
+            //builder.Register(c => new WorkflowTaskManager(c.Resolve<WorkflowSettings>(), c.Resolve<ILogger>(),c.Resolve<WorkflowTaskScheduler>(),c.Resolve<WorkflowEngine>())).As<WorkflowTaskManager>().SingleInstance();
 
-            builder.Register(c => new WorkflowProcessService(c.Resolve<WorkflowSettings>(), c.Resolve<ILogger>(), c.Resolve<WorkflowEngine>(), c.Resolve<WorkflowTaskManager>())).As<IWorkflowProcessService>(); 
+            //builder.Register(c => new WorkflowProcessService(c.Resolve<WorkflowSettings>(), c.Resolve<ILogger>(), c.Resolve<WorkflowEngine>(), c.Resolve<WorkflowTaskManager>())).As<IWorkflowProcessService>(); 
          
            // IocContainerBase.IocContainer = builder.Build();
  
