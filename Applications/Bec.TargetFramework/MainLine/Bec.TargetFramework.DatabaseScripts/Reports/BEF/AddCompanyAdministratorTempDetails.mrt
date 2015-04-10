@@ -148,10 +148,10 @@ Password: {TemporaryAccountDTO.Password}</Text>
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>4/9/2015 1:20:18 PM</ReportChanged>
+  <ReportChanged>4/10/2015 12:13:46 PM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>D:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\Final\ColpRegistration0001.mrt</ReportFile>
-  <ReportGuid>5c2d8c05783448ac8a8ef4df1b3f12ef</ReportGuid>
+  <ReportFile>D:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddCompanyAdministratorTempDetails.mrt</ReportFile>
+  <ReportGuid>2aed4904e0484426a812e29fc409c520</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>

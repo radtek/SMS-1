@@ -72,9 +72,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                                 s.GetSetMethod().Invoke(message, new object[] { payloadDictionary[s.PropertyType] });
                             });
 
-                        Bus.SetMessageHeader(message, "Source", "TFEventHandler");
+                        Bus.SetMessageHeader(message, "Source", AppDomain.CurrentDomain.FriendlyName);
                         Bus.SetMessageHeader(message, "MessageType", String.Format("{0},{1}", item.ObjectName, item.ObjectAssembly));
-                        Bus.SetMessageHeader(message, "ServiceType", "TFEventHandler");
+                        Bus.SetMessageHeader(message, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
 
                         if (!string.IsNullOrEmpty(tfEvent.EventPayloadDto.EventReference))
                             Bus.SetMessageHeader(message, "EventReference", tfEvent.EventPayloadDto.EventReference);

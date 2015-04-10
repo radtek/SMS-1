@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NServiceBus;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
@@ -61,6 +62,10 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     notificationConstruct.DefaultNotificationExportFormatID.GetValueOrDefault(0));
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };
+
+                Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
+                Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
+                Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
 
                 Bus.Publish(notificationMessage);
 
