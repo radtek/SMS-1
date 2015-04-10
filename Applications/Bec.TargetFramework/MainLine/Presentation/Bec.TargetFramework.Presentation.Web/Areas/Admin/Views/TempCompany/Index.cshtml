@@ -342,6 +342,10 @@
                         template: function (dataItem) {
                             return dateString(dataItem.CreatedOn);
                         }
+                    },
+                    {
+                        field: "CreatedBy",
+                        title: "Created By"
                     }
                 ],
                 dataBound: unverifiedDataBound,
@@ -416,6 +420,10 @@
                         template: function (dataItem) {
                             return dateString(dataItem.CreatedOn);
                         }
+                    },
+                    {
+                        field: "CreatedBy",
+                        title: "Created By"
                     }
                 ],
                 dataBound: verifiedDataBound,
