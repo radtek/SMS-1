@@ -33,9 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.6, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="EnsureThat">
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
     </Reference>
