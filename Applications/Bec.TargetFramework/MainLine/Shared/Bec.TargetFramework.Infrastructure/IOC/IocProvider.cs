@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Infrastructure.IOC
 
         public static Autofac.IContainer GetIocContainer(string key)
         {
-            return m_IocContainers[key];
+            return m_IocContainers.ContainsKey(key) ? m_IocContainers[key] : null;
         }
 
         public static Autofac.IContainer IocContainers
