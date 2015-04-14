@@ -389,6 +389,10 @@
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Client\Bec.TargetFramework.SB.Client.csproj">
+      <Project>{e4e0ed10-111e-4b5c-bb6f-07f2eccb30ae}</Project>
+      <Name>Bec.TargetFramework.SB.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
       <Name>Bec.TargetFramework.SB.Infrastructure</Name>
