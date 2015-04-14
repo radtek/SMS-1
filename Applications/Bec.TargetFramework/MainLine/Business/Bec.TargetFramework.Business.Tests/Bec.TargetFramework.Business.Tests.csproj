@@ -220,6 +220,10 @@
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
       <Name>Bec.TargetFramework.SB.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
       <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
       <Name>Bec.TargetFramework.Services</Name>
