@@ -41,5 +41,9 @@ namespace Bec.TargetFramework.Infrastructure.Settings
         public string IconFilePath { get; set; }
 
         public string Environment { get; set; }
+
+        public string PublicWebsiteUrl { get; set; }
+
+        public string ProductName { get; set; }
     }
 }

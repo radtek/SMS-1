@@ -73,58 +73,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
         {
             eventLog.WriteEntry("Starting Service");
 
-            try
-            {
-                InitialiseIOC();
-
-                Thread.Sleep(10000);
-
-                using (var proxy = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IEventPublishClient>())
-                {
-                    var tempAccountDto = new TemporaryAccountDTO
-                    {
-                        EmailAddress = "c.misson@beconsultancy.co.uk",
-                        UserName = "test",
-                        Password = "test",
-                        AccountExpiry = DateTime.Now.AddDays(5),
-                        UserAccountOrganisationID = Guid.Parse("3ac48762-d867-11e4-a114-00155d0a1426")
-                    };
-
-                    var orgWithAdmin = new VOrganisationWithStatusAndAdminDTO
-                    {
-                        Name = "Test Ltd",
-                        OrganisationAdminFirstName = "Chris",
-                        OrganisationAdminLastName = "Misson",
-                        OrganisationAdminSalutation = "Mr"
-                    };
-                    var dictionary = new ConcurrentDictionary<string, object>();
-
-                    dictionary.TryAdd("TemporaryAccountDTO", tempAccountDto);
-                    dictionary.TryAdd("VOrganisationWithStatusAndAdminDTO", orgWithAdmin);
-
-                    string payLoad = JsonHelper.SerializeData(new object[] { tempAccountDto, orgWithAdmin });
-
-                    var dto = new EventPayloadDTO
-                    {
-                        EventName = "TestEvent",
-                        EventSource = AppDomain.CurrentDomain.FriendlyName,
-                        EventReference = "1212",
-                        PayloadAsJson = payLoad
-                    };
-
-                    proxy.PublishEvent(dto);
-                }
-
-                
-            }
-            catch (Exception ex)
-            {
-                if (Serilog.Log.Logger == null)
-                    new SerilogLogger(true, false, "NotificationService").Error(ex);
-                else
-                    Serilog.Log.Logger.Error(ex, ex.Message, null);
-                OnStop();
-            }
+            InitialiseIOC();
         }
 
         protected override void OnStop()

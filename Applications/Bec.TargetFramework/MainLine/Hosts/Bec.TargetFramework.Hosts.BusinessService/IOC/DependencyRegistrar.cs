@@ -88,7 +88,10 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                             , c.Resolve<AuthenticationService>()
                             , c.Resolve<ILogger>()
                             , c.Resolve<ICacheProvider>()
-                            , c.Resolve<CommonSettings>(), c.Resolve<IUserLogic>(), c.Resolve<IDataLogic>())).As<IOrganisationLogic>();
+                            , c.Resolve<CommonSettings>(), 
+                            c.Resolve<IUserLogic>(), 
+                            c.Resolve<IDataLogic>(),
+                            c.Resolve<Bec.TargetFramework.SB.Interfaces.IEventPublishClient>())).As<IOrganisationLogic>();
 
             builder.Register(c => new ProductLogicService( c.Resolve<ILogger>()
                             , c.Resolve<ICacheProvider>(),c.Resolve<DeductionLogic>())).As<IProductLogic>();
@@ -152,6 +155,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new BusLogicService(c.Resolve<ILogger>()
                           , c.Resolve<ICacheProvider>(), c.Resolve<IClassificationDataLogic>())).As<IBusLogic>();
 
+            builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
+                ConfigurationManager.AppSettings["SBServiceBaseURL"]);
         }
 
 

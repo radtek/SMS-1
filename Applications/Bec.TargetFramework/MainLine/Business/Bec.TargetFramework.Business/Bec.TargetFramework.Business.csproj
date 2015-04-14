@@ -277,6 +277,14 @@
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
+      <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
+      <Name>Bec.TargetFramework.SB.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
       <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
       <Name>Bec.TargetFramework.Services.Contracts</Name>

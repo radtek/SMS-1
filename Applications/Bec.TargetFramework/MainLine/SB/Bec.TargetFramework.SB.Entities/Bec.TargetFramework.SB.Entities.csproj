@@ -202,6 +202,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
       <Name>Bec.TargetFramework.Infrastructure</Name>
@@ -210,10 +214,6 @@
       <Project>{df0b93f6-efbb-43fc-af47-a75bf771d110}</Project>
       <Name>Bec.TargetFramework.SB.Data</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

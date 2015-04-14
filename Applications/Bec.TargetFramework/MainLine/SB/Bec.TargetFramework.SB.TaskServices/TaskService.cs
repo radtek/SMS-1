@@ -132,47 +132,5 @@ namespace Bec.TargetFramework.SB.TaskServices
             if(m_Scheduler != null && !m_Scheduler.IsShutdown)
                 m_Scheduler.Shutdown();
         }
-
-        private void SentTestMessage()
-        {
-            Thread.Sleep(10000);
-
-            using (var proxy = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IEventPublishClient>())
-            {
-                var tempAccountDto = new Bec.TargetFramework.Entities.TemporaryAccountDTO
-                {
-                    EmailAddress = "k.howie@beconsultancy.co.uk",
-                    UserName = "test",
-                    Password = "test",
-                    AccountExpiry = DateTime.Now.AddDays(5),
-                    UserAccountOrganisationID = Guid.Parse("3ac48762-d867-11e4-a114-00155d0a1426")
-                };
-
-                var orgWithAdmin = new Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO
-                {
-                    Name = "Test Ltd",
-                    OrganisationAdminFirstName = "Chris",
-                    OrganisationAdminLastName = "Misson",
-                    OrganisationAdminSalutation = "Mr"
-                };
-                var dictionary = new ConcurrentDictionary<string, object>();
-
-                dictionary.TryAdd("TemporaryAccountDTO", tempAccountDto);
-                dictionary.TryAdd("VOrganisationWithStatusAndAdminDTO", orgWithAdmin);
-
-                string payLoad = JsonHelper.SerializeData(new object[] { tempAccountDto, orgWithAdmin });
-
-                var dto = new EventPayloadDTO
-                {
-                    EventName = "TestEvent",
-                    EventSource = AppDomain.CurrentDomain.FriendlyName,
-                    EventReference = "1212",
-                    PayloadAsJson = payLoad
-                };
-
-                proxy.PublishEvent(dto);
-            }
-        }
     }
-
 }

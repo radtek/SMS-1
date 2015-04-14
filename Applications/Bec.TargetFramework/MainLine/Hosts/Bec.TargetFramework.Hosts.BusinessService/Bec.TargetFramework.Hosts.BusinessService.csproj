@@ -393,6 +393,10 @@
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
       <Name>Bec.TargetFramework.SB.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Messages\Bec.TargetFramework.SB.Messages.csproj">
       <Project>{dcf731c2-85ee-46fd-9e4c-e38df52bdea1}</Project>
       <Name>Bec.TargetFramework.SB.Messages</Name>

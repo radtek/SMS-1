@@ -28,6 +28,8 @@ namespace Bec.TargetFramework.Business.Logic
     using EnsureThat;
     using System.Text;
     using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.Infrastructure.Helpers;
+    using Bec.TargetFramework.SB.Interfaces;
     //Bec.TargetFramework.Entities
 
     [Trace(TraceExceptionsOnly = true)]
@@ -38,8 +40,9 @@ namespace Bec.TargetFramework.Business.Logic
         private readonly CommonSettings m_CommonSettings;
         private IUserLogic m_UserLogic;
         private IDataLogic m_DataLogic;
+        private IEventPublishClient m_EventPublishClient;
         public OrganisationLogic(BrockAllen.MembershipReboot.UserAccountService uaService, BrockAllen.MembershipReboot.AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings
-            ,IUserLogic uLogic,IDataLogic dLogic)
+            , IUserLogic uLogic, IDataLogic dLogic, IEventPublishClient eventPublishClient)
             : base(logger, cacheProvider)
         {
              this.m_CommonSettings = commonSettings;
@@ -47,6 +50,7 @@ namespace Bec.TargetFramework.Business.Logic
             m_AuthSvc = authSvc;
             m_UserLogic = uLogic;
             m_DataLogic = dLogic;
+            m_EventPublishClient = eventPublishClient;
         }
 
         public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
@@ -262,21 +266,23 @@ namespace Bec.TargetFramework.Business.Logic
             var randomUsername = m_DataLogic.GenerateRandomName();
 
             var userId = Guid.NewGuid();
+            Guid? userOrgID;
 
-            ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false,
-                userId);
+            ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false, userId);
 
-            using (
-                var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 Logger.Trace(string.Format("new user: {0} password: {1}", randomUsername, randomPassword));
 
                 // add user to organisation
-                scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
+                userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
                   
             }
+
+            Ensure.That(userOrgID).IsNotNull();
+            SendNewUserEmail(randomUsername, randomPassword, userOrgID.Value, userContactDto);
 
             Ensure.That(ua).IsNotNull();
 
@@ -313,6 +319,32 @@ namespace Bec.TargetFramework.Business.Logic
             return uaoID;
         }
 
+        private void SendNewUserEmail(string username, string password, Guid userAccountOrganisationID, ContactDTO contact)
+        {
+            var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
+            {
+                Salutation = contact.Salutation,
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+                Username = username,
+                Password = password,
+                UserAccountOrganisationID = userAccountOrganisationID,
+                ProductName = m_CommonSettings.ProductName,
+                WebsiteURL = m_CommonSettings.PublicWebsiteUrl
+            };
+
+            string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
+
+            var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+            {
+                EventName = "TestEvent",
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "1212",
+                PayloadAsJson = payLoad
+            };
+
+            m_EventPublishClient.PublishEvent(dto);
+        }
 
         private Guid? AddOrganisation(int organisationTypeID, DefaultOrganisation defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {

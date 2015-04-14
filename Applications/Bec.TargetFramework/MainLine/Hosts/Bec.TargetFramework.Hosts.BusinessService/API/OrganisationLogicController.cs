@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.SB.Interfaces;
 
 namespace Bec.TargetFramework.Hosts.BusinessService.API
 {
@@ -26,8 +27,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService.API
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>(),
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IUserLogic>(),
-            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IDataLogic>()
-            )
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IDataLogic>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IEventPublishClient>())
         {
             
         }

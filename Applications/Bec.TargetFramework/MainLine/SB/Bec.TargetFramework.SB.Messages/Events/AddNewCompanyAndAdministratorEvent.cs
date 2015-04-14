@@ -10,7 +10,6 @@ namespace Bec.TargetFramework.SB.Messages.Events
 {
     public class AddNewCompanyAndAdministratorEvent : IEvent
     {
-        public TemporaryAccountDTO TemporaryAccountDto { get;set;}
-        public VOrganisationWithStatusAndAdminDTO VOrganisationWithStatusAndAdminDto { get; set; }
+        public AddNewCompanyAndAdministratorDTO AddNewCompanyAndAdministratorDto { get; set; }
     }
 }

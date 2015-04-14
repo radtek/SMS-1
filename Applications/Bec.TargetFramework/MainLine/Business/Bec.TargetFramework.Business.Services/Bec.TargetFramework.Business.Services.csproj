@@ -145,6 +145,10 @@
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities.Experian\Bec.TargetFramework.Entities.Experian.csproj">
       <Project>{0d8d76f4-98f1-4571-9b59-180026144ce3}</Project>
       <Name>Bec.TargetFramework.Entities.Experian</Name>

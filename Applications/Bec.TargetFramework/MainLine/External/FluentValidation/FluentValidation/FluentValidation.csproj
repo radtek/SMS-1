@@ -81,6 +81,11 @@
     </Compile>
     <Compile Include="AbstractValidator.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Resources\Messages.da.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.da.resx</DependentUpon>
+    </Compile>
     <Compile Include="TaskHelpers\TaskHelpers.cs" />
     <Compile Include="TaskHelpers\TaskHelpersExtensions.cs" />
     <Compile Include="AssemblyScanner.cs" />

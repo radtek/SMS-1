@@ -40,17 +40,15 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try 
             {
-                var uaoId = handlerEvent.TemporaryAccountDto.UserAccountOrganisationID;
+                var uaoId = handlerEvent.AddNewCompanyAndAdministratorDto.UserAccountOrganisationID;
 
-                var notificationConstruct =
-                                m_nLogic.GetLatestNotificationConstructIdFromName("AddCompanyAdministratorTempDetails");
+                var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromName("AddCompanyAdministratorTempDetails");
 
                 m_CommonSettings.NotificationFromEmailAddress = "applications@beconsultancy.co.uk";
 
                 var dictionary = new ConcurrentDictionary<string, object>();
 
-                dictionary.TryAdd("TemporaryAccountDTO", handlerEvent.TemporaryAccountDto);
-                dictionary.TryAdd("VOrganisationWithStatusAndAdminDTO", handlerEvent.VOrganisationWithStatusAndAdminDto);
+                dictionary.TryAdd("AddNewCompanyAndAdministratorDTO", handlerEvent.AddNewCompanyAndAdministratorDto);
 
                 // add coltemp accountid as recipient
                 var container = new NotificationContainerDTO(
