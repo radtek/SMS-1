@@ -41,7 +41,7 @@ VALUES (
   'Test' ,
   'Test',
   '0001',
-  'Bec.TargetFramework.SB.Notifications.Mutators.AddCompanyAdministratorTempDetails, Bec.TargetFramework.SB.Notifications',
+  'Bec.TargetFramework.SB.Notifications.Mutators.AddCompanyAdministratorTempDetailsMutator, Bec.TargetFramework.SB.Notifications',
   false
 );
 
