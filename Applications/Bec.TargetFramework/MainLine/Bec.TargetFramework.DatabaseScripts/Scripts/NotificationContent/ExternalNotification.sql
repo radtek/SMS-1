@@ -296,7 +296,7 @@ VALUES (
   NcTVN,
   null,
   NcResID,
-  (select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnread' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnRead' limit 1),
   null,
   null,
   true,
@@ -307,7 +307,7 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnread' limit 1),null,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnRead' limit 1),null,UserUserTypeID);
 
 
 INSERT INTO

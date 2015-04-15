@@ -348,6 +348,10 @@
       <Project>{dcf731c2-85ee-46fd-9e4c-e38df52bdea1}</Project>
       <Name>Bec.TargetFramework.SB.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.NotificationServices\Bec.TargetFramework.SB.NotificationServices.csproj">
+      <Project>{2d4b501e-c25d-40b4-8da4-c69685a87cb1}</Project>
+      <Name>Bec.TargetFramework.SB.NotificationServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">

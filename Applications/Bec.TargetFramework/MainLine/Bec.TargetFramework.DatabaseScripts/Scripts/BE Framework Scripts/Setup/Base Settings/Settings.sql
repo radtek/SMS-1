@@ -137,3 +137,9 @@ VALUES (52, E'LRSettings.LRCertificateSerialNumber', E'1', True, False);
 
 INSERT INTO public."Setting" ("Id", "Name", "Value", "IsActive", "IsDeleted")
 VALUES (53, E'LRSettings.LRBindingConfigurationName', E'1', True, False);
+
+INSERT INTO public."Setting" ("Id", "Name", "Value", "IsActive", "IsDeleted")
+VALUES (54, E'CommonSettings.ProductName', E'BEC Software', True, False);
+
+INSERT INTO public."Setting" ("Id", "Name", "Value", "IsActive", "IsDeleted")
+VALUES (55, E'CommonSettings.PublicWebsiteUrl', E'http://www.becsoftware.co.uk', True, False);

@@ -145,40 +145,9 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'VOrganisationWithStatusAndAdminDTO',
-  'Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO, Bec.TargetFramework.Entities',
-  'VOrganisationWithStatusAndAdminDTO',
-  'Bec.TargetFramework.Entities',
-  'Bec.TargetFramework.Entities',
-  true,
-  true,
-  false,
-  true,
-  'General'
-);
-
-INSERT INTO
-  public."NotificationConstructParameterTemplate"
-(
-  "NotificationConstructTemplateID",
-  "NotificationConstructTemplateVersionNumber",
-  "ParameterOrBusinessObjectName",
-  "ObjectType",
-  "ObjectName",
-  "ObjectNameSpace",
-  "ObjectAssembly",
-  "IsMandatory",
-  "IsActive",
-  "IsDeleted",
-  "IsBusinessObject",
-  "BusinessObjectCategoryName"
-)
-VALUES (
-  NcTID,
-  NcTVN,
-  'TemporaryAccountDTO',
-  'Bec.TargetFramework.Entities.TemporaryAccountDTO, Bec.TargetFramework.Entities',
-  'TemporaryAccountDTO',
+  'AddNewCompanyAndAdministratorDTO',
+  'Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO, Bec.TargetFramework.Entities',
+  'AddNewCompanyAndAdministratorDTO',
   'Bec.TargetFramework.Entities',
   'Bec.TargetFramework.Entities',
   true,
