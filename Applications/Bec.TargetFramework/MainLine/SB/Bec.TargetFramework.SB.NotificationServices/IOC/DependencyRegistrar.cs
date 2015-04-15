@@ -51,7 +51,13 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
         public virtual void Register(ContainerBuilder builder)
         {
             builder.Register(c => new SerilogLogger(true, false, "TaskService")).As<ILogger>().SingleInstance();
-            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
+            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
+                ConfigurationManager.AppSettings["couchbase:bucket"],
+                ConfigurationManager.AppSettings["couchbase:username"],
+                ConfigurationManager.AppSettings["couchbase:password"],
+                ConfigurationManager.AppSettings["couchbase:uri"],
+                ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
+                ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
         
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                 ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);

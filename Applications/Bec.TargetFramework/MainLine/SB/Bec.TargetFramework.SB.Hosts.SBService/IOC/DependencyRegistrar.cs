@@ -46,7 +46,13 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.IOC
         {
             // register logger
             builder.Register(c => new SerilogLogger(true, false, "TaskService")).As<ILogger>().SingleInstance();
-            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
+            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
+                ConfigurationManager.AppSettings["couchbase:bucket"],
+                ConfigurationManager.AppSettings["couchbase:username"],
+                ConfigurationManager.AppSettings["couchbase:password"],
+                ConfigurationManager.AppSettings["couchbase:uri"],
+                ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
+                ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
             builder.Register(c => new SBSettings()).As<SBSettings>().SingleInstance();
             builder.Register(c => new BusLogicController(c.Resolve<ILogger>(),c.Resolve<ICacheProvider>())).As<BusLogic>();
             builder.Register(c => new BusLogicClient(ConfigurationManager.AppSettings["SBServiceBaseURL"])).As<IBusLogicClient>();

@@ -58,7 +58,13 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>();
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
             builder.Register(c => new SerilogLogger(true, true, "TFWebApplication")).As<ILogger>().SingleInstance();
-            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
+            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
+                ConfigurationManager.AppSettings["couchbase:bucket"],
+                ConfigurationManager.AppSettings["couchbase:username"],
+                ConfigurationManager.AppSettings["couchbase:password"],
+                ConfigurationManager.AppSettings["couchbase:uri"],
+                ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
+                ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
             builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",

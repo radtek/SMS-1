@@ -16,6 +16,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
     using Enyim.Caching.Memcached.Results.Helpers;
 
     using ServiceStack.Common;
+    using Couchbase.Configuration;
 
     public sealed class CouchBaseCacheClient : ICacheClient,ICacheProvider
     {
@@ -25,20 +26,33 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
         private CouchbaseClient m_Client;
 
         private ILogger m_Logger;
+        private CouchbaseClientConfiguration m_config;
 
-        public CouchBaseCacheClient(ILogger logger)
+        private CouchBaseCacheClient(ILogger logger, CouchbaseClientConfiguration config)
         {
             m_Logger = logger;
-            m_Client = new CouchbaseClient();
+            m_Client = new CouchbaseClient(config);
         }
 
-        public CouchBaseCacheClient()
+        public CouchBaseCacheClient(ILogger logger, string bucket, string username, string password, string uri, string connectionTimeout, string deadTimeout)
         {
+            var config = new CouchbaseClientConfiguration
+            {
+                Bucket = bucket,
+                Username = username,
+                BucketPassword = password
+            };
+            config.Urls.Add(new Uri(uri));
+            config.SocketPool.ConnectionTimeout = TimeSpan.Parse(connectionTimeout);
+            config.SocketPool.DeadTimeout = TimeSpan.Parse(deadTimeout);
+
+            m_Logger = logger;
+            m_Client = new CouchbaseClient(config);
         }
 
         public ICacheClient CreateCacheClient(ILogger logger)
         {
-            return new CouchBaseCacheClient(logger);
+            return new CouchBaseCacheClient(logger, m_config);
         }
 
         public bool Add<T>(string key, T value, TimeSpan expiresIn)

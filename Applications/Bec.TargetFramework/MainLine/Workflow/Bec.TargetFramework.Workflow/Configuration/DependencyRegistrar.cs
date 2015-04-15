@@ -33,7 +33,13 @@ namespace Bec.TargetFramework.Workflow.Configuration
         {
             // register logger
             builder.Register(c => new SerilogLogger(true,false, "Workflow")).As<ILogger>().SingleInstance();
-            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>())).As<ICacheProvider>().SingleInstance();
+            builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
+                ConfigurationManager.AppSettings["couchbase:bucket"],
+                ConfigurationManager.AppSettings["couchbase:username"],
+                ConfigurationManager.AppSettings["couchbase:password"],
+                ConfigurationManager.AppSettings["couchbase:uri"],
+                ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
+                ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
 
             // register scheduler
             builder.RegisterType<WorkflowTaskScheduler>().As<WorkflowTaskScheduler>().SingleInstance();
