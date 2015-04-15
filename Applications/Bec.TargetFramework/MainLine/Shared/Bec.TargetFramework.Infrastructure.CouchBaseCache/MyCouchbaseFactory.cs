@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
             {
                 Bucket = ConfigurationManager.AppSettings["couchbase:bucket"],
                 Username = ConfigurationManager.AppSettings["couchbase:username"],
-                BucketPassword = ConfigurationManager.AppSettings["couchbase:password"]
+                Password = ConfigurationManager.AppSettings["couchbase:password"]
             };
             c.Urls.Add(new Uri(ConfigurationManager.AppSettings["couchbase:uri"]));
             c.SocketPool.ConnectionTimeout = TimeSpan.Parse(ConfigurationManager.AppSettings["couchbase:connectionTimeout"]);
