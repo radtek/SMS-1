@@ -36,18 +36,18 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
 
         public CouchBaseCacheClient(ILogger logger, string bucket, string username, string password, string uri, string connectionTimeout, string deadTimeout)
         {
-            var config = new CouchbaseClientConfiguration
+            m_config = new CouchbaseClientConfiguration
             {
                 Bucket = bucket,
                 Username = username,
-                BucketPassword = password
+                Password = password
             };
-            config.Urls.Add(new Uri(uri));
-            config.SocketPool.ConnectionTimeout = TimeSpan.Parse(connectionTimeout);
-            config.SocketPool.DeadTimeout = TimeSpan.Parse(deadTimeout);
+            m_config.Urls.Add(new Uri(uri));
+            m_config.SocketPool.ConnectionTimeout = TimeSpan.Parse(connectionTimeout);
+            m_config.SocketPool.DeadTimeout = TimeSpan.Parse(deadTimeout);
 
             m_Logger = logger;
-            m_Client = new CouchbaseClient(config);
+            m_Client = new CouchbaseClient(m_config);
         }
 
         public ICacheClient CreateCacheClient(ILogger logger)

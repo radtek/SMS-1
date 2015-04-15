@@ -71,7 +71,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
         public void Stop()
         {
-            throw new NotImplementedException();
         }
     }
 }

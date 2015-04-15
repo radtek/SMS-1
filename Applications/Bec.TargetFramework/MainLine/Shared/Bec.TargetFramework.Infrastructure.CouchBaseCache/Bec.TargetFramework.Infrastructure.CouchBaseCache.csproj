@@ -36,6 +36,10 @@
     <Reference Include="Couchbase">
       <HintPath>..\..\References\Couchbase.dll</HintPath>
     </Reference>
+    <Reference Include="Couchbase.AspNet, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Couchbase.AspNet.dll</HintPath>
+    </Reference>
     <Reference Include="EnsureThat, Version=2.0.0.39118, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
@@ -60,6 +64,7 @@
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CouchBaseCacheClient.cs" />
+    <Compile Include="MyCouchbaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
