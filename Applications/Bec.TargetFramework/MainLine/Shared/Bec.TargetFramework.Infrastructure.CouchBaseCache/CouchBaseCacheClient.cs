@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
         private CouchBaseCacheClient(ILogger logger, CouchbaseClientConfiguration config)
         {
             m_Logger = logger;
+            m_config = config;
             m_Client = new CouchbaseClient(config);
         }
 
@@ -273,7 +274,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
 
         private string formatResult(Enyim.Caching.Memcached.Results.IOperationResult result, string key)
         {
-            return string.Format("Error caching. Status: {0}, Key: {1}", result.StatusCode, key);
+            return string.Format("Error caching. Status: {0}, Key: {1}, debug:{2}, {3}, {4}", result.StatusCode, key, this.m_config.Bucket, this.m_config.Username, string.Join(",",this.m_config.Urls.Select(u=>u.ToString())));
         }
 
         public void SetAll<T>(IDictionary<string, T> values)
