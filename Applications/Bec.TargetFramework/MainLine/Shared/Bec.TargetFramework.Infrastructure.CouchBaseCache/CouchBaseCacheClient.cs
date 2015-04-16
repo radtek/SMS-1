@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -94,7 +94,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -119,7 +119,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
 
                 return result.Value;
@@ -137,7 +137,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
 
                 return result.Value;
@@ -165,7 +165,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
 
@@ -185,7 +185,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -201,7 +201,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -217,7 +217,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -233,7 +233,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -249,7 +249,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 m_Logger.Error(new TargetFrameworkLogDTO
                 {
                     Exception = result.Exception,
-                    Message = "Error caching:" + key
+                    Message = formatResult(result, key)
                 });
             }
             return result.Success;
@@ -262,13 +262,18 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
             if (!result.Success)
             {
                 m_Logger.Error(new TargetFrameworkLogDTO
-                                   {
-                                       Exception = result.Exception,
-                                       Message = "Error caching:" + key
-                                   });
+                {
+                    Exception = result.Exception,
+                    Message = formatResult(result, key)
+                });
             }
 
             return result.Success;
+        }
+
+        private string formatResult(Enyim.Caching.Memcached.Results.IOperationResult result, string key)
+        {
+            return string.Format("Error caching. Status: {0}, Key: {1}", result.StatusCode, key);
         }
 
         public void SetAll<T>(IDictionary<string, T> values)
