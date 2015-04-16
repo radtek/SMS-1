@@ -32,7 +32,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.IOC
     using Bec.TargetFramework.Infrastructure.IOC;
     using Bec.TargetFramework.Infrastructure.Settings;
     using Bec.TargetFramework.Business.Client.Interfaces;
-    using Bec.TargetFramework.SB.NotificationServices.Report;
 
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
@@ -71,11 +70,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.IOC
                 {
                     builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
                 });
-
-            builder.Register(c => new StandaloneReportGenerator(c.Resolve<IClassificationDataLogicClient>())).As<StandaloneReportGenerator>();
         }
-
-
     }
-
 }
