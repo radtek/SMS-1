@@ -148,8 +148,12 @@ namespace Bec.TargetFramework.Business.Logic
 
         public string GenerateRandomName()
         {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 8; i++) sb.Append(RandGen.Next(10));
+            return sb.ToString();
+
             //Prefix with Temp so that user doesn't get confused when a random name is generated
-            return "Temp" + GenerateRandomFirstName() + GenerateRandomLastName();
+            //return "Temp" + GenerateRandomFirstName() + GenerateRandomLastName();
         }
         public string GenerateRandomLastName()
         {
