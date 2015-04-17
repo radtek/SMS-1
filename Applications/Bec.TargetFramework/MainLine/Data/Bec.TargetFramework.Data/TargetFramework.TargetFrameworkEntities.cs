@@ -2834,7 +2834,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnAddUserToOrganisation in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> FnAddUserToOrganisation(global::System.Nullable<System.Guid> useraccountid, global::System.Nullable<System.Guid> organisationid, global::System.Nullable<System.Guid> usertypeid, global::System.Nullable<System.Guid> organisationbranchid)
+        public virtual global::System.Nullable<System.Guid> FnAddUserToOrganisation (global::System.Nullable<System.Guid> useraccountid, global::System.Nullable<System.Guid> organisationid, global::System.Nullable<System.Guid> usertypeid, global::System.Nullable<System.Guid> organisationbranchid)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2882,7 +2882,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnCreateOrganisationFromDefault in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string organisationdescription)
+        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string organisationdescription, string createdby)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2920,6 +2920,10 @@ namespace Bec.TargetFramework.Data
                 if (organisationdescription != null)
                     organisationdescriptionParameter.Value = organisationdescription;
                 command.Parameters.Add(organisationdescriptionParameter);
+                EntityParameter createdbyParameter = new EntityParameter("createdby", System.Data.DbType.String);
+                if (createdby != null)
+                    createdbyParameter.Value = createdby;
+                command.Parameters.Add(createdbyParameter);
                 result = (global::System.Nullable<System.Guid>)command.ExecuteScalar();
               }
             }

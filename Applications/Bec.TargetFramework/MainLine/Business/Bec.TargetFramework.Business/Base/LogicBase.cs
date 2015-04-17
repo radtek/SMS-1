@@ -93,6 +93,15 @@ namespace Bec.TargetFramework.Business.Logic
                 dto = OperationContext.Current.IncomingMessageHeaders.GetHeader<UserIdentificationMessageDTO>(index);
             }
             return dto;
-        }    
+        }
+
+        protected string GetUserName()
+        {
+            System.Collections.Generic.IEnumerable<string> values;
+            if (Request.Headers.TryGetValues("User", out values))
+                return values.First();
+            else
+                return "";
+        }
     }
 }

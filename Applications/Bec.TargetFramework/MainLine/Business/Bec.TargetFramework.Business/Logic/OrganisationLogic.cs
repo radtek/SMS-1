@@ -142,7 +142,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusTypeVersionNumber = status.StatusTypeVersionNumber,
                     StatusTypeValueID = status.StatusTypeValueID,
                     StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = "System"
+                    StatusChangedBy = GetUserName()
                 });
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
@@ -169,7 +169,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusTypeVersionNumber = status.StatusTypeVersionNumber,
                     StatusTypeValueID = status.StatusTypeValueID,
                     StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = "System"
+                    StatusChangedBy = GetUserName()
                 });
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
@@ -359,7 +359,8 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.Name,
-                    "");
+                    "",
+                    GetUserName());
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
                    

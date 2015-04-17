@@ -13,6 +13,7 @@ using ServiceStack.ServiceHost;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Business.Client.Interfaces;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -31,9 +32,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult LoadCompanies(ProfessionalOrganisationStatusEnum orgStatus)
+        public async Task<ActionResult> LoadCompanies(ProfessionalOrganisationStatusEnum orgStatus)
         {
-            List<VOrganisationWithStatusAndAdminDTO> list =m_OrganisationClient.GetCompanies(orgStatus);
+            List<VOrganisationWithStatusAndAdminDTO> list = await m_OrganisationClient.GetCompaniesAsync(orgStatus);
 
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -45,11 +46,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTempCompany(AddCompanyDTO model)
+        public async Task<ActionResult> AddTempCompany(AddCompanyDTO model)
         {
             if (ModelState.IsValid)
             {
-                var id = m_OrganisationClient.AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum.Conveyancing, model);
+                var id = await m_OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
 
                 TempData["AddTempCompanyId"] = id;
             }
@@ -57,21 +58,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult FindAddress(string postcode)
+        public async Task<ActionResult> FindAddress(string postcode)
         {
-            List<PostCodeDTO> list = m_OrganisationClient.FindAddressesByPostCode(postcode, null);
+            List<PostCodeDTO> list = await m_OrganisationClient.FindAddressesByPostCodeAsync(postcode, null);
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ValidateAddress(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
+        public async Task<ActionResult> ValidateAddress(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
         {
-            return Json(m_OrganisationClient.FindDuplicateOrganisations(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
+            return Json(await m_OrganisationClient.FindDuplicateOrganisationsAsync(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewRejectTempCompany(Guid orgId)
+        public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
         {
-            var org = m_OrganisationClient.GetOrganisationDTO(orgId);
+            var org = await m_OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
             ViewBag.companyName = org.Name;
@@ -79,15 +80,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult RejectTempCompany(RejectCompanyDTO model)
+        public async Task<ActionResult> RejectTempCompany(RejectCompanyDTO model)
         {
-            m_OrganisationClient.RejectOrganisation(model);
+            await m_OrganisationClient.RejectOrganisationAsync(model);
             return RedirectToAction("Index");
         }
 
-        public ActionResult ViewGeneratePin(Guid orgId)
+        public async Task<ActionResult> ViewGeneratePin(Guid orgId)
         {
-            var org = m_OrganisationClient.GetOrganisationDTO(orgId);
+            var org = await m_OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
             ViewBag.companyName = org.Name;
@@ -95,9 +96,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult GeneratePin(GeneratePinDTO model)
+        public async Task<ActionResult> GeneratePin(GeneratePinDTO model)
         {
-            m_OrganisationClient.GeneratePin(model);
+            await m_OrganisationClient.GeneratePinAsync(model);
 
             TempData["VerifiedCompanyId"] = model.OrganisationId;
             return RedirectToAction("Index");
