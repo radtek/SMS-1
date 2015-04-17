@@ -114,7 +114,7 @@
       <HintPath>..\..\packages\Iesi.Collections.3.3.3.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
-      <HintPath>..\..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Services3">
       <HintPath>..\..\References\Microsoft.Web.Services3.dll</HintPath>
