@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Base
     //[PreventMultipleSubmitsActionFilter]
     [SessionExpireFilter]
     //[AuditActionFilter(AuditingLevel = 1)]
-    [Authorize]
+    [AjaxFriendlyAuthorize]
     public class ApplicationControllerBase : Controller
     {
         private ILogger m_Logger { get; set; }

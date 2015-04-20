@@ -312,6 +312,7 @@
     <Compile Include="Areas\Admin\Controllers\TempCompanyController.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\LocsAuthorizeFilter.cs" />
     <Compile Include="Filters\PreventMultipleLoginsActionFilter.cs" />
