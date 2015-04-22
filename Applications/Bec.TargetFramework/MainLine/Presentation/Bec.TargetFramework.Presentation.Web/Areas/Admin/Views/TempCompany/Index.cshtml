@@ -173,16 +173,14 @@
                                 </dl>
                                 <h5>Other Details</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Created On:</dt>
-                                    <dd><p id="ddrCompanyCreatedOn"></p></dd>
                                     <dt>Rejected On:</dt>
                                     <dd><p id="ddrRejectedOn"></p></dd>
                                     <dt>Rejected By:</dt>
                                     <dd><p id="ddrRejectedBy"></p></dd>
-                                    <dt>Reason:</dt>
-                                    <dd><p id="ddrReason"></p></dd>
-                                    <dt>Notes:</dt>
-                                    <dd><p id="ddrNotes"></p></dd>
+                                    <dt>Rejected Reason:</dt>
+                                    <dd><p id="ddrRejectedReason"></p></dd>
+                                    <dt>Rejected Notes:</dt>
+                                    <dd><p id="ddrRejectedNotes"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -539,14 +537,6 @@
                         }
                     },
                     {
-                        field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
-                    },
-                    {
-                        field: "OrganisationAdminEmail",
-                        title: "Email"
-                    },
-                    {
                         field: "StatusChangedOn",
                         title: "Rejected On",
                         template: function (dataItem) {
@@ -556,6 +546,10 @@
                     {
                         field: "StatusChangedBy",
                         title: "Rejected By"
+                    },
+                    {
+                        field: "Reason",
+                        title: "Rejected Reason"
                     }
                 ],
                 dataBound: rejectedDataBound,
@@ -673,7 +667,6 @@
                 //rSelectedItem = dataItem;
 
                 $("p#ddrCompanyName").text(dataItem.Name || "");
-                $("p#ddrCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
                 $("p#ddrCompanyCounty").text(dataItem.County || "");
                 $("p#ddrCompanyPostCode").text(dataItem.PostalCode || "");
                 $("p#ddrCompanyTownCity").text(dataItem.Town || "");
@@ -690,8 +683,8 @@
 
                 $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
                 $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
-                $("p#ddrReason").text(dataItem.Reason);
-                $("p#ddrNotes").text(dataItem.Notes);
+                $("p#ddrRejectedReason").text(dataItem.Reason);
+                $("p#ddrRejectedNotes").text(dataItem.Notes);
             }
         }
 
