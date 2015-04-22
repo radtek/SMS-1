@@ -21,24 +21,53 @@ manAddRow.hide();
 noMatch.hide();
 
 $('#manualAddress').change(function () {
-    $('#Line1').attr('readonly', !this.checked);
-    $('#Line2').attr('readonly', !this.checked);
-    $('#Town').attr('readonly', !this.checked);
-    $('#County').attr('readonly', !this.checked);
-    $('#PostalCode').attr('readonly', !this.checked);
-    $('#AdditionalAddressInformation').attr('readonly', !this.checked);
-
+    lockFields(!this.checked);
 });
 
 resList.change(function () {
     var selOpt = resList.find(":selected");
-    $('#Name').val(selOpt.attr('data-Company')).valid();
-    $('#Line1').val(selOpt.attr('data-Line1')).valid();
-    $('#Line2').val(selOpt.attr('data-Line2')).valid();
-    $('#Town').val(selOpt.attr('data-PostTown')).valid();
-    $('#County').val(selOpt.attr('data-County')).valid();
-    $('#PostalCode').val(selOpt.attr('data-Postcode')).valid();
+    var x = selOpt.attr('data-Opt');
+    if (x) {
+        if (x == "manual") {
+            clearForm();
+        }
+    }
+    else {
+        manAddRow.show();
+        checkMan(false);
+        $('#Name').val(selOpt.attr('data-Company')).valid();
+        $('#Line1').val(selOpt.attr('data-Line1')).valid();
+        $('#Line2').val(selOpt.attr('data-Line2')).valid();
+        $('#Town').val(selOpt.attr('data-PostTown')).valid();
+        $('#County').val(selOpt.attr('data-County')).valid();
+        $('#PostalCode').val(selOpt.attr('data-Postcode')).valid();
+    }
 });
+
+function clearForm() {
+    manAddRow.hide();
+    checkMan(true);
+    $('#Name').val('');
+    $('#Line1').val('');
+    $('#Line2').val('');
+    $('#Town').val('');
+    $('#County').val('');
+    $('#PostalCode').val('');
+}
+
+function checkMan(check) {
+    $('#manualAddress').prop('checked', check);
+    lockFields(!check);
+}
+
+function lockFields(lock) {
+    $('#Line1').attr('readonly', lock);
+    $('#Line2').attr('readonly', lock);
+    $('#Town').attr('readonly', lock);
+    $('#County').attr('readonly', lock);
+    $('#PostalCode').attr('readonly', lock);
+    $('#AdditionalAddressInformation').attr('readonly', lock);
+}
 
 $("#findaddressbutton").click(function () {
     var fa = $("#findaddressbutton");
@@ -56,12 +85,13 @@ $("#findaddressbutton").click(function () {
     .always(function () {
         resList.empty();
         fa.prop('disabled', false);
-        manAddRow.show();
+        checkMan(false);
     })
     .done(function (result) {
         noMatch.hide();
         if (result && result.length > 0) {
-            resList.append($("<option>Please select an address:</option>"));
+            resList.append($("<option data-Opt='none'>Please select an address:</option>"));
+            resList.append($("<option data-Opt='manual'>Address not listed, please enter manually</option>"));
             $.each(result, function (i, item) {
                 var opt = $("<option>" + item.FullAddress + "</option>");
                 opt.attr('data-Company', item.Company);
@@ -75,13 +105,18 @@ $("#findaddressbutton").click(function () {
             resRow.show();
         }
         else {
-            noMatch.show();
+            lookupFailed();
         }
     })
     .fail(function () {
-        noMatch.show();
+        lookupFailed();
     });
 });
+
+function lookupFailed() {
+    noMatch.show();
+    clearForm();
+}
 
 // Validation
 $("#addTempCompany-form").validate({
