@@ -16,6 +16,9 @@
                 <li id="tabv">
                     <a href="#s2" data-toggle="tab"> Verified </a>
                 </li>
+                <li id="tabr">
+                    <a href="#s3" data-toggle="tab"> Rejected </a>
+                </li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
                 <div class="tab-pane fade in active" id="s1" role="tabpanel">
@@ -127,6 +130,64 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="s3" role="tabpanel">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="well">
+                                <div id="rejectedGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <h5>Company</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddrCompanyName"></p></dd>
+                                    <dt>Address:</dt>
+                                    <dd><p id="ddrCompanyAddress1"></p></dd>
+                                    <dd><p id="ddrCompanyAddress2"></p></dd>
+                                    <dd><p id="ddrCompanyTownCity"></p></dd>
+                                    <dd><p id="ddrCompanyCounty"></p></dd>
+                                    <dd><p id="ddrCompanyPostCode"></p></dd>
+                                    <dd><p id="ddrAdditional"></p></dd>
+                                    <dt>Regulator:</dt>
+                                    <dd><p id="ddrRegulator"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <h5>System Administrator</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddrSystemAdminName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddrSystemAdminEmail"></p></dd>
+                                    <dt>Telephone:</dt>
+                                    <dd><p id="ddrSystemAdminTel"></p></dd>
+                                </dl>
+                                <h5>Other Details</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Created On:</dt>
+                                    <dd><p id="ddrCompanyCreatedOn"></p></dd>
+                                    <dt>Rejected On:</dt>
+                                    <dd><p id="ddrRejectedOn"></p></dd>
+                                    <dt>Rejected By:</dt>
+                                    <dd><p id="ddrRejectedBy"></p></dd>
+                                    <dt>Reason:</dt>
+                                    <dd><p id="ddrReason"></p></dd>
+                                    <dt>Notes:</dt>
+                                    <dd><p id="ddrNotes"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -208,10 +269,11 @@
 
         var newCompanyId = '@TempData["AddTempCompanyId"]';
         var uSelectedItem, vSelectedItem;
-        var unVerifiedLoaded = false, verifiedLoaded = false;
+        var unVerifiedLoaded = false, verifiedLoaded = false, rejectedLoaded = false;
 
         var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Unverified})';
         var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified })';
+        var getRejectedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Rejected })';
 
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
@@ -219,6 +281,7 @@
             $('#myTab1 li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 if ($(e.target).attr('href') == '#s1') makeUnverifiedGrid();
                 if ($(e.target).attr('href') == '#s2') makeVerifiedGrid();
+                if ($(e.target).attr('href') == '#s3') makeRejectedGrid();
             });
 
             if (verifiedId) {
@@ -430,6 +493,76 @@
             });
         };
 
+        function makeRejectedGrid() {
+            if (rejectedLoaded) return;
+            rejectedLoaded = true;
+            $("#rejectedGrid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: getGridDataFromUrl(getRejectedCompaniesUrl)
+                    },
+                    schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+                    sort: loadGridSort("rejectedGrid") || { field: "StatusChangedOn", dir: "desc" }
+                },
+                height: 300,
+                selectable: "row",
+                filterable: false,
+                sortable: true,
+                navigatable: true,
+                pageable: {
+                    numeric: false,
+                    previousNext: false,
+                    messages: { display: "{2} rows" }
+                },
+                columns: [
+                     {
+                         field: "OrganisationID",
+                         hidden: true,
+                     },
+                    {
+                        field: "Name",
+                        title: "Company Name"
+                    },
+                    {
+                        field: "Line1",
+                        title: "Address 1"
+                    },
+                    {
+                        field: "PostalCode",
+                        title: "Post Code"
+                    },
+                    {
+                        field: "OrganisationAdminLastName",
+                        title: "System Administrator",
+                        template: function (dataItem) {
+                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
+                        }
+                    },
+                    {
+                        field: "OrganisationAdminTelephone",
+                        title: "Telephone Number"
+                    },
+                    {
+                        field: "OrganisationAdminEmail",
+                        title: "Email"
+                    },
+                    {
+                        field: "StatusChangedOn",
+                        title: "Rejected On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.StatusChangedOn);
+                        }
+                    },
+                    {
+                        field: "StatusChangedBy",
+                        title: "Rejected By"
+                    }
+                ],
+                dataBound: rejectedDataBound,
+                change: rejectedChange
+            });
+        };
+
         function unverifiedDataBound(e) {
             saveGridSort("unverifiedGrid");
 
@@ -469,6 +602,14 @@
             else {
                 scrollToRow(grid, vSelectedItem);
             }
+        }
+
+        function rejectedDataBound(e) {
+            saveGridSort("rejectedGrid");
+
+            var grid = $("#rejectedGrid").data("kendoGrid");
+            var gridData = grid.dataSource.data();
+            if (gridData.length == 0) return;
         }
 
         function unverifiedChange(e) {
@@ -521,6 +662,36 @@
 
                 $("p#ddvPINNumber").text(dataItem.OrganisationPinCode);
                 $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
+            }
+        }
+
+        function rejectedChange(e) {
+            var selectedRows = this.select();
+            if (selectedRows.length == 1) {
+
+                var dataItem = this.dataItem(selectedRows[0]);
+                //rSelectedItem = dataItem;
+
+                $("p#ddrCompanyName").text(dataItem.Name || "");
+                $("p#ddrCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+                $("p#ddrCompanyCounty").text(dataItem.County || "");
+                $("p#ddrCompanyPostCode").text(dataItem.PostalCode || "");
+                $("p#ddrCompanyTownCity").text(dataItem.Town || "");
+                $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
+                $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
+                $("p#ddrAdditional").text(dataItem.AdditionalAddressInformation || "");
+                $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+                $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+                $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+
+                var regulatorName = dataItem.Regulator || "";
+                if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+                $("p#ddvRegulator").text(regulatorName);
+
+                $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
+                $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
+                $("p#ddrReason").text(dataItem.Reason);
+                $("p#ddrNotes").text(dataItem.Notes);
             }
         }
 
