@@ -101,6 +101,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await m_OrganisationClient.GeneratePinAsync(model);
 
             TempData["VerifiedCompanyId"] = model.OrganisationId;
+            TempData["tabIndex"] = 1;
             return RedirectToAction("Index");
         }
     }

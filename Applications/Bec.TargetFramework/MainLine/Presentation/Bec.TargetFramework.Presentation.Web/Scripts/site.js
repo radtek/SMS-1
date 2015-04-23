@@ -11,7 +11,8 @@ function ajaxWrapper(options) {
 function getGridDataFromUrl(url) {
     return function (options) {
         ajaxWrapper({
-            url: url
+            url: url,
+            cache: false
         }).done(function (result) {
             options.success(result);
         });
@@ -89,7 +90,8 @@ var tabItem = function (tabId, tabs) {
     };
 
     this.showTab = function (index) {
-        $('#' + this.tabId + ' li:eq(' + index + ') a').tab('show');
+        var i = index || 0;
+        $('#' + this.tabId + ' li:eq(' + i + ') a').tab('show');
     };
 
 };
@@ -99,6 +101,7 @@ var tabItem = function (tabId, tabs) {
 // persisting sorted columns
 // jumping to a particular row following an action
 // maintaining selection on sort
+// displaying panels when row selected
 var gridItem = function (options) {
     this.options = options;
     this.loaded = false;
@@ -158,6 +161,11 @@ var gridItem = function (options) {
         if (selectedRows.length == 1) {
             var dataItem = self.grid.dataItem(selectedRows[0]);
             self.selectedItem = dataItem;
+            if (self.options.panels) {
+                for (var p in self.options.panels) {
+                    $('#' + self.options.panels[p]).removeClass("hidden");
+                }
+            }
             self.options.change(dataItem); //any custom data binding
         }
     };

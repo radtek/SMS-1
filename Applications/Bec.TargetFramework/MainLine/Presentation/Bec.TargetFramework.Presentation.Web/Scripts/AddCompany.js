@@ -6,7 +6,7 @@ $("#formSubmit").click(function () {
 $('#cancelAdd').click(function () {
     handleModal($('#cancelModal'), {
         cancelYes: function () {
-            $('#addModal').modal('hide');
+            $('#modalContainer').modal('hide');
         }
     }, true);
 });

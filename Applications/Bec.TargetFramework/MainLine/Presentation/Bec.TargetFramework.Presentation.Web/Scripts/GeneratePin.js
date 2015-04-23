@@ -6,7 +6,7 @@ $("#submitGeneratePin").click(function () {
 $('#cancelGeneratePin').click(function () {
     handleModal($('#cancelModal'), {
         cancelYes: function () {
-            $('#generatePinModal').modal('hide');
+            $('#modalContainer').modal('hide');
         }
     }, true);
 });

@@ -6,7 +6,7 @@ $("#submitReject").click(function () {
 $('#cancelReject').click(function () {
     handleModal($('#cancelModal'), {
         cancelYes: function () {
-            $('#rejectModal').modal('hide');
+            $('#modalContainer').modal('hide');
         }
     }, true);
 });
