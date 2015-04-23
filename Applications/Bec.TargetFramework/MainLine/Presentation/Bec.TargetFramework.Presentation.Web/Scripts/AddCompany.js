@@ -19,6 +19,7 @@ var noMatch = $('#noMatch');
 resRow.hide();
 manAddRow.hide();
 noMatch.hide();
+resList.prop('disabled', true);
 
 $('#manualAddress').change(function () {
     lockFields(!this.checked);
@@ -89,6 +90,7 @@ $("#findaddressbutton").click(function () {
     })
     .done(function (result) {
         noMatch.hide();
+        resList.prop('disabled', false);
         if (result && result.length > 0) {
             resList.append($("<option data-Opt='none'>Please select an address:</option>"));
             resList.append($("<option data-Opt='manual'>Address not listed, please enter manually</option>"));
@@ -115,6 +117,7 @@ $("#findaddressbutton").click(function () {
 
 function lookupFailed() {
     noMatch.show();
+    resList.prop('disabled', true);
     clearForm();
 }
 
