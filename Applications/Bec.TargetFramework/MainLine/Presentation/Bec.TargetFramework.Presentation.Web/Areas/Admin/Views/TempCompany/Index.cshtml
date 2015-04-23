@@ -679,7 +679,7 @@
 
                 var regulatorName = dataItem.Regulator || "";
                 if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-                $("p#ddvRegulator").text(regulatorName);
+                $("p#ddrRegulator").text(regulatorName);
 
                 $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
                 $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
