@@ -10,15 +10,9 @@
             <!-- Widget ID (each widget will need unique ID)-->
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
-                <li id="tabu">
-                    <a href="#s1" data-toggle="tab"> Unverified </a>
-                </li>
-                <li id="tabv">
-                    <a href="#s2" data-toggle="tab"> Verified </a>
-                </li>
-                <li id="tabr">
-                    <a href="#s3" data-toggle="tab"> Rejected </a>
-                </li>
+                <li><a href="#s1"> Unverified </a></li>
+                <li><a href="#s2"> Verified </a></li>
+                <li><a href="#s3"> Rejected </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
                 <div class="tab-pane fade in active" id="s1" role="tabpanel">
@@ -263,108 +257,21 @@
 </div>
 @section pagespecific {
     <script type="text/javascript">
-        var verifiedId = '@TempData["VerifiedCompanyId"]';
 
-        var newCompanyId = '@TempData["AddTempCompanyId"]';
-        var uSelectedItem, vSelectedItem;
-        var unVerifiedLoaded = false, verifiedLoaded = false, rejectedLoaded = false;
+    var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Unverified})';
+    var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified })';
+    var getRejectedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Rejected })';
 
-        var getUnverifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Unverified})';
-        var getVerifiedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified })';
-        var getRejectedCompaniesUrl = '@Url.Action("LoadCompanies", "TempCompany", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Rejected })';
-
-        $(document).ready(function () {
-            $.ajaxSetup({ cache: false });
-
-            $('#myTab1 li a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                if ($(e.target).attr('href') == '#s1') makeUnverifiedGrid();
-                if ($(e.target).attr('href') == '#s2') makeVerifiedGrid();
-                if ($(e.target).attr('href') == '#s3') makeRejectedGrid();
-            });
-
-            if (verifiedId) {
-                $('#myTab1 li:eq(1) a').tab('show');
-            }
-            else {
-                $('#myTab1 li:eq(0) a').tab('show');
-            }
-
-            $("#aModalAdd").on("click", function (e) {
-                e.preventDefault();
-                $('#addModalContent').load($(this).data('href'), function (response, status) {
-                    if (status == "error")
-                        checkRedirect(JSON.parse(response));
-                    else {
-                        $('#addModal').modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        }, 'show');
-                    }
-                });
-                return false;
-            });
-
-            $("#aModalReject").on("click", function (e) {
-                e.preventDefault();
-                if (uSelectedItem) {
-                    $('#rejectModalContent').load($(this).data('href') + '?orgId=' + uSelectedItem.OrganisationID, function (response, status) {
-                        if (status == "error")
-                            checkRedirect(JSON.parse(response));
-                        else {
-                            $('#rejectModal').modal({
-                                backdrop: 'static',
-                                keyboard: false
-                            }, 'show');
-                        }
-                    });
-                    return false;
-                }
-            });
-
-            $("#aModalGeneratePin").on("click", function (e) {
-                e.preventDefault();
-                if (uSelectedItem) {
-                    $('#generatePinModalContent').load($(this).data('href') + '?orgId=' + uSelectedItem.OrganisationID, function (response, status) {
-                        if (status == "error")
-                            checkRedirect(JSON.parse(response));
-                        else {
-                            $('#generatePinModal').modal({
-                                backdrop: 'static',
-                                keyboard: false
-                            }, 'show');
-                        }
-                    });
-                    return false;
-                }
-            });
-        });
-
-        function makeUnverifiedGrid() {
-            if (unVerifiedLoaded) return;
-            unVerifiedLoaded = true;
-            $("#unverifiedGrid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: getGridDataFromUrl(getUnverifiedCompaniesUrl)
-                    },
-                    schema: {
-                        data: "list",
-                        total: "total",
-                        model: { id: "OrganisationID" }
-                    },
-                    sort: loadGridSort("unverifiedGrid") || { field: "CreatedOn", dir: "asc" }
-                },
-                height: 300,
-                selectable: "row",
-                filterable: false,
-                sortable: true,
-                navigatable: true,
-                pageable: {
-                    numeric: false,
-                    previousNext: false,
-                    messages: { display: "{2} rows" }
-                },
-                columns: [
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var uGrid = new gridItem(
+        {
+            gridElementId: 'unverifiedGrid',
+            url: getUnverifiedCompaniesUrl,
+            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+            defaultSort: { field: "CreatedOn", dir: "asc" },
+            change: unverifiedChange,
+            jumpToId: '@TempData["AddTempCompanyId"]',
+            columns: [
                     {
                         field: "OrganisationID",
                         hidden: true,
@@ -407,34 +314,17 @@
                         field: "CreatedBy",
                         title: "Created By"
                     }
-                ],
-                dataBound: unverifiedDataBound,
-                change: unverifiedChange
-            });
-        };
+            ]
+        });
 
-
-        function makeVerifiedGrid() {
-            if (verifiedLoaded) return;
-            verifiedLoaded = true;
-            $("#verifiedGrid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: getGridDataFromUrl(getVerifiedCompaniesUrl)
-                    },
-                    schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                    sort: loadGridSort("verifiedGrid") || { field: "OrganisationPinCreated", dir: "desc" }
-                },
-                height: 300,
-                selectable: "row",
-                filterable: false,
-                sortable: true,
-                navigatable: true,
-                pageable: {
-                    numeric: false,
-                    previousNext: false,
-                    messages: { display: "{2} rows" }
-                },
+    var vGrid = new gridItem(
+        {
+            gridElementId: 'verifiedGrid',
+            url: getVerifiedCompaniesUrl,
+            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+            defaultSort: { field: "OrganisationPinCreated", dir: "desc" },
+            change: verifiedChange,
+            jumpToId: '@TempData["VerifiedCompanyId"]',
                 columns: [
                     {
                         field: "OrganisationID",
@@ -485,38 +375,21 @@
                         field: "CreatedBy",
                         title: "Created By"
                     }
-                ],
-                dataBound: verifiedDataBound,
-                change: verifiedChange
+                ]
             });
-        };
 
-        function makeRejectedGrid() {
-            if (rejectedLoaded) return;
-            rejectedLoaded = true;
-            $("#rejectedGrid").kendoGrid({
-                dataSource: {
-                    transport: {
-                        read: getGridDataFromUrl(getRejectedCompaniesUrl)
-                    },
-                    schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                    sort: loadGridSort("rejectedGrid") || { field: "StatusChangedOn", dir: "desc" }
-                },
-                height: 300,
-                selectable: "row",
-                filterable: false,
-                sortable: true,
-                navigatable: true,
-                pageable: {
-                    numeric: false,
-                    previousNext: false,
-                    messages: { display: "{2} rows" }
-                },
+        var rGrid = new gridItem(
+            {
+                gridElementId: 'rejectedGrid',
+                url: getRejectedCompaniesUrl,
+                schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+                defaultSort: { field: "StatusChangedOn", dir: "desc" },
+                change: rejectedChange,
                 columns: [
-                     {
-                         field: "OrganisationID",
-                         hidden: true,
-                     },
+                    {
+                        field: "OrganisationID",
+                        hidden: true,
+                    },
                     {
                         field: "Name",
                         title: "Company Name"
@@ -551,156 +424,147 @@
                         field: "Reason",
                         title: "Rejected Reason"
                     }
-                ],
-                dataBound: rejectedDataBound,
-                change: rejectedChange
+                ]
             });
-        };
 
-        function unverifiedDataBound(e) {
-            saveGridSort("unverifiedGrid");
+        //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
+        var tabs = new tabItem("myTab1",
+            {
+                s1: {
+                    grids: [uGrid]
+                },
+                s2: {
+                    grids: [vGrid]
+                },
+                s3: {
+                    grids: [rGrid]
+                },
+            });
 
-            var grid = $("#unverifiedGrid").data("kendoGrid");
-            var gridData = grid.dataSource.data();
-            if (gridData.length == 0) return;
+        $(document).ready(function () {
+            $.ajaxSetup({ cache: false });
 
-            if (newCompanyId != null && newCompanyId != "") {
-                for (var i = 0; i < gridData.length; i++) {
-                    if (newCompanyId.replace(/-/g, "") == gridData[i].OrganisationID) {
-                        scrollToRow(grid, gridData[i]);
-                        newCompanyId = null;
-                        break;
-                    }
-                }
-            } else {
-                scrollToRow(grid, uSelectedItem);
-            }
-        }
+            //set up tabs
+            tabs.makeTab();
 
-        function verifiedDataBound(e) {
-            saveGridSort("verifiedGrid");
-
-            var grid = $("#verifiedGrid").data("kendoGrid");
-            var gridData = grid.dataSource.data();
-            if (gridData.length == 0) return;
-
-            if (verifiedId != null && verifiedId != "") {
-                for (var i = 0; i < gridData.length; i++) {
-                    if (verifiedId.replace(/-/g, "") == gridData[i].OrganisationID) {
-                        scrollToRow(grid, gridData[i]);
-                        verifiedId = null;
-                        break;
-                    }
-                }
+            if ('@TempData["VerifiedCompanyId"]') {
+                tabs.showTab(1);
             }
             else {
-                scrollToRow(grid, vSelectedItem);
+                tabs.showTab(0);
             }
+
+            $("#aModalAdd").on("click", function (e) {
+                e.preventDefault();
+                $('#addModalContent').load($(this).data('href'), function (response, status) {
+                    if (status == "error")
+                        checkRedirect(JSON.parse(response));
+                    else {
+                        $('#addModal').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        }, 'show');
+                    }
+                });
+                return false;
+            });
+
+            $("#aModalReject").on("click", function (e) {
+                e.preventDefault();
+                if (uGrid.selectedItem) {
+                    $('#rejectModalContent').load($(this).data('href') + '?orgId=' + uGrid.selectedItem.OrganisationID, function (response, status) {
+                        if (status == "error")
+                            checkRedirect(JSON.parse(response));
+                        else {
+                            $('#rejectModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            }, 'show');
+                        }
+                    });
+                    return false;
+                }
+            });
+
+            $("#aModalGeneratePin").on("click", function (e) {
+                e.preventDefault();
+                if (uGrid.selectedItem) {
+                    $('#generatePinModalContent').load($(this).data('href') + '?orgId=' + uGrid.selectedItem.OrganisationID, function (response, status) {
+                        if (status == "error")
+                            checkRedirect(JSON.parse(response));
+                        else {
+                            $('#generatePinModal').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            }, 'show');
+                        }
+                    });
+                    return false;
+                }
+            });
+        });
+
+        //data binding for the panes beneath each grid
+        function unverifiedChange(dataItem) {
+            $("p#dduCompanyName").text(dataItem.Name || "");
+            $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+            $("p#dduCompanyCounty").text(dataItem.County || "");
+            $("p#dduCompanyPostCode").text(dataItem.PostalCode || "");
+            $("p#dduCompanyTownCity").text(dataItem.Town || "");
+            $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
+            $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
+            $("p#dduAdditional").text(dataItem.AdditionalAddressInformation || "");
+            $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+            $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+            $("p#dduSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+
+            var regulatorName = dataItem.Regulator || "";
+            if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+            $("p#dduRegulator").text(regulatorName);
         }
 
-        function rejectedDataBound(e) {
-            saveGridSort("rejectedGrid");
+        function verifiedChange(dataItem) {
+            $("p#ddvCompanyName").text(dataItem.Name || "");
+            $("p#ddvCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+            $("p#ddvCompanyCounty").text(dataItem.County || "");
+            $("p#ddvCompanyPostCode").text(dataItem.PostalCode || "");
+            $("p#ddvCompanyTownCity").text(dataItem.Town || "");
+            $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
+            $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
+            $("p#ddvAdditional").text(dataItem.AdditionalAddressInformation || "");
+            $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+            $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+            $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
 
-            var grid = $("#rejectedGrid").data("kendoGrid");
-            var gridData = grid.dataSource.data();
-            if (gridData.length == 0) return;
+            var regulatorName = dataItem.Regulator || "";
+            if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+            $("p#ddvRegulator").text(regulatorName);
+
+            $("p#ddvPINNumber").text(dataItem.OrganisationPinCode);
+            $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
         }
 
-        function unverifiedChange(e) {
-            var selectedRows = this.select();
-            if (selectedRows.length == 1) {
+        function rejectedChange(dataItem) {
+            $("p#ddrCompanyName").text(dataItem.Name || "");
+            $("p#ddrCompanyCounty").text(dataItem.County || "");
+            $("p#ddrCompanyPostCode").text(dataItem.PostalCode || "");
+            $("p#ddrCompanyTownCity").text(dataItem.Town || "");
+            $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
+            $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
+            $("p#ddrAdditional").text(dataItem.AdditionalAddressInformation || "");
+            $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+            $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+            $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
 
-                var dataItem = this.dataItem(selectedRows[0]);
-                uSelectedItem = dataItem;
+            var regulatorName = dataItem.Regulator || "";
+            if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+            $("p#ddrRegulator").text(regulatorName);
 
-                $("p#dduCompanyName").text(dataItem.Name || "");
-                $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-                $("p#dduCompanyCounty").text(dataItem.County || "");
-                $("p#dduCompanyPostCode").text(dataItem.PostalCode || "");
-                $("p#dduCompanyTownCity").text(dataItem.Town || "");
-                $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
-                $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
-                $("p#dduAdditional").text(dataItem.AdditionalAddressInformation || "");
-                $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-                $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-                $("p#dduSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-
-                var regulatorName = dataItem.Regulator || "";
-                if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-                $("p#dduRegulator").text(regulatorName);
-            }
+            $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
+            $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
+            $("p#ddrRejectedReason").text(dataItem.Reason);
+            $("p#ddrRejectedNotes").text(dataItem.Notes);
         }
-
-        function verifiedChange(e) {
-            var selectedRows = this.select();
-            if (selectedRows.length == 1) {
-
-                var dataItem = this.dataItem(selectedRows[0]);
-                vSelectedItem = dataItem;
-
-                $("p#ddvCompanyName").text(dataItem.Name || "");
-                $("p#ddvCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-                $("p#ddvCompanyCounty").text(dataItem.County || "");
-                $("p#ddvCompanyPostCode").text(dataItem.PostalCode || "");
-                $("p#ddvCompanyTownCity").text(dataItem.Town || "");
-                $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
-                $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
-                $("p#ddvAdditional").text(dataItem.AdditionalAddressInformation || "");
-                $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-                $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-                $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-
-                var regulatorName = dataItem.Regulator || "";
-                if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-                $("p#ddvRegulator").text(regulatorName);
-
-                $("p#ddvPINNumber").text(dataItem.OrganisationPinCode);
-                $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
-            }
-        }
-
-        function rejectedChange(e) {
-            var selectedRows = this.select();
-            if (selectedRows.length == 1) {
-
-                var dataItem = this.dataItem(selectedRows[0]);
-                //rSelectedItem = dataItem;
-
-                $("p#ddrCompanyName").text(dataItem.Name || "");
-                $("p#ddrCompanyCounty").text(dataItem.County || "");
-                $("p#ddrCompanyPostCode").text(dataItem.PostalCode || "");
-                $("p#ddrCompanyTownCity").text(dataItem.Town || "");
-                $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
-                $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
-                $("p#ddrAdditional").text(dataItem.AdditionalAddressInformation || "");
-                $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-                $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-                $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-
-                var regulatorName = dataItem.Regulator || "";
-                if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-                $("p#ddrRegulator").text(regulatorName);
-
-                $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
-                $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
-                $("p#ddrRejectedReason").text(dataItem.Reason);
-                $("p#ddrRejectedNotes").text(dataItem.Notes);
-            }
-        }
-
-        function scrollToRow(grid, item) {
-            if (!grid || !item) return;
-            var row = grid.tbody.find("tr[data-uid='" + item.uid + "']");
-            grid.select(row);
-
-            var scrollContentOffset = grid.tbody.offset().top;
-            var selectContentOffset = grid.select().offset().top;
-            var distance = selectContentOffset - scrollContentOffset;
-
-            grid.content.animate({
-                scrollTop: distance
-            }, 400);
-        };
 
     </script>
 }
