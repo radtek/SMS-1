@@ -851,6 +851,8 @@
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
+    <Content Include="Views\Shared\_Cancel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

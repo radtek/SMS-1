@@ -104,5 +104,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["tabIndex"] = 1;
             return RedirectToAction("Index");
         }
+
+        public ActionResult ViewDuplicates()
+        {
+            return PartialView("_Duplicates");
+        }
     }
 }

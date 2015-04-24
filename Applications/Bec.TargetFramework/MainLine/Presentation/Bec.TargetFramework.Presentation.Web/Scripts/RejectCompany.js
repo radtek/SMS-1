@@ -4,9 +4,9 @@ $("#submitReject").click(function () {
 });
 
 $('#cancelReject').click(function () {
-    handleModal($('#cancelModal'), {
+    handleModal($(this).data('href'), {
         cancelYes: function () {
-            $('#modalContainer').modal('hide');
+            hideParentModal();
         }
     }, true);
 });

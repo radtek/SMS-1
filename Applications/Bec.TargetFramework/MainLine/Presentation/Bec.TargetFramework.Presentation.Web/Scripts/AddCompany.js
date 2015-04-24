@@ -4,9 +4,9 @@ $("#formSubmit").click(function () {
 });
 
 $('#cancelAdd').click(function () {
-    handleModal($('#cancelModal'), {
+    handleModal($(this).data('href'), {
         cancelYes: function () {
-            $('#modalContainer').modal('hide');
+            hideParentModal();
         }
     }, true);
 });
@@ -192,7 +192,7 @@ function validateSubmit(form) {
     }).done(function (res) {
         if (res && res.length > 0) {
 
-            handleModal($('#duplicatesModal'), {
+            handleModal('TempCompany/ViewDuplicates', {
                 abortSave: function () {
                     $("#formSubmit").prop('disabled', false);
                 },

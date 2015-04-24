@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                @Ajax.ActionLink("Add Company", "ViewAddTempCompany", "TempCompany", new { area = "Admin" }, new AjaxOptions { UpdateTargetId = "modalContent", OnSuccess = "loadModal", OnFailure = "failModal" }, new { @class = "btn btn-primary btn-sm" })
+                                <a data-href="@Url.Action("ViewAddTempCompany","TempCompany",new {area  = "Admin"})" class="btn btn-primary btn-sm" data-modallink="true">Add Company</a>
                             </div>
                             <div class="well">
                                 <div id="unverifiedGrid"></div>
@@ -31,8 +31,8 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                @Ajax.ActionLink("Reject Company", "#", null, new AjaxOptions { UpdateTargetId = "modalContent", OnSuccess = "loadModal", OnFailure = "failModal" }, new { @class = "btn btn-primary btn-sm", id = "rejectButton" })
-                                @Ajax.ActionLink("Generate PIN", "#", null, new AjaxOptions { UpdateTargetId = "modalContent", OnSuccess = "loadModal", OnFailure = "failModal" }, new { @class = "btn btn-primary btn-sm", id = "pinButton" })
+                                <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true">Reject Company</a>
+                                <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate PIN</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt><dd><p id="dduCompanyName"></p></dd>
@@ -163,63 +163,6 @@
     </div>
 </div>
 
-
-<div class="modal fade in" id="modalContainer" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div id="modalContent"></div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="addModalLabel">Are you sure you want to Cancel?</h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="cancelNo" class="btn btn-default" data-dismiss="modal">
-                    No
-                </button>
-                <button type="button" id="cancelYes" class="btn btn-primary" data-dismiss="modal">
-                    Yes
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="addModalLabel">Duplicate companies found</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col">
-                        <p id="dupeMessage"></p>
-                        <p>Please confirm that you have checked for potential duplicates and you wish to continue with your save. This will create a new temporary company on the system.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div id="duplicatesGrid"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="abortSave" class="btn btn-default" data-dismiss="modal">
-                    Back to Add Company
-                </button>
-                <button type="button" id="saveWithDuplicates" class="btn btn-primary" data-dismiss="modal">
-                    Continue with Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 @section pagespecific {
     <script type="text/javascript">
 
@@ -409,6 +352,8 @@
         //set up tabs
         tabs.makeTab();
         tabs.showTab(@TempData["tabIndex"]);
+
+        findModalLinks();
     });
 
     //data binding for the panes beneath each grid
@@ -430,8 +375,8 @@
         $("p#dduRegulator").text(regulatorName);
 
         //update reject & generate links
-        $("#rejectButton").attr('href', '@Url.Action("ViewRejectTempCompany", "TempCompany", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-        $("#pinButton").attr('href', '@Url.Action("ViewGeneratePin", "TempCompany", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "TempCompany", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "TempCompany", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
     function verifiedChange(dataItem) {
@@ -475,21 +420,6 @@
         $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
         $("p#ddrRejectedReason").text(dataItem.Reason);
         $("p#ddrRejectedNotes").text(dataItem.Notes);
-    }
-
-    function loadModal(result, status, request) {
-        if (status == "error")
-            checkRedirect(request.responseJSON);
-        else {
-            $('#modalContainer').modal({
-                backdrop: 'static',
-                keyboard: false
-            }, 'show');
-        }
-    }
-
-    function failModal(request, status, statusText) {
-        checkRedirect(request.responseJSON);
     }
 
     </script>

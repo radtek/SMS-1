@@ -4,9 +4,9 @@ $("#submitGeneratePin").click(function () {
 });
 
 $('#cancelGeneratePin').click(function () {
-    handleModal($('#cancelModal'), {
+    handleModal($(this).data('href'), {
         cancelYes: function () {
-            $('#modalContainer').modal('hide');
+            hideParentModal();
         }
     }, true);
 });

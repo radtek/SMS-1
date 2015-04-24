@@ -19,29 +19,78 @@ function getGridDataFromUrl(url) {
     };
 }
 
-function handleModal(m, handlers, fixScroll, shownFunction) {
-    var vals = [];
-    for (var id in handlers) {
-        vals[id] = false;
-        $('#' + id).on('click.handleModal', { id: id }, function (e) {
-            vals[e.data.id] = true;
-        });
-    }
-    m.modal({
-        backdrop: 'static',
-        keyboard: false
-    }).one('shown.bs.modal', function () {
-        if (shownFunction) shownFunction();
-    }).one('hidden.bs.modal', function (e) {
-        if (fixScroll) $('body').addClass('modal-open');
+var modalStack = [];
+
+//shows a modal, invoking the appropriate function when a button on the modal is clicked
+function handleModal(url, handlers, fixScroll, shownFunction) {
+    ajaxWrapper({
+        url: url,
+        cache: false
+    }).done(function (result) {
+        var tempDiv = $(result); //tempDiv include all elements & script
+        $('body').append(tempDiv);
+        var mdiv = tempDiv.filter('.modal');
+        modalStack.push(mdiv);
+
+        //attach handlers
+        var vals = [];
         for (var id in handlers) {
-            $('#' + id).off('click.handleModal');
-            if (vals[id]) {
-                handlers[id]();
-            }
+            vals[id] = false;
+            $('#' + id).on('click.handleModal', { id: id }, function (e) {
+                vals[e.data.id] = true;
+            });
         }
+
+        mdiv.modal({
+            backdrop: 'static',
+            keyboard: false
+        }).one('shown.bs.modal', function () {
+            if (shownFunction) shownFunction();
+        }).one('hidden.bs.modal', function (e) {
+            if (fixScroll) $('body').addClass('modal-open');
+            
+            for (var id in handlers) {
+                $('#' + id).off('click.handleModal');
+                if (vals[id]) {
+                    handlers[id]();
+                }
+            }
+
+            tempDiv.remove(); //remove all elements which were added
+            modalStack.pop();
+        });
     });
 }
+
+
+//for 'fire and forget' modal links, where no result is captured
+function findModalLinks() {
+    $('a[data-modallink]').on('click', function (e) {
+        e.preventDefault();
+        ajaxWrapper({
+            url: $(this).data('href'),
+            cache: false
+        }).done(function (result) {
+            var tempDiv = $(result); //tempDiv include all elements & script
+            $('body').append(tempDiv);
+            var mdiv = tempDiv.filter('.modal');
+            modalStack.push(mdiv);
+
+            mdiv.modal({
+                backdrop: 'static',
+                keyboard: false
+            }).on('hidden.bs.modal', function () {
+                tempDiv.remove(); //remove all elements which were added
+                modalStack.pop();
+            });
+        });
+    });
+}
+
+function hideParentModal() {
+    //the child modal hasn't been hidden yet
+    modalStack[modalStack.length - 2].modal('hide');
+};
 
 function dateString(date) {
     try {
