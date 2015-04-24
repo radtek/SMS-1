@@ -1,13 +1,16 @@
-﻿function checkRedirect(response) {
+﻿//checks for a json redirect response instruction
+function checkRedirect(response) {
     if (response && response.HasRedirectUrl) window.location.href = response.RedirectUrl;
 }
 
+//wrapper around ajax call to catch json redirect instructions
 function ajaxWrapper(options) {
     return $.ajax(options).fail(function (err) {
         checkRedirect(err.responseJSON);
     });
 }
 
+//reurns a function to use in kendo grid - call options.success for kendo
 function getGridDataFromUrl(url) {
     return function (options) {
         ajaxWrapper({
@@ -22,43 +25,46 @@ function getGridDataFromUrl(url) {
 var modalStack = [];
 
 //shows a modal, invoking the appropriate function when a button on the modal is clicked
-function handleModal(url, handlers, fixScroll, shownFunction) {
-    ajaxWrapper({
-        url: url,
-        cache: false
-    }).done(function (result) {
-        var tempDiv = $(result); //tempDiv include all elements & script
-        $('body').append(tempDiv);
-        var mdiv = tempDiv.filter('.modal');
-        modalStack.push(mdiv);
-
-        //attach handlers
-        var vals = [];
-        for (var id in handlers) {
-            vals[id] = false;
-            $('#' + id).on('click.handleModal', { id: id }, function (e) {
-                vals[e.data.id] = true;
-            });
+function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction) {
+    options.cache = false;
+    ajaxWrapper(options).done(function (result) {
+        if (result && result.result == "ok") {
+            if (defaultHandler) handlers[defaultHandler]();
         }
+        else {
+            var tempDiv = $(result); //tempDiv includes all elements & script
+            $('body').append(tempDiv);
+            var mdiv = tempDiv.filter('.modal');
+            modalStack.push(mdiv);
 
-        mdiv.modal({
-            backdrop: 'static',
-            keyboard: false
-        }).one('shown.bs.modal', function () {
-            if (shownFunction) shownFunction();
-        }).one('hidden.bs.modal', function (e) {
-            if (fixScroll) $('body').addClass('modal-open');
-            
+            //attach handlers
+            var vals = [];
             for (var id in handlers) {
-                $('#' + id).off('click.handleModal');
-                if (vals[id]) {
-                    handlers[id]();
-                }
+                vals[id] = false;
+                $('#' + id).on('click.handleModal', { id: id }, function (e) {
+                    vals[e.data.id] = true;
+                });
             }
 
-            tempDiv.remove(); //remove all elements which were added
-            modalStack.pop();
-        });
+            mdiv.modal({
+                backdrop: 'static',
+                keyboard: false
+            }).one('shown.bs.modal', function () {
+                if (shownFunction) shownFunction();
+            }).one('hidden.bs.modal', function (e) {
+                if (fixScroll) $('body').addClass('modal-open');
+
+                for (var id in handlers) {
+                    $('#' + id).off('click.handleModal');
+                    if (vals[id]) {
+                        handlers[id]();
+                    }
+                }
+
+                tempDiv.remove(); //remove all elements which were added
+                modalStack.pop();
+            });
+        }
     });
 }
 
@@ -101,11 +107,13 @@ function dateString(date) {
     }
 }
 
+//save the grid sort in session storage
 function saveGridSort(grid, gridElementId) {
     var sort = grid.getOptions().dataSource.sort;
     sessionStorage["gridSort-" + gridElementId] = JSON.stringify(sort);
 }
 
+//load the sort state for a grid
 function loadGridSort(gridElementId) {
     try {
         return JSON.parse(sessionStorage["gridSort-" + gridElementId]);

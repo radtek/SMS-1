@@ -63,12 +63,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             List<PostCodeDTO> list = await m_OrganisationClient.FindAddressesByPostCodeAsync(postcode, null);
 
             return Json(list, JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> ValidateAddress(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
-        {
-            return Json(await m_OrganisationClient.FindDuplicateOrganisationsAsync(Manual, Line1, Line2, Town, County, PostalCode), JsonRequestBehavior.AllowGet);
-        }
+        }       
 
         public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
         {
@@ -105,9 +100,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ViewDuplicates()
+        public async Task<ActionResult> ViewDuplicates(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
         {
-            return PartialView("_Duplicates");
+            var list = await m_OrganisationClient.FindDuplicateOrganisationsAsync(Manual, Line1, Line2, Town, County, PostalCode);
+            if (list.Count > 0)
+                return PartialView("_Duplicates", list);
+            else
+                return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

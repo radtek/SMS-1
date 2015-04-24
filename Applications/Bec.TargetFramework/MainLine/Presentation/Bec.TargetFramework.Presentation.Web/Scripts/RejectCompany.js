@@ -4,7 +4,7 @@ $("#submitReject").click(function () {
 });
 
 $('#cancelReject').click(function () {
-    handleModal($(this).data('href'), {
+    handleModal({ url: $(this).data('href') }, {
         cancelYes: function () {
             hideParentModal();
         }
