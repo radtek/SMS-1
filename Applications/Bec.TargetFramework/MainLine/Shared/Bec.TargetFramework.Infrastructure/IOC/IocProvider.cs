@@ -27,6 +27,11 @@ namespace Bec.TargetFramework.Infrastructure.IOC
             return m_IocContainers.ContainsKey(key) ? m_IocContainers[key] : null;
         }
 
+        public static Autofac.IContainer GetIocContainerUsingAppDomainFriendlyName()
+        {
+            return m_IocContainers.ContainsKey(AppDomain.CurrentDomain.FriendlyName) ? m_IocContainers[AppDomain.CurrentDomain.FriendlyName] : null;
+        }
+
         public static Autofac.IContainer IocContainers
         {
             get

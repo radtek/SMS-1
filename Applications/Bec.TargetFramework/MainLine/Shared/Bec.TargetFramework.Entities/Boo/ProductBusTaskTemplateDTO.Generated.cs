@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ProductBusTaskTemplateDTO() {
         }
 
-        public ProductBusTaskTemplateDTO(global::System.Guid productBusTaskTemplateID, global::System.Guid productTemplateID, int productVersionID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> busTaskID, int order, global::System.Nullable<int> busTaskVersionNumber, ProductTemplateDTO productTemplate, BusTaskDTO busTask) {
+        public ProductBusTaskTemplateDTO(global::System.Guid productBusTaskTemplateID, global::System.Guid productTemplateID, int productVersionID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> busTaskID, int order, global::System.Nullable<int> busTaskVersionNumber, ProductTemplateDTO productTemplate) {
 
           this.ProductBusTaskTemplateID = productBusTaskTemplateID;
           this.ProductTemplateID = productTemplateID;
@@ -33,7 +33,6 @@ namespace Bec.TargetFramework.Entities
           this.Order = order;
           this.BusTaskVersionNumber = busTaskVersionNumber;
           this.ProductTemplate = productTemplate;
-          this.BusTask = busTask;
         }
 
         #endregion
@@ -70,9 +69,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ProductTemplateDTO ProductTemplate { get; set; }
-
-        [DataMember]
-        public BusTaskDTO BusTask { get; set; }
 
         #endregion
     }

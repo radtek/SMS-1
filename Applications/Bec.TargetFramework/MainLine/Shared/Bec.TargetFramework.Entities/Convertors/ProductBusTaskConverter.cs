@@ -42,7 +42,6 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.Product = source.Product.ToDtoWithRelated(level - 1);
               target.ProductPurchaseBusTaskProcessLogs = source.ProductPurchaseBusTaskProcessLogs.ToDtosWithRelated(level - 1);
-              target.BusTask = source.BusTask.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

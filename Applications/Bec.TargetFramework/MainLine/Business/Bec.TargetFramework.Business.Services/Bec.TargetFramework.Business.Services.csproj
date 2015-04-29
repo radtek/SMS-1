@@ -105,11 +105,9 @@
     <Compile Include="Services\ValidationLogicService.cs" />
     <Compile Include="Services\ExperianBWALogicService.cs" />
     <Compile Include="Services\InvoiceLogicService.cs" />
-    <Compile Include="Services\TaskLogicService.cs" />
     <Compile Include="Services\SettingLogicService.cs" />
     <Compile Include="Services\ExperianIDCheckLogicService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BusLogicService.cs" />
     <Compile Include="Services\NotificationLogicService.cs" />
     <Compile Include="Services\PaymentLogicService.cs" />
     <Compile Include="Services\DataLogicService.cs" />

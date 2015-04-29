@@ -51,13 +51,7 @@ namespace Bec.TargetFramework.SB.Client.Models
 #endregion
 
 #region Interfaces
-namespace Bec.TargetFramework.SB.Client.Interfaces
-{
-	
-	
-	
 
-}
 #endregion
 
 #region Clients
@@ -84,12 +78,11 @@ namespace Bec.TargetFramework.SB.Client.Clients
 			};
 		}
 
-		public virtual void EnsureSuccess(HttpResponseMessage response)
+		public virtual async Task EnsureSuccessAsync(HttpResponseMessage response)
 		{			
-			if (response.IsSuccessStatusCode)				
-				return;
+			if (response.IsSuccessStatusCode) return;
 													
-			var content = response.Content.ReadAsStringAsync().Result;
+			var content = await response.Content.ReadAsStringAsync();
 			throw new WebApiProxyResponseException(response.StatusCode, content);			
 		}
 
@@ -113,6 +106,69 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		{
 			HttpClient.Dispose();
 		}
+
+        protected async Task DeleteAsync<Tbody>(string requestUri, Tbody value, string user)
+        {
+            var response = await SendAsync(requestUri, HttpMethod.Delete, user, value);
+            await EnsureSuccessAsync(response);
+        }
+
+        protected async Task DeleteAsync(string requestUri, string user)
+        {
+            var response = await SendAsync<object>(requestUri, HttpMethod.Delete, user, null);
+            await EnsureSuccessAsync(response);
+        }
+
+		protected async Task<Tret> PostAsync<Tbody, Tret>(string requestUri, Tbody value, string user)
+        {
+            var response = await SendAsync(requestUri, HttpMethod.Post, user, value);
+            return await HandleResponse<Tret>(response);
+        }
+
+		protected async Task PostAsync<Tbody>(string requestUri, Tbody value, string user)
+        {
+            var response = await SendAsync(requestUri, HttpMethod.Post, user, value);
+            await EnsureSuccessAsync(response);
+        }
+
+        protected async Task<Tret> GetAsync<Tret>(string requestUri, string user)
+        {
+            var response = await SendAsync<object>(requestUri, HttpMethod.Get, user, null);
+            return await HandleResponse<Tret>(response);
+        }
+
+		protected async Task GetAsync(string requestUri, string user)
+        {
+            var response = await SendAsync<object>(requestUri, HttpMethod.Get, user, null);
+            await EnsureSuccessAsync(response);
+        }
+
+		private async Task<T> HandleResponse<T>(HttpResponseMessage response)
+        {
+            await EnsureSuccessAsync(response);
+            return await response.ReadContentAsAsync<T>();
+        }
+
+        private async Task<HttpResponseMessage> SendAsync<T>(string requestUri,HttpMethod method, string user, T value)
+        {
+            var req = new HttpRequestMessage
+            {
+                RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),
+                Method = method
+            };
+            if (value != null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeHeaderValue)null);
+            if (user !=null) req.Headers.Add("User", user);
+
+            return await HttpClient.SendAsync(req);
+        }
+
+        protected string getHttpContextUser()
+        {
+            if (HttpContext.Current != null && HttpContext.Current.User != null && HttpContext.Current.User.Identity != null)
+                return HttpContext.Current.User.Identity.Name;
+            else
+                return null;
+        }
 	}
 	/// <summary>
 	/// 
@@ -130,7 +186,7 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		public BusLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler, url,disposeHandler)
+		public BusLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
 		{
 		}
 
@@ -140,9 +196,10 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// </summary>
 		/// <param name="BusEventId"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetBusEventSubscribersAsync(Guid BusEventId)
+		public virtual async Task<List<BusEventMessageSubscriberDTO>> GetBusEventSubscribersAsync(Guid BusEventId)
 		{
-			return await HttpClient.GetAsync("api/BusLogic/GetBusEventSubscribers?BusEventId=" + BusEventId);
+			string _user = getHttpContextUser();
+			return await GetAsync<List<BusEventMessageSubscriberDTO>>("api/BusLogic/GetBusEventSubscribers?BusEventId=" + BusEventId, _user);
 		}
 
 		/// <summary>
@@ -151,22 +208,19 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="BusEventId"></param>
 		public virtual List<BusEventMessageSubscriberDTO> GetBusEventSubscribers(Guid BusEventId)
 		{
-						 var result = Task.Run(() => GetBusEventSubscribersAsync(BusEventId)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<List<BusEventMessageSubscriberDTO>>().Result;
-			 		}
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<BusEventMessageSubscriberDTO>>("api/BusLogic/GetBusEventSubscribers?BusEventId=" + BusEventId, _user)).Result;
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="eventName"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetBusEventByNameAsync(String eventName)
+		public virtual async Task<BusEventDTO> GetBusEventByNameAsync(String eventName)
 		{
-			return await HttpClient.GetAsync("api/BusLogic/GetBusEventByName?eventName=" + eventName);
+			string _user = getHttpContextUser();
+			return await GetAsync<BusEventDTO>("api/BusLogic/GetBusEventByName?eventName=" + eventName, _user);
 		}
 
 		/// <summary>
@@ -175,59 +229,9 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="eventName"></param>
 		public virtual BusEventDTO GetBusEventByName(String eventName)
 		{
-						 var result = Task.Run(() => GetBusEventByNameAsync(eventName)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<BusEventDTO>().Result;
-			 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetBusTaskSchedulesAsync()
-		{
-			return await HttpClient.GetAsync("api/BusLogic/GetBusTaskSchedules");
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<BusEventDTO>("api/BusLogic/GetBusEventByName?eventName=" + eventName, _user)).Result;
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual List<VBusTaskScheduleDTO> GetBusTaskSchedules()
-		{
-						 var result = Task.Run(() => GetBusTaskSchedulesAsync()).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<List<VBusTaskScheduleDTO>>().Result;
-			 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="busTaskName"></param>
-		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetBusTaskScheduleAsync(String busTaskName)
-		{
-			return await HttpClient.GetAsync("api/BusLogic/GetBusTaskSchedule?busTaskName=" + busTaskName);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="busTaskName"></param>
-		public virtual VBusTaskScheduleDTO GetBusTaskSchedule(String busTaskName)
-		{
-						 var result = Task.Run(() => GetBusTaskScheduleAsync(busTaskName)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<VBusTaskScheduleDTO>().Result;
-			 		}
 
 		/// <summary>
 		/// 
@@ -237,9 +241,10 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="handler"></param>
 		/// <param name="isScheduledTask"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> SaveBusMessageAsync(BusMessageStatusEnum status,String subscriber,String handler,Boolean isScheduledTask,BusMessageDTO messageDto)
+		public virtual async Task<Boolean> SaveBusMessageAsync(BusMessageStatusEnum status,String subscriber,String handler,Boolean isScheduledTask,BusMessageDTO messageDto)
 		{
-			return await HttpClient.PostAsJsonAsync<BusMessageDTO>("api/BusLogic/SaveBusMessage?status=" + status + "&subscriber=" + subscriber + "&handler=" + handler + "&isScheduledTask=" + isScheduledTask, messageDto);
+			string _user = getHttpContextUser();
+			return await PostAsync<BusMessageDTO, Boolean>("api/BusLogic/SaveBusMessage?status=" + status + "&subscriber=" + subscriber + "&handler=" + handler + "&isScheduledTask=" + isScheduledTask, messageDto, _user);
 		}
 
 		/// <summary>
@@ -251,13 +256,9 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="isScheduledTask"></param>
 		public virtual Boolean SaveBusMessage(BusMessageStatusEnum status,String subscriber,String handler,Boolean isScheduledTask,BusMessageDTO messageDto)
 		{
-						 var result = Task.Run(() => SaveBusMessageAsync(status, subscriber, handler, isScheduledTask, messageDto)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<Boolean>().Result;
-			 		}
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<BusMessageDTO, Boolean>("api/BusLogic/SaveBusMessage?status=" + status + "&subscriber=" + subscriber + "&handler=" + handler + "&isScheduledTask=" + isScheduledTask, messageDto, _user)).Result;
+		}
 
 		/// <summary>
 		/// 
@@ -265,9 +266,10 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="subscriber"></param>
 		/// <param name="handler"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> HasMessageAlreadyBeenProcessedAsync(String subscriber,String handler,BusMessageDTO messageDto)
+		public virtual async Task<Boolean> HasMessageAlreadyBeenProcessedAsync(String subscriber,String handler,BusMessageDTO messageDto)
 		{
-			return await HttpClient.PostAsJsonAsync<BusMessageDTO>("api/BusLogic/HasMessageAlreadyBeenProcessed?subscriber=" + subscriber + "&handler=" + handler, messageDto);
+			string _user = getHttpContextUser();
+			return await PostAsync<BusMessageDTO, Boolean>("api/BusLogic/HasMessageAlreadyBeenProcessed?subscriber=" + subscriber + "&handler=" + handler, messageDto, _user);
 		}
 
 		/// <summary>
@@ -277,13 +279,9 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="handler"></param>
 		public virtual Boolean HasMessageAlreadyBeenProcessed(String subscriber,String handler,BusMessageDTO messageDto)
 		{
-						 var result = Task.Run(() => HasMessageAlreadyBeenProcessedAsync(subscriber, handler, messageDto)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<Boolean>().Result;
-			 		}
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<BusMessageDTO, Boolean>("api/BusLogic/HasMessageAlreadyBeenProcessed?subscriber=" + subscriber + "&handler=" + handler, messageDto, _user)).Result;
+		}
 
 		/// <summary>
 		/// 
@@ -291,9 +289,10 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
+		public virtual async Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
 		{
-			return await HttpClient.GetAsync("api/BusLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName);
+			string _user = getHttpContextUser();
+			return await GetAsync<Int32>("api/BusLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user);
 		}
 
 		/// <summary>
@@ -303,13 +302,160 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="typeName"></param>
 		public virtual Int32 GetClassificationDataForTypeName(String categoryName,String typeName)
 		{
-						 var result = Task.Run(() => GetClassificationDataForTypeNameAsync(categoryName, typeName)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<Int32>().Result;
-			 		}
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/BusLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user)).Result;
+		}
+
+
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class BusTaskLogicClient : ClientBase, IBusTaskLogicClient
+	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public BusTaskLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public BusTaskLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<List<VBusTaskScheduleDTO>> GetAllBusTaskSchedulesAsync()
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<List<VBusTaskScheduleDTO>>("api/BusTaskLogic/GetAllBusTaskSchedules", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual List<VBusTaskScheduleDTO> GetAllBusTaskSchedules()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VBusTaskScheduleDTO>>("api/BusTaskLogic/GetAllBusTaskSchedules", _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationName"></param>
+		/// <param name="applicationEnvironmentName"></param>
+		/// <returns></returns>
+		public virtual async Task<List<VBusTaskScheduleDTO>> GetAllBusTaskSchedulesByApplicationNameAndEnvironmentAsync(String applicationName,String applicationEnvironmentName)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<List<VBusTaskScheduleDTO>>("api/BusTaskLogic/GetAllBusTaskSchedulesByApplicationNameAndEnvironment?applicationName=" + applicationName + "&applicationEnvironmentName=" + applicationEnvironmentName, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationName"></param>
+		/// <param name="applicationEnvironmentName"></param>
+		public virtual List<VBusTaskScheduleDTO> GetAllBusTaskSchedulesByApplicationNameAndEnvironment(String applicationName,String applicationEnvironmentName)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VBusTaskScheduleDTO>>("api/BusTaskLogic/GetAllBusTaskSchedulesByApplicationNameAndEnvironment?applicationName=" + applicationName + "&applicationEnvironmentName=" + applicationEnvironmentName, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual async Task<List<VBusTaskScheduleDTO>> AllBusTaskSchedulesAsync()
+		{
+			string _user = getHttpContextUser();
+			return await PostAsync<object, List<VBusTaskScheduleDTO>>("api/BusTaskLogic/AllBusTaskSchedules", null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual List<VBusTaskScheduleDTO> AllBusTaskSchedules()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, List<VBusTaskScheduleDTO>>("api/BusTaskLogic/AllBusTaskSchedules", null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationName"></param>
+		/// <param name="applicationEnvironmentName"></param>
+		/// <returns></returns>
+        public virtual async Task<List<VBusTaskScheduleDTO>> AllBusTaskSchedulesByAppNameAndEnvAsync(String appName, String env)
+		{
+			string _user = getHttpContextUser();
+            return await PostAsync<object, List<VBusTaskScheduleDTO>>("api/BusTaskLogic/AllBusTaskSchedulesByAppNameAndEnv?appName=" + appName + "&env=" + env, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationName"></param>
+		/// <param name="applicationEnvironmentName"></param>
+        public virtual List<VBusTaskScheduleDTO> AllBusTaskSchedulesByAppNameAndEnv(String appName, String env)
+		{
+			string _user = getHttpContextUser();
+            return Task.Run(() => PostAsync<object, List<VBusTaskScheduleDTO>>("api/BusTaskLogic/AllBusTaskSchedulesByAppNameAndEnv?appName=" + appName + "&env=" + env, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual async Task SaveBusTaskScheduleProcessLogAsync(ProcessLogDTO logDto)
+		{
+			string _user = getHttpContextUser();
+			await PostAsync<ProcessLogDTO>("api/BusTaskLogic/SaveBusTaskScheduleProcessLog", logDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void SaveBusTaskScheduleProcessLog(ProcessLogDTO logDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<ProcessLogDTO>("api/BusTaskLogic/SaveBusTaskScheduleProcessLog", logDto, _user));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="categoryName"></param>
+		/// <param name="typeName"></param>
+		/// <returns></returns>
+		public virtual async Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<Int32>("api/BusTaskLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="categoryName"></param>
+		/// <param name="typeName"></param>
+		public virtual Int32 GetClassificationDataForTypeName(String categoryName,String typeName)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/BusTaskLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user)).Result;
+		}
 
 
 		#endregion
@@ -338,30 +484,21 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="eventName"></param>
-		/// <param name="eventSource"></param>
-		/// <param name="eventReference"></param>
 		/// <returns></returns>
-        public virtual async Task<HttpResponseMessage> PublishEventAsync(EventPayloadDTO dto)
+		public virtual async Task<Boolean> PublishEventAsync(EventPayloadDTO pDto)
 		{
-            return await HttpClient.PostAsJsonAsync<EventPayloadDTO>("api/EventPublish/PublishEvent", dto);
+			string _user = getHttpContextUser();
+			return await PostAsync<EventPayloadDTO, Boolean>("api/EventPublish/PublishEvent", pDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="eventName"></param>
-		/// <param name="eventSource"></param>
-		/// <param name="eventReference"></param>
-        public virtual Boolean PublishEvent(EventPayloadDTO dto)
+		public virtual Boolean PublishEvent(EventPayloadDTO pDto)
 		{
-            var result = Task.Run(() => PublishEventAsync(dto)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<Boolean>().Result;
-			 		}
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<EventPayloadDTO, Boolean>("api/EventPublish/PublishEvent", pDto, _user)).Result;
+		}
 
 		/// <summary>
 		/// 
@@ -369,9 +506,10 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
 		/// <returns></returns>
-		public virtual async Task<HttpResponseMessage> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
+		public virtual async Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
 		{
-			return await HttpClient.GetAsync("api/EventPublish/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName);
+			string _user = getHttpContextUser();
+			return await GetAsync<Int32>("api/EventPublish/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user);
 		}
 
 		/// <summary>
@@ -381,15 +519,9 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		/// <param name="typeName"></param>
 		public virtual Int32 GetClassificationDataForTypeName(String categoryName,String typeName)
 		{
-						 var result = Task.Run(() => GetClassificationDataForTypeNameAsync(categoryName, typeName)).Result;		 
-			 
-			EnsureSuccess(result);
-				 
-			 			 			 
-			 return result.Content.ReadAsAsync<Int32>().Result;
-			 		}
-
-
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/EventPublish/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user)).Result;
+		}
 
 		#endregion
 	}

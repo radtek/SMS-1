@@ -221,8 +221,8 @@ VALUES (
   1,
   (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = ServiceInterfaceProcessLogStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Successful' limit 1),
   3,
-  true,
-  false
+  false,
+  true
 );
 
 
@@ -347,7 +347,7 @@ VALUES (
   1,
   (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = ServiceInterfaceProcessLogStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Processing' limit 1),
   1,
-  false,
+  true,
   false
 );
 
@@ -388,8 +388,8 @@ VALUES (
   1,
   (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = ServiceInterfaceProcessLogStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Successful' limit 1),
   3,
-  true,
-  false
+  false,
+  true
 );
 
 

@@ -257,27 +257,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for BusTaskScheduleProcessLogs in the schema.
-        /// </summary>
-        public virtual ICollection<BusTaskScheduleProcessLog> BusTaskScheduleProcessLogs
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ProductPurchaseBusTaskProcessLogs in the schema.
         /// </summary>
         public virtual ICollection<ProductPurchaseBusTaskProcessLog> ProductPurchaseBusTaskProcessLogs
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for BusMessageProcessLogs in the schema.
-        /// </summary>
-        public virtual ICollection<BusMessageProcessLog> BusMessageProcessLogs
         {
             get;
             set;

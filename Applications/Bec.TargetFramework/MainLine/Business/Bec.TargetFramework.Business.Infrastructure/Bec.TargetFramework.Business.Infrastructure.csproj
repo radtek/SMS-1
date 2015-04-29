@@ -78,7 +78,6 @@
     <Compile Include="Interfaces\IValidationLogic.cs" />
     <Compile Include="Interfaces\IExperianBWALogic.cs" />
     <Compile Include="Interfaces\IInvoiceLogic.cs" />
-    <Compile Include="Interfaces\ITaskLogic.cs" />
     <Compile Include="Interfaces\IAddressLogic.cs" />
     <Compile Include="Interfaces\IBusinessLogicService.cs" />
     <Compile Include="Interfaces\IBusinessService.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="Interfaces\IDeductionLogic.cs" />
     <Compile Include="Interfaces\IExperianIDCheckLogic.cs" />
     <Compile Include="Interfaces\IGroupLogic.cs" />
-    <Compile Include="Interfaces\IBusLogic.cs" />
     <Compile Include="Interfaces\INotificationLogic.cs" />
     <Compile Include="Interfaces\IOperationLogic.cs" />
     <Compile Include="Interfaces\IOrganisationLogic.cs" />

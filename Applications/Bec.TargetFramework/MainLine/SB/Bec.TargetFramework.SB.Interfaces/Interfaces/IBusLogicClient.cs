@@ -15,40 +15,28 @@ namespace Bec.TargetFramework.SB.Interfaces
 
         /// <param name="BusEventId"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> GetBusEventSubscribersAsync(Guid BusEventId);
+        Task<List<BusEventMessageSubscriberDTO>> GetBusEventSubscribersAsync(Guid BusEventId);
 
         /// <param name="BusEventId"></param>
         /// <returns></returns>
         List<BusEventMessageSubscriberDTO> GetBusEventSubscribers(Guid BusEventId);
 
+
         /// <param name="eventName"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> GetBusEventByNameAsync(String eventName);
+        Task<BusEventDTO> GetBusEventByNameAsync(String eventName);
 
         /// <param name="eventName"></param>
         /// <returns></returns>
         BusEventDTO GetBusEventByName(String eventName);
 
-        /// <returns></returns>
-        Task<HttpResponseMessage> GetBusTaskSchedulesAsync();
-
-        /// <returns></returns>
-        List<VBusTaskScheduleDTO> GetBusTaskSchedules();
-
-        /// <param name="busTaskName"></param>
-        /// <returns></returns>
-        Task<HttpResponseMessage> GetBusTaskScheduleAsync(String busTaskName);
-
-        /// <param name="busTaskName"></param>
-        /// <returns></returns>
-        VBusTaskScheduleDTO GetBusTaskSchedule(String busTaskName);
 
         /// <param name="status"></param>
         /// <param name="subscriber"></param>
         /// <param name="handler"></param>
         /// <param name="isScheduledTask"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> SaveBusMessageAsync(BusMessageStatusEnum status, String subscriber, String handler, Boolean isScheduledTask, BusMessageDTO messageDto);
+        Task<Boolean> SaveBusMessageAsync(BusMessageStatusEnum status, String subscriber, String handler, Boolean isScheduledTask, BusMessageDTO messageDto);
 
         /// <param name="status"></param>
         /// <param name="subscriber"></param>
@@ -57,27 +45,27 @@ namespace Bec.TargetFramework.SB.Interfaces
         /// <returns></returns>
         Boolean SaveBusMessage(BusMessageStatusEnum status, String subscriber, String handler, Boolean isScheduledTask, BusMessageDTO messageDto);
 
+
         /// <param name="subscriber"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> HasMessageAlreadyBeenProcessedAsync(String subscriber, String handler, BusMessageDTO messageDto);
+        Task<Boolean> HasMessageAlreadyBeenProcessedAsync(String subscriber, String handler, BusMessageDTO messageDto);
 
         /// <param name="subscriber"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
         Boolean HasMessageAlreadyBeenProcessed(String subscriber, String handler, BusMessageDTO messageDto);
 
+
         /// <param name="categoryName"></param>
         /// <param name="typeName"></param>
         /// <returns></returns>
-        Task<HttpResponseMessage> GetClassificationDataForTypeNameAsync(String categoryName, String typeName);
+        Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName, String typeName);
 
         /// <param name="categoryName"></param>
         /// <param name="typeName"></param>
         /// <returns></returns>
         Int32 GetClassificationDataForTypeName(String categoryName, String typeName);
-
-
 
 
     }

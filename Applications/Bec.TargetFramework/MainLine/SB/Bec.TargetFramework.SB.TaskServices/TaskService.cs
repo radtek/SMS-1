@@ -15,11 +15,11 @@ using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
 using NServiceBus.Serilog;
 using NServiceBus.Serilog.Tracing;
-using Quartz;
-using Quartz.Impl;
-using Quartz.Spi;
 using Bec.TargetFramework.Infrastructure.IOC;
 using System.Collections.Concurrent;
+using Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions;
+using Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs;
+using Quartz;
 
 namespace Bec.TargetFramework.SB.TaskServices
 {
@@ -43,16 +43,14 @@ namespace Bec.TargetFramework.SB.TaskServices
     using Bec.TargetFramework.SB.Messages.Events;
     using Bec.TargetFramework.Infrastructure.Helpers;
     using System.Collections.Concurrent;
+    using Quartz.Impl.Matchers;
 
 
 
     partial class TaskService : ServiceBase
     {
-        public static Autofac.IContainer m_IocContainer { get; set; }
-
         private static IBus m_Bus;
-
-        private static IScheduler m_Scheduler;
+        private static IScheduler m_JobScheduler;
 
         public TaskService()
         {
@@ -76,7 +74,6 @@ namespace Bec.TargetFramework.SB.TaskServices
             m_Bus.Unsubscribe<SBEvent>();
         }
 
-
         public void StartService(string[] args)
         {
             eventLog.WriteEntry("Starting Service");
@@ -85,11 +82,8 @@ namespace Bec.TargetFramework.SB.TaskServices
             {
                 InitialiseIOC();
 
-                var factry = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IJobFactory>();
-
-                m_Scheduler = StdSchedulerFactory.GetDefaultScheduler();
-
-                m_Scheduler.Start();
+                // create scheduler and start 
+                SchedulerHelper.InitialiseAndStartScheduler();
             }
             catch (Exception ex)
             {
@@ -129,8 +123,9 @@ namespace Bec.TargetFramework.SB.TaskServices
             if (m_Bus != null)
                 m_Bus.Dispose();
 
-            if(m_Scheduler != null && !m_Scheduler.IsShutdown)
-                m_Scheduler.Shutdown();
+            if (m_JobScheduler != null)
+                if(!m_JobScheduler.IsShutdown)
+                    m_JobScheduler.Shutdown(true);
         }
     }
 }

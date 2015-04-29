@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
     using NServiceBus;
     using NServiceBus.Installation.Environments;
     using Bec.TargetFramework.Infrastructure.Helpers;
-    using Bec.TargetFramework.SB.Client.Clients;
+
     using Bec.TargetFramework.SB.Interfaces;
     using Bec.TargetFramework.Infrastructure.IOC;
     using Bec.TargetFramework.Infrastructure.Settings;

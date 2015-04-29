@@ -6,9 +6,10 @@ using System.Text;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.SB.Client.Clients;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Configuration;
+using Bec.TargetFramework.SB.Client.Clients;
 using BusMessageContentDTO = Bec.TargetFramework.SB.Entities.BusMessageContentDTO;
 using BusMessageDTO = Bec.TargetFramework.SB.Entities.BusMessageDTO;
 using BusMessageStatusEnum = Bec.TargetFramework.SB.Entities.Enums.BusMessageStatusEnum;
@@ -54,7 +55,7 @@ namespace Bec.TargetFramework.SB.Tests
                 dictionary.TryAdd("RegistrationDTO", registrationDto);
 
                 //proxy.PublishEvent("TestEvent", AppDomain.CurrentDomain.FriendlyName, "Boo",
-                 //   new object[] {tempAccountDto, registrationDto});
+                //   new object[] {tempAccountDto, registrationDto});
             }
         }
 

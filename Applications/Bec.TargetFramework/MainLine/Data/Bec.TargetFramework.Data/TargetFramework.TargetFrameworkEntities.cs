@@ -2078,39 +2078,14 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VDefaultEmailAddress> VDefaultEmailAddresses { get; set; }
     
         /// <summary>
-        /// There are no comments for BusMessage in the schema.
-        /// </summary>
-        public virtual DbSet<BusMessage> BusMessages { get; set; }
-    
-        /// <summary>
         /// There are no comments for VNotificationConstruct in the schema.
         /// </summary>
         public virtual DbSet<VNotificationConstruct> VNotificationConstructs { get; set; }
     
         /// <summary>
-        /// There are no comments for BusTask in the schema.
-        /// </summary>
-        public virtual DbSet<BusTask> BusTasks { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusTaskSchedule in the schema.
-        /// </summary>
-        public virtual DbSet<BusTaskSchedule> BusTaskSchedules { get; set; }
-    
-        /// <summary>
         /// There are no comments for VTemporaryUsersNotLoggedIn in the schema.
         /// </summary>
         public virtual DbSet<VTemporaryUsersNotLoggedIn> VTemporaryUsersNotLoggedIns { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VBusTaskSchedule in the schema.
-        /// </summary>
-        public virtual DbSet<VBusTaskSchedule> VBusTaskSchedules { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusTaskHandler in the schema.
-        /// </summary>
-        public virtual DbSet<BusTaskHandler> BusTaskHandlers { get; set; }
     
         /// <summary>
         /// There are no comments for VUserWorkflowInstanceStatus in the schema.
@@ -2191,11 +2166,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationShoppingCartBlueprint in the schema.
         /// </summary>
         public virtual DbSet<OrganisationShoppingCartBlueprint> OrganisationShoppingCartBlueprints { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusMessageContent in the schema.
-        /// </summary>
-        public virtual DbSet<BusMessageContent> BusMessageContents { get; set; }
     
         /// <summary>
         /// There are no comments for OrganisationProductPurchase in the schema.
@@ -2678,11 +2648,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<LRTitle> LRTitles { get; set; }
     
         /// <summary>
-        /// There are no comments for BusTaskScheduleProcessLog in the schema.
-        /// </summary>
-        public virtual DbSet<BusTaskScheduleProcessLog> BusTaskScheduleProcessLogs { get; set; }
-    
-        /// <summary>
         /// There are no comments for ProductBusTaskTemplate in the schema.
         /// </summary>
         public virtual DbSet<ProductBusTaskTemplate> ProductBusTaskTemplates { get; set; }
@@ -2696,11 +2661,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ProductPurchaseBusTaskProcessLog in the schema.
         /// </summary>
         public virtual DbSet<ProductPurchaseBusTaskProcessLog> ProductPurchaseBusTaskProcessLogs { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusMessageProcessLog in the schema.
-        /// </summary>
-        public virtual DbSet<BusMessageProcessLog> BusMessageProcessLogs { get; set; }
     
         /// <summary>
         /// There are no comments for VCompany in the schema.
@@ -2746,26 +2706,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for WorkflowMainParameter in the schema.
         /// </summary>
         public virtual DbSet<WorkflowMainParameter> WorkflowMainParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusEventType in the schema.
-        /// </summary>
-        public virtual DbSet<BusEventType> BusEventTypes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusEvent in the schema.
-        /// </summary>
-        public virtual DbSet<BusEvent> BusEvents { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusEventMessageSubscriber in the schema.
-        /// </summary>
-        public virtual DbSet<BusEventMessageSubscriber> BusEventMessageSubscribers { get; set; }
-    
-        /// <summary>
-        /// There are no comments for BusEventBusEventMessageSubscriber in the schema.
-        /// </summary>
-        public virtual DbSet<BusEventBusEventMessageSubscriber> BusEventBusEventMessageSubscribers { get; set; }
 
         #region Methods
 

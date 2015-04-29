@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IBusLogicClient.cs" />
+    <Compile Include="Interfaces\IBusTaskLogic.cs" />
     <Compile Include="Interfaces\IClientBase.cs" />
     <Compile Include="Interfaces\IEventPublishClient.cs" />
     <Compile Include="Interfaces\ISBEvent.cs" />

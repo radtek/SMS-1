@@ -114,6 +114,7 @@
     <Compile Include="TargetFrameworkCore.StatusTypeValue.cs" />
     <Compile Include="TargetFrameworkCore.StatusTypeValueTemplate.cs" />
     <Compile Include="TargetFrameworkCore.TargetFrameworkCoreEntities.cs" />
+    <Compile Include="TargetFrameworkCore.VBusMessageProcessLog.cs" />
     <Compile Include="TargetFrameworkCore.VBusTaskSchedule.cs">
       <SubType>Code</SubType>
     </Compile>

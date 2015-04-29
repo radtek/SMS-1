@@ -75,34 +75,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
             return dto;
         }
 
-        public List<VBusTaskScheduleDTO> GetBusTaskSchedules()
-        {
-            var list = new List<VBusTaskScheduleDTO>();
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                var dbList =
-                    scope.DbContext.VBusTaskSchedules;
-
-                list = VBusTaskScheduleConverter.ToDtos(dbList);
-            }
-
-            return list;
-        }
-
-        public VBusTaskScheduleDTO GetBusTaskSchedule(string busTaskName)
-        {
-            VBusTaskScheduleDTO dto = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                dto = VBusTaskScheduleConverter.ToDto(scope.DbContext.VBusTaskSchedules.Single(s => s.Name.Equals(busTaskName)));
-            }
-
-            return dto;
-        }
-
-
         public Boolean SaveBusMessage(BusMessageStatusEnum status, String subscriber, String handler, Boolean isScheduledTask, BusMessageDTO messageDto)
         {
             // we need to save the notification then the recipients

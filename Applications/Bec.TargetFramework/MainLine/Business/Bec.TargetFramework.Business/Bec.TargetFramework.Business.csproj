@@ -158,9 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ProductPurchaseBusTaskHelper.cs" />
-    <Compile Include="Extensions\BusTaskScheduleHelper.cs" />
     <Compile Include="Extensions\ProductPurchaseHelper.cs" />
-    <Compile Include="Extensions\BusMessageHelper.cs" />
     <Compile Include="Extensions\ServiceInterfaceHelper.cs" />
     <Compile Include="Extensions\TransactionHelper.cs" />
     <Compile Include="Extensions\SubscriptionHelper.cs" />
@@ -177,10 +175,8 @@
     <Compile Include="Logic\WASPTokenLogic.cs" />
     <Compile Include="Logic\ExperianBWALogic.cs" />
     <Compile Include="Logic\InvoiceLogic.cs" />
-    <Compile Include="Logic\TaskLogic.cs" />
     <Compile Include="Logic\SettingLogic.cs" />
     <Compile Include="Logic\ExperianIDCheckLogic.cs" />
-    <Compile Include="Logic\BusLogic.cs" />
     <Compile Include="Logic\NotificationLogic.cs" />
     <Compile Include="Logic\PaymentLogic.cs" />
     <Compile Include="Logic\ClassificationDataLogic.cs" />

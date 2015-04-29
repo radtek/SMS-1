@@ -56,9 +56,7 @@ namespace Bec.TargetFramework.Entities
               target.StsSearchRelations = source.StsSearchRelations.ToDtosWithRelated(level - 1);
               target.ProductPurchaseProcessLogs = source.ProductPurchaseProcessLogs.ToDtosWithRelated(level - 1);
               target.ServiceInterfaceProcessLogs = source.ServiceInterfaceProcessLogs.ToDtosWithRelated(level - 1);
-              target.BusTaskScheduleProcessLogs = source.BusTaskScheduleProcessLogs.ToDtosWithRelated(level - 1);
               target.ProductPurchaseBusTaskProcessLogs = source.ProductPurchaseBusTaskProcessLogs.ToDtosWithRelated(level - 1);
-              target.BusMessageProcessLogs = source.BusMessageProcessLogs.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

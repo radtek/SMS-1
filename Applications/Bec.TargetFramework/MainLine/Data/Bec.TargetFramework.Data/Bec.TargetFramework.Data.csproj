@@ -108,17 +108,6 @@
     <Compile Include="TargetFramework.BillingTemplate.cs" />
     <Compile Include="TargetFramework.Bucket.cs" />
     <Compile Include="TargetFramework.BucketTemplate.cs" />
-    <Compile Include="TargetFramework.BusEvent.cs" />
-    <Compile Include="TargetFramework.BusEventBusEventMessageSubscriber.cs" />
-    <Compile Include="TargetFramework.BusEventMessageSubscriber.cs" />
-    <Compile Include="TargetFramework.BusEventType.cs" />
-    <Compile Include="TargetFramework.BusMessage.cs" />
-    <Compile Include="TargetFramework.BusMessageContent.cs" />
-    <Compile Include="TargetFramework.BusMessageProcessLog.cs" />
-    <Compile Include="TargetFramework.BusTask.cs" />
-    <Compile Include="TargetFramework.BusTaskHandler.cs" />
-    <Compile Include="TargetFramework.BusTaskSchedule.cs" />
-    <Compile Include="TargetFramework.BusTaskScheduleProcessLog.cs" />
     <Compile Include="TargetFramework.ClassificationType.cs" />
     <Compile Include="TargetFramework.ClassificationTypeCategory.cs" />
     <Compile Include="TargetFramework.CompanyHouse.cs" />
@@ -471,7 +460,6 @@
     <Compile Include="TargetFramework.UserType.cs" />
     <Compile Include="TargetFramework.VAttachment.cs" />
     <Compile Include="TargetFramework.VBranch.cs" />
-    <Compile Include="TargetFramework.VBusTaskSchedule.cs" />
     <Compile Include="TargetFramework.VClaimSource.cs" />
     <Compile Include="TargetFramework.VClassification.cs" />
     <Compile Include="TargetFramework.VCompany.cs" />

@@ -41,7 +41,6 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.ProductTemplate = source.ProductTemplate.ToDtoWithRelated(level - 1);
-              target.BusTask = source.BusTask.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

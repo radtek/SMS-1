@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.SB.Entities.Enums
         Sent = 801403
     }
 
-    public enum BusTaskScheduleStatusEnum : int
+    public enum BusTaskStatusEnum : int
     {
         [StringValue("Pending")]
         Pending = 1,

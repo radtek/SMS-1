@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{575F97EF-6442-4D06-BB7E-490AE110D504}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.SB.Hosts.SBService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.SB.Hosts.SBService</AssemblyName>
@@ -240,12 +240,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BusLogicController.cs" />
+    <Compile Include="API\BusTaskLogicController.cs" />
     <Compile Include="API\EventPublishController.cs" />
     <Compile Include="Base\LogicBase.cs" />
     <Compile Include="Formatters\JilFormatter.cs" />
     <Compile Include="Handlers\BusEventHandler.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Logic\BusLogic.cs" />
+    <Compile Include="Logic\BusTaskLogic.cs" />
     <Compile Include="Logic\EventPublishLogic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">

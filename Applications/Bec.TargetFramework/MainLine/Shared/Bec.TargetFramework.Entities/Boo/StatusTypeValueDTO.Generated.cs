@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeValueDTO() {
         }
 
-        public StatusTypeValueDTO(global::System.Guid statusTypeValueID, global::System.Guid statusTypeID, int statusTypeVersionNumber, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<StatusTypeStructureDTO> statusTypeStructures, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<OrganisationStatusDTO> organisationStatus, StatusTypeDTO statusType, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, List<PlanSubscriptionBillingProcessLogDTO> planSubscriptionBillingPeriods, List<PlanSubscriptionProcessLogDTO> planSubscriptionProcessLogs, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, List<StsInviteProcessLogDTO> stsInviteProcessLogs, List<StsSearchProcessLogDTO> stsSearchProcessLogs, List<StsSearchRelationDTO> stsSearchRelations, List<ProductPurchaseProcessLogDTO> productPurchaseProcessLogs, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<BusTaskScheduleProcessLogDTO> busTaskScheduleProcessLogs, List<ProductPurchaseBusTaskProcessLogDTO> productPurchaseBusTaskProcessLogs, List<BusMessageProcessLogDTO> busMessageProcessLogs) {
+        public StatusTypeValueDTO(global::System.Guid statusTypeValueID, global::System.Guid statusTypeID, int statusTypeVersionNumber, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<StatusTypeStructureDTO> statusTypeStructures, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<OrganisationStatusDTO> organisationStatus, StatusTypeDTO statusType, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, List<PlanSubscriptionBillingProcessLogDTO> planSubscriptionBillingPeriods, List<PlanSubscriptionProcessLogDTO> planSubscriptionProcessLogs, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, List<StsInviteProcessLogDTO> stsInviteProcessLogs, List<StsSearchProcessLogDTO> stsSearchProcessLogs, List<StsSearchRelationDTO> stsSearchRelations, List<ProductPurchaseProcessLogDTO> productPurchaseProcessLogs, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<ProductPurchaseBusTaskProcessLogDTO> productPurchaseBusTaskProcessLogs) {
 
           this.StatusTypeValueID = statusTypeValueID;
           this.StatusTypeID = statusTypeID;
@@ -48,9 +48,7 @@ namespace Bec.TargetFramework.Entities
           this.StsSearchRelations = stsSearchRelations;
           this.ProductPurchaseProcessLogs = productPurchaseProcessLogs;
           this.ServiceInterfaceProcessLogs = serviceInterfaceProcessLogs;
-          this.BusTaskScheduleProcessLogs = busTaskScheduleProcessLogs;
           this.ProductPurchaseBusTaskProcessLogs = productPurchaseBusTaskProcessLogs;
-          this.BusMessageProcessLogs = busMessageProcessLogs;
         }
 
         #endregion
@@ -134,13 +132,7 @@ namespace Bec.TargetFramework.Entities
         public List<ServiceInterfaceProcessLogDTO> ServiceInterfaceProcessLogs { get; set; }
 
         [DataMember]
-        public List<BusTaskScheduleProcessLogDTO> BusTaskScheduleProcessLogs { get; set; }
-
-        [DataMember]
         public List<ProductPurchaseBusTaskProcessLogDTO> ProductPurchaseBusTaskProcessLogs { get; set; }
-
-        [DataMember]
-        public List<BusMessageProcessLogDTO> BusMessageProcessLogs { get; set; }
 
         #endregion
     }

@@ -1,7 +1,6 @@
-﻿using Autofac.Extras.Quartz;
+﻿
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.SB.Client.Clients;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Interfaces;
@@ -10,6 +9,7 @@ using Bec.TargetFramework.Workflow.Interfaces;
 using NServiceBus.ObjectBuilder.Common.Config;
 using Seq;
 using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.SB.Infrastructure.Quartz.Module;
 
 namespace Bec.TargetFramework.SB.TaskServices.IOC
 {
@@ -61,9 +61,7 @@ namespace Bec.TargetFramework.SB.TaskServices.IOC
                 ConfigurationManager.AppSettings["couchbase:uri"],
                 ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
-            builder.RegisterModule(new QuartzAutofacFactoryModule());
-            builder.RegisterModule(
-                new QuartzAutofacJobsModule(Assembly.Load("Bec.TargetFramework.SB.TaskHandlers"))); 
+           
             
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                 ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
@@ -83,6 +81,11 @@ namespace Bec.TargetFramework.SB.TaskServices.IOC
                 });
 
             builder.Register(c => new StandaloneReportGenerator(c.Resolve<IClassificationDataLogicClient>())).As<StandaloneReportGenerator>();
+
+            // Quartz Setup
+            builder.RegisterModule(new QuartzAutofacFactoryModule());
+            builder.RegisterModule(
+                new QuartzAutofacJobsModule(Assembly.Load("Bec.TargetFramework.SB.Infrastructure.Quartz"))); 
         }
     }
 }

@@ -57,6 +57,10 @@ namespace Bec.TargetFramework.SB.TaskServices
                         else
                             Serilog.Log.Logger.Error(ex, ex.Message, null);
                     }
+                    finally
+                    {
+                        service.Stop();
+                    }
                 }
             }
             catch (Exception ex)

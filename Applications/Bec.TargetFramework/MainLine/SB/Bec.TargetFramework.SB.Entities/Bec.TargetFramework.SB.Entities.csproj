@@ -90,6 +90,7 @@
     <Compile Include="Converter\StatusTypeTemplateConverter.cs" />
     <Compile Include="Converter\StatusTypeValueConverter.cs" />
     <Compile Include="Converter\StatusTypeValueTemplateConverter.cs" />
+    <Compile Include="Converter\VBusMessageProcessLogConverter.cs" />
     <Compile Include="Converter\VBusTaskScheduleConverter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -151,6 +152,7 @@
       <DependentUpon>ClassificationTypeDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\Custom\EventPayload.cs" />
+    <Compile Include="DTO\Custom\ProcessLogDTO.cs" />
     <Compile Include="DTO\Custom\SBSettings.cs" />
     <Compile Include="DTO\SettingDTO.cs" />
     <Compile Include="DTO\SettingDTO.Generated.cs">
@@ -187,6 +189,10 @@
     <Compile Include="DTO\StatusTypeValueTemplateDTO.cs" />
     <Compile Include="DTO\StatusTypeValueTemplateDTO.Generated.cs">
       <DependentUpon>StatusTypeValueTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\VBusMessageProcessLogDTO.cs" />
+    <Compile Include="DTO\VBusMessageProcessLogDTO.Generated.cs">
+      <DependentUpon>VBusMessageProcessLogDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\VBusTaskScheduleDTO.cs" />
     <Compile Include="DTO\VBusTaskScheduleDTO.Generated.cs">

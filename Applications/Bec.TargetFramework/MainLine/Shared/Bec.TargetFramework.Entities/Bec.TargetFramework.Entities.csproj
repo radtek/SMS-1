@@ -244,51 +244,18 @@
       <DependentUpon>BucketTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\BusEventBusEventMessageSubscriberDTO.cs" />
-    <Compile Include="Boo\BusEventBusEventMessageSubscriberDTO.Generated.cs">
-      <DependentUpon>BusEventBusEventMessageSubscriberDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusEventDTO.cs" />
-    <Compile Include="Boo\BusEventDTO.Generated.cs">
-      <DependentUpon>BusEventDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusEventMessageSubscriberDTO.cs" />
-    <Compile Include="Boo\BusEventMessageSubscriberDTO.Generated.cs">
-      <DependentUpon>BusEventMessageSubscriberDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusEventTypeDTO.cs" />
-    <Compile Include="Boo\BusEventTypeDTO.Generated.cs">
-      <DependentUpon>BusEventTypeDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusMessageContentDTO.cs" />
-    <Compile Include="Boo\BusMessageContentDTO.Generated.cs">
-      <DependentUpon>BusMessageContentDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusMessageDTO.cs" />
-    <Compile Include="Boo\BusMessageDTO.Generated.cs">
-      <DependentUpon>BusMessageDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusMessageProcessLogDTO.cs" />
-    <Compile Include="Boo\BusMessageProcessLogDTO.Generated.cs">
-      <DependentUpon>BusMessageProcessLogDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusMessageStatusDTO.cs" />
     <Compile Include="Boo\BusTaskDTO.cs" />
-    <Compile Include="Boo\BusTaskDTO.Generated.cs">
-      <DependentUpon>BusTaskDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusTaskHandlerDTO.cs" />
-    <Compile Include="Boo\BusTaskHandlerDTO.Generated.cs">
-      <DependentUpon>BusTaskHandlerDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusTaskProcessLogDTO.cs" />
     <Compile Include="Boo\BusTaskScheduleDTO.cs" />
-    <Compile Include="Boo\BusTaskScheduleDTO.Generated.cs">
-      <DependentUpon>BusTaskScheduleDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
-    <Compile Include="Boo\BusTaskScheduleProcessLogDTO.Generated.cs">
-      <DependentUpon>BusTaskScheduleProcessLogDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
     <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
       <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
@@ -1840,9 +1807,6 @@
     </Compile>
     <Compile Include="Boo\VbusmessagestatuDTO.cs" />
     <Compile Include="Boo\VBusTaskScheduleDTO.cs" />
-    <Compile Include="Boo\VBusTaskScheduleDTO.Generated.cs">
-      <DependentUpon>VBusTaskScheduleDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VClaimSourceDTO.cs" />
     <Compile Include="Boo\VClaimSourceDTO.Generated.cs">
       <DependentUpon>VClaimSourceDTO.cs</DependentUpon>
@@ -2517,17 +2481,6 @@
     <Compile Include="Convertors\BillingTemplateConverter.cs" />
     <Compile Include="Convertors\BucketConverter.cs" />
     <Compile Include="Convertors\BucketTemplateConverter.cs" />
-    <Compile Include="Convertors\BusEventBusEventMessageSubscriberConverter.cs" />
-    <Compile Include="Convertors\BusEventConverter.cs" />
-    <Compile Include="Convertors\BusEventMessageSubscriberConverter.cs" />
-    <Compile Include="Convertors\BusEventTypeConverter.cs" />
-    <Compile Include="Convertors\BusMessageContentConverter.cs" />
-    <Compile Include="Convertors\BusMessageConverter.cs" />
-    <Compile Include="Convertors\BusMessageProcessLogConverter.cs" />
-    <Compile Include="Convertors\BusTaskConverter.cs" />
-    <Compile Include="Convertors\BusTaskHandlerConverter.cs" />
-    <Compile Include="Convertors\BusTaskScheduleConverter.cs" />
-    <Compile Include="Convertors\BusTaskScheduleProcessLogConverter.cs" />
     <Compile Include="Convertors\ClassificationTypeCategoryConverter.cs" />
     <Compile Include="Convertors\ClassificationTypeConverter.cs" />
     <Compile Include="Convertors\CompanyHouseConverter.cs" />
@@ -2879,7 +2832,6 @@
     <Compile Include="Convertors\UserTypeConverter.cs" />
     <Compile Include="Convertors\VAttachmentConverter.cs" />
     <Compile Include="Convertors\VBranchConverter.cs" />
-    <Compile Include="Convertors\VBusTaskScheduleConverter.cs" />
     <Compile Include="Convertors\VClaimSourceConverter.cs" />
     <Compile Include="Convertors\VClassificationConverter.cs" />
     <Compile Include="Convertors\VCompanyConverter.cs" />

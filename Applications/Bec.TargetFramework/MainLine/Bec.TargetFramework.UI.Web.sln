@@ -146,6 +146,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiProxy.Tasks", "Extern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.Business.Client", "Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj", "{CF410EAB-4608-4239-BFF9-9A729DA9FBB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.SB.Infrastructure.Quartz", "SB\Bec.TargetFramework.SB.Infrastructure.Quartz\Bec.TargetFramework.SB.Infrastructure.Quartz.csproj", "{AFB811AE-7881-4A2A-AAC4-C52424300199}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -692,6 +694,16 @@ Global
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -752,5 +764,6 @@ Global
 		{4E5B8C2F-9008-4A17-ABD1-A92E046C6A1E} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 		{A635DE23-DDC1-43ED-BC5D-D49B7E8A4355} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5} = {262EC12E-67D8-49A2-A97D-BFC31321CFCE}
+		{AFB811AE-7881-4A2A-AAC4-C52424300199} = {D41EC1D0-2E2F-48E2-9983-A16C30A9AFCE}
 	EndGlobalSection
 EndGlobal

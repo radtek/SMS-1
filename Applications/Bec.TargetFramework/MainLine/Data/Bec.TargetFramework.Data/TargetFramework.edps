@@ -407,13 +407,8 @@
         <File Name="TargetFramework.VUserStatus.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.NotificationRecipientLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VDefaultEmailAddress.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusMessage.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VNotificationConstruct.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusTask.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusTaskSchedule.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VTemporaryUsersNotLoggedIn.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.VBusTaskSchedule.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusTaskHandler.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VUserWorkflowInstanceStatus.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VProductDiscount.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.DiscountRelatedProductTemplate.cs" Project="Bec.TargetFramework.Data" />
@@ -430,7 +425,6 @@
         <File Name="TargetFramework.ShoppingCartBlueprintProduct.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.DefaultOrganisationShoppingCartBlueprint.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationShoppingCartBlueprint.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusMessageContent.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.OrganisationProductPurchase.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.DiscountRelatedProduct.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ComponentTierTemplate.cs" Project="Bec.TargetFramework.Data" />
@@ -527,11 +521,9 @@
         <File Name="TargetFramework.LRDocument.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.LRRegisterExtract.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.LRTitle.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusTaskScheduleProcessLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ProductBusTaskTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ProductBusTask.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.ProductPurchaseBusTaskProcessLog.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusMessageProcessLog.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VCompany.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.Organisation.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.VOrganisationWithStatusAndAdmin.cs" Project="Bec.TargetFramework.Data" />
@@ -541,10 +533,6 @@
         <File Name="TargetFramework.WorkflowCommand.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowMainParameterTemplate.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.WorkflowMainParameter.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusEventType.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusEvent.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" />
-        <File Name="TargetFramework.BusEventBusEventMessageSubscriber.cs" Project="Bec.TargetFramework.Data" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" />
         <File Name="WorkflowTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1350,20 +1338,10 @@
         <File Name="NotificationRecipientLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VDefaultEmailAddressDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VDefaultEmailAddressDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusMessageDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusMessageDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VNotificationConstructDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VNotificationConstructDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusTaskDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusTaskDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusTaskScheduleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VTemporaryUsersNotLoggedInDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VTemporaryUsersNotLoggedInDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="VBusTaskScheduleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="VBusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusTaskHandlerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusTaskHandlerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VUserWorkflowInstanceStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VUserWorkflowInstanceStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VProductDiscountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1396,8 +1374,6 @@
         <File Name="DefaultOrganisationShoppingCartBlueprintDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationShoppingCartBlueprintDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationShoppingCartBlueprintDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusMessageContentDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusMessageContentDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationProductPurchaseDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationProductPurchaseDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DiscountRelatedProductDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1590,16 +1566,12 @@
         <File Name="LRRegisterExtractDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="LRTitleDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="LRTitleDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusTaskScheduleProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusTaskScheduleProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ProductBusTaskTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ProductBusTaskTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ProductBusTaskDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ProductBusTaskDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ProductPurchaseBusTaskProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ProductPurchaseBusTaskProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VCompanyDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VCompanyDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1618,14 +1590,6 @@
         <File Name="WorkflowMainParameterTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowMainParameterDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="WorkflowMainParameterDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusEventTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusEventTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusEventDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusEventDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="BusEventBusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="BusEventBusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="WorkflowTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2030,13 +1994,8 @@
         <File Name="VUserStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="NotificationRecipientLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VDefaultEmailAddressConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusMessageConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VNotificationConstructConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusTaskConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusTaskScheduleConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VTemporaryUsersNotLoggedInConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="VBusTaskScheduleConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusTaskHandlerConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VUserWorkflowInstanceStatusConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VProductDiscountConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DiscountRelatedProductTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2053,7 +2012,6 @@
         <File Name="ShoppingCartBlueprintProductConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DefaultOrganisationShoppingCartBlueprintConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationShoppingCartBlueprintConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusMessageContentConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationProductPurchaseConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="DiscountRelatedProductConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ComponentTierTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2150,11 +2108,9 @@
         <File Name="LRDocumentConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="LRRegisterExtractConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="LRTitleConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusTaskScheduleProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ProductBusTaskTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ProductBusTaskConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="ProductPurchaseBusTaskProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VCompanyConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="OrganisationConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="VOrganisationWithStatusAndAdminConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
@@ -2164,10 +2120,6 @@
         <File Name="WorkflowCommandConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowMainParameterTemplateConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="WorkflowMainParameterConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusEventTypeConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusEventConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
-        <File Name="BusEventBusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Convertors" />
       </GeneratedFiles>
     </Generation>

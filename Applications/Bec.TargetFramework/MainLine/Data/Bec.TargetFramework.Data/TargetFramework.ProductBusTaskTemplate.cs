@@ -122,15 +122,6 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
-    
-        /// <summary>
-        /// There are no comments for BusTask in the schema.
-        /// </summary>
-        public virtual BusTask BusTask
-        {
-            get;
-            set;
-        }
 
         #endregion
     }

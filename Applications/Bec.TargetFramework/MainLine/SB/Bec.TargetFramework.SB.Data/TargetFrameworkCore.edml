@@ -27,16 +27,9 @@
           <EntitySet Name="ClassificationTypes" EntityType="Bec.TargetFramework.SB.Data.Store.ClassificationType" store:Type="Tables" Schema="public" Table="ClassificationType" />
           <EntitySet Name="Settings" EntityType="Bec.TargetFramework.SB.Data.Store.Setting" store:Type="Tables" Schema="public" Table="Setting" />
           <EntitySet Name="BusMessageContents" EntityType="Bec.TargetFramework.SB.Data.Store.BusMessageContent" store:Type="Tables" Schema="public" Table="BusMessageContent" />
-          <EntitySet Name="vBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.Store.vBusTaskSchedule" store:Type="Views" Schema="public" Table="vBusTaskSchedule" />
           <EntitySet Name="vStatusTypes" EntityType="Bec.TargetFramework.SB.Data.Store.vStatusType" store:Type="Views" Schema="public" Table="vStatusType" />
-          <AssociationSet Name="fk_BusTask_BusTaskHandler" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTask_BusTaskHandler">
-            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
-            <End Role="BusTask" EntitySet="BusTasks" />
-          </AssociationSet>
-          <AssociationSet Name="fk_BusTaskSchedule_BusTask" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskSchedule_BusTask">
-            <End Role="BusTask" EntitySet="BusTasks" />
-            <End Role="BusTaskSchedule" EntitySet="BusTaskSchedules" />
-          </AssociationSet>
+          <EntitySet Name="vBusMessageProcessLogs" EntityType="Bec.TargetFramework.SB.Data.Store.vBusMessageProcessLog" store:Type="Views" Schema="public" Table="vBusMessageProcessLog" />
+          <EntitySet Name="vBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.Store.vBusTaskSchedule" store:Type="Views" Schema="public" Table="vBusTaskSchedule" />
           <AssociationSet Name="fk_StatusType_StatusTypeTemplate" Association="Bec.TargetFramework.SB.Data.Store.fk_StatusType_StatusTypeTemplate">
             <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
             <End Role="StatusType" EntitySet="StatusTypes" />
@@ -129,42 +122,68 @@
             <End Role="BusMessage" EntitySet="BusMessages" />
             <End Role="BusMessageContent" EntitySet="BusMessageContents" />
           </AssociationSet>
+          <AssociationSet Name="fk_BusTask_BusTaskHandler" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTask_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTask" EntitySet="BusTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskSchedule_BusTask" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskSchedule_BusTask">
+            <End Role="BusTask" EntitySet="BusTasks" />
+            <End Role="BusTaskSchedule" EntitySet="BusTaskSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_BusTaskHandler" Association="Bec.TargetFramework.SB.Data.Store.fk_BusTaskScheduleProcessLog_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTaskScheduleProcessLog" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BusTaskHandler">
           <Key>
             <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
           </Key>
           <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="ObjectTypeName" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="ModifiedOn" Type="timestamp" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="300" />
+          <Property Name="HandlerObjectTypeName" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="HandlerObjectTypeAssemblyName" Type="varchar" Nullable="false" MaxLength="300" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="ObjectTypeAssembly" Type="varchar" MaxLength="300" />
+          <Property Name="MessageTypeAssemblyName" Type="varchar" MaxLength="300" />
+          <Property Name="HandlerMessageTypeAssemblyName" Type="varchar" MaxLength="500" />
+          <Property Name="BusTaskHandleTypeID" Type="int" />
+          <Property Name="BusTaskHandleCategoryID" Type="int" />
+          <Property Name="BusTaskHandlerGroupName" Type="varchar" MaxLength="300" />
           <Property Name="MessageTypeName" Type="varchar" MaxLength="300" />
-          <Property Name="MessageTypeAssembly" Type="varchar" MaxLength="300" />
           <Property Name="HandlerMessageTypeName" Type="varchar" MaxLength="500" />
-          <Property Name="HandlerMessageTypeAssembly" Type="varchar" MaxLength="500" />
-          <Property Name="IsHandlerBasedTask" Type="boolean" DefaultValue="false" />
-          <Property Name="NumberOfRetries" Type="int" DefaultValue="1" />
-          <Property Name="TaskDataHasExpiry" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="TaskDataExpiryPeriodUnitID" Type="int" />
-          <Property Name="TaskDataExpiryPeriod" Type="int" />
-          <Property Name="DefaultProcessDataTypeID" Type="int" />
-          <Property Name="DefaultProcessDataCategoryID" Type="int" />
+          <Property Name="ParentID" Type="uuid" />
         </EntityType>
         <EntityType Name="BusTask">
           <Key>
             <PropertyRef Name="BusTaskID" />
-            <PropertyRef Name="BusTaskVersionNumber" />
           </Key>
           <Property Name="BusTaskID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="500" />
           <Property Name="Description" Type="varchar" MaxLength="2000" />
-          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="300" />
+          <Property Name="ModifiedOn" Type="timestamp" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="300" />
           <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
-          <Property Name="BusTaskVersionNumber" Type="int" Nullable="false" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="int" Nullable="false" />
+          <Property Name="IsScheduleDrivenTask" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="BusTaskTypeID" Type="int" />
+          <Property Name="BusTaskCategoryID" Type="int" />
+          <Property Name="BusTaskGroupName" Type="varchar" MaxLength="300" />
+          <Property Name="ApplicationID" Type="int" />
+          <Property Name="ApplicationEnvironmentID" Type="int" />
+          <Property Name="ParentID" Type="uuid" />
+          <Property Name="ReferenceNumber" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="BusMessage">
           <Key>
@@ -193,10 +212,20 @@
           </Key>
           <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BusTaskID" Type="uuid" Nullable="false" />
-          <Property Name="IntervalInMinutes" Type="int" Nullable="false" DefaultValue="0" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="BusTaskVersionNumber" Type="int" Nullable="false" />
+          <Property Name="RepeatForever" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsCronDriven" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CronScheduleString" Type="varchar" MaxLength="400" />
+          <Property Name="IsCalendarDriven" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RepeatEveryNumberOfSeconds" Type="int" />
+          <Property Name="RepeatEveryDay" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RepeatMondayToFriday" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RepeatSaturdayAndSunday" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RepeatEveryNumberOfDays" Type="int" />
+          <Property Name="HasSpecificDailyStartTime" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="SpecificDailyStartTimeHour" Type="int" />
+          <Property Name="ParentID" Type="uuid" />
         </EntityType>
         <EntityType Name="StatusTypeTemplate">
           <Key>
@@ -229,7 +258,7 @@
             <PropertyRef Name="BusMessageProcessLogID" />
           </Key>
           <Property Name="BusMessageID" Type="uuid" Nullable="false" />
-          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="BusMessageProcessLogID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ProcessDetail" Type="json" />
           <Property Name="ProcessMessage" Type="varchar" MaxLength="2000" />
@@ -309,7 +338,14 @@
         </EntityType>
         <EntityType Name="BusTaskScheduleProcessLog">
           <Key>
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="BusTaskScheduleID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="BusTaskScheduleProcessLogID" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
           </Key>
           <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
           <Property Name="HasError" Type="boolean" Nullable="false" DefaultValue="false" />
@@ -322,7 +358,9 @@
           <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
           <Property Name="BusTaskScheduleProcessLogID" Type="uuid" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ParentID" Type="uuid" />
-          <Property Name="NumberOfRetries" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="NumberOfRetries" Type="int" DefaultValue="0" />
+          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BusEventType">
           <Key>
@@ -402,32 +440,6 @@
           <Property Name="BusMessageContentType" Type="varchar" Nullable="false" MaxLength="500" />
           <Property Name="BusMessageHeader" Type="json" />
         </EntityType>
-        <EntityType Name="vBusTaskSchedule">
-          <Key>
-            <PropertyRef Name="BusTaskScheduleID" />
-            <PropertyRef Name="BusTaskID" />
-            <PropertyRef Name="IntervalInMinutes" />
-            <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsActive" />
-            <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="BusTaskHandlerID" />
-            <PropertyRef Name="ObjectTypeName" />
-          </Key>
-          <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" />
-          <Property Name="BusTaskID" Type="uuid" Nullable="false" />
-          <Property Name="IntervalInMinutes" Type="int" Nullable="false" />
-          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
-          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
-          <Property Name="ObjectTypeName" Type="varchar" Nullable="false" MaxLength="500" />
-          <Property Name="ObjectTypeAssembly" Type="varchar" MaxLength="300" />
-          <Property Name="MessageTypeName" Type="varchar" MaxLength="300" />
-          <Property Name="MessageTypeAssembly" Type="varchar" MaxLength="300" />
-        </EntityType>
         <EntityType Name="vStatusType">
           <Key>
             <PropertyRef Name="StatusTypeValueID" />
@@ -447,32 +459,70 @@
           <Property Name="IsStart" Type="boolean" Nullable="false" />
           <Property Name="IsEnd" Type="boolean" Nullable="false" />
         </EntityType>
-        <Association Name="fk_BusTask_BusTaskHandler">
-          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.Store.BusTaskHandler" Multiplicity="1" />
-          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BusTaskHandler">
-              <PropertyRef Name="BusTaskHandlerID" />
-            </Principal>
-            <Dependent Role="BusTask">
-              <PropertyRef Name="BusTaskHandlerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_BusTaskSchedule_BusTask">
-          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="1" />
-          <End Role="BusTaskSchedule" Type="Bec.TargetFramework.SB.Data.Store.BusTaskSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BusTask">
-              <PropertyRef Name="BusTaskID" />
-              <PropertyRef Name="BusTaskVersionNumber" />
-            </Principal>
-            <Dependent Role="BusTaskSchedule">
-              <PropertyRef Name="BusTaskID" />
-              <PropertyRef Name="BusTaskVersionNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="vBusMessageProcessLog">
+          <Key>
+            <PropertyRef Name="BusMessageID" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="ProcessingMachine" />
+            <PropertyRef Name="BusMessageSubscriber" />
+            <PropertyRef Name="BusMessageHandler" />
+            <PropertyRef Name="StatusTypeValueID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="HasError" />
+            <PropertyRef Name="IsComplete" />
+          </Key>
+          <Property Name="BusMessageID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="SentOn" Type="timestamp" />
+          <Property Name="ProcessingStarted" Type="timestamp" />
+          <Property Name="ProcessingMachine" Type="varchar" Nullable="false" />
+          <Property Name="MessageSentFrom" Type="varchar" MaxLength="300" />
+          <Property Name="EventReference" Type="varchar" MaxLength="1000" />
+          <Property Name="Source" Type="varchar" MaxLength="300" />
+          <Property Name="BusMessageSubscriber" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="BusMessageHandler" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
+          <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
+          <Property Name="HasError" Type="boolean" Nullable="false" />
+          <Property Name="IsComplete" Type="boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vBusTaskSchedule">
+          <Key>
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            <PropertyRef Name="BusTaskScheduleID" />
+          </Key>
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="ApplicationName" Type="varchar" MaxLength="100" />
+          <Property Name="ApplicationEnvironmentName" Type="varchar" MaxLength="100" />
+          <Property Name="BusTaskID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskGroupName" Type="varchar" MaxLength="300" />
+          <Property Name="BusTaskHandlerID" Type="uuid" Nullable="false" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="int" Nullable="false" />
+          <Property Name="BusTaskHandlerGroupName" Type="varchar" MaxLength="300" />
+          <Property Name="HandlerMessageTypeName" Type="varchar" MaxLength="500" />
+          <Property Name="HandlerMessageTypeAssemblyName" Type="varchar" MaxLength="500" />
+          <Property Name="BusTaskHandlerName" Type="varchar" MaxLength="500" />
+          <Property Name="BusTaskScheduleID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
+          <Property Name="RepeatForever" Type="boolean" Nullable="false" />
+          <Property Name="IsCronDriven" Type="boolean" Nullable="false" />
+          <Property Name="CronScheduleString" Type="varchar" MaxLength="400" />
+          <Property Name="IsCalendarDriven" Type="boolean" Nullable="false" />
+          <Property Name="RepeatEveryNumberOfSeconds" Type="int" />
+          <Property Name="RepeatEveryDay" Type="boolean" Nullable="false" />
+          <Property Name="RepeatMondayToFriday" Type="boolean" Nullable="false" />
+          <Property Name="RepeatSaturdayAndSunday" Type="boolean" Nullable="false" />
+          <Property Name="RepeatEveryNumberOfDays" Type="int" />
+          <Property Name="HasSpecificDailyStartTime" Type="boolean" Nullable="false" />
+          <Property Name="SpecificDailyStartTimeHour" Type="int" />
+        </EntityType>
         <Association Name="fk_StatusType_StatusTypeTemplate">
           <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.Store.StatusTypeTemplate" Multiplicity="1" />
           <End Role="StatusType" Type="Bec.TargetFramework.SB.Data.Store.StatusType" Multiplicity="*" />
@@ -763,6 +813,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_BusTask_BusTaskHandler">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.Store.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTask">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskSchedule_BusTask">
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.Store.BusTask" Multiplicity="1" />
+          <End Role="BusTaskSchedule" Type="Bec.TargetFramework.SB.Data.Store.BusTaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTask">
+              <PropertyRef Name="BusTaskID" />
+            </Principal>
+            <Dependent Role="BusTaskSchedule">
+              <PropertyRef Name="BusTaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_BusTaskHandler">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.Store.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLog" Type="Bec.TargetFramework.SB.Data.Store.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLog">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -791,16 +881,9 @@
           <EntitySet Name="ClassificationTypes" EntityType="Bec.TargetFramework.SB.Data.ClassificationType" />
           <EntitySet Name="Settings" EntityType="Bec.TargetFramework.SB.Data.Setting" />
           <EntitySet Name="BusMessageContents" EntityType="Bec.TargetFramework.SB.Data.BusMessageContent" />
-          <EntitySet Name="VBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.VBusTaskSchedule" />
           <EntitySet Name="VStatusTypes" EntityType="Bec.TargetFramework.SB.Data.VStatusType" />
-          <AssociationSet Name="fk_BusTask_BusTaskHandlerSet" Association="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler">
-            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
-            <End Role="BusTasks" EntitySet="BusTasks" />
-          </AssociationSet>
-          <AssociationSet Name="fk_BusTaskSchedule_BusTaskSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask">
-            <End Role="BusTask" EntitySet="BusTasks" />
-            <End Role="BusTaskSchedules" EntitySet="BusTaskSchedules" />
-          </AssociationSet>
+          <EntitySet Name="VBusMessageProcessLogs" EntityType="Bec.TargetFramework.SB.Data.VBusMessageProcessLog" />
+          <EntitySet Name="VBusTaskSchedules" EntityType="Bec.TargetFramework.SB.Data.VBusTaskSchedule" />
           <AssociationSet Name="fk_StatusType_StatusTypeTemplateSet" Association="Bec.TargetFramework.SB.Data.fk_StatusType_StatusTypeTemplate">
             <End Role="StatusTypeTemplate" EntitySet="StatusTypeTemplates" />
             <End Role="StatusTypes" EntitySet="StatusTypes" />
@@ -893,45 +976,72 @@
             <End Role="BusMessage" EntitySet="BusMessages" />
             <End Role="BusMessageContents" EntitySet="BusMessageContents" />
           </AssociationSet>
+          <AssociationSet Name="fk_BusTask_BusTaskHandlerSet" Association="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTasks" EntitySet="BusTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskSchedule_BusTaskSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask">
+            <End Role="BusTask" EntitySet="BusTasks" />
+            <End Role="BusTaskSchedules" EntitySet="BusTaskSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BusTaskScheduleProcessLog_BusTaskHandlerSet" Association="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_BusTaskHandler">
+            <End Role="BusTaskHandler" EntitySet="BusTaskHandlers" />
+            <End Role="BusTaskScheduleProcessLogs" EntitySet="BusTaskScheduleProcessLogs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BusTaskHandler" ed:Guid="8370f086-fa95-4693-ba17-cf5acb2d134f">
           <Key>
             <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
           </Key>
           <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d1618b1d-c4ff-4c20-8bba-37166519b855" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="81aa6b6f-de41-4641-995d-0987ef1ea86e" />
-          <Property Name="ObjectTypeName" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="61cda032-b66a-4e98-8619-3bed2b475bf6" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="06eb61b5-2646-4383-bab6-00262cd6fa25" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="81aa6b6f-de41-4641-995d-0987ef1ea86e" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="8c66e017-71d4-4a48-8384-6f9b85170f0d" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="5a9cb9be-5a79-440a-a6c8-3d52bf5a82c9" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="aec6beeb-2f14-4570-91f6-0843390eaa27" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="61a76bd6-39a2-4f1e-8791-e2a4da3535bb" />
+          <Property Name="ModifiedOn" Type="DateTime" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="False" ed:Guid="7d83e217-b4c3-44e2-9f85-d3e4dc672746" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="932771d4-fa4a-4482-8075-9c5f7398e434" />
+          <Property Name="HandlerObjectTypeName" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="ebfb3409-3b36-4bad-a7e2-dc73bea866fc" />
+          <Property Name="HandlerObjectTypeAssemblyName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="2d4d2582-204b-4ae6-9b2e-fc65fff8cb3e" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="bbe61fbf-814a-47a9-94d3-3796406690a3" />
-          <Property Name="ObjectTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="4b9dec33-e2d2-43e6-9dec-2dcf1387effe" />
+          <Property Name="MessageTypeAssemblyName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="a1a9bb2a-f460-4a85-a8f2-3144fdcbdee9" />
+          <Property Name="HandlerMessageTypeAssemblyName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="e392f750-4c26-47fc-9cb6-adbd0437a759" />
+          <Property Name="BusTaskHandleTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="10ad6218-eba0-4a6c-bbed-5a0b938f5a51" />
+          <Property Name="BusTaskHandleCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="8cb656d9-fd6b-4e90-9d2f-cb149394863f" />
+          <Property Name="BusTaskHandlerGroupName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="e67194d9-6292-42f9-b7ef-7aef3fe518a7" />
           <Property Name="MessageTypeName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="04a14390-bbc5-42cb-bb81-b000011c0659" />
-          <Property Name="MessageTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="0e9f55bd-8b34-4e5c-9935-f818ee651d31" />
           <Property Name="HandlerMessageTypeName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="04142253-1fe7-488d-8287-81ac7a837f79" />
-          <Property Name="HandlerMessageTypeAssembly" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5a0eb281-470d-4343-ad26-00818a699f3f" />
-          <Property Name="IsHandlerBasedTask" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="02b78e44-78b5-4460-a47b-628723b40d65" />
-          <Property Name="NumberOfRetries" Type="Int32" DefaultValue="1" ed:ValidateRequired="False" ed:Guid="1380bf6b-8f29-4b5a-9824-64c3e732bef8" />
-          <Property Name="TaskDataHasExpiry" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b4dedd07-a832-43e6-ba51-5c05673b4582" />
-          <Property Name="TaskDataExpiryPeriodUnitID" Type="Int32" ed:ValidateRequired="False" ed:Guid="cc660e08-0e9b-46cc-a4b3-1dcf94cbc46e" />
-          <Property Name="TaskDataExpiryPeriod" Type="Int32" ed:ValidateRequired="False" ed:Guid="48ef2385-cef5-4efb-96bd-090fd91183cd" />
-          <Property Name="DefaultProcessDataTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="b2463214-b118-4e76-bff4-209f944d54d0" />
-          <Property Name="DefaultProcessDataCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="40de5346-fbc1-478d-8ea5-72c64b58b31d" />
-          <NavigationProperty Name="BusTasks" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTaskHandler" ToRole="BusTasks" ed:Guid="42f27b0a-817a-409b-815b-6e0f2a1a26bc" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="ffc65ff8-a77e-4e33-b603-d3ff4c62676a" />
+          <NavigationProperty Name="BusTasks" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTaskHandler" ToRole="BusTasks" ed:Guid="bd2ced39-fb13-45a2-8650-c99a937b2970" />
+          <NavigationProperty Name="BusTaskScheduleProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_BusTaskHandler" FromRole="BusTaskHandler" ToRole="BusTaskScheduleProcessLogs" ed:Guid="41df2479-58e2-4ebf-b72b-ac17b2c960f8" />
         </EntityType>
         <EntityType Name="BusTask" ed:Guid="ef755e8a-fd50-41cf-92be-560e0524ff82">
           <Key>
             <PropertyRef Name="BusTaskID" />
-            <PropertyRef Name="BusTaskVersionNumber" />
           </Key>
           <Property Name="BusTaskID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="93849f2d-802b-4a0c-9fc6-7131bc010bf5" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="4baaa36b-7f58-4808-a684-af8dd1a7c654" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="4baaa36b-7f58-4808-a684-af8dd1a7c654" />
           <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="bd3ac3ca-257c-4776-a6ee-5e9f8278b5db" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="f3dc8337-e55c-499c-8cea-5b053af7715a" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="3fd3f0bc-60dd-4830-a6dd-8771fe7635e7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="921e2238-2f29-487f-9dae-7ec1de84f7aa" />
+          <Property Name="CreatedBy" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="f8d40728-4f8f-417e-a243-2732a0f45b4c" />
+          <Property Name="ModifiedOn" Type="DateTime" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="False" ed:Guid="cc804895-21ae-4fdf-8056-c144bb124b91" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="660313f2-7250-4ca7-ba44-697e7e718f63" />
           <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="ecde0e76-25cf-4a15-9ca8-015ac1d64e7b" />
-          <Property Name="BusTaskVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="6460d781-623c-4b90-9640-79f27ddacafc" />
-          <NavigationProperty Name="BusTaskHandler" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTasks" ToRole="BusTaskHandler" ed:Guid="c96ae96c-f36a-4ab7-a34d-305e5d231353" />
-          <NavigationProperty Name="BusTaskSchedules" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTask" ToRole="BusTaskSchedules" ed:Guid="ab9d0e25-fb23-46f4-91f3-310c53bdd924" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="237c6cc5-19e9-4a30-8a58-0bb39039567f" />
+          <Property Name="IsScheduleDrivenTask" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="085a4ba0-444a-4a1b-81b0-b9741c2339da" />
+          <Property Name="BusTaskTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="c235dd6f-28e2-45d3-946c-7e457cac97de" />
+          <Property Name="BusTaskCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="a5a8b245-0688-45e4-8218-1acab2018d40" />
+          <Property Name="BusTaskGroupName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="5a4b5922-05c3-4c62-90a6-5ca96fcd96a9" />
+          <Property Name="ApplicationID" Type="Int32" ed:ValidateRequired="False" ed:Guid="fb5b4764-c043-4388-a496-2b8b3e41fc61" />
+          <Property Name="ApplicationEnvironmentID" Type="Int32" ed:ValidateRequired="False" ed:Guid="faaf2b16-0a49-4f9e-be63-16097b7f6edb" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="0bcd31f8-cdf2-42ff-ac82-c4aa9e981415" />
+          <Property Name="ReferenceNumber" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="ad4f358d-f4dd-4be3-bb1d-e1c44486f8c6" />
+          <NavigationProperty Name="BusTaskHandler" Relationship="Bec.TargetFramework.SB.Data.fk_BusTask_BusTaskHandler" FromRole="BusTasks" ToRole="BusTaskHandler" ed:Guid="0b28a205-9188-4ac7-9f46-2aff7bf92f22" />
+          <NavigationProperty Name="BusTaskSchedules" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTask" ToRole="BusTaskSchedules" ed:Guid="2d84514a-486a-4ad0-b40e-6032979ae8f3" />
         </EntityType>
         <EntityType Name="BusMessage" ed:Guid="70ceb582-1a1a-43e4-8ea6-8d8eb9d1de93">
           <Key>
@@ -962,12 +1072,22 @@
           </Key>
           <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="867ce38a-d2d6-46b4-98fd-3445ee9c32a1" />
           <Property Name="BusTaskID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8643d775-08e7-4de8-b69e-218392d00784" />
-          <Property Name="IntervalInMinutes" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="75cacc35-c2f4-46ef-a380-d78d29938488" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c61188dd-9e9f-4ec3-966e-e5e6ee8f9320" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="42dff97d-dbb9-4f1e-a18b-ba602f5f31ec" />
-          <Property Name="BusTaskVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="17a2f8d7-cd60-4ae0-ae64-7761edf0dbb0" />
-          <NavigationProperty Name="BusTask" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTaskSchedules" ToRole="BusTask" ed:Guid="ea042741-915a-4146-a13a-c87da8157bbc" />
+          <Property Name="RepeatForever" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8b01aca5-d88d-48fd-b4f4-c8a6fea3bf51" />
+          <Property Name="IsCronDriven" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="22bae099-0573-4bff-81b1-3334791a2091" />
+          <Property Name="CronScheduleString" Type="String" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="False" ed:Guid="968734c6-e1e6-47a7-9ff4-6cda90d74570" />
+          <Property Name="IsCalendarDriven" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="d5412a1f-dd75-418c-bfdf-2346214d3816" />
+          <Property Name="RepeatEveryNumberOfSeconds" Type="Int32" ed:ValidateRequired="False" ed:Guid="95eae5b5-53a8-4690-bca1-989a7eef1aeb" />
+          <Property Name="RepeatEveryDay" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="75b69ee6-d124-4506-bb1e-1b3989aa446b" />
+          <Property Name="RepeatMondayToFriday" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="8182983d-974a-4e71-ab83-17f46f8e05fa" />
+          <Property Name="RepeatSaturdayAndSunday" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="c161be6c-9095-4c85-b077-85997698f219" />
+          <Property Name="RepeatEveryNumberOfDays" Type="Int32" ed:ValidateRequired="False" ed:Guid="f945a159-af43-4985-bdf0-4a07d24b6076" />
+          <Property Name="HasSpecificDailyStartTime" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="bf57a475-db50-4a20-b318-1dab7a1e848e" />
+          <Property Name="SpecificDailyStartTimeHour" Type="Int32" ed:ValidateRequired="False" ed:Guid="793057e7-d884-4c57-bc83-c7925bf7125c" />
+          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="295a30c2-f71e-441d-a2bb-45f532f2865c" />
           <NavigationProperty Name="BusTaskScheduleProcessLogs" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskProcessLog_BusTaskSchedule" FromRole="BusTaskSchedule" ToRole="BusTaskScheduleProcessLogs" ed:Guid="75bad584-da95-4122-9c00-594a32c1d786" />
+          <NavigationProperty Name="BusTask" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskSchedule_BusTask" FromRole="BusTaskSchedules" ToRole="BusTask" ed:Guid="aa898b1e-06d1-412a-8197-b3f5a5cef844" />
         </EntityType>
         <EntityType Name="StatusTypeTemplate" ed:Guid="a0f0fe12-fb8a-4fbe-9b24-4cdeee82600b">
           <Key>
@@ -1109,7 +1229,14 @@
         </EntityType>
         <EntityType Name="BusTaskScheduleProcessLog" ed:Guid="6fe774ca-55f3-461c-83ec-fb2a6e816aaf">
           <Key>
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="BusTaskScheduleID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="BusTaskScheduleProcessLogID" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
           </Key>
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3fbce23f-bdac-436a-a5f7-0a16a6905819" />
           <Property Name="HasError" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="de507188-1e56-47a2-9eab-30281111e261" />
@@ -1122,10 +1249,13 @@
           <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7b22ceb6-7d0f-40ac-adb0-4352e5cf746d" />
           <Property Name="BusTaskScheduleProcessLogID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7ba961ce-82aa-4e89-bab9-d491aa299f25" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b6c3a844-b27d-42f1-8258-88c0af8fc0ee" />
-          <Property Name="NumberOfRetries" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="35f2ca7f-aa5d-49df-8d37-3c876c3cd870" />
+          <Property Name="NumberOfRetries" Type="Int32" DefaultValue="0" ed:ValidateRequired="False" ed:Guid="35f2ca7f-aa5d-49df-8d37-3c876c3cd870" />
+          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f1b00224-3982-44bf-9555-f2a1b69d773e" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="a673cef1-ffde-4a47-8d0a-e612b34925de" />
           <NavigationProperty Name="BusTaskSchedule" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskProcessLog_BusTaskSchedule" FromRole="BusTaskScheduleProcessLogs" ToRole="BusTaskSchedule" ed:Guid="485ed7ff-de85-485b-9712-d72af7e90194" />
           <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusType" FromRole="BusTaskScheduleProcessLogs" ToRole="StatusType" ed:Guid="720535dc-b9eb-4f27-be92-7e9297e82d6c" />
           <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_StatusTypeValue" FromRole="BusTaskScheduleProcessLogs" ToRole="StatusTypeValue" ed:Guid="771d64dc-73c4-401f-ba1b-3d8724eb04a3" />
+          <NavigationProperty Name="BusTaskHandler" Relationship="Bec.TargetFramework.SB.Data.fk_BusTaskScheduleProcessLog_BusTaskHandler" FromRole="BusTaskScheduleProcessLogs" ToRole="BusTaskHandler" ed:Guid="9066678e-363e-41d7-b30b-cc1f0321e06f" />
         </EntityType>
         <EntityType Name="BusEventType" ed:Guid="a6091029-fde8-4993-9d7b-974d9566c65f">
           <Key>
@@ -1216,32 +1346,6 @@
           <Property Name="BusMessageHeader" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="8e98fc42-7b92-40fa-b7bc-454f2f0ca77f" />
           <NavigationProperty Name="BusMessage" Relationship="Bec.TargetFramework.SB.Data.fk_BusMessageContent_BusMessage" FromRole="BusMessageContents" ToRole="BusMessage" ed:Guid="eb6c1641-f2fa-4d31-b1e3-7e80eafa3352" />
         </EntityType>
-        <EntityType Name="VBusTaskSchedule" ed:Guid="a489eecc-16e7-458c-b6e7-fbdc4e3663f1">
-          <Key>
-            <PropertyRef Name="BusTaskScheduleID" />
-            <PropertyRef Name="BusTaskID" />
-            <PropertyRef Name="IntervalInMinutes" />
-            <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="IsActive" />
-            <PropertyRef Name="IsDeleted" />
-            <PropertyRef Name="BusTaskHandlerID" />
-            <PropertyRef Name="ObjectTypeName" />
-          </Key>
-          <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0665cc87-1a99-4e50-8242-318953db2f6c" />
-          <Property Name="BusTaskID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fd8289e0-ecd6-4392-8546-ea8a65318851" />
-          <Property Name="IntervalInMinutes" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="4505d4c4-f83b-48dd-85cf-4fd170c75a58" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="68dc8920-352c-4d70-b775-8c62037c0885" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="0dea6263-8a80-4ada-a2d6-c10be7820a6a" />
-          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="04053471-1141-485a-bd17-cd772303b376" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ee7a4dcc-3404-49b3-8772-37d2960e2848" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="153f5037-7dda-4781-978b-02f89318470f" />
-          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7bfd2dba-977d-4ed4-b5ee-2355f7bd8df5" />
-          <Property Name="ObjectTypeName" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="8971ad34-d905-48df-a880-8cf2bcbcab59" />
-          <Property Name="ObjectTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="5f51858c-3e38-4ff8-a9b5-681811ad42db" />
-          <Property Name="MessageTypeName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="8658439d-4484-4d87-bbec-11776705a1f4" />
-          <Property Name="MessageTypeAssembly" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="451bf81d-7deb-426b-ad7f-6008b5668145" />
-        </EntityType>
         <EntityType Name="VStatusType" ed:Guid="27504f08-88ee-4317-8083-04d9bc5b7daa">
           <Key>
             <PropertyRef Name="StatusTypeValueID" />
@@ -1261,32 +1365,70 @@
           <Property Name="IsStart" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="c8e91821-545c-4e19-9985-1cfb13412565" />
           <Property Name="IsEnd" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="47df677c-b0f1-4afd-a911-923de9e67c95" />
         </EntityType>
-        <Association Name="fk_BusTask_BusTaskHandler" ed:Guid="c8cda293-0cfc-49ee-81fb-e188ec939bcd">
-          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.BusTaskHandler" Multiplicity="1" />
-          <End Role="BusTasks" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BusTaskHandler">
-              <PropertyRef Name="BusTaskHandlerID" />
-            </Principal>
-            <Dependent Role="BusTasks">
-              <PropertyRef Name="BusTaskHandlerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_BusTaskSchedule_BusTask" ed:Guid="27e6905e-ddc8-4c76-b0d4-9f5658b67d7f">
-          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="1" />
-          <End Role="BusTaskSchedules" Type="Bec.TargetFramework.SB.Data.BusTaskSchedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BusTask">
-              <PropertyRef Name="BusTaskID" />
-              <PropertyRef Name="BusTaskVersionNumber" />
-            </Principal>
-            <Dependent Role="BusTaskSchedules">
-              <PropertyRef Name="BusTaskID" />
-              <PropertyRef Name="BusTaskVersionNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="VBusMessageProcessLog" ed:Guid="4d7658bf-6a12-48ac-807e-3a0d7276b631">
+          <Key>
+            <PropertyRef Name="BusMessageID" />
+            <PropertyRef Name="CreatedOn" />
+            <PropertyRef Name="ProcessingMachine" />
+            <PropertyRef Name="BusMessageSubscriber" />
+            <PropertyRef Name="BusMessageHandler" />
+            <PropertyRef Name="StatusTypeValueID" />
+            <PropertyRef Name="StatusTypeID" />
+            <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="HasError" />
+            <PropertyRef Name="IsComplete" />
+          </Key>
+          <Property Name="BusMessageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a28e3f42-1764-4c07-8948-9d673b816681" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="23ad0c36-47de-4916-b1fc-971bbc9732b0" />
+          <Property Name="SentOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="ccd51f34-c176-4784-b095-4beafd2f1103" />
+          <Property Name="ProcessingStarted" Type="DateTime" ed:ValidateRequired="False" ed:Guid="bddf8c2f-7630-48a4-b06e-498d4157e021" />
+          <Property Name="ProcessingMachine" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="ef096d49-c9fa-431d-ab79-32992d9cfde3" />
+          <Property Name="MessageSentFrom" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="edc9b421-d68f-438d-8850-26c79e38f325" />
+          <Property Name="EventReference" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="a4999eb7-4764-4652-a5ec-6e7176573c70" />
+          <Property Name="Source" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="b282ceb3-bdfe-45b0-ad53-deaaf6418cf7" />
+          <Property Name="BusMessageSubscriber" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="d255d5f9-8182-44ed-9a60-7495b62a00ef" />
+          <Property Name="BusMessageHandler" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="e0f9c117-1820-43cc-ba6d-ecaaadd956f5" />
+          <Property Name="Name" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="9a9f71de-0302-49ff-92c2-f49018f8f916" />
+          <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a28e8a2d-c9ef-42c8-be69-ddbd35d0830b" />
+          <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9f4e6cc6-e29e-4c92-967b-638e4ffe14f4" />
+          <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="1fb6b256-2a9a-4121-a212-790297c4f1cc" />
+          <Property Name="HasError" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="9a55d744-5d42-48c3-a01d-c1d0f2cc278a" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="11c0a36d-f8d1-4d23-acba-3c252252c4ba" />
+        </EntityType>
+        <EntityType Name="VBusTaskSchedule" ed:Guid="590cebbd-bf23-473e-9b76-b808646e421e">
+          <Key>
+            <PropertyRef Name="BusTaskID" />
+            <PropertyRef Name="BusTaskHandlerID" />
+            <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            <PropertyRef Name="BusTaskScheduleID" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="3923849a-0245-4bd9-926b-d90cf51dccb8" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="5581c104-b71d-4851-b847-0f9e7096327d" />
+          <Property Name="ApplicationName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="691c3270-204a-4395-9b0d-373b6c002278" />
+          <Property Name="ApplicationEnvironmentName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="104496ba-6a9e-456e-b4cc-f23cdfee7631" />
+          <Property Name="BusTaskID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d7567698-2d26-46ee-85dd-a73c9bf56b97" />
+          <Property Name="BusTaskGroupName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="f3231bcd-44af-4187-9e26-5972770f4ce1" />
+          <Property Name="BusTaskHandlerID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="dc9c2c54-7165-4ef9-b6ee-04424c55e935" />
+          <Property Name="BusTaskHandlerVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="f7121ec0-9884-41fa-9523-defb06d3a1a3" />
+          <Property Name="BusTaskHandlerGroupName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="827378ac-4e9b-48e9-bd2f-60ab18874c31" />
+          <Property Name="HandlerMessageTypeName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="989b92ed-0fc7-4d83-9643-3c5759edba8b" />
+          <Property Name="HandlerMessageTypeAssemblyName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="ff45eaa7-b5e0-42b4-ba77-4b8e3f1d8390" />
+          <Property Name="BusTaskHandlerName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="63450227-32b0-4553-bf66-8b40475fc5ca" />
+          <Property Name="BusTaskScheduleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="deaae073-7290-4eaf-b86a-50cff5eef401" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="9e0aee8e-546a-4b5b-88d6-a773c9694fa4" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="6016ac6f-c777-4ff5-98f3-a328cca02668" />
+          <Property Name="RepeatForever" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="4b7dadc9-229a-4d08-b7ca-37e31b606021" />
+          <Property Name="IsCronDriven" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="b62b2700-a2a8-48fd-8245-896badd5d6c1" />
+          <Property Name="CronScheduleString" Type="String" MaxLength="400" Unicode="true" ed:ValidateMaxLength="400" ed:ValidateRequired="False" ed:Guid="0505ba6f-c44f-4676-8dc0-8344e34fabda" />
+          <Property Name="IsCalendarDriven" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="9d301124-a145-4b5b-be6b-e627d2c04fc1" />
+          <Property Name="RepeatEveryNumberOfSeconds" Type="Int32" ed:ValidateRequired="False" ed:Guid="3331b052-0686-4838-846b-3abb0464ef1d" />
+          <Property Name="RepeatEveryDay" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="9c59a9f6-e777-458e-b888-8d9b1b1e3b41" />
+          <Property Name="RepeatMondayToFriday" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="d771a5d3-7da2-4f32-8de3-13fdc31452e5" />
+          <Property Name="RepeatSaturdayAndSunday" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="6ac4a7e0-e568-4cd4-919b-5f43c47446a3" />
+          <Property Name="RepeatEveryNumberOfDays" Type="Int32" ed:ValidateRequired="False" ed:Guid="901b3030-8cb8-4788-86fd-0413d345198c" />
+          <Property Name="HasSpecificDailyStartTime" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="af5e25fa-e326-48ea-bacb-5bcf2078db28" />
+          <Property Name="SpecificDailyStartTimeHour" Type="Int32" ed:ValidateRequired="False" ed:Guid="3c2508c1-fcde-47fd-ba79-ea6d36871e94" />
+        </EntityType>
         <Association Name="fk_StatusType_StatusTypeTemplate" ed:Guid="1de85bf6-8ac0-43be-be04-401a29b2000c">
           <End Role="StatusTypeTemplate" Type="Bec.TargetFramework.SB.Data.StatusTypeTemplate" Multiplicity="1" />
           <End Role="StatusTypes" Type="Bec.TargetFramework.SB.Data.StatusType" Multiplicity="*" />
@@ -1577,6 +1719,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_BusTask_BusTaskHandler" ed:Guid="2b3f8d39-33b7-4e8c-9cf7-074f2ecbdd16">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTasks" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTasks">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskSchedule_BusTask" ed:Guid="e8781abc-ba72-4179-ab3d-c708043c041c">
+          <End Role="BusTask" Type="Bec.TargetFramework.SB.Data.BusTask" Multiplicity="1" />
+          <End Role="BusTaskSchedules" Type="Bec.TargetFramework.SB.Data.BusTaskSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTask">
+              <PropertyRef Name="BusTaskID" />
+            </Principal>
+            <Dependent Role="BusTaskSchedules">
+              <PropertyRef Name="BusTaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BusTaskScheduleProcessLog_BusTaskHandler" ed:Guid="95dc13ce-7211-4d69-a843-d467ceb17298">
+          <End Role="BusTaskHandler" Type="Bec.TargetFramework.SB.Data.BusTaskHandler" Multiplicity="1" />
+          <End Role="BusTaskScheduleProcessLogs" Type="Bec.TargetFramework.SB.Data.BusTaskScheduleProcessLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusTaskHandler">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Principal>
+            <Dependent Role="BusTaskScheduleProcessLogs">
+              <PropertyRef Name="BusTaskHandlerID" />
+              <PropertyRef Name="BusTaskHandlerVersionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -1588,21 +1770,24 @@
               <MappingFragment StoreEntitySet="BusTaskHandlers">
                 <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ObjectTypeName" ColumnName="ObjectTypeName" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ObjectTypeAssembly" ColumnName="ObjectTypeAssembly" />
                 <ScalarProperty Name="MessageTypeName" ColumnName="MessageTypeName" />
-                <ScalarProperty Name="MessageTypeAssembly" ColumnName="MessageTypeAssembly" />
                 <ScalarProperty Name="HandlerMessageTypeName" ColumnName="HandlerMessageTypeName" />
-                <ScalarProperty Name="HandlerMessageTypeAssembly" ColumnName="HandlerMessageTypeAssembly" />
-                <ScalarProperty Name="IsHandlerBasedTask" ColumnName="IsHandlerBasedTask" />
-                <ScalarProperty Name="NumberOfRetries" ColumnName="NumberOfRetries" />
-                <ScalarProperty Name="TaskDataHasExpiry" ColumnName="TaskDataHasExpiry" />
-                <ScalarProperty Name="TaskDataExpiryPeriodUnitID" ColumnName="TaskDataExpiryPeriodUnitID" />
-                <ScalarProperty Name="TaskDataExpiryPeriod" ColumnName="TaskDataExpiryPeriod" />
-                <ScalarProperty Name="DefaultProcessDataTypeID" ColumnName="DefaultProcessDataTypeID" />
-                <ScalarProperty Name="DefaultProcessDataCategoryID" ColumnName="DefaultProcessDataCategoryID" />
+                <ScalarProperty Name="BusTaskHandlerVersionNumber" ColumnName="BusTaskHandlerVersionNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="HandlerObjectTypeName" ColumnName="HandlerObjectTypeName" />
+                <ScalarProperty Name="HandlerObjectTypeAssemblyName" ColumnName="HandlerObjectTypeAssemblyName" />
+                <ScalarProperty Name="MessageTypeAssemblyName" ColumnName="MessageTypeAssemblyName" />
+                <ScalarProperty Name="HandlerMessageTypeAssemblyName" ColumnName="HandlerMessageTypeAssemblyName" />
+                <ScalarProperty Name="BusTaskHandleTypeID" ColumnName="BusTaskHandleTypeID" />
+                <ScalarProperty Name="BusTaskHandleCategoryID" ColumnName="BusTaskHandleCategoryID" />
+                <ScalarProperty Name="BusTaskHandlerGroupName" ColumnName="BusTaskHandlerGroupName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1616,7 +1801,18 @@
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
-                <ScalarProperty Name="BusTaskVersionNumber" ColumnName="BusTaskVersionNumber" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="BusTaskHandlerVersionNumber" ColumnName="BusTaskHandlerVersionNumber" />
+                <ScalarProperty Name="IsScheduleDrivenTask" ColumnName="IsScheduleDrivenTask" />
+                <ScalarProperty Name="BusTaskTypeID" ColumnName="BusTaskTypeID" />
+                <ScalarProperty Name="BusTaskCategoryID" ColumnName="BusTaskCategoryID" />
+                <ScalarProperty Name="BusTaskGroupName" ColumnName="BusTaskGroupName" />
+                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+                <ScalarProperty Name="ApplicationEnvironmentID" ColumnName="ApplicationEnvironmentID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1647,10 +1843,20 @@
               <MappingFragment StoreEntitySet="BusTaskSchedules">
                 <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
                 <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
-                <ScalarProperty Name="IntervalInMinutes" ColumnName="IntervalInMinutes" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="BusTaskVersionNumber" ColumnName="BusTaskVersionNumber" />
+                <ScalarProperty Name="RepeatForever" ColumnName="RepeatForever" />
+                <ScalarProperty Name="IsCronDriven" ColumnName="IsCronDriven" />
+                <ScalarProperty Name="CronScheduleString" ColumnName="CronScheduleString" />
+                <ScalarProperty Name="IsCalendarDriven" ColumnName="IsCalendarDriven" />
+                <ScalarProperty Name="RepeatEveryNumberOfSeconds" ColumnName="RepeatEveryNumberOfSeconds" />
+                <ScalarProperty Name="RepeatEveryDay" ColumnName="RepeatEveryDay" />
+                <ScalarProperty Name="RepeatMondayToFriday" ColumnName="RepeatMondayToFriday" />
+                <ScalarProperty Name="RepeatSaturdayAndSunday" ColumnName="RepeatSaturdayAndSunday" />
+                <ScalarProperty Name="RepeatEveryNumberOfDays" ColumnName="RepeatEveryNumberOfDays" />
+                <ScalarProperty Name="HasSpecificDailyStartTime" ColumnName="HasSpecificDailyStartTime" />
+                <ScalarProperty Name="SpecificDailyStartTimeHour" ColumnName="SpecificDailyStartTimeHour" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1785,6 +1991,8 @@
                 <ScalarProperty Name="BusTaskScheduleProcessLogID" ColumnName="BusTaskScheduleProcessLogID" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="NumberOfRetries" ColumnName="NumberOfRetries" />
+                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
+                <ScalarProperty Name="BusTaskHandlerVersionNumber" ColumnName="BusTaskHandlerVersionNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1873,25 +2081,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VBusTaskSchedules">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VBusTaskSchedule">
-              <MappingFragment StoreEntitySet="vBusTaskSchedules">
-                <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
-                <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
-                <ScalarProperty Name="IntervalInMinutes" ColumnName="IntervalInMinutes" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
-                <ScalarProperty Name="ObjectTypeName" ColumnName="ObjectTypeName" />
-                <ScalarProperty Name="ObjectTypeAssembly" ColumnName="ObjectTypeAssembly" />
-                <ScalarProperty Name="MessageTypeName" ColumnName="MessageTypeName" />
-                <ScalarProperty Name="MessageTypeAssembly" ColumnName="MessageTypeAssembly" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VStatusTypes">
             <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VStatusType">
               <MappingFragment StoreEntitySet="vStatusTypes">
@@ -1903,6 +2092,60 @@
                 <ScalarProperty Name="StatusOrder" ColumnName="StatusOrder" />
                 <ScalarProperty Name="IsStart" ColumnName="IsStart" />
                 <ScalarProperty Name="IsEnd" ColumnName="IsEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VBusMessageProcessLogs">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VBusMessageProcessLog">
+              <MappingFragment StoreEntitySet="vBusMessageProcessLogs">
+                <ScalarProperty Name="BusMessageID" ColumnName="BusMessageID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SentOn" ColumnName="SentOn" />
+                <ScalarProperty Name="ProcessingStarted" ColumnName="ProcessingStarted" />
+                <ScalarProperty Name="ProcessingMachine" ColumnName="ProcessingMachine" />
+                <ScalarProperty Name="MessageSentFrom" ColumnName="MessageSentFrom" />
+                <ScalarProperty Name="EventReference" ColumnName="EventReference" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="BusMessageSubscriber" ColumnName="BusMessageSubscriber" />
+                <ScalarProperty Name="BusMessageHandler" ColumnName="BusMessageHandler" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
+                <ScalarProperty Name="HasError" ColumnName="HasError" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VBusTaskSchedules">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.SB.Data.VBusTaskSchedule">
+              <MappingFragment StoreEntitySet="vBusTaskSchedules">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="ApplicationEnvironmentName" ColumnName="ApplicationEnvironmentName" />
+                <ScalarProperty Name="BusTaskID" ColumnName="BusTaskID" />
+                <ScalarProperty Name="BusTaskGroupName" ColumnName="BusTaskGroupName" />
+                <ScalarProperty Name="BusTaskHandlerID" ColumnName="BusTaskHandlerID" />
+                <ScalarProperty Name="BusTaskHandlerVersionNumber" ColumnName="BusTaskHandlerVersionNumber" />
+                <ScalarProperty Name="BusTaskHandlerGroupName" ColumnName="BusTaskHandlerGroupName" />
+                <ScalarProperty Name="HandlerMessageTypeName" ColumnName="HandlerMessageTypeName" />
+                <ScalarProperty Name="HandlerMessageTypeAssemblyName" ColumnName="HandlerMessageTypeAssemblyName" />
+                <ScalarProperty Name="BusTaskHandlerName" ColumnName="BusTaskHandlerName" />
+                <ScalarProperty Name="BusTaskScheduleID" ColumnName="BusTaskScheduleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="RepeatForever" ColumnName="RepeatForever" />
+                <ScalarProperty Name="IsCronDriven" ColumnName="IsCronDriven" />
+                <ScalarProperty Name="CronScheduleString" ColumnName="CronScheduleString" />
+                <ScalarProperty Name="IsCalendarDriven" ColumnName="IsCalendarDriven" />
+                <ScalarProperty Name="RepeatEveryNumberOfSeconds" ColumnName="RepeatEveryNumberOfSeconds" />
+                <ScalarProperty Name="RepeatEveryDay" ColumnName="RepeatEveryDay" />
+                <ScalarProperty Name="RepeatMondayToFriday" ColumnName="RepeatMondayToFriday" />
+                <ScalarProperty Name="RepeatSaturdayAndSunday" ColumnName="RepeatSaturdayAndSunday" />
+                <ScalarProperty Name="RepeatEveryNumberOfDays" ColumnName="RepeatEveryNumberOfDays" />
+                <ScalarProperty Name="HasSpecificDailyStartTime" ColumnName="HasSpecificDailyStartTime" />
+                <ScalarProperty Name="SpecificDailyStartTimeHour" ColumnName="SpecificDailyStartTimeHour" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

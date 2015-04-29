@@ -158,9 +158,6 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new ExperianBWALogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianBWALogic>();
 
-            builder.Register(c => new BusLogicService(c.Resolve<ILogger>()
-                          , c.Resolve<ICacheProvider>(), c.Resolve<IClassificationDataLogic>())).As<IBusLogic>();
-
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
         }
