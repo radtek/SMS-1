@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,26 +14,13 @@ using NServiceBus.Serilog.Tracing;
 using NServiceBus.Serilog;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.IOC;
+using EnsureThat;
+using RabbitMQ.Client;
+
 namespace Bec.TargetFramework.SB.Infrastructure
 {
     public class NServiceBusHelper
     {
-        public static Configure CreateDefaultStartableBus()
-        {
-            //Configure..ScaleOut(s => s.UseSingleBrokerQueue());
-
-            //return
-            //    Configure.With(
-            //        AllAssemblies.Matching("Bec.TargetFramework.SB.").And("NServiceBus."))
-            //        .DefaultBuilder()
-            //        .UseTransport<NServiceBus.SqlServer>()
-            //        .UnicastBus()
-            //        .RunHandlersUnderIncomingPrincipal(false)
-            //        .RijndaelEncryptionService();
-
-            return null;
-        }
-
         public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container, bool purgeOnStartup = true,bool traceEnable = false)
         {
             var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
@@ -44,10 +32,26 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
             BusConfiguration configuration = new BusConfiguration();
 
+            Ensure.That(ConfigurationManager.AppSettings["nservicebus:endPointName"]).IsNotNullOrWhiteSpace();
+
+            configuration.EndpointName(ConfigurationManager.AppSettings["nservicebus:endPointName"]);
+
+            if (ConfigurationManager.AppSettings["nservicebus:purgeQueuesOnStartup"] != null)
+                purgeOnStartup = bool.Parse(ConfigurationManager.AppSettings["nservicebus:purgeQueuesOnStartup"]);
+
+            if (ConfigurationManager.AppSettings["nservicebus:messageConventionNamespace"] != null)
+            {
+                configuration.Conventions()
+               .DefiningEventsAs(p => p.Namespace != null && p.Namespace.StartsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespace"])
+                   && p.Namespace.EndsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespaceEndEvent"]))
+               .DefiningCommandsAs(p => p.Namespace != null && p.Namespace.StartsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespace"])
+                   && p.Namespace.EndsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespaceEndCommand"]));
+            }
+           
             // persistence provider for subscribers, publishers
             configuration.UsePersistence<InMemoryPersistence>();
 
-            configuration.ScaleOut();
+            configuration.UseSerialization<JsonSerializer>();
 
             // IOC configuration
             configuration.UseContainer<AutofacBuilder>(s => s.ExistingLifetimeScope(container));

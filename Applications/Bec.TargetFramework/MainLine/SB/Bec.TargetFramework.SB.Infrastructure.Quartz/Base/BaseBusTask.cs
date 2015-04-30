@@ -55,13 +55,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
 
         protected void LoadBusTaskScheduleDto(IJobExecutionContext context)
         {
-            var appName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
-            var appEnvironment = System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"];
-
-            // load dto data
-            var busTaskDtos =  m_BusTaskLogicClient.AllBusTaskSchedulesByAppNameAndEnv(appName, appEnvironment);
-
-            m_BusTaskScheduleDto = busTaskDtos.Single(s => s.Name.Equals(context.JobDetail.Key.Name));
+            m_BusTaskScheduleDto = JsonHelper.DeserializeData<VBusTaskScheduleDTO>(context.JobDetail.JobDataMap.GetString("DTO"));
         }
 
         protected void MarkAsFailed(Exception ex)
@@ -102,6 +96,19 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
                 IsComplete = true,
                 ScheduleDto = m_BusTaskScheduleDto,
                 StatusValue = BusTaskStatusEnum.Processing
+            };
+
+            m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
+        }
+
+        protected void CreateProcessLogEntryWhilstProcessing(string processMessage,string processDetail = null)
+        {
+            var logDto = new ProcessLogDTO
+            {
+                ScheduleDto = m_BusTaskScheduleDto,
+                StatusValue = BusTaskStatusEnum.Processing,
+                ProcessMessage = processMessage,
+                ProcessDetail = processDetail
             };
 
             m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);

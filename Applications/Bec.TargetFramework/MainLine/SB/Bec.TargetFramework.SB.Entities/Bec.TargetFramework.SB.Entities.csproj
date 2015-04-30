@@ -94,6 +94,7 @@
     <Compile Include="Converter\VBusTaskScheduleConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\VBusTaskScheduleProcessLogConverter.cs" />
     <Compile Include="Converter\VStatusTypeConverter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,6 +199,10 @@
     <Compile Include="DTO\VBusTaskScheduleDTO.Generated.cs">
       <DependentUpon>VBusTaskScheduleDTO.cs</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\VBusTaskScheduleProcessLogDTO.cs" />
+    <Compile Include="DTO\VBusTaskScheduleProcessLogDTO.Generated.cs">
+      <DependentUpon>VBusTaskScheduleProcessLogDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\VStatusTypeDTO.cs" />
     <Compile Include="DTO\VStatusTypeDTO.Generated.cs">

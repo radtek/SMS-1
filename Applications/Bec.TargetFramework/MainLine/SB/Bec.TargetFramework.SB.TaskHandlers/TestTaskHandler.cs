@@ -8,24 +8,24 @@ using NServiceBus;
 
 namespace Bec.TargetFramework.SB.TaskHandlers
 {
-    public class TestTaskHandler : IHandleMessages<TestTaskHandlerMessage>
-    {
-        public IBus Bus { get; set; }
+    //public class TestTaskHandler : IHandleMessages<TestTaskHandlerMessage>
+    //{
+    //    public IBus Bus { get; set; }
 
-        private ILogger Logger { get; set; }
+    //    private ILogger Logger { get; set; }
 
-        public TestTaskHandler(ILogger logger)
-        {
-            Logger = logger;
-        }
+    //    public TestTaskHandler(ILogger logger)
+    //    {
+    //        Logger = logger;
+    //    }
 
-        public void Handle(TestTaskHandlerMessage message)
-        {
-        }
-    }
+    //    public void Handle(TestTaskHandlerMessage message)
+    //    {
+    //    }
+    //}
 
-    public class TestTaskHandlerMessage : IEvent
-    {
+    //public class TestTaskHandlerMessage : IEvent
+    //{
         
-    }
+    //}
 }

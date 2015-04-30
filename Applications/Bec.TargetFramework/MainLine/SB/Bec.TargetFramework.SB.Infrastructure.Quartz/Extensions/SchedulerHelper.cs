@@ -17,6 +17,7 @@ using Quartz.Impl;
 using Quartz.Spi;
 using Quartz.Impl.Matchers;
 using Bec.TargetFramework.SB.Interfaces;
+using EnsureThat;
 
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
@@ -71,8 +72,18 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
+        private static void ValidateSchedulerSettings()
+        {
+            Ensure.That(System.Configuration.ConfigurationManager.AppSettings["ApplicationName"])
+                .IsNotNullOrWhiteSpace();
+            Ensure.That(System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"])
+                .IsNotNullOrWhiteSpace();
+        }
+
         public static void InitialiseAndStartScheduler()
         {
+            ValidateSchedulerSettings();
+
             var scheduler = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IScheduler>();
 
             // purge all current jobs
@@ -99,10 +110,11 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 
                     ScheduleQuartzJob(q =>
                     {
-                        var taskType = System.Type.GetType(item.HandlerMessageTypeName + ", " + item.HandlerMessageTypeAssemblyName);
+                        var taskType = System.Type.GetType(item.HandlerObjectTypeName + ", " + item.HandlerObjectTypeAssemblyName);
 
                         q.WithJob(JobBuilder.Create(taskType)
                         .WithIdentity(jobKey)
+                        .UsingJobData("DTO",JsonHelper.SerializeData(item))
                         .RequestRecovery()
                         .Build);
 

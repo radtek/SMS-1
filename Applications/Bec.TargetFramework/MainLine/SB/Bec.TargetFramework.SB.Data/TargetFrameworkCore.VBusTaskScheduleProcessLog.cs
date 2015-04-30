@@ -17,19 +17,13 @@ namespace Bec.TargetFramework.SB.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.SB.Data.BusMessageProcessLog in the schema.
+    /// There are no comments for Bec.TargetFramework.SB.Data.VBusTaskScheduleProcessLog in the schema.
     /// </summary>
     [System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [System.Runtime.Serialization.KnownType(typeof(BusMessage))]
-    [System.Runtime.Serialization.KnownType(typeof(StatusType))]
-    [System.Runtime.Serialization.KnownType(typeof(StatusTypeValue))]
-    public partial class BusMessageProcessLog    {
+    public partial class VBusTaskScheduleProcessLog    {
 
-        public BusMessageProcessLog()
+        public VBusTaskScheduleProcessLog()
         {
-          this.HasError = false;
-          this.NumberOfRetries = 0;
-          this.IsComplete = false;
             OnCreated();
         }
 
@@ -37,10 +31,10 @@ namespace Bec.TargetFramework.SB.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for BusMessageID in the schema.
+        /// There are no comments for BusTaskScheduleProcessLogID in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual global::System.Guid BusMessageID
+        public virtual global::System.Guid BusTaskScheduleProcessLogID
         {
             get;
             set;
@@ -59,10 +53,32 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for BusMessageProcessLogID in the schema.
+        /// There are no comments for HasError in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual global::System.Guid BusMessageProcessLogID
+        public virtual bool HasError
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsComplete in the schema.
+        /// </summary>
+        [System.Runtime.Serialization.DataMember]
+        public virtual bool IsComplete
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ParentID in the schema.
+        /// </summary>
+        [System.Runtime.Serialization.DataMember]
+        public virtual global::System.Nullable<System.Guid> ParentID
         {
             get;
             set;
@@ -92,10 +108,10 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for ParentID in the schema.
+        /// There are no comments for BusTaskName in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual global::System.Nullable<System.Guid> ParentID
+        public virtual string BusTaskName
         {
             get;
             set;
@@ -103,10 +119,10 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for BusMessageSubscriber in the schema.
+        /// There are no comments for BusTaskHandlerName in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual string BusMessageSubscriber
+        public virtual string BusTaskHandlerName
         {
             get;
             set;
@@ -114,10 +130,10 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for BusMessageHandler in the schema.
+        /// There are no comments for Status in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual string BusMessageHandler
+        public virtual string Status
         {
             get;
             set;
@@ -136,17 +152,6 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for StatusTypeVersionNumber in the schema.
-        /// </summary>
-        [System.Runtime.Serialization.DataMember]
-        public virtual int StatusTypeVersionNumber
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for StatusTypeValueID in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
@@ -158,10 +163,10 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for HasError in the schema.
+        /// There are no comments for StatusTypeVersionNumber in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual bool HasError
+        public virtual int StatusTypeVersionNumber
         {
             get;
             set;
@@ -169,10 +174,10 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for NumberOfRetries in the schema.
+        /// There are no comments for BusTaskHandlerID in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual int NumberOfRetries
+        public virtual global::System.Guid BusTaskHandlerID
         {
             get;
             set;
@@ -180,49 +185,70 @@ namespace Bec.TargetFramework.SB.Data
 
     
         /// <summary>
-        /// There are no comments for IsComplete in the schema.
+        /// There are no comments for BusTaskHandlerVersionNumber in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual bool IsComplete
+        public virtual int BusTaskHandlerVersionNumber
         {
             get;
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for BusTaskScheduleID in the schema.
+        /// </summary>
+        [System.Runtime.Serialization.DataMember]
+        public virtual global::System.Guid BusTaskScheduleID
+        {
+            get;
+            set;
+        }
 
-        #endregion
+    
+        /// <summary>
+        /// There are no comments for BusTaskID in the schema.
+        /// </summary>
+        [System.Runtime.Serialization.DataMember]
+        public virtual global::System.Guid BusTaskID
+        {
+            get;
+            set;
+        }
 
-        #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for BusMessage in the schema.
+        /// There are no comments for ReferenceNumber in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual BusMessage BusMessage
+        public virtual string ReferenceNumber
         {
             get;
             set;
         }
+
     
         /// <summary>
-        /// There are no comments for StatusType in the schema.
+        /// There are no comments for BusTaskGroupName in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual StatusType StatusType
+        public virtual string BusTaskGroupName
         {
             get;
             set;
         }
+
     
         /// <summary>
-        /// There are no comments for StatusTypeValue in the schema.
+        /// There are no comments for BusTaskHandlerGroupName in the schema.
         /// </summary>
         [System.Runtime.Serialization.DataMember]
-        public virtual StatusTypeValue StatusTypeValue
+        public virtual string BusTaskHandlerGroupName
         {
             get;
             set;
         }
+
 
         #endregion
     

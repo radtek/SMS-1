@@ -61,10 +61,7 @@ namespace Bec.TargetFramework.SB.Infrastructure
                 dto.BusMessageContents = new List<BusMessageContentDTO>();
                 dto.BusMessageContents.Add(messageContent);
 
-                if (dto.ProcessingMachine.Equals("Task"))
-                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Received, "Mutator", "Mutate", true,dto);
-                else
-                    m_BusLogic.SaveBusMessage(BusMessageStatusEnum.Received, "Mutator", "Mutate", false,dto );
+                m_BusLogic.SaveBusMessage(BusMessageStatusEnum.Received, "Mutator", "Mutate", false, dto);
             }
         }
 
@@ -99,11 +96,7 @@ namespace Bec.TargetFramework.SB.Infrastructure
                 dto.BusMessageContents = new List<BusMessageContentDTO>();
                 dto.BusMessageContents.Add(messageContent);
 
-
-                if (dto.ProcessingMachine.Equals("Task"))
-                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Sent, "Mutator", "Mutate", true,dto);
-                else
-                    m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Sent, "Mutator", "Mutate", false,dto);
+                m_BusLogic.SaveBusMessage( BusMessageStatusEnum.Sent, "Mutator", "Mutate", false,dto);
             }
         }
     }

@@ -19,6 +19,7 @@ using Bec.TargetFramework.Infrastructure.IOC;
 using System.Collections.Concurrent;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs;
+using NServiceBus.Pipeline;
 using Quartz;
 
 namespace Bec.TargetFramework.SB.TaskServices
@@ -66,12 +67,8 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
-            // create default configuration
-            m_Bus = NServiceBus.Bus.Create(
-                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
-                ).Start();
-
-            m_Bus.Unsubscribe<SBEvent>();
+            // start bus
+            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
         }
 
         public void StartService(string[] args)
@@ -83,7 +80,7 @@ namespace Bec.TargetFramework.SB.TaskServices
                 InitialiseIOC();
 
                 // create scheduler and start 
-                SchedulerHelper.InitialiseAndStartScheduler();
+                //SchedulerHelper.InitialiseAndStartScheduler();
             }
             catch (Exception ex)
             {

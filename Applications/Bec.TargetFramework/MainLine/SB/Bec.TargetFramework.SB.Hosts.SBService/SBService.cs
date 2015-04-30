@@ -9,6 +9,10 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Infrastructure.Serilog;
+using Bec.TargetFramework.SB.Messages.Events;
+using NServiceBus.Features;
+using NServiceBus.Pipeline;
+using NServiceBus.Pipeline.Contexts;
 using NServiceBus.Serilog.Tracing;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService
@@ -61,18 +65,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar>();
 
-            // create default configuration
-            var configuration = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true);
-
             // start bus
-            m_Bus = NServiceBus.Bus.Create(configuration).Start();
-
-            //Task.Factory.StartNew(
-            //    () =>
-            //    {
-            //        Bec.TargetFramework.Aop.AspectServiceLocator.Initialize(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true,
-            //            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<CommonSettings>().EnableTrace);
-            //    });
+            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
         }
 
         public void StartService(string[] args)
@@ -130,5 +124,4 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         }
 
     }
-
 }

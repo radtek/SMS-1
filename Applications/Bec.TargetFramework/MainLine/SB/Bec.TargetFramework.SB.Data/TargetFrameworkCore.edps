@@ -30,6 +30,7 @@
         <File Name="TargetFrameworkCore.VStatusType.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.VBusMessageProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.VBusTaskSchedule.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="BusTaskHandlerDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusTaskHandlerDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusTaskDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
@@ -80,6 +81,8 @@
         <File Name="VBusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="VBusTaskScheduleDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="VBusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="VBusTaskScheduleProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="VBusTaskScheduleProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusTaskHandlerConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusTaskConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusMessageConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
@@ -105,6 +108,7 @@
         <File Name="VStatusTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="VBusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="VBusTaskScheduleConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="VBusTaskScheduleProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
       </GeneratedFiles>
     </Generation>
     <DatabaseFirstNamingRules>

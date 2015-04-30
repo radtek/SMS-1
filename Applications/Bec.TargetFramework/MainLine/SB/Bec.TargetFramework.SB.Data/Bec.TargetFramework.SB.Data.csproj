@@ -118,6 +118,7 @@
     <Compile Include="TargetFrameworkCore.VBusTaskSchedule.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs" />
     <Compile Include="TargetFrameworkCore.VStatusType.cs">
       <SubType>Code</SubType>
     </Compile>
