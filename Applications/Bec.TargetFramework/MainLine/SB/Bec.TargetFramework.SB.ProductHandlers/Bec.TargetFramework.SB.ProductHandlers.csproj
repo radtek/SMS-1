@@ -4,22 +4,22 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25792358-414C-428D-9056-13657CC4B1FD}</ProjectGuid>
+    <ProjectGuid>{D5FB0982-171F-453F-AA54-1AB8610EA9D9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bec.TargetFramework.Service.LR.Interfaces</RootNamespace>
-    <AssemblyName>Bec.TargetFramework.Service.LR.Interfaces</AssemblyName>
+    <RootNamespace>Bec.TargetFramework.SB.ProductHandlers</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.SB.ProductHandlers</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,8 +38,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,10 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ILRServiceContainer.cs" />
-    <Compile Include="Interfaces\ILRServiceDefinition.cs" />
-    <Compile Include="Interfaces\ILRServiceEngine.cs" />
-    <Compile Include="Interfaces\ILRServiceInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +52,41 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
+    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
+      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
+      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
       <Name>Bec.TargetFramework.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.CouchBaseCache\Bec.TargetFramework.Infrastructure.CouchBaseCache.csproj">
+      <Project>{37066c39-df25-497a-bda4-438dfb32fd78}</Project>
+      <Name>Bec.TargetFramework.Infrastructure.CouchBaseCache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
+      <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
+      <Name>Bec.TargetFramework.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Handlers\Bec.TargetFramework.SB.Handlers.csproj">
+      <Project>{e8fb612b-2578-46f2-ba4b-5040583f2445}</Project>
+      <Name>Bec.TargetFramework.SB.Handlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
+      <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
+      <Name>Bec.TargetFramework.SB.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
+      <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
+      <Name>Bec.TargetFramework.SB.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Messages\Bec.TargetFramework.SB.Messages.csproj">
+      <Project>{dcf731c2-85ee-46fd-9e4c-e38df52bdea1}</Project>
+      <Name>Bec.TargetFramework.SB.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,6 +18,7 @@ using Quartz.Spi;
 using Quartz.Impl.Matchers;
 using Bec.TargetFramework.SB.Interfaces;
 using EnsureThat;
+using Bec.TargetFramework.SB.Entities;
 
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
@@ -56,8 +57,12 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
-        private static void PurgeScheduledTasks(IScheduler scheduler)
+        private static void PurgeScheduledTasks(IScheduler scheduler,List<VBusTaskScheduleDTO> dtos)
         {
+            // purge only for current application
+            var appName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
+            var appEnvironment = System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"];
+
             IList<string> jobGroups = scheduler.GetJobGroupNames();
             IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
 
@@ -67,7 +72,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                 var jobKeys = scheduler.GetJobKeys(groupMatcher);
                 foreach (var jobKey in jobKeys)
                 {
-                    scheduler.DeleteJob(jobKey);
+                    if(dtos.Exists(s => s.Name.Equals(jobKey.Name) && s.BusTaskGroupName.Equals(jobKey.Group)))
+                        scheduler.DeleteJob(jobKey);
                 }
             }
         }
@@ -86,9 +92,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 
             var scheduler = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IScheduler>();
 
-            // purge all current jobs
-            PurgeScheduledTasks(scheduler);
-
             var busTaskLogicClient =
                 IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IBusTaskLogicClient>();
 
@@ -97,6 +100,9 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 
             // load dto data
             var busTaskDtos = busTaskLogicClient.AllBusTaskSchedulesByAppNameAndEnv(appName, appEnvironment);
+
+            // purge all current jobs
+            PurgeScheduledTasks(scheduler, busTaskDtos);
 
             if (busTaskDtos.Count > 0)
             {
