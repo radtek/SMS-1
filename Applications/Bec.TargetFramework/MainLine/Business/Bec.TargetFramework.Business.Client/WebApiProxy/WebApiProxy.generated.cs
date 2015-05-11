@@ -14,6 +14,7 @@ using System.Web;
 using Bec.TargetFramework.Business.Client.Models;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using System.Web.Http;
 using BrockAllen.MembershipReboot;
 
 #region Proxies
@@ -1593,9 +1594,9 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual async Task EnsureSuccessAsync(HttpResponseMessage response)
 		{			
 			if (response.IsSuccessStatusCode) return;
-													
-			var content = await response.Content.ReadAsStringAsync();
-			throw new WebApiProxyResponseException(response.StatusCode, content);			
+
+			var content = await response.Content.ReadAsAsync<HttpError>();
+            throw new Exception(content["ExceptionMessage"].ToString());
 		}
 
 		/// <summary>

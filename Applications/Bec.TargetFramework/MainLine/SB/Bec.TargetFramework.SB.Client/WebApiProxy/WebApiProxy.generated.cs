@@ -15,6 +15,7 @@ using Bec.TargetFramework.SB.Client.Models;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
 using Bec.TargetFramework.SB.Interfaces;
+using System.Web.Http;
 
 #region Proxies
 namespace Bec.TargetFramework.SB.Client
@@ -81,9 +82,9 @@ namespace Bec.TargetFramework.SB.Client.Clients
 		public virtual async Task EnsureSuccessAsync(HttpResponseMessage response)
 		{			
 			if (response.IsSuccessStatusCode) return;
-													
-			var content = await response.Content.ReadAsStringAsync();
-			throw new WebApiProxyResponseException(response.StatusCode, content);			
+
+            var content = await response.Content.ReadAsAsync<HttpError>();
+            throw new Exception(content["ExceptionMessage"].ToString());		
 		}
 
 		/// <summary>
