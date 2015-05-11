@@ -4,9 +4,9 @@ $("#formSubmit").click(function () {
 });
 
 $('#cancelAdd').click(function () {
-    handleModal($('#cancelModal'), {
+    handleModal({ url: $(this).data('href') }, {
         cancelYes: function () {
-            $('#addModal').modal('hide');
+            hideParentModal();
         }
     }, true);
 });
@@ -178,9 +178,10 @@ $("#addTempCompany-form").validate({
 function validateSubmit(form) {
     $("#formSubmit").prop('disabled', true);
 
-    //check for duplicates
-    ajaxWrapper({
-        url: '/TempCompany/ValidateAddress',
+    //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
+    handleModal(
+    {
+        url: 'TempCompany/ViewDuplicates',
         data: {
             Manual: $('#manualAddress').prop('checked'),
             Line1: $('#Line1').val(),
@@ -189,75 +190,18 @@ function validateSubmit(form) {
             County: $('#County').val(),
             Postalcode: $('#PostalCode').val()
         }
-    }).done(function (res) {
-        if (res && res.length > 0) {
-
-            handleModal($('#duplicatesModal'), {
-                abortSave: function () {
-                    $("#formSubmit").prop('disabled', false);
-                },
-                saveWithDuplicates: function () {
-                    form.submit();
-                }
-            },
-            true,
-            function () {
-                createDuplicatesList(res);
-                $('#dupeMessage').text($.validator.format('There are {0} companies on the system that match the {1} entered.', res.length, $('#manualAddress').prop('checked') ? 'post code' : 'address'));
-            });
-        }
-        else {
+    },
+    {
+        abortSave: function () {
+            $("#formSubmit").prop('disabled', false);
+        },
+        saveWithDuplicates: function () {
             form.submit();
         }
-    }).fail(function () {
-        //oh dear
-        $("#formSubmit").prop('disabled', false);
-    });
+    },
+    true,
+    "saveWithDuplicates"); //default action if no duplicate results
 }
-
-function createDuplicatesList(dupes) {
-    $('#duplicatesGrid').kendoGrid({
-        dataSource: dupes,
-        height: 300,
-        columns: [
-            {
-                field: "Name",
-                title: "Company Name"
-            },
-            {
-                field: "Line1",
-                title: "Address 1"
-            },
-            {
-                field: "PostalCode",
-                title: "Post Code"
-            },
-            {
-                field: "OrganisationAdminLastName",
-                title: "System Administrator",
-                template: function (dataItem) {
-                    return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
-                }
-            },
-            {
-                field: "StatusValueName",
-                title: "Status"
-            },
-            {
-                field: "CreatedOn",
-                title: "Created On",
-                template: function (dataItem) {
-                    return dateString(dataItem.CreatedOn);
-                }
-            },
-            {
-                field: "CreatedBy",
-                title: "Created By"
-            }
-        ]
-    });
-}
-
 
 $("#otherRegulatorLabel").hide();
 $("#Regulator").change(function () {

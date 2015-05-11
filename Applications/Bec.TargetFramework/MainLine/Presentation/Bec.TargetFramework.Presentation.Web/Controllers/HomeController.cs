@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Presentation.Web.Base;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -32,6 +33,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult ViewCancel()
+        {
+            return PartialView("_Cancel");
         }
     }
 }
