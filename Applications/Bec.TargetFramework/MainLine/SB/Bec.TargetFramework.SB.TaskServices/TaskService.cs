@@ -80,7 +80,7 @@ namespace Bec.TargetFramework.SB.TaskServices
                 InitialiseIOC();
 
                 // create scheduler and start 
-                //SchedulerHelper.InitialiseAndStartScheduler();
+                SchedulerHelper.InitialiseAndStartScheduler();
             }
             catch (Exception ex)
             {

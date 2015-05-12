@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     {
         private IOrganisationLogicClient m_OrganisationClient;
 
-        public TempCompanyController(ILogger logger,IOrganisationLogicClient oClient) : base(logger)
+        public TempCompanyController(ILogger logger, IOrganisationLogicClient oClient) : base(logger)
         {
             m_OrganisationClient = oClient;
         }

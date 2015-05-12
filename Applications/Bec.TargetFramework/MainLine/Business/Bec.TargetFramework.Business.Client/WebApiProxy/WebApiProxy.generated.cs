@@ -417,7 +417,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 	
 	public partial interface IOrganisationLogicClient : IClientBase
-	{	
+	{
+        /// <returns></returns>
+        Task ExpireOrganisationsAsync();
+
+        /// <returns></returns>
+        void ExpireOrganisations();
+
 
 		/// <param name="postCode"></param>
 		/// <param name="buildingNameOrNumber"></param>
@@ -2522,6 +2528,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task ExpireOrganisationsAsync()
+        {
+            string _user = getHttpContextUser();
+            await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations", null, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ExpireOrganisations()
+        {
+            string _user = getHttpContextUser();
+            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations", null, _user));
+        }
+
 		/// <summary>
 		/// 
 		/// </summary>

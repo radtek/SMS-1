@@ -53,6 +53,43 @@ namespace Bec.TargetFramework.Business.Logic
             m_EventPublishClient = eventPublishClient;
         }
 
+        public void ExpireOrganisations()
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
+
+                Logger.Trace("expire starting");
+                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID
+                    && org.OrganisationPinCreated != null))
+                {
+                    if ((DateTime.Now - org.OrganisationPinCreated.Value).TotalDays > 7)
+                    {
+                        Logger.Trace("expiring " + org.OrganisationID.ToString());
+                        scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+                        {
+                            OrganisationID = org.OrganisationID,
+                            Notes = "Automatic expiry",
+                            StatusTypeID = status.StatusTypeID,
+                            StatusTypeVersionNumber = expStatus.StatusTypeVersionNumber,
+                            StatusTypeValueID = expStatus.StatusTypeValueID,
+                            StatusChangedOn = DateTime.Now,
+                            StatusChangedBy = GetUserName()
+                        });
+
+                        foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == org.OrganisationID))
+                        {
+                            var user = scope.DbContext.UserAccounts.Single(u => u.ID == uao.UserID);
+                            user.IsLoginAllowed = false;
+                        }
+                    }
+                }
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+            Logger.Trace("expire finished");
+        }
+
         public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
         {
             Ensure.That(postCode).IsNotNullOrEmpty();

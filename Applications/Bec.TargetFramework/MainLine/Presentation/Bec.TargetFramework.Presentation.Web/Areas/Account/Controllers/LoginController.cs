@@ -13,16 +13,14 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
 using Bec.TargetFramework.UI.Process.Filters;
-using Microsoft.Ajax.Utilities;
-using BrockAllen.MembershipReboot;
 using BrockAllen.MembershipReboot;
 using Hangfire;
 using Bec.TargetFramework.Infrastructure.Extensions;
-using Microsoft.Ajax.Utilities;
 using System.Net.Http.Formatting;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure.Settings;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -32,13 +30,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         AuthenticationService authSvc;
         IUserLogicClient m_UserLogicClient;
         private ILogger logger;
-        public LoginController(ILogger logger, AuthenticationService authSvc,IUserLogicClient userClient)
+        private CommonSettings m_CommonSettings;
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            var res = new ViewResult() { ViewName = "Error" };
+            res.ViewBag.Message = filterContext.Exception.Message;
+            filterContext.Result = res;
+        }
+
+        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings)
         {
             this.logger = logger;
 
             this.authSvc = authSvc;
 
             m_UserLogicClient = userClient;
+            m_CommonSettings = cSettings;
         }
 
         [AllowAnonymous]
@@ -88,7 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 if (!loginValidationResult.valid)
                 {
                     TempData["version"] = Settings.OctoVersion;
-                    ModelState.AddModelError("", loginValidationResult.validationMessage);
+                    ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", loginValidationResult.validationMessage, m_CommonSettings.SupportTelephoneNumber));
                 }
                 else
                 {
@@ -114,7 +123,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             // If the return url starts with a slash "/" we assume it belongs to our site
             // so we will redirect to this "action"
-            if (!returnUrl.IsNullOrWhiteSpace() && Url.IsLocalUrl(returnUrl))
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
             // If we cannot verify if the url is local to our host we redirect to a default location

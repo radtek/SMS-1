@@ -143,3 +143,6 @@ VALUES (54, E'CommonSettings.ProductName', E'BEC Software', True, False);
 
 INSERT INTO public."Setting" ("Id", "Name", "Value", "IsActive", "IsDeleted")
 VALUES (55, E'CommonSettings.PublicWebsiteUrl', E'http://www.becsoftware.co.uk', True, False);
+
+INSERT INTO public."Setting" ("Id", "Name", "Value", "IsActive", "IsDeleted")
+VALUES (56, E'CommonSettings.SupportTelephoneNumber', E'0123 456 789', True, False);
