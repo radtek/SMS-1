@@ -53,7 +53,7 @@ namespace Bec.TargetFramework.Business.Logic
             m_EventPublishClient = eventPublishClient;
         }
 
-        public void ExpireOrganisations()
+        public void ExpireOrganisations(int days, int hours, int minutes)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -64,7 +64,8 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID
                     && org.OrganisationPinCreated != null))
                 {
-                    if ((DateTime.Now - org.OrganisationPinCreated.Value).TotalDays > 7)
+                    var testDate = org.OrganisationPinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
+                    if (testDate < DateTime.Now)
                     {
                         Logger.Trace("expiring " + org.OrganisationID.ToString());
                         scope.DbContext.OrganisationStatus.Add(new OrganisationStatus

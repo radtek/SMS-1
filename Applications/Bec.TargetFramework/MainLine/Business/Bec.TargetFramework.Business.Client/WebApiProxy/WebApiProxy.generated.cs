@@ -419,10 +419,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	public partial interface IOrganisationLogicClient : IClientBase
 	{
         /// <returns></returns>
-        Task ExpireOrganisationsAsync();
+        Task ExpireOrganisationsAsync(int days, int hours, int minutes);
 
         /// <returns></returns>
-        void ExpireOrganisations();
+        void ExpireOrganisations(int days, int hours, int minutes);
 
 
 		/// <param name="postCode"></param>
@@ -2532,19 +2532,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual async Task ExpireOrganisationsAsync()
+        public virtual async Task ExpireOrganisationsAsync(int days, int hours, int minutes)
         {
             string _user = getHttpContextUser();
-            await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations", null, _user);
+            await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void ExpireOrganisations()
+        public virtual void ExpireOrganisations(int days, int hours, int minutes)
         {
             string _user = getHttpContextUser();
-            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations", null, _user));
+            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user));
         }
 
 		/// <summary>
