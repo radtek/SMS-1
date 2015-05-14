@@ -102,6 +102,29 @@ VALUES (
  (select "StatusTypeTemplateVersionNumber" from "StatusTypeTemplate" where "Name" = 'Professional Organisation Status')
 );
 
+INSERT INTO
+  public."DefaultOrganisationStatusTypeTemplate"
+(
+  "StatusTypeTemplateID",
+  "StatusTypeTemplateVersionNumber",
+  "ParentID",
+  "IsActive",
+  "IsDeleted",
+  "DefaultOrganisationTemplateID",
+  "DefaultOrganisationTemplateVersionNumber",
+  "DefaultStatusTypeValueTemplateID"
+)
+VALUES (
+  (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'User Organisation Status'),
+  1,
+  null,
+  true,
+  false,
+  DoTemplateID,
+  DoVersionNumber,
+  (select "StatusTypeValueTemplateID" from "vStatusTypeTemplate" where "IsStart" = true and "TemplateName" =  'User Organisation Status' limit 1)
+);
+
 -- user types
 INSERT INTO
   public."DefaultOrganisationUserTargetTemplate"
