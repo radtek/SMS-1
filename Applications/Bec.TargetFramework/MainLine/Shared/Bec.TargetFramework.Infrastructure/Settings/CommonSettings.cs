@@ -45,5 +45,7 @@ namespace Bec.TargetFramework.Infrastructure.Settings
         public string PublicWebsiteUrl { get; set; }
 
         public string ProductName { get; set; }
+
+        public string SupportTelephoneNumber { get; set; }
     }
 }

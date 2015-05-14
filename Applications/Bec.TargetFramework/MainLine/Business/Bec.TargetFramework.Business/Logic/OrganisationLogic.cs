@@ -53,6 +53,44 @@ namespace Bec.TargetFramework.Business.Logic
             m_EventPublishClient = eventPublishClient;
         }
 
+        public void ExpireOrganisations(int days, int hours, int minutes)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
+
+                Logger.Trace("expire starting");
+                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID
+                    && org.OrganisationPinCreated != null))
+                {
+                    var testDate = org.OrganisationPinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
+                    if (testDate < DateTime.Now)
+                    {
+                        Logger.Trace("expiring " + org.OrganisationID.ToString());
+                        scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+                        {
+                            OrganisationID = org.OrganisationID,
+                            Notes = "Automatic expiry",
+                            StatusTypeID = status.StatusTypeID,
+                            StatusTypeVersionNumber = expStatus.StatusTypeVersionNumber,
+                            StatusTypeValueID = expStatus.StatusTypeValueID,
+                            StatusChangedOn = DateTime.Now,
+                            StatusChangedBy = GetUserName()
+                        });
+
+                        foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == org.OrganisationID))
+                        {
+                            var user = scope.DbContext.UserAccounts.Single(u => u.ID == uao.UserID);
+                            user.IsLoginAllowed = false;
+                        }
+                    }
+                }
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+            Logger.Trace("expire finished");
+        }
+
         public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
         {
             Ensure.That(postCode).IsNotNullOrEmpty();
@@ -130,6 +168,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
+                var org = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
+                if(org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
+
                 var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Rejected.GetStringValue());
                 Ensure.That(status);
 
@@ -153,6 +195,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
+                var orgSA = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
+                if (orgSA.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot generate pin for a company of status '{0}'. Please go back and try again.", orgSA.StatusValueName));
+
                 var org = scope.DbContext.Organisations.Single(o => o.OrganisationID == dto.OrganisationId);
                 org.CompanyPinCode = createPin(4);
                 org.CompanyPinCreated = DateTime.Now;

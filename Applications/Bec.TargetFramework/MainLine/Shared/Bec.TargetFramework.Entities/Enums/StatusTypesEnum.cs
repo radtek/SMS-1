@@ -104,7 +104,9 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Verified")]
         Verified = 2,
         [StringValue("Rejected")]
-        Rejected = 3
+        Rejected = 3,
+        [StringValue("Expired")]
+        Expired = 4
     }
 
 

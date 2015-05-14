@@ -14,6 +14,7 @@ using System.Web;
 using Bec.TargetFramework.Business.Client.Models;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using System.Web.Http;
 using BrockAllen.MembershipReboot;
 
 #region Proxies
@@ -416,7 +417,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 	
 	public partial interface IOrganisationLogicClient : IClientBase
-	{	
+	{
+        /// <returns></returns>
+        Task ExpireOrganisationsAsync(int days, int hours, int minutes);
+
+        /// <returns></returns>
+        void ExpireOrganisations(int days, int hours, int minutes);
+
 
 		/// <param name="postCode"></param>
 		/// <param name="buildingNameOrNumber"></param>
@@ -1593,9 +1600,9 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual async Task EnsureSuccessAsync(HttpResponseMessage response)
 		{			
 			if (response.IsSuccessStatusCode) return;
-													
-			var content = await response.Content.ReadAsStringAsync();
-			throw new WebApiProxyResponseException(response.StatusCode, content);			
+
+			var content = await response.Content.ReadAsAsync<HttpError>();
+            throw new Exception(content["ExceptionMessage"].ToString());
 		}
 
 		/// <summary>
@@ -2521,6 +2528,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task ExpireOrganisationsAsync(int days, int hours, int minutes)
+        {
+            string _user = getHttpContextUser();
+            await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ExpireOrganisations(int days, int hours, int minutes)
+        {
+            string _user = getHttpContextUser();
+            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user));
+        }
+
 		/// <summary>
 		/// 
 		/// </summary>

@@ -20,6 +20,7 @@ using System.Web;
 using <#= Configuration.Namespace#>.Models;
 using <#= Configuration.EntitiesNamespace #>;
 using <#= Configuration.EnumsNamespace #>;
+using System.Web.Http;
 
 #region Proxies
 namespace <#= Configuration.Namespace#>
@@ -135,8 +136,8 @@ namespace <#= Configuration.Namespace#>.Clients
 		{			
 			if (response.IsSuccessStatusCode) return;
 													
-			var content = await response.Content.ReadAsStringAsync();
-			throw new WebApiProxyResponseException(response.StatusCode, content);			
+			var content = await response.Content.ReadAsAsync<HttpError>();
+            throw new Exception(content["ExceptionMessage"].ToString());		
 		}
 
 		/// <summary>

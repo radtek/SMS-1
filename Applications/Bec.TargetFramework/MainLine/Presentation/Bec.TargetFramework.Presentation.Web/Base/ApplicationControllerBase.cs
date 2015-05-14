@@ -60,6 +60,13 @@ namespace Bec.TargetFramework.Presentation.Web.Base
             };
         }
 
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            var res = new ViewResult() { ViewName = "Error" };
+            res.ViewBag.Message = filterContext.Exception.Message;
+            filterContext.Result = res;
+        }
     }
 
     public class ServiceStackJsonResult : JsonResult

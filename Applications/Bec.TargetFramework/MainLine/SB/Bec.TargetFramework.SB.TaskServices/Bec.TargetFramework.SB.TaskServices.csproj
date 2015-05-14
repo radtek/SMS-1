@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A3E92056-1E79-4FD4-9B76-88E32FA29558}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.SB.TaskServices</RootNamespace>
     <AssemblyName>Bec.TargetFramework.SB.TaskServices</AssemblyName>
@@ -361,6 +361,10 @@
     <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
       <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
       <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.SB.Client\Bec.TargetFramework.SB.Client.csproj">
+      <Project>{e4e0ed10-111e-4b5c-bb6f-07f2eccb30ae}</Project>
+      <Name>Bec.TargetFramework.SB.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>

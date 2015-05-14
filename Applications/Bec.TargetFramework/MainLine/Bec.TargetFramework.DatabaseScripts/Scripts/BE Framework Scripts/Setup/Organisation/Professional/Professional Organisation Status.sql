@@ -23,6 +23,9 @@ VALUES (E'29bfddb3-da94-4955-9446-c068d6816925', OrganisationStatusID, 1, E'Veri
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
 VALUES (E'7a549b8c-d766-4f59-af57-dee9bd20c519', OrganisationStatusID, 1, E'Rejected', E'Rejected', True, False);
 
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'8a549b8c-d766-4f59-af57-dee9bd20c519', OrganisationStatusID, 1, E'Expired', E'Expired', True, False);
+
 
 INSERT INTO public."StatusTypeStructureTemplate" ("StatusTypeStructureTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "StatusTypeValueTemplateID", "StatusOrder", "IsStart", "IsEnd")
 VALUES (E'00cdb021-425d-43ed-b04b-70a3ecb55ee9', OrganisationStatusID, 1,
@@ -38,6 +41,11 @@ INSERT INTO public."StatusTypeStructureTemplate" ("StatusTypeStructureTemplateID
 VALUES (E'a2226a3d-22d2-46ec-bf97-dd25ea5bc93a', OrganisationStatusID, 1,
 (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = OrganisationStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Rejected' limit 1),
  2, False, True);
+
+ INSERT INTO public."StatusTypeStructureTemplate" ("StatusTypeStructureTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "StatusTypeValueTemplateID", "StatusOrder", "IsStart", "IsEnd")
+VALUES (E'b2226a3d-22d2-46ec-bf97-dd25ea5bc93a', OrganisationStatusID, 1,
+(select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = OrganisationStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Expired' limit 1),
+ 3, False, True);
 
 -- Process Templates
 perform "fn_PromoteStatusTypeTemplate"(OrganisationStatusID,1);

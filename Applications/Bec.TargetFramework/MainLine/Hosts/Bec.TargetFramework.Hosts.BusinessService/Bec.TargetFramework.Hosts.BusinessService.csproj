@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FFA3DDD3-A1F8-4BF0-92B3-272FD8CE3765}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.Hosts.BusinessService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.Hosts.BusinessService</AssemblyName>
@@ -390,6 +390,10 @@
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Client\Bec.TargetFramework.SB.Client.csproj">
+      <Project>{e4e0ed10-111e-4b5c-bb6f-07f2eccb30ae}</Project>
+      <Name>Bec.TargetFramework.SB.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Infrastructure\Bec.TargetFramework.SB.Infrastructure.csproj">
       <Project>{09e721b5-6de8-4a7b-b66e-4149b4b38296}</Project>
