@@ -80,7 +80,7 @@ $("#findaddressbutton").click(function () {
     resRow.hide();
 
     ajaxWrapper({
-        url: 'TempCompany/FindAddress',
+        url: 'FindAddress',
         data: { postcode: pc }
     })
     .always(function () {
@@ -181,7 +181,7 @@ function validateSubmit(form) {
     //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
     handleModal(
     {
-        url: 'TempCompany/ViewDuplicates',
+        url: 'ViewDuplicates',
         data: {
             Manual: $('#manualAddress').prop('checked'),
             Line1: $('#Line1').val(),

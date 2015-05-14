@@ -58,33 +58,12 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
 
                 Logger.Trace("expire starting");
-                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID
-                    && org.OrganisationPinCreated != null))
+                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID && org.OrganisationPinCreated != null))
                 {
                     var testDate = org.OrganisationPinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
-                    if (testDate < DateTime.Now)
-                    {
-                        Logger.Trace("expiring " + org.OrganisationID.ToString());
-                        scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
-                        {
-                            OrganisationID = org.OrganisationID,
-                            Notes = "Automatic expiry",
-                            StatusTypeID = status.StatusTypeID,
-                            StatusTypeVersionNumber = expStatus.StatusTypeVersionNumber,
-                            StatusTypeValueID = expStatus.StatusTypeValueID,
-                            StatusChangedOn = DateTime.Now,
-                            StatusChangedBy = GetUserName()
-                        });
-
-                        foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == org.OrganisationID))
-                        {
-                            var user = scope.DbContext.UserAccounts.Single(u => u.ID == uao.UserID);
-                            user.IsLoginAllowed = false;
-                        }
-                    }
+                    if (testDate < DateTime.Now) expireOrganisation(scope, org.OrganisationID);
                 }
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
@@ -191,6 +170,31 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public void ActivateOrganisation(Guid organisationID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var org = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == organisationID);
+                if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
+
+                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
+                Ensure.That(status);
+
+                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+                {
+                    OrganisationID = organisationID,
+                    StatusTypeID = status.StatusTypeID,
+                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
+                    StatusTypeValueID = status.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Now,
+                    StatusChangedBy = GetUserName()
+                });
+
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+        }
+
         public void GeneratePin(GeneratePinDTO dto)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
@@ -217,6 +221,13 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusChangedOn = DateTime.Now,
                     StatusChangedBy = GetUserName()
                 });
+
+                //enable temp logins now the pin has been set
+                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.OrganisationID == dto.OrganisationId))
+                {
+                    var user = scope.DbContext.UserAccounts.Single(x => x.ID == uao.UserID);
+                    user.IsLoginAllowed = true;
+                }
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
@@ -292,77 +303,70 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = AddOrganisation(organisationType.GetIntValue(), defaultOrganisation, dto);
 
-            var userAccountOrganisationID = AddNewUserToOrganisation(organisationID.Value, new ContactDTO
+            var randomUsername = m_DataLogic.GenerateRandomName();
+            var randomPassword = RandomPasswordGenerator.Generate(10);
+            var userContactDto = new ContactDTO
             {
                 Telephone1 = dto.OrganisationAdminTelephone,
                 FirstName = dto.OrganisationAdminFirstName,
                 LastName = dto.OrganisationAdminLastName,
                 EmailAddress1 = dto.OrganisationAdminEmail,
                 Salutation = dto.OrganisationAdminSalutation
-            }, UserTypeEnum.OrganisationAdministrator);
+            };
+
+            var userAccountOrganisation = AddNewUserToOrganisation(organisationID.Value, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
+            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto);
 
             return organisationID.Value;
         }
 
-        private Guid AddNewUserToOrganisation(Guid organisationID,ContactDTO userContactDto,UserTypeEnum userTypeValue)
+        public UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary)
         {
-            Guid uaoID;
-            BrockAllen.MembershipReboot.UserAccount ua;
-            var randomPassword = RandomPasswordGenerator.Generate(10);
-            var randomUsername = m_DataLogic.GenerateRandomName();
+            UserAccountOrganisationDTO uao;
 
-            var userId = Guid.NewGuid();
-            Guid? userOrgID;
-
-            ua = m_UserLogic.CreateAccount(randomUsername, randomPassword, userContactDto.EmailAddress1, false, userId);
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                Logger.Trace(string.Format("new user: {0} password: {1}", randomUsername, randomPassword));
-
-                // add user to organisation
-                userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
-
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
-                  
-            }
-
-            Ensure.That(userOrgID).IsNotNull();
-            SendNewUserEmail(randomUsername, randomPassword, userOrgID.Value, userContactDto);
-
+            var ua = m_UserLogic.CreateAccount(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
 
-                var userTypeGuid = userTypeValue.GetGuidValue();
+                // add user to organisation
+                var userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);                
 
-                // get uao
-                var uao = scope.DbContext.UserAccountOrganisations.Single(s => s.UserID.Equals(ua.ID) && s.OrganisationID.Equals(organisationID)
-                    && s.UserTypeID.Equals(userTypeGuid));
+                //if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
 
-                // create contact
-                var contact = new Contact
+                Ensure.That(userOrgID).IsNotNull();
+                
+                uao = UserAccountOrganisationConverter.ToDto(scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value));
+
+                // create or update contact
+                if (userContactDto.ContactID == Guid.Empty)
                 {
-                    ContactID = Guid.NewGuid(),
-                    ParentID = uao.UserAccountOrganisationID,
-                    ContactName = "",
-                    IsPrimaryContact = true,
-                    Telephone1 = userContactDto.Telephone1,
-                    FirstName = userContactDto.FirstName,
-                    LastName = userContactDto.LastName,
-                    EmailAddress1 = userContactDto.EmailAddress1,
-                    Salutation = userContactDto.Salutation
-                };
-
-                scope.DbContext.Contacts.Add(contact);
+                    var contact = new Contact
+                    {
+                        ContactID = Guid.NewGuid(),
+                        ParentID = userOrgID.Value,
+                        ContactName = "",
+                        IsPrimaryContact = true,
+                        Telephone1 = userContactDto.Telephone1,
+                        FirstName = userContactDto.FirstName,
+                        LastName = userContactDto.LastName,
+                        EmailAddress1 = userContactDto.EmailAddress1,
+                        Salutation = userContactDto.Salutation
+                    };
+                    scope.DbContext.Contacts.Add(contact);
+                }
+                else
+                {
+                    var existingUserContact = scope.DbContext.Contacts.Single(c => c.ContactID == userContactDto.ContactID);
+                    existingUserContact.ParentID = userOrgID.Value;
+                }
 
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
-
-                uaoID = uao.UserAccountOrganisationID;
             }
 
-            return uaoID;
+            return uao;
         }
 
         private void SendNewUserEmail(string username, string password, Guid userAccountOrganisationID, ContactDTO contact)
@@ -1911,6 +1915,46 @@ namespace Bec.TargetFramework.Business.Logic
             //}
 
             return dtoList;
+        }
+
+        public bool IncrementInvalidPIN(Guid organisationID)
+        {
+            bool ret = false;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {   
+                var org = scope.DbContext.Organisations.Single(x => x.OrganisationID == organisationID);
+                org.PinAttempts++;
+                if (org.PinAttempts >= 3)
+                {
+                    expireOrganisation(scope, organisationID);
+                    ret = true;
+                }
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());                
+            }
+            return ret;
+        }
+
+        public void expireOrganisation(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID)
+        {
+            var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
+
+            Logger.Trace("expiring " + organisationID.ToString());
+            scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
+            {
+                OrganisationID = organisationID,
+                Notes = "Automatic expiry",
+                StatusTypeID = expStatus.StatusTypeID,
+                StatusTypeVersionNumber = expStatus.StatusTypeVersionNumber,
+                StatusTypeValueID = expStatus.StatusTypeValueID,
+                StatusChangedOn = DateTime.Now,
+                StatusChangedBy = GetUserName()
+            });
+
+            foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == organisationID))
+            {
+                var user = scope.DbContext.UserAccounts.Single(u => u.ID == uao.UserID);
+                user.IsLoginAllowed = false;
+            }
         }
     }
 }

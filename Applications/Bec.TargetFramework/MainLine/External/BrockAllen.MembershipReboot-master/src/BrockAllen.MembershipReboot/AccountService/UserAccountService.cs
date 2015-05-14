@@ -588,7 +588,7 @@ namespace BrockAllen.MembershipReboot
             account.IsAccountVerified = false;
             account.AccountTwoFactorAuthMode = (int)TwoFactorAuthMode.None;
             account.CurrentTwoFactorAuthStatus = (int)TwoFactorAuthMode.None;
-            account.IsLoginAllowed = Configuration.AllowLoginAfterAccountCreation;
+            account.IsLoginAllowed = !temporaryAccount && Configuration.AllowLoginAfterAccountCreation; //temp logins disabled until pin created
             account.IsTemporaryAccount = temporaryAccount;
             account.IsAccountVerified = true; //No verification method exists for accounts once created. Use isApproved for approvals on account
             account.IsActive = true;

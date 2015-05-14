@@ -22,7 +22,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("RejectTempCompany", "TempCompany", new { area = "Admin" })" method="POST" id="rejectTempCompany-form" class="smart-form">
+                        <form action="@Url.Action("RejectTempCompany", "Company", new { area = "Admin" })" method="POST" id="rejectTempCompany-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>

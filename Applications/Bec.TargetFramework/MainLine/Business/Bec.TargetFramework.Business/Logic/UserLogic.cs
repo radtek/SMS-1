@@ -914,7 +914,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var organisations = scope.DbContext.UserAccountOrganisations.Where(item => item.UserID.Equals(accountID) && item.IsActive == true && item.IsDeleted == false).ToList();
 
-                userAccountOrganisations = UserAccountOrganisationConverter.ToDtos(organisations);
+                userAccountOrganisations = UserAccountOrganisationConverter.ToDtosWithRelated(organisations, 1);
 
                 return userAccountOrganisations;
             }
@@ -1170,7 +1170,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public void LockUserTemporaryAccount(Guid tempUserId)
         {
-             var tempAccount = m_UaService.GetByID(tempUserId);
+            var tempAccount = m_UaService.GetByID(tempUserId);
 
             tempAccount.IsActive = false;
             tempAccount.IsDeleted = true;
@@ -1179,6 +1179,15 @@ namespace Bec.TargetFramework.Business.Logic
 
             m_UaService.Update(tempAccount);
 
+            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            //{
+            //    foreach(var uao in scope.DbContext.UserAccountOrganisations.Where(item => item.UserID.Equals(tempUserId) && item.IsActive == true && item.IsDeleted == false))
+            //    {
+            //        uao.IsActive = false;
+            //        uao.IsDeleted = true;
+            //    }
+            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            //}
         }
 
         public bool DoesUserExist(Guid userID,bool isTemporary)

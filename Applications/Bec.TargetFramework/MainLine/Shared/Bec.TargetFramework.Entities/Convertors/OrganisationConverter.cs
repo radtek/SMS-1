@@ -54,6 +54,7 @@ namespace Bec.TargetFramework.Entities
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
+            target.PinAttempts = source.PinAttempts;
 
             // Navigation Properties
             if (level > 0) {
@@ -136,6 +137,7 @@ namespace Bec.TargetFramework.Entities
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
+            target.PinAttempts = source.PinAttempts;
 
             // User-defined partial method
             OnEntityCreating(source, target);

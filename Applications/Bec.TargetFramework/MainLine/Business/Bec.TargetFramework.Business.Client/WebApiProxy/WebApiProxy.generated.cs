@@ -462,6 +462,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void RejectOrganisation(RejectCompanyDTO dto);
 
 
+        /// <returns></returns>
+        Task ActivateOrganisationAsync(Guid organisationID);
+
+        /// <returns></returns>
+        void ActivateOrganisation(Guid organisationID);
+
+
 		/// <returns></returns>
 		Task GeneratePinAsync(GeneratePinDTO dto);
 
@@ -494,7 +501,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationType"></param>
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
+        
 
+		/// <param name="organisationType"></param>
+		/// <returns></returns>
+        Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto);
+
+		/// <param name="organisationType"></param>
+		/// <returns></returns>
+        UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto);
+        
 
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
@@ -782,7 +798,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(Int32 typeId);
 
-				
+
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        Task<bool> IncrementInvalidPINAsync(Guid organisationID);
+
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        bool IncrementInvalidPIN(Guid organisationID);
+
 	}
 	
 	public partial interface ISettingsLogicClient : IClientBase
@@ -2620,6 +2644,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisation", dto, _user));
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task ActivateOrganisationAsync(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            await PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ActivateOrganisation(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user));
+        }
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -2701,6 +2744,28 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministrator?organisationType=" + organisationType, dto, _user)).Result;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organisationType"></param>
+        /// <returns></returns>
+        public virtual async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto)
+        {
+            string _user = getHttpContextUser();
+            return await PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="organisationType"></param>
+        /// <returns></returns>
+        public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto)
+        {
+            string _user = getHttpContextUser();
+            return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
+        }
 
 		/// <summary>
 		/// 
@@ -3383,9 +3448,28 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationTemplateDTO>>("api/OrganisationLogic/GetOrganisationTemplatesforOrganisationType?typeId=" + typeId, _user)).Result;
-		}
+        }
 
-		#endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<bool> IncrementInvalidPINAsync(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            return await PostAsync<object, bool>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual bool IncrementInvalidPIN(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            return Task.Run(() => PostAsync<object, bool>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user)).Result;
+        }
+
+        #endregion
 	}
 	/// <summary>
 	/// 

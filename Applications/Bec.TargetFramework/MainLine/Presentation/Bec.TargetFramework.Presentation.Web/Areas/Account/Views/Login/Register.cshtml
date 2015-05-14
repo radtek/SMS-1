@@ -1,0 +1,133 @@
+﻿@using Bec.TargetFramework.Entities
+@model CreatePermanentLoginDTO
+@{
+    ViewBag.PageId = "extr-page";
+}
+
+@section topright{
+    
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <div class="well no-padding">
+                <form action="@Url.Action("Register", "Login",new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Enter your PIN
+                    </header>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    @if (ViewBag.PinExpired == null || !ViewBag.PinExpired) 
+                    { 
+                    <fieldset>
+                        <section>
+                            <label class="label">Welcome </label>
+                            <label class="label">Please enter your PIN as provided by BE Consultancy</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.Pin, new { maxlength = 20 })
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Create Account</label>
+                            <label class="label">Before we create your permanent account please take a moment to choose a unique username and password.</label>
+                            <label class="label">Once you have entered your unique username and password, please click 'Submit'.</label>
+                            <label class="label">Choose a new username</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.NewUsername)
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label">Choose a new password</label>
+                            <label class="label">Your password must contain at least on upper case letter, at least one number and at least one special character. It must be at least 10 characters long.</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25 })
+                            </label>
+                            <label class="label">Confirm password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25})
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" id="formSubmit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </footer>
+                    }
+                    else
+                    {
+                        <footer>
+                            <a href="@ViewBag.PublicWebsiteUrl" class="btn btn-primary btn-sm">Return to Website</a>
+                        </footer>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section pagespecific {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sessionStorage.clear();
+        });
+
+        $(function () {
+            $.validator.addMethod("pwcheck",
+                        function (value, element) {
+                            return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
+                        });
+
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    Pin: {
+                        required: true
+                    },
+                    NewUsername: {
+                        required: true,
+                        remote: {
+                            url: '@Url.Action("UsernameAvailable", "Login", new { Area = "Account" })',
+                            data: {
+                                username: function () {
+                                    return $('#NewUsername').val();
+                                }
+                            },
+                            dataType: 'json'
+                        }
+                    },
+                    NewPassword: {
+                        required: true,
+                        minlength: 10,
+                        pwcheck: true
+                    },
+                    ConfirmNewPassword: {
+                        equalTo: '#NewPassword'
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    NewPassword: {
+                        pwcheck: 'Your password must contain 1 number, 1 uppercase character and 1 symbol'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                },
+
+                submitHandler: function (form) {
+                    $('#formSubmit').prop('disabled', true);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

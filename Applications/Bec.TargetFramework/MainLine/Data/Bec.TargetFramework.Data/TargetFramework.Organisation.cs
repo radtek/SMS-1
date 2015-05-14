@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Data
           this.IsCompanyVerified = false;
           this.IsCompanyPinCreated = false;
           this.ReturnUrl = @"";
+          this.PinAttempts = 0;
         }
 
         #region Properties
@@ -281,6 +282,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ReturnUrl in the schema.
         /// </summary>
         public virtual string ReturnUrl
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinAttempts in the schema.
+        /// </summary>
+        public virtual short PinAttempts
         {
             get;
             set;

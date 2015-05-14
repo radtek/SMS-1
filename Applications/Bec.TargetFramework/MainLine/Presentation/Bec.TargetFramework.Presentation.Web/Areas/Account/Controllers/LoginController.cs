@@ -21,16 +21,20 @@ using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
+using Bec.TargetFramework.Presentation.Web.Filters;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
-   
+    [Authorize]
     public class LoginController : Controller
     {
         AuthenticationService authSvc;
         IUserLogicClient m_UserLogicClient;
         private ILogger logger;
         private CommonSettings m_CommonSettings;
+        IOrganisationLogicClient m_OrgLogicClient;
 
         protected override void OnException(ExceptionContext filterContext)
         {
@@ -40,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             filterContext.Result = res;
         }
 
-        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings)
+        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient)
         {
             this.logger = logger;
 
@@ -48,6 +52,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             m_UserLogicClient = userClient;
             m_CommonSettings = cSettings;
+            m_OrgLogicClient = orgClient;
         }
 
         [AllowAnonymous]
@@ -102,32 +107,84 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 else
                 {
                     var ua = new BrockAllen.MembershipReboot.UserAccount();
-
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
+                    await login(ua);
 
-                    authSvc.SignIn(ua, false, null);
-
-                    //  create web user object in session
-                    var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
-
-                    await m_UserLogicClient.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
-
-                    return RedirectToAction("Index", "Home", new { area = "" });
+                    if (ua.IsTemporaryAccount)
+                        return RedirectToAction("Register", "Login", new { area = "Account" });
+                    else
+                        return RedirectToAction("Index", "Home", new { area = "" });
                 }
             }
 
             return View(model);
         }
 
-        private ActionResult RedirectToLocal(string returnUrl = "")
+        private async Task login(UserAccount ua)
         {
-            // If the return url starts with a slash "/" we assume it belongs to our site
-            // so we will redirect to this "action"
-            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
+            authSvc.SignIn(ua, false, null);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
+            await m_UserLogicClient.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
+        }
 
-            // If we cannot verify if the url is local to our host we redirect to a default location
-            return RedirectToAction("Index", "Home");
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Register(CreatePermanentLoginDTO model)
+        {
+            if (string.IsNullOrWhiteSpace(model.NewUsername) || await m_UserLogicClient.IsUserExistAsync(model.NewUsername))
+            {
+                ModelState.AddModelError("", "This username is unavailable, please chose another");
+                return View(model);
+            }
+
+            if (model.NewPassword != model.ConfirmNewPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match");
+                return View(model);
+            }
+
+            var uaDTO = m_UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
+            var userAccountOrg = m_UserLogicClient.GetUserAccountOrganisation(uaDTO.ID).Single();
+            if(model.Pin != userAccountOrg.Organisation.CompanyPinCode)
+            {
+                //increment invalid pin count.
+                //if pincount >=3, expire organisation
+                if (m_OrgLogicClient.IncrementInvalidPIN(userAccountOrg.OrganisationID))
+                {
+                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + m_CommonSettings.SupportTelephoneNumber);
+                    ViewBag.PinExpired = true;
+                    ViewBag.PublicWebsiteUrl = m_CommonSettings.PublicWebsiteUrl;
+                }
+                else
+                    ModelState.AddModelError("", "Invalid PIN");
+
+                return View(model);
+            }
+
+            var contact = m_UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
+            m_OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
+            m_OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
+            //delete original temp user account
+            var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
+            m_UserLogicClient.LockUserTemporaryAccount(tempua.ID);
+
+            Logout();
+            var ua = m_UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
+            await login(ua);
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        //used by client validation
+        public async Task<ActionResult> UsernameAvailable(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username) || await m_UserLogicClient.IsUserExistAsync(username))
+                return Json("This username is unavailable, please chose another", JsonRequestBehavior.AllowGet);
+            else
+                return Json("true", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

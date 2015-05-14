@@ -23,11 +23,14 @@
                 <li class="@Html.RouteIf("active", "home", "index")">
                     <a href="@Url.Action("index", "home")" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
                 </li>
-                <li class="@Html.RouteIf("open", "TempCompany")">
+                <li class="@Html.RouteIf("open", "Company")">
                     <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
                     <ul>
-                        <li class="@Html.RouteIf("active", "TempCompany", "Index")">
-                            <a href="@Url.Action("Index", "TempCompany",new {area="Admin"})">Temporary</a>
+                        <li class="@Html.RouteIf("active", "Company", "Provisional")">
+                            <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })">Provisional</a>
+                        </li>
+                        <li class="@Html.RouteIf("active", "Company", "Approved")">
+                            <a href="@Url.Action("Approved", "Company", new { area = "Admin" })">Approved</a>
                         </li>
                     </ul>
                 </li>

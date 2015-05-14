@@ -2980,6 +2980,7 @@
     <Compile Include="Convertors\WorkflowTreeStructureActionTemplateConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureConverter.cs" />
     <Compile Include="Convertors\WorkflowTreeStructureTemplateConverter.cs" />
+    <Compile Include="DTO\CreatePermanentLoginDTO.cs" />
     <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
