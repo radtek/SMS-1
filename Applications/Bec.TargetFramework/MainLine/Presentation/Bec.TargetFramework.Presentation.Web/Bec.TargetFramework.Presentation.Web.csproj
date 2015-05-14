@@ -855,7 +855,7 @@
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Login\Register.cshtml" />
-    <Content Include="Areas\Admin\Views\Company\Approved.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

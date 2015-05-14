@@ -31,7 +31,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Approved()
+        public ActionResult Qualified()
         {
             return View();
         }
