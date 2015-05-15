@@ -22,7 +22,7 @@
                     { 
                     <fieldset>
                         <section>
-                            <label class="label">Welcome </label>
+                            <strong>Welcome </strong>
                             <label class="label">Please enter your PIN as provided by BE Consultancy</label>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
@@ -30,18 +30,18 @@
                             </label>
                         </section>
                         <section>
-                            <label class="label">Create Account</label>
+                            <strong>Create Account</strong>
                             <label class="label">Before we create your permanent account please take a moment to choose a unique username and password.</label>
-                            <label class="label">Once you have entered your unique username and password, please click 'Submit'.</label>
-                            <label class="label">Choose a new username</label>
+                            <label class="label">Username</label>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
                                 @Html.TextBoxFor(m => m.NewUsername)
                             </label>
                         </section>
                         <section>
-                            <label class="label">Choose a new password</label>
-                            <label class="label">Your password must contain at least on upper case letter, at least one number and at least one special character. It must be at least 10 characters long.</label>
+                            <strong>Choose a new password</strong>
+                            <label class="label">Your password must contain at least one upper case letter, at least one number and at least one special character. It must be at least 10 characters long.</label>
+                            <label class="label">Password</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
                                 @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25 })
@@ -115,6 +115,9 @@
                 messages: {
                     NewPassword: {
                         pwcheck: 'Your password must contain 1 number, 1 uppercase character and 1 symbol'
+                    },
+                    ConfirmNewPassword: {
+                        equalTo: 'Passwords do not match'
                     }
                 },
 
