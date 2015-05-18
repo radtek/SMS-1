@@ -24,7 +24,7 @@
                                     <section class="col col-5">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.EditorFor(model => model.ContactedTelephoneNumber)
+                                            @Html.EditorFor(model => model.ContactedTelephoneNumber, new { maxlength = 20 } )
                                         </label>
                                     </section>
                                 </div>

@@ -108,10 +108,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     var ua = new BrockAllen.MembershipReboot.UserAccount();
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
-                    await login(ua);
+                    await login(this, ua, authSvc, m_UserLogicClient);
 
                     if (ua.IsTemporaryAccount)
-                        return RedirectToAction("Register", "Login", new { area = "Account" });
+                        return RedirectToAction("Index", "Register", new { area = "Account" });
                     else
                         return RedirectToAction("Index", "Home", new { area = "" });
                 }
@@ -120,85 +120,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             return View(model);
         }
 
-        private async Task login(UserAccount ua)
+        internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc)
         {
-            authSvc.SignIn(ua, false, null);
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(this.HttpContext, ua.ID);
-            await m_UserLogicClient.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, Request.UserHostAddress, "", "");
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Register(CreatePermanentLoginDTO model)
-        {
-            if (string.IsNullOrWhiteSpace(model.NewUsername) || await m_UserLogicClient.IsUserExistAsync(model.NewUsername))
-            {
-                ModelState.AddModelError("", "This username is unavailable, please chose another");
-                return View(model);
-            }
-
-            if (model.NewPassword != model.ConfirmNewPassword)
-            {
-                ModelState.AddModelError("", "Passwords do not match");
-                return View(model);
-            }
-
-            var uaDTO = m_UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
-            var userAccountOrg = m_UserLogicClient.GetUserAccountOrganisation(uaDTO.ID).Single();
-            if(model.Pin != userAccountOrg.Organisation.CompanyPinCode)
-            {
-                //increment invalid pin count.
-                //if pincount >=3, expire organisation
-                if (m_OrgLogicClient.IncrementInvalidPIN(userAccountOrg.OrganisationID))
-                {
-                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + m_CommonSettings.SupportTelephoneNumber);
-                    ViewBag.PinExpired = true;
-                    ViewBag.PublicWebsiteUrl = m_CommonSettings.PublicWebsiteUrl;
-                }
-                else
-                    ModelState.AddModelError("", "Invalid PIN");
-
-                return View(model);
-            }
-
-            var contact = m_UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
-            m_OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
-            m_OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
-            //delete original temp user account
-            var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
-            m_UserLogicClient.LockUserTemporaryAccount(tempua.ID);
-
-            Logout();
-            var ua = m_UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
-            await login(ua);
-            return RedirectToAction("Index", "Home", new { area = "" });
-        }
-
-        //used by client validation
-        public async Task<ActionResult> UsernameAvailable(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username) || await m_UserLogicClient.IsUserExistAsync(username))
-                return Json("This username is unavailable, please chose another", JsonRequestBehavior.AllowGet);
-            else
-                return Json("true", JsonRequestBehavior.AllowGet);
+            asvc.SignIn(ua, false, null);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua.ID);
+            await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public void Logout()
         {
+            logout(this, authSvc);
+        }
+
+        internal static void logout(Controller controller, AuthenticationService asvc)
+        {
             FormsAuthentication.SignOut();
-
-            authSvc.SignOut();
-
-            HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-
-            Response.Cookies[FormsAuthentication.FormsCookieName].Expires = DateTime.Now.AddYears(-1);
-
+            asvc.SignOut();
+            controller.HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+            controller.Response.Cookies[FormsAuthentication.FormsCookieName].Expires = DateTime.Now.AddYears(-1);
         }
 
         private void EnsureLoggedOut()

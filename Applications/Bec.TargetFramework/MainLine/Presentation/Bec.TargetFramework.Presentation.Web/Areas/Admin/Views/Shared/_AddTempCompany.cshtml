@@ -38,7 +38,7 @@
                                     <section class="col col-4">
                                         <label class="label">Lookup Postcode</label>
                                         <label class="input">
-                                            <input id="postcodelookup" type="text" tabindex="1" />
+                                            <input id="postcodelookup" type="text" tabindex="1" maxlength="10" />
                                         </label>
                                     </section>
 
@@ -74,14 +74,14 @@
                                         <label class="label">Company Name</label>
                                         <label class="input ">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Name, new { tabindex = "5" })
+                                            @Html.TextBoxFor(m => m.Name, new { tabindex = "5", maxlength = 50 })
                                         </label>
                                     </section>
 
                                     <section class="col col-6">
                                         <label class="label">Additional Address Information</label>
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { @readonly = "readonly", tabindex = "11" })
+                                            @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { @readonly = "readonly", tabindex = "11", maxlength = 50 })
                                         </label>
                                     </section>
 
@@ -92,7 +92,7 @@
                                         <label class="label">Company Address</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", placeholder = "Address Line 1", tabindex = "6" })
+                                            @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", placeholder = "Address Line 1", tabindex = "6", maxlength = 50 })
                                         </label>
                                     </section>
 
@@ -109,14 +109,14 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", placeholder = "Address Line 2", tabindex = "7" })
+                                            @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", placeholder = "Address Line 2", tabindex = "7", maxlength = 50 })
                                         </label>
                                     </section>
 
                                     <section class="col col-6">
                                         <label class="input" id="otherRegulatorLabel">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.RegulatorOther, new { placeholder = "Enter Regulator" })
+                                            @Html.TextBoxFor(m => m.RegulatorOther, new { placeholder = "Enter Regulator", maxlength = 50 })
 
                                         </label>
                                     </section>
@@ -126,7 +126,7 @@
                                     <section class="col col-6">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", placeholder = "Town/City", tabindex = "8" })
+                                            @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", placeholder = "Town/City", tabindex = "8", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
@@ -134,7 +134,7 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", placeholder = "County", tabindex = "9" })
+                                            @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", placeholder = "County", tabindex = "9", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
@@ -143,7 +143,7 @@
                                     <section class="col col-6">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", placeholder = "Post Code", tabindex = "10" })
+                                            @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", placeholder = "Post Code", tabindex = "10", maxlength = 10 })
                                         </label>
                                     </section>
                                 </div>
@@ -167,14 +167,14 @@
                                         <label class="label">First Name</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.OrganisationAdminFirstName, new { tabindex = "14" })
+                                            @Html.TextBoxFor(m => m.OrganisationAdminFirstName, new { tabindex = "14", maxlength = 50 })
                                         </label>
                                     </section>
                                     <section class="col col-5">
                                         <label class="label">Last Name</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.OrganisationAdminLastName, new { tabindex = "15" })
+                                            @Html.TextBoxFor(m => m.OrganisationAdminLastName, new { tabindex = "15", maxlength = 50 })
                                         </label>
                                     </section>
 
@@ -184,14 +184,14 @@
                                         <label class="label">Email</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { tabindex = "16" })
+                                            @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { tabindex = "16", maxlength = 100 })
                                         </label>
                                     </section>
                                     <section class="col col-4">
                                         <label class="label">Telephone Number</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.OrganisationAdminTelephone, new { tabindex = "17" })
+                                            @Html.TextBoxFor(m => m.OrganisationAdminTelephone, new { tabindex = "17", maxlength = 20 })
                                         </label>
                                     </section>
                                 </div>

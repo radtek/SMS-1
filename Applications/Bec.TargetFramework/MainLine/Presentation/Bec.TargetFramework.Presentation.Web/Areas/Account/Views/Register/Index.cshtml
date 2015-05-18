@@ -12,9 +12,9 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
             <div class="well no-padding">
-                <form action="@Url.Action("Register", "Login",new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
+                <form action="@Url.Action("Index", "Register",new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
                     <header>
-                        Enter your PIN
+                        Create Permanent Account
                     </header>
                     @Html.AntiForgeryToken()
                     @Html.ValidationBootstrap()
@@ -92,7 +92,7 @@
                     NewUsername: {
                         required: true,
                         remote: {
-                            url: '@Url.Action("UsernameAvailable", "Login", new { Area = "Account" })',
+                            url: '@Url.Action("UsernameAvailable", "Register", new { Area = "Account" })',
                             data: {
                                 username: function () {
                                     return $('#NewUsername').val();
