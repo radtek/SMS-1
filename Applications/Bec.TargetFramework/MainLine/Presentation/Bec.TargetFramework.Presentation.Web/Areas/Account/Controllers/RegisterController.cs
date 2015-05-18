@@ -4,6 +4,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
 using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,15 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
-    public class RegisterController : ApplicationControllerBase
+    [Authorize]
+    [SessionExpireFilter]
+    public class RegisterController : Controller
     {
         AuthenticationService authSvc;
         IUserLogicClient m_UserLogicClient;
         private CommonSettings m_CommonSettings;
         IOrganisationLogicClient m_OrgLogicClient;
-        public RegisterController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient)
-            : base(logger)
+        public RegisterController(AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient)
         {
             this.authSvc = authSvc;
 
