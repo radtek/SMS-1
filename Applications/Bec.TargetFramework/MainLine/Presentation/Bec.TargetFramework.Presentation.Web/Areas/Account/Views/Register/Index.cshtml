@@ -98,7 +98,10 @@
                                     return $('#NewUsername').val();
                                 }
                             },
-                            dataType: 'json'
+                            dataType: 'json',
+                            error: function (xhr, status, error) {
+                                checkRedirect(xhr.responseJSON);
+                            }
                         }
                     },
                     NewPassword: {
