@@ -30,8 +30,7 @@ namespace Bec.TargetFramework.Security
             }
 
             // check for operation/resource combo
-            var exists = context.Principal.Claims.Any(item => item.Type.Equals(context.Resource.First().Type + context.Resource.First().Value)
-                                                              && item.Value.Equals(context.Action.First().Value));
+            var exists = context.Principal.Claims.Any(item => item.Type.Equals(context.Resource.First().Value) && item.Value.Equals(context.Action.First().Value));
 
             return exists;
         }

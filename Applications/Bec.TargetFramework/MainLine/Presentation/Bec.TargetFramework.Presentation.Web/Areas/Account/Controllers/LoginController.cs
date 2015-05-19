@@ -24,6 +24,7 @@ using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using System.Security.Claims;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -122,9 +123,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc)
         {
-            asvc.SignIn(ua, false, null);
+            List<Claim> additionalClaims = await GenerateUserClaims(ua.ID, ulc);
+            asvc.SignIn(ua, false, additionalClaims);
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua.ID);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
+        }
+
+        private static async Task<List<Claim>> GenerateUserClaims(Guid userId, IUserLogicClient ulc)
+        {
+            List<Claim> claims = new List<Claim>();
+            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(userId);
+            foreach (var org in orgs)
+            {
+                foreach (var item in await ulc.GetUserClaimsAsync(userId, org.OrganisationID.Value))
+                {
+                    //string claim = string.Empty;
+                    //if (item.Type.StartsWith("R_")) claim = ClaimsAuthorization.ResourceType + item.Type.Replace("R_", "");
+                    //else if (item.Type.StartsWith("S_")) claim = ClaimsAuthorization.StateType + item.Type.Replace("S_", "");
+                    //claims.Add(new Claim(claim, item.Value));
+                    claims.Add(new Claim(item.Type, item.Value));
+                }
+            }
+            return claims;
         }
 
         [HttpPost]

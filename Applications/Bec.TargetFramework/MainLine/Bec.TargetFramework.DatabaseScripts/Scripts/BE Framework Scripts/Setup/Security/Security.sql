@@ -31,4 +31,19 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
 
- 
+
+  --employee user claim
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1),
+  TRUE);
+
+  --admin user claim
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Company' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
+  TRUE);

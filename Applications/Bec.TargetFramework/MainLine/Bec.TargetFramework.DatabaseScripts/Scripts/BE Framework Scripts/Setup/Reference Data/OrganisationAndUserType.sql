@@ -11,6 +11,9 @@ VALUES (30, E'Administration', E'Administration Organisation', True, False);
 INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
 VALUES (31, E'Professional', E'Professional Organisation', True, False);
 
+INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (34, E'Branch', E'Branch', True, False);
+
 delete from "UserType";
 /* Data for the 'public.UserType' table  (Records 1 - 5) */
 

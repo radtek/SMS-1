@@ -14,9 +14,11 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using System.Threading.Tasks;
+using Bec.TargetFramework.Security;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
+    [ClaimsAuthorize("Add", "Company")]
     public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         private IOrganisationLogicClient m_OrganisationClient;

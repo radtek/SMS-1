@@ -64,7 +64,7 @@ VALUES (E'21f45186-4d75-11e4-8cc2-336969c19a52', OrganisationStatusID, 1,
  0, True, False);
 
  INSERT INTO public."StatusTypeStructureTemplate" ("StatusTypeStructureTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "StatusTypeValueTemplateID", "StatusOrder", "IsStart", "IsEnd")
-VALUES (E'21f45186-4d75-11e4-8cc2-336969c19a52', OrganisationStatusID, 1,
+VALUES (E'21f47186-4d75-11e4-8cc2-336969c19a52', OrganisationStatusID, 1,
 (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = OrganisationStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Validated' limit 1),
  1, False, True);
 

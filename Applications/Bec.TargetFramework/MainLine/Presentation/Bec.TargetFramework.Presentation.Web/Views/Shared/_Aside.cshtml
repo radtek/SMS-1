@@ -20,20 +20,26 @@
                 -->
 
             <ul>
+                @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
+                {
                 <li class="@Html.RouteIf("active", "home", "index")">
                     <a href="@Url.Action("index", "home")" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
                 </li>
-                <li class="@Html.RouteIf("open", "Company")">
-                    <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
-                    <ul>
-                        <li class="@Html.RouteIf("active", "Company", "Provisional")">
-                            <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })">Provisional</a>
-                        </li>
-                        <li class="@Html.RouteIf("active", "Company", "Qualified")">
-                            <a href="@Url.Action("Qualified", "Company", new { area = "Admin" })">Qualified</a>
-                        </li>
-                    </ul>
-                </li>
+                }
+                @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                { 
+                    <li class="@Html.RouteIf("open", "Company")">
+                        <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
+                        <ul>
+                            <li class="@Html.RouteIf("active", "Company", "Provisional")">
+                                <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })">Provisional</a>
+                            </li>
+                            <li class="@Html.RouteIf("active", "Company", "Qualified")">
+                                <a href="@Url.Action("Qualified", "Company", new { area = "Admin" })">Qualified</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

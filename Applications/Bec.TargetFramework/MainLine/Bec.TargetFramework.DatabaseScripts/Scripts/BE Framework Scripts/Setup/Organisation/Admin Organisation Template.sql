@@ -4,11 +4,13 @@ DO $$
 Declare DoTemplateID uuid;
 Declare DoVersionNumber integer;
 Declare UserRoleID uuid;
+Declare EmployeeRoleID uuid;
 Declare OrganisationTypeID integer;
 Begin
 
 -- declare variables
 UserRoleID := (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1);
+EmployeeRoleID := (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1);
 OrganisationTypeID := (select "OrganisationTypeID" from "OrganisationType" where "Name" = 'Administration' limit 1);
 
 INSERT INTO
@@ -188,6 +190,21 @@ VALUES (
 );
 
 INSERT INTO
+  public."DefaultOrganisationRoleTemplate"
+(
+  "DefaultOrganisationTemplateID",
+  "RoleID",
+  "IsDefaultOrganisationSpecific",
+  "DefaultOrganisationTemplateVersionNumber"
+)
+VALUES (
+  DoTemplateID,
+  EmployeeRoleID,
+  false,
+  DoVersionNumber
+);
+
+INSERT INTO
   public."DefaultOrganisationGroupTemplate"
 (
   "DefaultOrganisationTemplateID",
@@ -248,6 +265,19 @@ INSERT INTO
 VALUES (
   (select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
   	and dot."RoleID" = UserRoleID and dot."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1),
+  (select "DefaultOrganisationUserTargetTemplateID" from "DefaultOrganisationUserTargetTemplate" where "DefaultOrganisationTemplateID" = DoTemplateID
+  	and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1)
+);
+
+INSERT INTO
+  public."DefaultOrganisationRoleTargetTemplate"
+(
+  "DefaultOrganisationRoleTemplateID",
+  "DefaultOrganisationUserTargetTemplateID"
+)
+VALUES (
+  (select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
+  	and dot."RoleID" = EmployeeRoleID and dot."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1),
   (select "DefaultOrganisationUserTargetTemplateID" from "DefaultOrganisationUserTargetTemplate" where "DefaultOrganisationTemplateID" = DoTemplateID
   	and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1)
 );
