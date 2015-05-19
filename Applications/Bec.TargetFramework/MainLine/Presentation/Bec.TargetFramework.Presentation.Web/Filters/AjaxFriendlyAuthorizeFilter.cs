@@ -28,17 +28,14 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
                 base.HandleUnauthorizedRequest(filterContext);
         }
 
-        //this will slow down every request...
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var res = base.AuthorizeCore(httpContext);
             if (res)
             {
-                AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
-                var container = resolver.ApplicationContainer;
-                var logic = container.Resolve<IUserLogicClient>();
-                var uaDTO = logic.GetUserAccountByUsername(httpContext.User.Identity.Name);
-                return !uaDTO.IsTemporaryAccount;
+                //temporary users not allowed
+                WebUserObject userObject = httpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
+                if (userObject == null || userObject.IsTemporaryUser) return false;
             }
             return res;
         }

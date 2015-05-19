@@ -7,6 +7,7 @@ using Fabrik.Common;
 using System.Web;
 using System.Web.Security;
 using System.Security.Cryptography;
+using BrockAllen.MembershipReboot;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -33,11 +34,11 @@ namespace Bec.TargetFramework.Entities
             return userObject;
         }
 
-        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, Guid userId)
+        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, UserAccount ua)
         {
             Ensure.NotNull(context);
             Ensure.NotNull(context.Request);
-            Ensure.NotNull(userId);
+            Ensure.NotNull(ua);
 
             var user = new WebUserObject
             {
@@ -45,7 +46,8 @@ namespace Bec.TargetFramework.Entities
                 SessionIdentifier = Guid.NewGuid().ToString(),
                 URLAccessed = context.Request.RawUrl,
                 UserName = (context.Request.IsAuthenticated) ? context.User.Identity.Name : "Anonymous",
-                UserID = userId
+                UserID = ua.ID,
+                IsTemporaryUser = ua.IsTemporaryAccount
             };
 
             context.Session[m_WEBUSEROBJECTSESSIONKEY] = user;
@@ -65,5 +67,6 @@ namespace Bec.TargetFramework.Entities
 
         public Guid UserID { get; set; }
 
+        public bool IsTemporaryUser { get; set; }
     }
 }

@@ -125,7 +125,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             List<Claim> additionalClaims = await GenerateUserClaims(ua.ID, ulc);
             asvc.SignIn(ua, false, additionalClaims);
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua.ID);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }
 
