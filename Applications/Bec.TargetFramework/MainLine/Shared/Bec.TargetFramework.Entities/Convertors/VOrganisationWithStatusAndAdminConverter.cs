@@ -59,6 +59,9 @@ namespace Bec.TargetFramework.Entities
             target.Reason = source.Reason;
             target.Notes = source.Notes;
             target.OrganisationAdminCreated = source.OrganisationAdminCreated;
+            target.VerifiedOn = source.VerifiedOn;
+            target.VerifiedBy = source.VerifiedBy;
+            target.VerifiedNotes = source.VerifiedNotes;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -104,6 +107,9 @@ namespace Bec.TargetFramework.Entities
             target.Reason = source.Reason;
             target.Notes = source.Notes;
             target.OrganisationAdminCreated = source.OrganisationAdminCreated;
+            target.VerifiedOn = source.VerifiedOn;
+            target.VerifiedBy = source.VerifiedBy;
+            target.VerifiedNotes = source.VerifiedNotes;
 
             // User-defined partial method
             OnEntityCreating(source, target);

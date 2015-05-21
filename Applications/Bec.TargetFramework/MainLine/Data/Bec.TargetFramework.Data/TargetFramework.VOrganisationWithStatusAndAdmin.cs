@@ -280,7 +280,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for StatusChangedOn in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.DateTime> StatusChangedOn
+        public virtual global::System.DateTime StatusChangedOn
         {
             get;
             set;
@@ -321,6 +321,36 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationAdminCreated in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.DateTime> OrganisationAdminCreated
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for VerifiedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> VerifiedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for VerifiedBy in the schema.
+        /// </summary>
+        public virtual string VerifiedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for VerifiedNotes in the schema.
+        /// </summary>
+        public virtual string VerifiedNotes
         {
             get;
             set;

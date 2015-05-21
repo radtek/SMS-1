@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationWithStatusAndAdminDTO() {
         }
 
-        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> organisationPinCreated, string organisationPinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.Nullable<System.DateTime> statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated) {
+        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> organisationPinCreated, string organisationPinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes) {
 
           this.OrganisationID = organisationID;
           this.Name = name;
@@ -54,6 +54,9 @@ namespace Bec.TargetFramework.Entities
           this.Reason = reason;
           this.Notes = notes;
           this.OrganisationAdminCreated = organisationAdminCreated;
+          this.VerifiedOn = verifiedOn;
+          this.VerifiedBy = verifiedBy;
+          this.VerifiedNotes = verifiedNotes;
         }
 
         #endregion
@@ -136,7 +139,7 @@ namespace Bec.TargetFramework.Entities
         public string StatusValueName { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.DateTime> StatusChangedOn { get; set; }
+        public global::System.DateTime StatusChangedOn { get; set; }
 
         [DataMember]
         public string StatusChangedBy { get; set; }
@@ -149,6 +152,15 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.DateTime> OrganisationAdminCreated { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> VerifiedOn { get; set; }
+
+        [DataMember]
+        public string VerifiedBy { get; set; }
+
+        [DataMember]
+        public string VerifiedNotes { get; set; }
 
         #endregion
     }

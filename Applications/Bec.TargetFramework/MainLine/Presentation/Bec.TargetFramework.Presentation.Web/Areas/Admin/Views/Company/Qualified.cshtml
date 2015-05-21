@@ -49,9 +49,16 @@
                                     <dt>Email:</dt><dd><p id="ddaSystemAdminEmail"></p></dd>
                                     <dt>Telephone:</dt><dd><p id="ddaSystemAdminTel"></p></dd>
                                 </dl>
+                                <h5>Verified Details</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Verified On:</dt><dd><p id="ddaCompanyVerifiedOn"></p></dd>
+                                    <dt>Verified By:</dt><dd><p id="ddaCompanyVerifiedBy"></p></dd>
+                                    <dt>Telephone:</dt><dd><p id="ddaCompanyVerifiedTelephone"></p></dd>
+                                </dl>
                                 <h5>Other Details</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Created On:</dt><dd><p id="ddaCompanyCreatedOn"></p></dd>
+                                    <dt>Created By:</dt><dd><p id="ddaCompanyCreatedBy"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -72,7 +79,7 @@
             gridElementId: 'activeGrid',
             url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
             schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-            defaultSort: { field: "CreatedOn", dir: "asc" },
+            defaultSort: { field: "Name", dir: "asc" },
             change: activeChange,
             //jumpToId: '@TempData["AddTempCompanyId"]',
             panels: ['activePanel'],
@@ -155,6 +162,11 @@
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#ddaRegulator").text(regulatorName);
+
+        $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
+        $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
+        $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
+        $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
 
         //update reject & generate links
         $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
