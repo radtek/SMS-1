@@ -857,6 +857,7 @@
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ResendLogins.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

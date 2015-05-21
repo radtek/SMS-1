@@ -58,6 +58,7 @@ namespace Bec.TargetFramework.Entities
             target.StatusChangedBy = source.StatusChangedBy;
             target.Reason = source.Reason;
             target.Notes = source.Notes;
+            target.OrganisationAdminCreated = source.OrganisationAdminCreated;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -102,6 +103,7 @@ namespace Bec.TargetFramework.Entities
             target.StatusChangedBy = source.StatusChangedBy;
             target.Reason = source.Reason;
             target.Notes = source.Notes;
+            target.OrganisationAdminCreated = source.OrganisationAdminCreated;
 
             // User-defined partial method
             OnEntityCreating(source, target);

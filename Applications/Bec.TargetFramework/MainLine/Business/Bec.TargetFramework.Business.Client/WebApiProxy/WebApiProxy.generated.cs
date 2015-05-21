@@ -807,6 +807,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         /// <returns></returns>
         bool IncrementInvalidPIN(Guid organisationID);
 
+
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        Task ResendLoginsAsync(Guid organisationID);
+
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        void ResendLogins(Guid organisationID);
+
 	}
 	
 	public partial interface ISettingsLogicClient : IClientBase
@@ -3468,6 +3477,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
             string _user = getHttpContextUser();
             return Task.Run(() => PostAsync<object, bool>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user)).Result;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task ResendLoginsAsync(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            await PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationID=" + organisationID, null, _user);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void ResendLogins(Guid organisationID)
+        {
+            string _user = getHttpContextUser();
+            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationID=" + organisationID, null, _user));
+        }
+
 
         #endregion
 	}

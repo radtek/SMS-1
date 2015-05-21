@@ -114,5 +114,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             else
                 return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> ViewResendLogins(Guid orgId)
+        {
+            var org = await m_OrganisationClient.GetOrganisationDTOAsync(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            ViewBag.orgId = orgId;
+            ViewBag.companyName = org.Name;
+            return PartialView("_ResendLogins");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResendLogins(Guid orgId)
+        {
+            await m_OrganisationClient.ResendLoginsAsync(orgId);
+
+            TempData["VerifiedCompanyId"] = orgId;
+            TempData["tabIndex"] = 1;
+            return RedirectToAction("Provisional");
+        }
     }
 }

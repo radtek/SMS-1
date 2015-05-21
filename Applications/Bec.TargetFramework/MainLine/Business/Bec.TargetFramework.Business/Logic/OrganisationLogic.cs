@@ -1956,5 +1956,41 @@ namespace Bec.TargetFramework.Business.Logic
                 user.IsLoginAllowed = false;
             }
         }
+
+        public void ResendLogins(Guid organisationId)
+        {
+            VOrganisationWithStatusAndAdmin orgInfo;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                //get current sys admin details to copy
+                orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(x=>x.OrganisationID == organisationId);
+            }
+
+            //generate new username & password
+            var randomUsername = m_DataLogic.GenerateRandomName();
+            var randomPassword = RandomPasswordGenerator.Generate(10);
+            var userContactDto = new ContactDTO
+            {
+                Telephone1 = orgInfo.OrganisationAdminTelephone,
+                FirstName = orgInfo.OrganisationAdminFirstName,
+                LastName = orgInfo.OrganisationAdminLastName,
+                EmailAddress1 = orgInfo.OrganisationAdminEmail,
+                Salutation = orgInfo.OrganisationAdminSalutation
+            };
+
+            //add new user & email them
+            var userAccountOrganisation = AddNewUserToOrganisation(organisationId, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var user = scope.DbContext.UserAccounts.Single(x => x.ID == userAccountOrganisation.UserID);
+                user.IsLoginAllowed = true;
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto);
+
+            //disable old temps
+            m_UserLogic.LockUserTemporaryAccount(orgInfo.OrganisationAdminUserID.Value);
+            
+        }
     }
 }

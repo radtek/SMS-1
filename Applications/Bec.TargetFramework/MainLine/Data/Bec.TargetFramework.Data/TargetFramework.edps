@@ -2672,35 +2672,22 @@
       <Exclude Name="NextStatusEnd" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Reason" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Notes" Table="public.vOrganisationStatus" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Name" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="CreatedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationVerified" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationPinCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationPinCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Regulator" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="RegulatorOther" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Line1" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Line2" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Town" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="County" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="PostalCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="AdditionalAddressInformation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="OrganisationAdminUserID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusChangedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusChangedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Reason" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="Notes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="OrganisationRoleID" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="RoleName" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="RoleDescription" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimType" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimID" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimName" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimDescription" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimSubType" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimSubID" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimSubName" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimSubDescription" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ParentID" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="RoleSource" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="ClaimTypeName" Table="public.vOrgansiationClaim" Type="Column" />
+      <Exclude Name="" Table="public.vOrgansiationClaim" Type="Constraint" />
       <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
@@ -2936,10 +2923,6 @@
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="CreatedOn" Table="public.vOrganisationDetail" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.vOrganisationStatus" Type="Column" />
-      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
-      <Exclude Name="StatusChangedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountOrganisation" Type="Column" />

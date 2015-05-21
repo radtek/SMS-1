@@ -316,6 +316,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for OrganisationAdminCreated in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> OrganisationAdminCreated
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }
