@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FFA3DDD3-A1F8-4BF0-92B3-272FD8CE3765}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.Hosts.BusinessService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.Hosts.BusinessService</AssemblyName>
@@ -354,14 +354,6 @@
       <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
       <Name>Bec.TargetFramework.Aop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
-      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
-      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Services\Bec.TargetFramework.Business.Services.csproj">
-      <Project>{2ea851ad-cb39-4d03-ba73-48f47413f249}</Project>
-      <Name>Bec.TargetFramework.Business.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business\Bec.TargetFramework.Business.csproj">
       <Project>{5f3a6f4f-ca28-467f-bacd-5979f9190bae}</Project>
       <Name>Bec.TargetFramework.Business</Name>
@@ -369,10 +361,6 @@
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Repository\Bec.TargetFramework.Data.Repositories.csproj">
-      <Project>{d352e538-c2ba-45c1-903a-b21ba7eea90c}</Project>
-      <Name>Bec.TargetFramework.Data.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
       <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
@@ -434,10 +422,6 @@
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
       <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
       <Name>Bec.TargetFramework.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
-      <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
-      <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

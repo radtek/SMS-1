@@ -25,28 +25,24 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Entities;
     using System.ServiceModel;
     using EnsureThat;
     using Bec.TargetFramework.Entities.Enums;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class UserLogic : LogicBase, IUserLogic
+    public class UserLogic : LogicBase
     {
         private UserAccountService m_UaService;
         private AuthenticationService m_AuthSvc;
-        private IDataLogic m_DataLogic;
-        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, IDataLogic dataLogic,  ILogger logger, ICacheProvider cacheProvider)
+        private DataLogic m_DataLogic;
+        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, DataLogic dataLogic,  ILogger logger, ICacheProvider cacheProvider)
             : base(logger, cacheProvider)
         {
             m_UaService = uaService;
             m_AuthSvc = authSvc;
             m_DataLogic = dataLogic;
         }
-
-
-       
 
         public UserLoginValidation AuthenticateUser(string username, string password)
         {
@@ -80,7 +76,6 @@ namespace Bec.TargetFramework.Business.Logic
 
             return dtoList;
         }
-
 
         public List<vUserManagementDTO> GetAllUserManagementDTO(SortingPagingDto pagingDto,UserManagementCritieraDTO dto)
         {
@@ -118,24 +113,6 @@ namespace Bec.TargetFramework.Business.Logic
             return dtoList;
         }
 
-        public int GetAllUserManagementDTOCount(SortingPagingDto pagingDto, UserManagementCritieraDTO dto)
-        {
-            int count = 0;
-
-            //if (dto != null)
-            //{
-            //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            //    {
-            //        var predicate = LinqHelpers.BuildPredicate<VUserManagement,
-            //            UserManagementCritieraDTO>(dto);
-
-            //        count = scope.DbContext.VUserManagements.AsExpandable().Where(predicate).Count();
-            //    }
-            //}
-
-            return count;
-        }
-
         public vUserManagementDTO GerUserManagementDTO(Guid userId)
         {
             Ensure.That(userId).IsNot(Guid.Empty);
@@ -152,147 +129,6 @@ namespace Bec.TargetFramework.Business.Logic
             return dto;
         }
 
-        /// <summary>
-        /// Get user's roles
-        /// </summary>
-        /// <param name="userId">userid</param>
-        /// <param name="orgId">organisationid</param>
-        /// <returns>OrganisationRoleDTO</returns>
-        public List<OrganisationRoleDTO> GetUserRoles(Guid userId, Guid orgId)
-        {
-            var list = new List<OrganisationRoleDTO>();
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            //{
-            //    var userRoles = scope.DbContext.UserAccountOrganisationRoles
-            //                    .Include("OrganisationRole").Where(item => item.OrganisationRole.OrganisationID.Equals(orgId) && item.UserID.Equals(userId)).ToList();
-
-            //    userRoles.ForEach(item =>
-            //        {
-            //            OrganisationRoleDTO li = new OrganisationRoleDTO();
-            //            li.InjectFrom<NullableInjection>(item.OrganisationRole);
-            //            list.Add(li);
-            //        });
-            //}
-            return list;
-        }
-
-        /// <summary>
-        /// get organisation's roles by organisationid      
-        /// </summary>
-        /// <param name="userId">userid</param>
-        /// <param name="orgId">organisationid</param>
-        /// <returns>OrganisationRoleDTO</returns>
-        public List<OrganisationRoleDTO> GetOrganisationRoles(Guid userId, Guid orgId)
-        {
-            var list = new List<OrganisationRoleDTO>();
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            //{
-            //    var orgRoles = scope.DbContext.OrganisationRoles.Where(item => item.OrganisationID.Equals(orgId)).ToList();
-            //    orgRoles.ToList().ForEach(item =>
-            //    {
-            //        var existingRoles = scope.DbContext.UserAccountOrganisationRoles.Where(role=>role.OrganisationRoleID.Equals(item.OrganisationRoleID) && role.UserID.Equals(userId)).ToList();
-            //        if(existingRoles.Count == 0)
-            //        {
-            //            OrganisationRoleDTO li = new OrganisationRoleDTO();
-            //            li.InjectFrom<NullableInjection>(item);
-            //            list.Add(li);
-            //        }
-                  
-            //    });
-            //}
-            return list;
-        }
-
-        /// <summary>
-        /// Get user's groups
-        /// </summary>
-        /// <param name="userId">userid</param>
-        /// <param name="orgId">organisationid</param>
-        /// <returns>OrganisationGroupDTO</returns>
-        public List<OrganisationGroupDTO> GetUserGroups(Guid userId, Guid orgId)
-        {
-            var list = new List<OrganisationGroupDTO>();
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            //{
-            //    var userGroups = scope.DbContext.UserAccountOrganisationGroups
-            //                    .Include("OrganisationGroup").Where(item => item.OrganisationGroup.OrganisationID.Equals(orgId) && item.UserID.Equals(userId)).ToList();
-
-            //    userGroups.ForEach(item =>
-            //    {
-            //        OrganisationGroupDTO li = new OrganisationGroupDTO();
-            //        li.InjectFrom<NullableInjection>(item.OrganisationGroup);
-            //        list.Add(li);
-            //    });
-            //}
-            return list;
-        }
-
-        /// <summary>
-        /// Get organisation groups by organisationId
-        /// </summary>
-        /// <param name="userId">userid</param>
-        /// <param name="orgId">organisationid</param>
-        /// <returns>OrganisationGroupDTO</returns>
-        public List<OrganisationGroupDTO> GetOrganisationGroups(Guid userId, Guid orgId)
-        {
-            var list = new List<OrganisationGroupDTO>();
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            //{
-            //    var orgGroups = scope.DbContext.OrganisationGroups.Where(item => item.OrganisationID.Equals(orgId)).ToList();
-            //    orgGroups.ToList().ForEach(item =>
-            //    {
-            //        var existingGroups = scope.DbContext.UserAccountOrganisationGroups.Where(grp => grp.OrganisationGroupID.Equals(item.OrganisationGroupID) && grp.UserID.Equals(userId)).ToList();
-            //        if (existingGroups.Count == 0)
-            //        {
-            //            OrganisationGroupDTO li = new OrganisationGroupDTO();
-            //            li.InjectFrom<NullableInjection>(item);
-            //            list.Add(li);
-            //        }
-
-            //    });
-            //}
-            return list;
-        }
-
-        public void UpdateUserStatus(Guid userId, bool delete=false)
-        {
-            Ensure.That(userId).IsNot(Guid.Empty);
-            var user = new Bec.TargetFramework.Data.UserAccount();
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var userRepos = scope.GetGenericRepository<Bec.TargetFramework.Data.UserAccount, Guid>();
-                user = userRepos.Get(userId);
-
-                if (delete)
-                {
-                    user.IsDeleted = true;
-                }
-                else
-                {
-                    if (user.IsActive)
-                    {
-                        user.IsActive = false;
-                    }
-                    else
-                    {
-                        user.IsActive = true;
-                    }
-                }
-
-                userRepos.Update(user);
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());; 
-            }
-        }
-
-        /// <summary>
-        /// create a new user
-        /// </summary>
-        /// <param name="dto">contact dto</param>
-        /// <returns>contact dto</returns>
         public ContactDTO AddUser(ContactDTO dto)
         {
             Ensure.That(dto).IsNotNull();
@@ -329,175 +165,6 @@ namespace Bec.TargetFramework.Business.Logic
 
                 return contactDTO;
             }
-        }
-
-        public void AddUserDetails(ContactDTO dto, string userType, string userCategory)
-        {
-            //Ensure.That(dto);
-            //var userDetail = new UserAccountDetail();
-            //var userUnit = new UserAccountOrganisationUnit();
-            //Guid orgId = string.IsNullOrEmpty(dto.OrganisationID) ? Guid.Empty : Guid.Parse(dto.OrganisationID);
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            //{
-            //    var addressRepos = scope.GetGenericRepository<Address, Guid>();
-            //    userDetail = scope.DbContext.UserAccountDetails.Single(x => x.UserID.Equals(dto.ParentID));
-            //    // useraccount organisationunit
-            //    var dtoOrgUserStage = scope.DbContext.OrganisationUserStages.Single(x => x.OrganisationID.Equals(orgId) && x.Name.Equals("New") && x.IsActive);
-
-            //    var userOrganisationUnitRepos = scope.GetGenericRepository<UserAccountOrganisationUnit, Guid, int>();
-            //    userUnit.InjectFrom<NullableInjection>(dto);
-            //    userUnit.UserAccountOrganisationUnitID = Guid.NewGuid();
-            //    userUnit.UserID = dto.ParentID;
-            //    userUnit.UserDetailID = userDetail.UserDetailID;
-            //    userUnit.OrganisationUserStageID = dtoOrgUserStage.OrganisationUserStageID;
-            //    userUnit.OrganisationID = Guid.Parse(dto.OrganisationID);
-
-            //    if (dto.OrganisationUnitID.IsNotNullOrEmpty())
-            //        userUnit.OrganisationUnitID = int.Parse(dto.OrganisationUnitID);
-            //    userUnit.JobTitle = dto.JobTitle;
-            //    userUnit.NickName = dto.NickName;
-            //    if (userType.IsNotNullOrEmpty())
-            //        userUnit.UserTypeID = int.Parse(userType);
-            //    if (userCategory.IsNotNullOrEmpty())
-            //        userUnit.UserCategoryID = int.Parse(userCategory);
-
-            //    if (dto.OrganisationBranchID.IsNotNullOrEmpty())
-            //        userUnit.OrganisationID = Guid.Parse(dto.OrganisationBranchID);
-
-            //    userUnit.IsActive = true;
-            //    SetAuditFields<UserAccountOrganisationUnit>(userUnit, true);
-            //    userOrganisationUnitRepos.Add(userUnit);
-
-            //    //user address
-            //    if (dto.Addresses != null)
-            //        dto.Addresses.ForEach(ad =>
-            //      {
-            //          var address = new Address();
-            //          address.InjectFrom<NullableInjection>(ad);
-            //          address.ParentID = dto.ContactID;
-            //          address.AddressID = Guid.NewGuid();
-            //          address.IsActive = true;
-            //          SetAuditFields<Address>(address, true);
-            //          addressRepos.Add(address);
-            //      });
-
-
-            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            //}
-
-        }
-
-        public void UpdateUser(ContactDTO dto)
-        {
-            //Ensure.That(dto);
-            //var userDetail = new UserAccountDetail();
-            //var userUnit = new UserAccountOrganisationUnit();
-            //var userContact = new Contact();
-            //var contact = new Contact();
-            //var userManagement = new VUserManagement();
-
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            //{
-            //    var userManagementRepos = scope.GetGenericRepository<VUserManagement, Guid>();
-            //    var userAccountDetailRepos = scope.GetGenericRepository<UserAccountDetail, Guid>();
-            //    var userOrganisationUnitRepos = scope.GetGenericRepository<UserAccountOrganisationUnit, Guid, int>();
-            //    var contactRepos = scope.GetGenericRepository<Contact, Guid>();
-
-               
-            //    if (dto.ParentID != Guid.Empty)
-            //    {
-            //        var userItems = userManagementRepos.Get(dto.ParentID);
-            //        contact = contactRepos.Get(dto.ContactID);
-            //        if (contact != null && !contact.EmailAddress1.Equals(dto.EmailAddress1))
-            //        {
-            //            m_UaService.ChangeEmailRequest(dto.ParentID, dto.EmailAddress1);
-            //        }
-
-            //        if (contact != null && !contact.ContactName.Equals(dto.ContactName))
-            //        {
-            //            m_UaService.ChangeUsername(dto.ParentID, dto.ContactName);
-            //        }
-
-            //        //create user account detail
-            //        userDetail.InjectFrom<NullableInjection>(userItems);
-            //        userAccountDetailRepos.Update(userDetail);
-
-            //        // useraccount organisationunit
-            //        //userUnit.InjectFrom<NullableInjection>(userItems);
-            //        //userUnit.JobTitle = dto.JobTitle;
-            //        //userUnit.NickName = dto.NickName;
-            //        //if (dto.OrganisationBranchID.IsNullOrEmpty())
-            //        //    userUnit.OrganisationID = Guid.Parse(dto.OrganisationBranchID);
-
-            //        //userOrganisationUnitRepos.Update(userUnit);
-
-            //        //user contact
-            //        userContact.InjectFrom<NullableInjection>(dto);
-            //        contactRepos.Update(userContact);
-
-            //        //user address
-            //        if (dto.Addresses != null)
-            //        {
-            //            var addressRepos = scope.GetGenericRepository<Address, Guid>();
-            //            dto.Addresses.ForEach(ad =>
-            //                {
-            //                    var address = new Address();
-            //                    address.InjectFrom<NullableInjection>(ad);
-            //                    addressRepos.Add(address);
-            //                    if (ad.AddressID.Equals(Guid.Empty))
-            //            {
-            //                        address.ParentID = dto.ContactID;
-            //                address.AddressID = Guid.NewGuid();
-            //                        address.IsActive = true;
-            //                SetAuditFields<Address>(address, true);
-            //                addressRepos.Add(address);
-            //            }
-            //            else
-            //            {
-            //                addressRepos.Update(address);
-            //            }
-            //                });
-            //        }
-
-            //    }
-
-            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            //}
-        }
-
-        public ContactDTO EditUser(Guid userId)
-        {
-            var contact = new ContactDTO();
-            var user = new vUserManagementDTO();
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            //{
-            //    var userRepository = scope.GetGenericRepository<VUserManagement, Guid>();
-            //    var userItems = userRepository.Get(userId);
-            //    user.InjectFrom<NullableInjection>(userItems);
-
-            //    var contactItems = scope.GetGenericRepository<Contact, Guid>().Find(it => it.ParentID.Equals(userId));
-            //    if (contactItems != null)
-            //    {
-            //        user.UserContact.InjectFrom<NullableInjection>(contactItems);
-            //        contact.InjectFrom<NullableInjection>(contactItems);
-            //        contact.OrganisationID = user.OrganisationID.ToString();
-            //        contact.OrganisationBranchID = user.BranchID.ToString();
-            //        contact.OrganisationUnitID = user.OrganisationUnitID.ToString();
-            //    }
-            //    var addresses = scope.DbContext.Addresses.Where(item => item.ParentID == contact.ContactID).ToList();
-            //    addresses.ForEach(item => {
-            //        contact.AddressListItems.Add(item.Name);
-            //    });
-            //    var addressItems = scope.GetGenericRepository<Address, Guid>().Find(it => it.ParentID.Equals(contact.ContactID));
-            //    if (addressItems != null)
-            //    {
-            //        contact.CurrentAddress.InjectFrom<NullableInjection>(addressItems);
-            //    }
-
-            //}
-            return contact;
         }
 
         /// <summary>
@@ -600,8 +267,6 @@ namespace Bec.TargetFramework.Business.Logic
             return exists;
         }
 
-
-
         public List<AddressDTO> GetUserAddresses(Guid contactID)
         {
             List<AddressDTO> addressList = new List<AddressDTO>();
@@ -620,100 +285,6 @@ namespace Bec.TargetFramework.Business.Logic
                 return addressList;
             }
         }
-
-        public void DeleteAddressToContact(Guid id)
-        {
-            var address = new Address();
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var addressRepos = scope.GetGenericRepository<Address, Guid>();
-                address = addressRepos.Get(id);
-                address.IsDeleted = true;
-                
-                addressRepos.Update(address);
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            }
-        }
-
-        public void SaveUserRoles(Guid userId, List<OrganisationRoleDTO> selectedRoles)
-        {
-            //Ensure.NotEqual(userId, Guid.Empty, "UserID cannot be empty guid");
-            
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            //{
-            //    var userRoleRepos = scope.GetGenericRepository<UserAccountOrganisationRole, Guid>();
-            //    var existingUserRoles = scope.DbContext.UserAccountOrganisationRoles.Where(role => role.UserID.Equals(userId)).ToList();
-
-            //    //Delete unselected roles
-            //    existingUserRoles.ForEach(role =>
-            //    {
-            //        var roleFound = selectedRoles.Find(r => r.OrganisationRoleID.Equals(role.OrganisationRoleID));
-            //        if (roleFound == null)
-            //        {
-            //            userRoleRepos.Delete(role);
-            //        }
-            //        else
-            //        {
-            //            selectedRoles.Remove(roleFound);
-            //        }
-
-            //    });
-
-            //    //Add selected roles
-            //    //selectedRoles.ForEach(item =>
-            //    //{
-            //    //    var userRole = new UserAccountOrganisationRole();
-            //    //    userRole.UserAccountOrganisationRoleID = Guid.NewGuid();
-            //    //    userRole.UserID = userId;
-            //    //    userRole.OrganisationRoleID = item.OrganisationRoleID;
-
-            //    //    userRoleRepos.Add(userRole);
-            //    //});
-
-            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            //}
-        }
-        
-        public void SaveUserGroups(Guid userId, List<OrganisationGroupDTO> selectedGroups)
-        {
-            //Ensure.NotEqual(userId, Guid.Empty, "UserID cannot be empty guid");
-
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            //{
-            //    var userGroupRepos = scope.GetGenericRepository<UserAccountOrganisationGroup, Guid>();
-            //    var existingUserGroups = scope.DbContext.UserAccountOrganisationGroups.Where(role => role.UserID.Equals(userId)).ToList();
-
-            //    //Delete unselected groups
-            //    existingUserGroups.ForEach(grp =>
-            //        {
-            //            var grpFound = selectedGroups.Find(g => g.OrganisationGroupID.Equals(grp.OrganisationGroupID));
-            //            if (grpFound==null)
-            //            {
-            //                userGroupRepos.Delete(grp);
-            //            }
-            //            else
-            //            {
-            //                selectedGroups.Remove(grpFound);
-            //            }
-                       
-            //        });
-
-            //    //Add selected groups
-            //    //selectedGroups.ForEach(item =>
-            //    //{
-            //    //    var userGroup = new UserAccountOrganisationGroup();
-            //    //    userGroup.UserAccountOrganisationGroupID = Guid.NewGuid();
-            //    //    userGroup.UserID = userId;
-            //    //    userGroup.OrganisationGroupID = item.OrganisationGroupID;
-
-            //    //    userGroupRepos.Add(userGroup);
-            //    //});
-
-            //    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            //}
-        }
-
 
         public List<BrockAllen.MembershipReboot.UserAccount> GetAllUserAccount()
         {
@@ -806,32 +377,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         }
 
-        public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByVerificationKey(string key)
-        {
-            BrockAllen.MembershipReboot.UserAccount ua = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-
-
-                var uaDb = scope.DbContext.UserAccounts.Where(s => s.VerificationKey.Equals(key)).ToList();
-
-                if (uaDb.Count > 0)
-                {
-                    ua = new BrockAllen.MembershipReboot.UserAccount();
-
-                    ua.InjectFrom<NullableInjection>(uaDb.First());
-
-                    ua.PasswordResetSecrets = GetPasswordResetSecrets(uaDb.First().ID);
-                }
-
-
-
-            }
-
-            return ua;
-
-        }
-
         public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByUsername(string username)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
@@ -905,7 +450,6 @@ namespace Bec.TargetFramework.Business.Logic
             return accounts;
 
         }
-        
 
         public List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID)
         {
@@ -919,55 +463,6 @@ namespace Bec.TargetFramework.Business.Logic
                 return userAccountOrganisations;
             }
 
-        }
-
-        public ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
-        {
-            ContactDTO userContact = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                var contacts = scope.DbContext.Contacts.Where(item => item.IsPrimaryContact == true && item.ParentID == uaoID && item.IsActive == true && item.IsDeleted == false).ToList();
-
-                Ensure.That(contacts.Count > 0).IsTrue();
-
-                userContact = ContactConverter.ToDto(contacts.First());
-            }
-
-            return userContact;
-        }
-
-        public VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID, bool personalOrg)
-        {
-            VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                 var uaoUTypeOType = new VUserAccountOrganisationUserTypeOrganisationType();
-                 int orgType = (int) OrganisationTypeEnum.Personal;
-                if(personalOrg)
-                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID.HasValue && item.UserID.Value.Equals(accountID) && item.OrganisationTypeID.HasValue && item.OrganisationTypeID.Value.Equals(orgType));
-                else
-                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID.HasValue && item.UserID.Value.Equals(accountID) && item.OrganisationTypeID.HasValue && !(item.OrganisationTypeID.Value.Equals(orgType)));
-                return VUserAccountOrganisationUserTypeOrganisationTypeConverter.ToDto(uaoUTypeOType);
-            }
-
-        }
-
-        
-
-        public List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
-        {
-            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> list =
-                new List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>();
-
-            VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                list = VUserAccountOrganisationUserTypeOrganisationTypeConverter.ToDtos(
-                    scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Where(
-                        s => s.UserID.HasValue && s.UserID.Value.Equals(accountID)));
-            }
-
-            return list;
         }
 
         private List<BrockAllen.MembershipReboot.PasswordResetSecret> GetPasswordResetSecrets(Guid userAccountID)
@@ -1099,6 +594,53 @@ namespace Bec.TargetFramework.Business.Logic
             return list;
         }
 
+        public ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
+        {
+            ContactDTO userContact = null;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var contacts = scope.DbContext.Contacts.Where(item => item.IsPrimaryContact == true && item.ParentID == uaoID && item.IsActive == true && item.IsDeleted == false).ToList();
+
+                Ensure.That(contacts.Count > 0).IsTrue();
+
+                userContact = ContactConverter.ToDto(contacts.First());
+            }
+
+            return userContact;
+        }
+
+        public VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID, bool personalOrg)
+        {
+            VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var uaoUTypeOType = new VUserAccountOrganisationUserTypeOrganisationType();
+                int orgType = (int)OrganisationTypeEnum.Personal;
+                if (personalOrg)
+                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID.HasValue && item.UserID.Value.Equals(accountID) && item.OrganisationTypeID.HasValue && item.OrganisationTypeID.Value.Equals(orgType));
+                else
+                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID.HasValue && item.UserID.Value.Equals(accountID) && item.OrganisationTypeID.HasValue && !(item.OrganisationTypeID.Value.Equals(orgType)));
+                return VUserAccountOrganisationUserTypeOrganisationTypeConverter.ToDto(uaoUTypeOType);
+            }
+
+        }
+
+        public List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
+        {
+            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> list =
+                new List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>();
+
+            VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                list = VUserAccountOrganisationUserTypeOrganisationTypeConverter.ToDtos(
+                    scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Where(
+                        s => s.UserID.HasValue && s.UserID.Value.Equals(accountID)));
+            }
+
+            return list;
+        }
+
         public List<string> UserLoginSessions(Guid userId)
         {
             using (var entities = new TargetFrameworkEntities())
@@ -1204,7 +746,6 @@ namespace Bec.TargetFramework.Business.Logic
             return result;
         }
 
-
         public UserAccountOrganisationDTO GetPermanentUAO(Guid userID)
         {
             UserAccountOrganisationDTO dto = null;
@@ -1225,65 +766,6 @@ namespace Bec.TargetFramework.Business.Logic
             return dto;
         }
 
-        public bool DoesPermanentUserHavePersonalOrganisation(Guid userID)
-        {
-            bool result = false;
-            int personalOrgTypeID = OrganisationTypeEnum.Personal.GetIntValue();
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                result = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Any(
-                    s => s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(personalOrgTypeID)
-                         && s.UserID.HasValue && s.UserID.Value.Equals(userID));
-            }
-
-            return result;
-        }
-
-        //[EnsureArgumentAspect]
-        //public Guid? CreateAndAddUserToPersonalOrganisation(Guid userID)
-        //{
-        //    Guid? uaoID = null;
-
-        //    Guid orgID = Guid.Empty;
-
-        //    int personalOrgTypeID = OrganisationTypeEnum.Personal.GetIntValue();
-
-        //    var doPersonalOrganisationTemplate = new VDefaultOrganisationUserTypeOrganisationType();
-
-        //    //Get default organisation id for personal organisation
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-        //    {
-        //        doPersonalOrganisationTemplate = scope.DbContext.VDefaultOrganisationUserTypeOrganisationTypes.Single(item => item.OrganisationTypeID.Equals(personalOrgTypeID));
-
-        //        orgID = scope.DbContext.FnCreateOrganisationFromDefault(doPersonalOrganisationTemplate.OrganisationTypeID, doPersonalOrganisationTemplate.DefaultOrganisationID, doPersonalOrganisationTemplate.DefaultOrganisationVersionNumber, "Personal Organisation", "PersonalOrganisation").GetValueOrDefault();
-
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-        //    }
-
-        //    // add user to personal organisation
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-        //    {
-        //        var branches = m_OrganisationLogic.GetOrgansationBranchDTOs(orgID);
-
-        //        Ensure.That(branches.Count > 0).IsTrue();
-
-        //        //Add user to newly created personal organisation
-        //        scope.DbContext.FnAddUserToOrganisation(userID, orgID, doPersonalOrganisationTemplate.UserTypeID, branches.First().OrganisationID);
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-
-        //        var organisationID = branches.First().OrganisationID;
-
-        //        // get uao
-        //        uaoID =
-        //            scope.DbContext.UserAccountOrganisations.Single(
-        //                s => s.UserID.Equals(userID) && s.OrganisationID.Equals(organisationID)).UserAccountOrganisationID;
-        //    }
-
-        //    return uaoID;
-
-        //}
-
         public Guid GetPersonalUserAccountOrganisation(Guid userId)
 
         {
@@ -1303,40 +785,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             return uaoForTemp;
         }
-        public Guid? AddUserToTemporaryOrganisation(Guid userID)
-        {
-            Ensure.That(userID).IsNot(Guid.Empty);
 
-            Guid? uaoForTemp = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                scope.DbContext.FnAddUserToTemporaryOrganisation(userID);
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-
-                // get temp branch
-                var tempOrganisationGuid =
-                    scope.DbContext.Organisations.Single(
-                        s => 
-                            s.OrganisationTypeID.Equals((int) OrganisationTypeEnum.Temporary)).OrganisationID;
-
-                // get branch
-                tempOrganisationGuid =
-                    scope.DbContext.Organisations.Single(
-                        s => s.ParentOrganisationID.HasValue &&
-                            s.ParentOrganisationID.Value.Equals(tempOrganisationGuid)).OrganisationID;
-
-                var tempGuid = UserTypeEnum.Temporary.GetGuidValue();
-
-                // get uao entry for user
-                uaoForTemp = scope.DbContext.UserAccountOrganisations.Single(
-                    s =>
-                        s.UserID.Equals(userID) && s.OrganisationID.Equals(tempOrganisationGuid) &&
-                        s.UserTypeID.Equals(tempGuid)).UserAccountOrganisationID;
-            }
-
-            return uaoForTemp;
-        }
         public BrockAllen.MembershipReboot.UserAccount CreateTemporaryAccount(string email, string password, bool temporaryAccount, Guid userId)
         {
             BrockAllen.MembershipReboot.UserAccount user = m_UaService.CreateAccount(m_DataLogic.GenerateRandomName(), password, email, temporaryAccount, userId); //RandomPasswordGenerator.Generate(10),
@@ -1398,28 +847,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             return uaDtos;
-        }
-
-        public VUserAccountOrganisationDTO GetVUserAccountOrganisation(Guid userID)
-        {
-            VUserAccountOrganisationDTO userAccountOrganisations = new VUserAccountOrganisationDTO();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                var organisation = scope.DbContext.VUserAccountOrganisations.SingleOrDefault(item => item.ID.Equals(userID));
-
-                userAccountOrganisations = VUserAccountOrganisationConverter.ToDto(organisation);
-
-                return userAccountOrganisations;
-            }
-
-        }
-        public void RemovePasswordResetSecret(Guid accountID, Guid PasswordResetSecretID)
-        {
-            m_UaService.RemovePasswordResetSecret(accountID, PasswordResetSecretID);
-        }
-        public void AddPasswordResetSecret(Guid accountID, string password, string question, string answer)
-        {
-            m_UaService.AddPasswordResetSecret(accountID, password, question, answer);
         }
 
     }

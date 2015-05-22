@@ -1,6 +1,5 @@
 ﻿
 using Autofac;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;

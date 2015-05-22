@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
-using Bec.TargetFramework.Data.Repositories;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Log;
@@ -15,7 +14,6 @@ using Bec.TargetFramework.Security;
 using Omu.ValueInjecter;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure.Caching;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using System.IO;
 using System.Reflection;
 using Bec.TargetFramework.Business.Logic.Helper;
@@ -29,7 +27,7 @@ namespace Bec.TargetFramework.Business.Logic
     using Bec.TargetFramework.Infrastructure.Settings;
    
     [Trace(TraceExceptionsOnly = true)]
-    public class DataLogic : LogicBase, IDataLogic
+    public class DataLogic : LogicBase
     {
         private const string ResourcePathPrefix = "Bec.TargetFramework.Business.Resources.Resources.";
         protected Random RandGen = new Random();
@@ -48,47 +46,6 @@ namespace Bec.TargetFramework.Business.Logic
     {
         m_CommonSettings = settings;
     }
-
-        #region TFEvent
-
-        public TFEventDTO GetTFEventByName(string eventName)
-        {
-            Ensure.That(eventName);
-
-            TFEventDTO dto = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                //var fieldQuery =
-                //    scope.DbContext.TFEvents.SingleOrDefault(s => s.TFEventName.Equals(eventName));
-
-                //Ensure.That(fieldQuery);
-
-                //dto = TFEventConverter.ToDto(fieldQuery);
-            }
-
-            return dto;
-        }
-
-        #endregion
-
-        #region Tree 
-
-        [EnsureArgumentAspect]
-        public List<VWorkflowTreeDTO> GetWorkflowTree(Guid workflowID,int workflowVersionNumber)
-        {
-            List<VWorkflowTreeDTO> tree = new List<VWorkflowTreeDTO>();
-
-            using (
-                var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                tree =VWorkflowTreeConverter.ToDtos(scope.DbContext.VWorkflowTrees.Where(s => s.WorkflowID.Equals(workflowID) && s.WorkflowVersionNumber.Equals(workflowVersionNumber)).OrderBy(s => s.ItemOrder));
-            }
-
-            return tree;
-        }
-
-        #endregion
 
         #region StatusEnum
 
@@ -258,88 +215,6 @@ namespace Bec.TargetFramework.Business.Logic
         {
             return GenerateRandomMaleFirstName() + GenerateRandomLastName();
         }
-        #endregion
-
-        #region ServiceDefinition
-
-        [EnsureArgumentAspect]
-        public ServiceDefinitionDTO GetServiceDefinitionWithDetail(string name)
-        {
-            Ensure.That(m_CommonSettings.Environment).IsNotNullOrEmpty();
-
-            ServiceDefinitionDTO dto = null;
-
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger)
-                )
-            {
-                var sd = ServiceDefinitionConverter.ToDto(scope.DbContext.ServiceDefinitions.Single(s => s.Name.Equals(name)));
-
-                var sdd =
-                    ServiceDefinitionDetailConverter.ToDto(
-                        scope.DbContext.ServiceDefinitionDetails.Single(
-                            s => s.ServiceDefinitionID.Equals(sd.ServiceDefinitionID) && s.EnvironmentName.Equals(m_CommonSettings.Environment) && s.IsActive == true && s.IsDeleted == false));
-
-                sd.ServiceDefinitionDetails = new List<ServiceDefinitionDetailDTO>();
-                sd.ServiceDefinitionDetails.Add(sdd);
-            }
-
-            return dto;
-        }
-
-        [EnsureArgumentAspect]
-        public void MarkServiceInterfaceAsPending(Guid serviceDefinitionID, Guid? productPurchaseProductTaskID, Guid? parentID,string data)
-        {
-            using (
-               var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-                   true))
-            {
-                ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
-                    productPurchaseProductTaskID, parentID, data,null,ServiceInterfaceStatusEnum.Pending);
-
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            }
-        }
-        [EnsureArgumentAspect]
-        public void MarkServiceInterfaceAsProcessing(Guid serviceDefinitionID, Guid? productPurchaseProductTaskID, Guid? parentID, string data)
-        {
-            using (
-               var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-                   true))
-            {
-                ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
-                    productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Processing);
-
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            }
-        }
-        [EnsureArgumentAspect]
-        public void MarkServiceInterfaceAsFailed(Guid serviceDefinitionID, Guid? productPurchaseProductTaskID, Guid? parentID, string data)
-        {
-            using (
-               var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-                   true))
-            {
-                ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
-                    productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Failed);
-
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            }
-        }
-        [EnsureArgumentAspect]
-        public void MarkServiceInterfaceAsSuccessful(Guid serviceDefinitionID, Guid? productPurchaseProductTaskID, Guid? parentID, string data)
-        {
-            using (
-               var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,
-                   true))
-            {
-                ServiceInterfaceHelper.CreateServiceInterfaceProcessLog(scope, serviceDefinitionID,
-                    productPurchaseProductTaskID, parentID, data, null, ServiceInterfaceStatusEnum.Successful);
-
-                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
-            }
-        }
-       
-
         #endregion
     }
 

@@ -350,14 +350,6 @@
       <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
       <Name>Bec.TargetFramework.Business.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
-      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
-      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Services\Bec.TargetFramework.Business.Services.csproj">
-      <Project>{2ea851ad-cb39-4d03-ba73-48f47413f249}</Project>
-      <Name>Bec.TargetFramework.Business.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>

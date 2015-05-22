@@ -11,7 +11,6 @@ using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using BrockAllen.MembershipReboot;
 using System.ServiceModel;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 
 namespace Bec.TargetFramework.Security
 {

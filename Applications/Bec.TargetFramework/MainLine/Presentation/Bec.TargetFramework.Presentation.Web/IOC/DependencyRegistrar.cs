@@ -12,7 +12,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
     using System.Web;
 
     using Bec.TargetFramework.Infrastructure.CouchBaseCache;
-    using Bec.TargetFramework.Workflow.Interfaces;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using BrockAllen.MembershipReboot;

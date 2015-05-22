@@ -11,11 +11,10 @@ using ServiceStack.Text;
 namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Entities;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class SettingLogic : LogicBase, ISettingLogic
+    public class SettingLogic : LogicBase
     {
         private const string CACHEKEY = "SettingLogicCache";
 

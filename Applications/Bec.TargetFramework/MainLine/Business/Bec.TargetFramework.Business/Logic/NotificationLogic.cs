@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 //Bec.TargetFramework.Entities
@@ -26,7 +25,7 @@ namespace Bec.TargetFramework.Business.Logic
     using System.Web.Http;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class NotificationLogic : LogicBase, INotificationLogic
+    public class NotificationLogic : LogicBase
     {
         public NotificationLogic(ILogger logger, ICacheProvider cacheProvider)
             : base(logger, cacheProvider)

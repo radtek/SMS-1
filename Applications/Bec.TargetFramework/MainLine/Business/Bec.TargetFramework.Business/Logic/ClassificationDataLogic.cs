@@ -13,12 +13,11 @@ using Omu.ValueInjecter;
 namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Entities;
     using EnsureThat;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class ClassificationDataLogic : LogicBase, IClassificationDataLogic
+    public class ClassificationDataLogic : LogicBase
     {
         public ClassificationDataLogic(ILogger logger, ICacheProvider cacheProvider) : base(logger, cacheProvider)
         {

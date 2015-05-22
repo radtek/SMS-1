@@ -2031,10 +2031,6 @@
       <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
       <Name>Bec.TargetFramework.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
-      <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
-      <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

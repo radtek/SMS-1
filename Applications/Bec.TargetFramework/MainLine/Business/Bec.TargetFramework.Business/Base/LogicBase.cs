@@ -49,52 +49,39 @@ namespace Bec.TargetFramework.Business.Logic
 
         protected void SetAuditFields<T>(T entity, bool isNew) where T : class
         {
-            var userIdentityDto = GetUserIdentificationMessageDTOFromContext();
+            //var userIdentityDto = GetUserIdentificationMessageDTOFromContext();
 
-            var properties = TypeDescriptor.GetProperties(typeof (T));
+            //var properties = TypeDescriptor.GetProperties(typeof (T));
 
-            if (isNew)
-            {
-                if (properties["CreatedOn"] != null)
-                {
-                    properties["CreatedOn"].SetValue(entity, DateTime.Now);
-                }
+            //if (isNew)
+            //{
+            //    if (properties["CreatedOn"] != null)
+            //    {
+            //        properties["CreatedOn"].SetValue(entity, DateTime.Now);
+            //    }
                 
-                if (properties["CreatedBy"] != null)
-                {
-                    if (userIdentityDto != null)
-                        properties["CreatedBy"].SetValue(entity, userIdentityDto.UserID);
-                    else
-                        properties["CreatedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
-                }
-            }
+            //    if (properties["CreatedBy"] != null)
+            //    {
+            //        if (userIdentityDto != null)
+            //            properties["CreatedBy"].SetValue(entity, userIdentityDto.UserID);
+            //        else
+            //            properties["CreatedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
+            //    }
+            //}
 
-            if (properties["ModifiedOn"] != null)
-            {
-                properties["ModifiedOn"].SetValue(entity, DateTime.Now);
-            }
-            if (properties["ModifiedBy"] != null)
-            {
-                if (userIdentityDto != null)
-                    properties["ModifiedBy"].SetValue(entity, userIdentityDto.UserID);
-                else
-                    properties["ModifiedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
-            }
+            //if (properties["ModifiedOn"] != null)
+            //{
+            //    properties["ModifiedOn"].SetValue(entity, DateTime.Now);
+            //}
+            //if (properties["ModifiedBy"] != null)
+            //{
+            //    if (userIdentityDto != null)
+            //        properties["ModifiedBy"].SetValue(entity, userIdentityDto.UserID);
+            //    else
+            //        properties["ModifiedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
+            //}
         }
         
-
-        protected UserIdentificationMessageDTO GetUserIdentificationMessageDTOFromContext()
-        {
-            ServiceSecurityContext cxtSec = ServiceSecurityContext.Current;
-            int index = OperationContext.Current.IncomingMessageHeaders.FindHeader("UserIdentificationMessageDTO", "http://tempuri.org");
-            UserIdentificationMessageDTO dto = null;
-            if (index > -1)
-            {
-                dto = OperationContext.Current.IncomingMessageHeaders.GetHeader<UserIdentificationMessageDTO>(index);
-            }
-            return dto;
-        }
-
         protected string GetUserName()
         {
             System.Collections.Generic.IEnumerable<string> values;

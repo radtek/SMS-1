@@ -103,9 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventHandlers\AddNewCompanyAndAdministratorHandler.cs" />
-    <Compile Include="EventHandlers\OnlinePaymentHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScheduledTaskHandlers\UserNotLoggedInScheduledTask.cs" />
     <Compile Include="TestTaskHandler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,10 +114,6 @@
     <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj">
       <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
       <Name>Bec.TargetFramework.Business.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
-      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
-      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
@@ -136,10 +130,6 @@
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
       <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
       <Name>Bec.TargetFramework.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
-      <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
-      <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
@@ -158,7 +148,9 @@
       <Name>Bec.TargetFramework.SB.Messages</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ScheduledTaskHandlers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

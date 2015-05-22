@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A3E92056-1E79-4FD4-9B76-88E32FA29558}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.SB.TaskServices</RootNamespace>
     <AssemblyName>Bec.TargetFramework.SB.TaskServices</AssemblyName>
@@ -318,10 +318,6 @@
       <Project>{cf410eab-4608-4239-bff9-9a729da9fbb5}</Project>
       <Name>Bec.TargetFramework.Business.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Infrastructure\Bec.TargetFramework.Business.Infrastructure.csproj">
-      <Project>{18cce105-dc9d-4b1f-a63c-dedfd24d8969}</Project>
-      <Name>Bec.TargetFramework.Business.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot.Ef\BrockAllen.MembershipReboot.Ef.csproj">
       <Project>{453c8a9d-72aa-4f8d-9354-8b0f57f2b58a}</Project>
       <Name>BrockAllen.MembershipReboot.Ef</Name>
@@ -357,10 +353,6 @@
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Security\Bec.TargetFramework.Security.csproj">
       <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
       <Name>Bec.TargetFramework.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Workflow\Bec.TargetFramework.Workflow.Interfaces\Bec.TargetFramework.Workflow.Interfaces.csproj">
-      <Project>{56dadfd3-9975-4d1d-991c-2427b2f82324}</Project>
-      <Name>Bec.TargetFramework.Workflow.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Client\Bec.TargetFramework.SB.Client.csproj">
       <Project>{e4e0ed10-111e-4b5c-bb6f-07f2eccb30ae}</Project>

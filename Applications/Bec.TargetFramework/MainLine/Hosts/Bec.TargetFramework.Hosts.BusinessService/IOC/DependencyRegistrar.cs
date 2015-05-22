@@ -1,5 +1,4 @@
 ﻿using Autofac.Integration.Wcf;
-using Bec.TargetFramework.Business.Product.Processor;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
@@ -25,9 +24,6 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     using Autofac.Builder;
     using Bec.TargetFramework.Infrastructure.Caching;
     using System.ServiceModel;
-    using Bec.TargetFramework.Business.Services;
-    using Bec.TargetFramework.Business.Infrastructure;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Business.Logic;
     using Bec.TargetFramework.Service.Configuration;
     using Bec.TargetFramework.Entities.Settings;
@@ -63,9 +59,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
 
             builder.Register(c => new SettingLogic(c.Resolve<ILogger>(), c.Resolve<ICacheProvider>()))
-                .As<ISettingLogic>();
+                .As<SettingLogic>();
 
-            builder.Register(c => new SettingServiceLocal(c.Resolve<ISettingLogic>())).As<SettingServiceLocal>();
+            builder.Register(c => new SettingServiceLocal(c.Resolve<SettingLogic>())).As<SettingServiceLocal>();
 
             var type = typeof(ISettings);
             AllAssemblies.Matching("Bec.TargetFramework")
@@ -76,87 +72,11 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                     builder.Register(c => c.Resolve<SettingServiceLocal>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingServiceLocal>(), new object[1] { 0 })).As(item);
                 });
 
-            // register all logic classes
-            var logicClasses = Assembly.Load("Bec.TargetFramework.Business");
-            builder.RegisterAssemblyTypes(logicClasses);
+            builder.Register(c => new DataLogic(c.Resolve<ILogger>()
+                           , c.Resolve<ICacheProvider>(), c.Resolve<CommonSettings>())).As<DataLogic>();
 
-            builder.Register(c => new DataLogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<CommonSettings>())).As<IDataLogic>();
-
-            builder.Register(c => new ValidationLogicService(c.Resolve<ILogger>()
-                          , c.Resolve<ICacheProvider>())).As<IValidationLogic>();
-
-            builder.Register(c => new UserLogicService(c.Resolve<UserAccountService>()
-                           , c.Resolve<AuthenticationService>(), c.Resolve<IDataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>())).As<IUserLogic>();
-
-            // reference first to load assemblies
-            builder.Register(c => new OrganisationLogicService(c.Resolve<UserAccountService>()
-                            , c.Resolve<AuthenticationService>()
-                            , c.Resolve<ILogger>()
-                            , c.Resolve<ICacheProvider>()
-                            , c.Resolve<CommonSettings>(), 
-                            c.Resolve<IUserLogic>(), 
-                            c.Resolve<IDataLogic>(),
-                            c.Resolve<Bec.TargetFramework.SB.Interfaces.IEventPublishClient>())).As<IOrganisationLogic>();
-
-            builder.Register(c => new ProductLogicService( c.Resolve<ILogger>()
-                            , c.Resolve<ICacheProvider>(),c.Resolve<DeductionLogic>())).As<IProductLogic>();
-
-            builder.Register(c => new ProductPricingProcessor(c.Resolve<ILogger>(), c.Resolve<IProductLogic>()))
-                .As<ProductPricingProcessor>();
-
-            AppDomain.CurrentDomain.GetAssemblies()
-                .Where(s => s.FullName.Contains("Bec.TargetFramework"))
-                .SelectMany(s => s.GetTypes())
-                .Where(p => !p.IsInterface && !p.Name.Contains("BusLogic") && p.Name.Contains("LogicService") && !p.Name.Contains("OrganisationLogic") && !p.Name.Contains("InvoiceLogic") && !p.Name.Contains("ProductLogic") && !p.Name.Contains("PaymentLogic") && !p.Name.Contains("ShoppingCartLogic")
-                 && !p.Name.Contains("TransactionOrderLogic") && !p.Name.Contains("UserLogic") && !p.Name.StartsWith("DataLogic") && !p.Name.StartsWith("ExperianIDCheckLogic"))
-                .ToList().ForEach(item =>
-                {
-                    // check type implements interface
-                    if(item.GetInterfaces().Contains(typeof(IBusinessLogicService)))
-                    {
-                        Type interfaceType = item.GetInterfaces().Where(it => it.Name.Contains("I" + item.Name.Replace("Service", ""))).First();
-
-                        if (item.GetConstructors().First().GetParameters().Count() == 2)
-                        {
-                            builder.Register(c => Activator.CreateInstance(item, new object[] {   c.Resolve<ILogger>()
-                            , c.Resolve<ICacheProvider>() })).As(new Type[] { interfaceType });
-                        }
-                        else
-                        {
-                            builder.Register(c => Activator.CreateInstance(item, new object[] {  c.Resolve<UserAccountService>()
-                            , c.Resolve<AuthenticationService>()
-                            , c.Resolve<ILogger>()
-                            , c.Resolve<ICacheProvider>() })).As(new Type[] { interfaceType });
-                        }
-                    }
-                });
-
-         
-            builder.Register(c => new ShoppingCartLogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<DeductionLogic>(), c.Resolve<IProductLogic>(), c.Resolve<ProductPricingProcessor>())).As<IShoppingCartLogic>();
-
-            builder.Register(
-             c =>
-                 new InvoiceLogic(c.Resolve<ILogger>(), c.Resolve<ICacheProvider>(),
-                     c.Resolve<IClassificationDataLogic>())).As<IInvoiceLogic>();
-
-
-            builder.Register(c => new CartPricingProcessor(c.Resolve<ILogger>(), c.Resolve<IProductLogic>(), c.Resolve<IShoppingCartLogic>(), c.Resolve<ProductPricingProcessor>()))
-    .As<CartPricingProcessor>();
-
-            builder.Register(c => new TransactionOrderLogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<IShoppingCartLogic>(), c.Resolve<IProductLogic>(), c.Resolve<ProductPricingProcessor>(), c.Resolve<CartPricingProcessor>())).As<ITransactionOrderLogic>();
-
-            builder.Register(c => new PaymentLogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<PaymentSettings>())).As<IPaymentLogic>();
-
-           
-            builder.Register(c => new ExperianIDCheckLogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianIDCheckLogic>();
-
-            builder.Register(c => new ExperianBWALogicService(c.Resolve<ILogger>()
-                           , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianBWALogic>();
+            builder.Register(c => new UserLogic(c.Resolve<UserAccountService>()
+                           , c.Resolve<AuthenticationService>(), c.Resolve<DataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>())).As<UserLogic>();
 
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);

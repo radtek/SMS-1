@@ -16,6 +16,7 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using System.Web.Http;
 using BrockAllen.MembershipReboot;
+using ServiceStack.Text;
 
 #region Proxies
 namespace Bec.TargetFramework.Business.Client
@@ -1634,8 +1635,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{			
 			if (response.IsSuccessStatusCode) return;
 
-			var content = await response.Content.ReadAsAsync<HttpError>();
-            throw new Exception(content["ExceptionMessage"].ToString());
+            try
+            {
+                var content = await response.Content.ReadAsAsync<HttpError>();
+                throw new Exception(content["ExceptionMessage"].ToString());
+            }
+            catch(Exception ex)
+            {
+                Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
+
+                throw new Exception(incorrectMessageTask.Result, ex);
+            }
 		}
 
 		/// <summary>

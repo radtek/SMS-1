@@ -5,7 +5,6 @@ using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.Service.Configuration;
-using Bec.TargetFramework.Workflow.Interfaces;
 using NServiceBus.ObjectBuilder.Common.Config;
 using Seq;
 using Bec.TargetFramework.Infrastructure.IOC;
@@ -22,7 +21,6 @@ namespace Bec.TargetFramework.SB.TaskServices.IOC
     using Autofac.Integration.Wcf;
     using Autofac.Integration.WebApi;
 
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.Caching;
     using Bec.TargetFramework.Infrastructure.CouchBaseCache;
     using Bec.TargetFramework.Infrastructure.Log;
