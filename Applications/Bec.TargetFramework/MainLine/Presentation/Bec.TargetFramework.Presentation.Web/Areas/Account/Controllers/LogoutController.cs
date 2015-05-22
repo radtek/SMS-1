@@ -13,11 +13,11 @@ using BrockAllen.MembershipReboot;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
-    public class LogoutController : ApplicationControllerBase
+    [Authorize]
+    public class LogoutController : Controller
     {
         AuthenticationService authSvc;
-        public LogoutController(ILogger logger, AuthenticationService authSvc)
-            : base(logger)
+        public LogoutController(AuthenticationService authSvc)
         {
             this.authSvc = authSvc;
         }

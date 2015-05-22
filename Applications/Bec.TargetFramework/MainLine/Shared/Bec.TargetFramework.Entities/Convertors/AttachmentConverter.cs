@@ -43,7 +43,6 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.AttachmentDetail = source.AttachmentDetail.ToDtoWithRelated(level - 1);
-              target.LRDocuments = source.LRDocuments.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

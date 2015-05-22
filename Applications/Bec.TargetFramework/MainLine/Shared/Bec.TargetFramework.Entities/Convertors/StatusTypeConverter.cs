@@ -59,9 +59,6 @@ namespace Bec.TargetFramework.Entities
               target.OrganisationFinancialDetails = source.OrganisationFinancialDetails.ToDtosWithRelated(level - 1);
               target.OrganisationPaymentMethods = source.OrganisationPaymentMethods.ToDtosWithRelated(level - 1);
               target.OrganisationDirectDebitMandateProcessLogs = source.OrganisationDirectDebitMandateProcessLogs.ToDtosWithRelated(level - 1);
-              target.StsInviteProcessLogs = source.StsInviteProcessLogs.ToDtosWithRelated(level - 1);
-              target.StsSearchProcessLogs = source.StsSearchProcessLogs.ToDtosWithRelated(level - 1);
-              target.StsSearchRelations = source.StsSearchRelations.ToDtosWithRelated(level - 1);
               target.ProductPurchaseProcessLogs = source.ProductPurchaseProcessLogs.ToDtosWithRelated(level - 1);
               target.ServiceInterfaceProcessLogs = source.ServiceInterfaceProcessLogs.ToDtosWithRelated(level - 1);
               target.ProductPurchaseBusTaskProcessLogs = source.ProductPurchaseBusTaskProcessLogs.ToDtosWithRelated(level - 1);

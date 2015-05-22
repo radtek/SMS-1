@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public UserAccountOrganisationDTO() {
         }
 
-        public UserAccountOrganisationDTO(global::System.Guid userID, global::System.Nullable<int> organisationUnitID, global::System.Guid organisationID, string jobTitle, string nickName, bool isActive, bool isDeleted, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Guid userAccountOrganisationID, global::System.Nullable<int> userJobTypeID, global::System.Nullable<System.Guid> primaryContactID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> parentID, OrganisationUnitDTO organisationUnit, UserTypeDTO userType, UserAccountDTO userAccount, List<UserAccountOrganisationTeamDTO> userAccountOrganisationTeams, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<UserAccountOrganisationGroupDTO> userAccountOrganisationGroups, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<WorkflowInstanceRestrictionDTO> workflowInstanceRestrictions, List<NotificationRecipientDTO> notificationRecipients, List<ShoppingCartDTO> shoppingCarts, List<InvoiceDTO> invoices, ContactDTO contact, List<StsSearchDTO> stsSearches, OrganisationDTO organisation) {
+        public UserAccountOrganisationDTO(global::System.Guid userID, global::System.Nullable<int> organisationUnitID, global::System.Guid organisationID, string jobTitle, string nickName, bool isActive, bool isDeleted, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Guid userAccountOrganisationID, global::System.Nullable<int> userJobTypeID, global::System.Nullable<System.Guid> primaryContactID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> parentID, OrganisationUnitDTO organisationUnit, UserTypeDTO userType, UserAccountDTO userAccount, List<UserAccountOrganisationTeamDTO> userAccountOrganisationTeams, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<UserAccountOrganisationGroupDTO> userAccountOrganisationGroups, List<UserAccountOrganisationStatusDTO> userAccountOrganisationStatus, List<WorkflowInstanceRestrictionDTO> workflowInstanceRestrictions, List<NotificationRecipientDTO> notificationRecipients, List<ShoppingCartDTO> shoppingCarts, List<InvoiceDTO> invoices, ContactDTO contact, OrganisationDTO organisation) {
 
           this.UserID = userID;
           this.OrganisationUnitID = organisationUnitID;
@@ -50,7 +50,6 @@ namespace Bec.TargetFramework.Entities
           this.ShoppingCarts = shoppingCarts;
           this.Invoices = invoices;
           this.Contact = contact;
-          this.StsSearches = stsSearches;
           this.Organisation = organisation;
         }
 
@@ -139,9 +138,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ContactDTO Contact { get; set; }
-
-        [DataMember]
-        public List<StsSearchDTO> StsSearches { get; set; }
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }

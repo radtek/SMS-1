@@ -304,7 +304,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
-    <Compile Include="Areas\Account\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Account\Controllers\AcceptTCsController.cs" />
     <Compile Include="Areas\Account\Controllers\LoginController.cs" />
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
@@ -320,6 +320,7 @@
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
     <Compile Include="Filters\RedirectHelper.cs" />
     <Compile Include="Filters\SessionExpireFilter.cs" />
+    <Compile Include="Filters\TermsAndConditionsFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -858,6 +859,7 @@
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ResendLogins.cshtml" />
+    <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />
@@ -1968,8 +1970,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Account\Views\Home\" />
-    <Folder Include="Areas\Account\Views\Logout\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Home\" />
   </ItemGroup>

@@ -286,33 +286,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for StsInviteProcessLogs in the schema.
-        /// </summary>
-        public virtual ICollection<StsInviteProcessLog> StsInviteProcessLogs
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for StsSearchProcessLogs in the schema.
-        /// </summary>
-        public virtual ICollection<StsSearchProcessLog> StsSearchProcessLogs
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for StsSearchRelations in the schema.
-        /// </summary>
-        public virtual ICollection<StsSearchRelation> StsSearchRelations
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ProductPurchaseProcessLogs in the schema.
         /// </summary>
         public virtual ICollection<ProductPurchaseProcessLog> ProductPurchaseProcessLogs

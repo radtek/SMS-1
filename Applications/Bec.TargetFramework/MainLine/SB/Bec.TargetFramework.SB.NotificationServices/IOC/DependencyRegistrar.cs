@@ -76,7 +76,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
                     builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
                 });
 
-            builder.Register(c => new StandaloneReportGenerator(c.Resolve<IClassificationDataLogicClient>())).As<StandaloneReportGenerator>();
+            builder.Register(c => new StandaloneReportGenerator()).As<StandaloneReportGenerator>();
 
         }
 

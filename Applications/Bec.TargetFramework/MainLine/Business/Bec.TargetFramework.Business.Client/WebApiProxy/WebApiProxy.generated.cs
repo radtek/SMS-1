@@ -413,6 +413,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
+        Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID, string constructName);
+        List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName);
+
+        Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
+        NotificationResultDTO GetTcAndCsText(Guid accountID);
+
+        Task<byte[]> GetTcAndCsDataAsync(Guid notificationConstructID, int versionNumber);
+        byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber);
+
+        Task MarkAcceptedAsync(Guid notificationID);
+        void MarkAccepted(Guid notificationID);
 				
 	}
 	
@@ -1634,8 +1645,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{			
 			if (response.IsSuccessStatusCode) return;
 
-			var content = await response.Content.ReadAsAsync<HttpError>();
-            throw new Exception(content["ExceptionMessage"].ToString());
+            string content = await response.Content.ReadAsStringAsync();
+            throw new Exception(content);
+
+            //var content = await response.Content.ReadAsAsync<HttpError>();
+            //throw new Exception(content["ExceptionMessage"].ToString());
 		}
 
 		/// <summary>
@@ -2537,6 +2551,50 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
 		}
+
+        public virtual async Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID, string constructName)
+        {
+            string _user = getHttpContextUser();
+            return await GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user);
+        }
+        public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName)
+        {
+            string _user = getHttpContextUser();
+            return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user)).Result;
+        }
+
+        public virtual async Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID)
+        {
+            string _user = getHttpContextUser();
+            return await GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user);
+        }
+        public virtual NotificationResultDTO GetTcAndCsText(Guid accountID)
+        {
+            string _user = getHttpContextUser();
+            return Task.Run(() => GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user)).Result;
+        }
+
+        public virtual async Task<byte[]> GetTcAndCsDataAsync(Guid notificationConstructID, int versionNumber)
+        {
+            string _user = getHttpContextUser();
+            return await GetAsync<byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user);
+        }
+        public virtual byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
+        {
+            string _user = getHttpContextUser();
+            return Task.Run(() => GetAsync<byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
+        }
+
+        public virtual async Task MarkAcceptedAsync(Guid notificationID)
+        {
+            string _user = getHttpContextUser();
+            await PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user);
+        }
+        public virtual void MarkAccepted(Guid notificationID)
+        {
+            string _user = getHttpContextUser();
+            Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user));
+        }
 
 		#endregion
 	}

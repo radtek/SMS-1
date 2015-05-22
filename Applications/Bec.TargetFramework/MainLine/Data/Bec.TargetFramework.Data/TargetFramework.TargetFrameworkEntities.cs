@@ -2463,36 +2463,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<Actor> Actors { get; set; }
     
         /// <summary>
-        /// There are no comments for StsInviteProcessLog in the schema.
-        /// </summary>
-        public virtual DbSet<StsInviteProcessLog> StsInviteProcessLogs { get; set; }
-    
-        /// <summary>
-        /// There are no comments for StsInvite in the schema.
-        /// </summary>
-        public virtual DbSet<StsInvite> StsInvites { get; set; }
-    
-        /// <summary>
-        /// There are no comments for StsSearchDetail in the schema.
-        /// </summary>
-        public virtual DbSet<StsSearchDetail> StsSearchDetails { get; set; }
-    
-        /// <summary>
-        /// There are no comments for StsSearchProcessLog in the schema.
-        /// </summary>
-        public virtual DbSet<StsSearchProcessLog> StsSearchProcessLogs { get; set; }
-    
-        /// <summary>
-        /// There are no comments for StsSearch in the schema.
-        /// </summary>
-        public virtual DbSet<StsSearch> StsSearches { get; set; }
-    
-        /// <summary>
-        /// There are no comments for StsSearchRelation in the schema.
-        /// </summary>
-        public virtual DbSet<StsSearchRelation> StsSearchRelations { get; set; }
-    
-        /// <summary>
         /// There are no comments for VUserAccountOrganisationUserTypeOrganisationType in the schema.
         /// </summary>
         public virtual DbSet<VUserAccountOrganisationUserTypeOrganisationType> VUserAccountOrganisationUserTypeOrganisationTypes { get; set; }
@@ -2633,21 +2603,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ServiceInterfaceProcessLog> ServiceInterfaceProcessLogs { get; set; }
     
         /// <summary>
-        /// There are no comments for LRDocument in the schema.
-        /// </summary>
-        public virtual DbSet<LRDocument> LRDocuments { get; set; }
-    
-        /// <summary>
-        /// There are no comments for LRRegisterExtract in the schema.
-        /// </summary>
-        public virtual DbSet<LRRegisterExtract> LRRegisterExtracts { get; set; }
-    
-        /// <summary>
-        /// There are no comments for LRTitle in the schema.
-        /// </summary>
-        public virtual DbSet<LRTitle> LRTitles { get; set; }
-    
-        /// <summary>
         /// There are no comments for ProductBusTaskTemplate in the schema.
         /// </summary>
         public virtual DbSet<ProductBusTaskTemplate> ProductBusTaskTemplates { get; set; }
@@ -2706,6 +2661,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for WorkflowMainParameter in the schema.
         /// </summary>
         public virtual DbSet<WorkflowMainParameter> WorkflowMainParameters { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VNotificationInternalUnread in the schema.
+        /// </summary>
+        public virtual DbSet<VNotificationInternalUnread> VNotificationInternalUnreads { get; set; }
 
         #region Methods
 

@@ -282,15 +282,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for StsSearches in the schema.
-        /// </summary>
-        public virtual ICollection<StsSearch> StsSearches
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for Organisation in the schema.
         /// </summary>
         public virtual Organisation Organisation

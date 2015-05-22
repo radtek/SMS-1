@@ -41,8 +41,9 @@ namespace Bec.TargetFramework.Business.Logic
         private IUserLogic m_UserLogic;
         private IDataLogic m_DataLogic;
         private IEventPublishClient m_EventPublishClient;
+        INotificationLogic m_NotificationLogic;
         public OrganisationLogic(BrockAllen.MembershipReboot.UserAccountService uaService, BrockAllen.MembershipReboot.AuthenticationService authSvc, ILogger logger, ICacheProvider cacheProvider, CommonSettings commonSettings
-            , IUserLogic uLogic, IDataLogic dLogic, IEventPublishClient eventPublishClient)
+            , IUserLogic uLogic, IDataLogic dLogic, IEventPublishClient eventPublishClient, INotificationLogic notificationLogic)
             : base(logger, cacheProvider)
         {
              this.m_CommonSettings = commonSettings;
@@ -51,6 +52,7 @@ namespace Bec.TargetFramework.Business.Logic
             m_UserLogic = uLogic;
             m_DataLogic = dLogic;
             m_EventPublishClient = eventPublishClient;
+            m_NotificationLogic = notificationLogic;
         }
 
         public void ExpireOrganisations(int days, int hours, int minutes)
@@ -323,7 +325,7 @@ namespace Bec.TargetFramework.Business.Logic
         public UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary)
         {
             UserAccountOrganisationDTO uao;
-
+            Guid? userOrgID;
             var ua = m_UserLogic.CreateAccount(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
@@ -332,12 +334,9 @@ namespace Bec.TargetFramework.Business.Logic
                 Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
 
                 // add user to organisation
-                var userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);                
-
-                //if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
-
+                userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);                
                 Ensure.That(userOrgID).IsNotNull();
-                
+
                 uao = UserAccountOrganisationConverter.ToDto(scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value));
 
                 // create or update contact
@@ -366,7 +365,30 @@ namespace Bec.TargetFramework.Business.Logic
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
 
+            //create Ts & Cs notification
+            if (!isTemporary) createTcNotification(userOrgID);
+
             return uao;
+        }
+
+        private void createTcNotification(Guid? userOrgID)
+        {
+            var nc = m_NotificationLogic.GetLatestNotificationConstructIdFromName("TcPublic");
+
+            var notificationDto = new NotificationDTO();
+            notificationDto.NotificationConstructID = nc.NotificationConstructID;
+            notificationDto.NotificationConstructVersionNumber = nc.NotificationConstructVersionNumber;
+            notificationDto.ParentID = null;
+            notificationDto.DateSent = DateTime.Now;
+            notificationDto.IsActive = true;
+            notificationDto.IsDeleted = false;
+            notificationDto.IsVisible = true;
+            notificationDto.IsInternal = (nc.DefaultNotificationDeliveryMethodID == NotificationDeliveryMethodIDEnum.System.GetIntValue());
+            notificationDto.IsExternal = (nc.DefaultNotificationDeliveryMethodID == NotificationDeliveryMethodIDEnum.Email.GetIntValue());
+            notificationDto.NotificationData = "{}";
+            notificationDto.NotificationRecipients = new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = userOrgID } };
+
+            m_NotificationLogic.SaveNotification(notificationDto);
         }
 
         private void SendNewUserEmail(string username, string password, Guid userAccountOrganisationID, ContactDTO contact)

@@ -208,33 +208,6 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
-    
-        /// <summary>
-        /// There are no comments for LRDocuments in the schema.
-        /// </summary>
-        public virtual ICollection<LRDocument> LRDocuments
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for LRRegisterExtracts in the schema.
-        /// </summary>
-        public virtual ICollection<LRRegisterExtract> LRRegisterExtracts
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for LRTitles in the schema.
-        /// </summary>
-        public virtual ICollection<LRTitle> LRTitles
-        {
-            get;
-            set;
-        }
 
         #endregion
     }

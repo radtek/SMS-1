@@ -1421,6 +1421,5 @@ namespace Bec.TargetFramework.Business.Logic
         {
             m_UaService.AddPasswordResetSecret(accountID, password, question, answer);
         }
-
     }
 }

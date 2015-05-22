@@ -1,6 +1,6 @@
 ﻿    <!-- Left panel : Navigation area -->
 <!-- Note: This width of the aside area can be adjusted through LESS variables -->
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && !Html.RouteMatches("AcceptTCs", "Index"))
 {
     <aside id="left-panel">
 

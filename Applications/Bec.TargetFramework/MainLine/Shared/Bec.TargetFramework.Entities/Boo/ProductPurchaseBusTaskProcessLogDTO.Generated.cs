@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ProductPurchaseBusTaskProcessLogDTO() {
         }
 
-        public ProductPurchaseBusTaskProcessLogDTO(global::System.Guid productPurchaseProductTaskID, global::System.Guid productPurchaseID, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.DateTime createdOn, bool isComplete, string processMessage, string processDetail, global::System.Nullable<System.Guid> productBusTaskID, bool hasError, global::System.Nullable<System.Guid> parentID, int numberOfRetries, ProductBusTaskDTO productBusTask, ProductPurchaseDTO productPurchase, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs, List<LRDocumentDTO> lRDocuments, List<LRRegisterExtractDTO> lRRegisterExtracts, List<LRTitleDTO> lRTitles) {
+        public ProductPurchaseBusTaskProcessLogDTO(global::System.Guid productPurchaseProductTaskID, global::System.Guid productPurchaseID, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.DateTime createdOn, bool isComplete, string processMessage, string processDetail, global::System.Nullable<System.Guid> productBusTaskID, bool hasError, global::System.Nullable<System.Guid> parentID, int numberOfRetries, ProductBusTaskDTO productBusTask, ProductPurchaseDTO productPurchase, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, List<ServiceInterfaceProcessLogDTO> serviceInterfaceProcessLogs) {
 
           this.ProductPurchaseProductTaskID = productPurchaseProductTaskID;
           this.ProductPurchaseID = productPurchaseID;
@@ -42,9 +42,6 @@ namespace Bec.TargetFramework.Entities
           this.StatusType = statusType;
           this.StatusTypeValue = statusTypeValue;
           this.ServiceInterfaceProcessLogs = serviceInterfaceProcessLogs;
-          this.LRDocuments = lRDocuments;
-          this.LRRegisterExtracts = lRRegisterExtracts;
-          this.LRTitles = lRTitles;
         }
 
         #endregion
@@ -108,15 +105,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ServiceInterfaceProcessLogDTO> ServiceInterfaceProcessLogs { get; set; }
-
-        [DataMember]
-        public List<LRDocumentDTO> LRDocuments { get; set; }
-
-        [DataMember]
-        public List<LRRegisterExtractDTO> LRRegisterExtracts { get; set; }
-
-        [DataMember]
-        public List<LRTitleDTO> LRTitles { get; set; }
 
         #endregion
     }

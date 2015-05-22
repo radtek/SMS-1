@@ -14,13 +14,14 @@ namespace Bec.TargetFramework.Business.Services
 {
     using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.WCF.Exception;
+using Bec.TargetFramework.SB.NotificationServices.Report;
 
     [WcfGlobalExceptionOperationBehaviorAttribute(typeof(WcfGlobalErrorHandler))]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class NotificationLogicService : NotificationLogic, INotificationLogic, IBusinessLogicService
     {
-        public NotificationLogicService(ILogger logger, ICacheProvider cacheProvider) 
-            : base(logger, cacheProvider)
+        public NotificationLogicService(ILogger logger, ICacheProvider cacheProvider, StandaloneReportGenerator reportGenerator) 
+            : base(logger, cacheProvider, reportGenerator)
         {
         }
 

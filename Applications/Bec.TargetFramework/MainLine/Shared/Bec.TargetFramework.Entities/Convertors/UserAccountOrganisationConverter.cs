@@ -58,7 +58,6 @@ namespace Bec.TargetFramework.Entities
               target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
               target.Invoices = source.Invoices.ToDtosWithRelated(level - 1);
               target.Contact = source.Contact.ToDtoWithRelated(level - 1);
-              target.StsSearches = source.StsSearches.ToDtosWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
             }
 

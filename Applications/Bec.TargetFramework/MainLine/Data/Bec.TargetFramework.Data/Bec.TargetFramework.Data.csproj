@@ -219,9 +219,6 @@
     <Compile Include="TargetFramework.LegalOrganisationDetail.cs" />
     <Compile Include="TargetFramework.LinkedAccount.cs" />
     <Compile Include="TargetFramework.LinkedAccountClaim.cs" />
-    <Compile Include="TargetFramework.LRDocument.cs" />
-    <Compile Include="TargetFramework.LRRegisterExtract.cs" />
-    <Compile Include="TargetFramework.LRTitle.cs" />
     <Compile Include="TargetFramework.Module.cs" />
     <Compile Include="TargetFramework.ModuleArtefact.cs" />
     <Compile Include="TargetFramework.ModuleArtefactTemplate.cs" />
@@ -421,12 +418,6 @@
     <Compile Include="TargetFramework.StatusTypeValue.cs" />
     <Compile Include="TargetFramework.StatusTypeValueTemplate.cs" />
     <Compile Include="TargetFramework.Structure.cs" />
-    <Compile Include="TargetFramework.StsInvite.cs" />
-    <Compile Include="TargetFramework.StsInviteProcessLog.cs" />
-    <Compile Include="TargetFramework.StsSearch.cs" />
-    <Compile Include="TargetFramework.StsSearchDetail.cs" />
-    <Compile Include="TargetFramework.StsSearchProcessLog.cs" />
-    <Compile Include="TargetFramework.StsSearchRelation.cs" />
     <Compile Include="TargetFramework.Subscription.cs" />
     <Compile Include="TargetFramework.TargetFrameworkEntities.cs" />
     <Compile Include="TargetFramework.TaxRate.cs" />
@@ -479,6 +470,7 @@
     <Compile Include="TargetFramework.VNotificationConstruct.cs" />
     <Compile Include="TargetFramework.VNotificationConstructGroup.cs" />
     <Compile Include="TargetFramework.VNotificationConstructGroupNotificationConstruct.cs" />
+    <Compile Include="TargetFramework.VNotificationInternalUnread.cs" />
     <Compile Include="TargetFramework.VNotificationRecipientStatus.cs" />
     <Compile Include="TargetFramework.VNotificationWithUAOVerificationCode.cs" />
     <Compile Include="TargetFramework.VOrganisation.cs" />

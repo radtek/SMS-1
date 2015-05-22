@@ -101,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\StsLogicService.cs" />
-    <Compile Include="Services\LRLogicService.cs" />
     <Compile Include="Services\ValidationLogicService.cs" />
     <Compile Include="Services\ExperianBWALogicService.cs" />
     <Compile Include="Services\InvoiceLogicService.cs" />

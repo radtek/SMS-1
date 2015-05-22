@@ -23,13 +23,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         IUserLogicClient m_UserLogicClient;
         private CommonSettings m_CommonSettings;
         IOrganisationLogicClient m_OrgLogicClient;
-        public RegisterController(AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient)
+        INotificationLogicClient m_NotificationLogicClient;
+        public RegisterController(AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient, INotificationLogicClient nClient)
         {
             this.authSvc = authSvc;
 
             m_UserLogicClient = userClient;
             m_CommonSettings = cSettings;
             m_OrgLogicClient = orgClient;
+            m_NotificationLogicClient = nClient;
         }
 
         public ActionResult Index()
@@ -59,8 +61,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            var uaDTO = m_UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
-            var userAccountOrg = m_UserLogicClient.GetUserAccountOrganisation(uaDTO.ID).Single();
+            var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
+            var userAccountOrg = m_UserLogicClient.GetUserAccountOrganisation(userObject.UserID).Single();
             if (model.Pin != userAccountOrg.Organisation.CompanyPinCode)
             {
                 //increment invalid pin count.
@@ -86,7 +88,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             LoginController.logout(this, authSvc);
             var ua = m_UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
-            await LoginController.login(this, ua, authSvc, m_UserLogicClient);
+            await LoginController.login(this, ua, authSvc, m_UserLogicClient, m_NotificationLogicClient);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 

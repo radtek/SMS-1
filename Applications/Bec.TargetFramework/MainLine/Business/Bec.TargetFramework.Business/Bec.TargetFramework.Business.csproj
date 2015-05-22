@@ -166,9 +166,7 @@
     <Compile Include="Extensions\InvoiceHelper.cs" />
     <Compile Include="Extensions\ExperianHelper.cs" />
     <Compile Include="Logic\Helper\SRAValidationEnum.cs" />
-    <Compile Include="Logic\InviteLogic.cs" />
     <Compile Include="Logic\StsLogic.cs" />
-    <Compile Include="Logic\LRLogic.cs" />
     <Compile Include="Logic\OtherNameDTO.cs" />
     <Compile Include="Logic\SubscriptionLogic.cs" />
     <Compile Include="Logic\ValidationLogic .cs" />

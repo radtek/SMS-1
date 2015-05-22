@@ -730,17 +730,8 @@
       <DependentUpon>LinkedAccountDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\LRDocumentDTO.cs" />
-    <Compile Include="Boo\LRDocumentDTO.Generated.cs">
-      <DependentUpon>LRDocumentDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\LRRegisterExtractDTO.cs" />
-    <Compile Include="Boo\LRRegisterExtractDTO.Generated.cs">
-      <DependentUpon>LRRegisterExtractDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\LRTitleDTO.cs" />
-    <Compile Include="Boo\LRTitleDTO.Generated.cs">
-      <DependentUpon>LRTitleDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ManufacturerDTO.cs" />
     <Compile Include="Boo\ModuleArtefactDTO.cs" />
     <Compile Include="Boo\ModuleArtefactDTO.Generated.cs">
@@ -1632,13 +1623,7 @@
       <DependentUpon>StructureDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\StsInviteDTO.cs" />
-    <Compile Include="Boo\StsInviteDTO.Generated.cs">
-      <DependentUpon>StsInviteDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsInviteProcessLogDTO.cs" />
-    <Compile Include="Boo\StsInviteProcessLogDTO.Generated.cs">
-      <DependentUpon>StsInviteProcessLogDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsPropertyDTO.cs" />
     <Compile Include="Boo\StsSearchAccountDTO.cs" />
     <Compile Include="Boo\StsSearchAccountIDDocumentDTO.cs" />
@@ -1648,23 +1633,11 @@
     <Compile Include="Boo\StsSearchActorProcessLogDTO.cs" />
     <Compile Include="Boo\StsSearchActorStructureDTO.cs" />
     <Compile Include="Boo\StsSearchDetailDTO.cs" />
-    <Compile Include="Boo\StsSearchDetailDTO.Generated.cs">
-      <DependentUpon>StsSearchDetailDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchDTO.cs" />
-    <Compile Include="Boo\StsSearchDTO.Generated.cs">
-      <DependentUpon>StsSearchDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchLRDocumentOrderDTO.cs" />
     <Compile Include="Boo\StsSearchProcessLogDTO.cs" />
-    <Compile Include="Boo\StsSearchProcessLogDTO.Generated.cs">
-      <DependentUpon>StsSearchProcessLogDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\StsSearchPropertyDTO.cs" />
     <Compile Include="Boo\StsSearchRelationDTO.cs" />
-    <Compile Include="Boo\StsSearchRelationDTO.Generated.cs">
-      <DependentUpon>StsSearchRelationDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\SubscriptionDTO.cs" />
     <Compile Include="Boo\SubscriptionDTO.Generated.cs">
       <DependentUpon>SubscriptionDTO.cs</DependentUpon>
@@ -1888,6 +1861,10 @@
     <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.cs" />
     <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.Generated.cs">
       <DependentUpon>VNotificationConstructGroupNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationInternalUnreadDTO.cs" />
+    <Compile Include="Boo\VNotificationInternalUnreadDTO.Generated.cs">
+      <DependentUpon>VNotificationInternalUnreadDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationRecipientStatusDTO.cs" />
     <Compile Include="Boo\VNotificationRecipientStatusDTO.Generated.cs">
@@ -2592,9 +2569,6 @@
     <Compile Include="Convertors\LegalOrganisationDetailConverter.cs" />
     <Compile Include="Convertors\LinkedAccountClaimConverter.cs" />
     <Compile Include="Convertors\LinkedAccountConverter.cs" />
-    <Compile Include="Convertors\LRDocumentConverter.cs" />
-    <Compile Include="Convertors\LRRegisterExtractConverter.cs" />
-    <Compile Include="Convertors\LRTitleConverter.cs" />
     <Compile Include="Convertors\ModuleArtefactConverter.cs" />
     <Compile Include="Convertors\ModuleArtefactTemplateConverter.cs" />
     <Compile Include="Convertors\ModuleClaimConverter.cs" />
@@ -2794,12 +2768,6 @@
     <Compile Include="Convertors\StatusTypeValueConverter.cs" />
     <Compile Include="Convertors\StatusTypeValueTemplateConverter.cs" />
     <Compile Include="Convertors\StructureConverter.cs" />
-    <Compile Include="Convertors\StsInviteConverter.cs" />
-    <Compile Include="Convertors\StsInviteProcessLogConverter.cs" />
-    <Compile Include="Convertors\StsSearchConverter.cs" />
-    <Compile Include="Convertors\StsSearchDetailConverter.cs" />
-    <Compile Include="Convertors\StsSearchProcessLogConverter.cs" />
-    <Compile Include="Convertors\StsSearchRelationConverter.cs" />
     <Compile Include="Convertors\SubscriptionConverter.cs" />
     <Compile Include="Convertors\TaxRateConverter.cs" />
     <Compile Include="Convertors\TaxRateTemplateConverter.cs" />
@@ -2851,6 +2819,7 @@
     <Compile Include="Convertors\VNotificationConstructConverter.cs" />
     <Compile Include="Convertors\VNotificationConstructGroupConverter.cs" />
     <Compile Include="Convertors\VNotificationConstructGroupNotificationConstructConverter.cs" />
+    <Compile Include="Convertors\VNotificationInternalUnreadConverter.cs" />
     <Compile Include="Convertors\VNotificationRecipientStatusConverter.cs" />
     <Compile Include="Convertors\VNotificationWithUAOVerificationCodeConverter.cs" />
     <Compile Include="Convertors\VOrganisationCheckoutDiscountConverter.cs" />
@@ -3007,6 +2976,7 @@
     <Compile Include="DTO\LR\LRServiceResponseStatusDTO.cs" />
     <Compile Include="DTO\NextStepsDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
+    <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ColpNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\NotificationRenderDTO.cs" />

@@ -50,9 +50,6 @@ namespace Bec.TargetFramework.Entities
               target.StatusType = source.StatusType.ToDtoWithRelated(level - 1);
               target.StatusTypeValue = source.StatusTypeValue.ToDtoWithRelated(level - 1);
               target.ServiceInterfaceProcessLogs = source.ServiceInterfaceProcessLogs.ToDtosWithRelated(level - 1);
-              target.LRDocuments = source.LRDocuments.ToDtosWithRelated(level - 1);
-              target.LRRegisterExtracts = source.LRRegisterExtracts.ToDtosWithRelated(level - 1);
-              target.LRTitles = source.LRTitles.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

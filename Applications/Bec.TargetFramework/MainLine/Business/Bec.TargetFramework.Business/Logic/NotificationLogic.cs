@@ -24,13 +24,17 @@ namespace Bec.TargetFramework.Business.Logic
     using Omu.ValueInjecter;
     using EnsureThat;
     using System.Web.Http;
+    using Bec.TargetFramework.SB.Entities;
+    using Bec.TargetFramework.SB.NotificationServices.Report;
 
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogic : LogicBase, INotificationLogic
     {
-        public NotificationLogic(ILogger logger, ICacheProvider cacheProvider)
+        StandaloneReportGenerator m_ReportGenerator;
+        public NotificationLogic(ILogger logger, ICacheProvider cacheProvider, StandaloneReportGenerator reportGenerator)
             : base(logger, cacheProvider)
         {
+            m_ReportGenerator = reportGenerator;
         }
 
         /// <summary>
@@ -271,6 +275,53 @@ namespace Bec.TargetFramework.Business.Logic
 
 
             return rdto;
+        }
+
+        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var results = scope.DbContext.VNotificationInternalUnreads.Where(x => x.UserID == accountID);
+
+                return VNotificationInternalUnreadConverter.ToDtos(results);
+            }
+        }
+
+        public NotificationResultDTO GetTcAndCsText(Guid accountID)
+        {
+            var unreadDTO = GetUnreadNotifications(accountID, "TcPublic").FirstOrDefault();
+            Ensure.That(unreadDTO).IsNotNull();
+            var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
+            string val = m_ReportGenerator.GetReportTextItem(construct, null, "TextContent");
+            return new NotificationResultDTO
+            {
+                NotificationID = unreadDTO.NotificationID,
+                NotificationConstructID = unreadDTO.NotificationConstructID,
+                NotificationConstructVersionNumber = unreadDTO.NotificationConstructVersionNumber,
+                Lines = val.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList()
+            };
+        }
+
+        public byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
+                return m_ReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+            }
+        }
+
+        public void MarkAccepted(Guid notificationID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            {
+                foreach(var nu in scope.DbContext.VNotificationInternalUnreads.Where(x => x.NotificationID == notificationID))
+                {
+                    var nr = scope.DbContext.NotificationRecipients.Single(x => x.NotificationRecipientID == nu.NotificationRecipientID);
+                    nr.IsAccepted = true;
+                }
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
         }
     }
 }

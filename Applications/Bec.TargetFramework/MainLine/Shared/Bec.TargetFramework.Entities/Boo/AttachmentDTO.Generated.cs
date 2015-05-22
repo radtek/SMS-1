@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public AttachmentDTO() {
         }
 
-        public AttachmentDTO(global::System.Guid attachmentID, string mimeType, byte[] body, string subject, string fileName, global::System.Nullable<int> fileSize, global::System.Guid attachmentDetailID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, AttachmentDetailDTO attachmentDetail, List<LRDocumentDTO> lRDocuments) {
+        public AttachmentDTO(global::System.Guid attachmentID, string mimeType, byte[] body, string subject, string fileName, global::System.Nullable<int> fileSize, global::System.Guid attachmentDetailID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, AttachmentDetailDTO attachmentDetail) {
 
           this.AttachmentID = attachmentID;
           this.MimeType = mimeType;
@@ -35,7 +35,6 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.ParentID = parentID;
           this.AttachmentDetail = attachmentDetail;
-          this.LRDocuments = lRDocuments;
         }
 
         #endregion
@@ -78,9 +77,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public AttachmentDetailDTO AttachmentDetail { get; set; }
-
-        [DataMember]
-        public List<LRDocumentDTO> LRDocuments { get; set; }
 
         #endregion
     }

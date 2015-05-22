@@ -14,16 +14,11 @@
     <!-- end projects dropdown -->
     }
     <section id="top-right">
-        @if (@Model is HelperResult)
-        {
-            @Model
-        }
-        else
-        {
+        
             <div class="pull-right">
                 @Html.Partial("_TopRight")
             </div>
-        }
+        
     </section>
 </header>
 <!-- END HEADER -->

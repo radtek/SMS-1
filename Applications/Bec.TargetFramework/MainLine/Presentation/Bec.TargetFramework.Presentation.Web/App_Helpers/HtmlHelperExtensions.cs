@@ -149,5 +149,16 @@ namespace Bec.TargetFramework.Presentation.Web
 
             return new HtmlString(sb.ToString());
         }
+
+        public static bool RouteMatches(this HtmlHelper helper, string controller, string action)
+        {
+            var currentController = (helper.ViewContext.RequestContext.RouteData.Values["controller"] ?? string.Empty).ToString().UnDash();
+            var currentAction = (helper.ViewContext.RequestContext.RouteData.Values["action"] ?? string.Empty).ToString().UnDash();
+
+            var hasController = controller.Equals(currentController, StringComparison.InvariantCultureIgnoreCase);
+            var hasAction = action.Equals(currentAction, StringComparison.InvariantCultureIgnoreCase);
+
+            return hasAction && hasController;
+        }
     }
 }

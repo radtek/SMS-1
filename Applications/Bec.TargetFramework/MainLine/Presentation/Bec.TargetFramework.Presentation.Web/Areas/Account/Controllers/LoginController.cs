@@ -36,6 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         private ILogger logger;
         private CommonSettings m_CommonSettings;
         IOrganisationLogicClient m_OrgLogicClient;
+        INotificationLogicClient m_NotificationLogicClient;
 
         protected override void OnException(ExceptionContext filterContext)
         {
@@ -45,7 +46,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             filterContext.Result = res;
         }
 
-        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient)
+        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient, INotificationLogicClient nClient)
         {
             this.logger = logger;
 
@@ -54,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             m_UserLogicClient = userClient;
             m_CommonSettings = cSettings;
             m_OrgLogicClient = orgClient;
+            m_NotificationLogicClient = nClient;
         }
 
         [AllowAnonymous]
@@ -109,7 +111,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     var ua = new BrockAllen.MembershipReboot.UserAccount();
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
-                    await login(this, ua, authSvc, m_UserLogicClient);
+                    await login(this, ua, authSvc, m_UserLogicClient, m_NotificationLogicClient);
 
                     if (ua.IsTemporaryAccount)
                         return RedirectToAction("Index", "Register", new { area = "Account" });
@@ -121,11 +123,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             return View(model);
         }
 
-        internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc)
+        internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc)
         {
             List<Claim> additionalClaims = await GenerateUserClaims(ua.ID, ulc);
             asvc.SignIn(ua, false, additionalClaims);
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua);
+            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, "TcPublic")).Count > 0;
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }
 

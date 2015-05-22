@@ -39,6 +39,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     using System.Configuration;
     using Bec.TargetFramework.Infrastructure.IOC;
     using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.SB.NotificationServices.Report;
 
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
@@ -89,6 +90,10 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new UserLogicService(c.Resolve<UserAccountService>()
                            , c.Resolve<AuthenticationService>(), c.Resolve<IDataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>())).As<IUserLogic>();
 
+            builder.Register(c => new NotificationLogicService(c.Resolve<ILogger>()
+                          , c.Resolve<ICacheProvider>()
+                          , c.Resolve<StandaloneReportGenerator>())).As<INotificationLogic>();
+
             // reference first to load assemblies
             builder.Register(c => new OrganisationLogicService(c.Resolve<UserAccountService>()
                             , c.Resolve<AuthenticationService>()
@@ -97,7 +102,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                             , c.Resolve<CommonSettings>(), 
                             c.Resolve<IUserLogic>(), 
                             c.Resolve<IDataLogic>(),
-                            c.Resolve<Bec.TargetFramework.SB.Interfaces.IEventPublishClient>())).As<IOrganisationLogic>();
+                            c.Resolve<Bec.TargetFramework.SB.Interfaces.IEventPublishClient>(),
+                            c.Resolve<INotificationLogic>())).As<IOrganisationLogic>();
 
             builder.Register(c => new ProductLogicService( c.Resolve<ILogger>()
                             , c.Resolve<ICacheProvider>(),c.Resolve<DeductionLogic>())).As<IProductLogic>();
@@ -109,7 +115,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                 .Where(s => s.FullName.Contains("Bec.TargetFramework"))
                 .SelectMany(s => s.GetTypes())
                 .Where(p => !p.IsInterface && !p.Name.Contains("BusLogic") && p.Name.Contains("LogicService") && !p.Name.Contains("OrganisationLogic") && !p.Name.Contains("InvoiceLogic") && !p.Name.Contains("ProductLogic") && !p.Name.Contains("PaymentLogic") && !p.Name.Contains("ShoppingCartLogic")
-                 && !p.Name.Contains("TransactionOrderLogic") && !p.Name.Contains("UserLogic") && !p.Name.StartsWith("DataLogic") && !p.Name.StartsWith("ExperianIDCheckLogic"))
+                 && !p.Name.Contains("TransactionOrderLogic") && !p.Name.Contains("UserLogic") && !p.Name.Contains("NotificationLogic") && !p.Name.StartsWith("DataLogic") && !p.Name.StartsWith("ExperianIDCheckLogic"))
                 .ToList().ForEach(item =>
                 {
                     // check type implements interface
@@ -151,12 +157,13 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new PaymentLogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<PaymentSettings>())).As<IPaymentLogic>();
 
-           
             builder.Register(c => new ExperianIDCheckLogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianIDCheckLogic>();
 
             builder.Register(c => new ExperianBWALogicService(c.Resolve<ILogger>()
                            , c.Resolve<ICacheProvider>(), c.Resolve<ExperianIDCheckSettings>())).As<IExperianBWALogic>();
+
+            builder.Register(c => new StandaloneReportGenerator()).As<StandaloneReportGenerator>();
 
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
