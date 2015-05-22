@@ -45,21 +45,22 @@ namespace Bec.TargetFramework.Entities
             target.ParentID = source.ParentID;
 
             // Navigation Properties
-            //if (level > 0) {
-            //  target.OrganisationUnit = source.OrganisationUnit.ToDtoWithRelated(level - 1);
-            //  target.UserType = source.UserType.ToDtoWithRelated(level - 1);
-            //  target.UserAccount = source.UserAccount.ToDtoWithRelated(level - 1);
-            //  target.UserAccountOrganisationTeams = source.UserAccountOrganisationTeams.ToDtosWithRelated(level - 1);
-            //  target.UserAccountOrganisationRoles = source.UserAccountOrganisationRoles.ToDtosWithRelated(level - 1);
-            //  target.UserAccountOrganisationGroups = source.UserAccountOrganisationGroups.ToDtosWithRelated(level - 1);
-            //  target.UserAccountOrganisationStatus = source.UserAccountOrganisationStatus.ToDtosWithRelated(level - 1);
-            //  target.WorkflowInstanceRestrictions = source.WorkflowInstanceRestrictions.ToDtosWithRelated(level - 1);
-            //  target.NotificationRecipients = source.NotificationRecipients.ToDtosWithRelated(level - 1);
-            //  target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
-            //  target.Invoices = source.Invoices.ToDtosWithRelated(level - 1);
-            //  target.Contact = source.Contact.ToDtoWithRelated(level - 1);
-            //  target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
-            //}
+            if (level > 0)
+            {
+                target.OrganisationUnit = source.OrganisationUnit.ToDtoWithRelated(level - 1);
+                target.UserType = source.UserType.ToDtoWithRelated(level - 1);
+                target.UserAccount = source.UserAccount.ToDtoWithRelated(level - 1);
+                target.UserAccountOrganisationTeams = source.UserAccountOrganisationTeams.ToDtosWithRelated(level - 1);
+                target.UserAccountOrganisationRoles = source.UserAccountOrganisationRoles.ToDtosWithRelated(level - 1);
+                target.UserAccountOrganisationGroups = source.UserAccountOrganisationGroups.ToDtosWithRelated(level - 1);
+                target.UserAccountOrganisationStatus = source.UserAccountOrganisationStatus.ToDtosWithRelated(level - 1);
+                target.WorkflowInstanceRestrictions = source.WorkflowInstanceRestrictions.ToDtosWithRelated(level - 1);
+                target.NotificationRecipients = source.NotificationRecipients.ToDtosWithRelated(level - 1);
+                target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
+               
+                target.Contact = source.Contact.ToDtoWithRelated(level - 1);
+                target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+            }
 
             // User-defined partial method
             OnDtoCreating(source, target);

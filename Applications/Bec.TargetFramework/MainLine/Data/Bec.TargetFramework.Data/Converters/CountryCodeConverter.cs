@@ -34,18 +34,19 @@ namespace Bec.TargetFramework.Entities
             target.CurrencyCode = source.CurrencyCode;
 
             // Navigation Properties
-            //if (level > 0) {
-            //  target.PlanTemplates = source.PlanTemplates.ToDtosWithRelated(level - 1);
-            //  target.InvoiceLineItems = source.InvoiceLineItems.ToDtosWithRelated(level - 1);
-            //  target.Plans = source.Plans.ToDtosWithRelated(level - 1);
-            //  target.Invoices = source.Invoices.ToDtosWithRelated(level - 1);
-            //  target.PlanSubscriptions = source.PlanSubscriptions.ToDtosWithRelated(level - 1);
-            //  target.CountryDeductions = source.CountryDeductions.ToDtosWithRelated(level - 1);
-            //  target.CountryDeductionTemplates = source.CountryDeductionTemplates.ToDtosWithRelated(level - 1);
-            //  target.CurrencyCode1 = source.CurrencyCode1.ToDtoWithRelated(level - 1);
-            //  target.ContactPhones = source.ContactPhones.ToDtosWithRelated(level - 1);
-            //  target.Addresses = source.Addresses.ToDtosWithRelated(level - 1);
-            //}
+            if (level > 0)
+            {
+                target.PlanTemplates = source.PlanTemplates.ToDtosWithRelated(level - 1);
+                target.InvoiceLineItems = source.InvoiceLineItems.ToDtosWithRelated(level - 1);
+                target.Plans = source.Plans.ToDtosWithRelated(level - 1);
+               
+                target.PlanSubscriptions = source.PlanSubscriptions.ToDtosWithRelated(level - 1);
+                target.CountryDeductions = source.CountryDeductions.ToDtosWithRelated(level - 1);
+                target.CountryDeductionTemplates = source.CountryDeductionTemplates.ToDtosWithRelated(level - 1);
+                target.CurrencyCode1 = source.CurrencyCode1.ToDtoWithRelated(level - 1);
+                target.ContactPhones = source.ContactPhones.ToDtosWithRelated(level - 1);
+                target.Addresses = source.Addresses.ToDtosWithRelated(level - 1);
+            }
 
             // User-defined partial method
             OnDtoCreating(source, target);

@@ -57,46 +57,47 @@ namespace Bec.TargetFramework.Entities
             target.PinAttempts = source.PinAttempts;
 
             // Navigation Properties
-            //if (level > 0) {
-            //  target.Contact = source.Contact.ToDtoWithRelated(level - 1);
-            //  target.DefaultOrganisation = source.DefaultOrganisation.ToDtoWithRelated(level - 1);
-            //  target.OrganisationType = source.OrganisationType.ToDtoWithRelated(level - 1);
-            //  target.AttachmentDetails = source.AttachmentDetails.ToDtosWithRelated(level - 1);
-            //  target.Discounts = source.Discounts.ToDtosWithRelated(level - 1);
-            //  target.Invoices = source.Invoices.ToDtosWithRelated(level - 1);
-            //  target.OrganisationInsuranceDetails = source.OrganisationInsuranceDetails.ToDtosWithRelated(level - 1);
-            //  target.NotificationConstructTemplates = source.NotificationConstructTemplates.ToDtosWithRelated(level - 1);
-            //  target.OrganisationDetails = source.OrganisationDetails.ToDtosWithRelated(level - 1);
-            //  target.OrganisationLedgerAccounts = source.OrganisationLedgerAccounts.ToDtosWithRelated(level - 1);
-            //  target.OrganisationDirectDebitMandates = source.OrganisationDirectDebitMandates.ToDtosWithRelated(level - 1);
-            //  target.OrganisationFinancialDetails = source.OrganisationFinancialDetails.ToDtosWithRelated(level - 1);
-            //  target.OrganisationBankAccounts = source.OrganisationBankAccounts.ToDtosWithRelated(level - 1);
-            //  target.OrganisationAccountingPeriods = source.OrganisationAccountingPeriods.ToDtosWithRelated(level - 1);
-            //  target.OrganisationArtefacts = source.OrganisationArtefacts.ToDtosWithRelated(level - 1);
-            //  target.OrganisationDiscounts = source.OrganisationDiscounts.ToDtosWithRelated(level - 1);
-            //  target.OrganisationPaymentMethods = source.OrganisationPaymentMethods.ToDtosWithRelated(level - 1);
-            //  target.OrganisationStatus = source.OrganisationStatus.ToDtosWithRelated(level - 1);
-            //  target.OrganisationTradingNames = source.OrganisationTradingNames.ToDtosWithRelated(level - 1);
-            //  target.OrganisationRoles = source.OrganisationRoles.ToDtosWithRelated(level - 1);
-            //  target.OrganisationSettings = source.OrganisationSettings.ToDtosWithRelated(level - 1);
-            //  target.OrganisationStructures = source.OrganisationStructures.ToDtosWithRelated(level - 1);
-            //  target.OrganisationProductPurchases = source.OrganisationProductPurchases.ToDtosWithRelated(level - 1);
-            //  target.OrganisationPlanSubscriptions = source.OrganisationPlanSubscriptions.ToDtosWithRelated(level - 1);
-            //  target.OrganisationShoppingCartBlueprints = source.OrganisationShoppingCartBlueprints.ToDtosWithRelated(level - 1);
-            //  target.OrganisationStatusTypes = source.OrganisationStatusTypes.ToDtosWithRelated(level - 1);
-            //  target.OrganisationTeams = source.OrganisationTeams.ToDtosWithRelated(level - 1);
-            //  target.OrganisationUserTypes = source.OrganisationUserTypes.ToDtosWithRelated(level - 1);
-            //  target.OrganisationWorkflows = source.OrganisationWorkflows.ToDtosWithRelated(level - 1);
-            //  target.PlanSubscriptions = source.PlanSubscriptions.ToDtosWithRelated(level - 1);
-            //  target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
-            //  target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);
-            //  target.OrganisationUnits = source.OrganisationUnits.ToDtosWithRelated(level - 1);
-            //  target.OrganisationUnitStructures = source.OrganisationUnitStructures.ToDtosWithRelated(level - 1);
-            //  target.Accounts_ContactOrganisationID = source.Accounts_ContactOrganisationID.ToDtosWithRelated(level - 1);
-            //  target.Accounts_ParentOrganisationID = source.Accounts_ParentOrganisationID.ToDtosWithRelated(level - 1);
-            //  target.OrganisationGroups = source.OrganisationGroups.ToDtosWithRelated(level - 1);
-            //  target.OrganisationRoleClaims = source.OrganisationRoleClaims.ToDtosWithRelated(level - 1);
-            //}
+            if (level > 0)
+            {
+                target.Contact = source.Contact.ToDtoWithRelated(level - 1);
+                target.DefaultOrganisation = source.DefaultOrganisation.ToDtoWithRelated(level - 1);
+                target.OrganisationType = source.OrganisationType.ToDtoWithRelated(level - 1);
+                target.AttachmentDetails = source.AttachmentDetails.ToDtosWithRelated(level - 1);
+                target.Discounts = source.Discounts.ToDtosWithRelated(level - 1);
+               
+                target.OrganisationInsuranceDetails = source.OrganisationInsuranceDetails.ToDtosWithRelated(level - 1);
+                target.NotificationConstructTemplates = source.NotificationConstructTemplates.ToDtosWithRelated(level - 1);
+                target.OrganisationDetails = source.OrganisationDetails.ToDtosWithRelated(level - 1);
+                target.OrganisationLedgerAccounts = source.OrganisationLedgerAccounts.ToDtosWithRelated(level - 1);
+                target.OrganisationDirectDebitMandates = source.OrganisationDirectDebitMandates.ToDtosWithRelated(level - 1);
+                target.OrganisationFinancialDetails = source.OrganisationFinancialDetails.ToDtosWithRelated(level - 1);
+                target.OrganisationBankAccounts = source.OrganisationBankAccounts.ToDtosWithRelated(level - 1);
+                target.OrganisationAccountingPeriods = source.OrganisationAccountingPeriods.ToDtosWithRelated(level - 1);
+                target.OrganisationArtefacts = source.OrganisationArtefacts.ToDtosWithRelated(level - 1);
+                target.OrganisationDiscounts = source.OrganisationDiscounts.ToDtosWithRelated(level - 1);
+                target.OrganisationPaymentMethods = source.OrganisationPaymentMethods.ToDtosWithRelated(level - 1);
+                target.OrganisationStatus = source.OrganisationStatus.ToDtosWithRelated(level - 1);
+                target.OrganisationTradingNames = source.OrganisationTradingNames.ToDtosWithRelated(level - 1);
+                target.OrganisationRoles = source.OrganisationRoles.ToDtosWithRelated(level - 1);
+                target.OrganisationSettings = source.OrganisationSettings.ToDtosWithRelated(level - 1);
+                target.OrganisationStructures = source.OrganisationStructures.ToDtosWithRelated(level - 1);
+                target.OrganisationProductPurchases = source.OrganisationProductPurchases.ToDtosWithRelated(level - 1);
+                target.OrganisationPlanSubscriptions = source.OrganisationPlanSubscriptions.ToDtosWithRelated(level - 1);
+                target.OrganisationShoppingCartBlueprints = source.OrganisationShoppingCartBlueprints.ToDtosWithRelated(level - 1);
+                target.OrganisationStatusTypes = source.OrganisationStatusTypes.ToDtosWithRelated(level - 1);
+                target.OrganisationTeams = source.OrganisationTeams.ToDtosWithRelated(level - 1);
+                target.OrganisationUserTypes = source.OrganisationUserTypes.ToDtosWithRelated(level - 1);
+                target.OrganisationWorkflows = source.OrganisationWorkflows.ToDtosWithRelated(level - 1);
+                target.PlanSubscriptions = source.PlanSubscriptions.ToDtosWithRelated(level - 1);
+                target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
+                target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);
+                target.OrganisationUnits = source.OrganisationUnits.ToDtosWithRelated(level - 1);
+                target.OrganisationUnitStructures = source.OrganisationUnitStructures.ToDtosWithRelated(level - 1);
+                target.Accounts_ContactOrganisationID = source.Accounts_ContactOrganisationID.ToDtosWithRelated(level - 1);
+                target.Accounts_ParentOrganisationID = source.Accounts_ParentOrganisationID.ToDtosWithRelated(level - 1);
+                target.OrganisationGroups = source.OrganisationGroups.ToDtosWithRelated(level - 1);
+                target.OrganisationRoleClaims = source.OrganisationRoleClaims.ToDtosWithRelated(level - 1);
+            }
 
             // User-defined partial method
             OnDtoCreating(source, target);
