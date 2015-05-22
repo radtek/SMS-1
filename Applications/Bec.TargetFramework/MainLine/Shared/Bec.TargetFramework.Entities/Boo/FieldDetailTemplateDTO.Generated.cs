@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public FieldDetailTemplateDTO() {
         }
 
-        public FieldDetailTemplateDTO(global::System.Guid fieldDetailTemplateID, string name, string description, string fieldLabelValue, string defaultValue, bool isActive, bool isDeleted, string toolTipValue, string toolTipHTML, bool toolTipIsHTML, string informationValue, string informationHTML, bool informationIsHTML, string helpValue, string helpHTML, bool helpIsHTML, bool isSecuredByClaim, bool isGlobal, global::System.Nullable<int> fieldTypeID, global::System.Nullable<int> iconAlignmentTypeID, string iconFileName, global::System.Nullable<bool> isGridColumn, string fieldMask, List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> interfacePanelFieldDetailOrganaisationTypeTemplates, List<InterfacePanelFieldDetailTemplateDTO> interfacePanelFieldDetailTemplates, List<FieldDetailDTO> fieldDetails, List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> interfacePanelFDOrganaisationTypeUserTypeTemplates) {
+        public FieldDetailTemplateDTO(global::System.Guid fieldDetailTemplateID, string name, string description, string fieldLabelValue, string defaultValue, bool isActive, bool isDeleted, string toolTipValue, string toolTipHTML, bool toolTipIsHTML, string informationValue, string informationHTML, bool informationIsHTML, string helpValue, string helpHTML, bool helpIsHTML, bool isSecuredByClaim, bool isGlobal, global::System.Nullable<int> fieldTypeID, global::System.Nullable<int> iconAlignmentTypeID, string iconFileName, global::System.Nullable<bool> isGridColumn, string fieldMask, List<FieldDetailDTO> fieldDetails) {
 
           this.FieldDetailTemplateID = fieldDetailTemplateID;
           this.Name = name;
@@ -47,10 +47,7 @@ namespace Bec.TargetFramework.Entities
           this.IconFileName = iconFileName;
           this.IsGridColumn = isGridColumn;
           this.FieldMask = fieldMask;
-          this.InterfacePanelFieldDetailOrganaisationTypeTemplates = interfacePanelFieldDetailOrganaisationTypeTemplates;
-          this.InterfacePanelFieldDetailTemplates = interfacePanelFieldDetailTemplates;
           this.FieldDetails = fieldDetails;
-          this.InterfacePanelFDOrganaisationTypeUserTypeTemplates = interfacePanelFDOrganaisationTypeUserTypeTemplates;
         }
 
         #endregion
@@ -131,16 +128,7 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> InterfacePanelFieldDetailOrganaisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailTemplateDTO> InterfacePanelFieldDetailTemplates { get; set; }
-
-        [DataMember]
         public List<FieldDetailDTO> FieldDetails { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> InterfacePanelFDOrganaisationTypeUserTypeTemplates { get; set; }
 
         #endregion
     }

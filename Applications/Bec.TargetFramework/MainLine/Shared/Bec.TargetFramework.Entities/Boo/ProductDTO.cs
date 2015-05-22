@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Bec.TargetFramework.Entities.DTO.Payment;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -82,7 +81,5 @@ namespace Bec.TargetFramework.Entities
          [DataMember]
          public List<VProductDeductionDTO> ProductDTODeductions { get; set; }
 
-         [DataMember]
-         public ProductPricingDTO ProductPricingDTO { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-
+﻿
 namespace Bec.TargetFramework.Entities
 {
 

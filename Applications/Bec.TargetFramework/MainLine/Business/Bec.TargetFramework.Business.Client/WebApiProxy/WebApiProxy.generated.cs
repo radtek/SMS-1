@@ -1635,17 +1635,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{			
 			if (response.IsSuccessStatusCode) return;
 
-            try
+            if(response.Content == null)
+                throw new NullReferenceException("HttpResponseMessage Content is null")
+            else
             {
-                var content = await response.Content.ReadAsAsync<HttpError>();
-                throw new Exception(content["ExceptionMessage"].ToString());
-            }
-            catch(Exception ex)
-            {
-                Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
+                try
+                {
+                    var content = await response.Content.ReadAsAsync<HttpError>();
+                    throw new Exception(content["ExceptionMessage"].ToString());
+                }
+                catch(Exception ex)
+                {
+                    Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
 
-                throw new Exception(incorrectMessageTask.Result, ex);
+                    throw new Exception(incorrectMessageTask.Result, ex);
+                }
             }
+
+            
 		}
 
 		/// <summary>

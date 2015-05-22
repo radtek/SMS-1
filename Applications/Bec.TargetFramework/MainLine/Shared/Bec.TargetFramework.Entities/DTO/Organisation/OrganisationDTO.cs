@@ -26,10 +26,6 @@ namespace Bec.TargetFramework.Entities
         public List<GroupDTO> SelectedGroups { get; set; }
         [DataMember]
         public List<RoleDTO> SelectedRoles { get; set; }
-        [DataMember]
-        public List<ExternalGroupTemplateDTO> SelectedExternalGroupTemplates { get; set; }
-        [DataMember]
-        public List<ExternalRoleTemplateDTO> SelectedExternalRoleTemplates { get; set; }
 
         [DataMember]
 

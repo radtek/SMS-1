@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(PermanentAccountDTOValidator))]
     [DataContract]
     [Serializable]
     public class PermanentAccountDTO

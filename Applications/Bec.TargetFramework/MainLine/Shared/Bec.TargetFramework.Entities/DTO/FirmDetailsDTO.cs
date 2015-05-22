@@ -10,17 +10,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(FirmDetailsDTOValidator))]
     [Serializable]
     [DataContract]
     [KnownType(typeof(List<ClientAccountDTO>))]
-    [KnownType(typeof(List<TradingNameDTO>))] 
+
     public class FirmDetailsDTO
     {
         public FirmDetailsDTO()
         {
             ClientAccounts = new List<ClientAccountDTO>();
-            TradingNames = new List<TradingNameDTO>();
         }
         [DataMember]
         [Required]
@@ -96,8 +94,7 @@ namespace Bec.TargetFramework.Entities
         public bool IsCOFinanceAndAdmin { get; set; }
         [DataMember]
         public List<ClientAccountDTO> ClientAccounts { get; set; }
-        [DataMember]
-        public List<TradingNameDTO> TradingNames { get; set; }
+
 
     }
     [Serializable]

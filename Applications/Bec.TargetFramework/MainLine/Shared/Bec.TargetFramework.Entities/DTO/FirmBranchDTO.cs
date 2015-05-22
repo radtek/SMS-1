@@ -13,7 +13,6 @@ using FluentValidation;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(FirmBranchDTOValidator))]
     [DataContract]
     [Serializable]
     public class FirmBranchDTO
