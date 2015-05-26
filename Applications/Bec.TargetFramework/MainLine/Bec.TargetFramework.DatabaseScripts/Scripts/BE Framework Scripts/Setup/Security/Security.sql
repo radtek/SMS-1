@@ -47,3 +47,11 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
   (select "ResourceID" from "Resource" where "ResourceName" = 'Company' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
   TRUE);
+
+    --org admin user claim
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'CompanyStructure' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),
+  TRUE);
