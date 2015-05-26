@@ -572,6 +572,10 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 //get current sys admin details to copy
                 orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(x=>x.OrganisationID == organisationId);
+
+                //check still in verified status
+                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                if (orgInfo.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot resend logins for a company of status '{0}'. Please go back and try again.", orgInfo.StatusValueName));
             }
 
             //generate new username & password

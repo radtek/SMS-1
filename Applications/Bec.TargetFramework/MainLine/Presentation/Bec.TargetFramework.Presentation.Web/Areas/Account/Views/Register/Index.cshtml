@@ -70,6 +70,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             sessionStorage.clear();
+            setTimeout(function () { window.location.replace('@Url.Action("SessionExpired", "Login", new { Area = "Account" })') }, 900000); //15 minutes
         });
 
         $(function () {
