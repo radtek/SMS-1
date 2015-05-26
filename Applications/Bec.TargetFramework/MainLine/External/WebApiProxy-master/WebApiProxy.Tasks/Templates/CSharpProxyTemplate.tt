@@ -21,6 +21,8 @@ using <#= Configuration.Namespace#>.Models;
 using <#= Configuration.EntitiesNamespace #>;
 using <#= Configuration.EnumsNamespace #>;
 using System.Web.Http;
+using BrockAllen.MembershipReboot;
+using ServiceStack.Text;
 
 #region Proxies
 namespace <#= Configuration.Namespace#>
@@ -136,8 +138,22 @@ namespace <#= Configuration.Namespace#>.Clients
 		{			
 			if (response.IsSuccessStatusCode) return;
 													
-			var content = await response.Content.ReadAsAsync<HttpError>();
-            throw new Exception(content["ExceptionMessage"].ToString());		
+			if (response.Content == null)
+                throw new NullReferenceException("HttpResponseMessage Content is null");
+            else
+            {
+                try
+                {
+                    var content = await response.Content.ReadAsAsync<HttpError>();
+                    throw new Exception(content["ExceptionMessage"].ToString());
+                }
+                catch (Exception ex)
+                {
+                    Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
+
+                    throw new Exception(incorrectMessageTask.Result, ex);
+                }
+            }		
 		}
 
 		/// <summary>
@@ -203,15 +219,15 @@ namespace <#= Configuration.Namespace#>.Clients
             return await response.ReadContentAsAsync<T>();
         }
 
-        private async Task<HttpResponseMessage> SendAsync<T>(string requestUri,HttpMethod method, string user, T value)
+        private async Task<HttpResponseMessage> SendAsync<T>(string requestUri, HttpMethod method, string user, T value)
         {
             var req = new HttpRequestMessage
             {
-                RequestUri = new Uri(requestUri),
+                RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),
                 Method = method
             };
             if (value != null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeHeaderValue)null);
-            if (user !=null) req.Headers.Add("User", user);
+            if (user != null) req.Headers.Add("User", user);
             return await HttpClient.SendAsync(req);
         }
 
@@ -321,6 +337,9 @@ namespace <#= Configuration.Namespace#>.Clients
 		/// <returns></returns>
 		public virtual async <#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= method.Name #>Async(<#= parameterList#>)
 		{
+<# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
+			<#=p.Name#> = <#=p.Name#>.UrlEncode();
+<# } #>
 			string _user = getHttpContextUser();
 			<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>return <#}#>await <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user);
 		}
@@ -333,6 +352,9 @@ namespace <#= Configuration.Namespace#>.Clients
 <# } #>
 		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= method.Name #>(<#= parameterList#>)
 		{
+<# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
+			<#=p.Name#> = <#=p.Name#>.UrlEncode();
+<# } #>
 			string _user = getHttpContextUser();
 			<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>return <#}#>Task.Run(() => <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user))<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>.Result<#}#>;
 		}

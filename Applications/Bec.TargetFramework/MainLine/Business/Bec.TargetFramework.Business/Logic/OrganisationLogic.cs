@@ -71,61 +71,6 @@ namespace Bec.TargetFramework.Business.Logic
             Logger.Trace("expire finished");
         }
 
-        public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
-        {
-            Ensure.That(postCode).IsNotNullOrEmpty();
-
-            var client = new PostcodeAnywhere.PostcodeAnywhere_SoapClient();
-
-            var key = "EN93-RT99-CK59-GP54";
-            var userName = "CLEAR11146";
-            string building = "";
-            if (!string.IsNullOrEmpty(buildingNameOrNumber))
-            {
-                building = buildingNameOrNumber.ToLowerInvariant();
-            }
-
-            var pcTrimmed = postCode.Replace(" ", "").Trim().ToLowerInvariant();
-
-            using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
-            {
-                string cacheKey = pcTrimmed + "*" + building;
-                var cacheResult = cacheClient.Get<List<PostCodeDTO>>(cacheKey);
-
-                if (cacheResult != null)
-                    return cacheResult;
-                else
-                {
-                    try
-                    {
-                        var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
-
-                        var dtos = response.Select(item => new PostCodeDTO
-                        {
-                            Company = item.Company,
-                            County = item.County,
-                            Department = item.Department,
-                            BuildingName = item.BuildingName,
-                            Line1 = item.Line1,
-                            Line2 = item.Line2,
-                            Line3 = item.Line3,
-                            Postcode = item.Postcode,
-                            PostTown = item.PostTown,
-                            PrimaryStreet = item.PrimaryStreet
-                        }).ToList();
-
-                        cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
-
-                        return dtos;
-                    }
-                    catch (System.ServiceModel.FaultException)
-                    {
-                        return null;
-                    }
-                }
-            }
-        }
-
         public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(bool manual, string line1, string line2, string town, string county, string postalCode)
         {
             Ensure.That(postalCode).IsNotNullOrWhiteSpace();
@@ -261,20 +206,6 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 return scope.DbContext.Organisations.Any(o => o.CompanyPinCode == pin);
             }
-        }
-
-        public GoogleGeoCodeResponse GeoCodePostcode(string postCode)
-        {
-            Ensure.That(postCode).IsNotNullOrEmpty();
-
-            WebRequest request =
-                WebRequest.Create(string.Format("http://maps.googleapis.com/maps/api/geocode/json?address={0}&sensor=false", postCode.Trim().Replace(" ", "")));
-
-            request.Credentials = CredentialCache.DefaultCredentials;
-
-            var result = JsonSerializer.DeserializeResponse<GoogleGeoCodeResponse>(request.GetResponse());
-
-            return result;
         }
 
         public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
@@ -542,7 +473,7 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public void ExpireOrganisation(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID)
+        private void ExpireOrganisation(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID)
         {
             var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
 

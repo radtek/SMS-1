@@ -83,16 +83,24 @@ namespace WebApiProxy.Generator
 
                     var source = generator.Generate();
 
-                    string fileName = txtProjectDirectory.Text + "\\" + configuration.Name + ".cs";
+                    string fileName = Path.Combine(txtProjectDirectory.Text, configuration.Name + ".generated.cs");
 
                     File.WriteAllText(fileName, source);
-                    File.WriteAllText(Configuration.CacheFile, source);
+                    //File.WriteAllText(Configuration.CacheFile, source);
                 }
                 catch (Exception)
                 {
                     throw;
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            txtProjectDirectory.Text = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Business\Bec.TargetFramework.Business.Client\WebApiProxy";
+            txtProxyNamespace.Text = "Bec.TargetFramework.Business.Client";
+            txtEntitiesNamespace.Text = "Bec.TargetFramework.Entities";
+            txtEnumsNamespace.Text = "Bec.TargetFramework.Entities.Enums";
         }
     }
 }

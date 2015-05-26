@@ -63,9 +63,10 @@ using ");
             
             #line default
             #line hidden
-            this.Write(";\r\nusing System.Web.Http;\r\n\r\n#region Proxies\r\nnamespace ");
+            this.Write(";\r\nusing System.Web.Http;\r\nusing BrockAllen.MembershipReboot;\r\nusing ServiceStack" +
+                    ".Text;\r\n\r\n#region Proxies\r\nnamespace ");
             
-            #line 26 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 28 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Namespace));
             
             #line default
@@ -74,21 +75,21 @@ using ");
                     " class Configuration\r\n\t{\r\n\t\t/// <summary>\r\n\t\t/// Web Api Base Address.\r\n\t\t/// </" +
                     "summary>\r\n\t\tpublic static string ");
             
-            #line 36 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 38 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Name));
             
             #line default
             #line hidden
             this.Write("BaseAddress = \"");
             
-            #line 36 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 38 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Metadata.Host));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\t\r\n\t}\r\n}\r\n#endregion\r\n\r\n#region Models\r\nnamespace ");
             
-            #line 43 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 45 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Namespace));
             
             #line default
@@ -112,7 +113,7 @@ using ");
 #region Interfaces
 namespace ");
             
-            #line 60 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 62 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Namespace));
             
             #line default
@@ -120,27 +121,27 @@ namespace ");
             this.Write(".Interfaces\r\n{\r\n\tpublic interface IClientBase : IDisposable\r\n\t{\r\n\t\tHttpClient Htt" +
                     "pClient { get; }\r\n\t}\r\n\r\n");
             
-            #line 67 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 69 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var definition in Configuration.Metadata.Definitions) { 
             
             #line default
             #line hidden
             this.Write("\t\r\n\tpublic partial interface I");
             
-            #line 68 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 70 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             
-            #line 68 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 70 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.ClientSuffix));
             
             #line default
             #line hidden
             this.Write(" : IClientBase\r\n\t{\t\r\n");
             
-            #line 70 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 72 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var method in definition.ActionMethods) { 
 		var allParameters = method.UrlParameters.AsEnumerable().Where(m => m != null);
 		
@@ -167,119 +168,119 @@ namespace ");
             #line hidden
             this.Write("\r\n");
             
-            #line 92 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 94 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var p in method.UrlParameters) { 
             
             #line default
             #line hidden
             this.Write("\t\t/// <param name=\"");
             
-            #line 93 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 95 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 93 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 95 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Description));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 94 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 96 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t/// <returns></returns>\r\n\t\t");
             
-            #line 96 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 98 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">"));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 96 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 98 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 96 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 98 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 98 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 100 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var p in method.UrlParameters) {
             
             #line default
             #line hidden
             this.Write("\t\t/// <param name=\"");
             
-            #line 99 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 101 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 99 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 101 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Description));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 100 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 102 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t/// <returns></returns>\r\n\t\t");
             
-            #line 102 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 104 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 102 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 104 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 102 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 104 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
             this.Write(");\r\n\r\n");
             
-            #line 104 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 106 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t\t\t\t\r\n\t}\r\n");
             
-            #line 106 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 108 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\r\n}\r\n#endregion\r\n\r\n#region Clients\r\nnamespace ");
             
-            #line 112 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 114 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.Namespace));
             
             #line default
@@ -291,124 +292,131 @@ namespace ");
                     "\"ClientBase\"/> class.\r\n\t\t/// </summary>\r\n\t\tprotected ClientBase(string url)\r\n\t\t{" +
                     "\r\n\t\t\tHttpClient = new HttpClient()\r\n\t\t\t{\r\n\t\t\t\tBaseAddress = new Uri(url)\r\n\t\t\t};\r" +
                     "\n\t\t}\r\n\r\n\t\tpublic virtual async Task EnsureSuccessAsync(HttpResponseMessage respo" +
-                    "nse)\r\n\t\t{\t\t\t\r\n\t\t\tif (response.IsSuccessStatusCode) return;\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\tva" +
-                    "r content = await response.Content.ReadAsAsync<HttpError>();\r\n            throw " +
-                    "new Exception(content[\"ExceptionMessage\"].ToString());\t\t\r\n\t\t}\r\n\r\n\t\t/// <summary>" +
-                    "\r\n\t\t/// Initializes a new instance of the <see cref=\"ClientBase\"/> class.\r\n\t\t///" +
-                    " </summary>\r\n\t\t/// <param name=\"handler\">The handler.</param>\r\n\t\t/// <param name" +
-                    "=\"disposeHandler\">if set to <c>true</c> [dispose handler].</param>\r\n\t\tprotected " +
-                    "ClientBase(HttpMessageHandler handler,string url, bool disposeHandler = true)\r\n\t" +
-                    "\t{\r\n\t\t\tHttpClient = new HttpClient(handler, disposeHandler)\r\n\t\t\t{\r\n\t\t\t\tBaseAddre" +
-                    "ss = new Uri(url)\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Releases the unmanaged r" +
-                    "esources and disposes of the managed resources.       \r\n\t\t/// </summary>\r\n\t\tpubl" +
-                    "ic void Dispose()\r\n\t\t{\r\n\t\t\tHttpClient.Dispose();\r\n\t\t}\r\n\r\n        protected async" +
-                    " Task DeleteAsync<Tbody>(string requestUri, Tbody value, string user)\r\n        {" +
-                    "\r\n            var response = await SendAsync(requestUri, HttpMethod.Delete, user" +
-                    ", value);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n       " +
-                    " protected async Task DeleteAsync(string requestUri, string user)\r\n        {\r\n  " +
-                    "          var response = await SendAsync<object>(requestUri, HttpMethod.Delete, " +
-                    "user, null);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n\t\tpr" +
-                    "otected async Task<Tret> PostAsync<Tbody, Tret>(string requestUri, Tbody value, " +
-                    "string user)\r\n        {\r\n            var response = await SendAsync(requestUri, " +
-                    "HttpMethod.Post, user, value);\r\n            return await HandleResponse<Tret>(re" +
-                    "sponse);\r\n        }\r\n\r\n\t\tprotected async Task PostAsync<Tbody>(string requestUri" +
-                    ", Tbody value, string user)\r\n        {\r\n            var response = await SendAsy" +
-                    "nc(requestUri, HttpMethod.Post, user, value);\r\n            await EnsureSuccessAs" +
-                    "ync(response);\r\n        }\r\n\r\n        protected async Task<Tret> GetAsync<Tret>(s" +
-                    "tring requestUri, string user)\r\n        {\r\n            var response = await Send" +
-                    "Async<object>(requestUri, HttpMethod.Get, user, null);\r\n            return await" +
-                    " HandleResponse<Tret>(response);\r\n        }\r\n\r\n\t\tprotected async Task GetAsync(s" +
-                    "tring requestUri, string user)\r\n        {\r\n            var response = await Send" +
-                    "Async<object>(requestUri, HttpMethod.Get, user, null);\r\n            await Ensure" +
-                    "SuccessAsync(response);\r\n        }\r\n\r\n\t\tprivate async Task<T> HandleResponse<T>(" +
-                    "HttpResponseMessage response)\r\n        {\r\n            await EnsureSuccessAsync(r" +
-                    "esponse);\r\n            return await response.ReadContentAsAsync<T>();\r\n        }" +
-                    "\r\n\r\n        private async Task<HttpResponseMessage> SendAsync<T>(string requestU" +
-                    "ri,HttpMethod method, string user, T value)\r\n        {\r\n            var req = ne" +
-                    "w HttpRequestMessage\r\n            {\r\n                RequestUri = new Uri(reques" +
-                    "tUri),\r\n                Method = method\r\n            };\r\n            if (value !" +
-                    "= null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), " +
-                    "(MediaTypeHeaderValue)null);\r\n            if (user !=null) req.Headers.Add(\"User" +
-                    "\", user);\r\n            return await HttpClient.SendAsync(req);\r\n        }\r\n\r\n   " +
-                    "     protected string getHttpContextUser()\r\n        {\r\n            if (HttpConte" +
-                    "xt.Current != null && HttpContext.Current.User != null && HttpContext.Current.Us" +
-                    "er.Identity != null)\r\n                return HttpContext.Current.User.Identity.N" +
-                    "ame;\r\n            else\r\n                return null;\r\n        }\r\n\t}\r\n");
+                    "nse)\r\n\t\t{\t\t\t\r\n\t\t\tif (response.IsSuccessStatusCode) return;\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\tif" +
+                    " (response.Content == null)\r\n                throw new NullReferenceException(\"H" +
+                    "ttpResponseMessage Content is null\");\r\n            else\r\n            {\r\n        " +
+                    "        try\r\n                {\r\n                    var content = await response" +
+                    ".Content.ReadAsAsync<HttpError>();\r\n                    throw new Exception(cont" +
+                    "ent[\"ExceptionMessage\"].ToString());\r\n                }\r\n                catch (" +
+                    "Exception ex)\r\n                {\r\n                    Task<string> incorrectMess" +
+                    "ageTask = Task.Run(() => response.Content.ReadAsStringAsync());\r\n\r\n             " +
+                    "       throw new Exception(incorrectMessageTask.Result, ex);\r\n                }\r" +
+                    "\n            }\t\t\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Initializes a new instance of th" +
+                    "e <see cref=\"ClientBase\"/> class.\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"handler\"" +
+                    ">The handler.</param>\r\n\t\t/// <param name=\"disposeHandler\">if set to <c>true</c> " +
+                    "[dispose handler].</param>\r\n\t\tprotected ClientBase(HttpMessageHandler handler,st" +
+                    "ring url, bool disposeHandler = true)\r\n\t\t{\r\n\t\t\tHttpClient = new HttpClient(handl" +
+                    "er, disposeHandler)\r\n\t\t\t{\r\n\t\t\t\tBaseAddress = new Uri(url)\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\t/// <" +
+                    "summary>\r\n\t\t/// Releases the unmanaged resources and disposes of the managed res" +
+                    "ources.       \r\n\t\t/// </summary>\r\n\t\tpublic void Dispose()\r\n\t\t{\r\n\t\t\tHttpClient.Di" +
+                    "spose();\r\n\t\t}\r\n\r\n        protected async Task DeleteAsync<Tbody>(string requestU" +
+                    "ri, Tbody value, string user)\r\n        {\r\n            var response = await SendA" +
+                    "sync(requestUri, HttpMethod.Delete, user, value);\r\n            await EnsureSucce" +
+                    "ssAsync(response);\r\n        }\r\n\r\n        protected async Task DeleteAsync(string" +
+                    " requestUri, string user)\r\n        {\r\n            var response = await SendAsync" +
+                    "<object>(requestUri, HttpMethod.Delete, user, null);\r\n            await EnsureSu" +
+                    "ccessAsync(response);\r\n        }\r\n\r\n\t\tprotected async Task<Tret> PostAsync<Tbody" +
+                    ", Tret>(string requestUri, Tbody value, string user)\r\n        {\r\n            var" +
+                    " response = await SendAsync(requestUri, HttpMethod.Post, user, value);\r\n        " +
+                    "    return await HandleResponse<Tret>(response);\r\n        }\r\n\r\n\t\tprotected async" +
+                    " Task PostAsync<Tbody>(string requestUri, Tbody value, string user)\r\n        {\r\n" +
+                    "            var response = await SendAsync(requestUri, HttpMethod.Post, user, va" +
+                    "lue);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n        pro" +
+                    "tected async Task<Tret> GetAsync<Tret>(string requestUri, string user)\r\n        " +
+                    "{\r\n            var response = await SendAsync<object>(requestUri, HttpMethod.Get" +
+                    ", user, null);\r\n            return await HandleResponse<Tret>(response);\r\n      " +
+                    "  }\r\n\r\n\t\tprotected async Task GetAsync(string requestUri, string user)\r\n        " +
+                    "{\r\n            var response = await SendAsync<object>(requestUri, HttpMethod.Get" +
+                    ", user, null);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n\t\t" +
+                    "private async Task<T> HandleResponse<T>(HttpResponseMessage response)\r\n        {" +
+                    "\r\n            await EnsureSuccessAsync(response);\r\n            return await resp" +
+                    "onse.ReadContentAsAsync<T>();\r\n        }\r\n\r\n        private async Task<HttpRespo" +
+                    "nseMessage> SendAsync<T>(string requestUri, HttpMethod method, string user, T va" +
+                    "lue)\r\n        {\r\n            var req = new HttpRequestMessage\r\n            {\r\n  " +
+                    "              RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),\r\n   " +
+                    "             Method = method\r\n            };\r\n            if (value != null) req" +
+                    ".Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeH" +
+                    "eaderValue)null);\r\n            if (user != null) req.Headers.Add(\"User\", user);\r" +
+                    "\n            return await HttpClient.SendAsync(req);\r\n        }\r\n\r\n        prote" +
+                    "cted string getHttpContextUser()\r\n        {\r\n            if (HttpContext.Current" +
+                    " != null && HttpContext.Current.User != null && HttpContext.Current.User.Identit" +
+                    "y != null)\r\n                return HttpContext.Current.User.Identity.Name;\r\n    " +
+                    "        else\r\n                return null;\r\n        }\r\n\t}\r\n");
             
-            #line 226 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 242 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var definition in Configuration.Metadata.Definitions) { 
             
             #line default
             #line hidden
             this.Write("\t/// <summary>\r\n\t/// ");
             
-            #line 228 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 244 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Description.ToSummary()));
             
             #line default
             #line hidden
             this.Write("\r\n\t/// </summary>\r\n\tpublic partial class ");
             
-            #line 230 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 246 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             
-            #line 230 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 246 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.ClientSuffix));
             
             #line default
             #line hidden
             this.Write(" : ClientBase, Interfaces.I");
             
-            #line 230 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 246 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             
-            #line 230 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 246 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.ClientSuffix));
             
             #line default
             #line hidden
             this.Write("\r\n\t{\t\t\r\n\r\n\t\t/// <summary>\r\n\t\t/// ");
             
-            #line 234 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 250 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Description.ToSummary()));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t/// </summary>\r\n\t\tpublic ");
             
-            #line 236 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 252 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             
-            #line 236 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 252 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.ClientSuffix));
             
             #line default
             #line hidden
             this.Write("(string url) : base(url)\r\n\t\t{\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// ");
             
-            #line 241 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 257 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Description.ToSummary()));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t/// </summary>\r\n\t\tpublic ");
             
-            #line 243 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 259 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Name));
             
             #line default
             #line hidden
             
-            #line 243 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 259 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Configuration.ClientSuffix));
             
             #line default
@@ -416,7 +424,7 @@ namespace ");
             this.Write("(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handle" +
                     "r,url, disposeHandler)\r\n\t\t{\r\n\t\t}\r\n\r\n\t\t#region Methods\r\n");
             
-            #line 248 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 264 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var method in definition.ActionMethods) { 
 		var allParameters = method.UrlParameters.AsEnumerable();
 
@@ -489,222 +497,278 @@ namespace ");
             #line hidden
             this.Write("\t\t/// <summary>\r\n\t\t/// ");
             
-            #line 316 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 332 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Description));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t/// </summary>\r\n");
             
-            #line 318 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 334 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var p in method.UrlParameters) { 
             
             #line default
             #line hidden
             this.Write("\t\t/// <param name=\"");
             
-            #line 319 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 335 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 319 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 335 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Description));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 320 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 336 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t/// <returns></returns>\r\n\t\tpublic virtual async ");
             
-            #line 322 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 338 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">"));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 322 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 338 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 322 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 338 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
-            this.Write(")\r\n\t\t{\r\n\t\t\tstring _user = getHttpContextUser();\r\n\t\t\t");
+            this.Write(")\r\n\t\t{\r\n");
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 340 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+ foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t");
+            
+            #line 341 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 341 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".UrlEncode();\r\n");
+            
+            #line 342 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tstring _user = getHttpContextUser();\r\n\t\t\t");
+            
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  if(!String.IsNullOrEmpty(method.ReturnType)) { 
             
             #line default
             #line hidden
             this.Write("return ");
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("await ");
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(methodVerb));
             
             #line default
             #line hidden
             this.Write("Async");
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bodyTypeString));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(url));
             
             #line default
             #line hidden
             
-            #line 325 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 344 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((postOrPut || methodVerb == "Delete") ? bodyParameterString:""));
             
             #line default
             #line hidden
             this.Write(", _user);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// ");
             
-            #line 329 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 348 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Description));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t/// </summary>\r\n");
             
-            #line 331 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 350 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var p in method.UrlParameters) { 
             
             #line default
             #line hidden
             this.Write("\t\t/// <param name=\"");
             
-            #line 332 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 351 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 332 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 351 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Description));
             
             #line default
             #line hidden
             this.Write("</param>\r\n");
             
-            #line 333 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 352 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\tpublic virtual ");
             
-            #line 334 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 353 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 334 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 353 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(method.Name));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 334 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 353 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameterList));
             
             #line default
             #line hidden
-            this.Write(")\r\n\t\t{\r\n\t\t\tstring _user = getHttpContextUser();\r\n\t\t\t");
+            this.Write(")\r\n\t\t{\r\n");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 355 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+ foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t");
+            
+            #line 356 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 356 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(p.Name));
+            
+            #line default
+            #line hidden
+            this.Write(".UrlEncode();\r\n");
+            
+            #line 357 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tstring _user = getHttpContextUser();\r\n\t\t\t");
+            
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  if(!String.IsNullOrEmpty(method.ReturnType)) { 
             
             #line default
             #line hidden
             this.Write("return ");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("Task.Run(() => ");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(methodVerb));
             
             #line default
             #line hidden
             this.Write("Async");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(bodyTypeString));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(url));
             
             #line default
             #line hidden
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((postOrPut || methodVerb == "Delete") ? bodyParameterString:""));
             
             #line default
             #line hidden
             this.Write(", _user))");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  if(!String.IsNullOrEmpty(method.ReturnType)) { 
             
             #line default
             #line hidden
             this.Write(".Result");
             
-            #line 337 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 359 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t}\r\n\r\n");
             
-            #line 340 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 362 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t\t#endregion\r\n\t}\r\n");
             
-            #line 343 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+            #line 365 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  } 
             
             #line default

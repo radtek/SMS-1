@@ -27,7 +27,7 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(postCode).IsNotNullOrEmpty();
 
             var client = new PostcodeAnywhere.PostcodeAnywhere_SoapClient();
-            
+
             var key = "EN93-RT99-CK59-GP54";
             var userName = "CLEAR11146";
             string building = "";
@@ -47,25 +47,32 @@ namespace Bec.TargetFramework.Business.Logic
                     return cacheResult;
                 else
                 {
-                    var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
-
-                    var dtos = response.Select(item => new PostCodeDTO
+                    try
                     {
-                        Company = item.Company,
-                        County = item.County,
-                        Department = item.Department,
-                        BuildingName = item.BuildingName,
-                        Line1 = item.Line1,
-                        Line2 = item.Line2,
-                        Line3 = item.Line3,
-                        Postcode = item.Postcode,
-                        PostTown = item.PostTown,
-                        PrimaryStreet = item.PrimaryStreet
-                    }).ToList();
+                        var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
 
-                    cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+                        var dtos = response.Select(item => new PostCodeDTO
+                        {
+                            Company = item.Company,
+                            County = item.County,
+                            Department = item.Department,
+                            BuildingName = item.BuildingName,
+                            Line1 = item.Line1,
+                            Line2 = item.Line2,
+                            Line3 = item.Line3,
+                            Postcode = item.Postcode,
+                            PostTown = item.PostTown,
+                            PrimaryStreet = item.PrimaryStreet
+                        }).ToList();
 
-                    return dtos;
+                        cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
+
+                        return dtos;
+                    }
+                    catch (System.ServiceModel.FaultException)
+                    {
+                        return null;
+                    }
                 }
             }
         }

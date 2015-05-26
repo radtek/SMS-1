@@ -59,6 +59,32 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	{
 		HttpClient HttpClient { get; }
 	}
+
+	
+	public partial interface IAddressLogicClient : IClientBase
+	{	
+
+		/// <param name="postCode"></param>
+		/// <param name="buildingNameOrNumber"></param>
+		/// <returns></returns>
+		Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber);
+
+		/// <param name="postCode"></param>
+		/// <param name="buildingNameOrNumber"></param>
+		/// <returns></returns>
+		List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber);
+
+
+		/// <param name="postCode"></param>
+		/// <returns></returns>
+		Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode);
+
+		/// <param name="postCode"></param>
+		/// <returns></returns>
+		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
+
+				
+	}
 	
 	public partial interface IClassificationDataLogicClient : IClientBase
 	{	
@@ -103,26 +129,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	
 	public partial interface IDataLogicClient : IClientBase
 	{	
-
-		/// <param name="eventName"></param>
-		/// <returns></returns>
-		Task<TFEventDTO> GetTFEventByNameAsync(String eventName);
-
-		/// <param name="eventName"></param>
-		/// <returns></returns>
-		TFEventDTO GetTFEventByName(String eventName);
-
-
-		/// <param name="workflowID"></param>
-		/// <param name="workflowVersionNumber"></param>
-		/// <returns></returns>
-		Task<List<VWorkflowTreeDTO>> GetWorkflowTreeAsync(Guid workflowID,Int32 workflowVersionNumber);
-
-		/// <param name="workflowID"></param>
-		/// <param name="workflowVersionNumber"></param>
-		/// <returns></returns>
-		List<VWorkflowTreeDTO> GetWorkflowTree(Guid workflowID,Int32 workflowVersionNumber);
-
 
 		/// <param name="statusTypeEnum"></param>
 		/// <returns></returns>
@@ -242,75 +248,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		String GenerateRandomMaleFirstAndLastName();
 
-
-		/// <param name="name"></param>
-		/// <returns></returns>
-		Task<ServiceDefinitionDTO> GetServiceDefinitionWithDetailAsync(String name);
-
-		/// <param name="name"></param>
-		/// <returns></returns>
-		ServiceDefinitionDTO GetServiceDefinitionWithDetail(String name);
-
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		Task MarkServiceInterfaceAsPendingAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		void MarkServiceInterfaceAsPending(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		Task MarkServiceInterfaceAsProcessingAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		void MarkServiceInterfaceAsProcessing(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		Task MarkServiceInterfaceAsFailedAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		void MarkServiceInterfaceAsFailed(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		Task MarkServiceInterfaceAsSuccessfulAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		void MarkServiceInterfaceAsSuccessful(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data);
-
 				
 	}
 	
@@ -414,38 +351,63 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
-        Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID, string constructName);
-        List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName);
 
-        Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
-        NotificationResultDTO GetTcAndCsText(Guid accountID);
+		/// <param name="accountID"></param>
+		/// <param name="constructName"></param>
+		/// <returns></returns>
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName);
 
-        Task<byte[]> GetTcAndCsDataAsync(Guid notificationConstructID, int versionNumber);
-        byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber);
+		/// <param name="accountID"></param>
+		/// <param name="constructName"></param>
+		/// <returns></returns>
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName);
 
-        Task MarkAcceptedAsync(Guid notificationID);
-        void MarkAccepted(Guid notificationID);
+
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
+
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		NotificationResultDTO GetTcAndCsText(Guid accountID);
+
+
+		/// <param name="notificationConstructID"></param>
+		/// <param name="versionNumber"></param>
+		/// <returns></returns>
+		Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber);
+
+		/// <param name="notificationConstructID"></param>
+		/// <param name="versionNumber"></param>
+		/// <returns></returns>
+		Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber);
+
+
+		/// <param name="notificationID"></param>
+		/// <returns></returns>
+		Task MarkAcceptedAsync(Guid notificationID);
+
+		/// <param name="notificationID"></param>
+		/// <returns></returns>
+		void MarkAccepted(Guid notificationID);
+
 				
 	}
 	
 	public partial interface IOrganisationLogicClient : IClientBase
-	{
-        /// <returns></returns>
-        Task ExpireOrganisationsAsync(int days, int hours, int minutes);
+	{	
 
-        /// <returns></returns>
-        void ExpireOrganisations(int days, int hours, int minutes);
-
-
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
+		/// <param name="days"></param>
+		/// <param name="hours"></param>
+		/// <param name="minutes"></param>
 		/// <returns></returns>
-		Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber);
+		Task ExpireOrganisationsAsync(Int32 days,Int32 hours,Int32 minutes);
 
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
+		/// <param name="days"></param>
+		/// <param name="hours"></param>
+		/// <param name="minutes"></param>
 		/// <returns></returns>
-		List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber);
+		void ExpireOrganisations(Int32 days,Int32 hours,Int32 minutes);
 
 
 		/// <param name="manual"></param>
@@ -474,11 +436,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void RejectOrganisation(RejectCompanyDTO dto);
 
 
-        /// <returns></returns>
-        Task ActivateOrganisationAsync(Guid organisationID);
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task ActivateOrganisationAsync(Guid organisationID);
 
-        /// <returns></returns>
-        void ActivateOrganisation(Guid organisationID);
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		void ActivateOrganisation(Guid organisationID);
 
 
 		/// <returns></returns>
@@ -486,15 +450,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		void GeneratePin(GeneratePinDTO dto);
-
-
-		/// <param name="postCode"></param>
-		/// <returns></returns>
-		Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode);
-
-		/// <param name="postCode"></param>
-		/// <returns></returns>
-		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
 
 
 		/// <param name="orgStatus"></param>
@@ -513,31 +468,30 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationType"></param>
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
-        
 
-		/// <param name="organisationType"></param>
-		/// <returns></returns>
-        Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto);
 
-		/// <param name="organisationType"></param>
+		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <param name="isTemporary"></param>
 		/// <returns></returns>
-        UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto);
-        
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
+
+		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <param name="isTemporary"></param>
+		/// <returns></returns>
+		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
+
 
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
 
 		/// <returns></returns>
 		Nullable<Guid> GetTemporaryOrganisationBranchID();
-
-
-		/// <param name="searchText"></param>
-		/// <returns></returns>
-		Task<List<vOrganisationDTO>> GetAllOrganisationDetailDTOAsync(String searchText);
-
-		/// <param name="searchText"></param>
-		/// <returns></returns>
-		List<vOrganisationDTO> GetAllOrganisationDetailDTO(String searchText);
 
 
 		/// <param name="id"></param>
@@ -549,285 +503,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		VOrganisationDTO GetOrganisationDTO(Guid id);
 
 
-		/// <param name="id"></param>
-		/// <param name="delete"></param>
+		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		Task ActivateDeactivateOrDeleteOrganisationAsync(Guid id,Boolean delete);
-
-		/// <param name="id"></param>
-		/// <param name="delete"></param>
-		/// <returns></returns>
-		void ActivateDeactivateOrDeleteOrganisation(Guid id,Boolean delete);
-
-
-		/// <returns></returns>
-		Task AddNewOrganisationFromWizardAsync(OrganisationDTO dto);
-
-		/// <returns></returns>
-		void AddNewOrganisationFromWizard(OrganisationDTO dto);
-
-
-		/// <returns></returns>
-		Task SaveOrganisationDetailAsync(OrganisationDTO dto);
-
-		/// <returns></returns>
-		void SaveOrganisationDetail(OrganisationDTO dto);
-
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Task<Boolean> DoesOrganisationNameExistAsync(String Name);
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Boolean DoesOrganisationNameExist(String Name);
-
-
-		/// <param name="name"></param>
-		/// <returns></returns>
-		Task<Boolean> DoesOrganisationBranchExistAsync(String name);
-
-		/// <param name="name"></param>
-		/// <returns></returns>
-		Boolean DoesOrganisationBranchExist(String name);
-
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Task<Boolean> DoesOrganisationLogoExistAsync(String Name);
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Boolean DoesOrganisationLogoExist(String Name);
-
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Task<Boolean> DoesOrganisationUnitExistAsync(String Name);
-
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		Boolean DoesOrganisationUnitExist(String Name);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<RoleDTO>> GetOrgRolesAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<RoleDTO> GetOrgRoles(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<GroupDTO>> GetOrgGroupsAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<GroupDTO> GetOrgGroups(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<RoleDTO>> GetOrgRolesforOrgIdAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<RoleDTO> GetOrgRolesforOrgId(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<GroupDTO>> GetOrgGroupsforOrgIdAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<GroupDTO> GetOrgGroupsforOrgId(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<vAttachmentDTO>> GetOrganisationLogosAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<vAttachmentDTO> GetOrganisationLogos(Guid orgId);
-
-
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		Task<vAttachmentDTO> GetOrganisationLogoAsync(Guid attachmentDetailID);
-
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		vAttachmentDTO GetOrganisationLogo(Guid attachmentDetailID);
-
-
-		/// <returns></returns>
-		Task SaveOrganisationLogoAsync(vAttachmentDTO dto);
-
-		/// <returns></returns>
-		void SaveOrganisationLogo(vAttachmentDTO dto);
-
-
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		Task ActivateOrDeactivateOrganisationLogoAsync(Guid attachmentDetailID);
-
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		void ActivateOrDeactivateOrganisationLogo(Guid attachmentDetailID);
-
+		Task<Boolean> IncrementInvalidPINAsync(Guid organisationID);
 
 		/// <param name="organisationID"></param>
-		/// <param name="attachmentDetailID"></param>
 		/// <returns></returns>
-		Task DefaultOrganisationLogoAsync(Guid organisationID,Guid attachmentDetailID);
+		Boolean IncrementInvalidPIN(Guid organisationID);
 
-		/// <param name="organisationID"></param>
-		/// <param name="attachmentDetailID"></param>
+
+		/// <param name="organisationId"></param>
 		/// <returns></returns>
-		void DefaultOrganisationLogo(Guid organisationID,Guid attachmentDetailID);
+		Task ResendLoginsAsync(Guid organisationId);
 
-
+		/// <param name="organisationId"></param>
 		/// <returns></returns>
-		Task SaveOrganisationUnitAsync(OrganisationUnitDTO dto);
+		void ResendLogins(Guid organisationId);
 
-		/// <returns></returns>
-		void SaveOrganisationUnit(OrganisationUnitDTO dto);
-
-
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		Task<OrganisationUnitDTO> GetOrganisationUnitAsync(Int32 unitID);
-
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		OrganisationUnitDTO GetOrganisationUnit(Int32 unitID);
-
-
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		Task DeleteOrganisationUnitAsync(Int32 unitID);
-
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		void DeleteOrganisationUnit(Int32 unitID);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationDTO>> GetOrgansationBranchDTOsAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationDTO> GetOrgansationBranchDTOs(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<vBranchDTO>> GetOrganisationBranchesAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<vBranchDTO> GetOrganisationBranches(Guid orgId);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<ContactDTO>> GetAllBranchesAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<ContactDTO> GetAllBranches(Guid orgId);
-
-
-		/// <returns></returns>
-		Task SaveOrganisationBranchAsync(ContactDTO dto);
-
-		/// <returns></returns>
-		void SaveOrganisationBranch(ContactDTO dto);
-
-
-		/// <param name="branchID"></param>
-		/// <returns></returns>
-		Task<vBranchDTO> GetOrganisationBranchAsync(Int32 branchID);
-
-		/// <param name="branchID"></param>
-		/// <returns></returns>
-		vBranchDTO GetOrganisationBranch(Int32 branchID);
-
-
-		/// <param name="contactID"></param>
-		/// <returns></returns>
-		Task DeleteOrganisationBranchAsync(Guid contactID);
-
-		/// <param name="contactID"></param>
-		/// <returns></returns>
-		void DeleteOrganisationBranch(Guid contactID);
-
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-		Task<List<AddressDTO>> GetAllBranchAddressesAsync(Guid id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-		List<AddressDTO> GetAllBranchAddresses(Guid id);
-
-
-		/// <returns></returns>
-		Task<List<OrganisationDetailDTO>> GetOrganisationDetailsAsync();
-
-		/// <returns></returns>
-		List<OrganisationDetailDTO> GetOrganisationDetails();
-
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-		Task<List<OrganisationDetailDTO>> GetOrganisationDetailsIncludingBranchesAsync(String id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-		List<OrganisationDetailDTO> GetOrganisationDetailsIncludingBranches(String id);
-
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationUnitDTO>> GetOrganisationUnitsAsync(Guid orgId);
-
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationUnitDTO> GetOrganisationUnits(Guid orgId);
-
-
-		/// <param name="typeId"></param>
-		/// <returns></returns>
-		Task<List<VOrganisationTemplateDTO>> GetOrganisationTemplatesforOrganisationTypeAsync(Int32 typeId);
-
-		/// <param name="typeId"></param>
-		/// <returns></returns>
-		List<VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(Int32 typeId);
-
-
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        Task<bool> IncrementInvalidPINAsync(Guid organisationID);
-
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        bool IncrementInvalidPIN(Guid organisationID);
-
-
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        Task ResendLoginsAsync(Guid organisationID);
-
-        /// <param name="orgId"></param>
-        /// <returns></returns>
-        void ResendLogins(Guid organisationID);
-
+				
 	}
 	
 	public partial interface ISettingsLogicClient : IClientBase
@@ -916,13 +609,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<vUserManagementDTO> GetAllUserManagementDTO();
 
 
-		/// <returns></returns>
-		Task<Int32> GetAllUserManagementDTOCountAsync();
-
-		/// <returns></returns>
-		Int32 GetAllUserManagementDTOCount();
-
-
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Task<vUserManagementDTO> GerUserManagementDTOAsync(Guid userId);
@@ -932,93 +618,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		vUserManagementDTO GerUserManagementDTO(Guid userId);
 
 
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationRoleDTO>> GetUserRolesAsync(Guid userId,Guid orgId);
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationRoleDTO> GetUserRoles(Guid userId,Guid orgId);
-
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationRoleDTO>> GetOrganisationRolesAsync(Guid userId,Guid orgId);
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationRoleDTO> GetOrganisationRoles(Guid userId,Guid orgId);
-
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationGroupDTO>> GetUserGroupsAsync(Guid userId,Guid orgId);
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationGroupDTO> GetUserGroups(Guid userId,Guid orgId);
-
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		Task<List<OrganisationGroupDTO>> GetOrganisationGroupsAsync(Guid userId,Guid orgId);
-
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		List<OrganisationGroupDTO> GetOrganisationGroups(Guid userId,Guid orgId);
-
-
-		/// <param name="userId"></param>
-		/// <param name="delete"></param>
-		/// <returns></returns>
-		Task UpdateUserStatusAsync(Guid userId,Boolean delete);
-
-		/// <param name="userId"></param>
-		/// <param name="delete"></param>
-		/// <returns></returns>
-		void UpdateUserStatus(Guid userId,Boolean delete);
-
-
 		/// <returns></returns>
 		Task<ContactDTO> AddUserAsync(ContactDTO dto);
 
 		/// <returns></returns>
 		ContactDTO AddUser(ContactDTO dto);
-
-
-		/// <param name="userType"></param>
-		/// <param name="userCategory"></param>
-		/// <returns></returns>
-		Task AddUserDetailsAsync(String userType,String userCategory,ContactDTO dto);
-
-		/// <param name="userType"></param>
-		/// <param name="userCategory"></param>
-		/// <returns></returns>
-		void AddUserDetails(String userType,String userCategory,ContactDTO dto);
-
-
-		/// <returns></returns>
-		Task UpdateUserAsync(ContactDTO dto);
-
-		/// <returns></returns>
-		void UpdateUser(ContactDTO dto);
-
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		Task<ContactDTO> EditUserAsync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		ContactDTO EditUser(Guid userId);
 
 
 		/// <param name="userID"></param>
@@ -1097,33 +701,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<AddressDTO> GetUserAddresses(Guid contactID);
 
 
-		/// <param name="id"></param>
-		/// <returns></returns>
-		Task DeleteAddressToContactAsync(Guid id);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-		void DeleteAddressToContact(Guid id);
-
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		Task SaveUserRolesAsync(Guid userId,List<OrganisationRoleDTO> selectedRoles);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		void SaveUserRoles(Guid userId,List<OrganisationRoleDTO> selectedRoles);
-
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		Task SaveUserGroupsAsync(Guid userId,List<OrganisationGroupDTO> selectedGroups);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		void SaveUserGroups(Guid userId,List<OrganisationGroupDTO> selectedGroups);
-
-
 		/// <returns></returns>
 		Task<List<UserAccount>> GetAllUserAccountAsync();
 
@@ -1158,15 +735,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="id"></param>
 		/// <returns></returns>
 		UserAccount GetBAUserAccountByEmailAndNotID(String email,Guid id);
-
-
-		/// <param name="key"></param>
-		/// <returns></returns>
-		Task<UserAccount> GetBAUserAccountByVerificationKeyAsync(String key);
-
-		/// <param name="key"></param>
-		/// <returns></returns>
-		UserAccount GetBAUserAccountByVerificationKey(String key);
 
 
 		/// <param name="username"></param>
@@ -1225,35 +793,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID);
 
 
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID);
-
-
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
-		Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg);
-
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
-		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg);
-
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
-		Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID);
-
-		/// <param name="accountID"></param>
-		/// <returns></returns>
-		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID);
-
-
 		/// <returns></returns>
 		Task<UserAccount> CreateUserAccountAsync();
 
@@ -1291,6 +830,35 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
 		List<UserClaimDTO> GetUserClaims(Guid userId,Guid organisationID);
+
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID);
+
+
+		/// <param name="accountID"></param>
+		/// <param name="personalOrg"></param>
+		/// <returns></returns>
+		Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg);
+
+		/// <param name="accountID"></param>
+		/// <param name="personalOrg"></param>
+		/// <returns></returns>
+		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg);
+
+
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID);
+
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID);
 
 
 		/// <param name="userId"></param>
@@ -1370,15 +938,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO GetPermanentUAO(Guid userID);
 
 
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		Task<Boolean> DoesPermanentUserHavePersonalOrganisationAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		Boolean DoesPermanentUserHavePersonalOrganisation(Guid userID);
-
-
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Task<Guid> GetPersonalUserAccountOrganisationAsync(Guid userId);
@@ -1386,15 +945,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Guid GetPersonalUserAccountOrganisation(Guid userId);
-
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		Task<Nullable<Guid>> AddUserToTemporaryOrganisationAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		Nullable<Guid> AddUserToTemporaryOrganisation(Guid userID);
 
 
 		/// <param name="email"></param>
@@ -1469,149 +1019,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn();
 
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		Task<VUserAccountOrganisationDTO> GetVUserAccountOrganisationAsync(Guid userID);
-
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		VUserAccountOrganisationDTO GetVUserAccountOrganisation(Guid userID);
-
-
-		/// <param name="accountID"></param>
-		/// <param name="PasswordResetSecretID"></param>
-		/// <returns></returns>
-		Task RemovePasswordResetSecretAsync(Guid accountID,Guid PasswordResetSecretID);
-
-		/// <param name="accountID"></param>
-		/// <param name="PasswordResetSecretID"></param>
-		/// <returns></returns>
-		void RemovePasswordResetSecret(Guid accountID,Guid PasswordResetSecretID);
-
-
-		/// <param name="accountID"></param>
-		/// <param name="password"></param>
-		/// <param name="question"></param>
-		/// <param name="answer"></param>
-		/// <returns></returns>
-		Task AddPasswordResetSecretAsync(Guid accountID,String password,String question,String answer);
-
-		/// <param name="accountID"></param>
-		/// <param name="password"></param>
-		/// <param name="question"></param>
-		/// <param name="answer"></param>
-		/// <returns></returns>
-		void AddPasswordResetSecret(Guid accountID,String password,String question,String answer);
-
-				
-	}
-	
-	public partial interface IValidationLogicClient : IClientBase
-	{	
-
-		/// <param name="strSRAID"></param>
-		/// <returns></returns>
-		Task<EmployeeDTO> GetEmployeeByIdAsync(String strSRAID);
-
-		/// <param name="strSRAID"></param>
-		/// <returns></returns>
-		EmployeeDTO GetEmployeeById(String strSRAID);
-
-
-		/// <param name="strCopmanyName"></param>
-		/// <returns></returns>
-		Task<CompanyDTO> GetCompanyDetailsByNameAsync(String strCopmanyName);
-
-		/// <param name="strCopmanyName"></param>
-		/// <returns></returns>
-		CompanyDTO GetCompanyDetailsByName(String strCopmanyName);
-
-
-		/// <param name="strBranchSraId"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="strPostCode"></param>
-		/// <returns></returns>
-		Task<Boolean> IsInvalidBranchAsync(String strBranchSraId,String strCompanyName,String strPostCode);
-
-		/// <param name="strBranchSraId"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="strPostCode"></param>
-		/// <returns></returns>
-		Boolean IsInvalidBranch(String strBranchSraId,String strCompanyName,String strPostCode);
-
-
-		/// <param name="strSraId"></param>
-		/// <param name="strLastName"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="IsColp"></param>
-		/// <returns></returns>
-		Task<Boolean> IsInvalidEmployeeAsync(String strSraId,String strLastName,String strCompanyName,Boolean IsColp);
-
-		/// <param name="strSraId"></param>
-		/// <param name="strLastName"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="IsColp"></param>
-		/// <returns></returns>
-		Boolean IsInvalidEmployee(String strSraId,String strLastName,String strCompanyName,Boolean IsColp);
-
-
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		Task<RegistrationValidationErrorDTO> DuplicateComplianceOfficerAsync(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail);
-
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		RegistrationValidationErrorDTO DuplicateComplianceOfficer(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail);
-
-
-		/// <param name="FirmRegulator"></param>
-		/// <param name="BranchRegulatorNumber"></param>
-		/// <param name="FirmName"></param>
-		/// <param name="FirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		Task<RegistrationValidationErrorDTO> DuplicateCompanyAsync(String FirmRegulator,String BranchRegulatorNumber,String FirmName,String FirmTradingName,String COLastName,String COEmail);
-
-		/// <param name="FirmRegulator"></param>
-		/// <param name="BranchRegulatorNumber"></param>
-		/// <param name="FirmName"></param>
-		/// <param name="FirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		RegistrationValidationErrorDTO DuplicateCompany(String FirmRegulator,String BranchRegulatorNumber,String FirmName,String FirmTradingName,String COLastName,String COEmail);
-
-
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		Task<RegistrationValidationErrorDTO> COwithAnotherFirmAsync(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail);
-
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		RegistrationValidationErrorDTO COwithAnotherFirm(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail);
-
 				
 	}
 
@@ -1645,8 +1052,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual async Task EnsureSuccessAsync(HttpResponseMessage response)
 		{			
 			if (response.IsSuccessStatusCode) return;
-
-            if (response.Content == null)
+													
+			if (response.Content == null)
                 throw new NullReferenceException("HttpResponseMessage Content is null");
             else
             {
@@ -1661,7 +1068,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 
                     throw new Exception(incorrectMessageTask.Result, ex);
                 }
-            }
+            }		
 		}
 
 		/// <summary>
@@ -1735,7 +1142,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
                 Method = method
             };
             if (value != null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeHeaderValue)null);
-            if (user !=null) req.Headers.Add("User", user);
+            if (user != null) req.Headers.Add("User", user);
             return await HttpClient.SendAsync(req);
         }
 
@@ -1746,6 +1153,79 @@ namespace Bec.TargetFramework.Business.Client.Clients
             else
                 return null;
         }
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class AddressLogicClient : ClientBase, Interfaces.IAddressLogicClient
+	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public AddressLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public AddressLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="postCode"></param>
+		/// <param name="buildingNameOrNumber"></param>
+		/// <returns></returns>
+		public virtual async Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber)
+		{
+			postCode = postCode.UrlEncode();
+			buildingNameOrNumber = buildingNameOrNumber.UrlEncode();
+			string _user = getHttpContextUser();
+			return await PostAsync<object, List<PostCodeDTO>>("api/AddressLogic/FindAddressesByPostCode?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="postCode"></param>
+		/// <param name="buildingNameOrNumber"></param>
+		public virtual List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber)
+		{
+			postCode = postCode.UrlEncode();
+			buildingNameOrNumber = buildingNameOrNumber.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, List<PostCodeDTO>>("api/AddressLogic/FindAddressesByPostCode?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="postCode"></param>
+		/// <returns></returns>
+		public virtual async Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode)
+		{
+			postCode = postCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return await PostAsync<object, GoogleGeoCodeResponse>("api/AddressLogic/GeoCodePostcode?postCode=" + postCode, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="postCode"></param>
+		public virtual GoogleGeoCodeResponse GeoCodePostcode(String postCode)
+		{
+			postCode = postCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, GoogleGeoCodeResponse>("api/AddressLogic/GeoCodePostcode?postCode=" + postCode, null, _user)).Result;
+		}
+
+		#endregion
 	}
 	/// <summary>
 	/// 
@@ -1794,6 +1274,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<List<ClassificationTypeDTO>> GetRootClassificationDataForTypeNameAsync(String typeName)
 		{
+			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetRootClassificationDataForTypeName?typeName=" + typeName, _user);
 		}
@@ -1804,6 +1285,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="typeName"></param>
 		public virtual List<ClassificationTypeDTO> GetRootClassificationDataForTypeName(String typeName)
 		{
+			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<ClassificationTypeDTO>>("api/ClassificationDataLogic/GetRootClassificationDataForTypeName?typeName=" + typeName, _user)).Result;
 		}
@@ -1837,6 +1319,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<Int32> GetClassificationDataForTypeNameAsync(String categoryName,String typeName)
 		{
+			categoryName = categoryName.UrlEncode();
+			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<Int32>("api/ClassificationDataLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user);
 		}
@@ -1848,6 +1332,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="typeName"></param>
 		public virtual Int32 GetClassificationDataForTypeName(String categoryName,String typeName)
 		{
+			categoryName = categoryName.UrlEncode();
+			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/ClassificationDataLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user)).Result;
 		}
@@ -1878,54 +1364,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="eventName"></param>
-		/// <returns></returns>
-		public virtual async Task<TFEventDTO> GetTFEventByNameAsync(String eventName)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<TFEventDTO>("api/DataLogic/GetTFEventByName?eventName=" + eventName, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="eventName"></param>
-		public virtual TFEventDTO GetTFEventByName(String eventName)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<TFEventDTO>("api/DataLogic/GetTFEventByName?eventName=" + eventName, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="workflowID"></param>
-		/// <param name="workflowVersionNumber"></param>
-		/// <returns></returns>
-		public virtual async Task<List<VWorkflowTreeDTO>> GetWorkflowTreeAsync(Guid workflowID,Int32 workflowVersionNumber)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<VWorkflowTreeDTO>>("api/DataLogic/GetWorkflowTree?workflowID=" + workflowID + "&workflowVersionNumber=" + workflowVersionNumber, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="workflowID"></param>
-		/// <param name="workflowVersionNumber"></param>
-		public virtual List<VWorkflowTreeDTO> GetWorkflowTree(Guid workflowID,Int32 workflowVersionNumber)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VWorkflowTreeDTO>>("api/DataLogic/GetWorkflowTree?workflowID=" + workflowID + "&workflowVersionNumber=" + workflowVersionNumber, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="statusTypeEnum"></param>
 		/// <returns></returns>
 		public virtual async Task<List<VStatusTypeDTO>> GetStatusTypeAsync(String statusTypeEnum)
 		{
+			statusTypeEnum = statusTypeEnum.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<List<VStatusTypeDTO>>("api/DataLogic/GetStatusType?statusTypeEnum=" + statusTypeEnum, _user);
 		}
@@ -1936,6 +1379,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="statusTypeEnum"></param>
 		public virtual List<VStatusTypeDTO> GetStatusType(String statusTypeEnum)
 		{
+			statusTypeEnum = statusTypeEnum.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VStatusTypeDTO>>("api/DataLogic/GetStatusType?statusTypeEnum=" + statusTypeEnum, _user)).Result;
 		}
@@ -2218,135 +1662,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, String>("api/DataLogic/GenerateRandomMaleFirstAndLastName", null, _user)).Result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public virtual async Task<ServiceDefinitionDTO> GetServiceDefinitionWithDetailAsync(String name)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<ServiceDefinitionDTO>("api/DataLogic/GetServiceDefinitionWithDetail?name=" + name, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		public virtual ServiceDefinitionDTO GetServiceDefinitionWithDetail(String name)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ServiceDefinitionDTO>("api/DataLogic/GetServiceDefinitionWithDetail?name=" + name, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public virtual async Task MarkServiceInterfaceAsPendingAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsPending?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		public virtual void MarkServiceInterfaceAsPending(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsPending?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public virtual async Task MarkServiceInterfaceAsProcessingAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsProcessing?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		public virtual void MarkServiceInterfaceAsProcessing(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsProcessing?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public virtual async Task MarkServiceInterfaceAsFailedAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsFailed?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		public virtual void MarkServiceInterfaceAsFailed(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsFailed?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		/// <returns></returns>
-		public virtual async Task MarkServiceInterfaceAsSuccessfulAsync(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsSuccessful?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="serviceDefinitionID"></param>
-		/// <param name="productPurchaseProductTaskID"></param>
-		/// <param name="parentID"></param>
-		/// <param name="data"></param>
-		public virtual void MarkServiceInterfaceAsSuccessful(Guid serviceDefinitionID,Nullable<Guid> productPurchaseProductTaskID,Nullable<Guid> parentID,String data)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/DataLogic/MarkServiceInterfaceAsSuccessful?serviceDefinitionID=" + serviceDefinitionID + "&productPurchaseProductTaskID=" + productPurchaseProductTaskID + "&parentID=" + parentID + "&data=" + data, null, _user));
-		}
-
 		#endregion
 	}
 	/// <summary>
@@ -2504,6 +1819,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<NotificationConstructDTO> GetLatestNotificationConstructIdFromNameAsync(String name)
 		{
+			name = name.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetLatestNotificationConstructIdFromName?name=" + name, _user);
 		}
@@ -2514,6 +1830,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="name"></param>
 		public virtual NotificationConstructDTO GetLatestNotificationConstructIdFromName(String name)
 		{
+			name = name.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<NotificationConstructDTO>("api/NotificationLogic/GetLatestNotificationConstructIdFromName?name=" + name, _user)).Result;
 		}
@@ -2564,49 +1881,95 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
 		}
 
-        public virtual async Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID, string constructName)
-        {
-            string _user = getHttpContextUser();
-            return await GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user);
-        }
-        public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName)
-        {
-            string _user = getHttpContextUser();
-            return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user)).Result;
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="constructName"></param>
+		/// <returns></returns>
+		public virtual async Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName)
+		{
+			constructName = constructName.UrlEncode();
+			string _user = getHttpContextUser();
+			return await GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user);
+		}
 
-        public virtual async Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID)
-        {
-            string _user = getHttpContextUser();
-            return await GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user);
-        }
-        public virtual NotificationResultDTO GetTcAndCsText(Guid accountID)
-        {
-            string _user = getHttpContextUser();
-            return Task.Run(() => GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user)).Result;
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="constructName"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName)
+		{
+			constructName = constructName.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user)).Result;
+		}
 
-        public virtual async Task<byte[]> GetTcAndCsDataAsync(Guid notificationConstructID, int versionNumber)
-        {
-            string _user = getHttpContextUser();
-            return await GetAsync<byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user);
-        }
-        public virtual byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
-        {
-            string _user = getHttpContextUser();
-            return Task.Run(() => GetAsync<byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		public virtual async Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user);
+		}
 
-        public virtual async Task MarkAcceptedAsync(Guid notificationID)
-        {
-            string _user = getHttpContextUser();
-            await PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user);
-        }
-        public virtual void MarkAccepted(Guid notificationID)
-        {
-            string _user = getHttpContextUser();
-            Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user));
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		public virtual NotificationResultDTO GetTcAndCsText(Guid accountID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<NotificationResultDTO>("api/NotificationLogic/GetTcAndCsText?accountID=" + accountID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationConstructID"></param>
+		/// <param name="versionNumber"></param>
+		/// <returns></returns>
+		public virtual async Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationConstructID"></param>
+		/// <param name="versionNumber"></param>
+		public virtual Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationID"></param>
+		/// <returns></returns>
+		public virtual async Task MarkAcceptedAsync(Guid notificationID)
+		{
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationID"></param>
+		public virtual void MarkAccepted(Guid notificationID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user));
+		}
 
 		#endregion
 	}
@@ -2631,46 +1994,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task ExpireOrganisationsAsync(int days, int hours, int minutes)
-        {
-            string _user = getHttpContextUser();
-            await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void ExpireOrganisations(int days, int hours, int minutes)
-        {
-            string _user = getHttpContextUser();
-            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user));
-        }
-
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
+		/// <param name="days"></param>
+		/// <param name="hours"></param>
+		/// <param name="minutes"></param>
 		/// <returns></returns>
-		public virtual async Task<List<PostCodeDTO>> FindAddressesByPostCodeAsync(String postCode,String buildingNameOrNumber)
+		public virtual async Task ExpireOrganisationsAsync(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
-			return await PostAsync<object, List<PostCodeDTO>>("api/OrganisationLogic/FindAddressesByPostCode?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user);
+			await PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="postCode"></param>
-		/// <param name="buildingNameOrNumber"></param>
-		public virtual List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber)
+		/// <param name="days"></param>
+		/// <param name="hours"></param>
+		/// <param name="minutes"></param>
+		public virtual void ExpireOrganisations(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, List<PostCodeDTO>>("api/OrganisationLogic/FindAddressesByPostCode?postCode=" + postCode + "&buildingNameOrNumber=" + buildingNameOrNumber, null, _user)).Result;
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisations?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user));
 		}
 
 		/// <summary>
@@ -2685,6 +2031,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(Boolean manual,String line1,String line2,String town,String county,String postalCode)
 		{
+			line1 = line1.UrlEncode();
+			line2 = line2.UrlEncode();
+			town = town.UrlEncode();
+			county = county.UrlEncode();
+			postalCode = postalCode.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?manual=" + manual + "&line1=" + line1 + "&line2=" + line2 + "&town=" + town + "&county=" + county + "&postalCode=" + postalCode, null, _user);
 		}
@@ -2700,6 +2051,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="postalCode"></param>
 		public virtual List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode)
 		{
+			line1 = line1.UrlEncode();
+			line2 = line2.UrlEncode();
+			town = town.UrlEncode();
+			county = county.UrlEncode();
+			postalCode = postalCode.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?manual=" + manual + "&line1=" + line1 + "&line2=" + line2 + "&town=" + town + "&county=" + county + "&postalCode=" + postalCode, null, _user)).Result;
 		}
@@ -2723,24 +2079,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			Task.Run(() => PostAsync<RejectCompanyDTO>("api/OrganisationLogic/RejectOrganisation", dto, _user));
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task ActivateOrganisationAsync(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            await PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual async Task ActivateOrganisationAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void ActivateOrganisation(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user));
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual void ActivateOrganisation(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrganisation?organisationID=" + organisationID, null, _user));
+		}
 
 		/// <summary>
 		/// 
@@ -2759,27 +2117,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<GeneratePinDTO>("api/OrganisationLogic/GeneratePin", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
-		/// <returns></returns>
-		public virtual async Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, GoogleGeoCodeResponse>("api/OrganisationLogic/GeoCodePostcode?postCode=" + postCode, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="postCode"></param>
-		public virtual GoogleGeoCodeResponse GeoCodePostcode(String postCode)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, GoogleGeoCodeResponse>("api/OrganisationLogic/GeoCodePostcode?postCode=" + postCode, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2824,27 +2161,38 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministrator?organisationType=" + organisationType, dto, _user)).Result;
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="organisationType"></param>
-        /// <returns></returns>
-        public virtual async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto)
-        {
-            string _user = getHttpContextUser();
-            return await PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user);
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <param name="isTemporary"></param>
+		/// <returns></returns>
+		public virtual async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto)
+		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
+			string _user = getHttpContextUser();
+			return await PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user);
+		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="organisationType"></param>
-        /// <returns></returns>
-        public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,string username,string password,bool isTemporary,ContactDTO userContactDto)
-        {
-            string _user = getHttpContextUser();
-            return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
-        }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <param name="isTemporary"></param>
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto)
+		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
+		}
 
 		/// <summary>
 		/// 
@@ -2863,27 +2211,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Nullable<Guid>>("api/OrganisationLogic/GetTemporaryOrganisationBranchID", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="searchText"></param>
-		/// <returns></returns>
-		public virtual async Task<List<vOrganisationDTO>> GetAllOrganisationDetailDTOAsync(String searchText)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<vOrganisationDTO>>("api/OrganisationLogic/GetAllOrganisationDetailDTO?searchText=" + searchText, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="searchText"></param>
-		public virtual List<vOrganisationDTO> GetAllOrganisationDetailDTO(String searchText)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<vOrganisationDTO>>("api/OrganisationLogic/GetAllOrganisationDetailDTO?searchText=" + searchText, _user)).Result;
 		}
 
 		/// <summary>
@@ -2910,665 +2237,46 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="delete"></param>
+		/// <param name="organisationID"></param>
 		/// <returns></returns>
-		public virtual async Task ActivateDeactivateOrDeleteOrganisationAsync(Guid id,Boolean delete)
+		public virtual async Task<Boolean> IncrementInvalidPINAsync(Guid organisationID)
 		{
 			string _user = getHttpContextUser();
-			await PostAsync<object>("api/OrganisationLogic/ActivateDeactivateOrDeleteOrganisation/" + id + "?delete=" + delete, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="delete"></param>
-		public virtual void ActivateDeactivateOrDeleteOrganisation(Guid id,Boolean delete)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateDeactivateOrDeleteOrganisation/" + id + "?delete=" + delete, null, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task AddNewOrganisationFromWizardAsync(OrganisationDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<OrganisationDTO>("api/OrganisationLogic/AddNewOrganisationFromWizard", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AddNewOrganisationFromWizard(OrganisationDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<OrganisationDTO>("api/OrganisationLogic/AddNewOrganisationFromWizard", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task SaveOrganisationDetailAsync(OrganisationDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<OrganisationDTO>("api/OrganisationLogic/SaveOrganisationDetail", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void SaveOrganisationDetail(OrganisationDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<OrganisationDTO>("api/OrganisationLogic/SaveOrganisationDetail", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> DoesOrganisationNameExistAsync(String Name)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationNameExist?Name=" + Name, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		public virtual Boolean DoesOrganisationNameExist(String Name)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationNameExist?Name=" + Name, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> DoesOrganisationBranchExistAsync(String name)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationBranchExist?name=" + name, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		public virtual Boolean DoesOrganisationBranchExist(String name)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationBranchExist?name=" + name, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> DoesOrganisationLogoExistAsync(String Name)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationLogoExist?Name=" + Name, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		public virtual Boolean DoesOrganisationLogoExist(String Name)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationLogoExist?Name=" + Name, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> DoesOrganisationUnitExistAsync(String Name)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationUnitExist?Name=" + Name, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		public virtual Boolean DoesOrganisationUnitExist(String Name)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/DoesOrganisationUnitExist?Name=" + Name, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<RoleDTO>> GetOrgRolesAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<RoleDTO>>("api/OrganisationLogic/GetOrgRoles?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<RoleDTO> GetOrgRoles(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<RoleDTO>>("api/OrganisationLogic/GetOrgRoles?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<GroupDTO>> GetOrgGroupsAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<GroupDTO>>("api/OrganisationLogic/GetOrgGroups?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<GroupDTO> GetOrgGroups(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<GroupDTO>>("api/OrganisationLogic/GetOrgGroups?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<RoleDTO>> GetOrgRolesforOrgIdAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<RoleDTO>>("api/OrganisationLogic/GetOrgRolesforOrgId?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<RoleDTO> GetOrgRolesforOrgId(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<RoleDTO>>("api/OrganisationLogic/GetOrgRolesforOrgId?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<GroupDTO>> GetOrgGroupsforOrgIdAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<GroupDTO>>("api/OrganisationLogic/GetOrgGroupsforOrgId?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<GroupDTO> GetOrgGroupsforOrgId(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<GroupDTO>>("api/OrganisationLogic/GetOrgGroupsforOrgId?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<vAttachmentDTO>> GetOrganisationLogosAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<vAttachmentDTO>>("api/OrganisationLogic/GetOrganisationLogos?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<vAttachmentDTO> GetOrganisationLogos(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<vAttachmentDTO>>("api/OrganisationLogic/GetOrganisationLogos?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		public virtual async Task<vAttachmentDTO> GetOrganisationLogoAsync(Guid attachmentDetailID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<vAttachmentDTO>("api/OrganisationLogic/GetOrganisationLogo?attachmentDetailID=" + attachmentDetailID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="attachmentDetailID"></param>
-		public virtual vAttachmentDTO GetOrganisationLogo(Guid attachmentDetailID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<vAttachmentDTO>("api/OrganisationLogic/GetOrganisationLogo?attachmentDetailID=" + attachmentDetailID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task SaveOrganisationLogoAsync(vAttachmentDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<vAttachmentDTO>("api/OrganisationLogic/SaveOrganisationLogo", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void SaveOrganisationLogo(vAttachmentDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<vAttachmentDTO>("api/OrganisationLogic/SaveOrganisationLogo", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="attachmentDetailID"></param>
-		/// <returns></returns>
-		public virtual async Task ActivateOrDeactivateOrganisationLogoAsync(Guid attachmentDetailID)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/OrganisationLogic/ActivateOrDeactivateOrganisationLogo?attachmentDetailID=" + attachmentDetailID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="attachmentDetailID"></param>
-		public virtual void ActivateOrDeactivateOrganisationLogo(Guid attachmentDetailID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ActivateOrDeactivateOrganisationLogo?attachmentDetailID=" + attachmentDetailID, null, _user));
+			return await PostAsync<object, Boolean>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
-		/// <param name="attachmentDetailID"></param>
+		public virtual Boolean IncrementInvalidPIN(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationId"></param>
 		/// <returns></returns>
-		public virtual async Task DefaultOrganisationLogoAsync(Guid organisationID,Guid attachmentDetailID)
+		public virtual async Task ResendLoginsAsync(Guid organisationId)
 		{
 			string _user = getHttpContextUser();
-			await PostAsync<object>("api/OrganisationLogic/DefaultOrganisationLogo?organisationID=" + organisationID + "&attachmentDetailID=" + attachmentDetailID, null, _user);
+			await PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationId=" + organisationId, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="attachmentDetailID"></param>
-		public virtual void DefaultOrganisationLogo(Guid organisationID,Guid attachmentDetailID)
+		/// <param name="organisationId"></param>
+		public virtual void ResendLogins(Guid organisationId)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/DefaultOrganisationLogo?organisationID=" + organisationID + "&attachmentDetailID=" + attachmentDetailID, null, _user));
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationId=" + organisationId, null, _user));
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task SaveOrganisationUnitAsync(OrganisationUnitDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<OrganisationUnitDTO>("api/OrganisationLogic/SaveOrganisationUnit", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void SaveOrganisationUnit(OrganisationUnitDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<OrganisationUnitDTO>("api/OrganisationLogic/SaveOrganisationUnit", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		public virtual async Task<OrganisationUnitDTO> GetOrganisationUnitAsync(Int32 unitID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<OrganisationUnitDTO>("api/OrganisationLogic/GetOrganisationUnit?unitID=" + unitID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="unitID"></param>
-		public virtual OrganisationUnitDTO GetOrganisationUnit(Int32 unitID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<OrganisationUnitDTO>("api/OrganisationLogic/GetOrganisationUnit?unitID=" + unitID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="unitID"></param>
-		/// <returns></returns>
-		public virtual async Task DeleteOrganisationUnitAsync(Int32 unitID)
-		{
-			string _user = getHttpContextUser();
-			await DeleteAsync("api/OrganisationLogic/DeleteOrganisationUnit?unitID=" + unitID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="unitID"></param>
-		public virtual void DeleteOrganisationUnit(Int32 unitID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync("api/OrganisationLogic/DeleteOrganisationUnit?unitID=" + unitID, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationDTO>> GetOrgansationBranchDTOsAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationDTO>>("api/OrganisationLogic/GetOrgansationBranchDTOs?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationDTO> GetOrgansationBranchDTOs(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationDTO>>("api/OrganisationLogic/GetOrgansationBranchDTOs?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<vBranchDTO>> GetOrganisationBranchesAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<vBranchDTO>>("api/OrganisationLogic/GetOrganisationBranches?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<vBranchDTO> GetOrganisationBranches(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<vBranchDTO>>("api/OrganisationLogic/GetOrganisationBranches?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<ContactDTO>> GetAllBranchesAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<ContactDTO>>("api/OrganisationLogic/GetAllBranches?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<ContactDTO> GetAllBranches(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<ContactDTO>>("api/OrganisationLogic/GetAllBranches?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task SaveOrganisationBranchAsync(ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<ContactDTO>("api/OrganisationLogic/SaveOrganisationBranch", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void SaveOrganisationBranch(ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<ContactDTO>("api/OrganisationLogic/SaveOrganisationBranch", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="branchID"></param>
-		/// <returns></returns>
-		public virtual async Task<vBranchDTO> GetOrganisationBranchAsync(Int32 branchID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<vBranchDTO>("api/OrganisationLogic/GetOrganisationBranch?branchID=" + branchID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="branchID"></param>
-		public virtual vBranchDTO GetOrganisationBranch(Int32 branchID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<vBranchDTO>("api/OrganisationLogic/GetOrganisationBranch?branchID=" + branchID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="contactID"></param>
-		/// <returns></returns>
-		public virtual async Task DeleteOrganisationBranchAsync(Guid contactID)
-		{
-			string _user = getHttpContextUser();
-			await DeleteAsync("api/OrganisationLogic/DeleteOrganisationBranch?contactID=" + contactID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="contactID"></param>
-		public virtual void DeleteOrganisationBranch(Guid contactID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync("api/OrganisationLogic/DeleteOrganisationBranch?contactID=" + contactID, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public virtual async Task<List<AddressDTO>> GetAllBranchAddressesAsync(Guid id)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<AddressDTO>>("api/OrganisationLogic/GetAllBranchAddresses/" + id, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		public virtual List<AddressDTO> GetAllBranchAddresses(Guid id)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<AddressDTO>>("api/OrganisationLogic/GetAllBranchAddresses/" + id, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationDetailDTO>> GetOrganisationDetailsAsync()
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationDetailDTO>>("api/OrganisationLogic/GetOrganisationDetails", _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual List<OrganisationDetailDTO> GetOrganisationDetails()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationDetailDTO>>("api/OrganisationLogic/GetOrganisationDetails", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationDetailDTO>> GetOrganisationDetailsIncludingBranchesAsync(String id)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationDetailDTO>>("api/OrganisationLogic/GetOrganisationDetailsIncludingBranches/" + id, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		public virtual List<OrganisationDetailDTO> GetOrganisationDetailsIncludingBranches(String id)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationDetailDTO>>("api/OrganisationLogic/GetOrganisationDetailsIncludingBranches/" + id, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationUnitDTO>> GetOrganisationUnitsAsync(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationUnitDTO>>("api/OrganisationLogic/GetOrganisationUnits?orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationUnitDTO> GetOrganisationUnits(Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationUnitDTO>>("api/OrganisationLogic/GetOrganisationUnits?orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="typeId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<VOrganisationTemplateDTO>> GetOrganisationTemplatesforOrganisationTypeAsync(Int32 typeId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<VOrganisationTemplateDTO>>("api/OrganisationLogic/GetOrganisationTemplatesforOrganisationType?typeId=" + typeId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="typeId"></param>
-		public virtual List<VOrganisationTemplateDTO> GetOrganisationTemplatesforOrganisationType(Int32 typeId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VOrganisationTemplateDTO>>("api/OrganisationLogic/GetOrganisationTemplatesforOrganisationType?typeId=" + typeId, _user)).Result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task<bool> IncrementInvalidPINAsync(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            return await PostAsync<object, bool>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual bool IncrementInvalidPIN(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            return Task.Run(() => PostAsync<object, bool>("api/OrganisationLogic/IncrementInvalidPIN?organisationID=" + organisationID, null, _user)).Result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task ResendLoginsAsync(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            await PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationID=" + organisationID, null, _user);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void ResendLogins(Guid organisationID)
-        {
-            string _user = getHttpContextUser();
-            Task.Run(() => PostAsync<object>("api/OrganisationLogic/ResendLogins?organisationID=" + organisationID, null, _user));
-        }
-
-
-        #endregion
+		#endregion
 	}
 	/// <summary>
 	/// 
@@ -3714,6 +2422,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<SettingDTO> GetSettingByNameAsync(String name)
 		{
+			name = name.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<SettingDTO>("api/SettingsLogic/GetSettingByName?name=" + name, _user);
 		}
@@ -3724,6 +2433,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="name"></param>
 		public virtual SettingDTO GetSettingByName(String name)
 		{
+			name = name.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<SettingDTO>("api/SettingsLogic/GetSettingByName?name=" + name, _user)).Result;
 		}
@@ -3759,6 +2469,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserLoginValidation> AuthenticateUserAsync(String username,String password)
 		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUser?username=" + username + "&password=" + password, null, _user);
 		}
@@ -3770,6 +2482,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="password"></param>
 		public virtual UserLoginValidation AuthenticateUser(String username,String password)
 		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, UserLoginValidation>("api/UserLogic/AuthenticateUser?username=" + username + "&password=" + password, null, _user)).Result;
 		}
@@ -3815,25 +2529,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
-		public virtual async Task<Int32> GetAllUserManagementDTOCountAsync()
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<Int32>("api/UserLogic/GetAllUserManagementDTOCount", _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual Int32 GetAllUserManagementDTOCount()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Int32>("api/UserLogic/GetAllUserManagementDTOCount", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		public virtual async Task<vUserManagementDTO> GerUserManagementDTOAsync(Guid userId)
@@ -3850,121 +2545,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, vUserManagementDTO>("api/UserLogic/GerUserManagementDTO?userId=" + userId, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationRoleDTO>> GetUserRolesAsync(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationRoleDTO>>("api/UserLogic/GetUserRoles?userId=" + userId + "&orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationRoleDTO> GetUserRoles(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationRoleDTO>>("api/UserLogic/GetUserRoles?userId=" + userId + "&orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationRoleDTO>> GetOrganisationRolesAsync(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationRoleDTO>>("api/UserLogic/GetOrganisationRoles?userId=" + userId + "&orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationRoleDTO> GetOrganisationRoles(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationRoleDTO>>("api/UserLogic/GetOrganisationRoles?userId=" + userId + "&orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationGroupDTO>> GetUserGroupsAsync(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationGroupDTO>>("api/UserLogic/GetUserGroups?userId=" + userId + "&orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationGroupDTO> GetUserGroups(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationGroupDTO>>("api/UserLogic/GetUserGroups?userId=" + userId + "&orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		/// <returns></returns>
-		public virtual async Task<List<OrganisationGroupDTO>> GetOrganisationGroupsAsync(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<OrganisationGroupDTO>>("api/UserLogic/GetOrganisationGroups?userId=" + userId + "&orgId=" + orgId, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="orgId"></param>
-		public virtual List<OrganisationGroupDTO> GetOrganisationGroups(Guid userId,Guid orgId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationGroupDTO>>("api/UserLogic/GetOrganisationGroups?userId=" + userId + "&orgId=" + orgId, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="delete"></param>
-		/// <returns></returns>
-		public virtual async Task UpdateUserStatusAsync(Guid userId,Boolean delete)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/UserLogic/UpdateUserStatus?userId=" + userId + "&delete=" + delete, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="delete"></param>
-		public virtual void UpdateUserStatus(Guid userId,Boolean delete)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/UpdateUserStatus?userId=" + userId + "&delete=" + delete, null, _user));
 		}
 
 		/// <summary>
@@ -3989,74 +2569,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userType"></param>
-		/// <param name="userCategory"></param>
-		/// <returns></returns>
-		public virtual async Task AddUserDetailsAsync(String userType,String userCategory,ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<ContactDTO>("api/UserLogic/AddUserDetails?userType=" + userType + "&userCategory=" + userCategory, dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userType"></param>
-		/// <param name="userCategory"></param>
-		public virtual void AddUserDetails(String userType,String userCategory,ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/AddUserDetails?userType=" + userType + "&userCategory=" + userCategory, dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual async Task UpdateUserAsync(ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<ContactDTO>("api/UserLogic/UpdateUser", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void UpdateUser(ContactDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/UpdateUser", dto, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		public virtual async Task<ContactDTO> EditUserAsync(Guid userId)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, ContactDTO>("api/UserLogic/EditUser?userId=" + userId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		public virtual ContactDTO EditUser(Guid userId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, ContactDTO>("api/UserLogic/EditUser?userId=" + userId, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
 		/// <returns></returns>
 		public virtual async Task ResetUserPasswordAsync(Guid userID,String newPassword)
 		{
+			newPassword = newPassword.UrlEncode();
 			string _user = getHttpContextUser();
 			await PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword, null, _user);
 		}
@@ -4068,6 +2586,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="newPassword"></param>
 		public virtual void ResetUserPassword(Guid userID,String newPassword)
 		{
+			newPassword = newPassword.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword, null, _user));
 		}
@@ -4144,6 +2663,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task ResetPasswordAsync(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			await PostAsync<object>("api/UserLogic/ResetPassword?email=" + email, null, _user);
 		}
@@ -4154,6 +2674,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="email"></param>
 		public virtual void ResetPassword(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/ResetPassword?email=" + email, null, _user));
 		}
@@ -4165,6 +2686,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<Boolean> IsUserExistAsync(String userName)
 		{
+			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, Boolean>("api/UserLogic/IsUserExist?userName=" + userName, null, _user);
 		}
@@ -4175,6 +2697,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userName"></param>
 		public virtual Boolean IsUserExist(String userName)
 		{
+			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsUserExist?userName=" + userName, null, _user)).Result;
 		}
@@ -4186,6 +2709,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<Boolean> IsEmailExistAsync(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, Boolean>("api/UserLogic/IsEmailExist?email=" + email, null, _user);
 		}
@@ -4196,6 +2720,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="email"></param>
 		public virtual Boolean IsEmailExist(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsEmailExist?email=" + email, null, _user)).Result;
 		}
@@ -4219,69 +2744,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<AddressDTO>>("api/UserLogic/GetUserAddresses?contactID=" + contactID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public virtual async Task DeleteAddressToContactAsync(Guid id)
-		{
-			string _user = getHttpContextUser();
-			await DeleteAsync("api/UserLogic/DeleteAddressToContact/" + id, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		public virtual void DeleteAddressToContact(Guid id)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync("api/UserLogic/DeleteAddressToContact/" + id, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		public virtual async Task SaveUserRolesAsync(Guid userId,List<OrganisationRoleDTO> selectedRoles)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<List<OrganisationRoleDTO>>("api/UserLogic/SaveUserRoles?userId=" + userId, selectedRoles, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		public virtual void SaveUserRoles(Guid userId,List<OrganisationRoleDTO> selectedRoles)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<List<OrganisationRoleDTO>>("api/UserLogic/SaveUserRoles?userId=" + userId, selectedRoles, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		public virtual async Task SaveUserGroupsAsync(Guid userId,List<OrganisationGroupDTO> selectedGroups)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<List<OrganisationGroupDTO>>("api/UserLogic/SaveUserGroups?userId=" + userId, selectedGroups, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		public virtual void SaveUserGroups(Guid userId,List<OrganisationGroupDTO> selectedGroups)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<List<OrganisationGroupDTO>>("api/UserLogic/SaveUserGroups?userId=" + userId, selectedGroups, _user));
 		}
 
 		/// <summary>
@@ -4331,6 +2793,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccount> GetBAUserAccountByEmailAsync(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmail?email=" + email, _user);
 		}
@@ -4341,6 +2804,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="email"></param>
 		public virtual UserAccount GetBAUserAccountByEmail(String email)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmail?email=" + email, _user)).Result;
 		}
@@ -4353,6 +2817,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccount> GetBAUserAccountByEmailAndNotIDAsync(String email,Guid id)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotID/" + id + "?email=" + email, _user);
 		}
@@ -4364,29 +2829,9 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="id"></param>
 		public virtual UserAccount GetBAUserAccountByEmailAndNotID(String email,Guid id)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByEmailAndNotID/" + id + "?email=" + email, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
-		/// <returns></returns>
-		public virtual async Task<UserAccount> GetBAUserAccountByVerificationKeyAsync(String key)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByVerificationKey?key=" + key, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="key"></param>
-		public virtual UserAccount GetBAUserAccountByVerificationKey(String key)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByVerificationKey?key=" + key, _user)).Result;
 		}
 
 		/// <summary>
@@ -4396,6 +2841,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccount> GetBAUserAccountByUsernameAsync(String username)
 		{
+			username = username.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsername?username=" + username, _user);
 		}
@@ -4406,6 +2852,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="username"></param>
 		public virtual UserAccount GetBAUserAccountByUsername(String username)
 		{
+			username = username.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccount>("api/UserLogic/GetBAUserAccountByUsername?username=" + username, _user)).Result;
 		}
@@ -4418,6 +2865,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<List<UserAccountDTO>> GetUserAccountByEmailAsync(String email,Boolean permanentAccountonly)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<List<UserAccountDTO>>("api/UserLogic/GetUserAccountByEmail?email=" + email + "&permanentAccountonly=" + permanentAccountonly, _user);
 		}
@@ -4429,6 +2877,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="permanentAccountonly"></param>
 		public virtual List<UserAccountDTO> GetUserAccountByEmail(String email,Boolean permanentAccountonly)
 		{
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountDTO>>("api/UserLogic/GetUserAccountByEmail?email=" + email + "&permanentAccountonly=" + permanentAccountonly, _user)).Result;
 		}
@@ -4440,6 +2889,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccountDTO> GetUserAccountByUsernameAsync(String userName)
 		{
+			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
 			return await GetAsync<UserAccountDTO>("api/UserLogic/GetUserAccountByUsername?userName=" + userName, _user);
 		}
@@ -4450,6 +2900,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userName"></param>
 		public virtual UserAccountDTO GetUserAccountByUsername(String userName)
 		{
+			userName = userName.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<UserAccountDTO>("api/UserLogic/GetUserAccountByUsername?userName=" + userName, _user)).Result;
 		}
@@ -4515,71 +2966,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationDTO>>("api/UserLogic/GetUserAccountOrganisation?accountID=" + accountID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		public virtual async Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		public virtual ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		/// <returns></returns>
-		public virtual async Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="personalOrg"></param>
-		public virtual VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <returns></returns>
-		public virtual async Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		public virtual List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user)).Result;
 		}
 
 		/// <summary>
@@ -4684,6 +3070,71 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual async Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<ContactDTO>("api/UserLogic/GetUserAccountOrganisationPrimaryContact?uaoID=" + uaoID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="personalOrg"></param>
+		/// <returns></returns>
+		public virtual async Task<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationUserTypeOrganisationTypeAsync(Guid accountID,Boolean personalOrg)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="personalOrg"></param>
+		public virtual VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<VUserAccountOrganisationUserTypeOrganisationTypeDTO>("api/UserLogic/GetUserAccountOrganisationUserTypeOrganisationType?accountID=" + accountID + "&personalOrg=" + personalOrg, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <returns></returns>
+		public virtual async Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID)
+		{
+			string _user = getHttpContextUser();
+			return await GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		public virtual List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>>("api/UserLogic/GetUserAccountOrganisationWithUserTypeAndOrgType?accountID=" + accountID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		public virtual async Task<List<String>> UserLoginSessionsAsync(Guid userId)
@@ -4710,6 +3161,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task LogEveryoneElseOutAsync(Guid userId,String sessionId)
 		{
+			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
 			await PostAsync<object>("api/UserLogic/LogEveryoneElseOut?userId=" + userId + "&sessionId=" + sessionId, null, _user);
 		}
@@ -4721,6 +3173,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="sessionId"></param>
 		public virtual void LogEveryoneElseOut(Guid userId,String sessionId)
 		{
+			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/LogEveryoneElseOut?userId=" + userId + "&sessionId=" + sessionId, null, _user));
 		}
@@ -4736,6 +3189,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task SaveUserAccountLoginSessionAsync(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
 		{
+			sessionId = sessionId.UrlEncode();
+			userHostAddress = userHostAddress.UrlEncode();
+			userIdAddress = userIdAddress.UrlEncode();
+			userLocation = userLocation.UrlEncode();
 			string _user = getHttpContextUser();
 			await PostAsync<object>("api/UserLogic/SaveUserAccountLoginSession?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user);
 		}
@@ -4750,6 +3207,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userLocation"></param>
 		public virtual void SaveUserAccountLoginSession(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation)
 		{
+			sessionId = sessionId.UrlEncode();
+			userHostAddress = userHostAddress.UrlEncode();
+			userIdAddress = userIdAddress.UrlEncode();
+			userLocation = userLocation.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/SaveUserAccountLoginSession?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user));
 		}
@@ -4762,6 +3223,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task SaveUserAccountLoginSessionDataAsync(Guid userId,String sessionId,Dictionary<String, String> requestData)
 		{
+			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
 			await PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionData?userId=" + userId + "&sessionId=" + sessionId, requestData, _user);
 		}
@@ -4773,6 +3235,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="sessionId"></param>
 		public virtual void SaveUserAccountLoginSessionData(Guid userId,String sessionId,Dictionary<String, String> requestData)
 		{
+			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionData?userId=" + userId + "&sessionId=" + sessionId, requestData, _user));
 		}
@@ -4845,27 +3308,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> DoesPermanentUserHavePersonalOrganisationAsync(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/UserLogic/DoesPermanentUserHavePersonalOrganisation?userID=" + userID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		public virtual Boolean DoesPermanentUserHavePersonalOrganisation(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/DoesPermanentUserHavePersonalOrganisation?userID=" + userID, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		public virtual async Task<Guid> GetPersonalUserAccountOrganisationAsync(Guid userId)
@@ -4887,27 +3329,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		public virtual async Task<Nullable<Guid>> AddUserToTemporaryOrganisationAsync(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Nullable<Guid>>("api/UserLogic/AddUserToTemporaryOrganisation?userID=" + userID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		public virtual Nullable<Guid> AddUserToTemporaryOrganisation(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Nullable<Guid>>("api/UserLogic/AddUserToTemporaryOrganisation?userID=" + userID, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="password"></param>
 		/// <param name="temporaryAccount"></param>
@@ -4915,6 +3336,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccount> CreateTemporaryAccountAsync(String email,String password,Boolean temporaryAccount,Guid userId)
 		{
+			email = email.UrlEncode();
+			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccount?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
 		}
@@ -4928,6 +3351,8 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userId"></param>
 		public virtual UserAccount CreateTemporaryAccount(String email,String password,Boolean temporaryAccount,Guid userId)
 		{
+			email = email.UrlEncode();
+			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccount?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
 		}
@@ -4943,6 +3368,9 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <returns></returns>
 		public virtual async Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Boolean temporaryAccount,Guid userId)
 		{
+			userName = userName.UrlEncode();
+			password = password.UrlEncode();
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return await PostAsync<object, UserAccount>("api/UserLogic/CreateAccount?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
 		}
@@ -4957,6 +3385,9 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userId"></param>
 		public virtual UserAccount CreateAccount(String userName,String password,String email,Boolean temporaryAccount,Guid userId)
 		{
+			userName = userName.UrlEncode();
+			password = password.UrlEncode();
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccount?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
 		}
@@ -5060,287 +3491,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountNotLoggedInDTO>>("api/UserLogic/GetUserAccountsNotLoggedIn", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <returns></returns>
-		public virtual async Task<VUserAccountOrganisationDTO> GetVUserAccountOrganisationAsync(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<VUserAccountOrganisationDTO>("api/UserLogic/GetVUserAccountOrganisation?userID=" + userID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		public virtual VUserAccountOrganisationDTO GetVUserAccountOrganisation(Guid userID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<VUserAccountOrganisationDTO>("api/UserLogic/GetVUserAccountOrganisation?userID=" + userID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="PasswordResetSecretID"></param>
-		/// <returns></returns>
-		public virtual async Task RemovePasswordResetSecretAsync(Guid accountID,Guid PasswordResetSecretID)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/UserLogic/RemovePasswordResetSecret?accountID=" + accountID + "&PasswordResetSecretID=" + PasswordResetSecretID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="PasswordResetSecretID"></param>
-		public virtual void RemovePasswordResetSecret(Guid accountID,Guid PasswordResetSecretID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/RemovePasswordResetSecret?accountID=" + accountID + "&PasswordResetSecretID=" + PasswordResetSecretID, null, _user));
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="password"></param>
-		/// <param name="question"></param>
-		/// <param name="answer"></param>
-		/// <returns></returns>
-		public virtual async Task AddPasswordResetSecretAsync(Guid accountID,String password,String question,String answer)
-		{
-			string _user = getHttpContextUser();
-			await PostAsync<object>("api/UserLogic/AddPasswordResetSecret?accountID=" + accountID + "&password=" + password + "&question=" + question + "&answer=" + answer, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="password"></param>
-		/// <param name="question"></param>
-		/// <param name="answer"></param>
-		public virtual void AddPasswordResetSecret(Guid accountID,String password,String question,String answer)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/AddPasswordResetSecret?accountID=" + accountID + "&password=" + password + "&question=" + question + "&answer=" + answer, null, _user));
-		}
-
-		#endregion
-	}
-	/// <summary>
-	/// 
-	/// </summary>
-	public partial class ValidationLogicClient : ClientBase, Interfaces.IValidationLogicClient
-	{		
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public ValidationLogicClient(string url) : base(url)
-		{
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public ValidationLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
-		{
-		}
-
-		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strSRAID"></param>
-		/// <returns></returns>
-		public virtual async Task<EmployeeDTO> GetEmployeeByIdAsync(String strSRAID)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<EmployeeDTO>("api/ValidationLogic/GetEmployeeById?strSRAID=" + strSRAID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strSRAID"></param>
-		public virtual EmployeeDTO GetEmployeeById(String strSRAID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<EmployeeDTO>("api/ValidationLogic/GetEmployeeById?strSRAID=" + strSRAID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strCopmanyName"></param>
-		/// <returns></returns>
-		public virtual async Task<CompanyDTO> GetCompanyDetailsByNameAsync(String strCopmanyName)
-		{
-			string _user = getHttpContextUser();
-			return await GetAsync<CompanyDTO>("api/ValidationLogic/GetCompanyDetailsByName?strCopmanyName=" + strCopmanyName, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strCopmanyName"></param>
-		public virtual CompanyDTO GetCompanyDetailsByName(String strCopmanyName)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<CompanyDTO>("api/ValidationLogic/GetCompanyDetailsByName?strCopmanyName=" + strCopmanyName, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strBranchSraId"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="strPostCode"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> IsInvalidBranchAsync(String strBranchSraId,String strCompanyName,String strPostCode)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/ValidationLogic/IsInvalidBranch?strBranchSraId=" + strBranchSraId + "&strCompanyName=" + strCompanyName + "&strPostCode=" + strPostCode, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strBranchSraId"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="strPostCode"></param>
-		public virtual Boolean IsInvalidBranch(String strBranchSraId,String strCompanyName,String strPostCode)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/ValidationLogic/IsInvalidBranch?strBranchSraId=" + strBranchSraId + "&strCompanyName=" + strCompanyName + "&strPostCode=" + strPostCode, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strSraId"></param>
-		/// <param name="strLastName"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="IsColp"></param>
-		/// <returns></returns>
-		public virtual async Task<Boolean> IsInvalidEmployeeAsync(String strSraId,String strLastName,String strCompanyName,Boolean IsColp)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, Boolean>("api/ValidationLogic/IsInvalidEmployee?strSraId=" + strSraId + "&strLastName=" + strLastName + "&strCompanyName=" + strCompanyName + "&IsColp=" + IsColp, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="strSraId"></param>
-		/// <param name="strLastName"></param>
-		/// <param name="strCompanyName"></param>
-		/// <param name="IsColp"></param>
-		public virtual Boolean IsInvalidEmployee(String strSraId,String strLastName,String strCompanyName,Boolean IsColp)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/ValidationLogic/IsInvalidEmployee?strSraId=" + strSraId + "&strLastName=" + strLastName + "&strCompanyName=" + strCompanyName + "&IsColp=" + IsColp, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		public virtual async Task<RegistrationValidationErrorDTO> DuplicateComplianceOfficerAsync(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/DuplicateComplianceOfficer?CORegulator=" + CORegulator + "&CORegulatorNumber=" + CORegulatorNumber + "&COFirmName=" + COFirmName + "&COFirmTradingName=" + COFirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		public virtual RegistrationValidationErrorDTO DuplicateComplianceOfficer(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/DuplicateComplianceOfficer?CORegulator=" + CORegulator + "&CORegulatorNumber=" + CORegulatorNumber + "&COFirmName=" + COFirmName + "&COFirmTradingName=" + COFirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="FirmRegulator"></param>
-		/// <param name="BranchRegulatorNumber"></param>
-		/// <param name="FirmName"></param>
-		/// <param name="FirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		public virtual async Task<RegistrationValidationErrorDTO> DuplicateCompanyAsync(String FirmRegulator,String BranchRegulatorNumber,String FirmName,String FirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/DuplicateCompany?FirmRegulator=" + FirmRegulator + "&BranchRegulatorNumber=" + BranchRegulatorNumber + "&FirmName=" + FirmName + "&FirmTradingName=" + FirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="FirmRegulator"></param>
-		/// <param name="BranchRegulatorNumber"></param>
-		/// <param name="FirmName"></param>
-		/// <param name="FirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		public virtual RegistrationValidationErrorDTO DuplicateCompany(String FirmRegulator,String BranchRegulatorNumber,String FirmName,String FirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/DuplicateCompany?FirmRegulator=" + FirmRegulator + "&BranchRegulatorNumber=" + BranchRegulatorNumber + "&FirmName=" + FirmName + "&FirmTradingName=" + FirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		/// <returns></returns>
-		public virtual async Task<RegistrationValidationErrorDTO> COwithAnotherFirmAsync(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return await PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/COwithAnotherFirm?CORegulator=" + CORegulator + "&CORegulatorNumber=" + CORegulatorNumber + "&COFirmName=" + COFirmName + "&COFirmTradingName=" + COFirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="CORegulator"></param>
-		/// <param name="CORegulatorNumber"></param>
-		/// <param name="COFirmName"></param>
-		/// <param name="COFirmTradingName"></param>
-		/// <param name="COLastName"></param>
-		/// <param name="COEmail"></param>
-		public virtual RegistrationValidationErrorDTO COwithAnotherFirm(String CORegulator,String CORegulatorNumber,String COFirmName,String COFirmTradingName,String COLastName,String COEmail)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, RegistrationValidationErrorDTO>("api/ValidationLogic/COwithAnotherFirm?CORegulator=" + CORegulator + "&CORegulatorNumber=" + CORegulatorNumber + "&COFirmName=" + COFirmName + "&COFirmTradingName=" + COFirmTradingName + "&COLastName=" + COLastName + "&COEmail=" + COEmail, null, _user)).Result;
 		}
 
 		#endregion

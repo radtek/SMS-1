@@ -22,10 +22,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         private IOrganisationLogicClient m_OrganisationClient;
+        IAddressLogicClient m_AddressClient;
 
-        public CompanyController(ILogger logger, IOrganisationLogicClient oClient) : base(logger)
+        public CompanyController(ILogger logger, IOrganisationLogicClient oClient, IAddressLogicClient aClient) : base(logger)
         {
             m_OrganisationClient = oClient;
+            m_AddressClient = aClient;
         }
 
         public ActionResult Provisional()
@@ -66,7 +68,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> FindAddress(string postcode)
         {
-            List<PostCodeDTO> list = await m_OrganisationClient.FindAddressesByPostCodeAsync(postcode, null);
+            List<PostCodeDTO> list = await m_AddressClient.FindAddressesByPostCodeAsync(postcode, null);
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }       
