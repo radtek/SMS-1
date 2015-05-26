@@ -49,6 +49,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(CreatePermanentLoginDTO model)
         {
+            //check for any subsequent locking of this account
+            var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
+            if (!tempua.IsLoginAllowed)
+            {
+                return RedirectToAction("Index", "Login", new { area = "Account" });
+            }
+
             if (string.IsNullOrWhiteSpace(model.NewUsername) || await m_UserLogicClient.IsUserExistAsync(model.NewUsername))
             {
                 ModelState.AddModelError("", "This username is unavailable, please chose another");
@@ -84,7 +91,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             m_OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
             m_OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
             //delete original temp user account
-            var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
+            
             m_UserLogicClient.LockUserTemporaryAccount(tempua.ID);
 
             LoginController.logout(this, authSvc);
