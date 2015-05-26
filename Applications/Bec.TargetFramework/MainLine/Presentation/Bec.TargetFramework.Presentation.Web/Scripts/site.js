@@ -72,24 +72,29 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
 //for 'fire and forget' modal links, where no result is captured
 function findModalLinks() {
     $('a[data-modallink]').on('click', function (e) {
-        e.preventDefault();
-        ajaxWrapper({
-            url: $(this).data('href'),
-            cache: false
-        }).done(function (result) {
-            var tempDiv = $(result); //tempDiv include all elements & script
-            $('body').append(tempDiv);
-            var mdiv = tempDiv.filter('.modal');
-            modalStack.push(mdiv);
+        if (!$(e.target).prop('disabled')) {
+            $(e.target).prop('disabled', true);
+            e.preventDefault();
+            ajaxWrapper({
+                url: $(this).data('href'),
+                cache: false
+            }).done(function (result) {
+                var tempDiv = $(result); //tempDiv include all elements & script
+                $('body').append(tempDiv);
+                var mdiv = tempDiv.filter('.modal');
+                modalStack.push(mdiv);
 
-            mdiv.modal({
-                backdrop: 'static',
-                keyboard: false
-            }).on('hidden.bs.modal', function () {
-                tempDiv.remove(); //remove all elements which were added
-                modalStack.pop();
+                mdiv.modal({
+                    backdrop: 'static',
+                    keyboard: false
+                }).on('hidden.bs.modal', function () {
+                    tempDiv.remove(); //remove all elements which were added
+                    modalStack.pop();
+                });
+
+                $(e.target).prop('disabled', false);
             });
-        });
+        }
     });
 }
 

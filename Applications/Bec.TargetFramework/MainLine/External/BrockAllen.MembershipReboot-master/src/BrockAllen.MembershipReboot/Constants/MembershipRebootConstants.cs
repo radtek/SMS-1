@@ -21,7 +21,7 @@ namespace BrockAllen.MembershipReboot
             internal const bool UsernamesUniqueAcrossTenants = false;
             internal const bool RequireAccountVerification = true;
             internal const bool AllowLoginAfterAccountCreation = true;
-            internal const int AccountLockoutFailedLoginAttempts = 6;
+            internal const int AccountLockoutFailedLoginAttempts = 3;
             internal const string AccountLockoutDuration = "00:30:00";
             internal const int forgottenUsernameLockoutFailedAttempts = 3;
             internal const string forgottenUsernameLockoutDuration = "00:30:00";
