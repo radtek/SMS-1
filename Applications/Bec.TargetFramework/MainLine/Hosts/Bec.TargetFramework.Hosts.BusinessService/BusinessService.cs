@@ -1,9 +1,6 @@
 ﻿using Autofac;
-using Bec.TargetFramework.Business.Services;
-using Bec.TargetFramework.Entities.DTO.Event;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure;
-using Bec.TargetFramework.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +16,6 @@ using Autofac.Integration.Wcf;
 using System.ServiceModel.Description;
 using System.ServiceModel.Configuration;
 using System.Configuration;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Infrastructure.Log;
 using Enyim.Caching;
 using Microsoft.Owin.Hosting;
@@ -32,6 +28,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService
     using Bec.TargetFramework.Infrastructure;
     using Bec.TargetFramework.SB.Messages.Commands;
     using Bec.TargetFramework.Infrastructure.IOC;
+    using Bec.TargetFramework.Hosts.BusinessService.API;
+    using Bec.TargetFramework.Business.Logic;
 
     public partial class BusinessService : ServiceBase
     {

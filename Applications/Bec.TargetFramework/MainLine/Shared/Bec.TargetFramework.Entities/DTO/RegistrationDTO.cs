@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(RegistrationDTOValidator))]
     [DataContract]
     [Serializable]
     public class RegistrationDTO

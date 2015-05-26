@@ -25,38 +25,5 @@ namespace Bec.TargetFramework.Business
 
         }
 
-        public static int GetOrganisationCurrentAccountingPeriod(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID)
-        {
-            var intCurrentAccountingPeriod = scope.DbContext.VGlobalAccountingCurrentPeriods.Single().GlobalAccountingPeriodID;
-
-            return
-                scope.DbContext.OrganisationAccountingPeriods.Single(
-                    s => s.GlobalAccountingPeriodID.Equals(intCurrentAccountingPeriod) && s.OrganisationID.Equals(organisationID)).OrganisationAccountingPeriodID;
-        }
-
-        public static VGlobalAccountingCurrentPeriodDTO GetAccountingPeriodDto(UnitOfWorkScope<TargetFrameworkEntities> scope, int globalAccountingPeriodID)
-        {
-            return VGlobalAccountingCurrentPeriodConverter.ToDto(scope.DbContext.VGlobalAccountingCurrentPeriods.Single(s => s.GlobalAccountingPeriodID.Equals(globalAccountingPeriodID)));
-        }
-
-        public static Guid GetGlobalPaymentMethodIDForOnlineTransactions(UnitOfWorkScope<TargetFrameworkEntities> scope)
-        {
-            return
-                scope.DbContext.GlobalPaymentMethods.Single(s => s.IsDefaultForOnlinePayments == true)
-                    .GlobalPaymentMethodID;
-        }
-
-        [EnsureArgumentAspect]
-        public static OrganisationPaymentMethodDTO GetOrganisationPaymentMethodDtoForGlobalPaymentMethod(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID, Guid paymentMethodID)
-        {
-            OrganisationPaymentMethodDTO dto = null;
-
-            var pm = scope.DbContext.OrganisationPaymentMethods.Single(
-                s => s.OrganisationID.Equals(organisationID) && s.GlobalPaymentMethodID.Equals(paymentMethodID));
-
-            dto = OrganisationPaymentMethodConverter.ToDto(pm);
-
-            return dto;
-        }
     }
 }

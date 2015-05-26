@@ -571,130 +571,6 @@
     </Compile>
     <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
-    <Compile Include="Boo\InterfacePanelClaimDTO.cs" />
-    <Compile Include="Boo\InterfacePanelClaimDTO.Generated.cs">
-      <DependentUpon>InterfacePanelClaimDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelClaimTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelClaimTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelClaimTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelDTO.cs" />
-    <Compile Include="Boo\InterfacePanelDTO.Generated.cs">
-      <DependentUpon>InterfacePanelDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFDOrganaisationTypeUserTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDOrganaisationTypeUserTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDOrganisationTypeUserTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDOrganisationTypeUserTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFDOrganisationTypeUserTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFDOrganisationTypeUserTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDOrganisationTypeUserTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFDOrganisationTypeUserTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFDValidationOrganisationTypeUserTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDValidationOrganisationTypeUserTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFDValidationOrganisationTypeUserTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFDValidationOrgTypeUserTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFDValidationOrgTypeUserTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFDValidationOrgTypeUserTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganaisationTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganaisationTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganisationTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganisationTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailOrganisationTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganisationTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailOrganisationTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailOrganisationTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailValidationDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationOrganisationTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationOrganisationTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailValidationOrganisationTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationOrganisationTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationOrganisationTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailValidationOrganisationTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelFieldDetailValidationTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelFieldDetailValidationTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelOrganisationTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelOrganisationTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelOrganisationTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelOrganisationTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelOrganisationTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelOrganisationTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelOrganisationTypeUserTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelOrganisationTypeUserTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelOrganisationTypeUserTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelOrganisationTypeUserTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelOrganisationTypeUserTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelOrganisationTypeUserTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelRoleDTO.cs" />
-    <Compile Include="Boo\InterfacePanelRoleDTO.Generated.cs">
-      <DependentUpon>InterfacePanelRoleDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelRoleTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelRoleTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelRoleTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelSettingDTO.cs" />
-    <Compile Include="Boo\InterfacePanelSettingDTO.Generated.cs">
-      <DependentUpon>InterfacePanelSettingDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelSettingTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelSettingTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelSettingTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationOrganisationTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationOrganisationTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeUserTypeDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeUserTypeDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationOrganisationTypeUserTypeDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeUserTypeTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationOrganisationTypeUserTypeTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationOrganisationTypeUserTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\InterfacePanelValidationTemplateDTO.cs" />
-    <Compile Include="Boo\InterfacePanelValidationTemplateDTO.Generated.cs">
-      <DependentUpon>InterfacePanelValidationTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\InviteDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.Generated.cs">
@@ -1813,14 +1689,6 @@
     <Compile Include="Boo\VDefaultOrganisationUserTypeOrganisationTypeDTO.Generated.cs">
       <DependentUpon>VDefaultOrganisationUserTypeOrganisationTypeDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\VFieldDetailForUIDTO.cs" />
-    <Compile Include="Boo\VFieldDetailForUIDTO.Generated.cs">
-      <DependentUpon>VFieldDetailForUIDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VFieldDetailValidationForUIDTO.cs" />
-    <Compile Include="Boo\VFieldDetailValidationForUIDTO.Generated.cs">
-      <DependentUpon>VFieldDetailValidationForUIDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VGlobalAccountingCurrentPeriodDTO.cs" />
     <Compile Include="Boo\VGlobalAccountingCurrentPeriodDTO.Generated.cs">
       <DependentUpon>VGlobalAccountingCurrentPeriodDTO.cs</DependentUpon>
@@ -1828,18 +1696,6 @@
     <Compile Include="Boo\VGroupDTO.cs" />
     <Compile Include="Boo\VGroupDTO.Generated.cs">
       <DependentUpon>VGroupDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VInterfacePanelFieldDetailDTO.cs" />
-    <Compile Include="Boo\VInterfacePanelFieldDetailDTO.Generated.cs">
-      <DependentUpon>VInterfacePanelFieldDetailDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VInterfacePanelForUIDTO.cs" />
-    <Compile Include="Boo\VInterfacePanelForUIDTO.Generated.cs">
-      <DependentUpon>VInterfacePanelForUIDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VInterfacePanelValidationForUIDTO.cs" />
-    <Compile Include="Boo\VInterfacePanelValidationForUIDTO.Generated.cs">
-      <DependentUpon>VInterfacePanelValidationForUIDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.cs" />
     <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs">
@@ -2426,555 +2282,21 @@
       <DependentUpon>WorkflowTreeStructureTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="CommonHelper.cs" />
-    <Compile Include="Convertors\AccountConverter.cs" />
-    <Compile Include="Convertors\ActorClaimRoleMappingConverter.cs" />
-    <Compile Include="Convertors\ActorConverter.cs" />
-    <Compile Include="Convertors\AddressChronologyConverter.cs" />
-    <Compile Include="Convertors\AddressConverter.cs" />
-    <Compile Include="Convertors\ApplicationStageConverter.cs" />
-    <Compile Include="Convertors\ApplicationStageWorkflowConverter.cs" />
-    <Compile Include="Convertors\ArtefactClaimConverter.cs" />
-    <Compile Include="Convertors\ArtefactClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactConverter.cs" />
-    <Compile Include="Convertors\ArtefactDependencyConverter.cs" />
-    <Compile Include="Convertors\ArtefactDependencyTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\ArtefactNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactProductConverter.cs" />
-    <Compile Include="Convertors\ArtefactProductTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactRoleConverter.cs" />
-    <Compile Include="Convertors\ArtefactRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactSubscriptionConverter.cs" />
-    <Compile Include="Convertors\ArtefactSubscriptionTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactTemplateConverter.cs" />
-    <Compile Include="Convertors\ArtefactWorkflowConverter.cs" />
-    <Compile Include="Convertors\ArtefactWorkflowTemplateConverter.cs" />
-    <Compile Include="Convertors\AttachmentConverter.cs" />
-    <Compile Include="Convertors\AttachmentDetailConverter.cs" />
-    <Compile Include="Convertors\AttachmentDetailGroupConverter.cs" />
-    <Compile Include="Convertors\AttachmentDetailRoleConverter.cs" />
-    <Compile Include="Convertors\BankSortCodeConverter.cs" />
-    <Compile Include="Convertors\BillingConverter.cs" />
-    <Compile Include="Convertors\BillingTemplateConverter.cs" />
-    <Compile Include="Convertors\BucketConverter.cs" />
-    <Compile Include="Convertors\BucketTemplateConverter.cs" />
-    <Compile Include="Convertors\ClassificationTypeCategoryConverter.cs" />
-    <Compile Include="Convertors\ClassificationTypeConverter.cs" />
-    <Compile Include="Convertors\CompanyHouseConverter.cs" />
-    <Compile Include="Convertors\ComponentTierConverter.cs" />
-    <Compile Include="Convertors\ComponentTierTemplateConverter.cs" />
-    <Compile Include="Convertors\ContactConverter.cs" />
-    <Compile Include="Convertors\ContactNameConverter.cs" />
-    <Compile Include="Convertors\ContactPhoneConverter.cs" />
-    <Compile Include="Convertors\ContactRegulatorConverter.cs" />
-    <Compile Include="Convertors\ContainsagadataConverter.cs" />
-    <Compile Include="Convertors\CountryCodeConverter.cs" />
-    <Compile Include="Convertors\CountryDeductionConverter.cs" />
-    <Compile Include="Convertors\CountryDeductionTemplateConverter.cs" />
-    <Compile Include="Convertors\CurrencyCodeConverter.cs" />
-    <Compile Include="Convertors\CurrencyRateConverter.cs" />
-    <Compile Include="Convertors\DeductionConverter.cs" />
-    <Compile Include="Convertors\DeductionTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationArtefactConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationArtefactTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationBranchConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationBranchTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupRoleConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupTargetConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationGroupTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationLedgerConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationLedgerTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationModuleConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationModuleTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationPaymentMethodConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationPaymentMethodTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationProductConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationProductTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleClaimConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleTargetConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationShoppingCartBlueprintConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationShoppingCartBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationStatusTypeConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationStatusTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationTargetConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationUserTargetConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationUserTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationUserTypeConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationUserTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationWorkflowConverter.cs" />
-    <Compile Include="Convertors\DefaultOrganisationWorkflowTemplateConverter.cs" />
-    <Compile Include="Convertors\DirectDebitMandateConverter.cs" />
-    <Compile Include="Convertors\DirectDebitMandateTemplateConverter.cs" />
-    <Compile Include="Convertors\DirectDebitScheduleConverter.cs" />
-    <Compile Include="Convertors\DiscountConverter.cs" />
-    <Compile Include="Convertors\DiscountRelatedProductConverter.cs" />
-    <Compile Include="Convertors\DiscountRelatedProductTemplateConverter.cs" />
-    <Compile Include="Convertors\DiscountTemplateConverter.cs" />
-    <Compile Include="Convertors\ErrorCodeConverter.cs" />
-    <Compile Include="Convertors\FieldDetailConverter.cs" />
-    <Compile Include="Convertors\FieldDetailTemplateConverter.cs" />
-    <Compile Include="Convertors\FnGetUserClaimResultConverter.cs" />
-    <Compile Include="Convertors\GlobalAccountingPeriodConverter.cs" />
-    <Compile Include="Convertors\GlobalDirectDebitCollectionPeriodConverter.cs" />
-    <Compile Include="Convertors\GlobalPaymentMethodConverter.cs" />
-    <Compile Include="Convertors\GroupConverter.cs" />
-    <Compile Include="Convertors\GroupRoleConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelClaimConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFDOrganisationTypeUserTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFDOrganisationTypeUserTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFDValidationOrganisationTypeUserTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFDValidationOrgTypeUserTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailOrganisationTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailValidationConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailValidationOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailValidationOrganisationTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelFieldDetailValidationTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelOrganisationTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelOrganisationTypeUserTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelOrganisationTypeUserTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelRoleConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelSettingConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelSettingTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationOrganisationTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationOrganisationTypeUserTypeConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationOrganisationTypeUserTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\InterfacePanelValidationTemplateConverter.cs" />
-    <Compile Include="Convertors\InvoiceConverter.cs" />
-    <Compile Include="Convertors\InvoiceLineItemConverter.cs" />
-    <Compile Include="Convertors\InvoiceProcessLogConverter.cs" />
-    <Compile Include="Convertors\LedgerAccountBalanceConverter.cs" />
-    <Compile Include="Convertors\LedgerAccountTransactionConverter.cs" />
-    <Compile Include="Convertors\LegalOrganisationDetailConverter.cs" />
-    <Compile Include="Convertors\LinkedAccountClaimConverter.cs" />
-    <Compile Include="Convertors\LinkedAccountConverter.cs" />
-    <Compile Include="Convertors\ModuleArtefactConverter.cs" />
-    <Compile Include="Convertors\ModuleArtefactTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleClaimConverter.cs" />
-    <Compile Include="Convertors\ModuleClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleConverter.cs" />
-    <Compile Include="Convertors\ModuleDependencyConverter.cs" />
-    <Compile Include="Convertors\ModuleDependencyTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\ModuleNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\ModulePluginConverter.cs" />
-    <Compile Include="Convertors\ModulePluginTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleProductConverter.cs" />
-    <Compile Include="Convertors\ModuleProductTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleRoleConverter.cs" />
-    <Compile Include="Convertors\ModuleRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleSettingConverter.cs" />
-    <Compile Include="Convertors\ModuleSettingTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleStatusTypeConverter.cs" />
-    <Compile Include="Convertors\ModuleStatusTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleSubscriptionConverter.cs" />
-    <Compile Include="Convertors\ModuleSubscriptionTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleWorkflowConverter.cs" />
-    <Compile Include="Convertors\ModuleWorkflowTargetConverter.cs" />
-    <Compile Include="Convertors\ModuleWorkflowTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\ModuleWorkflowTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructClaimConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructDataTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructDatumConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructGroupConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructGroupNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructGroupNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructGroupTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructParameterConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructRoleConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructTargetConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructTargetTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\NotificationConverter.cs" />
-    <Compile Include="Convertors\NotificationRecipientConverter.cs" />
-    <Compile Include="Convertors\NotificationRecipientLogConverter.cs" />
-    <Compile Include="Convertors\OperationConverter.cs" />
-    <Compile Include="Convertors\OrganisationAccountingPeriodConverter.cs" />
-    <Compile Include="Convertors\OrganisationArtefactConverter.cs" />
-    <Compile Include="Convertors\OrganisationBankAccountConverter.cs" />
-    <Compile Include="Convertors\OrganisationConverter.cs" />
-    <Compile Include="Convertors\OrganisationDetailConverter.cs" />
-    <Compile Include="Convertors\OrganisationDirectDebitMandateConverter.cs" />
-    <Compile Include="Convertors\OrganisationDirectDebitMandateProcessLogConverter.cs" />
-    <Compile Include="Convertors\OrganisationDiscountConverter.cs" />
-    <Compile Include="Convertors\OrganisationFinancialDetailConverter.cs" />
-    <Compile Include="Convertors\OrganisationGroupConverter.cs" />
-    <Compile Include="Convertors\OrganisationGroupRoleConverter.cs" />
-    <Compile Include="Convertors\OrganisationInsuranceDetailConverter.cs" />
-    <Compile Include="Convertors\OrganisationLedgerAccountConverter.cs" />
-    <Compile Include="Convertors\OrganisationPaymentMethodConverter.cs" />
-    <Compile Include="Convertors\OrganisationPlanSubscriptionConverter.cs" />
-    <Compile Include="Convertors\OrganisationProductPurchaseConverter.cs" />
-    <Compile Include="Convertors\OrganisationRoleClaimConverter.cs" />
-    <Compile Include="Convertors\OrganisationRoleConverter.cs" />
-    <Compile Include="Convertors\OrganisationSettingConverter.cs" />
-    <Compile Include="Convertors\OrganisationSettingTemplateConverter.cs" />
-    <Compile Include="Convertors\OrganisationShoppingCartBlueprintConverter.cs" />
-    <Compile Include="Convertors\OrganisationStatusConverter.cs" />
-    <Compile Include="Convertors\OrganisationStatusTypeConverter.cs" />
-    <Compile Include="Convertors\OrganisationStructureConverter.cs" />
-    <Compile Include="Convertors\OrganisationTeamConverter.cs" />
-    <Compile Include="Convertors\OrganisationTeamSettingConverter.cs" />
-    <Compile Include="Convertors\OrganisationTeamSettingTemplateConverter.cs" />
-    <Compile Include="Convertors\OrganisationTradingNameConverter.cs" />
-    <Compile Include="Convertors\OrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\OrganisationUnitConverter.cs" />
-    <Compile Include="Convertors\OrganisationUnitOrganisationGroupConverter.cs" />
-    <Compile Include="Convertors\OrganisationUnitOrganisationRoleConverter.cs" />
-    <Compile Include="Convertors\OrganisationUnitStructureConverter.cs" />
-    <Compile Include="Convertors\OrganisationUserTypeConverter.cs" />
-    <Compile Include="Convertors\OrganisationWorkflowConverter.cs" />
-    <Compile Include="Convertors\PackageConverter.cs" />
-    <Compile Include="Convertors\PackageProductConverter.cs" />
-    <Compile Include="Convertors\PackageProductRelationshipBlueprintConverter.cs" />
-    <Compile Include="Convertors\PackageProductRelationshipBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\PackageProductRelationshipConverter.cs" />
-    <Compile Include="Convertors\PackageProductRelationshipTemplateConverter.cs" />
-    <Compile Include="Convertors\PackageProductSpecificationBlueprintConverter.cs" />
-    <Compile Include="Convertors\PackageProductSpecificationBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\PackageProductTemplateConverter.cs" />
-    <Compile Include="Convertors\PackageTemplateConverter.cs" />
-    <Compile Include="Convertors\PasswordResetSecretConverter.cs" />
-    <Compile Include="Convertors\PlanBillingConverter.cs" />
-    <Compile Include="Convertors\PlanBillingTemplateConverter.cs" />
-    <Compile Include="Convertors\PlanConverter.cs" />
-    <Compile Include="Convertors\PlanDiscountConverter.cs" />
-    <Compile Include="Convertors\PlanDiscountTemplateConverter.cs" />
-    <Compile Include="Convertors\PlanGlobalPaymentMethodConverter.cs" />
-    <Compile Include="Convertors\PlanGlobalPaymentMethodTemplateConverter.cs" />
-    <Compile Include="Convertors\PlanGroupConverter.cs" />
-    <Compile Include="Convertors\PlanProductConverter.cs" />
-    <Compile Include="Convertors\PlanProductTemplateConverter.cs" />
-    <Compile Include="Convertors\PlanSubscriptionBillingProcessLogConverter.cs" />
-    <Compile Include="Convertors\PlanSubscriptionConverter.cs" />
-    <Compile Include="Convertors\PlanSubscriptionPaymentPlanConverter.cs" />
-    <Compile Include="Convertors\PlanSubscriptionPeriodConverter.cs" />
-    <Compile Include="Convertors\PlanSubscriptionProcessLogConverter.cs" />
-    <Compile Include="Convertors\PlanTemplateConverter.cs" />
-    <Compile Include="Convertors\PlanTransactionConverter.cs" />
-    <Compile Include="Convertors\PlanTransactionTemplateConverter.cs" />
-    <Compile Include="Convertors\PluginConverter.cs" />
-    <Compile Include="Convertors\PluginTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductAttributeConverter.cs" />
-    <Compile Include="Convertors\ProductAttributeTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductBusTaskConverter.cs" />
-    <Compile Include="Convertors\ProductBusTaskTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductClaimConverter.cs" />
-    <Compile Include="Convertors\ProductClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductConverter.cs" />
-    <Compile Include="Convertors\ProductDeductionConverter.cs" />
-    <Compile Include="Convertors\ProductDeductionTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductDetailConverter.cs" />
-    <Compile Include="Convertors\ProductDetailTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductDiscountConverter.cs" />
-    <Compile Include="Convertors\ProductDiscountTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductFamilyConverter.cs" />
-    <Compile Include="Convertors\ProductFamilyProductPackageConverter.cs" />
-    <Compile Include="Convertors\ProductFamilyProductPackageTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductFamilyTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductPlanConverter.cs" />
-    <Compile Include="Convertors\ProductPlanTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductProductAttributeConverter.cs" />
-    <Compile Include="Convertors\ProductProductAttributeTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductPurchaseBusTaskProcessLogConverter.cs" />
-    <Compile Include="Convertors\ProductPurchaseConverter.cs" />
-    <Compile Include="Convertors\ProductPurchaseProcessLogConverter.cs" />
-    <Compile Include="Convertors\ProductRelationshipBlueprintConverter.cs" />
-    <Compile Include="Convertors\ProductRelationshipBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductRelationshipConverter.cs" />
-    <Compile Include="Convertors\ProductRelationshipTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductRoleConverter.cs" />
-    <Compile Include="Convertors\ProductRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationAttributeConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationAttributeOptionConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationAttributeOptionTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationAttributeTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationBlueprintConverter.cs" />
-    <Compile Include="Convertors\ProductSpecificationBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductTagConverter.cs" />
-    <Compile Include="Convertors\ProductTagTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductVariantAttributeCombinationConverter.cs" />
-    <Compile Include="Convertors\ProductVariantAttributeCombinationTemplateConverter.cs" />
-    <Compile Include="Convertors\ProductVariantAttributeValueConverter.cs" />
-    <Compile Include="Convertors\ProductVariantAttributeValueTemplateConverter.cs" />
-    <Compile Include="Convertors\RelationshipRoleConverter.cs" />
-    <Compile Include="Convertors\RepositoryConverter.cs" />
-    <Compile Include="Convertors\RepositoryStructureConverter.cs" />
-    <Compile Include="Convertors\RepositoryStructureGroupConverter.cs" />
-    <Compile Include="Convertors\RepositoryStructureRoleConverter.cs" />
-    <Compile Include="Convertors\ResourceConverter.cs" />
-    <Compile Include="Convertors\ResourceOperationTargetConverter.cs" />
-    <Compile Include="Convertors\RoleClaimConverter.cs" />
-    <Compile Include="Convertors\RoleConverter.cs" />
-    <Compile Include="Convertors\ServiceDefinitionConverter.cs" />
-    <Compile Include="Convertors\ServiceDefinitionDetailConverter.cs" />
-    <Compile Include="Convertors\ServiceInterfaceConverter.cs" />
-    <Compile Include="Convertors\ServiceInterfaceProcessLogConverter.cs" />
-    <Compile Include="Convertors\ServiceProviderConverter.cs" />
-    <Compile Include="Convertors\SettingConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartBlueprintConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartBlueprintProductConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartBlueprintProductTemplateConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartBlueprintTemplateConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartItemConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartItemProductAttributeConverter.cs" />
-    <Compile Include="Convertors\ShoppingCartItemProductSpecificationConverter.cs" />
-    <Compile Include="Convertors\SpecificationAttributeConverter.cs" />
-    <Compile Include="Convertors\SpecificationAttributeOptionTemplateConverter.cs" />
-    <Compile Include="Convertors\SpecificationAttributeRelationshipConverter.cs" />
-    <Compile Include="Convertors\SpecificationAttributeRelationshipTemplateConverter.cs" />
-    <Compile Include="Convertors\SpecificationAttributeTemplateConverter.cs" />
-    <Compile Include="Convertors\SpecificiationAttributeOptionConverter.cs" />
-    <Compile Include="Convertors\StateConverter.cs" />
-    <Compile Include="Convertors\StateItemConverter.cs" />
-    <Compile Include="Convertors\StatusTypeClaimConverter.cs" />
-    <Compile Include="Convertors\StatusTypeClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\StatusTypeConverter.cs" />
-    <Compile Include="Convertors\StatusTypeRoleConverter.cs" />
-    <Compile Include="Convertors\StatusTypeRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\StatusTypeStructureConverter.cs" />
-    <Compile Include="Convertors\StatusTypeStructureTemplateConverter.cs" />
-    <Compile Include="Convertors\StatusTypeStructureTransitionConverter.cs" />
-    <Compile Include="Convertors\StatusTypeStructureTransitionTemplateConverter.cs" />
-    <Compile Include="Convertors\StatusTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\StatusTypeValueConverter.cs" />
-    <Compile Include="Convertors\StatusTypeValueTemplateConverter.cs" />
-    <Compile Include="Convertors\StructureConverter.cs" />
-    <Compile Include="Convertors\SubscriptionConverter.cs" />
-    <Compile Include="Convertors\TaxRateConverter.cs" />
-    <Compile Include="Convertors\TaxRateTemplateConverter.cs" />
-    <Compile Include="Convertors\TenantConverter.cs" />
-    <Compile Include="Convertors\TimeoutentityConverter.cs" />
-    <Compile Include="Convertors\TransactionLevelComponentConverter.cs" />
-    <Compile Include="Convertors\TransactionLevelComponentTemplateConverter.cs" />
-    <Compile Include="Convertors\TransactionOrderConverter.cs" />
-    <Compile Include="Convertors\TransactionOrderItemConverter.cs" />
-    <Compile Include="Convertors\TransactionOrderPaymentConverter.cs" />
-    <Compile Include="Convertors\TransactionOrderPaymentErrorConverter.cs" />
-    <Compile Include="Convertors\TransactionOrderProcessLogConverter.cs" />
-    <Compile Include="Convertors\TwoFactorAuthTokenConverter.cs" />
-    <Compile Include="Convertors\UserAccountArchiveConverter.cs" />
-    <Compile Include="Convertors\UserAccountAuditConverter.cs" />
-    <Compile Include="Convertors\UserAccountConverter.cs" />
-    <Compile Include="Convertors\UserAccountDetailConverter.cs" />
-    <Compile Include="Convertors\UserAccountLedgerAccountConverter.cs" />
-    <Compile Include="Convertors\UserAccountLoginSessionConverter.cs" />
-    <Compile Include="Convertors\UserAccountLoginSessionDatumConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationGroupConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationRoleConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationSecondaryUserTypeConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationStatusConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationStructureConverter.cs" />
-    <Compile Include="Convertors\UserAccountOrganisationTeamConverter.cs" />
-    <Compile Include="Convertors\UserCertificateConverter.cs" />
-    <Compile Include="Convertors\UserClaimConverter.cs" />
-    <Compile Include="Convertors\UserTypeConverter.cs" />
-    <Compile Include="Convertors\VAttachmentConverter.cs" />
-    <Compile Include="Convertors\VBranchConverter.cs" />
-    <Compile Include="Convertors\VClaimSourceConverter.cs" />
-    <Compile Include="Convertors\VClassificationConverter.cs" />
-    <Compile Include="Convertors\VCompanyConverter.cs" />
-    <Compile Include="Convertors\VCountryAndCurrencyConverter.cs" />
-    <Compile Include="Convertors\VCountryDeductionConverter.cs" />
-    <Compile Include="Convertors\VDefaultEmailAddressConverter.cs" />
-    <Compile Include="Convertors\VDefaultOrganisationStatusConverter.cs" />
-    <Compile Include="Convertors\VDefaultOrganisationUserTypeOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\VFieldDetailForUIConverter.cs" />
-    <Compile Include="Convertors\VFieldDetailValidationForUIConverter.cs" />
-    <Compile Include="Convertors\VGlobalAccountingCurrentPeriodConverter.cs" />
-    <Compile Include="Convertors\VGroupConverter.cs" />
-    <Compile Include="Convertors\VInterfacePanelFieldDetailConverter.cs" />
-    <Compile Include="Convertors\VInterfacePanelForUIConverter.cs" />
-    <Compile Include="Convertors\VInterfacePanelValidationForUIConverter.cs" />
-    <Compile Include="Convertors\VInvoiceWithCurrentTransactionOrderStatusConverter.cs" />
-    <Compile Include="Convertors\VNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\VNotificationConstructGroupConverter.cs" />
-    <Compile Include="Convertors\VNotificationConstructGroupNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\VNotificationInternalUnreadConverter.cs" />
-    <Compile Include="Convertors\VNotificationRecipientStatusConverter.cs" />
-    <Compile Include="Convertors\VNotificationWithUAOVerificationCodeConverter.cs" />
-    <Compile Include="Convertors\VOrganisationCheckoutDiscountConverter.cs" />
-    <Compile Include="Convertors\VOrganisationComplianceOfficerConverter.cs" />
-    <Compile Include="Convertors\VOrganisationConverter.cs" />
-    <Compile Include="Convertors\VOrganisationDetailConverter.cs" />
-    <Compile Include="Convertors\VOrganisationFinancialStatusConverter.cs" />
-    <Compile Include="Convertors\VOrganisationPaymentMethodStatusConverter.cs" />
-    <Compile Include="Convertors\VOrganisationStatusConverter.cs" />
-    <Compile Include="Convertors\VOrganisationUserTypeConverter.cs" />
-    <Compile Include="Convertors\VOrganisationWithStatusAndAdminConverter.cs" />
-    <Compile Include="Convertors\VOrgansiationClaimConverter.cs" />
-    <Compile Include="Convertors\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusConverter.cs" />
-    <Compile Include="Convertors\VProductAttributeConverter.cs" />
-    <Compile Include="Convertors\VProductDeductionConverter.cs" />
-    <Compile Include="Convertors\VProductDiscountConverter.cs" />
-    <Compile Include="Convertors\VProductSpecificationConverter.cs" />
-    <Compile Include="Convertors\VProductSpecificationOptionConverter.cs" />
-    <Compile Include="Convertors\VResourceConverter.cs" />
-    <Compile Include="Convertors\VRoleConverter.cs" />
-    <Compile Include="Convertors\VStateConverter.cs" />
-    <Compile Include="Convertors\VStatusTypeConverter.cs" />
-    <Compile Include="Convertors\VStatusTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\VTemporaryUsersNotLoggedInConverter.cs" />
-    <Compile Include="Convertors\VUserAccountNotLoggedInConverter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Convertors\VUserAccountOrganisationConverter.cs" />
-    <Compile Include="Convertors\VUserAccountOrganisationUserTypeOrganisationTypeConverter.cs" />
-    <Compile Include="Convertors\VUserRoleRegulatorDetailConverter.cs" />
-    <Compile Include="Convertors\VUserStatusConverter.cs" />
-    <Compile Include="Convertors\VUserWorkflowInstanceStatusConverter.cs" />
-    <Compile Include="Convertors\VWorkflowActionParameterConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceExecutionNotCompletedConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceExecutionStatusEventConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceNotStartedConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceProgressConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceRetryConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceStatusConverter.cs" />
-    <Compile Include="Convertors\VWorkflowInstanceStepTraceConverter.cs" />
-    <Compile Include="Convertors\VWorkflowTreeConverter.cs" />
-    <Compile Include="Convertors\WorflowParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionCompleteConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionCompleteConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionExecuteCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionExecuteCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionExecutionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionNotificationTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionParameterNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionParameterNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionPostCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionPostCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionPreCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionPreCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionProductPlaceholderConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionStartConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionStartConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowActionValidationTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowClaimConverter.cs" />
-    <Compile Include="Convertors\WorkflowClaimTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowCommandTemplate1Converter.cs" />
-    <Compile Include="Convertors\WorkflowCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowConditionParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowConditionParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionErrorConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionErrorTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionExecuteCommandConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionExecuteCommandTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionFailureConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionFailureTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionSuccessConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionSuccessTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowDecisionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowExecutionConverter.cs" />
-    <Compile Include="Convertors\WorkflowExecutionStatusConverter.cs" />
-    <Compile Include="Convertors\WorkflowExecutionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowHierarchyConverter.cs" />
-    <Compile Include="Convertors\WorkflowHierarchyTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceExecutionConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceExecutionDataItemConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceExecutionStatusEventConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceExecutionTraceConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceRestrictionConverter.cs" />
-    <Compile Include="Convertors\WorkflowInstanceSessionConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowMainParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowNotificationConstructConverter.cs" />
-    <Compile Include="Convertors\WorkflowNotificationConstructTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowObjectTypeConverter.cs" />
-    <Compile Include="Convertors\WorkflowObjectTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowRoleConverter.cs" />
-    <Compile Include="Convertors\WorkflowRoleTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowStatusTypeConverter.cs" />
-    <Compile Include="Convertors\WorkflowStatusTypeTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionCompleteConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionCompleteConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionHierarchyConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionHierarchyTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionParameterConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionParameterTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionStartConditionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionStartConditionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionWorkflowActionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionWorkflowActionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionWorkflowDecisionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTransistionWorkflowDecisionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTreeStructureActionConverter.cs" />
-    <Compile Include="Convertors\WorkflowTreeStructureActionTemplateConverter.cs" />
-    <Compile Include="Convertors\WorkflowTreeStructureConverter.cs" />
-    <Compile Include="Convertors\WorkflowTreeStructureTemplateConverter.cs" />
     <Compile Include="DTO\CreatePermanentLoginDTO.cs" />
     <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
     <Compile Include="DTO\Event\EventPayload.cs" />
-    <Compile Include="DTO\FieldDetailsAndValidationsContainerDTO.cs" />
-    <Compile Include="DTO\FieldDetailsAndValidationsDTO.cs" />
     <Compile Include="DTO\CartItemPriceDTO.cs" />
     <Compile Include="DTO\CartPriceDTO.cs" />
-    <Compile Include="DTO\CreateShoppingCart.cs" />
     <Compile Include="DTO\FirmDetailsUserDTO.cs" />
     <Compile Include="DTO\FirmPreferenceDTO.cs" />
     <Compile Include="DTO\FirmProductDTO.cs" />
-    <Compile Include="DTO\ForgotPasswordWithSecretDTO.cs" />
-    <Compile Include="DTO\ChangePasswordWithSecretDTO.cs" />
-    <Compile Include="DTO\ForgotUsernameWithSecretDTO.cs" />
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
     <Compile Include="DTO\GeneratePinDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
-    <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
-    <Compile Include="DTO\LR\LRServiceResponseDTO.cs" />
-    <Compile Include="DTO\LR\LRServiceRequestDTO.cs" />
-    <Compile Include="DTO\LR\LRServiceResponseStatusDTO.cs" />
-    <Compile Include="DTO\NextStepsDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
@@ -2984,13 +2306,6 @@
     <Compile Include="DTO\Notification\NotificationRenderObject.cs" />
     <Compile Include="DTO\Notification\NotificationSettingDTO.cs" />
     <Compile Include="DTO\Notification\NotificationDictionaryDTO.cs" />
-    <Compile Include="DTO\Payment\CalculateTaxRequestDTO.cs" />
-    <Compile Include="DTO\Payment\CalculateTaxResultDTO.cs" />
-    <Compile Include="DTO\Payment\OrderRequestDTO.cs" />
-    <Compile Include="DTO\Payment\OrderResponseDTO.cs" />
-    <Compile Include="DTO\Payment\PaymentTransactionResponseDTO.cs" />
-    <Compile Include="DTO\Payment\PaymentTransactionRequestDTO.cs" />
-    <Compile Include="DTO\Payment\ProductPricingDTO.cs" />
     <Compile Include="DTO\PermanentAccountDTO.cs" />
     <Compile Include="DTO\PersonalDetailDTO.cs" />
     <Compile Include="DTO\FirmUserDTO.cs" />
@@ -3000,34 +2315,19 @@
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
-    <Compile Include="DTO\xCompanyDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
-    <Compile Include="DTO\SecurityQuestionAnswerDTO.cs" />
     <Compile Include="DTO\TelephoneDTO.cs" />
     <Compile Include="DTO\TemporaryAccountDTO.cs" />
     <Compile Include="DTO\TermsConditionsDataDTO.cs" />
-    <Compile Include="DTO\TermsnConditionsDTO.cs" />
-    <Compile Include="DTO\TradingNameDTO.cs" />
-    <Compile Include="DTO\TreeStructureVisibilityDTO.cs" />
     <Compile Include="DTO\UserCertificateDTO.cs" />
     <Compile Include="DTO\UserCertificateDTO.Generated.cs">
       <DependentUpon>UserCertificateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\UserIdentificationMessageDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowDictionaryDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowErrorBase.cs" />
-    <Compile Include="DTO\Workflow\WorkflowInstanceCurrentStateDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowInstanceProgressDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowInstanceStatusDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowInstanceStatusOverviewDTO.cs" />
     <Compile Include="DTO\ClassificationTypeDTO.cs" />
     <Compile Include="DTO\ContactJsonDTO.cs" />
     <Compile Include="DTO\ContactDTO.cs" />
-    <Compile Include="DTO\ExternalGroupTemplateDTO.cs" />
     <Compile Include="DTO\GoogleDTO.cs" />
-    <Compile Include="DTO\GroupTemplateDTO.cs" />
-    <Compile Include="DTO\ExternalGroupTemplateRoleDTO.cs" />
-    <Compile Include="DTO\GroupTemplateRoleDTO.cs" />
     <Compile Include="DTO\AddressDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationGroupDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationRoleDTO.cs" />
@@ -3039,11 +2339,9 @@
     <Compile Include="DTO\Organisation\OrganisationVisibilityStateDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationVisibilityStateVisibilitySchemeDTO.cs" />
     <Compile Include="DTO\PostCodeDTO.cs" />
-    <Compile Include="DTO\ExternalRoleClaimDTO.cs" />
     <Compile Include="DTO\RoleClaimDTO.cs" />
     <Compile Include="DTO\ResourceDTO.cs" />
     <Compile Include="DTO\OperationDTO.cs" />
-    <Compile Include="DTO\ExternalRoleTemplateDTO.cs" />
     <Compile Include="DTO\RoleTemplateDTO.cs" />
     <Compile Include="DTO\StateDTO.cs" />
     <Compile Include="DTO\StateItemSlimDTO.cs" />
@@ -3057,7 +2355,6 @@
     <Compile Include="DTO\vOrganisationDTO.cs" />
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
-    <Compile Include="DTO\Workflow\WorkflowStateBase.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
     <Compile Include="Enums\NotificationEnums.cs" />
@@ -3078,33 +2375,10 @@
     <Compile Include="Settings\PaymentSettings.cs" />
     <Compile Include="Enums\PaymentTransactionType.cs" />
     <Compile Include="Settings\WorkflowSettings.cs" />
-    <Compile Include="Validators\AddressDTOValidator.cs" />
     <Compile Include="Validators\BaseValidator.cs" />
-    <Compile Include="Validators\ContactDTOValidator.cs" />
-    <Compile Include="Validators\FirmUserDTOValidator.cs" />
-    <Compile Include="Validators\OrderRequestDTOValidator.cs" />
-    <Compile Include="Validators\PaymentDTOValidator.cs" />
-    <Compile Include="Validators\PersonalDetailsDTOValidator.cs" />
-    <Compile Include="Validators\ForgotPasswordWithSecretDTOValidator.cs" />
-    <Compile Include="Validators\ChangePasswordWithSecretDTOValidator.cs" />
-    <Compile Include="Validators\ForgotUsernameWithSecretDTOValidator.cs" />
-    <Compile Include="Validators\LoginDTOValidator.cs" />
-    <Compile Include="Validators\OrganisationUnitDTOValidator.cs" />
-    <Compile Include="Validators\FirmDetailsDTOValidator.cs" />
-    <Compile Include="Validators\PermanentAccountDTOValidator.cs" />
-    <Compile Include="Validators\FirmBranchDTOValidator.cs" />
-    <Compile Include="Validators\RegistrationDTOValidator.cs" />
-    <Compile Include="Validators\vAttachmentDTOValidator.cs" />
-    <Compile Include="Validators\vUserManagementDTOValidator.cs" />
-    <Compile Include="Validators\WizardContactDTOValidator.cs" />
-    <Compile Include="Validators\UserAccountLoginSessionDTOValidator.cs" />
     <Compile Include="WebUserHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
-      <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
-      <Name>Bec.TargetFramework.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
@@ -3128,10 +2402,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DTO\Module\" />
-    <Folder Include="DTO\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

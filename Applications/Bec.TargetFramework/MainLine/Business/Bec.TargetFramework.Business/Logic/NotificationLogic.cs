@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 //Bec.TargetFramework.Entities
@@ -25,16 +24,13 @@ namespace Bec.TargetFramework.Business.Logic
     using EnsureThat;
     using System.Web.Http;
     using Bec.TargetFramework.SB.Entities;
-    using Bec.TargetFramework.SB.NotificationServices.Report;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class NotificationLogic : LogicBase, INotificationLogic
+    public class NotificationLogic : LogicBase
     {
-        StandaloneReportGenerator m_ReportGenerator;
-        public NotificationLogic(ILogger logger, ICacheProvider cacheProvider, StandaloneReportGenerator reportGenerator)
+        public NotificationLogic(ILogger logger, ICacheProvider cacheProvider)
             : base(logger, cacheProvider)
         {
-            m_ReportGenerator = reportGenerator;
         }
 
         /// <summary>
@@ -292,7 +288,7 @@ namespace Bec.TargetFramework.Business.Logic
             var unreadDTO = GetUnreadNotifications(accountID, "TcPublic").FirstOrDefault();
             Ensure.That(unreadDTO).IsNotNull();
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
-            string val = m_ReportGenerator.GetReportTextItem(construct, null, "TextContent");
+            string val = ReportHelper.GetReportTextItem(construct, null, "TextContent");
             return new NotificationResultDTO
             {
                 NotificationID = unreadDTO.NotificationID,
@@ -307,7 +303,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return m_ReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+                return ReportHelper.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
             }
         }
 

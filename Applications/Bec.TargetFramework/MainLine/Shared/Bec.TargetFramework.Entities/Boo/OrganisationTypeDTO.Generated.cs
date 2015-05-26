@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationTypeDTO() {
         }
 
-        public OrganisationTypeDTO(int organisationTypeID, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationTemplateDTO> defaultOrganisationTemplates, List<InterfacePanelFieldDetailOrganisationTypeDTO> interfacePanelFieldDetailOrganisationTypes, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<InterfacePanelOrganisationTypeDTO> interfacePanelOrganisationTypes, List<InterfacePanelFDOrganisationTypeUserTypeDTO> interfacePanelFDOrganaisationTypeUserTypes, List<InterfacePanelOrganisationTypeUserTypeDTO> interfacePanelOrganisationTypeUserTypes, List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> interfacePanelFieldDetailOrganaisationTypeTemplates, List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> interfacePanelOrganisationTypeUserTypeTemplates, List<InterfacePanelOrganisationTypeTemplateDTO> interfacePanelOrganisationTypeTemplates, List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> interfacePanelFDOrganaisationTypeUserTypeTemplates, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets, List<OrganisationDTO> organisations) {
+        public OrganisationTypeDTO(int organisationTypeID, string name, string description, bool isActive, bool isDeleted, List<DefaultOrganisationTemplateDTO> defaultOrganisationTemplates, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets, List<OrganisationDTO> organisations) {
 
           this.OrganisationTypeID = organisationTypeID;
           this.Name = name;
@@ -30,17 +30,9 @@ namespace Bec.TargetFramework.Entities
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
           this.DefaultOrganisationTemplates = defaultOrganisationTemplates;
-          this.InterfacePanelFieldDetailOrganisationTypes = interfacePanelFieldDetailOrganisationTypes;
           this.DefaultOrganisationTargets = defaultOrganisationTargets;
           this.DefaultOrganisationTargetTemplates = defaultOrganisationTargetTemplates;
           this.DefaultOrganisations = defaultOrganisations;
-          this.InterfacePanelOrganisationTypes = interfacePanelOrganisationTypes;
-          this.InterfacePanelFDOrganaisationTypeUserTypes = interfacePanelFDOrganaisationTypeUserTypes;
-          this.InterfacePanelOrganisationTypeUserTypes = interfacePanelOrganisationTypeUserTypes;
-          this.InterfacePanelFieldDetailOrganaisationTypeTemplates = interfacePanelFieldDetailOrganaisationTypeTemplates;
-          this.InterfacePanelOrganisationTypeUserTypeTemplates = interfacePanelOrganisationTypeUserTypeTemplates;
-          this.InterfacePanelOrganisationTypeTemplates = interfacePanelOrganisationTypeTemplates;
-          this.InterfacePanelFDOrganaisationTypeUserTypeTemplates = interfacePanelFDOrganaisationTypeUserTypeTemplates;
           this.ComponentTierTemplates = componentTierTemplates;
           this.ComponentTiers = componentTiers;
           this.Discounts = discounts;
@@ -82,9 +74,6 @@ namespace Bec.TargetFramework.Entities
         public List<DefaultOrganisationTemplateDTO> DefaultOrganisationTemplates { get; set; }
 
         [DataMember]
-        public List<InterfacePanelFieldDetailOrganisationTypeDTO> InterfacePanelFieldDetailOrganisationTypes { get; set; }
-
-        [DataMember]
         public List<DefaultOrganisationTargetDTO> DefaultOrganisationTargets { get; set; }
 
         [DataMember]
@@ -92,27 +81,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<DefaultOrganisationDTO> DefaultOrganisations { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeDTO> InterfacePanelOrganisationTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeDTO> InterfacePanelFDOrganaisationTypeUserTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeUserTypeDTO> InterfacePanelOrganisationTypeUserTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> InterfacePanelFieldDetailOrganaisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> InterfacePanelOrganisationTypeUserTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeTemplateDTO> InterfacePanelOrganisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> InterfacePanelFDOrganaisationTypeUserTypeTemplates { get; set; }
 
         [DataMember]
         public List<ComponentTierTemplateDTO> ComponentTierTemplates { get; set; }

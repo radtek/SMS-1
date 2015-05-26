@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
     using Stimulsoft.Report;
     using Stimulsoft.Report.Export;
     using Bec.TargetFramework.Data;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+
     using Bec.TargetFramework.Entities.Enums;
 
     public sealed class StandaloneReportGenerator

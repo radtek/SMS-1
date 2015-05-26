@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public RoleDTO() {
         }
 
-        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ModuleClaimDTO> moduleClaims, List<InterfacePanelClaimTemplateDTO> interfacePanelClaimTemplates, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<InterfacePanelClaimDTO> interfacePanelClaims, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<GroupRoleDTO> groupRoles, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
+        public RoleDTO(global::System.Guid roleID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<bool> isGlobal, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<GroupRoleDTO> groupRoles, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
 
           this.RoleID = roleID;
           this.RoleName = roleName;
@@ -35,9 +35,7 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.IsGlobal = isGlobal;
           this.ModuleClaims = moduleClaims;
-          this.InterfacePanelClaimTemplates = interfacePanelClaimTemplates;
           this.DefaultOrganisationRoleTemplates = defaultOrganisationRoleTemplates;
-          this.InterfacePanelClaims = interfacePanelClaims;
           this.WorkflowClaimTemplates = workflowClaimTemplates;
           this.ProductClaims = productClaims;
           this.ProductClaimTemplates = productClaimTemplates;
@@ -96,13 +94,7 @@ namespace Bec.TargetFramework.Entities
         public List<ModuleClaimDTO> ModuleClaims { get; set; }
 
         [DataMember]
-        public List<InterfacePanelClaimTemplateDTO> InterfacePanelClaimTemplates { get; set; }
-
-        [DataMember]
         public List<DefaultOrganisationRoleTemplateDTO> DefaultOrganisationRoleTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelClaimDTO> InterfacePanelClaims { get; set; }
 
         [DataMember]
         public List<WorkflowClaimTemplateDTO> WorkflowClaimTemplates { get; set; }

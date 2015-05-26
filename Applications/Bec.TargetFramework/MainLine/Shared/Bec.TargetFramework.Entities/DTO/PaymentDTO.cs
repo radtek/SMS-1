@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(PaymentDTOValidator))]
     [DataContract]
     [Serializable]
     public class PaymentDTO
@@ -32,9 +31,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string AuthCode { get; set; }
-
-        [DataMember]
-        public OrderRequestDTO OrderRequest { get; set; }
 
         [DataMember]
         public List<ShoppingCartItemDTO> CartItem { get; set; }

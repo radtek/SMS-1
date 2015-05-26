@@ -37,7 +37,6 @@ namespace Bec.TargetFramework.SB.TaskServices
     using NServiceBus;
     using NServiceBus.Installation.Environments;
     using Bec.TargetFramework.SB.Interfaces;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.Log;
     using NServiceBus.Logging;
     using NServiceBus.Features;

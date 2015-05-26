@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public WorkflowTreeStructureTemplateDTO() {
         }
 
-        public WorkflowTreeStructureTemplateDTO(global::System.Guid workflowTreeStructureTemplateID, global::System.Guid workflowTemplateID, int workflowTemplateVersionNumber, string name, string description, int level, string isLeafNode, string isActive, string isDeleted, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> interfacePanelTemplateID, global::System.Nullable<int> interfacePanelTemplateVersionNumber, global::System.Nullable<int> itemOrder, InterfacePanelTemplateDTO interfacePanelTemplate) {
+        public WorkflowTreeStructureTemplateDTO(global::System.Guid workflowTreeStructureTemplateID, global::System.Guid workflowTemplateID, int workflowTemplateVersionNumber, string name, string description, int level, string isLeafNode, string isActive, string isDeleted, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> interfacePanelTemplateID, global::System.Nullable<int> interfacePanelTemplateVersionNumber, global::System.Nullable<int> itemOrder/*, InterfacePanelTemplateDTO interfacePanelTemplate*/) {
 
           this.WorkflowTreeStructureTemplateID = workflowTreeStructureTemplateID;
           this.WorkflowTemplateID = workflowTemplateID;
@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Entities
           this.InterfacePanelTemplateID = interfacePanelTemplateID;
           this.InterfacePanelTemplateVersionNumber = interfacePanelTemplateVersionNumber;
           this.ItemOrder = itemOrder;
-          this.InterfacePanelTemplate = interfacePanelTemplate;
+          //this.InterfacePanelTemplate = interfacePanelTemplate;
         }
 
         #endregion
@@ -87,8 +87,8 @@ namespace Bec.TargetFramework.Entities
 
         #region Navigation Properties
 
-        [DataMember]
-        public InterfacePanelTemplateDTO InterfacePanelTemplate { get; set; }
+        //[DataMember]
+        //public InterfacePanelTemplateDTO InterfacePanelTemplate { get; set; }
 
         #endregion
     }

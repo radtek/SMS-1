@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
@@ -20,7 +19,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.API
         public UserLogicController()
             : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<UserAccountService>(),
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<AuthenticationService>(),
-            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<IDataLogic>(),
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<DataLogic>(),
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
             IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>()
             )

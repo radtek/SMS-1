@@ -80,6 +80,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             var contact = m_UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
+
             m_OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
             m_OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
             //delete original temp user account

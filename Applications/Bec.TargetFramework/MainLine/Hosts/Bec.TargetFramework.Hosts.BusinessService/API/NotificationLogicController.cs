@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Bec.TargetFramework.Infrastructure.IOC;
-using Bec.TargetFramework.SB.NotificationServices.Report;
 
 namespace Bec.TargetFramework.Hosts.BusinessService.API
 {
@@ -17,8 +16,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.API
     {
         public NotificationLogicController()
             : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
-            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>(),
-            IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<StandaloneReportGenerator>()
+            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>()
             )
         {
 

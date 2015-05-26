@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Bec.TargetFramework.Hosts.BusinessService.API
 {
-    public class ClassificationDataLogicController : ClassificationDataLogic, IClassificationDataLogic
+    public class ClassificationDataLogicController : ClassificationDataLogic
     {
 
         public ClassificationDataLogicController()

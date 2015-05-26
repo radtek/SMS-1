@@ -9,7 +9,6 @@ using FluentValidation;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(PersonalDetailsDTOValidator))]
     [Serializable]
     [DataContract]
     [KnownType(typeof(List<OtherNameDTO>))]

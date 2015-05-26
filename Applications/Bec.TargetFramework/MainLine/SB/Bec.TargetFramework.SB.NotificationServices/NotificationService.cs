@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.SB.NotificationServices
     using NServiceBus.Installation.Environments;
     using Bec.TargetFramework.SB.NotificationServices.Service;
     using Bec.TargetFramework.SB.Interfaces;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+
     using Bec.TargetFramework.Infrastructure.Log;
     using Bec.TargetFramework.Infrastructure;
     using NServiceBus.Serilog;

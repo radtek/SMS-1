@@ -22,46 +22,5 @@ namespace Bec.TargetFramework.Business.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://test.ipg-online.com:443/ipgapi/services")]
-        public string Bec_TargetFramework_Business_FirstData_IPGApiOrderService {
-            get {
-                return ((string)(this["Bec_TargetFramework_Business_FirstData_IPGApiOrderService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://xml.proveid.experian.com/IDSearch.cfc")]
-        public string Bec_TargetFramework_Business_ExperianIDCheck1_IDSearch {
-            get {
-                return ((string)(this["Bec_TargetFramework_Business_ExperianIDCheck1_IDSearch"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://secure.authenticator.uat.uk.experian.com/WASPAuthenticator/TokenService.a" +
-            "smx")]
-        public string Bec_TargetFramework_Business_BWATokenService_TokenService {
-            get {
-                return ((string)(this["Bec_TargetFramework_Business_BWATokenService_TokenService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8080/experianpayments/services/BankWizard")]
-        public string Bec_TargetFramework_Business_BWAService_BankWizard_v1_0_Service {
-            get {
-                return ((string)(this["Bec_TargetFramework_Business_BWAService_BankWizard_v1_0_Service"]));
-            }
-        }
     }
 }

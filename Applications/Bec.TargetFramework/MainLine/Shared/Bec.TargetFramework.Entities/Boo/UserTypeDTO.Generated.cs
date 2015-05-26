@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public UserTypeDTO() {
         }
 
-        public UserTypeDTO(global::System.Guid userTypeID, string name, string description, bool isActive, bool isDeleted, bool isGlobal, global::System.Nullable<bool> isPrincipal, global::System.Nullable<bool> isSecondary, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<UserAccountOrganisationDTO> userAccountOrganisations, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<OrganisationUserTypeDTO> organisationUserTypes, List<InterfacePanelFDOrganisationTypeUserTypeDTO> interfacePanelFDOrganaisationTypeUserTypes, List<InterfacePanelOrganisationTypeUserTypeDTO> interfacePanelOrganisationTypeUserTypes, List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> interfacePanelOrganisationTypeUserTypeTemplates, List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> interfacePanelFDOrganaisationTypeUserTypeTemplates, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<UserAccountOrganisationSecondaryUserTypeDTO> userAccountOrganisationSecondaryUserTypes, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets) {
+        public UserTypeDTO(global::System.Guid userTypeID, string name, string description, bool isActive, bool isDeleted, bool isGlobal, global::System.Nullable<bool> isPrincipal, global::System.Nullable<bool> isSecondary, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<UserAccountOrganisationDTO> userAccountOrganisations, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<OrganisationUserTypeDTO> organisationUserTypes, List<ComponentTierTemplateDTO> componentTierTemplates, List<ComponentTierDTO> componentTiers, List<DiscountDTO> discounts, List<DiscountTemplateDTO> discountTemplates, List<DeductionDTO> deductions, List<DeductionTemplateDTO> deductionTemplates, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, List<UserAccountOrganisationSecondaryUserTypeDTO> userAccountOrganisationSecondaryUserTypes, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<NotificationConstructTargetDTO> notificationConstructTargets, List<ResourceOperationTargetDTO> resourceOperationTargets) {
 
           this.UserTypeID = userTypeID;
           this.Name = name;
@@ -38,10 +38,6 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationUserTargetTemplates = defaultOrganisationUserTargetTemplates;
           this.DefaultOrganisationUserTypes = defaultOrganisationUserTypes;
           this.OrganisationUserTypes = organisationUserTypes;
-          this.InterfacePanelFDOrganaisationTypeUserTypes = interfacePanelFDOrganaisationTypeUserTypes;
-          this.InterfacePanelOrganisationTypeUserTypes = interfacePanelOrganisationTypeUserTypes;
-          this.InterfacePanelOrganisationTypeUserTypeTemplates = interfacePanelOrganisationTypeUserTypeTemplates;
-          this.InterfacePanelFDOrganaisationTypeUserTypeTemplates = interfacePanelFDOrganaisationTypeUserTypeTemplates;
           this.ComponentTierTemplates = componentTierTemplates;
           this.ComponentTiers = componentTiers;
           this.Discounts = discounts;
@@ -105,18 +101,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationUserTypeDTO> OrganisationUserTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeDTO> InterfacePanelFDOrganaisationTypeUserTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeUserTypeDTO> InterfacePanelOrganisationTypeUserTypes { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> InterfacePanelOrganisationTypeUserTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> InterfacePanelFDOrganaisationTypeUserTypeTemplates { get; set; }
 
         [DataMember]
         public List<ComponentTierTemplateDTO> ComponentTierTemplates { get; set; }

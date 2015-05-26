@@ -97,10 +97,6 @@
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Repository\Bec.TargetFramework.Data.Repositories.csproj">
-      <Project>{d352e538-c2ba-45c1-903a-b21ba7eea90c}</Project>
-      <Name>Bec.TargetFramework.Data.Repositories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data\Bec.TargetFramework.Data.csproj">
       <Project>{f050fc5d-c63c-4453-a98e-c3db7d0f255a}</Project>
       <Name>Bec.TargetFramework.Data</Name>

@@ -10,11 +10,10 @@ using ServiceStack.Text;
 namespace Bec.TargetFramework.Business.Logic
 {
     using Bec.TargetFramework.Aop.Aspects;
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Entities;
 
     [Trace(TraceExceptionsOnly = true)]
-    public class UserAccountAuditLogic : LogicBase, IUserAccountAuditLogic
+    public class UserAccountAuditLogic : LogicBase
     {
         public UserAccountAuditLogic(ILogger logger, ICacheProvider cacheProvider) : base(logger, cacheProvider)
         {

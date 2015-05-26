@@ -1,4 +1,4 @@
-﻿using Bec.TargetFramework.Business.Infrastructure.Interfaces;
+﻿
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;

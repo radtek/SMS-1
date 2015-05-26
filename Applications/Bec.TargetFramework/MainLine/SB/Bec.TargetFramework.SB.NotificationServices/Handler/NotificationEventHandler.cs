@@ -21,7 +21,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
     using Autofac;
 
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Entities;
     using Bec.TargetFramework.Infrastructure.Log;
     using Bec.TargetFramework.SB.Interfaces;

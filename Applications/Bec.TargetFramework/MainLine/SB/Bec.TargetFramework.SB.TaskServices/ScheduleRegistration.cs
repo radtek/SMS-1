@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Handlers.Base;
 using Bec.TargetFramework.SB.Interfaces;

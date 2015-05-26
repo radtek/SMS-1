@@ -16,7 +16,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
 
     using Autofac.Integration.Wcf;
 
-    using Bec.TargetFramework.Business.Infrastructure.Interfaces;
     using Bec.TargetFramework.Infrastructure.Caching;
     using Bec.TargetFramework.Infrastructure.CouchBaseCache;
     using Bec.TargetFramework.Infrastructure.Log;

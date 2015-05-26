@@ -14,7 +14,6 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities
 {
-    [FluentValidation.Attributes.ValidatorAttribute(typeof(FirmUserDTOValidator))]
     [DataContract]
     [Serializable]
     public class FirmUserDTO

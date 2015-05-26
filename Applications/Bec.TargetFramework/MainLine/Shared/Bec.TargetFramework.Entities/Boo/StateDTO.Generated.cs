@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StateDTO() {
         }
 
-        public StateDTO(global::System.Guid stateID, string stateName, string stateDescription, global::System.Nullable<int> stateTypeID, global::System.Nullable<int> stateCategoryID, global::System.Nullable<int> stateSubCategoryID, global::System.Nullable<System.Guid> parentStateID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<InterfacePanelClaimTemplateDTO> interfacePanelClaimTemplates, List<InterfacePanelClaimDTO> interfacePanelClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<StateItemDTO> stateItems, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
+        public StateDTO(global::System.Guid stateID, string stateName, string stateDescription, global::System.Nullable<int> stateTypeID, global::System.Nullable<int> stateCategoryID, global::System.Nullable<int> stateSubCategoryID, global::System.Nullable<System.Guid> parentStateID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<StateItemDTO> stateItems, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
 
           this.StateID = stateID;
           this.StateName = stateName;
@@ -35,8 +35,6 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.ParentID = parentID;
           this.ModuleClaims = moduleClaims;
-          this.InterfacePanelClaimTemplates = interfacePanelClaimTemplates;
-          this.InterfacePanelClaims = interfacePanelClaims;
           this.DefaultOrganisationRoleClaims = defaultOrganisationRoleClaims;
           this.OrganisationRoleClaims = organisationRoleClaims;
           this.WorkflowClaimTemplates = workflowClaimTemplates;
@@ -96,12 +94,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ModuleClaimDTO> ModuleClaims { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelClaimTemplateDTO> InterfacePanelClaimTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelClaimDTO> InterfacePanelClaims { get; set; }
 
         [DataMember]
         public List<DefaultOrganisationRoleClaimDTO> DefaultOrganisationRoleClaims { get; set; }

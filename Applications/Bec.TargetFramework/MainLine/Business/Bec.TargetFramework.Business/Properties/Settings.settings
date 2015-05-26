@@ -1,18 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Bec.TargetFramework.Business.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="Bec_TargetFramework_Business_FirstData_IPGApiOrderService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://test.ipg-online.com:443/ipgapi/services</Value>
-    </Setting>
-    <Setting Name="Bec_TargetFramework_Business_ExperianIDCheck1_IDSearch" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://xml.proveid.experian.com/IDSearch.cfc</Value>
-    </Setting>
-    <Setting Name="Bec_TargetFramework_Business_BWATokenService_TokenService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://secure.authenticator.uat.uk.experian.com/WASPAuthenticator/TokenService.asmx</Value>
-    </Setting>
-    <Setting Name="Bec_TargetFramework_Business_BWAService_BankWizard_v1_0_Service" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:8080/experianpayments/services/BankWizard</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

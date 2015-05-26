@@ -14,7 +14,6 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
 using Bec.TargetFramework.UI.Process.Filters;
 using BrockAllen.MembershipReboot;
-using Hangfire;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using System.Net.Http.Formatting;
 using Omu.ValueInjecter;
