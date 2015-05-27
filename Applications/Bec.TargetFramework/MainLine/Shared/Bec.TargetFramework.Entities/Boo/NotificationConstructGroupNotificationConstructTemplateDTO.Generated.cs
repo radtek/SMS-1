@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationConstructGroupNotificationConstructTemplateDTO() {
         }
 
-        public NotificationConstructGroupNotificationConstructTemplateDTO(global::System.Guid notificationConstructGroupNotificationConstructTemplateID, int notificationConstructGroupNotificationConstructTemplateVersion, global::System.Nullable<System.Guid> notificationConstructGroupTemplateID, global::System.Nullable<int> notificationConstructGroupTemplateVersion, global::System.Nullable<System.Guid> userTypeID, global::System.Guid notificationConstructTemplateID, global::System.Nullable<System.Guid> workflowTemplateID, global::System.Nullable<int> workflowTemplateVersionNumber, global::System.Nullable<bool> isActive, global::System.Nullable<bool> isDeleted, string conditionString, int notificationConstructTemplateVersionNumber, global::System.Nullable<int> organisationTypeID, NotificationConstructGroupTemplateDTO notificationConstructGroupTemplate, WorkflowTemplateDTO workflowTemplate, UserTypeDTO userType, OrganisationTypeDTO organisationType, NotificationConstructTemplateDTO notificationConstructTemplate) {
+        public NotificationConstructGroupNotificationConstructTemplateDTO(global::System.Guid notificationConstructGroupNotificationConstructTemplateID, int notificationConstructGroupNotificationConstructTemplateVersion, global::System.Nullable<System.Guid> notificationConstructGroupTemplateID, global::System.Nullable<int> notificationConstructGroupTemplateVersion, global::System.Nullable<System.Guid> userTypeID, global::System.Guid notificationConstructTemplateID, global::System.Nullable<bool> isActive, global::System.Nullable<bool> isDeleted, string conditionString, int notificationConstructTemplateVersionNumber, global::System.Nullable<int> organisationTypeID, NotificationConstructGroupTemplateDTO notificationConstructGroupTemplate, UserTypeDTO userType, OrganisationTypeDTO organisationType, NotificationConstructTemplateDTO notificationConstructTemplate) {
 
           this.NotificationConstructGroupNotificationConstructTemplateID = notificationConstructGroupNotificationConstructTemplateID;
           this.NotificationConstructGroupNotificationConstructTemplateVersion = notificationConstructGroupNotificationConstructTemplateVersion;
@@ -30,15 +30,12 @@ namespace Bec.TargetFramework.Entities
           this.NotificationConstructGroupTemplateVersion = notificationConstructGroupTemplateVersion;
           this.UserTypeID = userTypeID;
           this.NotificationConstructTemplateID = notificationConstructTemplateID;
-          this.WorkflowTemplateID = workflowTemplateID;
-          this.WorkflowTemplateVersionNumber = workflowTemplateVersionNumber;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
           this.ConditionString = conditionString;
           this.NotificationConstructTemplateVersionNumber = notificationConstructTemplateVersionNumber;
           this.OrganisationTypeID = organisationTypeID;
           this.NotificationConstructGroupTemplate = notificationConstructGroupTemplate;
-          this.WorkflowTemplate = workflowTemplate;
           this.UserType = userType;
           this.OrganisationType = organisationType;
           this.NotificationConstructTemplate = notificationConstructTemplate;
@@ -67,12 +64,6 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid NotificationConstructTemplateID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> WorkflowTemplateID { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<int> WorkflowTemplateVersionNumber { get; set; }
-
-        [DataMember]
         public global::System.Nullable<bool> IsActive { get; set; }
 
         [DataMember]
@@ -93,9 +84,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public NotificationConstructGroupTemplateDTO NotificationConstructGroupTemplate { get; set; }
-
-        [DataMember]
-        public WorkflowTemplateDTO WorkflowTemplate { get; set; }
 
         [DataMember]
         public UserTypeDTO UserType { get; set; }

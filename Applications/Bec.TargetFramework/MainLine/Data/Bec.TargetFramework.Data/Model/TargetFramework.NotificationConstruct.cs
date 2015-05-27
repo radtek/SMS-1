@@ -321,15 +321,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for WorkflowNotificationConstructs in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowNotificationConstruct> WorkflowNotificationConstructs
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for NotificationConstructRoles in the schema.
         /// </summary>
         public virtual ICollection<NotificationConstructRole> NotificationConstructRoles
@@ -378,15 +369,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for NotificationConstructTargets in the schema.
         /// </summary>
         public virtual ICollection<NotificationConstructTarget> NotificationConstructTargets
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionParameterNotificationConstructs in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowActionParameterNotificationConstruct> WorkflowActionParameterNotificationConstructs
         {
             get;
             set;

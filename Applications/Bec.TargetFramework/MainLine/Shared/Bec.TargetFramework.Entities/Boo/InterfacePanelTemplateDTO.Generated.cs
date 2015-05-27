@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public InterfacePanelTemplateDTO() {
         }
 
-        public InterfacePanelTemplateDTO(global::System.Guid interfacePanelTemplateID, int interfacePanelTemplateVersionNumber, string name, string description, global::System.Nullable<int> interfacePanelTypeID, global::System.Nullable<int> interfacePanelSubTypeID, global::System.Nullable<int> interfacePanelCategoryID, global::System.Nullable<int> interfacePanelSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentIPTemplateID, global::System.Nullable<int> parentIPTemplateVersionNumber, bool isSecuredByClaim, bool isGridPanel, bool isGlobal, string interfacePanelTemplateLabel, List<InterfacePanelClaimTemplateDTO> interfacePanelClaimTemplates, List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> interfacePanelFieldDetailOrganaisationTypeTemplates, List<InterfacePanelFieldDetailTemplateDTO> interfacePanelFieldDetailTemplates, List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> interfacePanelOrganisationTypeUserTypeTemplates, List<InterfacePanelDTO> interfacePanels, List<InterfacePanelTemplateDTO> interfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber, InterfacePanelTemplateDTO interfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber, List<InterfacePanelSettingTemplateDTO> interfacePanelSettingTemplates, List<InterfacePanelRoleTemplateDTO> interfacePanelRoleTemplates, List<InterfacePanelOrganisationTypeTemplateDTO> interfacePanelOrganisationTypeTemplates, List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> interfacePanelFDOrganaisationTypeUserTypeTemplates, List<WorkflowTreeStructureTemplateDTO> workflowTreeStructureTemplates, List<InterfacePanelValidationOrganisationTypeTemplateDTO> interfacePanelValidationOrganisationTypeTemplates, List<InterfacePanelValidationOrganisationTypeUserTypeTemplateDTO> interfacePanelValidationOrganisationTypeUserTypeTemplates, List<InterfacePanelFieldDetailValidationTemplateDTO> interfacePanelFieldDetailValidationTemplate, List<InterfacePanelFieldDetailValidationOrganisationTypeTemplateDTO> interfacePanelFieldDetailValidationOrganisationTypeTemplates, List<InterfacePanelFDValidationOrgTypeUserTypeTemplateDTO> interfacePanelFDValidationOrgTypeUserTypeTemplates) {
+        public InterfacePanelTemplateDTO(global::System.Guid interfacePanelTemplateID, int interfacePanelTemplateVersionNumber, string name, string description, global::System.Nullable<int> interfacePanelTypeID, global::System.Nullable<int> interfacePanelSubTypeID, global::System.Nullable<int> interfacePanelCategoryID, global::System.Nullable<int> interfacePanelSubCategoryID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentIPTemplateID, global::System.Nullable<int> parentIPTemplateVersionNumber, bool isSecuredByClaim, bool isGridPanel, bool isGlobal, string interfacePanelTemplateLabel, List<InterfacePanelTemplateDTO> interfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber, InterfacePanelTemplateDTO interfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber) {
 
           this.InterfacePanelTemplateID = interfacePanelTemplateID;
           this.InterfacePanelTemplateVersionNumber = interfacePanelTemplateVersionNumber;
@@ -40,23 +40,8 @@ namespace Bec.TargetFramework.Entities
           this.IsGridPanel = isGridPanel;
           this.IsGlobal = isGlobal;
           this.InterfacePanelTemplateLabel = interfacePanelTemplateLabel;
-          this.InterfacePanelClaimTemplates = interfacePanelClaimTemplates;
-          this.InterfacePanelFieldDetailOrganaisationTypeTemplates = interfacePanelFieldDetailOrganaisationTypeTemplates;
-          this.InterfacePanelFieldDetailTemplates = interfacePanelFieldDetailTemplates;
-          this.InterfacePanelOrganisationTypeUserTypeTemplates = interfacePanelOrganisationTypeUserTypeTemplates;
-          this.InterfacePanels = interfacePanels;
           this.InterfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber = interfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber;
           this.InterfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber = interfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber;
-          this.InterfacePanelSettingTemplates = interfacePanelSettingTemplates;
-          this.InterfacePanelRoleTemplates = interfacePanelRoleTemplates;
-          this.InterfacePanelOrganisationTypeTemplates = interfacePanelOrganisationTypeTemplates;
-          this.InterfacePanelFDOrganaisationTypeUserTypeTemplates = interfacePanelFDOrganaisationTypeUserTypeTemplates;
-          this.WorkflowTreeStructureTemplates = workflowTreeStructureTemplates;
-          this.InterfacePanelValidationOrganisationTypeTemplates = interfacePanelValidationOrganisationTypeTemplates;
-          this.InterfacePanelValidationOrganisationTypeUserTypeTemplates = interfacePanelValidationOrganisationTypeUserTypeTemplates;
-          this.InterfacePanelFieldDetailValidationTemplate = interfacePanelFieldDetailValidationTemplate;
-          this.InterfacePanelFieldDetailValidationOrganisationTypeTemplates = interfacePanelFieldDetailValidationOrganisationTypeTemplates;
-          this.InterfacePanelFDValidationOrgTypeUserTypeTemplates = interfacePanelFDValidationOrgTypeUserTypeTemplates;
         }
 
         #endregion
@@ -116,55 +101,10 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
-        public List<InterfacePanelClaimTemplateDTO> InterfacePanelClaimTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailOrganisationTypeTemplateDTO> InterfacePanelFieldDetailOrganaisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailTemplateDTO> InterfacePanelFieldDetailTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeUserTypeTemplateDTO> InterfacePanelOrganisationTypeUserTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelDTO> InterfacePanels { get; set; }
-
-        [DataMember]
         public List<InterfacePanelTemplateDTO> InterfacePanelTemplates_ParentIPTemplateID_ParentIPTemplateVersionNumber { get; set; }
 
         [DataMember]
         public InterfacePanelTemplateDTO InterfacePanelTemplate_ParentIPTemplateID_ParentIPTemplateVersionNumber { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelSettingTemplateDTO> InterfacePanelSettingTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelRoleTemplateDTO> InterfacePanelRoleTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelOrganisationTypeTemplateDTO> InterfacePanelOrganisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDOrganisationTypeUserTypeTemplateDTO> InterfacePanelFDOrganaisationTypeUserTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<WorkflowTreeStructureTemplateDTO> WorkflowTreeStructureTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelValidationOrganisationTypeTemplateDTO> InterfacePanelValidationOrganisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelValidationOrganisationTypeUserTypeTemplateDTO> InterfacePanelValidationOrganisationTypeUserTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailValidationTemplateDTO> InterfacePanelFieldDetailValidationTemplate { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFieldDetailValidationOrganisationTypeTemplateDTO> InterfacePanelFieldDetailValidationOrganisationTypeTemplates { get; set; }
-
-        [DataMember]
-        public List<InterfacePanelFDValidationOrgTypeUserTypeTemplateDTO> InterfacePanelFDValidationOrgTypeUserTypeTemplates { get; set; }
 
         #endregion
     }

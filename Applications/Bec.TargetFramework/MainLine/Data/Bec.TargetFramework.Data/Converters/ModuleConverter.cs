@@ -45,7 +45,6 @@ namespace Bec.TargetFramework.Entities
               target.ModuleClaims = source.ModuleClaims.ToDtosWithRelated(level - 1);
               target.ModuleSettings = source.ModuleSettings.ToDtosWithRelated(level - 1);
               target.ModuleProducts = source.ModuleProducts.ToDtosWithRelated(level - 1);
-              target.ModuleWorkflows = source.ModuleWorkflows.ToDtosWithRelated(level - 1);
               target.ModuleDependencies_DependencyID_DependencyVersionNumber = source.ModuleDependencies_DependencyID_DependencyVersionNumber.ToDtosWithRelated(level - 1);
               target.ModuleDependencies_ModuleID_ModuleVersionNumber = source.ModuleDependencies_ModuleID_ModuleVersionNumber.ToDtosWithRelated(level - 1);
               target.ModuleStatusTypes = source.ModuleStatusTypes.ToDtosWithRelated(level - 1);

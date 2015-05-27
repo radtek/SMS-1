@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationConstructDTO() {
         }
 
-        public NotificationConstructDTO(global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Guid notificationConstructTemplateID, int notificationConstructTemplateVersionNumber, global::System.Nullable<int> notificationConstructTypeID, global::System.Nullable<int> notificationConstructSubTypeID, global::System.Nullable<int> notificationConstructCategoryID, global::System.Nullable<int> notificationConstructSubCategoryID, global::System.Nullable<System.Guid> externalRelatedNotificationConstructID, global::System.Nullable<int> externalRelatedNotificationConstructVersionNumber, string notificationSubject, string notificationTitle, string notificationDetails, string notificationReference, string notificationAdditionalDetails, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> ownerOrganisationID, bool canBeIncludedInBatchNotification, global::System.Nullable<int> defaultNotificationExportFormatID, global::System.Nullable<int> defaultNotificationDeliveryMethodID, string notificationConstructMutatorObjectType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<ModuleNotificationConstructDTO> moduleNotificationConstructs, List<NotificationConstructClaimDTO> notificationConstructClaims, List<ArtefactNotificationConstructDTO> artefactNotificationConstructs, List<WorkflowNotificationConstructDTO> workflowNotificationConstructs, List<NotificationConstructRoleDTO> notificationConstructRoles, NotificationConstructTemplateDTO notificationConstructTemplate, List<NotificationConstructParameterDTO> notificationConstructParameters, List<NotificationConstructDatumDTO> notificationConstructData, List<NotificationDTO> notifications, List<NotificationConstructTargetDTO> notificationConstructTargets, List<WorkflowActionParameterNotificationConstructDTO> workflowActionParameterNotificationConstructs, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs) {
+        public NotificationConstructDTO(global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Guid notificationConstructTemplateID, int notificationConstructTemplateVersionNumber, global::System.Nullable<int> notificationConstructTypeID, global::System.Nullable<int> notificationConstructSubTypeID, global::System.Nullable<int> notificationConstructCategoryID, global::System.Nullable<int> notificationConstructSubCategoryID, global::System.Nullable<System.Guid> externalRelatedNotificationConstructID, global::System.Nullable<int> externalRelatedNotificationConstructVersionNumber, string notificationSubject, string notificationTitle, string notificationDetails, string notificationReference, string notificationAdditionalDetails, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> ownerOrganisationID, bool canBeIncludedInBatchNotification, global::System.Nullable<int> defaultNotificationExportFormatID, global::System.Nullable<int> defaultNotificationDeliveryMethodID, string notificationConstructMutatorObjectType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<ModuleNotificationConstructDTO> moduleNotificationConstructs, List<NotificationConstructClaimDTO> notificationConstructClaims, List<ArtefactNotificationConstructDTO> artefactNotificationConstructs, List<NotificationConstructRoleDTO> notificationConstructRoles, NotificationConstructTemplateDTO notificationConstructTemplate, List<NotificationConstructParameterDTO> notificationConstructParameters, List<NotificationConstructDatumDTO> notificationConstructData, List<NotificationDTO> notifications, List<NotificationConstructTargetDTO> notificationConstructTargets, List<NotificationConstructGroupNotificationConstructDTO> notificationConstructGroupNotificationConstructs) {
 
           this.NotificationConstructID = notificationConstructID;
           this.NotificationConstructVersionNumber = notificationConstructVersionNumber;
@@ -53,14 +53,12 @@ namespace Bec.TargetFramework.Entities
           this.ModuleNotificationConstructs = moduleNotificationConstructs;
           this.NotificationConstructClaims = notificationConstructClaims;
           this.ArtefactNotificationConstructs = artefactNotificationConstructs;
-          this.WorkflowNotificationConstructs = workflowNotificationConstructs;
           this.NotificationConstructRoles = notificationConstructRoles;
           this.NotificationConstructTemplate = notificationConstructTemplate;
           this.NotificationConstructParameters = notificationConstructParameters;
           this.NotificationConstructData = notificationConstructData;
           this.Notifications = notifications;
           this.NotificationConstructTargets = notificationConstructTargets;
-          this.WorkflowActionParameterNotificationConstructs = workflowActionParameterNotificationConstructs;
           this.NotificationConstructGroupNotificationConstructs = notificationConstructGroupNotificationConstructs;
         }
 
@@ -160,9 +158,6 @@ namespace Bec.TargetFramework.Entities
         public List<ArtefactNotificationConstructDTO> ArtefactNotificationConstructs { get; set; }
 
         [DataMember]
-        public List<WorkflowNotificationConstructDTO> WorkflowNotificationConstructs { get; set; }
-
-        [DataMember]
         public List<NotificationConstructRoleDTO> NotificationConstructRoles { get; set; }
 
         [DataMember]
@@ -179,9 +174,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<NotificationConstructTargetDTO> NotificationConstructTargets { get; set; }
-
-        [DataMember]
-        public List<WorkflowActionParameterNotificationConstructDTO> WorkflowActionParameterNotificationConstructs { get; set; }
 
         [DataMember]
         public List<NotificationConstructGroupNotificationConstructDTO> NotificationConstructGroupNotificationConstructs { get; set; }

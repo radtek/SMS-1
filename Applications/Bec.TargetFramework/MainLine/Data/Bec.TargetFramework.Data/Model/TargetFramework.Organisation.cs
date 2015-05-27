@@ -555,15 +555,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for OrganisationWorkflows in the schema.
-        /// </summary>
-        public virtual ICollection<OrganisationWorkflow> OrganisationWorkflows
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for PlanSubscriptions in the schema.
         /// </summary>
         public virtual ICollection<PlanSubscription> PlanSubscriptions

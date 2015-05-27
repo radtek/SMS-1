@@ -160,15 +160,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ModuleWorkflows in the schema.
-        /// </summary>
-        public virtual ICollection<ModuleWorkflow> ModuleWorkflows
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ModuleDependencies_DependencyID_DependencyVersionNumber in the schema.
         /// </summary>
         public virtual ICollection<ModuleDependency> ModuleDependencies_DependencyID_DependencyVersionNumber

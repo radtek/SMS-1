@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ModuleDTO() {
         }
 
-        public ModuleDTO(global::System.Guid moduleID, int moduleVersionNumber, string name, string description, global::System.Guid moduleTemplateID, int moduleTemplateVersionNumber, bool isActive, bool isDeleted, ModuleTemplateDTO moduleTemplate, List<ModuleSubscriptionDTO> moduleSubscriptions, List<ModuleClaimDTO> moduleClaims, List<ModuleSettingDTO> moduleSettings, List<ModuleProductDTO> moduleProducts, List<ModuleWorkflowDTO> moduleWorkflows, List<ModuleDependencyDTO> moduleDependencies_DependencyID_DependencyVersionNumber, List<ModuleDependencyDTO> moduleDependencies_ModuleID_ModuleVersionNumber, List<ModuleStatusTypeDTO> moduleStatusTypes, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<ModulePluginDTO> modulePlugins, List<ModuleArtefactDTO> moduleArtefacts, List<ModuleNotificationConstructDTO> moduleNotificationConstructs) {
+        public ModuleDTO(global::System.Guid moduleID, int moduleVersionNumber, string name, string description, global::System.Guid moduleTemplateID, int moduleTemplateVersionNumber, bool isActive, bool isDeleted, ModuleTemplateDTO moduleTemplate, List<ModuleSubscriptionDTO> moduleSubscriptions, List<ModuleClaimDTO> moduleClaims, List<ModuleSettingDTO> moduleSettings, List<ModuleProductDTO> moduleProducts, List<ModuleDependencyDTO> moduleDependencies_DependencyID_DependencyVersionNumber, List<ModuleDependencyDTO> moduleDependencies_ModuleID_ModuleVersionNumber, List<ModuleStatusTypeDTO> moduleStatusTypes, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<ModulePluginDTO> modulePlugins, List<ModuleArtefactDTO> moduleArtefacts, List<ModuleNotificationConstructDTO> moduleNotificationConstructs) {
 
           this.ModuleID = moduleID;
           this.ModuleVersionNumber = moduleVersionNumber;
@@ -37,7 +37,6 @@ namespace Bec.TargetFramework.Entities
           this.ModuleClaims = moduleClaims;
           this.ModuleSettings = moduleSettings;
           this.ModuleProducts = moduleProducts;
-          this.ModuleWorkflows = moduleWorkflows;
           this.ModuleDependencies_DependencyID_DependencyVersionNumber = moduleDependencies_DependencyID_DependencyVersionNumber;
           this.ModuleDependencies_ModuleID_ModuleVersionNumber = moduleDependencies_ModuleID_ModuleVersionNumber;
           this.ModuleStatusTypes = moduleStatusTypes;
@@ -93,9 +92,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ModuleProductDTO> ModuleProducts { get; set; }
-
-        [DataMember]
-        public List<ModuleWorkflowDTO> ModuleWorkflows { get; set; }
 
         [DataMember]
         public List<ModuleDependencyDTO> ModuleDependencies_DependencyID_DependencyVersionNumber { get; set; }

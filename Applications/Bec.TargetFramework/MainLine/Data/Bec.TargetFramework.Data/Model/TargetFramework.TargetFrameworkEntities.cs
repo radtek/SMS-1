@@ -68,16 +68,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for WorkflowTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTemplate> WorkflowTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstance in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstance> WorkflowInstances { get; set; }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationLedger in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationLedger> DefaultOrganisationLedgers { get; set; }
@@ -158,11 +148,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<StatusTypeRole> StatusTypeRoles { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowStatusType in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowStatusType> WorkflowStatusTypes { get; set; }
-    
-        /// <summary>
         /// There are no comments for OrganisationGroupRole in the schema.
         /// </summary>
         public virtual DbSet<OrganisationGroupRole> OrganisationGroupRoles { get; set; }
@@ -223,11 +208,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<PlanProductTemplate> PlanProductTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for ModuleWorkflow in the schema.
-        /// </summary>
-        public virtual DbSet<ModuleWorkflow> ModuleWorkflows { get; set; }
-    
-        /// <summary>
         /// There are no comments for ModuleDependency in the schema.
         /// </summary>
         public virtual DbSet<ModuleDependency> ModuleDependencies { get; set; }
@@ -261,11 +241,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for PlanTemplate in the schema.
         /// </summary>
         public virtual DbSet<PlanTemplate> PlanTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for DefaultOrganisationWorkflowTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<DefaultOrganisationWorkflowTemplate> DefaultOrganisationWorkflowTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for DefaultOrganisationRoleTemplate in the schema.
@@ -393,19 +368,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<PlanSubscription> PlanSubscriptions { get; set; }
     
         /// <summary>
-        /// There are no comments for WorflowParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorflowParameterTemplate> WorflowParameterTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for UserCertificate in the schema.
         /// </summary>
         public virtual DbSet<UserCertificate> UserCertificates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowClaimTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowClaimTemplate> WorkflowClaimTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for UserAccountOrganisationRole in the schema.
@@ -418,24 +383,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<OrganisationSettingTemplate> OrganisationSettingTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowCommandConditionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandConditionTemplate> WorkflowCommandConditionTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for Billing in the schema.
         /// </summary>
         public virtual DbSet<Billing> Billings { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommandParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandParameterTemplate> WorkflowCommandParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommandTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandTemplate> WorkflowCommandTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for StatusTypeStructureTransition in the schema.
@@ -463,19 +413,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<OrganisationUnitOrganisationRole> OrganisationUnitOrganisationRoles { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowExecution in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowExecution> WorkflowExecutions { get; set; }
-    
-        /// <summary>
         /// There are no comments for PlanBilling in the schema.
         /// </summary>
         public virtual DbSet<PlanBilling> PlanBillings { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowExecutionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowExecutionTemplate> WorkflowExecutionTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for Discount in the schema.
@@ -513,21 +453,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ArtefactSubscription> ArtefactSubscriptions { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowTransistionCompleteConditionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionCompleteConditionTemplate> WorkflowTransistionCompleteConditionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionStartConditionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionStartConditionTemplate> WorkflowTransistionStartConditionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionWorkflowActionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionWorkflowActionTemplate> WorkflowTransistionWorkflowActionTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for ModulePlugin in the schema.
         /// </summary>
         public virtual DbSet<ModulePlugin> ModulePlugins { get; set; }
@@ -541,11 +466,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for StatusTypeRoleTemplate in the schema.
         /// </summary>
         public virtual DbSet<StatusTypeRoleTemplate> StatusTypeRoleTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowStatusTypeTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowStatusTypeTemplate> WorkflowStatusTypeTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for CountryDeduction in the schema.
@@ -713,11 +633,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ProductVariantAttributeValue> ProductVariantAttributeValues { get; set; }
     
         /// <summary>
-        /// There are no comments for ModuleWorkflowTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<ModuleWorkflowTemplate> ModuleWorkflowTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationGroupTarget in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationGroupTarget> DefaultOrganisationGroupTargets { get; set; }
@@ -731,11 +646,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ProductRole in the schema.
         /// </summary>
         public virtual DbSet<ProductRole> ProductRoles { get; set; }
-    
-        /// <summary>
-        /// There are no comments for ModuleWorkflowTarget in the schema.
-        /// </summary>
-        public virtual DbSet<ModuleWorkflowTarget> ModuleWorkflowTargets { get; set; }
     
         /// <summary>
         /// There are no comments for UserAccountLedgerAccount in the schema.
@@ -766,11 +676,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for DefaultOrganisationNotificationConstruct in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationNotificationConstruct> DefaultOrganisationNotificationConstructs { get; set; }
-    
-        /// <summary>
-        /// There are no comments for DefaultOrganisationWorkflow in the schema.
-        /// </summary>
-        public virtual DbSet<DefaultOrganisationWorkflow> DefaultOrganisationWorkflows { get; set; }
     
         /// <summary>
         /// There are no comments for DefaultOrganisationRoleTarget in the schema.
@@ -853,19 +758,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<Account> Accounts { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowActionExecuteCommandTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionExecuteCommandTemplate> WorkflowActionExecuteCommandTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationUserType in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationUserType> DefaultOrganisationUserTypes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionCompleteConditionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionCompleteConditionTemplate> WorkflowActionCompleteConditionTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for StatusTypeStructureTemplate in the schema.
@@ -891,21 +786,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ProductRelationship in the schema.
         /// </summary>
         public virtual DbSet<ProductRelationship> ProductRelationships { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionPostCommandTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionPostCommandTemplate> WorkflowActionPostCommandTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionPreCommandTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionPreCommandTemplate> WorkflowActionPreCommandTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for OrganisationWorkflow in the schema.
-        /// </summary>
-        public virtual DbSet<OrganisationWorkflow> OrganisationWorkflows { get; set; }
     
         /// <summary>
         /// There are no comments for OrganisationSetting in the schema.
@@ -936,11 +816,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Product in the schema.
         /// </summary>
         public virtual DbSet<Product> Products { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionExecuteCommandTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionExecuteCommandTemplate> WorkflowDecisionExecuteCommandTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for UserAccountOrganisationStatus in the schema.
@@ -1028,11 +903,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ModuleSubscriptionTemplate> ModuleSubscriptionTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for ModuleWorkflowTargetTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<ModuleWorkflowTargetTemplate> ModuleWorkflowTargetTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for ArtefactClaimTemplate in the schema.
         /// </summary>
         public virtual DbSet<ArtefactClaimTemplate> ArtefactClaimTemplates { get; set; }
@@ -1088,16 +958,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<PackageProductSpecificationBlueprintTemplate> PackageProductSpecificationBlueprintTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowInstanceRestriction in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceRestriction> WorkflowInstanceRestrictions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for ArtefactWorkflow in the schema.
-        /// </summary>
-        public virtual DbSet<ArtefactWorkflow> ArtefactWorkflows { get; set; }
-    
-        /// <summary>
         /// There are no comments for PackageProductRelationshipBlueprint in the schema.
         /// </summary>
         public virtual DbSet<PackageProductRelationshipBlueprint> PackageProductRelationshipBlueprints { get; set; }
@@ -1118,179 +978,9 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ModuleSettingTemplate> ModuleSettingTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowActionParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionParameterTemplate> WorkflowActionParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowConditionParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowConditionParameterTemplate> WorkflowConditionParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionParameterTemplate> WorkflowDecisionParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionParameterTemplate> WorkflowTransistionParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionHierarchyTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionHierarchyTemplate> WorkflowTransistionHierarchyTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for ApplicationStageWorkflow in the schema.
-        /// </summary>
-        public virtual DbSet<ApplicationStageWorkflow> ApplicationStageWorkflows { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowAction in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowAction> WorkflowActions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionCompleteCondition in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionCompleteCondition> WorkflowActionCompleteConditions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionExecuteCommand in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionExecuteCommand> WorkflowActionExecuteCommands { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionParameter> WorkflowActionParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionPostCommand in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionPostCommand> WorkflowActionPostCommands { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionStartCondition in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionStartCondition> WorkflowActionStartConditions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionFailure in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionFailure> WorkflowDecisionFailures { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionSuccess in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionSuccess> WorkflowDecisionSuccesses { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionWorkflowAction in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionWorkflowAction> WorkflowTransistionWorkflowActions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionError in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionError> WorkflowDecisionErrors { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommandParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandParameter> WorkflowCommandParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowConditionParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowConditionParameter> WorkflowConditionParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionCompleteCondition in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionCompleteCondition> WorkflowTransistionCompleteConditions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionStartCondition in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionStartCondition> WorkflowTransistionStartConditions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecision in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecision> WorkflowDecisions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionExecuteCommand in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionExecuteCommand> WorkflowDecisionExecuteCommands { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionParameter> WorkflowDecisionParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionWorkflowDecision in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionWorkflowDecision> WorkflowTransistionWorkflowDecisions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowHierarchy in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowHierarchy> WorkflowHierarchies { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstanceSession in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceSession> WorkflowInstanceSessions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstanceExecution in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceExecution> WorkflowInstanceExecutions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstanceExecutionStatusEvent in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceExecutionStatusEvent> WorkflowInstanceExecutionStatusEvents { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstanceExecutionTrace in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceExecutionTrace> WorkflowInstanceExecutionTraces { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowInstanceExecutionDataItem in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowInstanceExecutionDataItem> WorkflowInstanceExecutionDataItems { get; set; }
-    
-        /// <summary>
         /// There are no comments for RepositoryStructure in the schema.
         /// </summary>
         public virtual DbSet<RepositoryStructure> RepositoryStructures { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistion in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistion> WorkflowTransistions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionHierarchy in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionHierarchy> WorkflowTransistionHierarchies { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowNotificationConstruct in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowNotificationConstruct> WorkflowNotificationConstructs { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionErrorTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionErrorTemplate> WorkflowDecisionErrorTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for NotificationConstructRole in the schema.
@@ -1308,21 +998,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<Timeoutentity> Timeoutentities { get; set; }
     
         /// <summary>
-        /// There are no comments for Workflow in the schema.
-        /// </summary>
-        public virtual DbSet<Workflow> Workflows { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowObjectType in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowObjectType> WorkflowObjectTypes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowRole in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowRole> WorkflowRoles { get; set; }
-    
-        /// <summary>
         /// There are no comments for NotificationRecipient in the schema.
         /// </summary>
         public virtual DbSet<NotificationRecipient> NotificationRecipients { get; set; }
@@ -1331,81 +1006,6 @@ namespace Bec.TargetFramework.Data
         /// This can be used when a user needs access to multiple branches
         /// </summary>
         public virtual DbSet<UserAccountOrganisationStructure> UserAccountOrganisationStructures { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionExecutionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionExecutionTemplate> WorkflowActionExecutionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionNotificationTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionNotificationTemplate> WorkflowActionNotificationTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionProductPlaceholder in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionProductPlaceholder> WorkflowActionProductPlaceholders { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionStartConditionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionStartConditionTemplate> WorkflowActionStartConditionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionValidationTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionValidationTemplate> WorkflowActionValidationTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionFailureTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionFailureTemplate> WorkflowDecisionFailureTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionSuccessTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionSuccessTemplate> WorkflowDecisionSuccessTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowDecisionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowDecisionTemplate> WorkflowDecisionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionWorkflowDecisionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionWorkflowDecisionTemplate> WorkflowTransistionWorkflowDecisionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowHierarchyTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowHierarchyTemplate> WorkflowHierarchyTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowObjectTypeTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowObjectTypeTemplate> WorkflowObjectTypeTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionTemplate> WorkflowActionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionTemplate> WorkflowTransistionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowRoleTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowRoleTemplate> WorkflowRoleTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowNotificationConstructTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowNotificationConstructTemplate> WorkflowNotificationConstructTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for FieldDetail in the schema.
@@ -1452,20 +1052,15 @@ namespace Bec.TargetFramework.Data
         /// </summary>
         public virtual DbSet<ModuleDependencyTemplate> ModuleDependencyTemplates { get; set; }
     
-        ///// <summary>
-        ///// There are no comments for InterfacePanelTemplate in the schema.
-        ///// </summary>
-        //public virtual DbSet<InterfacePanelTemplate> InterfacePanelTemplates { get; set; }
+        /// <summary>
+        /// There are no comments for InterfacePanelTemplate in the schema.
+        /// </summary>
+        public virtual DbSet<InterfacePanelTemplate> InterfacePanelTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for Role in the schema.
         /// </summary>
         public virtual DbSet<Role> Roles { get; set; }
-    
-        /// <summary>
-        /// There are no comments for ArtefactWorkflowTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<ArtefactWorkflowTemplate> ArtefactWorkflowTemplates { get; set; }
     
         /// <summary>
         /// There are no comments for ArtefactNotificationConstructTemplate in the schema.
@@ -1591,11 +1186,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserAccountAudit in the schema.
         /// </summary>
         public virtual DbSet<UserAccountAudit> UserAccountAudits { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowExecutionStatus in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowExecutionStatus> WorkflowExecutionStatus { get; set; }
     
         /// <summary>
         /// There are no comments for State in the schema.
@@ -1733,11 +1323,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<PackageProduct> PackageProducts { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowTreeStructure in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTreeStructure> WorkflowTreeStructures { get; set; }
-    
-        /// <summary>
         /// There are no comments for Repository in the schema.
         /// </summary>
         public virtual DbSet<Repository> Repositories { get; set; }
@@ -1766,26 +1351,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for RoleClaim in the schema.
         /// </summary>
         public virtual DbSet<RoleClaim> RoleClaims { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowClaim in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowClaim> WorkflowClaims { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommandCondition in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandCondition> WorkflowCommandConditions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTransistionParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTransistionParameter> WorkflowTransistionParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionPreCommand in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionPreCommand> WorkflowActionPreCommands { get; set; }
     
         /// <summary>
         /// There are no comments for ArtefactTemplate in the schema.
@@ -1833,11 +1398,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VStatusTypeTemplate> VStatusTypeTemplates { get; set; }
     
         /// <summary>
-        /// There are no comments for VOrgansiationClaim in the schema.
-        /// </summary>
-        public virtual DbSet<VOrgansiationClaim> VOrgansiationClaims { get; set; }
-    
-        /// <summary>
         /// There are no comments for VClaimSource in the schema.
         /// </summary>
         public virtual DbSet<VClaimSource> VClaimSources { get; set; }
@@ -1851,21 +1411,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VProductAttribute in the schema.
         /// </summary>
         public virtual DbSet<VProductAttribute> VProductAttributes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceProgress in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceProgress> VWorkflowInstanceProgresses { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceStatus in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceStatus> VWorkflowInstanceStatus { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceExecutionNotCompleted in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceExecutionNotCompleted> VWorkflowInstanceExecutionNotCompleteds { get; set; }
     
         /// <summary>
         /// There are no comments for VGroup in the schema.
@@ -1903,21 +1448,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VProductSpecificationOption> VProductSpecificationOptions { get; set; }
     
         /// <summary>
-        /// There are no comments for VWorkflowInstanceRetry in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceRetry> VWorkflowInstanceRetries { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceStepTrace in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceStepTrace> VWorkflowInstanceStepTraces { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceExecutionStatusEvent in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceExecutionStatusEvent> VWorkflowInstanceExecutionStatusEvents { get; set; }
-    
-        /// <summary>
         /// There are no comments for VCountryAndCurrency in the schema.
         /// </summary>
         public virtual DbSet<VCountryAndCurrency> VCountryAndCurrencies { get; set; }
@@ -1941,11 +1471,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VOrganisationStatus in the schema.
         /// </summary>
         public virtual DbSet<VOrganisationStatus> VOrganisationStatus { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowActionParameter in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowActionParameter> VWorkflowActionParameters { get; set; }
     
         /// <summary>
         /// There are no comments for VUserStatus in the schema.
@@ -2133,11 +1658,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ProductPlan> ProductPlans { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowTreeStructureTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTreeStructureTemplate> WorkflowTreeStructureTemplates { get; set; }
-    
-        /// <summary>
         /// There are no comments for DirectDebitSchedule in the schema.
         /// </summary>
         public virtual DbSet<DirectDebitSchedule> DirectDebitSchedules { get; set; }
@@ -2196,16 +1716,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for BankSortCode in the schema.
         /// </summary>
         public virtual DbSet<BankSortCode> BankSortCodes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionParameterNotificationConstructTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionParameterNotificationConstructTemplate> WorkflowActionParameterNotificationConstructTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowActionParameterNotificationConstruct in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowActionParameterNotificationConstruct> WorkflowActionParameterNotificationConstructs { get; set; }
     
         /// <summary>
         /// There are no comments for LegalOrganisationDetail in the schema.
@@ -2273,11 +1783,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VOrganisationComplianceOfficer> VOrganisationComplianceOfficers { get; set; }
     
         /// <summary>
-        /// There are no comments for VWorkflowTree in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowTree> VWorkflowTrees { get; set; }
-    
-        /// <summary>
         /// There are no comments for VDefaultOrganisationUserTypeOrganisationType in the schema.
         /// </summary>
         public virtual DbSet<VDefaultOrganisationUserTypeOrganisationType> VDefaultOrganisationUserTypeOrganisationTypes { get; set; }
@@ -2296,21 +1801,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VUserAccountOrganisationUserTypeOrganisationType in the schema.
         /// </summary>
         public virtual DbSet<VUserAccountOrganisationUserTypeOrganisationType> VUserAccountOrganisationUserTypeOrganisationTypes { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTreeStructureActionTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTreeStructureActionTemplate> WorkflowTreeStructureActionTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTreeStructureAction in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowTreeStructureAction> WorkflowTreeStructureActions { get; set; }
-    
-        /// <summary>
-        /// There are no comments for VWorkflowInstanceNotStarted in the schema.
-        /// </summary>
-        public virtual DbSet<VWorkflowInstanceNotStarted> VWorkflowInstanceNotStarteds { get; set; }
     
         /// <summary>
         /// There are no comments for NotificationConstructGroup in the schema.
@@ -2408,11 +1898,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<ResourceOperationTarget> ResourceOperationTargets { get; set; }
     
         /// <summary>
-        /// There are no comments for VNotificationConstructGroupNotificationConstruct in the schema.
-        /// </summary>
-        public virtual DbSet<VNotificationConstructGroupNotificationConstruct> VNotificationConstructGroupNotificationConstructs { get; set; }
-    
-        /// <summary>
         /// There are no comments for ServiceInterface in the schema.
         /// </summary>
         public virtual DbSet<ServiceInterface> ServiceInterfaces { get; set; }
@@ -2463,39 +1948,14 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VOrganisationWithStatusAndAdmin> VOrganisationWithStatusAndAdmins { get; set; }
     
         /// <summary>
-        /// There are no comments for WorkflowParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowParameterTemplate> WorkflowParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowParameter> WorkflowParameters { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommandTemplate1 in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommandTemplate1> WorkflowCommandTemplate1s { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowCommand in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowCommand> WorkflowCommands { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowMainParameterTemplate in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowMainParameterTemplate> WorkflowMainParameterTemplates { get; set; }
-    
-        /// <summary>
-        /// There are no comments for WorkflowMainParameter in the schema.
-        /// </summary>
-        public virtual DbSet<WorkflowMainParameter> WorkflowMainParameters { get; set; }
-    
-        /// <summary>
         /// There are no comments for VNotificationInternalUnread in the schema.
         /// </summary>
         public virtual DbSet<VNotificationInternalUnread> VNotificationInternalUnreads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VOrganisationClaim in the schema.
+        /// </summary>
+        public virtual DbSet<VOrganisationClaim> VOrganisationClaims { get; set; }
 
         #region Methods
 

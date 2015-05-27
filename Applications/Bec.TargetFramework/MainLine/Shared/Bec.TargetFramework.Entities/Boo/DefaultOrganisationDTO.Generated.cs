@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationDTO() {
         }
 
-        public DefaultOrganisationDTO(global::System.Guid defaultOrganisationID, string name, string description, bool isActive, bool isDeleted, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> defaultOrganisationTemplateID, global::System.Nullable<int> defaultOrganisationTemplateVersionNumber, int organisationTypeID, List<DefaultOrganisationLedgerDTO> defaultOrganisationLedgers, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<DefaultOrganisationProductDTO> defaultOrganisationProducts, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<DefaultOrganisationWorkflowDTO> defaultOrganisationWorkflows, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<DefaultOrganisationBranchDTO> defaultOrganisationBranches, List<DefaultOrganisationArtefactDTO> defaultOrganisationArtefacts, List<DefaultOrganisationGroupDTO> defaultOrganisationGroups, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintDTO> defaultOrganisationShoppingCartBlueprints, List<DefaultOrganisationPaymentMethodDTO> defaultOrganisationPaymentMethods, List<OrganisationDTO> organisations) {
+        public DefaultOrganisationDTO(global::System.Guid defaultOrganisationID, string name, string description, bool isActive, bool isDeleted, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> defaultOrganisationTemplateID, global::System.Nullable<int> defaultOrganisationTemplateVersionNumber, int organisationTypeID, List<DefaultOrganisationLedgerDTO> defaultOrganisationLedgers, List<DefaultOrganisationModuleDTO> defaultOrganisationModules, List<DefaultOrganisationStatusTypeDTO> defaultOrganisationStatusTypes, List<DefaultOrganisationProductDTO> defaultOrganisationProducts, List<DefaultOrganisationTargetDTO> defaultOrganisationTargets, List<DefaultOrganisationUserTargetDTO> defaultOrganisationUserTargets, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructDTO> defaultOrganisationNotificationConstructs, List<DefaultOrganisationUserTypeDTO> defaultOrganisationUserTypes, List<DefaultOrganisationBranchDTO> defaultOrganisationBranches, List<DefaultOrganisationArtefactDTO> defaultOrganisationArtefacts, List<DefaultOrganisationGroupDTO> defaultOrganisationGroups, List<DefaultOrganisationRoleDTO> defaultOrganisationRoles, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintDTO> defaultOrganisationShoppingCartBlueprints, List<DefaultOrganisationPaymentMethodDTO> defaultOrganisationPaymentMethods, List<OrganisationDTO> organisations) {
 
           this.DefaultOrganisationID = defaultOrganisationID;
           this.Name = name;
@@ -42,7 +42,6 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationTemplate = defaultOrganisationTemplate;
           this.OrganisationType = organisationType;
           this.DefaultOrganisationNotificationConstructs = defaultOrganisationNotificationConstructs;
-          this.DefaultOrganisationWorkflows = defaultOrganisationWorkflows;
           this.DefaultOrganisationUserTypes = defaultOrganisationUserTypes;
           this.DefaultOrganisationBranches = defaultOrganisationBranches;
           this.DefaultOrganisationArtefacts = defaultOrganisationArtefacts;
@@ -115,9 +114,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<DefaultOrganisationNotificationConstructDTO> DefaultOrganisationNotificationConstructs { get; set; }
-
-        [DataMember]
-        public List<DefaultOrganisationWorkflowDTO> DefaultOrganisationWorkflows { get; set; }
 
         [DataMember]
         public List<DefaultOrganisationUserTypeDTO> DefaultOrganisationUserTypes { get; set; }

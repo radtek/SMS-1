@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VUserAccountNotLoggedInDTO() {
         }
 
-        public VUserAccountNotLoggedInDTO(global::System.Guid iD, string username, string email, bool isTemporaryAccount, global::System.DateTime created, global::System.Nullable<double> daysSinceCreation, global::System.Nullable<double> hoursSinceCreation, global::System.Nullable<bool> between7and14DaysNotLoggedIn, global::System.Nullable<bool> between14and21DaysNotLoggedIn, global::System.Nullable<bool> between0and7DaysNotLoggedIn, global::System.Nullable<bool> greaterThan21DaysNotLoggedIn, global::System.Nullable<bool> notLoggedIn, global::System.Nullable<long> cOLPRemindersNotReadEver, global::System.Nullable<long> cOLPRegistrationsNotReadEver, global::System.Nullable<long> cOLPRemindersNotReadBetween7and14Days, global::System.Nullable<long> cOLPRemindersNotReadBetween14and21Days, global::System.Nullable<long> cOLPRemindersNotReadBetween0and7Days, string loginWorkflowDataContent) {
+        public VUserAccountNotLoggedInDTO(global::System.Guid iD, string username, string email, bool isTemporaryAccount, global::System.DateTime created, global::System.Nullable<double> daysSinceCreation, global::System.Nullable<double> hoursSinceCreation, global::System.Nullable<bool> between7and14DaysNotLoggedIn, global::System.Nullable<bool> between14and21DaysNotLoggedIn, global::System.Nullable<bool> between0and7DaysNotLoggedIn, global::System.Nullable<bool> greaterThan21DaysNotLoggedIn, global::System.Nullable<bool> notLoggedIn, global::System.Nullable<long> cOLPRemindersNotReadEver, global::System.Nullable<long> cOLPRegistrationsNotReadEver, global::System.Nullable<long> cOLPRemindersNotReadBetween7and14Days, global::System.Nullable<long> cOLPRemindersNotReadBetween14and21Days, global::System.Nullable<long> cOLPRemindersNotReadBetween0and7Days) {
 
           this.ID = iD;
           this.Username = username;
@@ -41,7 +41,6 @@ namespace Bec.TargetFramework.Entities
           this.COLPRemindersNotReadBetween7and14Days = cOLPRemindersNotReadBetween7and14Days;
           this.COLPRemindersNotReadBetween14and21Days = cOLPRemindersNotReadBetween14and21Days;
           this.COLPRemindersNotReadBetween0and7Days = cOLPRemindersNotReadBetween0and7Days;
-          this.LoginWorkflowDataContent = loginWorkflowDataContent;
         }
 
         #endregion
@@ -98,9 +97,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<long> COLPRemindersNotReadBetween0and7Days { get; set; }
-
-        [DataMember]
-        public string LoginWorkflowDataContent { get; set; }
 
         #endregion
     }

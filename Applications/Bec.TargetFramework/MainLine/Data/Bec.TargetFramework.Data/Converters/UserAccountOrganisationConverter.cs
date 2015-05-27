@@ -53,7 +53,6 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountOrganisationRoles = source.UserAccountOrganisationRoles.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisationGroups = source.UserAccountOrganisationGroups.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisationStatus = source.UserAccountOrganisationStatus.ToDtosWithRelated(level - 1);
-              target.WorkflowInstanceRestrictions = source.WorkflowInstanceRestrictions.ToDtosWithRelated(level - 1);
               target.NotificationRecipients = source.NotificationRecipients.ToDtosWithRelated(level - 1);
               target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
               target.Invoices = source.Invoices.ToDtosWithRelated(level - 1);

@@ -133,15 +133,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for WorkflowStatusTypes in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowStatusType> WorkflowStatusTypes
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ModuleStatusTypes in the schema.
         /// </summary>
         public virtual ICollection<ModuleStatusType> ModuleStatusTypes

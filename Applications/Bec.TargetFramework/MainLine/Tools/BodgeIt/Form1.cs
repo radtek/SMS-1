@@ -16,7 +16,6 @@ namespace BodgeIt
 {
     public partial class Form1 : Form
     {
-        const string conStr = "User Id=postgres;Password=0277922cdd;Host=bec-dev-01;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;";
         const string baseDir = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Scripts";
         public Form1()
         {
@@ -33,6 +32,14 @@ namespace BodgeIt
             comboType.DisplayMember = "Text";
             comboType.ValueMember = "Value";
             comboType.SelectedIndex = 1;
+
+            comboDB.DataSource = new[] { 
+                new { Text = "bec-dev-01", Value = "Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;" },
+                new { Text = "sys-db-01", Value = "Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;" }
+            };
+            comboDB.DisplayMember = "Text";
+            comboDB.ValueMember = "Value";
+            comboDB.SelectedIndex = 0;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -78,7 +85,7 @@ namespace BodgeIt
         {
             if (MessageBox.Show("Are you sure?", "WARNING", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
-                using (PgSqlConnection con = new PgSqlConnection(conStr))
+                using (PgSqlConnection con = new PgSqlConnection(comboDB.SelectedValue.ToString()))
                 {
                     con.OpenAsync();
                     runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade;");
@@ -109,7 +116,7 @@ namespace BodgeIt
 
         private void button4_Click(object sender, EventArgs e)
         {
-            using (PgSqlConnection con = new PgSqlConnection(conStr))
+            using (PgSqlConnection con = new PgSqlConnection(comboDB.SelectedValue.ToString()))
             {
                 con.OpenAsync();
                 var c = con.CreateCommand();

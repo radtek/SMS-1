@@ -140,15 +140,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ArtefactWorkflowTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<ArtefactWorkflowTemplate> ArtefactWorkflowTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ArtefactNotificationConstructTemplates in the schema.
         /// </summary>
         public virtual ICollection<ArtefactNotificationConstructTemplate> ArtefactNotificationConstructTemplates

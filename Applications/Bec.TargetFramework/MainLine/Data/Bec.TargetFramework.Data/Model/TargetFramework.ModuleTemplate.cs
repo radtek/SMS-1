@@ -131,15 +131,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ModuleWorkflowTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<ModuleWorkflowTemplate> ModuleWorkflowTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ModuleClaimTemplates in the schema.
         /// </summary>
         public virtual ICollection<ModuleClaimTemplate> ModuleClaimTemplates

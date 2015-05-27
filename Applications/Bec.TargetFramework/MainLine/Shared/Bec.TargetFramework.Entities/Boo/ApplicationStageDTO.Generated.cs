@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ApplicationStageDTO() {
         }
 
-        public ApplicationStageDTO(global::System.Guid applicationStageID, string name, string description, int order, bool isActive, bool isDeleted, List<ApplicationStageWorkflowDTO> applicationStageWorkflows) {
+        public ApplicationStageDTO(global::System.Guid applicationStageID, string name, string description, int order, bool isActive, bool isDeleted) {
 
           this.ApplicationStageID = applicationStageID;
           this.Name = name;
@@ -30,7 +30,6 @@ namespace Bec.TargetFramework.Entities
           this.Order = order;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
-          this.ApplicationStageWorkflows = applicationStageWorkflows;
         }
 
         #endregion
@@ -54,13 +53,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsDeleted { get; set; }
-
-        #endregion
-
-        #region Navigation Properties
-
-        [DataMember]
-        public List<ApplicationStageWorkflowDTO> ApplicationStageWorkflows { get; set; }
 
         #endregion
     }

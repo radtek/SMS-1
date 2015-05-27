@@ -90,26 +90,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for WorkflowTemplateID in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.Guid> WorkflowTemplateID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for WorkflowTemplateVersionNumber in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<int> WorkflowTemplateVersionNumber
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for IsActive in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> IsActive
@@ -167,15 +147,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for NotificationConstructGroupTemplate in the schema.
         /// </summary>
         public virtual NotificationConstructGroupTemplate NotificationConstructGroupTemplate
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTemplate in the schema.
-        /// </summary>
-        public virtual WorkflowTemplate WorkflowTemplate
         {
             get;
             set;

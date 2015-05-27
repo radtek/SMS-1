@@ -42,7 +42,6 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationModuleTemplates = source.DefaultOrganisationModuleTemplates.ToDtosWithRelated(level - 1);
               target.ModuleStatusTypeTemplates = source.ModuleStatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.ModuleProductTemplates = source.ModuleProductTemplates.ToDtosWithRelated(level - 1);
-              target.ModuleWorkflowTemplates = source.ModuleWorkflowTemplates.ToDtosWithRelated(level - 1);
               target.ModuleClaimTemplates = source.ModuleClaimTemplates.ToDtosWithRelated(level - 1);
               target.ModuleSubscriptionTemplates = source.ModuleSubscriptionTemplates.ToDtosWithRelated(level - 1);
               target.ModulePluginTemplates = source.ModulePluginTemplates.ToDtosWithRelated(level - 1);

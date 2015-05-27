@@ -57,7 +57,6 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.DefaultOrganisationNotificationConstructTemplates = source.DefaultOrganisationNotificationConstructTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructClaimTemplates = source.NotificationConstructClaimTemplates.ToDtosWithRelated(level - 1);
-              target.WorkflowNotificationConstructTemplates = source.WorkflowNotificationConstructTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructDataTemplates = source.NotificationConstructDataTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructParameterTemplates = source.NotificationConstructParameterTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructs = source.NotificationConstructs.ToDtosWithRelated(level - 1);
@@ -65,7 +64,6 @@ namespace Bec.TargetFramework.Entities
               target.NotificationConstructRoleTemplates = source.NotificationConstructRoleTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructTargetTemplates = source.NotificationConstructTargetTemplates.ToDtosWithRelated(level - 1);
               target.ModuleNotificationConstructTemplates = source.ModuleNotificationConstructTemplates.ToDtosWithRelated(level - 1);
-              target.WorkflowActionParameterNotificationConstructTemplates = source.WorkflowActionParameterNotificationConstructTemplates.ToDtosWithRelated(level - 1);
               target.NotificationConstructGroupNotificationConstructTemplates = source.NotificationConstructGroupNotificationConstructTemplates.ToDtosWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
             }

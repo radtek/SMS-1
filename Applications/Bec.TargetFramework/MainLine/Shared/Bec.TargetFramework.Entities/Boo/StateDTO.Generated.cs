@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StateDTO() {
         }
 
-        public StateDTO(global::System.Guid stateID, string stateName, string stateDescription, global::System.Nullable<int> stateTypeID, global::System.Nullable<int> stateCategoryID, global::System.Nullable<int> stateSubCategoryID, global::System.Nullable<System.Guid> parentStateID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<StateItemDTO> stateItems, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
+        public StateDTO(global::System.Guid stateID, string stateName, string stateDescription, global::System.Nullable<int> stateTypeID, global::System.Nullable<int> stateCategoryID, global::System.Nullable<int> stateSubCategoryID, global::System.Nullable<System.Guid> parentStateID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<StateItemDTO> stateItems, List<RoleClaimDTO> roleClaims, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings) {
 
           this.StateID = stateID;
           this.StateName = stateName;
@@ -37,7 +37,6 @@ namespace Bec.TargetFramework.Entities
           this.ModuleClaims = moduleClaims;
           this.DefaultOrganisationRoleClaims = defaultOrganisationRoleClaims;
           this.OrganisationRoleClaims = organisationRoleClaims;
-          this.WorkflowClaimTemplates = workflowClaimTemplates;
           this.ProductClaims = productClaims;
           this.DefaultOrganisationRoleClaimTemplates = defaultOrganisationRoleClaimTemplates;
           this.ProductClaimTemplates = productClaimTemplates;
@@ -50,7 +49,6 @@ namespace Bec.TargetFramework.Entities
           this.ArtefactClaims = artefactClaims;
           this.StateItems = stateItems;
           this.RoleClaims = roleClaims;
-          this.WorkflowClaims = workflowClaims;
           this.ActorClaimRoleMappings = actorClaimRoleMappings;
         }
 
@@ -102,9 +100,6 @@ namespace Bec.TargetFramework.Entities
         public List<OrganisationRoleClaimDTO> OrganisationRoleClaims { get; set; }
 
         [DataMember]
-        public List<WorkflowClaimTemplateDTO> WorkflowClaimTemplates { get; set; }
-
-        [DataMember]
         public List<ProductClaimDTO> ProductClaims { get; set; }
 
         [DataMember]
@@ -139,9 +134,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<RoleClaimDTO> RoleClaims { get; set; }
-
-        [DataMember]
-        public List<WorkflowClaimDTO> WorkflowClaims { get; set; }
 
         [DataMember]
         public List<ActorClaimRoleMappingDTO> ActorClaimRoleMappings { get; set; }

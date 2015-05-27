@@ -42,7 +42,6 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.StatusTypeTemplate = source.StatusTypeTemplate.ToDtoWithRelated(level - 1);
               target.StatusTypeRoles = source.StatusTypeRoles.ToDtosWithRelated(level - 1);
-              target.WorkflowStatusTypes = source.WorkflowStatusTypes.ToDtosWithRelated(level - 1);
               target.ModuleStatusTypes = source.ModuleStatusTypes.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationStatusTypes = source.DefaultOrganisationStatusTypes.ToDtosWithRelated(level - 1);
               target.StatusTypeStructures = source.StatusTypeStructures.ToDtosWithRelated(level - 1);

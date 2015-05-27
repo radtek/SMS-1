@@ -46,7 +46,6 @@ namespace Bec.TargetFramework.Entities
             target.COLPRemindersNotReadBetween7and14Days = source.COLPRemindersNotReadBetween7and14Days;
             target.COLPRemindersNotReadBetween14and21Days = source.COLPRemindersNotReadBetween14and21Days;
             target.COLPRemindersNotReadBetween0and7Days = source.COLPRemindersNotReadBetween0and7Days;
-            target.LoginWorkflowDataContent = source.LoginWorkflowDataContent;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -79,7 +78,6 @@ namespace Bec.TargetFramework.Entities
             target.COLPRemindersNotReadBetween7and14Days = source.COLPRemindersNotReadBetween7and14Days;
             target.COLPRemindersNotReadBetween14and21Days = source.COLPRemindersNotReadBetween14and21Days;
             target.COLPRemindersNotReadBetween0and7Days = source.COLPRemindersNotReadBetween0and7Days;
-            target.LoginWorkflowDataContent = source.LoginWorkflowDataContent;
 
             // User-defined partial method
             OnEntityCreating(source, target);

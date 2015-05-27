@@ -47,7 +47,6 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationModuleTemplates = source.DefaultOrganisationModuleTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationBranchTemplates = source.DefaultOrganisationBranchTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationArtefactTemplates = source.DefaultOrganisationArtefactTemplates.ToDtosWithRelated(level - 1);
-              target.DefaultOrganisationWorkflowTemplates = source.DefaultOrganisationWorkflowTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationRoleTemplates = source.DefaultOrganisationRoleTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationTargetTemplates = source.DefaultOrganisationTargetTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationStatusTypeTemplates = source.DefaultOrganisationStatusTypeTemplates.ToDtosWithRelated(level - 1);

@@ -153,15 +153,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for WorkflowClaimTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowClaimTemplate> WorkflowClaimTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ProductClaims in the schema.
         /// </summary>
         public virtual ICollection<ProductClaim> ProductClaims
@@ -255,15 +246,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for RoleClaims in the schema.
         /// </summary>
         public virtual ICollection<RoleClaim> RoleClaims
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for WorkflowClaims in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowClaim> WorkflowClaims
         {
             get;
             set;

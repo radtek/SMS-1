@@ -43,7 +43,6 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationArtefactTemplates = source.DefaultOrganisationArtefactTemplates.ToDtosWithRelated(level - 1);
               target.Artefacts = source.Artefacts.ToDtosWithRelated(level - 1);
               target.ArtefactClaimTemplates = source.ArtefactClaimTemplates.ToDtosWithRelated(level - 1);
-              target.ArtefactWorkflowTemplates = source.ArtefactWorkflowTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactNotificationConstructTemplates = source.ArtefactNotificationConstructTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactRoleTemplates = source.ArtefactRoleTemplates.ToDtosWithRelated(level - 1);
               target.ArtefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber = source.ArtefactDependencyTemplates_ArtefactTemplateID_ArtefactTemplateVersionNumber.ToDtosWithRelated(level - 1);

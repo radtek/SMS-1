@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ModuleTemplateDTO() {
         }
 
-        public ModuleTemplateDTO(global::System.Guid moduleTemplateID, string name, string description, bool isActive, bool isDeleted, int moduleTemplateVersionNumber, List<ModuleDTO> modules, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<ModuleProductTemplateDTO> moduleProductTemplates, List<ModuleWorkflowTemplateDTO> moduleWorkflowTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<ModuleSubscriptionTemplateDTO> moduleSubscriptionTemplates, List<ModulePluginTemplateDTO> modulePluginTemplates, List<ModuleSettingTemplateDTO> moduleSettingTemplates, List<ModuleDependencyTemplateDTO> moduleDependencyTemplates, List<ModuleNotificationConstructTemplateDTO> moduleNotificationConstructTemplates, List<ModuleRoleTemplateDTO> moduleRoleTemplates, List<ModuleArtefactTemplateDTO> moduleArtefactTemplates) {
+        public ModuleTemplateDTO(global::System.Guid moduleTemplateID, string name, string description, bool isActive, bool isDeleted, int moduleTemplateVersionNumber, List<ModuleDTO> modules, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<ModuleProductTemplateDTO> moduleProductTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<ModuleSubscriptionTemplateDTO> moduleSubscriptionTemplates, List<ModulePluginTemplateDTO> modulePluginTemplates, List<ModuleSettingTemplateDTO> moduleSettingTemplates, List<ModuleDependencyTemplateDTO> moduleDependencyTemplates, List<ModuleNotificationConstructTemplateDTO> moduleNotificationConstructTemplates, List<ModuleRoleTemplateDTO> moduleRoleTemplates, List<ModuleArtefactTemplateDTO> moduleArtefactTemplates) {
 
           this.ModuleTemplateID = moduleTemplateID;
           this.Name = name;
@@ -34,7 +34,6 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationModuleTemplates = defaultOrganisationModuleTemplates;
           this.ModuleStatusTypeTemplates = moduleStatusTypeTemplates;
           this.ModuleProductTemplates = moduleProductTemplates;
-          this.ModuleWorkflowTemplates = moduleWorkflowTemplates;
           this.ModuleClaimTemplates = moduleClaimTemplates;
           this.ModuleSubscriptionTemplates = moduleSubscriptionTemplates;
           this.ModulePluginTemplates = modulePluginTemplates;
@@ -82,9 +81,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ModuleProductTemplateDTO> ModuleProductTemplates { get; set; }
-
-        [DataMember]
-        public List<ModuleWorkflowTemplateDTO> ModuleWorkflowTemplates { get; set; }
 
         [DataMember]
         public List<ModuleClaimTemplateDTO> ModuleClaimTemplates { get; set; }

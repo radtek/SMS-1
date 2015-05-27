@@ -362,16 +362,12 @@
             // 
             // comboDB
             // 
-            this.comboDB.Enabled = false;
+            this.comboDB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDB.FormattingEnabled = true;
-            this.comboDB.Items.AddRange(new object[] {
-            "bec-dev-01",
-            "sys-db-01"});
             this.comboDB.Location = new System.Drawing.Point(480, 88);
             this.comboDB.Name = "comboDB";
             this.comboDB.Size = new System.Drawing.Size(235, 21);
             this.comboDB.TabIndex = 7;
-            this.comboDB.Text = "bec-dev-01";
             // 
             // Form1
             // 
