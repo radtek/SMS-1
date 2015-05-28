@@ -315,6 +315,7 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     var nr = scope.DbContext.NotificationRecipients.Single(x => x.NotificationRecipientID == nu.NotificationRecipientID);
                     nr.IsAccepted = true;
+                    nr.AcceptedDate = DateTime.Now;
                 }
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
