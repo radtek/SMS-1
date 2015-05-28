@@ -1057,17 +1057,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
                 throw new NullReferenceException("HttpResponseMessage Content is null");
             else
             {
+                HttpError he;
                 try
                 {
-                    var content = await response.Content.ReadAsAsync<HttpError>();
-                    throw new Exception(content["ExceptionMessage"].ToString());
+                    he = await response.Content.ReadAsAsync<HttpError>();
                 }
                 catch (Exception ex)
                 {
                     Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
-
                     throw new Exception(incorrectMessageTask.Result, ex);
                 }
+                throw new Exception(he["ExceptionMessage"].ToString());
             }		
 		}
 
