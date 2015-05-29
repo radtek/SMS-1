@@ -1,0 +1,34 @@
+﻿@model string
+@{
+    ViewBag.PageId = "extr-page";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <div class="well no-padding">
+                <form action="@Url.Action("Username", "Forgot", new { area = "Account"})" method="POST" class="smart-form client-form">
+                    <header>
+                        Forgotten Username
+                    </header>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">Please enter your registered email address</label>
+                            <label class="input">
+                                <input type="email" name="email"  />
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <button type="submit" id="formSubmit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

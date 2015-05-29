@@ -383,6 +383,7 @@
         <File Name="TargetFramework.VOrganisationWithStatusAndAdmin.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VNotificationInternalUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationClaim.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.PasswordResetRequest.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1140,6 +1141,8 @@
         <File Name="VNotificationInternalUnreadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationClaimDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VOrganisationClaimDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="PasswordResetRequestDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="PasswordResetRequestDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1520,6 +1523,7 @@
         <File Name="VOrganisationWithStatusAndAdminConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VNotificationInternalUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationClaimConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="PasswordResetRequestConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1691,6 +1695,19 @@
       <Exclude Name="UsesDataSources" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="pkNotificationConstructData" Table="public.NotificationConstructData" Type="Constraint" />
       <Exclude Name="fk_NotificationConstructData_NotificationConstruct" Table="public.NotificationConstructData" Type="Constraint" />
+      <Exclude Name="NotificationRecipientID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="NotificationID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="ToParentID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="IsActive" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="ParentID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="IsAccepted" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="AcceptedDate" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="pkNotificationRecipient" Table="public.NotificationRecipient" Type="Constraint" />
+      <Exclude Name="fk_NotificationRecipient_Notification" Table="public.NotificationRecipient" Type="Constraint" />
+      <Exclude Name="fk_NotificationRecipient_UserAccountOrganisation" Table="public.NotificationRecipient" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.OrganisationStatus" Type="Column" />
       <Exclude Name="StatusTypeID" Table="public.OrganisationStatus" Type="Column" />
       <Exclude Name="StatusTypeVersionNumber" Table="public.OrganisationStatus" Type="Column" />
@@ -2025,6 +2042,7 @@
       <Exclude Name="workflowtype" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="" Table="public.vUserWorkflowInstanceStatus" Type="Constraint" />
       <Exclude Name="CreatedOn" Table="public.NotificationConstructData" Type="Column" />
+      <Exclude Name="AcceptedDate" Table="public.NotificationRecipient" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.OrganisationStatus" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
@@ -2043,6 +2061,7 @@
       <Exclude Name="IsSent" Table="public.vNotificationRecipientStatus" Type="Column" />
       <Exclude Name="DateSent" Table="public.vNotificationRecipientStatus" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
+      <Exclude Name="AcceptedDate" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
@@ -2069,65 +2088,6 @@
       <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="RegulatorID" Table="public.vUserRoleRegulatorDetail" Type="Column" />
-      <Exclude Name="" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
-      <Exclude Name="fk_WorkflowActionCompleteCondition_WorkflowAction" Table="public.WorkflowActionCompleteCondition" Type="Constraint" />
-      <Exclude Name="" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
-      <Exclude Name="fk_WorkflowActionCompleteConditionTe" Table="public.WorkflowActionCompleteConditionTemplate" Type="Constraint" />
-      <Exclude Name="" Table="public.WorkflowActionStartCondition" Type="Constraint" />
-      <Exclude Name="fk_WorkflowActionStartCondition_WorkflowAction" Table="public.WorkflowActionStartCondition" Type="Constraint" />
-      <Exclude Name="WorkflowActionTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowActionStartConditionTemplate" Type="Column" />
-      <Exclude Name="fk_WorkflowActionStartConditionTemplate_WorkflowActionTemplate" Table="public.WorkflowActionStartConditionTemplate" Type="Constraint" />
-      <Exclude Name="WorkflowCommandID" Table="public.WorkflowCommandCondition" Type="Column" />
-      <Exclude Name="WorkflowConditionID" Table="public.WorkflowCommandCondition" Type="Column" />
-      <Exclude Name="WorkflowID" Table="public.WorkflowCommandCondition" Type="Column" />
-      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowCommandCondition" Type="Column" />
-      <Exclude Name="fk_WorkflowCommandCondition_Workflow" Table="public.WorkflowCommandCondition" Type="Constraint" />
-      <Exclude Name="fk_WorkflowCommandCondition_WorkflowCommand" Table="public.WorkflowCommandCondition" Type="Constraint" />
-      <Exclude Name="WorkflowCommandTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowCommandConditionTemplate" Type="Column" />
-      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
-      <Exclude Name="fk_WorkflowCommandConditionTemplate_WorkflowCommandTemplate" Table="public.WorkflowCommandConditionTemplate" Type="Constraint" />
-      <Exclude Name="WorkflowConditionID" Table="public.WorkflowConditionParameter" Type="Column" />
-      <Exclude Name="WorkflowParameterID" Table="public.WorkflowConditionParameter" Type="Column" />
-      <Exclude Name="WorkflowID" Table="public.WorkflowConditionParameter" Type="Column" />
-      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowConditionParameter" Type="Column" />
-      <Exclude Name="fk_WorkflowConditionParameter_Workflow" Table="public.WorkflowConditionParameter" Type="Constraint" />
-      <Exclude Name="fk_WorkflowConditionParameter_WorkflowParameter" Table="public.WorkflowConditionParameter" Type="Constraint" />
-      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
-      <Exclude Name="WorkflowParameterTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowConditionParameterTemplate" Type="Column" />
-      <Exclude Name="fk_WorkflowConditionParameterTemplate_WorkflowTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
-      <Exclude Name="fk_WorkflowConditionParameter_WorkflowParameterTemplate" Table="public.WorkflowConditionParameterTemplate" Type="Constraint" />
-      <Exclude Name="WorkflowTransistionID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
-      <Exclude Name="WorkflowConditionID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
-      <Exclude Name="WorkflowID" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
-      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowTransistionCompleteCondition" Type="Column" />
-      <Exclude Name="fk_WorkflowTransistionCompleteCondition_Workflow" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
-      <Exclude Name="fk_WorkflowTransistionCompleteCondition_WorkflowTransistion" Table="public.WorkflowTransistionCompleteCondition" Type="Constraint" />
-      <Exclude Name="WorkflowTransistionTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Column" />
-      <Exclude Name="fk_WorkflowTransistionCompleteConditionTeplate" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
-      <Exclude Name="fk_WorkflowTransistionCompleteConditionTemplate_WorkflowTemplat" Table="public.WorkflowTransistionCompleteConditionTemplate" Type="Constraint" />
-      <Exclude Name="WorkflowTransistionID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
-      <Exclude Name="WorkflowConditionID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
-      <Exclude Name="WorkflowID" Table="public.WorkflowTransistionStartCondition" Type="Column" />
-      <Exclude Name="WorkflowVersionNumber" Table="public.WorkflowTransistionStartCondition" Type="Column" />
-      <Exclude Name="fk_WorkflowTransistionStartCondition_Workflow" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
-      <Exclude Name="fk_WorkflowTransistionStartCondition_WorkflowTransistion" Table="public.WorkflowTransistionStartCondition" Type="Constraint" />
-      <Exclude Name="WorkflowTransistionTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowConditionTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.WorkflowTransistionStartConditionTemplate" Type="Column" />
-      <Exclude Name="fk_WorkflowTransistionStartConditionTete" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
-      <Exclude Name="fk_WorkflowTransistionStartConditionTemplate_WorkflowTemplate" Table="public.WorkflowTransistionStartConditionTemplate" Type="Constraint" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

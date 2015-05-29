@@ -5,6 +5,7 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Models;
 using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(CreatePermanentLoginDTO model)
+        public async Task<ActionResult> Index(CreatePermanentLoginModel model)
         {
             //check for any subsequent locking of this account
             var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);

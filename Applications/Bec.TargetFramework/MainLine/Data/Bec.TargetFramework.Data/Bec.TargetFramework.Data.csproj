@@ -268,6 +268,7 @@
     <Compile Include="Converters\PackageProductSpecificationBlueprintTemplateConverter.cs" />
     <Compile Include="Converters\PackageProductTemplateConverter.cs" />
     <Compile Include="Converters\PackageTemplateConverter.cs" />
+    <Compile Include="Converters\PasswordResetRequestConverter.cs" />
     <Compile Include="Converters\PasswordResetSecretConverter.cs" />
     <Compile Include="Converters\PlanBillingConverter.cs" />
     <Compile Include="Converters\PlanBillingTemplateConverter.cs" />
@@ -647,6 +648,7 @@
     <Compile Include="Model\TargetFramework.PackageProductSpecificationBlueprintTemplate.cs" />
     <Compile Include="Model\TargetFramework.PackageProductTemplate.cs" />
     <Compile Include="Model\TargetFramework.PackageTemplate.cs" />
+    <Compile Include="Model\TargetFramework.PasswordResetRequest.cs" />
     <Compile Include="Model\TargetFramework.PasswordResetSecret.cs" />
     <Compile Include="Model\TargetFramework.Plan.cs" />
     <Compile Include="Model\TargetFramework.PlanBilling.cs" />

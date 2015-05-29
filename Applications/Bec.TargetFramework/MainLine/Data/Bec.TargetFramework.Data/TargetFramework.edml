@@ -399,6 +399,7 @@
           <EntitySet Name="vOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.Store.vOrganisationWithStatusAndAdmin" store:Type="Views" Schema="public" Table="vOrganisationWithStatusAndAdmin" />
           <EntitySet Name="vNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.Store.vNotificationInternalUnread" store:Type="Views" Schema="public" Table="vNotificationInternalUnread" />
           <EntitySet Name="vOrganisationClaims" EntityType="Bec.TargetFramework.Data.Store.vOrganisationClaim" store:Type="Views" Schema="public" Table="vOrganisationClaim" />
+          <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.Store.PasswordResetRequest" store:Type="Tables" Schema="public" Table="PasswordResetRequest" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -9687,6 +9688,15 @@
           <Property Name="RoleSource" Type="text" />
           <Property Name="ClaimTypeName" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="PasswordResetRequest">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="uuid" Nullable="false" />
+          <Property Name="UserID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="timestamptz" Nullable="false" />
+          <Property Name="Expired" Type="boolean" Nullable="false" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18050,6 +18060,7 @@
           <EntitySet Name="VOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.VOrganisationWithStatusAndAdmin" />
           <EntitySet Name="VNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.VNotificationInternalUnread" />
           <EntitySet Name="VOrganisationClaims" EntityType="Bec.TargetFramework.Data.VOrganisationClaim" />
+          <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.PasswordResetRequest" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -28332,6 +28343,15 @@
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="0098f2d9-6e7e-47ae-a41a-c13b7a47e4ff" />
           <Property Name="RoleSource" Type="String" ed:ValidateRequired="False" ed:Guid="ac51ee09-a5d1-4d82-81e5-2e038fba7bf0" />
           <Property Name="ClaimTypeName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="df543ef2-3ba8-4e87-bccd-bf735735b46c" />
+        </EntityType>
+        <EntityType Name="PasswordResetRequest" ed:Guid="abce9466-0525-4cc0-a496-857108aea8de">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a2646421-b294-45dc-b08b-4d60f461e78f" />
+          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0cf2fb87-5be7-4141-96ae-9e94bd446edc" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9ff98311-db23-4ef2-964f-225412196a3e" />
+          <Property Name="Expired" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="580793e9-0e39-4d91-954a-4e3ca8cc5a20" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -42530,6 +42550,16 @@
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="RoleSource" ColumnName="RoleSource" />
                 <ScalarProperty Name="ClaimTypeName" ColumnName="ClaimTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasswordResetRequests">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.PasswordResetRequest">
+              <MappingFragment StoreEntitySet="PasswordResetRequests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

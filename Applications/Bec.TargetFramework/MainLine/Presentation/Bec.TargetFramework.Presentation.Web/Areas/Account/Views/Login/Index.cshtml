@@ -23,17 +23,17 @@
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
                                 @Html.TextBoxFor(m => m.Username)
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Enter your username</b>
                             </label>
+                            <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right">Forgotten Username</a>
+                            <br />
                         </section>
                         <section>
                             <label class="label">Password</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
                                 @Html.PasswordFor(m => m.Password)
-                                @*<input type="password" name="txtPassor" value="demo">*@
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
                             </label>
+                            <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right">Forgotten Password</a>
                         </section>
                     </fieldset>
                     <footer>

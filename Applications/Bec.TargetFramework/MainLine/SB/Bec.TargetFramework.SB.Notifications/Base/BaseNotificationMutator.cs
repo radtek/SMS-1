@@ -41,7 +41,16 @@ namespace Bec.TargetFramework.SB.Notifications.Base
 
         public abstract NotificationDictionaryDTO MutateNotification();
 
-
+        public T GetDTO<T>()
+            where T : class
+        {
+            return this.NotificationDictionary.NotificationDictionary[typeof(T).Name] as T;
+        }
+        public void SetDTO<T>(T item)
+            where T : class
+        {
+            this.NotificationDictionary.NotificationDictionary[typeof(T).Name] = item;
+        }
         
     }
 }
