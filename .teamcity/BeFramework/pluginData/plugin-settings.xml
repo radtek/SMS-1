@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-  <versionedSettings rootId="BeFramework_TfMain" enabled="true" showChanges="true" />
+  <versionedSettings rootId="BeFramework_BefDevelop" enabled="true" showChanges="true" />
   <report-tabs>
     <report-tab title="Mainline" buildTypeId="BeFramework_Mainline">
       <revisionRule name="lastSuccessful" revision="latest.lastSuccessful" />
