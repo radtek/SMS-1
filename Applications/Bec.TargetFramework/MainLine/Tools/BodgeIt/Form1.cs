@@ -1,4 +1,5 @@
 ﻿using Devart.Data.PostgreSql;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -98,7 +99,7 @@ namespace BodgeIt
                 int conIndex = (int)comboDB.SelectedValue;
                 using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
                 {
-                    con.OpenAsync();
+                    con.Open();
                     runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade;");
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security Categories.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security.sql")));
@@ -117,13 +118,12 @@ namespace BodgeIt
                 }
                 using (PgSqlConnection con = new PgSqlConnection(coreCons[conIndex]))
                 {
-                    con.OpenAsync();
+                    con.Open();
                     runScript(con, "truncate \"BusEvent\" cascade; truncate \"BusEventMessageSubscriber\" cascade;");
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "BusEvent.sql")));
                     con.Close();
                 }
             }
-            MessageBox.Show("Done");
         }
 
         private void runScript(PgSqlConnection connection, string text)
@@ -139,7 +139,7 @@ namespace BodgeIt
             int conIndex = (int)comboDB.SelectedValue;
             using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
             {
-                con.OpenAsync();
+                con.Open();
                 var c = con.CreateCommand();
                 c.CommandText = "select \"OrganisationID\" from \"Organisation\" limit 1";
                 using (var r = c.ExecuteReader())
@@ -149,6 +149,62 @@ namespace BodgeIt
                         textOrgId.Text = r.GetGuid(0).ToString();
                     }
                 }
+                con.Close();
+            }
+        }
+
+        private void buttonBrowse_Click(object sender, EventArgs e)
+        {
+            using (var fd = new OpenFileDialog())
+            {
+                if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK) textReportFilename.Text = fd.FileName;
+            }
+        }
+
+        private async void button6_Click(object sender, EventArgs e)
+        {
+            byte[] bytes = File.ReadAllBytes(textReportFilename.Text);
+            List<Guid> uaos = new List<Guid>();
+
+            //update latest notification construct
+            int conIndex = (int)comboDB.SelectedValue;
+            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            {
+                await con.OpenAsync();
+                var c = con.CreateCommand();
+                c.CommandText = string.Format("select \"NotificationConstructID\" from \"NotificationConstruct\" where \"Name\" = '{0}' limit 1", textNCName.Text);
+                Guid id = (Guid)await c.ExecuteScalarAsync();
+
+                c.CommandText = string.Format("select max(\"NotificationConstructVersionNumber\") from \"NotificationConstruct\" where \"NotificationConstructID\" = '{0}' limit 1", id);
+                int version = (int)await c.ExecuteScalarAsync();
+                
+                c.CommandText = string.Format("update \"NotificationConstructData\" set \"NotificationData\" = @p1 where \"NotificationConstructID\" = '{0}' and \"NotificationConstructVersionNumber\" = {1} ", id, version);
+                c.Parameters.AddWithValue("@p1", bytes);
+                await c.ExecuteNonQueryAsync();
+
+                c.Parameters.Clear();
+                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\"";
+                using (var r = await c.ExecuteReaderAsync())
+                {
+                    while (await r.ReadAsync()) uaos.Add(r.GetGuid(0));
+                }
+
+                con.Close();
+            }
+
+            //insert new notifications for permanent users
+            HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+            foreach(var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID={0}", id), HttpMethod.Post, "user", null);
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int conIndex = (int)comboDB.SelectedValue;
+            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            {
+                con.Open();
+                runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "NewT&CNotification.sql")));
                 con.Close();
             }
             MessageBox.Show("Done");

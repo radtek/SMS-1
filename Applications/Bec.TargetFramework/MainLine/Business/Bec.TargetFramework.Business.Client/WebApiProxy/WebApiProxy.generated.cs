@@ -487,6 +487,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
 
 
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		Task CreateTsAndCsNotificationAsync(Guid userOrgID);
+
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		void CreateTsAndCsNotification(Guid userOrgID);
+
+
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
 
@@ -2230,6 +2239,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		public virtual async Task CreateTsAndCsNotificationAsync(Guid userOrgID)
+		{
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID=" + userOrgID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userOrgID"></param>
+		public virtual void CreateTsAndCsNotification(Guid userOrgID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID=" + userOrgID, null, _user));
 		}
 
 		/// <summary>

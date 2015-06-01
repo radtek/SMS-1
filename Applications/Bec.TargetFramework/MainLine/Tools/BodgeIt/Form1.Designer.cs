@@ -59,11 +59,21 @@
             this.button4 = new System.Windows.Forms.Button();
             this.comboAddress = new System.Windows.Forms.ComboBox();
             this.comboDB = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.buttonBrowse = new System.Windows.Forms.Button();
+            this.textReportFilename = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textNCName = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -329,7 +339,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(480, 115);
+            this.button3.Location = new System.Drawing.Point(473, 39);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(210, 23);
             this.button3.TabIndex = 4;
@@ -339,7 +349,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(480, 144);
+            this.button4.Location = new System.Drawing.Point(473, 68);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(210, 23);
             this.button4.TabIndex = 5;
@@ -364,16 +374,107 @@
             // 
             this.comboDB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDB.FormattingEnabled = true;
-            this.comboDB.Location = new System.Drawing.Point(480, 88);
+            this.comboDB.Location = new System.Drawing.Point(473, 12);
             this.comboDB.Name = "comboDB";
             this.comboDB.Size = new System.Drawing.Size(235, 21);
             this.comboDB.TabIndex = 7;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button5);
+            this.groupBox3.Controls.Add(this.button6);
+            this.groupBox3.Controls.Add(this.buttonBrowse);
+            this.groupBox3.Controls.Add(this.textReportFilename);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.textNCName);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Location = new System.Drawing.Point(381, 197);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(392, 146);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Update Latest Ts && Cs Report SELECT MATCHING SERVER && DB ABOVE";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(231, 73);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(141, 67);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "2. Upload template && create notifications for all users";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // buttonBrowse
+            // 
+            this.buttonBrowse.Location = new System.Drawing.Point(231, 44);
+            this.buttonBrowse.Name = "buttonBrowse";
+            this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonBrowse.TabIndex = 4;
+            this.buttonBrowse.Text = "Browse...";
+            this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
+            // 
+            // textReportFilename
+            // 
+            this.textReportFilename.Location = new System.Drawing.Point(94, 46);
+            this.textReportFilename.Name = "textReportFilename";
+            this.textReportFilename.Size = new System.Drawing.Size(131, 20);
+            this.textReportFilename.TabIndex = 3;
+            this.textReportFilename.Text = "c:\\reports\\tc2.mrt";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 48);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(82, 13);
+            this.label14.TabIndex = 2;
+            this.label14.Text = "Report template";
+            // 
+            // textNCName
+            // 
+            this.textNCName.Location = new System.Drawing.Point(94, 20);
+            this.textNCName.Name = "textNCName";
+            this.textNCName.Size = new System.Drawing.Size(131, 20);
+            this.textNCName.TabIndex = 1;
+            this.textNCName.Text = "TcPublic";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 23);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(35, 13);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Name";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(231, 18);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "1. Create new version";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(407, 15);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(22, 13);
+            this.label15.TabIndex = 9;
+            this.label15.Text = "DB";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(758, 468);
+            this.ClientSize = new System.Drawing.Size(789, 470);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.comboDB);
             this.Controls.Add(this.comboAddress);
             this.Controls.Add(this.button4);
@@ -390,6 +491,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -428,6 +531,15 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboAddress;
         private System.Windows.Forms.ComboBox comboDB;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button buttonBrowse;
+        private System.Windows.Forms.TextBox textReportFilename;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textNCName;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label15;
     }
 }
 

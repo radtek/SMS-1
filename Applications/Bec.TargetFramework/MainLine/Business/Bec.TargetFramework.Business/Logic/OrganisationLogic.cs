@@ -296,12 +296,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary) createTcNotification(userOrgID);
+            if (!isTemporary) CreateTsAndCsNotification(userOrgID.Value);
 
             return uao;
         }
 
-        private void createTcNotification(Guid? userOrgID)
+        public void CreateTsAndCsNotification(Guid userOrgID)
         {
             var nc = m_NotificationLogic.GetLatestNotificationConstructIdFromName("TcPublic");
 
