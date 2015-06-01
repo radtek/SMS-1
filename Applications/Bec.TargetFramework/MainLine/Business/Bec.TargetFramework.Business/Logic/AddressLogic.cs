@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
             {
-                var cacheResult = cacheClient.Get<List<PostCodeDTO>>(queryString);
+                var cacheResult = cacheClient.Get<string>(queryString).FromJson<List<PostCodeDTO>>();
 
                 if (cacheResult != null)
                     return cacheResult;
@@ -46,7 +46,7 @@ namespace Bec.TargetFramework.Business.Logic
                     var response = await httpClient.GetAsync(queryString);
                     response.EnsureSuccessStatusCode();
                     var results = await response.Content.ReadAsAsync<PostCodeDTOWrapper>();
-                    cacheClient.Set(queryString, results.Items, TimeSpan.FromDays(1));
+                    cacheClient.Set(queryString, results.Items.ToJson(), TimeSpan.FromDays(1));
                     return results.Items;
                 }
             }

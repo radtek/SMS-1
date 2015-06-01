@@ -13,7 +13,6 @@ namespace Bec.TargetFramework.Entities
     {
         public List<PostCodeDTO> Items { get; set; }
     }
-
     public class PostCodeDTO
     {
         public string Postcode { get; set; }
@@ -44,7 +43,6 @@ namespace Bec.TargetFramework.Entities
 
         public string Company { get; set; }
 
-        [DataMember]
         public string FullAddress
         {
             get
