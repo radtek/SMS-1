@@ -43,23 +43,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [HttpPost]
         public async Task<ActionResult> Username(string email)
         {
+            var response = await ValidateCaptcha();
             //send email if the email address is found
-            m_UserLogicClient.SendUsernameReminder(email);
+            if (response.success)
+            {
+                m_UserLogicClient.SendUsernameReminder(email);
 
-            ViewBag.Message = "Thank you. The registered Username has been sent to the specified email address.";
-            ViewBag.Link = true;
-            return View("ForgotDone");
+                ViewBag.Message = "Thank you. The registered Username has been sent to the specified email address.";
+                ViewBag.Link = true;
+                return View("ForgotDone");
+            }
+            else
+            {
+                ViewBag.Message = string.Join(Environment.NewLine, response.error_codes ?? new List<string> { "Error" });
+                return View("ForgotDone");
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> Password(string username)
         {
-            string g_recaptcha_response = Request["g-recaptcha-response"];
-            var remote_ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.UserHostAddress;
-            var gr = await httpClient.PostAsync("siteverify?secret=6LfblQcTAAAAAFCb0kLLPOhJnU8YgwrjIjw-XVNI&response=" + g_recaptcha_response + "&remoteip=" + remote_ip, null);
-            gr.EnsureSuccessStatusCode();
-            var response = await gr.Content.ReadAsAsync<CaptchaResponse>();
-
+            var response = await ValidateCaptcha();
             if (response.success)
             {
                 //send email if the username is found
@@ -123,6 +127,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", m_CommonSettings.SupportTelephoneNumber);
                 return View("ForgotDone");
             }
+        }
+
+        private async Task<CaptchaResponse> ValidateCaptcha()
+        {
+            string g_recaptcha_response = Request["g-recaptcha-response"];
+            var remote_ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.UserHostAddress;
+            var gr = await httpClient.PostAsync("siteverify?secret=6LfblQcTAAAAAFCb0kLLPOhJnU8YgwrjIjw-XVNI&response=" + g_recaptcha_response + "&remoteip=" + remote_ip, null);
+            gr.EnsureSuccessStatusCode();
+            var response = await gr.Content.ReadAsAsync<CaptchaResponse>();
+            return response;
         }
     }
 }
