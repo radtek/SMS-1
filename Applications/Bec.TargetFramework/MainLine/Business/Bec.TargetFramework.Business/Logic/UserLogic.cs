@@ -892,7 +892,7 @@ namespace Bec.TargetFramework.Business.Logic
             Data.UserAccount user = null;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                user = scope.DbContext.UserAccounts.FirstOrDefault(s => s.Username.Equals(username));
+                user = scope.DbContext.UserAccounts.FirstOrDefault(s => s.Username.Equals(username) && !s.IsTemporaryAccount);
             }
             if (user != null)
             {
