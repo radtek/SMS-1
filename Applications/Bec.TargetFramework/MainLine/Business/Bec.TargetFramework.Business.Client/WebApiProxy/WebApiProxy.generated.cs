@@ -487,6 +487,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
 
 
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		Task CreateTsAndCsNotificationAsync(Guid userOrgID);
+
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		void CreateTsAndCsNotification(Guid userOrgID);
+
+
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
 
@@ -1019,6 +1028,44 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn();
 
+
+		/// <param name="email"></param>
+		/// <returns></returns>
+		Task SendUsernameReminderAsync(String email);
+
+		/// <param name="email"></param>
+		/// <returns></returns>
+		void SendUsernameReminder(String email);
+
+
+		/// <param name="username"></param>
+		/// <param name="siteUrl"></param>
+		/// <returns></returns>
+		Task SendPasswordResetNotificationAsync(String username,String siteUrl);
+
+		/// <param name="username"></param>
+		/// <param name="siteUrl"></param>
+		/// <returns></returns>
+		void SendPasswordResetNotification(String username,String siteUrl);
+
+
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID);
+
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		Guid ExpirePasswordResetRequest(Guid requestID);
+
+
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		Task<Boolean> IsPasswordResetRequestValidAsync(Guid requestID);
+
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		Boolean IsPasswordResetRequestValid(Guid requestID);
+
 				
 	}
 
@@ -1057,17 +1104,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
                 throw new NullReferenceException("HttpResponseMessage Content is null");
             else
             {
+                HttpError he;
                 try
                 {
-                    var content = await response.Content.ReadAsAsync<HttpError>();
-                    throw new Exception(content["ExceptionMessage"].ToString());
+                    he = await response.Content.ReadAsAsync<HttpError>();
                 }
                 catch (Exception ex)
                 {
                     Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
-
                     throw new Exception(incorrectMessageTask.Result, ex);
                 }
+                throw new Exception(he["ExceptionMessage"].ToString());
             }		
 		}
 
@@ -2192,6 +2239,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisation?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userOrgID"></param>
+		/// <returns></returns>
+		public virtual async Task CreateTsAndCsNotificationAsync(Guid userOrgID)
+		{
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID=" + userOrgID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userOrgID"></param>
+		public virtual void CreateTsAndCsNotification(Guid userOrgID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID=" + userOrgID, null, _user));
 		}
 
 		/// <summary>
@@ -3491,6 +3559,98 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VUserAccountNotLoggedInDTO>>("api/UserLogic/GetUserAccountsNotLoggedIn", _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		/// <returns></returns>
+		public virtual async Task SendUsernameReminderAsync(String email)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/UserLogic/SendUsernameReminder?email=" + email, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		public virtual void SendUsernameReminder(String email)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SendUsernameReminder?email=" + email, null, _user));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="siteUrl"></param>
+		/// <returns></returns>
+		public virtual async Task SendPasswordResetNotificationAsync(String username,String siteUrl)
+		{
+			username = username.UrlEncode();
+			siteUrl = siteUrl.UrlEncode();
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/UserLogic/SendPasswordResetNotification?username=" + username + "&siteUrl=" + siteUrl, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="siteUrl"></param>
+		public virtual void SendPasswordResetNotification(String username,String siteUrl)
+		{
+			username = username.UrlEncode();
+			siteUrl = siteUrl.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SendPasswordResetNotification?username=" + username + "&siteUrl=" + siteUrl, null, _user));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		public virtual async Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
+		{
+			string _user = getHttpContextUser();
+			return await PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequest?requestID=" + requestID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="requestID"></param>
+		public virtual Guid ExpirePasswordResetRequest(Guid requestID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequest?requestID=" + requestID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="requestID"></param>
+		/// <returns></returns>
+		public virtual async Task<Boolean> IsPasswordResetRequestValidAsync(Guid requestID)
+		{
+			string _user = getHttpContextUser();
+			return await PostAsync<object, Boolean>("api/UserLogic/IsPasswordResetRequestValid?requestID=" + requestID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="requestID"></param>
+		public virtual Boolean IsPasswordResetRequestValid(Guid requestID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsPasswordResetRequestValid?requestID=" + requestID, null, _user)).Result;
 		}
 
 		#endregion

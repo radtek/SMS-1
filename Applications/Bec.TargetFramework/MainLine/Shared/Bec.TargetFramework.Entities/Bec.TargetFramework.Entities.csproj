@@ -139,9 +139,6 @@
       <DependentUpon>ApplicationStageDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ApplicationStageWorkflowDTO.cs" />
-    <Compile Include="Boo\ApplicationStageWorkflowDTO.Generated.cs">
-      <DependentUpon>ApplicationStageWorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ApplicationTraceLogDTO.cs" />
     <Compile Include="Boo\ArtefactClaimDTO.cs" />
     <Compile Include="Boo\ArtefactClaimDTO.Generated.cs">
@@ -200,13 +197,7 @@
       <DependentUpon>ArtefactTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ArtefactWorkflowDTO.cs" />
-    <Compile Include="Boo\ArtefactWorkflowDTO.Generated.cs">
-      <DependentUpon>ArtefactWorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ArtefactWorkflowTemplateDTO.cs" />
-    <Compile Include="Boo\ArtefactWorkflowTemplateDTO.Generated.cs">
-      <DependentUpon>ArtefactWorkflowTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\AttachmentDetailDTO.cs" />
     <Compile Include="Boo\AttachmentDetailDTO.Generated.cs">
       <DependentUpon>AttachmentDetailDTO.cs</DependentUpon>
@@ -496,13 +487,7 @@
       <DependentUpon>DefaultOrganisationUserTypeTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\DefaultOrganisationWorkflowDTO.cs" />
-    <Compile Include="Boo\DefaultOrganisationWorkflowDTO.Generated.cs">
-      <DependentUpon>DefaultOrganisationWorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\DefaultOrganisationWorkflowTemplateDTO.cs" />
-    <Compile Include="Boo\DefaultOrganisationWorkflowTemplateDTO.Generated.cs">
-      <DependentUpon>DefaultOrganisationWorkflowTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\DirectDebitMandateDTO.cs" />
     <Compile Include="Boo\DirectDebitMandateDTO.Generated.cs">
       <DependentUpon>DirectDebitMandateDTO.cs</DependentUpon>
@@ -571,6 +556,10 @@
     </Compile>
     <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
     <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
+    <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
+    <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">
+      <DependentUpon>InterfacePanelTemplateDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\InviteDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.cs" />
     <Compile Include="Boo\InvoiceDTO.Generated.cs">
@@ -730,21 +719,9 @@
       <DependentUpon>ModuleTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\ModuleWorkflowDTO.cs" />
-    <Compile Include="Boo\ModuleWorkflowDTO.Generated.cs">
-      <DependentUpon>ModuleWorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ModuleWorkflowTargetDTO.cs" />
-    <Compile Include="Boo\ModuleWorkflowTargetDTO.Generated.cs">
-      <DependentUpon>ModuleWorkflowTargetDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ModuleWorkflowTargetTemplateDTO.cs" />
-    <Compile Include="Boo\ModuleWorkflowTargetTemplateDTO.Generated.cs">
-      <DependentUpon>ModuleWorkflowTargetTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ModuleWorkflowTemplateDTO.cs" />
-    <Compile Include="Boo\ModuleWorkflowTemplateDTO.Generated.cs">
-      <DependentUpon>ModuleWorkflowTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ModuleWorkflowUserStageDTO.cs" />
     <Compile Include="Boo\ModuleWorkflowUserStageDTO.Generated.cs">
       <DependentUpon>ModuleWorkflowUserStageDTO.cs</DependentUpon>
@@ -1008,9 +985,6 @@
     <Compile Include="Boo\OrganisationVisibilityStateDTO.cs" />
     <Compile Include="Boo\OrganisationVisibilityStateVisibilitySchemeDTO.cs" />
     <Compile Include="Boo\OrganisationWorkflowDTO.cs" />
-    <Compile Include="Boo\OrganisationWorkflowDTO.Generated.cs">
-      <DependentUpon>OrganisationWorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\PackageDTO.cs" />
     <Compile Include="Boo\PackageDTO.Generated.cs">
       <DependentUpon>PackageDTO.cs</DependentUpon>
@@ -1050,6 +1024,10 @@
     <Compile Include="Boo\PackageTemplateDTO.cs" />
     <Compile Include="Boo\PackageTemplateDTO.Generated.cs">
       <DependentUpon>PackageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PasswordResetRequestDTO.cs" />
+    <Compile Include="Boo\PasswordResetRequestDTO.Generated.cs">
+      <DependentUpon>PasswordResetRequestDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\PasswordResetSecretDTO.cs" />
     <Compile Include="Boo\PasswordResetSecretDTO.Generated.cs">
@@ -1715,9 +1693,6 @@
       <DependentUpon>VNotificationConstructGroupDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.cs" />
-    <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.Generated.cs">
-      <DependentUpon>VNotificationConstructGroupNotificationConstructDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VNotificationInternalUnreadDTO.cs" />
     <Compile Include="Boo\VNotificationInternalUnreadDTO.Generated.cs">
       <DependentUpon>VNotificationInternalUnreadDTO.cs</DependentUpon>
@@ -1735,6 +1710,10 @@
     <Compile Include="Boo\VOrganisationCheckoutDiscountDTO.cs" />
     <Compile Include="Boo\VOrganisationCheckoutDiscountDTO.Generated.cs">
       <DependentUpon>VOrganisationCheckoutDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationClaimDTO.cs" />
+    <Compile Include="Boo\VOrganisationClaimDTO.Generated.cs">
+      <DependentUpon>VOrganisationClaimDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VOrganisationComplianceOfficerDTO.cs" />
     <Compile Include="Boo\VOrganisationComplianceOfficerDTO.Generated.cs">
@@ -1770,9 +1749,6 @@
       <DependentUpon>VOrganisationWithStatusAndAdminDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VOrgansiationClaimDTO.cs" />
-    <Compile Include="Boo\VOrgansiationClaimDTO.Generated.cs">
-      <DependentUpon>VOrgansiationClaimDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.cs" />
     <Compile Include="Boo\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.Generated.cs">
       <DependentUpon>VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.cs</DependentUpon>
@@ -1852,295 +1828,91 @@
       <DependentUpon>VUserWorkflowInstanceStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VWorkflowActionParameterDTO.cs" />
-    <Compile Include="Boo\VWorkflowActionParameterDTO.Generated.cs">
-      <DependentUpon>VWorkflowActionParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceExecutionNotCompletedDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceExecutionNotCompletedDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceExecutionNotCompletedDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceExecutionStatusEventDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceExecutionStatusEventDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceExecutionStatusEventDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceNotStartedDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceNotStartedDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceNotStartedDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceProgressDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceProgressDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceProgressDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceRetryDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceRetryDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceRetryDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceStatusDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceStatusDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceStatusDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowInstanceStepTraceDTO.cs" />
-    <Compile Include="Boo\VWorkflowInstanceStepTraceDTO.Generated.cs">
-      <DependentUpon>VWorkflowInstanceStepTraceDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VWorkflowTreeDTO.cs" />
-    <Compile Include="Boo\VWorkflowTreeDTO.Generated.cs">
-      <DependentUpon>VWorkflowTreeDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorflowParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorflowParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorflowParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionClaimTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowActionCompleteConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowActionCompleteConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowActionCompleteConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionCompleteConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionCompleteConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionCompleteConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionDTO.cs" />
-    <Compile Include="Boo\WorkflowActionDTO.Generated.cs">
-      <DependentUpon>WorkflowActionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionExecuteCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowActionExecuteCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowActionExecuteCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionExecuteCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionExecuteCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionExecuteCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionExecutionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionExecutionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionExecutionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionNotificationTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionNotificationTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionNotificationTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowActionParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowActionParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionParameterNotificationConstructDTO.cs" />
-    <Compile Include="Boo\WorkflowActionParameterNotificationConstructDTO.Generated.cs">
-      <DependentUpon>WorkflowActionParameterNotificationConstructDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionParameterNotificationConstructTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionParameterNotificationConstructTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionParameterNotificationConstructTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionPostCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowActionPostCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowActionPostCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionPostCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionPostCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionPostCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionPreCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowActionPreCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowActionPreCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionPreCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionPreCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionPreCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionProductPlaceholderDTO.cs" />
-    <Compile Include="Boo\WorkflowActionProductPlaceholderDTO.Generated.cs">
-      <DependentUpon>WorkflowActionProductPlaceholderDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionRestrictionDTO.cs" />
     <Compile Include="Boo\WorkflowActionRestrictionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowActionStartConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowActionStartConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowActionStartConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionStartConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionStartConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionStartConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActionValidationTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowActionValidationTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowActionValidationTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowActivityActionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowActivityTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowClaimDTO.cs" />
-    <Compile Include="Boo\WorkflowClaimDTO.Generated.cs">
-      <DependentUpon>WorkflowClaimDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowClaimTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowClaimTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowClaimTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandTemplate1DTO.cs" />
-    <Compile Include="Boo\WorkflowCommandTemplate1DTO.Generated.cs">
-      <DependentUpon>WorkflowCommandTemplate1DTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowConditionDTO.cs" />
     <Compile Include="Boo\WorkflowConditionParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowConditionParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowConditionParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowConditionParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowConditionParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowConditionParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowConditionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionErrorActionDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionErrorActionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionErrorDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionErrorDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionErrorDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionErrorTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionErrorTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionErrorTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionExecuteCommandDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionExecuteCommandDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionExecuteCommandDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionExecuteCommandTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionExecuteCommandTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionExecuteCommandTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionFailureActionDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionFailureActionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionFailureDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionFailureDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionFailureDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionFailureTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionFailureTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionFailureTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionSuccessActionDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionSuccessActionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowDecisionSuccessDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionSuccessDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionSuccessDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionSuccessTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionSuccessTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionSuccessTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDecisionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowDecisionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowDecisionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowDTO.cs" />
-    <Compile Include="Boo\WorkflowDTO.Generated.cs">
-      <DependentUpon>WorkflowDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowErrorLogDTO.cs" />
     <Compile Include="Boo\WorkflowExecutionDTO.cs" />
-    <Compile Include="Boo\WorkflowExecutionDTO.Generated.cs">
-      <DependentUpon>WorkflowExecutionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowExecutionStatusDTO.cs" />
-    <Compile Include="Boo\WorkflowExecutionStatusDTO.Generated.cs">
-      <DependentUpon>WorkflowExecutionStatusDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowExecutionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowExecutionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowExecutionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowHierarchyDTO.cs" />
-    <Compile Include="Boo\WorkflowHierarchyDTO.Generated.cs">
-      <DependentUpon>WorkflowHierarchyDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowHierarchyTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowHierarchyTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowHierarchyTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceExecutionDataItemDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceExecutionDataItemDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceExecutionDataItemDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceExecutionDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceExecutionDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceExecutionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceExecutionStatusEventDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceExecutionStatusEventDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceExecutionStatusEventDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceExecutionTraceDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceExecutionTraceDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceExecutionTraceDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceRestrictionDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceRestrictionDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceRestrictionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowInstanceSessionDTO.cs" />
-    <Compile Include="Boo\WorkflowInstanceSessionDTO.Generated.cs">
-      <DependentUpon>WorkflowInstanceSessionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainCompleteConditionDTO.cs" />
     <Compile Include="Boo\WorkflowMainCompleteConditionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowMainExecuteCommandDTO.cs" />
     <Compile Include="Boo\WorkflowMainExecuteCommandTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowMainParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowMainParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowMainParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowMainParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowMainParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowMainPostCommandDTO.cs" />
     <Compile Include="Boo\WorkflowMainPostCommandTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowMainPreCommandDTO.cs" />
@@ -2150,31 +1922,13 @@
     <Compile Include="Boo\WorkflowMainStartConditionDTO.cs" />
     <Compile Include="Boo\WorkflowMainStartConditionTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowNotificationConstructDTO.cs" />
-    <Compile Include="Boo\WorkflowNotificationConstructDTO.Generated.cs">
-      <DependentUpon>WorkflowNotificationConstructDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowNotificationConstructTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowNotificationConstructTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowNotificationConstructTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowObjectTypeDTO.cs" />
-    <Compile Include="Boo\WorkflowObjectTypeDTO.Generated.cs">
-      <DependentUpon>WorkflowObjectTypeDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowObjectTypeTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowObjectTypeTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowObjectTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowOperationDTO.cs" />
     <Compile Include="Boo\WorkflowOperationTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowResourceDTO.cs" />
     <Compile Include="Boo\WorkflowResourceTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowRestrictionDTO.cs" />
@@ -2184,105 +1938,35 @@
     <Compile Include="Boo\WorkflowRoleClaimDTO.cs" />
     <Compile Include="Boo\WorkflowRoleClaimTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowRoleDTO.cs" />
-    <Compile Include="Boo\WorkflowRoleDTO.Generated.cs">
-      <DependentUpon>WorkflowRoleDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowRoleTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowRoleTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowRoleTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowStateActivityActionHierarchyTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowStateActivityTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowStateClaimTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowStateTemplateDTO.cs" />
     <Compile Include="Boo\WorkflowStatusTypeDTO.cs" />
-    <Compile Include="Boo\WorkflowStatusTypeDTO.Generated.cs">
-      <DependentUpon>WorkflowStatusTypeDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowStatusTypeTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowStatusTypeTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowStatusTypeTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTemplateTreeStructureDTO.cs" />
     <Compile Include="Boo\WorkflowTraceLogDTO.cs" />
     <Compile Include="Boo\WorkflowTransistionCompleteConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionCompleteConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionCompleteConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionCompleteConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionCompleteConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionCompleteConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionHierarchyDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionHierarchyDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionHierarchyDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionHierarchyTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionHierarchyTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionHierarchyTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionParameterDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionParameterDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionParameterDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionParameterTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionParameterTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionParameterTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionStartConditionDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionStartConditionDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionStartConditionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionStartConditionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionStartConditionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionStartConditionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionWorkflowActionDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionWorkflowActionDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionWorkflowActionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionWorkflowActionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionWorkflowActionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionWorkflowActionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionWorkflowDecisionDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionWorkflowDecisionDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionWorkflowDecisionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTransistionWorkflowDecisionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTransistionWorkflowDecisionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTransistionWorkflowDecisionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTreeStructureActionDTO.cs" />
-    <Compile Include="Boo\WorkflowTreeStructureActionDTO.Generated.cs">
-      <DependentUpon>WorkflowTreeStructureActionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTreeStructureActionTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTreeStructureActionTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTreeStructureActionTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTreeStructureDTO.cs" />
-    <Compile Include="Boo\WorkflowTreeStructureDTO.Generated.cs">
-      <DependentUpon>WorkflowTreeStructureDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\WorkflowTreeStructureTemplateDTO.cs" />
-    <Compile Include="Boo\WorkflowTreeStructureTemplateDTO.Generated.cs">
-      <DependentUpon>WorkflowTreeStructureTemplateDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="CommonHelper.cs" />
-    <Compile Include="DTO\CreatePermanentLoginDTO.cs" />
     <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
@@ -2294,6 +1978,7 @@
     <Compile Include="DTO\FirmProductDTO.cs" />
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
+    <Compile Include="DTO\ForgotPasswordDTO.cs" />
     <Compile Include="DTO\GeneratePinDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
@@ -2314,6 +1999,7 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
     <Compile Include="DTO\TelephoneDTO.cs" />

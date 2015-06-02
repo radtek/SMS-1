@@ -1,0 +1,16 @@
+﻿@model string
+@{
+    ViewBag.PageId = "extr-page";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p>@ViewBag.Message</p>
+            @if (ViewBag.Link != null)
+            {
+                <p>Proceed to <a href="~/Account/Login">Log in</a></p>
+            }
+        </div>
+    </div>
+</div>

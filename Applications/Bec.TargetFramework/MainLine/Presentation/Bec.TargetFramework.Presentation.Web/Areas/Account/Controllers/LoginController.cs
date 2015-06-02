@@ -37,14 +37,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         IOrganisationLogicClient m_OrgLogicClient;
         INotificationLogicClient m_NotificationLogicClient;
 
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            filterContext.ExceptionHandled = true;
-            var res = new ViewResult() { ViewName = "Error" };
-            res.ViewBag.Message = filterContext.Exception.Message;
-            filterContext.Result = res;
-        }
-
         public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient, INotificationLogicClient nClient)
         {
             this.logger = logger;

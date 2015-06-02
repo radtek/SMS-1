@@ -35,8 +35,6 @@ namespace Bec.TargetFramework.Entities
             target.NotificationConstructGroupTemplateVersion = source.NotificationConstructGroupTemplateVersion;
             target.UserTypeID = source.UserTypeID;
             target.NotificationConstructTemplateID = source.NotificationConstructTemplateID;
-            target.WorkflowTemplateID = source.WorkflowTemplateID;
-            target.WorkflowTemplateVersionNumber = source.WorkflowTemplateVersionNumber;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.ConditionString = source.ConditionString;
@@ -46,7 +44,6 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.NotificationConstructGroupTemplate = source.NotificationConstructGroupTemplate.ToDtoWithRelated(level - 1);
-              target.WorkflowTemplate = source.WorkflowTemplate.ToDtoWithRelated(level - 1);
               target.UserType = source.UserType.ToDtoWithRelated(level - 1);
               target.OrganisationType = source.OrganisationType.ToDtoWithRelated(level - 1);
               target.NotificationConstructTemplate = source.NotificationConstructTemplate.ToDtoWithRelated(level - 1);
@@ -72,8 +69,6 @@ namespace Bec.TargetFramework.Entities
             target.NotificationConstructGroupTemplateVersion = source.NotificationConstructGroupTemplateVersion;
             target.UserTypeID = source.UserTypeID;
             target.NotificationConstructTemplateID = source.NotificationConstructTemplateID;
-            target.WorkflowTemplateID = source.WorkflowTemplateID;
-            target.WorkflowTemplateVersionNumber = source.WorkflowTemplateVersionNumber;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.ConditionString = source.ConditionString;

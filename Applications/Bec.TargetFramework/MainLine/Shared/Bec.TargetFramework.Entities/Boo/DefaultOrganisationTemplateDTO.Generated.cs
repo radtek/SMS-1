@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationTemplateDTO() {
         }
 
-        public DefaultOrganisationTemplateDTO(global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, int organisationTypeID, List<DefaultOrganisationProductTemplateDTO> defaultOrganisationProductTemplates, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<DefaultOrganisationLedgerTemplateDTO> defaultOrganisationLedgerTemplates, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<DefaultOrganisationBranchTemplateDTO> defaultOrganisationBranchTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<DefaultOrganisationWorkflowTemplateDTO> defaultOrganisationWorkflowTemplates, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationGroupTemplateDTO> defaultOrganisationGroupTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintTemplateDTO> defaultOrganisationShoppingCartBlueprintTemplates, List<DefaultOrganisationPaymentMethodTemplateDTO> defaultOrganisationPaymentMethodTemplates) {
+        public DefaultOrganisationTemplateDTO(global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, int organisationTypeID, List<DefaultOrganisationProductTemplateDTO> defaultOrganisationProductTemplates, List<DefaultOrganisationUserTypeTemplateDTO> defaultOrganisationUserTypeTemplates, List<DefaultOrganisationLedgerTemplateDTO> defaultOrganisationLedgerTemplates, OrganisationTypeDTO organisationType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<DefaultOrganisationModuleTemplateDTO> defaultOrganisationModuleTemplates, List<DefaultOrganisationBranchTemplateDTO> defaultOrganisationBranchTemplates, List<DefaultOrganisationArtefactTemplateDTO> defaultOrganisationArtefactTemplates, List<DefaultOrganisationRoleTemplateDTO> defaultOrganisationRoleTemplates, List<DefaultOrganisationTargetTemplateDTO> defaultOrganisationTargetTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<DefaultOrganisationUserTargetTemplateDTO> defaultOrganisationUserTargetTemplates, List<DefaultOrganisationGroupTemplateDTO> defaultOrganisationGroupTemplates, List<DefaultOrganisationDTO> defaultOrganisations, List<BucketTemplateDTO> bucketTemplates, List<DefaultOrganisationShoppingCartBlueprintTemplateDTO> defaultOrganisationShoppingCartBlueprintTemplates, List<DefaultOrganisationPaymentMethodTemplateDTO> defaultOrganisationPaymentMethodTemplates) {
 
           this.DefaultOrganisationTemplateID = defaultOrganisationTemplateID;
           this.DefaultOrganisationTemplateVersionNumber = defaultOrganisationTemplateVersionNumber;
@@ -39,7 +39,6 @@ namespace Bec.TargetFramework.Entities
           this.DefaultOrganisationModuleTemplates = defaultOrganisationModuleTemplates;
           this.DefaultOrganisationBranchTemplates = defaultOrganisationBranchTemplates;
           this.DefaultOrganisationArtefactTemplates = defaultOrganisationArtefactTemplates;
-          this.DefaultOrganisationWorkflowTemplates = defaultOrganisationWorkflowTemplates;
           this.DefaultOrganisationRoleTemplates = defaultOrganisationRoleTemplates;
           this.DefaultOrganisationTargetTemplates = defaultOrganisationTargetTemplates;
           this.DefaultOrganisationStatusTypeTemplates = defaultOrganisationStatusTypeTemplates;
@@ -103,9 +102,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<DefaultOrganisationArtefactTemplateDTO> DefaultOrganisationArtefactTemplates { get; set; }
-
-        [DataMember]
-        public List<DefaultOrganisationWorkflowTemplateDTO> DefaultOrganisationWorkflowTemplates { get; set; }
 
         [DataMember]
         public List<DefaultOrganisationRoleTemplateDTO> DefaultOrganisationRoleTemplates { get; set; }

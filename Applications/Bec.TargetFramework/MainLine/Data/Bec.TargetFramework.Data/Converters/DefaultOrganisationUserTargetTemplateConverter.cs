@@ -41,15 +41,12 @@ namespace Bec.TargetFramework.Entities
             target.StatusTypeTemplateVersionNumber = source.StatusTypeTemplateVersionNumber;
             target.UserTypeID = source.UserTypeID;
             target.IsDefault = source.IsDefault;
-            target.WorkflowTemplateID = source.WorkflowTemplateID;
-            target.WorkflowTemplateVersionNumber = source.WorkflowTemplateVersionNumber;
 
             // Navigation Properties
             if (level > 0) {
               target.DefaultOrganisationStatusTypeTemplate = source.DefaultOrganisationStatusTypeTemplate.ToDtoWithRelated(level - 1);
               target.DefaultOrganisationTemplate = source.DefaultOrganisationTemplate.ToDtoWithRelated(level - 1);
               target.UserType = source.UserType.ToDtoWithRelated(level - 1);
-              target.WorkflowTemplate = source.WorkflowTemplate.ToDtoWithRelated(level - 1);
               target.DefaultOrganisationGroupTargetTemplates = source.DefaultOrganisationGroupTargetTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationRoleTargetTemplates = source.DefaultOrganisationRoleTargetTemplates.ToDtosWithRelated(level - 1);
             }
@@ -80,8 +77,6 @@ namespace Bec.TargetFramework.Entities
             target.StatusTypeTemplateVersionNumber = source.StatusTypeTemplateVersionNumber;
             target.UserTypeID = source.UserTypeID;
             target.IsDefault = source.IsDefault;
-            target.WorkflowTemplateID = source.WorkflowTemplateID;
-            target.WorkflowTemplateVersionNumber = source.WorkflowTemplateVersionNumber;
 
             // User-defined partial method
             OnEntityCreating(source, target);

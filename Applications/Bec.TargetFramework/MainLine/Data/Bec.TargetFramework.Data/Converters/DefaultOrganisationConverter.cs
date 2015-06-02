@@ -50,7 +50,6 @@ namespace Bec.TargetFramework.Entities
               target.DefaultOrganisationTemplate = source.DefaultOrganisationTemplate.ToDtoWithRelated(level - 1);
               target.OrganisationType = source.OrganisationType.ToDtoWithRelated(level - 1);
               target.DefaultOrganisationNotificationConstructs = source.DefaultOrganisationNotificationConstructs.ToDtosWithRelated(level - 1);
-              target.DefaultOrganisationWorkflows = source.DefaultOrganisationWorkflows.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationUserTypes = source.DefaultOrganisationUserTypes.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationBranches = source.DefaultOrganisationBranches.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationArtefacts = source.DefaultOrganisationArtefacts.ToDtosWithRelated(level - 1);

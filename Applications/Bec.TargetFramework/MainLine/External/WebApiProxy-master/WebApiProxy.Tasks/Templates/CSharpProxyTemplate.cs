@@ -295,53 +295,53 @@ namespace ");
                     "nse)\r\n\t\t{\t\t\t\r\n\t\t\tif (response.IsSuccessStatusCode) return;\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\r\n\t\t\tif" +
                     " (response.Content == null)\r\n                throw new NullReferenceException(\"H" +
                     "ttpResponseMessage Content is null\");\r\n            else\r\n            {\r\n        " +
-                    "        try\r\n                {\r\n                    var content = await response" +
-                    ".Content.ReadAsAsync<HttpError>();\r\n                    throw new Exception(cont" +
-                    "ent[\"ExceptionMessage\"].ToString());\r\n                }\r\n                catch (" +
-                    "Exception ex)\r\n                {\r\n                    Task<string> incorrectMess" +
-                    "ageTask = Task.Run(() => response.Content.ReadAsStringAsync());\r\n\r\n             " +
-                    "       throw new Exception(incorrectMessageTask.Result, ex);\r\n                }\r" +
-                    "\n            }\t\t\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Initializes a new instance of th" +
-                    "e <see cref=\"ClientBase\"/> class.\r\n\t\t/// </summary>\r\n\t\t/// <param name=\"handler\"" +
-                    ">The handler.</param>\r\n\t\t/// <param name=\"disposeHandler\">if set to <c>true</c> " +
-                    "[dispose handler].</param>\r\n\t\tprotected ClientBase(HttpMessageHandler handler,st" +
-                    "ring url, bool disposeHandler = true)\r\n\t\t{\r\n\t\t\tHttpClient = new HttpClient(handl" +
-                    "er, disposeHandler)\r\n\t\t\t{\r\n\t\t\t\tBaseAddress = new Uri(url)\r\n\t\t\t};\r\n\t\t}\r\n\r\n\t\t/// <" +
-                    "summary>\r\n\t\t/// Releases the unmanaged resources and disposes of the managed res" +
-                    "ources.       \r\n\t\t/// </summary>\r\n\t\tpublic void Dispose()\r\n\t\t{\r\n\t\t\tHttpClient.Di" +
-                    "spose();\r\n\t\t}\r\n\r\n        protected async Task DeleteAsync<Tbody>(string requestU" +
-                    "ri, Tbody value, string user)\r\n        {\r\n            var response = await SendA" +
-                    "sync(requestUri, HttpMethod.Delete, user, value);\r\n            await EnsureSucce" +
-                    "ssAsync(response);\r\n        }\r\n\r\n        protected async Task DeleteAsync(string" +
-                    " requestUri, string user)\r\n        {\r\n            var response = await SendAsync" +
-                    "<object>(requestUri, HttpMethod.Delete, user, null);\r\n            await EnsureSu" +
-                    "ccessAsync(response);\r\n        }\r\n\r\n\t\tprotected async Task<Tret> PostAsync<Tbody" +
-                    ", Tret>(string requestUri, Tbody value, string user)\r\n        {\r\n            var" +
-                    " response = await SendAsync(requestUri, HttpMethod.Post, user, value);\r\n        " +
-                    "    return await HandleResponse<Tret>(response);\r\n        }\r\n\r\n\t\tprotected async" +
-                    " Task PostAsync<Tbody>(string requestUri, Tbody value, string user)\r\n        {\r\n" +
-                    "            var response = await SendAsync(requestUri, HttpMethod.Post, user, va" +
-                    "lue);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n        pro" +
-                    "tected async Task<Tret> GetAsync<Tret>(string requestUri, string user)\r\n        " +
-                    "{\r\n            var response = await SendAsync<object>(requestUri, HttpMethod.Get" +
-                    ", user, null);\r\n            return await HandleResponse<Tret>(response);\r\n      " +
-                    "  }\r\n\r\n\t\tprotected async Task GetAsync(string requestUri, string user)\r\n        " +
-                    "{\r\n            var response = await SendAsync<object>(requestUri, HttpMethod.Get" +
-                    ", user, null);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n\t\t" +
-                    "private async Task<T> HandleResponse<T>(HttpResponseMessage response)\r\n        {" +
-                    "\r\n            await EnsureSuccessAsync(response);\r\n            return await resp" +
-                    "onse.ReadContentAsAsync<T>();\r\n        }\r\n\r\n        private async Task<HttpRespo" +
-                    "nseMessage> SendAsync<T>(string requestUri, HttpMethod method, string user, T va" +
-                    "lue)\r\n        {\r\n            var req = new HttpRequestMessage\r\n            {\r\n  " +
-                    "              RequestUri = new Uri(requestUri, UriKind.RelativeOrAbsolute),\r\n   " +
-                    "             Method = method\r\n            };\r\n            if (value != null) req" +
-                    ".Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeH" +
-                    "eaderValue)null);\r\n            if (user != null) req.Headers.Add(\"User\", user);\r" +
-                    "\n            return await HttpClient.SendAsync(req);\r\n        }\r\n\r\n        prote" +
-                    "cted string getHttpContextUser()\r\n        {\r\n            if (HttpContext.Current" +
-                    " != null && HttpContext.Current.User != null && HttpContext.Current.User.Identit" +
-                    "y != null)\r\n                return HttpContext.Current.User.Identity.Name;\r\n    " +
-                    "        else\r\n                return null;\r\n        }\r\n\t}\r\n");
+                    "        HttpError he;\r\n                try\r\n                {\r\n                 " +
+                    "   he = await response.Content.ReadAsAsync<HttpError>();\r\n                }\r\n   " +
+                    "             catch (Exception ex)\r\n                {\r\n                    Task<s" +
+                    "tring> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync(" +
+                    "));\r\n                    throw new Exception(incorrectMessageTask.Result, ex);\r\n" +
+                    "                }\r\n                throw new Exception(he[\"ExceptionMessage\"].To" +
+                    "String());\r\n            }\t\t\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Initializes a new ins" +
+                    "tance of the <see cref=\"ClientBase\"/> class.\r\n\t\t/// </summary>\r\n\t\t/// <param nam" +
+                    "e=\"handler\">The handler.</param>\r\n\t\t/// <param name=\"disposeHandler\">if set to <" +
+                    "c>true</c> [dispose handler].</param>\r\n\t\tprotected ClientBase(HttpMessageHandler" +
+                    " handler,string url, bool disposeHandler = true)\r\n\t\t{\r\n\t\t\tHttpClient = new HttpC" +
+                    "lient(handler, disposeHandler)\r\n\t\t\t{\r\n\t\t\t\tBaseAddress = new Uri(url)\r\n\t\t\t};\r\n\t\t}" +
+                    "\r\n\r\n\t\t/// <summary>\r\n\t\t/// Releases the unmanaged resources and disposes of the " +
+                    "managed resources.       \r\n\t\t/// </summary>\r\n\t\tpublic void Dispose()\r\n\t\t{\r\n\t\t\tHt" +
+                    "tpClient.Dispose();\r\n\t\t}\r\n\r\n        protected async Task DeleteAsync<Tbody>(stri" +
+                    "ng requestUri, Tbody value, string user)\r\n        {\r\n            var response = " +
+                    "await SendAsync(requestUri, HttpMethod.Delete, user, value);\r\n            await " +
+                    "EnsureSuccessAsync(response);\r\n        }\r\n\r\n        protected async Task DeleteA" +
+                    "sync(string requestUri, string user)\r\n        {\r\n            var response = awai" +
+                    "t SendAsync<object>(requestUri, HttpMethod.Delete, user, null);\r\n            awa" +
+                    "it EnsureSuccessAsync(response);\r\n        }\r\n\r\n\t\tprotected async Task<Tret> Post" +
+                    "Async<Tbody, Tret>(string requestUri, Tbody value, string user)\r\n        {\r\n    " +
+                    "        var response = await SendAsync(requestUri, HttpMethod.Post, user, value)" +
+                    ";\r\n            return await HandleResponse<Tret>(response);\r\n        }\r\n\r\n\t\tprot" +
+                    "ected async Task PostAsync<Tbody>(string requestUri, Tbody value, string user)\r\n" +
+                    "        {\r\n            var response = await SendAsync(requestUri, HttpMethod.Pos" +
+                    "t, user, value);\r\n            await EnsureSuccessAsync(response);\r\n        }\r\n\r\n" +
+                    "        protected async Task<Tret> GetAsync<Tret>(string requestUri, string user" +
+                    ")\r\n        {\r\n            var response = await SendAsync<object>(requestUri, Htt" +
+                    "pMethod.Get, user, null);\r\n            return await HandleResponse<Tret>(respons" +
+                    "e);\r\n        }\r\n\r\n\t\tprotected async Task GetAsync(string requestUri, string user" +
+                    ")\r\n        {\r\n            var response = await SendAsync<object>(requestUri, Htt" +
+                    "pMethod.Get, user, null);\r\n            await EnsureSuccessAsync(response);\r\n    " +
+                    "    }\r\n\r\n\t\tprivate async Task<T> HandleResponse<T>(HttpResponseMessage response)" +
+                    "\r\n        {\r\n            await EnsureSuccessAsync(response);\r\n            return" +
+                    " await response.ReadContentAsAsync<T>();\r\n        }\r\n\r\n        private async Tas" +
+                    "k<HttpResponseMessage> SendAsync<T>(string requestUri, HttpMethod method, string" +
+                    " user, T value)\r\n        {\r\n            var req = new HttpRequestMessage\r\n      " +
+                    "      {\r\n                RequestUri = new Uri(requestUri, UriKind.RelativeOrAbso" +
+                    "lute),\r\n                Method = method\r\n            };\r\n            if (value !" +
+                    "= null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), " +
+                    "(MediaTypeHeaderValue)null);\r\n            if (user != null) req.Headers.Add(\"Use" +
+                    "r\", user);\r\n            return await HttpClient.SendAsync(req);\r\n        }\r\n\r\n  " +
+                    "      protected string getHttpContextUser()\r\n        {\r\n            if (HttpCont" +
+                    "ext.Current != null && HttpContext.Current.User != null && HttpContext.Current.U" +
+                    "ser.Identity != null)\r\n                return HttpContext.Current.User.Identity." +
+                    "Name;\r\n            else\r\n                return null;\r\n        }\r\n\t}\r\n");
             
             #line 242 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var definition in Configuration.Metadata.Definitions) { 

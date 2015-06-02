@@ -44,7 +44,6 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.ModuleClaims = source.ModuleClaims.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationRoleTemplates = source.DefaultOrganisationRoleTemplates.ToDtosWithRelated(level - 1);
-              target.WorkflowClaimTemplates = source.WorkflowClaimTemplates.ToDtosWithRelated(level - 1);
               target.ProductClaims = source.ProductClaims.ToDtosWithRelated(level - 1);
               target.ProductClaimTemplates = source.ProductClaimTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeClaimTemplates = source.StatusTypeClaimTemplates.ToDtosWithRelated(level - 1);
@@ -56,7 +55,6 @@ namespace Bec.TargetFramework.Entities
               target.ArtefactClaims = source.ArtefactClaims.ToDtosWithRelated(level - 1);
               target.GroupRoles = source.GroupRoles.ToDtosWithRelated(level - 1);
               target.RoleClaims = source.RoleClaims.ToDtosWithRelated(level - 1);
-              target.WorkflowClaims = source.WorkflowClaims.ToDtosWithRelated(level - 1);
               target.ActorClaimRoleMappings = source.ActorClaimRoleMappings.ToDtosWithRelated(level - 1);
             }
 

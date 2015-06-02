@@ -29,6 +29,8 @@ namespace Bec.TargetFramework.Business.Logic
     using System.ServiceModel;
     using EnsureThat;
     using Bec.TargetFramework.Entities.Enums;
+    using Bec.TargetFramework.SB.Interfaces;
+    using Bec.TargetFramework.Infrastructure.Helpers;
 
     [Trace(TraceExceptionsOnly = true)]
     public class UserLogic : LogicBase
@@ -36,12 +38,14 @@ namespace Bec.TargetFramework.Business.Logic
         private UserAccountService m_UaService;
         private AuthenticationService m_AuthSvc;
         private DataLogic m_DataLogic;
-        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, DataLogic dataLogic,  ILogger logger, ICacheProvider cacheProvider)
+        IEventPublishClient m_EventPublishClient;
+        public UserLogic(UserAccountService uaService, AuthenticationService authSvc, DataLogic dataLogic, ILogger logger, ICacheProvider cacheProvider, IEventPublishClient eventPublishClient)
             : base(logger, cacheProvider)
         {
             m_UaService = uaService;
             m_AuthSvc = authSvc;
             m_DataLogic = dataLogic;
+            m_EventPublishClient = eventPublishClient;
         }
 
         public UserLoginValidation AuthenticateUser(string username, string password)
@@ -849,5 +853,115 @@ namespace Bec.TargetFramework.Business.Logic
             return uaDtos;
         }
 
+        public void SendUsernameReminder(string email)
+        {
+            //check user exists
+            var user = this.GetUserAccountByEmail(email, true).FirstOrDefault();
+            if (user != null)
+            {
+                var uao = GetUserAccountOrganisation(user.ID).First();
+                var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
+
+                var tempDto = new UsernameReminderDTO
+                {
+                    UserID = user.ID,
+                    Username = user.Username,
+                    Salutation = primaryContact.Salutation,
+                    FirstName = primaryContact.FirstName,
+                    LastName = primaryContact.LastName,
+                    UserAccountOrganisationID = uao.UserAccountOrganisationID
+                };
+
+                string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
+
+                var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+                {
+                    EventName = "UsernameReminderEvent",
+                    EventSource = AppDomain.CurrentDomain.FriendlyName,
+                    EventReference = "0001",
+                    PayloadAsJson = payLoad
+                };
+
+                m_EventPublishClient.PublishEvent(dto);
+            }
+        }
+
+        public void SendPasswordResetNotification(string username, string siteUrl)
+        {
+            //check user exists
+            Data.UserAccount user = null;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                user = scope.DbContext.UserAccounts.FirstOrDefault(s => s.Username.Equals(username) && !s.IsTemporaryAccount);
+            }
+            if (user != null)
+            {
+                var resetGuid = Guid.NewGuid();
+                using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+                {
+                    var pr = new PasswordResetRequest();
+                    pr.RequestID = resetGuid;
+                    pr.UserID = user.ID;
+                    pr.CreatedDateTime = DateTime.Now;
+                    pr.Expired = false;
+                    scope.DbContext.PasswordResetRequests.Add(pr);
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+                }
+                var uao = GetUserAccountOrganisation(user.ID).First();
+                var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
+
+                var tempDto = new ForgotPasswordDTO { 
+                    UserID = user.ID, 
+                    Salutation = primaryContact.Salutation,
+                    FirstName = primaryContact.FirstName,
+                    LastName = primaryContact.LastName,
+                    UserAccountOrganisationID = uao.UserAccountOrganisationID,
+                    Url = string.Format(siteUrl, resetGuid, false),
+                    ExpireUrl = string.Format(siteUrl, resetGuid, true)
+                };
+                string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
+
+                var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+                {
+                    EventName = "ForgotPasswordEvent",
+                    EventSource = AppDomain.CurrentDomain.FriendlyName,
+                    EventReference = "0002",
+                    PayloadAsJson = payLoad
+                };
+
+                m_EventPublishClient.PublishEvent(dto);
+            }
+        }
+
+        public Guid ExpirePasswordResetRequest(Guid requestID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var rr = GetResetRequest(scope, requestID);
+                if (rr != null) rr.Expired = true;
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+                if (rr == null)
+                    return Guid.Empty;
+                else
+                    return rr.UserID;
+            }
+        }
+
+        public bool IsPasswordResetRequestValid(Guid requestID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                return GetResetRequest(scope, requestID) != null;
+            }
+        }
+
+        private PasswordResetRequest GetResetRequest(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid requestID)
+        {
+            var rr = scope.DbContext.PasswordResetRequests.SingleOrDefault(r => r.RequestID == requestID && !r.Expired);
+            if (rr != null && (DateTime.Now - rr.CreatedDateTime).TotalMinutes < 10)
+                return rr;
+            else
+                return null;
+        }
     }
 }

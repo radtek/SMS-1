@@ -41,7 +41,6 @@ namespace Bec.TargetFramework.Entities
               target.StatusTypes = source.StatusTypes.ToDtosWithRelated(level - 1);
               target.ModuleStatusTypeTemplates = source.ModuleStatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeRoleTemplates = source.StatusTypeRoleTemplates.ToDtosWithRelated(level - 1);
-              target.WorkflowStatusTypeTemplates = source.WorkflowStatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.DefaultOrganisationStatusTypeTemplates = source.DefaultOrganisationStatusTypeTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeStructureTemplates = source.StatusTypeStructureTemplates.ToDtosWithRelated(level - 1);
               target.StatusTypeClaimTemplates = source.StatusTypeClaimTemplates.ToDtosWithRelated(level - 1);

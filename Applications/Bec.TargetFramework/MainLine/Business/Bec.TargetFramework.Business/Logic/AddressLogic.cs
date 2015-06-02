@@ -1,78 +1,53 @@
-﻿using System;
+﻿using Bec.TargetFramework.Aop.Aspects;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Infrastructure.Caching;
+using Bec.TargetFramework.Infrastructure.Log;
+using EnsureThat;
+using ServiceStack.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-//Bec.TargetFramework.Entities
-using Bec.TargetFramework.Infrastructure.Caching;
-using Bec.TargetFramework.Infrastructure.Helpers;
-using Bec.TargetFramework.Infrastructure.Log;
-//using Fabrik.Common;
-using ServiceStack.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
 {
-    using Bec.TargetFramework.Aop.Aspects;
-    using Bec.TargetFramework.Entities;
-    using EnsureThat;
-
     [Trace(TraceExceptionsOnly = true)]
     public class AddressLogic : LogicBase
     {
+        HttpClient httpClient;
         public AddressLogic(ILogger logger, ICacheProvider cacheProvider) : base(logger, cacheProvider)
         {
+            httpClient = new HttpClient { BaseAddress = new Uri("http://services.postcodeanywhere.co.uk/PostcodeAnywhere/Interactive/RetrieveByParts/v1.00/") };
         }
 
-        public List<PostCodeDTO> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
+        public async Task<List<PostCodeDTO>> FindAddressesByPostCode(string postCode, string buildingNameOrNumber)
         {
             Ensure.That(postCode).IsNotNullOrEmpty();
+            postCode = postCode.Replace(" ", "").Trim().ToLowerInvariant();
 
-            var client = new PostcodeAnywhere.PostcodeAnywhere_SoapClient();
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("Key", "EN93-RT99-CK59-GP54");
+            parameters.Add("UserName", "CLEAR11146");
+            parameters.Add("Postcode", postCode);
+            if (!string.IsNullOrEmpty(buildingNameOrNumber)) parameters.Add("Building", buildingNameOrNumber);
 
-            var key = "EN93-RT99-CK59-GP54";
-            var userName = "CLEAR11146";
-            string building = "";
-            if (!string.IsNullOrEmpty(buildingNameOrNumber))
-            {
-                building = buildingNameOrNumber.ToLowerInvariant();
-            }
-
-            var pcTrimmed = postCode.Replace(" ", "").Trim().ToLowerInvariant();
+            var queryString = "json3.ws?" + string.Join("&", parameters.Select(p => p.Key + "=" + p.Value.UrlEncode()));
 
             using (var cacheClient = CacheProvider.CreateCacheClient(Logger))
             {
-                string cacheKey = pcTrimmed + "*" + building;
-                var cacheResult = cacheClient.Get<List<PostCodeDTO>>(cacheKey);
+                var cacheResult = cacheClient.Get<string>(queryString).FromJson<List<PostCodeDTO>>();
 
                 if (cacheResult != null)
                     return cacheResult;
                 else
                 {
-                    try
-                    {
-                        var response = client.PostcodeAnywhere_Interactive_RetrieveByParts_v1_00(key, "", building, "", "", pcTrimmed, userName);
-
-                        var dtos = response.Select(item => new PostCodeDTO
-                        {
-                            Company = item.Company,
-                            County = item.County,
-                            Department = item.Department,
-                            BuildingName = item.BuildingName,
-                            Line1 = item.Line1,
-                            Line2 = item.Line2,
-                            Line3 = item.Line3,
-                            Postcode = item.Postcode,
-                            PostTown = item.PostTown,
-                            PrimaryStreet = item.PrimaryStreet
-                        }).ToList();
-
-                        cacheClient.Set(cacheKey, dtos, TimeSpan.FromDays(1));
-
-                        return dtos;
-                    }
-                    catch (System.ServiceModel.FaultException)
-                    {
-                        return null;
-                    }
+                    var response = await httpClient.GetAsync(queryString);
+                    response.EnsureSuccessStatusCode();
+                    var results = await response.Content.ReadAsAsync<PostCodeDTOWrapper>();
+                    cacheClient.Set(queryString, results.Items.ToJson(), TimeSpan.FromDays(1));
+                    return results.Items;
                 }
             }
         }

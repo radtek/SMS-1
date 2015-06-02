@@ -196,15 +196,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for ArtefactWorkflows in the schema.
-        /// </summary>
-        public virtual ICollection<ArtefactWorkflow> ArtefactWorkflows
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for ArtefactRoles in the schema.
         /// </summary>
         public virtual ICollection<ArtefactRole> ArtefactRoles

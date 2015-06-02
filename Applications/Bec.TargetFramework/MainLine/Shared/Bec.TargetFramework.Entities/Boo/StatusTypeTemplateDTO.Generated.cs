@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public StatusTypeTemplateDTO() {
         }
 
-        public StatusTypeTemplateDTO(global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<StatusTypeDTO> statusTypes, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<StatusTypeRoleTemplateDTO> statusTypeRoleTemplates, List<WorkflowStatusTypeTemplateDTO> workflowStatusTypeTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<StatusTypeValueTemplateDTO> statusTypeValueTemplates, List<ArtefactTemplateDTO> artefactTemplates) {
+        public StatusTypeTemplateDTO(global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, List<StatusTypeDTO> statusTypes, List<ModuleStatusTypeTemplateDTO> moduleStatusTypeTemplates, List<StatusTypeRoleTemplateDTO> statusTypeRoleTemplates, List<DefaultOrganisationStatusTypeTemplateDTO> defaultOrganisationStatusTypeTemplates, List<StatusTypeStructureTemplateDTO> statusTypeStructureTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<StatusTypeValueTemplateDTO> statusTypeValueTemplates, List<ArtefactTemplateDTO> artefactTemplates) {
 
           this.StatusTypeTemplateID = statusTypeTemplateID;
           this.StatusTypeTemplateVersionNumber = statusTypeTemplateVersionNumber;
@@ -33,7 +33,6 @@ namespace Bec.TargetFramework.Entities
           this.StatusTypes = statusTypes;
           this.ModuleStatusTypeTemplates = moduleStatusTypeTemplates;
           this.StatusTypeRoleTemplates = statusTypeRoleTemplates;
-          this.WorkflowStatusTypeTemplates = workflowStatusTypeTemplates;
           this.DefaultOrganisationStatusTypeTemplates = defaultOrganisationStatusTypeTemplates;
           this.StatusTypeStructureTemplates = statusTypeStructureTemplates;
           this.StatusTypeClaimTemplates = statusTypeClaimTemplates;
@@ -75,9 +74,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<StatusTypeRoleTemplateDTO> StatusTypeRoleTemplates { get; set; }
-
-        [DataMember]
-        public List<WorkflowStatusTypeTemplateDTO> WorkflowStatusTypeTemplates { get; set; }
 
         [DataMember]
         public List<DefaultOrganisationStatusTypeTemplateDTO> DefaultOrganisationStatusTypeTemplates { get; set; }

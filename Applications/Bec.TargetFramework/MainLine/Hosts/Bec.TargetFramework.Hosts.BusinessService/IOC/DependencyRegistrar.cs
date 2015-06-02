@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     using System.Configuration;
     using Bec.TargetFramework.Infrastructure.IOC;
     using Bec.TargetFramework.Infrastructure.Settings;
+    using Bec.TargetFramework.SB.Interfaces;
 
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
@@ -76,7 +77,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                            , c.Resolve<ICacheProvider>(), c.Resolve<CommonSettings>())).As<DataLogic>();
 
             builder.Register(c => new UserLogic(c.Resolve<UserAccountService>()
-                           , c.Resolve<AuthenticationService>(), c.Resolve<DataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>())).As<UserLogic>();
+                           , c.Resolve<AuthenticationService>(), c.Resolve<DataLogic>(), c.Resolve<ILogger>(), c.Resolve<ICacheProvider>(), c.Resolve<IEventPublishClient>())).As<UserLogic>();
 
             builder.Register(c => new NotificationLogic(c.Resolve<ILogger>()
                           , c.Resolve<ICacheProvider>())).As<NotificationLogic>();
@@ -88,7 +89,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                             , c.Resolve<CommonSettings>(),
                             c.Resolve<UserLogic>(),
                             c.Resolve<DataLogic>(),
-                            c.Resolve<Bec.TargetFramework.SB.Interfaces.IEventPublishClient>(),
+                            c.Resolve<IEventPublishClient>(),
                             c.Resolve<NotificationLogic>())).As<OrganisationLogic>();
 
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",

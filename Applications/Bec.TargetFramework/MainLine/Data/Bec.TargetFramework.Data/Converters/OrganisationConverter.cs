@@ -86,7 +86,6 @@ namespace Bec.TargetFramework.Entities
               target.OrganisationStatusTypes = source.OrganisationStatusTypes.ToDtosWithRelated(level - 1);
               target.OrganisationTeams = source.OrganisationTeams.ToDtosWithRelated(level - 1);
               target.OrganisationUserTypes = source.OrganisationUserTypes.ToDtosWithRelated(level - 1);
-              target.OrganisationWorkflows = source.OrganisationWorkflows.ToDtosWithRelated(level - 1);
               target.PlanSubscriptions = source.PlanSubscriptions.ToDtosWithRelated(level - 1);
               target.ShoppingCarts = source.ShoppingCarts.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);

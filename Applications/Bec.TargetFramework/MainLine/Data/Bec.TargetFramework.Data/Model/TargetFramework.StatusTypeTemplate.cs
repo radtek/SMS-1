@@ -122,15 +122,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for WorkflowStatusTypeTemplates in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowStatusTypeTemplate> WorkflowStatusTypeTemplates
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationStatusTypeTemplates in the schema.
         /// </summary>
         public virtual ICollection<DefaultOrganisationStatusTypeTemplate> DefaultOrganisationStatusTypeTemplates

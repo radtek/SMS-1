@@ -237,15 +237,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for WorkflowInstanceRestrictions in the schema.
-        /// </summary>
-        public virtual ICollection<WorkflowInstanceRestriction> WorkflowInstanceRestrictions
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for NotificationRecipients in the schema.
         /// </summary>
         public virtual ICollection<NotificationRecipient> NotificationRecipients

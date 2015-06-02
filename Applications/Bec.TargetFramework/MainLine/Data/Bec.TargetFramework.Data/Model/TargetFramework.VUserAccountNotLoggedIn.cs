@@ -196,16 +196,6 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
-    
-        /// <summary>
-        /// There are no comments for LoginWorkflowDataContent in the schema.
-        /// </summary>
-        public virtual string LoginWorkflowDataContent
-        {
-            get;
-            set;
-        }
-
 
         #endregion
     }

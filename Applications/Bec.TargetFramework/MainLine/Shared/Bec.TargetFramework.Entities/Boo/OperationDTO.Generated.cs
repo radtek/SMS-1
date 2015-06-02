@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OperationDTO() {
         }
 
-        public OperationDTO(global::System.Guid operationID, string operationName, string operationDescription, global::System.Nullable<System.Guid> sourceID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<WorkflowClaimTemplateDTO> workflowClaimTemplates, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<RoleClaimDTO> roleClaims, List<WorkflowClaimDTO> workflowClaims, List<ResourceDTO> resources, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings, List<ResourceOperationTargetDTO> resourceOperationTargets) {
+        public OperationDTO(global::System.Guid operationID, string operationName, string operationDescription, global::System.Nullable<System.Guid> sourceID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, List<ModuleClaimDTO> moduleClaims, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<ProductClaimDTO> productClaims, List<DefaultOrganisationRoleClaimTemplateDTO> defaultOrganisationRoleClaimTemplates, List<ProductClaimTemplateDTO> productClaimTemplates, List<StatusTypeClaimTemplateDTO> statusTypeClaimTemplates, List<ModuleClaimTemplateDTO> moduleClaimTemplates, List<NotificationConstructClaimDTO> notificationConstructClaims, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<StatusTypeClaimDTO> statusTypeClaims, List<ArtefactClaimTemplateDTO> artefactClaimTemplates, List<ArtefactClaimDTO> artefactClaims, List<RoleClaimDTO> roleClaims, List<ResourceDTO> resources, List<ActorClaimRoleMappingDTO> actorClaimRoleMappings, List<ResourceOperationTargetDTO> resourceOperationTargets) {
 
           this.OperationID = operationID;
           this.OperationName = operationName;
@@ -34,7 +34,6 @@ namespace Bec.TargetFramework.Entities
           this.ModuleClaims = moduleClaims;
           this.DefaultOrganisationRoleClaims = defaultOrganisationRoleClaims;
           this.OrganisationRoleClaims = organisationRoleClaims;
-          this.WorkflowClaimTemplates = workflowClaimTemplates;
           this.ProductClaims = productClaims;
           this.DefaultOrganisationRoleClaimTemplates = defaultOrganisationRoleClaimTemplates;
           this.ProductClaimTemplates = productClaimTemplates;
@@ -46,7 +45,6 @@ namespace Bec.TargetFramework.Entities
           this.ArtefactClaimTemplates = artefactClaimTemplates;
           this.ArtefactClaims = artefactClaims;
           this.RoleClaims = roleClaims;
-          this.WorkflowClaims = workflowClaims;
           this.Resources = resources;
           this.ActorClaimRoleMappings = actorClaimRoleMappings;
           this.ResourceOperationTargets = resourceOperationTargets;
@@ -91,9 +89,6 @@ namespace Bec.TargetFramework.Entities
         public List<OrganisationRoleClaimDTO> OrganisationRoleClaims { get; set; }
 
         [DataMember]
-        public List<WorkflowClaimTemplateDTO> WorkflowClaimTemplates { get; set; }
-
-        [DataMember]
         public List<ProductClaimDTO> ProductClaims { get; set; }
 
         [DataMember]
@@ -125,9 +120,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<RoleClaimDTO> RoleClaims { get; set; }
-
-        [DataMember]
-        public List<WorkflowClaimDTO> WorkflowClaims { get; set; }
 
         [DataMember]
         public List<ResourceDTO> Resources { get; set; }

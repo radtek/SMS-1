@@ -61,14 +61,12 @@ namespace Bec.TargetFramework.Entities
               target.ModuleNotificationConstructs = source.ModuleNotificationConstructs.ToDtosWithRelated(level - 1);
               target.NotificationConstructClaims = source.NotificationConstructClaims.ToDtosWithRelated(level - 1);
               target.ArtefactNotificationConstructs = source.ArtefactNotificationConstructs.ToDtosWithRelated(level - 1);
-              target.WorkflowNotificationConstructs = source.WorkflowNotificationConstructs.ToDtosWithRelated(level - 1);
               target.NotificationConstructRoles = source.NotificationConstructRoles.ToDtosWithRelated(level - 1);
               target.NotificationConstructTemplate = source.NotificationConstructTemplate.ToDtoWithRelated(level - 1);
               target.NotificationConstructParameters = source.NotificationConstructParameters.ToDtosWithRelated(level - 1);
               target.NotificationConstructData = source.NotificationConstructData.ToDtosWithRelated(level - 1);
               target.Notifications = source.Notifications.ToDtosWithRelated(level - 1);
               target.NotificationConstructTargets = source.NotificationConstructTargets.ToDtosWithRelated(level - 1);
-              target.WorkflowActionParameterNotificationConstructs = source.WorkflowActionParameterNotificationConstructs.ToDtosWithRelated(level - 1);
               target.NotificationConstructGroupNotificationConstructs = source.NotificationConstructGroupNotificationConstructs.ToDtosWithRelated(level - 1);
             }
 

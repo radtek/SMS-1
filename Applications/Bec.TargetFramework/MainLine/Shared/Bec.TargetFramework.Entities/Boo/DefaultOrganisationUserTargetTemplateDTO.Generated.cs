@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationUserTargetTemplateDTO() {
         }
 
-        public DefaultOrganisationUserTargetTemplateDTO(global::System.Guid defaultOrganisationUserTargetTemplateID, global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Nullable<int> userSubCategoryID, bool isActive, bool isDeleted, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, global::System.Guid userTypeID, bool isDefault, global::System.Nullable<System.Guid> workflowTemplateID, global::System.Nullable<int> workflowTemplateVersionNumber, DefaultOrganisationStatusTypeTemplateDTO defaultOrganisationStatusTypeTemplate, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, UserTypeDTO userType, WorkflowTemplateDTO workflowTemplate, List<DefaultOrganisationGroupTargetTemplateDTO> defaultOrganisationGroupTargetTemplates, List<DefaultOrganisationRoleTargetTemplateDTO> defaultOrganisationRoleTargetTemplates) {
+        public DefaultOrganisationUserTargetTemplateDTO(global::System.Guid defaultOrganisationUserTargetTemplateID, global::System.Guid defaultOrganisationTemplateID, int defaultOrganisationTemplateVersionNumber, global::System.Nullable<int> userSubTypeID, global::System.Nullable<int> userCategoryID, global::System.Nullable<int> userSubCategoryID, bool isActive, bool isDeleted, global::System.Guid statusTypeTemplateID, int statusTypeTemplateVersionNumber, global::System.Guid userTypeID, bool isDefault, DefaultOrganisationStatusTypeTemplateDTO defaultOrganisationStatusTypeTemplate, DefaultOrganisationTemplateDTO defaultOrganisationTemplate, UserTypeDTO userType, List<DefaultOrganisationGroupTargetTemplateDTO> defaultOrganisationGroupTargetTemplates, List<DefaultOrganisationRoleTargetTemplateDTO> defaultOrganisationRoleTargetTemplates) {
 
           this.DefaultOrganisationUserTargetTemplateID = defaultOrganisationUserTargetTemplateID;
           this.DefaultOrganisationTemplateID = defaultOrganisationTemplateID;
@@ -36,12 +36,9 @@ namespace Bec.TargetFramework.Entities
           this.StatusTypeTemplateVersionNumber = statusTypeTemplateVersionNumber;
           this.UserTypeID = userTypeID;
           this.IsDefault = isDefault;
-          this.WorkflowTemplateID = workflowTemplateID;
-          this.WorkflowTemplateVersionNumber = workflowTemplateVersionNumber;
           this.DefaultOrganisationStatusTypeTemplate = defaultOrganisationStatusTypeTemplate;
           this.DefaultOrganisationTemplate = defaultOrganisationTemplate;
           this.UserType = userType;
-          this.WorkflowTemplate = workflowTemplate;
           this.DefaultOrganisationGroupTargetTemplates = defaultOrganisationGroupTargetTemplates;
           this.DefaultOrganisationRoleTargetTemplates = defaultOrganisationRoleTargetTemplates;
         }
@@ -86,12 +83,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public bool IsDefault { get; set; }
 
-        [DataMember]
-        public global::System.Nullable<System.Guid> WorkflowTemplateID { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<int> WorkflowTemplateVersionNumber { get; set; }
-
         #endregion
 
         #region Navigation Properties
@@ -104,9 +95,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public UserTypeDTO UserType { get; set; }
-
-        [DataMember]
-        public WorkflowTemplateDTO WorkflowTemplate { get; set; }
 
         [DataMember]
         public List<DefaultOrganisationGroupTargetTemplateDTO> DefaultOrganisationGroupTargetTemplates { get; set; }

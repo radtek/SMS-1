@@ -149,26 +149,6 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
-    
-        /// <summary>
-        /// There are no comments for WorkflowTemplateID in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.Guid> WorkflowTemplateID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for WorkflowTemplateVersionNumber in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<int> WorkflowTemplateVersionNumber
-        {
-            get;
-            set;
-        }
-
 
         #endregion
 
@@ -196,15 +176,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserType in the schema.
         /// </summary>
         public virtual UserType UserType
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for WorkflowTemplate in the schema.
-        /// </summary>
-        public virtual WorkflowTemplate WorkflowTemplate
         {
             get;
             set;

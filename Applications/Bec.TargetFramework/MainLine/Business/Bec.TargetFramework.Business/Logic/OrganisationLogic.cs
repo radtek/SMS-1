@@ -122,7 +122,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
                 var org = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == organisationID);
-                if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
+                if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot activate a company of status '{0}'. Please go back and try again.", org.StatusValueName));
 
                 var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
                 Ensure.That(status);
@@ -296,12 +296,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary) createTcNotification(userOrgID);
+            if (!isTemporary) CreateTsAndCsNotification(userOrgID.Value);
 
             return uao;
         }
 
-        private void createTcNotification(Guid? userOrgID)
+        public void CreateTsAndCsNotification(Guid userOrgID)
         {
             var nc = m_NotificationLogic.GetLatestNotificationConstructIdFromName("TcPublic");
 

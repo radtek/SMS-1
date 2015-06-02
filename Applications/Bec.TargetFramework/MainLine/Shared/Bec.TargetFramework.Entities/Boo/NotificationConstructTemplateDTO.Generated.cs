@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationConstructTemplateDTO() {
         }
 
-        public NotificationConstructTemplateDTO(global::System.Guid notificationConstructTemplateID, int notificationConstructTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Nullable<int> notificationConstructTypeID, global::System.Nullable<int> notificationConstructSubTypeID, global::System.Nullable<int> notificationConstructCategoryID, global::System.Nullable<int> notificationConstructSubCategoryID, global::System.Nullable<System.Guid> externalRelatedNotificationConstructTemplateID, global::System.Nullable<int> externalRelatedNotificationConstructTemplateVersionNumber, string notificationSubject, string notificationAdditionalDetails, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> ownerOrganisationID, bool canBeIncludedInBatchNotification, string notificationDetails, string notificationReference, string notificationTitle, global::System.Nullable<int> defaultNotificationExportFormatID, global::System.Nullable<int> defaultNotificationDeliveryMethodID, string notificationConstructMutatorObjectType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<WorkflowNotificationConstructTemplateDTO> workflowNotificationConstructTemplates, List<NotificationConstructDataTemplateDTO> notificationConstructDataTemplates, List<NotificationConstructParameterTemplateDTO> notificationConstructParameterTemplates, List<NotificationConstructDTO> notificationConstructs, List<ArtefactNotificationConstructTemplateDTO> artefactNotificationConstructTemplates, List<NotificationConstructRoleTemplateDTO> notificationConstructRoleTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<ModuleNotificationConstructTemplateDTO> moduleNotificationConstructTemplates, List<WorkflowActionParameterNotificationConstructTemplateDTO> workflowActionParameterNotificationConstructTemplates, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, OrganisationDTO organisation) {
+        public NotificationConstructTemplateDTO(global::System.Guid notificationConstructTemplateID, int notificationConstructTemplateVersionNumber, string name, string description, bool isActive, bool isDeleted, global::System.Nullable<int> notificationConstructTypeID, global::System.Nullable<int> notificationConstructSubTypeID, global::System.Nullable<int> notificationConstructCategoryID, global::System.Nullable<int> notificationConstructSubCategoryID, global::System.Nullable<System.Guid> externalRelatedNotificationConstructTemplateID, global::System.Nullable<int> externalRelatedNotificationConstructTemplateVersionNumber, string notificationSubject, string notificationAdditionalDetails, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> ownerOrganisationID, bool canBeIncludedInBatchNotification, string notificationDetails, string notificationReference, string notificationTitle, global::System.Nullable<int> defaultNotificationExportFormatID, global::System.Nullable<int> defaultNotificationDeliveryMethodID, string notificationConstructMutatorObjectType, List<DefaultOrganisationNotificationConstructTemplateDTO> defaultOrganisationNotificationConstructTemplates, List<NotificationConstructClaimTemplateDTO> notificationConstructClaimTemplates, List<NotificationConstructDataTemplateDTO> notificationConstructDataTemplates, List<NotificationConstructParameterTemplateDTO> notificationConstructParameterTemplates, List<NotificationConstructDTO> notificationConstructs, List<ArtefactNotificationConstructTemplateDTO> artefactNotificationConstructTemplates, List<NotificationConstructRoleTemplateDTO> notificationConstructRoleTemplates, List<NotificationConstructTargetTemplateDTO> notificationConstructTargetTemplates, List<ModuleNotificationConstructTemplateDTO> moduleNotificationConstructTemplates, List<NotificationConstructGroupNotificationConstructTemplateDTO> notificationConstructGroupNotificationConstructTemplates, OrganisationDTO organisation) {
 
           this.NotificationConstructTemplateID = notificationConstructTemplateID;
           this.NotificationConstructTemplateVersionNumber = notificationConstructTemplateVersionNumber;
@@ -49,7 +49,6 @@ namespace Bec.TargetFramework.Entities
           this.NotificationConstructMutatorObjectType = notificationConstructMutatorObjectType;
           this.DefaultOrganisationNotificationConstructTemplates = defaultOrganisationNotificationConstructTemplates;
           this.NotificationConstructClaimTemplates = notificationConstructClaimTemplates;
-          this.WorkflowNotificationConstructTemplates = workflowNotificationConstructTemplates;
           this.NotificationConstructDataTemplates = notificationConstructDataTemplates;
           this.NotificationConstructParameterTemplates = notificationConstructParameterTemplates;
           this.NotificationConstructs = notificationConstructs;
@@ -57,7 +56,6 @@ namespace Bec.TargetFramework.Entities
           this.NotificationConstructRoleTemplates = notificationConstructRoleTemplates;
           this.NotificationConstructTargetTemplates = notificationConstructTargetTemplates;
           this.ModuleNotificationConstructTemplates = moduleNotificationConstructTemplates;
-          this.WorkflowActionParameterNotificationConstructTemplates = workflowActionParameterNotificationConstructTemplates;
           this.NotificationConstructGroupNotificationConstructTemplates = notificationConstructGroupNotificationConstructTemplates;
           this.Organisation = organisation;
         }
@@ -146,9 +144,6 @@ namespace Bec.TargetFramework.Entities
         public List<NotificationConstructClaimTemplateDTO> NotificationConstructClaimTemplates { get; set; }
 
         [DataMember]
-        public List<WorkflowNotificationConstructTemplateDTO> WorkflowNotificationConstructTemplates { get; set; }
-
-        [DataMember]
         public List<NotificationConstructDataTemplateDTO> NotificationConstructDataTemplates { get; set; }
 
         [DataMember]
@@ -168,9 +163,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<ModuleNotificationConstructTemplateDTO> ModuleNotificationConstructTemplates { get; set; }
-
-        [DataMember]
-        public List<WorkflowActionParameterNotificationConstructTemplateDTO> WorkflowActionParameterNotificationConstructTemplates { get; set; }
 
         [DataMember]
         public List<NotificationConstructGroupNotificationConstructTemplateDTO> NotificationConstructGroupNotificationConstructTemplates { get; set; }
