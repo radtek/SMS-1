@@ -26,13 +26,13 @@
                         <section>
                             <label class="label">Please enter your new password</label>
                             <label class="input">
-                                @Html.PasswordFor(m => m.NewPassword)
+                                @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25 })
                             </label>
                         </section>
                         <section>
                             <label class="label">Please confirm your new password</label>
                             <label class="input">
-                                <input type="password" name="confirmPassword" />
+                                <input type="password" name="confirmPassword" maxlength="25" />
                             </label>
                         </section>
                     </fieldset>
