@@ -24,7 +24,7 @@
                                 <i class="icon-append fa fa-user"></i>
                                 @Html.TextBoxFor(m => m.Username)
                             </label>
-                            <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right">Forgotten Username</a>
+                            <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Username</a>
                             <br />
                         </section>
                         <section>
@@ -33,7 +33,7 @@
                                 <i class="icon-append fa fa-lock"></i>
                                 @Html.PasswordFor(m => m.Password)
                             </label>
-                            <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right">Forgotten Password</a>
+                            <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
                         </section>
                     </fieldset>
                     <footer>

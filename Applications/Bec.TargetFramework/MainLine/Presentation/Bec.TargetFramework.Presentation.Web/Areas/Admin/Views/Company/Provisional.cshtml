@@ -33,6 +33,7 @@
                             <div class="well">
                                 <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true">Reject Company</a>
                                 <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate PIN</a>
+                                <a id="uEmailLogButton" class="btn btn-primary btn-sm" data-modallink="true">View Email Log</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt><dd><p id="dduCompanyName"></p></dd>
@@ -78,6 +79,7 @@
                             <!-- well -->
                             <div class="well">
                                 <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
+                                <a id="vEmailLogButton" class="btn btn-primary btn-sm" data-modallink="true">View Email Log</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt><dd><p id="ddvCompanyName"></p></dd>
@@ -376,9 +378,10 @@
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#dduRegulator").text(regulatorName);
 
-        //update reject & generate links
+        //update links
         $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
         $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#uEmailLogButton").data('href', '@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
     function verifiedChange(dataItem) {
@@ -402,8 +405,9 @@
         $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
         $("p#ddvLoginsSent").text(dateString(dataItem.OrganisationAdminCreated));
 
-        //update resend links
+        //update links
         $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#vEmailLogButton").data('href', '@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
     function rejectedChange(dataItem) {
@@ -428,5 +432,5 @@
         $("p#ddrRejectedNotes").text(dataItem.Notes);
     }
 
-    </script>
+</script>
 }

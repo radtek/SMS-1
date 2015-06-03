@@ -64,6 +64,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
                 Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
                 Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
+                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
 
                 Bus.Publish(notificationMessage);
 

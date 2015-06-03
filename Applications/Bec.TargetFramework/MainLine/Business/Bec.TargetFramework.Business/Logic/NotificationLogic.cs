@@ -320,5 +320,29 @@ namespace Bec.TargetFramework.Business.Logic
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
         }
+
+        public void UpdateEventStatus(Guid eventStatusID, string status, string recipients, string subject, string body)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            {
+                var es = scope.DbContext.EventStatus.SingleOrDefault(x => x.EventStatusID == eventStatusID);
+                if (es != null)
+                {
+                    es.Status = status;
+                    es.Recipients = recipients;
+                    es.Subject = subject;
+                    es.Body = body;
+                    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+                }
+            }
+        }
+
+        public List<EventStatusDTO> GetEventStatus(string eventName, string eventReference)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return EventStatusConverter.ToDtos(scope.DbContext.EventStatus.Where(x => x.EventName == eventName && x.EventReference == eventReference));
+            }
+        }
     }
 }

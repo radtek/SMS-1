@@ -1,0 +1,76 @@
+﻿@using Kendo.Mvc.UI
+@using ServiceStack.Text
+@model List<Bec.TargetFramework.Entities.EventStatusDTO>
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="emailLogLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="emailLogLabel">Email Log</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                            @(Html.Kendo().Grid(Model).Columns(columns =>
+                            {
+                                columns.Bound(d => d.Created)
+                                    .ClientTemplate("#=dateString(kendo.toString(Created,'yyyy-MM-dd HH:mm:ss'))#").Title("Date / Time");
+                                columns.Bound(d => d.Recipients).Title("Recipient");
+                                columns.Bound(d => d.Status);
+                                columns.Bound(d => d.Subject);
+                                columns.Bound(d => d.Body).ClientTemplate(
+                                    "# if (Status != \"Pending\") { # "+
+                                    "<a class=\"btn btn-default btn-sm\" onclick=\"showBody(\'#:uid#\')\">View Message</a>" +
+                                    "#}#"
+                                    );
+                            }).Name("grid")
+                            .Scrollable(s => s.Height(300))
+                            .DataSource(ds => ds
+                                .Ajax()
+                                .ServerOperation(false)
+                                .Sort(sort => sort.Add("Created").Descending()))
+                            )
+                        <div id="emailcontainer" style="height:332px;overflow-y:scroll;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="emailback" class="btn btn-default" onclick="emailBack()">Back</button>
+                <button type="button" id="closeEmailLog" class="btn btn-primary" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@helper renderButton(Bec.TargetFramework.Entities.EventStatusDTO item)
+{
+    if (item.Status != "Pending") { 
+        <a class="btn btn-default btn-sm" onclick="showBody('@item.Body.EncodeJson().Replace("'", "\"")')">View Message</a>
+    }
+}
+
+<script type="text/javascript">
+    $(function () {
+        $('#emailcontainer').hide();
+        $('#emailback').hide();
+    });
+
+    function showBody(uid) {
+        var grid = $('#grid').data('kendoGrid');
+        var row = grid.tbody.find("tr[data-uid='" + uid + "']");
+        var dataItem = grid.dataItem(row);
+        $('#emailcontainer').html(dataItem.Body);
+
+        $('#emailcontainer').show();
+        $('#emailback').show();
+        $('#grid').hide();
+    }
+
+    function emailBack() {
+        $('#emailcontainer').hide();
+        $('#emailback').hide();
+        $('#grid').show();
+    }
+</script>

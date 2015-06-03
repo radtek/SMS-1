@@ -23,11 +23,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     {
         private IOrganisationLogicClient m_OrganisationClient;
         IAddressLogicClient m_AddressClient;
+        INotificationLogicClient m_NotificationClient;
 
-        public CompanyController(ILogger logger, IOrganisationLogicClient oClient, IAddressLogicClient aClient) : base(logger)
+        public CompanyController(ILogger logger, IOrganisationLogicClient oClient, IAddressLogicClient aClient, INotificationLogicClient nClient)
+            : base(logger)
         {
             m_OrganisationClient = oClient;
             m_AddressClient = aClient;
+            m_NotificationClient = nClient;
         }
 
         public ActionResult Provisional()
@@ -134,6 +137,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
+        }
+
+        public async Task<ActionResult> ViewEmailLog(Guid orgId)
+        {
+            return PartialView("_EmailLog", await m_NotificationClient.GetEventStatusAsync("TestEvent", orgId.ToString()));
         }
     }
 }

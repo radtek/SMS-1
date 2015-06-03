@@ -391,6 +391,34 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkAccepted(Guid notificationID);
 
+
+		/// <param name="eventStatusID"></param>
+		/// <param name="status"></param>
+		/// <param name="recipients"></param>
+		/// <param name="subject"></param>
+		/// <param name="body"></param>
+		/// <returns></returns>
+		Task UpdateEventStatusAsync(Guid eventStatusID,String status,String recipients,String subject,String body);
+
+		/// <param name="eventStatusID"></param>
+		/// <param name="status"></param>
+		/// <param name="recipients"></param>
+		/// <param name="subject"></param>
+		/// <param name="body"></param>
+		/// <returns></returns>
+		void UpdateEventStatus(Guid eventStatusID,String status,String recipients,String subject,String body);
+
+
+		/// <param name="eventName"></param>
+		/// <param name="eventReference"></param>
+		/// <returns></returns>
+		Task<List<EventStatusDTO>> GetEventStatusAsync(String eventName,String eventReference);
+
+		/// <param name="eventName"></param>
+		/// <param name="eventReference"></param>
+		/// <returns></returns>
+		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
+
 				
 	}
 	
@@ -2016,6 +2044,70 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAccepted?notificationID=" + notificationID, null, _user));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="eventStatusID"></param>
+		/// <param name="status"></param>
+		/// <param name="recipients"></param>
+		/// <param name="subject"></param>
+		/// <param name="body"></param>
+		/// <returns></returns>
+		public virtual async Task UpdateEventStatusAsync(Guid eventStatusID,String status,String recipients,String subject,String body)
+		{
+			status = status.UrlEncode();
+			recipients = recipients.UrlEncode();
+			subject = subject.UrlEncode();
+			body = body.UrlEncode();
+			string _user = getHttpContextUser();
+			await PostAsync<object>("api/NotificationLogic/UpdateEventStatus?eventStatusID=" + eventStatusID + "&status=" + status + "&recipients=" + recipients + "&subject=" + subject + "&body=" + body, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="eventStatusID"></param>
+		/// <param name="status"></param>
+		/// <param name="recipients"></param>
+		/// <param name="subject"></param>
+		/// <param name="body"></param>
+		public virtual void UpdateEventStatus(Guid eventStatusID,String status,String recipients,String subject,String body)
+		{
+			status = status.UrlEncode();
+			recipients = recipients.UrlEncode();
+			subject = subject.UrlEncode();
+			body = body.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/UpdateEventStatus?eventStatusID=" + eventStatusID + "&status=" + status + "&recipients=" + recipients + "&subject=" + subject + "&body=" + body, null, _user));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="eventName"></param>
+		/// <param name="eventReference"></param>
+		/// <returns></returns>
+		public virtual async Task<List<EventStatusDTO>> GetEventStatusAsync(String eventName,String eventReference)
+		{
+			eventName = eventName.UrlEncode();
+			eventReference = eventReference.UrlEncode();
+			string _user = getHttpContextUser();
+			return await GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="eventName"></param>
+		/// <param name="eventReference"></param>
+		public virtual List<EventStatusDTO> GetEventStatus(String eventName,String eventReference)
+		{
+			eventName = eventName.UrlEncode();
+			eventReference = eventReference.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user)).Result;
 		}
 
 		#endregion

@@ -400,6 +400,7 @@
           <EntitySet Name="vNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.Store.vNotificationInternalUnread" store:Type="Views" Schema="public" Table="vNotificationInternalUnread" />
           <EntitySet Name="vOrganisationClaims" EntityType="Bec.TargetFramework.Data.Store.vOrganisationClaim" store:Type="Views" Schema="public" Table="vOrganisationClaim" />
           <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.Store.PasswordResetRequest" store:Type="Tables" Schema="public" Table="PasswordResetRequest" />
+          <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.Store.EventStatus" store:Type="Tables" Schema="public" Table="EventStatus" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -9697,6 +9698,19 @@
           <Property Name="CreatedDateTime" Type="timestamptz" Nullable="false" />
           <Property Name="Expired" Type="boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="EventStatus">
+          <Key>
+            <PropertyRef Name="EventStatusID" />
+          </Key>
+          <Property Name="EventStatusID" Type="uuid" Nullable="false" />
+          <Property Name="EventName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="EventReference" Type="varchar" Nullable="false" MaxLength="1000" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Created" Type="timestamptz" Nullable="false" />
+          <Property Name="Recipients" Type="varchar" MaxLength="2000" />
+          <Property Name="Subject" Type="varchar" MaxLength="1000" />
+          <Property Name="Body" Type="text" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18061,6 +18075,7 @@
           <EntitySet Name="VNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.VNotificationInternalUnread" />
           <EntitySet Name="VOrganisationClaims" EntityType="Bec.TargetFramework.Data.VOrganisationClaim" />
           <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.PasswordResetRequest" />
+          <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.EventStatus" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -28352,6 +28367,19 @@
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0cf2fb87-5be7-4141-96ae-9e94bd446edc" />
           <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9ff98311-db23-4ef2-964f-225412196a3e" />
           <Property Name="Expired" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="580793e9-0e39-4d91-954a-4e3ca8cc5a20" />
+        </EntityType>
+        <EntityType Name="EventStatus" ed:Guid="e137709b-7d17-45a4-ae18-b6e9ea0d57b1">
+          <Key>
+            <PropertyRef Name="EventStatusID" />
+          </Key>
+          <Property Name="EventStatusID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9ca32224-b931-4694-8466-e98926d4b9e2" />
+          <Property Name="EventName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="46c5f1af-7912-4e69-be96-16d5a754c406" />
+          <Property Name="EventReference" Type="String" Nullable="false" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="True" ed:Guid="84e6cd58-9638-4967-a5a4-f27fdf481402" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="cbd58d38-b313-4fd5-bad7-9afca1ecc399" />
+          <Property Name="Created" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="5ec9bda5-b762-48aa-845a-be08c4035646" />
+          <Property Name="Recipients" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="0f49d166-538c-47d8-b476-938d27848bb8" />
+          <Property Name="Subject" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="cf613261-eade-4bd7-8f2f-0046dbf0fed1" />
+          <Property Name="Body" Type="String" ed:ValidateRequired="False" ed:Guid="29133dd7-4d24-411a-94f6-6adda9898307" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -42560,6 +42588,20 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="Expired" ColumnName="Expired" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventStatus">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.EventStatus">
+              <MappingFragment StoreEntitySet="EventStatus">
+                <ScalarProperty Name="EventStatusID" ColumnName="EventStatusID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventReference" ColumnName="EventReference" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Recipients" ColumnName="Recipients" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

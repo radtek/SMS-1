@@ -859,6 +859,7 @@
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Reset.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

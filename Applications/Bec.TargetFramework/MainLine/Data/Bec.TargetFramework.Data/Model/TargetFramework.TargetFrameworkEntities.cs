@@ -1961,6 +1961,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for PasswordResetRequest in the schema.
         /// </summary>
         public virtual DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
+    
+        /// <summary>
+        /// There are no comments for EventStatus in the schema.
+        /// </summary>
+        public virtual DbSet<EventStatus> EventStatus { get; set; }
 
         #region Methods
 

@@ -521,6 +521,10 @@
     <Compile Include="Boo\ErrorCodeDTO.Generated.cs">
       <DependentUpon>ErrorCodeDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\EventStatusDTO.cs" />
+    <Compile Include="Boo\EventStatusDTO.Generated.cs">
+      <DependentUpon>EventStatusDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\ExternalRoleTemplateClaimDTO.cs" />
     <Compile Include="Boo\FieldDetailDTO.cs" />
     <Compile Include="Boo\FieldDetailDTO.Generated.cs">
