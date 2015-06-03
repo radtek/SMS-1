@@ -244,8 +244,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                     // only send as email if HTML
                     if (recipientAddresses.Count > 0 && m_NotificationContainerDto.NotificationSetting.ExportFormat.HasValue && m_NotificationContainerDto.NotificationSetting.ExportFormat.Value == NotificationExportFormatIDEnum.HTML.GetIntValue())
                     {
-                        SmtpClient smtpClient = new SmtpClient();
-
                         NotificationSettingDTO settingsDto =
                            m_NotificationDictionaryDto.NotificationDictionary["NotificationSettingDTO"] as
                                NotificationSettingDTO;
@@ -259,30 +257,21 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
                         message.Body = bodyContent;
 
-                        var emailIntercept = System.Configuration.ConfigurationManager.AppSettings["emailintercept"];
-                        if (!string.IsNullOrEmpty(emailIntercept))
-                        {
-                            message.Subject = "BEF: " + message.Subject;
-                            message.To.Add(emailIntercept);
-                        }
-                        else
-                            recipientAddresses.ToList().ForEach(re => message.To.Add(re));
+                        recipientAddresses.ToList().ForEach(re => message.To.Add(re));
 
                         Bec.TargetFramework.SB.Entities.BusMessageDTO busMessage = Bec.TargetFramework.SB.Infrastructure.NServiceBusHelper.GetBusMessageDto(Bus.CurrentMessageContext.Headers);
                         Guid eventStatusID = Guid.Empty;
                         if (busMessage != null && !string.IsNullOrEmpty(busMessage.EventReference))
                             Guid.TryParse(busMessage.EventReference, out eventStatusID);
 
-                        string recipients =  string.Join("; ", message.To.Select(r => r.Address));
-
                         try
                         {
-                            smtpClient.Send(message);
+                            SmtpHelper.Send(message);
 
                             // create logs for all recipients
                             CreateNotificationmSentReceiptLogEntries(notificationDto);
 
-                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Sent", recipients, message.Subject, message.Body);
+                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Sent", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body);
 
                             m_NotificationLogic.SaveNotification(notificationDto);
 
@@ -292,7 +281,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         {
                             CreateNotificationFailedReceiptLogEntries(notificationDto);
 
-                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Failed", recipients, message.Subject, message.Body + Environment.NewLine + "<p style='color:red;'>" + ex.Message + "</p>");
+                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Failed", string.Join("; ", message.To.Select(r => r.Address)), message.Subject, message.Body + Environment.NewLine + "<p style='color:red;'>" + ex.Message + "</p>");
 
                             LogError("Send Notification As Email Error", ex);
 
