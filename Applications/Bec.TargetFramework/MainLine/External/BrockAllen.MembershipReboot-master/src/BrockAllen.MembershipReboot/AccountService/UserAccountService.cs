@@ -883,6 +883,7 @@ namespace BrockAllen.MembershipReboot
             if (!Configuration.EmailIsUsername && userName.Contains("@"))
             {
                 result.valid = false;
+                result.validationMessage = "Invalid Username or Password";
                 return result;
             }
             else
