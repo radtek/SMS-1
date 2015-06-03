@@ -275,7 +275,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                             // create logs for all recipients
                             CreateNotificationmSentReceiptLogEntries(notificationDto);
 
-                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Sent", recipients, message.Subject, message.Body + Environment.NewLine + "<p style='color:red;'>Test error blah blah</p>");
+                            m_NotificationLogic.UpdateEventStatus(eventStatusID, "Sent", recipients, message.Subject, message.Body);
 
                             m_NotificationLogic.SaveNotification(notificationDto);
 
