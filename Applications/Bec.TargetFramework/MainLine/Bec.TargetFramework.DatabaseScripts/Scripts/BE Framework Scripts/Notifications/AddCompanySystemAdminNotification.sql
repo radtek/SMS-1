@@ -38,7 +38,7 @@ VALUES (
   'Add Company Administrator Temp Details Notification',
   4989,
   4992,
-  'Test' ,
+  'New User Registration',
   'Test',
   '0001',
   'Bec.TargetFramework.SB.Notifications.Mutators.AddCompanyAdministratorTempDetailsMutator, Bec.TargetFramework.SB.Notifications',

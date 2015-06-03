@@ -46,12 +46,10 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                 // add coltemp accountid as recipient
                 var container = new NotificationContainerDTO(
+                    notificationConstruct,
                     m_CommonSettings,
-                    notificationConstruct.NotificationConstructID,
-                    notificationConstruct.NotificationConstructVersionNumber,
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.ForgotPasswordDto.UserAccountOrganisationID } },
-                    new NotificationDictionaryDTO { NotificationDictionary = dictionary },
-                    notificationConstruct.DefaultNotificationExportFormatID.GetValueOrDefault(0));
+                    new NotificationDictionaryDTO { NotificationDictionary = dictionary });
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };
 

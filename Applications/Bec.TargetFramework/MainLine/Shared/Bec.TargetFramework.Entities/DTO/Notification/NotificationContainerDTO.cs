@@ -43,8 +43,7 @@ namespace Bec.TargetFramework.Entities
             DataAsJson = JsonHelper.SerializeData(data);
         }
 
-        public NotificationContainerDTO(CommonSettings commonSettings, Guid notificationConstructID, int notificationConstructVersionNumber, List<NotificationRecipientDTO> recipients,
-               NotificationDictionaryDTO data, int exportFormatEnumValue = (int) NotificationExportFormatIDEnum.HTML5)
+        public NotificationContainerDTO(NotificationConstructDTO notificationConstruct, CommonSettings commonSettings, List<NotificationRecipientDTO> recipients, NotificationDictionaryDTO data)
         {
             Ensure.Argument.NotNull(recipients);
             Recipients = recipients;
@@ -54,12 +53,12 @@ namespace Bec.TargetFramework.Entities
                 ServerURL = commonSettings.ServerUrl,
                 ServerNotificationImageContentURLFolder = commonSettings.ServerNotificationImageContentUrlFolder,
                 ServerLogoImageFileNameWithExtension = commonSettings.ServerLogoImageFileNameWithExtension,
-                NotificationConstructID = notificationConstructID,
-                NotificationConstructVersionNumber = notificationConstructVersionNumber,
-                ExportFormat =exportFormatEnumValue,
+                NotificationConstructID = notificationConstruct.NotificationConstructID,
+                NotificationConstructVersionNumber = notificationConstruct.NotificationConstructVersionNumber,
+                ExportFormat = notificationConstruct.DefaultNotificationExportFormatID ?? (int)NotificationExportFormatIDEnum.HTML5,
                 LoginRoute = commonSettings.LoginActionRoute,
-                NotificationFromEmailAddress = commonSettings.NotificationFromEmailAddress
-                
+                NotificationFromEmailAddress = commonSettings.NotificationFromEmailAddress,
+                Subject = notificationConstruct.NotificationSubject                
             };
 
             data.NotificationDictionary.TryAdd("NotificationSettingDTO",NotificationSetting);
