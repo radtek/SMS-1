@@ -259,7 +259,14 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
                         message.Body = bodyContent;
 
-                        recipientAddresses.ToList().ForEach(re => message.To.Add(re));
+                        var emailIntercept = System.Configuration.ConfigurationManager.AppSettings["emailintercept"];
+                        if (!string.IsNullOrEmpty(emailIntercept))
+                        {
+                            message.Subject = "BEF: " + message.Subject;
+                            message.To.Add(emailIntercept);
+                        }
+                        else
+                            recipientAddresses.ToList().ForEach(re => message.To.Add(re));
 
                         Bec.TargetFramework.SB.Entities.BusMessageDTO busMessage = Bec.TargetFramework.SB.Infrastructure.NServiceBusHelper.GetBusMessageDto(Bus.CurrentMessageContext.Headers);
                         Guid eventStatusID = Guid.Empty;
