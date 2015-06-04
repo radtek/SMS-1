@@ -25,6 +25,7 @@
                                     );
                             }).Name("grid")
                             .Scrollable(s => s.Height(300))
+                            .Sortable()
                             .DataSource(ds => ds
                                 .Ajax()
                                 .ServerOperation(false)
