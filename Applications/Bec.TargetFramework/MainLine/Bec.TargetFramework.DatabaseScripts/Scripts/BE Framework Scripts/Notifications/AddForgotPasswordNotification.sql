@@ -38,7 +38,7 @@ VALUES (
   'Forgot Password Notification',
   4989,
   4992,
-  'Test' ,
+  'Password Reset Instructions' ,
   'Test',
   '0001',
   'Bec.TargetFramework.SB.Notifications.Mutators.ForgotPasswordMutator, Bec.TargetFramework.SB.Notifications',

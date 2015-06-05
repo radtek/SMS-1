@@ -38,7 +38,7 @@ VALUES (
   'Username Reminder Notification',
   4989,
   4992,
-  'Test' ,
+  'Username Reminder' ,
   'Test',
   '0001',
   'Bec.TargetFramework.SB.Notifications.Mutators.UsernameReminderMutator, Bec.TargetFramework.SB.Notifications',

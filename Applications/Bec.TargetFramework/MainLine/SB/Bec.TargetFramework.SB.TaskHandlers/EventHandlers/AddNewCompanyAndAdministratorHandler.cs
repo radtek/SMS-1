@@ -52,18 +52,17 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                 // add coltemp accountid as recipient
                 var container = new NotificationContainerDTO(
+                    notificationConstruct,
                     m_CommonSettings,
-                    notificationConstruct.NotificationConstructID,
-                    notificationConstruct.NotificationConstructVersionNumber,
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = uaoId } },
-                    new NotificationDictionaryDTO { NotificationDictionary = dictionary },
-                    notificationConstruct.DefaultNotificationExportFormatID.GetValueOrDefault(0));
+                    new NotificationDictionaryDTO { NotificationDictionary = dictionary });
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };
 
                 Bus.SetMessageHeader(notificationMessage, "Source", AppDomain.CurrentDomain.FriendlyName);
                 Bus.SetMessageHeader(notificationMessage, "MessageType", notificationMessage.GetType().FullName);
                 Bus.SetMessageHeader(notificationMessage, "ServiceType", AppDomain.CurrentDomain.FriendlyName);
+                Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
 
                 Bus.Publish(notificationMessage);
 

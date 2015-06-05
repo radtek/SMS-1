@@ -233,7 +233,7 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(defaultOrganisation).IsNotNull();
 
             // add organisation
-            var organisationID = AddOrganisation(organisationType.GetIntValue(), defaultOrganisation, dto);
+            var organisationID = AddOrganisation(organisationType.GetIntValue(), defaultOrganisation, dto).Value;
 
             var randomUsername = m_DataLogic.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
@@ -246,10 +246,10 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation
             };
 
-            var userAccountOrganisation = AddNewUserToOrganisation(organisationID.Value, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
-            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto);
+            var userAccountOrganisation = AddNewUserToOrganisation(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
+            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto, organisationID);
 
-            return organisationID.Value;
+            return organisationID;
         }
 
         public UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary)
@@ -321,7 +321,7 @@ namespace Bec.TargetFramework.Business.Logic
             m_NotificationLogic.SaveNotification(notificationDto);
         }
 
-        private void SendNewUserEmail(string username, string password, Guid userAccountOrganisationID, ContactDTO contact)
+        private void SendNewUserEmail(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID)
         {
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
             {
@@ -337,11 +337,27 @@ namespace Bec.TargetFramework.Business.Logic
 
             string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
 
+            //add entry to EventStatus table
+            EventStatus es;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                es = new EventStatus()
+                {
+                    EventStatusID = Guid.NewGuid(),
+                    EventName = "TestEvent",
+                    EventReference = organisationID.ToString(),
+                    Status = "Pending",
+                    Created = DateTime.Now
+                };
+                scope.DbContext.EventStatus.Add(es);
+                if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
+            }
+
             var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
             {
                 EventName = "TestEvent",
                 EventSource = AppDomain.CurrentDomain.FriendlyName,
-                EventReference = "1212",
+                EventReference = es.EventStatusID.ToString(),
                 PayloadAsJson = payLoad
             };
 
@@ -529,7 +545,7 @@ namespace Bec.TargetFramework.Business.Logic
                 user.IsLoginAllowed = true;
                 if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
             }
-            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto);
+            SendNewUserEmail(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto, organisationId);
 
             //disable old temps
             m_UserLogic.LockUserTemporaryAccount(orgInfo.OrganisationAdminUserID.Value);

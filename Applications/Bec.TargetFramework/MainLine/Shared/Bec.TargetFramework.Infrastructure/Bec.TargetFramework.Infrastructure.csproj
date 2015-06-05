@@ -92,6 +92,7 @@
     <Compile Include="Collections\IGenericData.cs" />
     <Compile Include="Collections\TreeNodeSamples.cs" />
     <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="Helpers\SmtpHelper.cs" />
     <Compile Include="IOC\IDependencyRegistrar.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />

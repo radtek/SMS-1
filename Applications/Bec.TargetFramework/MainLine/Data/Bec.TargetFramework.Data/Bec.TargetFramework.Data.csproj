@@ -165,6 +165,7 @@
     <Compile Include="Converters\DiscountRelatedProductTemplateConverter.cs" />
     <Compile Include="Converters\DiscountTemplateConverter.cs" />
     <Compile Include="Converters\ErrorCodeConverter.cs" />
+    <Compile Include="Converters\EventStatusConverter.cs" />
     <Compile Include="Converters\FieldDetailConverter.cs" />
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
@@ -545,6 +546,7 @@
     <Compile Include="Model\TargetFramework.DiscountRelatedProductTemplate.cs" />
     <Compile Include="Model\TargetFramework.DiscountTemplate.cs" />
     <Compile Include="Model\TargetFramework.ErrorCode.cs" />
+    <Compile Include="Model\TargetFramework.EventStatus.cs" />
     <Compile Include="Model\TargetFramework.FieldDetail.cs" />
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
