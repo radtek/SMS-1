@@ -10,6 +10,6 @@ namespace Bec.TargetFramework.SB.Messages.Events
 {
     public class MutateSearchEvent : IEvent
     {
-        public Guid TransferInterfaceProcessLogInputID { get; set; }
+        public string TransferInterfaceProcessLogInputID { get; set; }
     }
 }

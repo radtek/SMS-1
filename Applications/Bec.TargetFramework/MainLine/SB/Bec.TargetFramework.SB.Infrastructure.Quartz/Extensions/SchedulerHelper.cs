@@ -86,6 +86,14 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                 .IsNotNullOrWhiteSpace();
         }
 
+        public static void ShutdownScheduler()
+        {
+            var scheduler = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IScheduler>();
+
+            if (scheduler != null && !scheduler.IsShutdown)
+                scheduler.Shutdown();
+        }
+
         public static void InitialiseAndStartScheduler()
         {
             ValidateSchedulerSettings();

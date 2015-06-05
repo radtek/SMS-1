@@ -63,6 +63,8 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
                 m_BusLogic.SaveBusMessage(BusMessageStatusEnum.Received, "Mutator", "Mutate", false, dto);
             }
+            Debug.WriteLine(transportMessage.Headers.Dump());
+            
         }
 
         void IMutateOutgoingTransportMessages.MutateOutgoing(NServiceBus.Unicast.Messages.LogicalMessage logicalMessage, TransportMessage transportMessage)

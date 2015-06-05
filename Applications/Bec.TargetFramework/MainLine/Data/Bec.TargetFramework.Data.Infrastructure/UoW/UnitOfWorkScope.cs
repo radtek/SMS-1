@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceStack.Text;
+using System.Transactions;
 
 namespace Bec.TargetFramework.Data.Infrastructure
 {
@@ -94,6 +95,8 @@ namespace Bec.TargetFramework.Data.Infrastructure
 
         private bool saveChangesCalled = false;
 
+        private bool m_IsInTransactionScope = false;
+
         /// <summary>
         /// Access the ambient DbContext that this unit of work uses.
         /// </summary>
@@ -117,7 +120,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
             get { return m_EntityErrors; }
             set { m_EntityErrors = value; }
         }
-        private readonly bool m_UseTransaction;
+        private readonly bool m_UseTransaction = false;
         private DbContextTransaction m_ContextTransaction;
 
         public UnitOfWorkScope(UnitOfWorkScopePurpose purpose, ILogger logger = null, bool useTransaction = false) :
@@ -135,7 +138,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
             m_Logger = logger;
             m_InstanceId = Guid.NewGuid();
             m_EntityErrors = new List<EntityError>();
-            m_UseTransaction = useTransaction;
+            
             if (scopedDbContext == null)
             {
                 scopedDbContext = new ScopedDbContext(purpose == UnitOfWorkScopePurpose.Writing, context);
@@ -148,16 +151,21 @@ namespace Bec.TargetFramework.Data.Infrastructure
                     "is opened for reading.");
             }
 
-            if (purpose == UnitOfWorkScopePurpose.Writing)
-            {
-                if (isRoot && useTransaction)
-                    m_ContextTransaction = scopedDbContext.DbContext.Database.BeginTransaction();
-            }
-            else
-                m_UseTransaction = false;
+            // check whether we can create a transaction
+            if(useTransaction)
+                m_UseTransaction = (purpose == UnitOfWorkScopePurpose.Writing && (isRoot && !IsInTransactionScope()));
+
+            // if okay create transaction
+            if(m_UseTransaction)
+                m_ContextTransaction = scopedDbContext.DbContext.Database.BeginTransaction();
 
             if (m_Provider == null) m_Provider = new Provider();
             m_Provider.DbContext = scopedDbContext.DbContext;
+        }
+
+        private bool IsInTransactionScope()
+        {
+            return (Transaction.Current != null && Transaction.Current.TransactionInformation.Status == TransactionStatus.Active);
         }
 
         /// <summary>
@@ -196,27 +204,12 @@ namespace Bec.TargetFramework.Data.Infrastructure
         /// </summary>
         public bool Save()
         {
-            if (purpose != UnitOfWorkScopePurpose.Writing)
-            {
-                throw new InvalidOperationException(
-                    "Can't save changes on a UnitOfWorkScope with Reading purpose.");
-            }
-
-            if (scopedDbContext.BlockSave)
-            {
-                throw new InvalidOperationException(
-                    "Saving of changes is blocked for this unit of work scope. An enclosed " +
-                    "scope was disposed without calling SaveChanges.");
-            }
-
-            saveChangesCalled = true;
+            PerformScopeStateValidation();
 
             if (!isRoot)
             {
                 return false;
             }
-
-            scopedDbContext.AllowSaving = true;
 
             int count;
             try
@@ -229,44 +222,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
             }
             catch (DbEntityValidationException e)
             {
-                if (m_UseTransaction)
-                    m_ContextTransaction.Rollback();
-
-                this.m_EntityErrors = new List<EntityError>();
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    var entity = eve.Entry.Entity;
-                    var entityTypeName = entity.GetType().FullName;
-
-                    Dictionary<string, object> entityValues = new Dictionary<string, object>();
-
-                    //eve.Entry.OriginalValues.PropertyNames.ToList().ForEach(item =>
-                    //{
-                    //    entityValues.Add(item, eve.Entry.OriginalValues[item]);
-                    //});
-
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        var entityError = new EfEntityError()
-                        {
-                            EntityTypeName = entityTypeName,
-                            ErrorMessage = ve.ErrorMessage,
-                            PropertyName = ve.PropertyName,
-                            EntityStateName = Enum.GetName(typeof(EntityState), eve.Entry.State),
-                            EntityValues = entityValues
-                        };
-                        m_EntityErrors.Add(entityError);
-                    }
-                }
-
-                if (m_EntityErrors.Count > 0 && m_Logger != null)
-                {
-                    m_EntityErrors.ForEach(
-                        e1 =>
-                            m_Logger.Error("Entity Validation Error:" + e1.ErrorMessage + " Property:" + e1.PropertyName +
-                                           " Entity:" + e1.EntityTypeName));
-
-                }
+                ProcessDbEntityValidationErrors(e);
             }
             catch (Exception ex)
             {
@@ -283,11 +239,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
             return (m_EntityErrors.Count == 0);
         }
 
-        /// <summary>
-        /// Saves the DbContext
-        /// </summary>
-        /// <returns>Bool true for success</returns>
-        public async Task<bool> SaveAsync()
+        private void PerformScopeStateValidation()
         {
             if (purpose != UnitOfWorkScopePurpose.Writing)
             {
@@ -304,12 +256,21 @@ namespace Bec.TargetFramework.Data.Infrastructure
 
             saveChangesCalled = true;
 
+            scopedDbContext.AllowSaving = true;
+        }
+
+        /// <summary>
+        /// Saves the DbContext
+        /// </summary>
+        /// <returns>Bool true for success</returns>
+        public async Task<bool> SaveAsync()
+        {
+            PerformScopeStateValidation();
+
             if (!isRoot)
             {
                 return false;
             }
-
-            scopedDbContext.AllowSaving = true;
 
             int count;
             try
@@ -320,44 +281,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
             }
             catch (DbEntityValidationException e)
             {
-                if (m_UseTransaction)
-                    m_ContextTransaction.Rollback();
-
-                this.m_EntityErrors = new List<EntityError>();
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    var entity = eve.Entry.Entity;
-                    var entityTypeName = entity.GetType().FullName;
-
-                    Dictionary<string, object> entityValues = new Dictionary<string, object>();
-
-                    //eve.Entry.OriginalValues.PropertyNames.ToList().ForEach(item =>
-                    //{
-                    //    entityValues.Add(item, eve.Entry.OriginalValues[item]);
-                    //});
-
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        var entityError = new EfEntityError()
-                        {
-                            EntityTypeName = entityTypeName,
-                            ErrorMessage = ve.ErrorMessage,
-                            PropertyName = ve.PropertyName,
-                            EntityStateName = Enum.GetName(typeof(EntityState), eve.Entry.State),
-                            EntityValues = entityValues
-                        };
-                        m_EntityErrors.Add(entityError);
-                    }
-                }
-
-                if (m_EntityErrors.Count > 0 && m_Logger != null)
-                {
-                    m_EntityErrors.ForEach(
-                        e1 =>
-                            m_Logger.Error("Entity Validation Error:" + e1.ErrorMessage + " Property:" + e1.PropertyName +
-                                           " Entity:" + e1.EntityTypeName));
-
-                }
+                ProcessDbEntityValidationErrors(e);
             }
             catch (Exception ex)
             {
@@ -368,9 +292,52 @@ namespace Bec.TargetFramework.Data.Infrastructure
 
                 throw;
             }
+
             scopedDbContext.AllowSaving = false;
 
             return (m_EntityErrors.Count == 0);
+        }
+
+        private void ProcessDbEntityValidationErrors(DbEntityValidationException e)
+        {
+            if (m_UseTransaction)
+                m_ContextTransaction.Rollback();
+
+            this.m_EntityErrors = new List<EntityError>();
+            foreach (var eve in e.EntityValidationErrors)
+            {
+                var entity = eve.Entry.Entity;
+                var entityTypeName = entity.GetType().FullName;
+
+                Dictionary<string, object> entityValues = new Dictionary<string, object>();
+
+                //eve.Entry.OriginalValues.PropertyNames.ToList().ForEach(item =>
+                //{
+                //    entityValues.Add(item, eve.Entry.OriginalValues[item]);
+                //});
+
+                foreach (var ve in eve.ValidationErrors)
+                {
+                    var entityError = new EfEntityError()
+                    {
+                        EntityTypeName = entityTypeName,
+                        ErrorMessage = ve.ErrorMessage,
+                        PropertyName = ve.PropertyName,
+                        EntityStateName = Enum.GetName(typeof(EntityState), eve.Entry.State),
+                        EntityValues = entityValues
+                    };
+                    m_EntityErrors.Add(entityError);
+                }
+            }
+
+            if (m_EntityErrors.Count > 0 && m_Logger != null)
+            {
+                m_EntityErrors.ForEach(
+                    e1 =>
+                        m_Logger.Error("Entity Validation Error:" + e1.ErrorMessage + " Property:" + e1.PropertyName +
+                                       " Entity:" + e1.EntityTypeName));
+
+            }
         }
 
         public IRepository<T, TKey> GetGenericRepository<T, TKey>() where T : class,new()

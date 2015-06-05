@@ -78,7 +78,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
                         if (!string.IsNullOrEmpty(tfEvent.EventPayloadDto.EventReference))
                             Bus.SetMessageHeader(message, "EventReference", tfEvent.EventPayloadDto.EventReference);
-
+                       
                         Bus.Publish(message);
                     }
                 });
