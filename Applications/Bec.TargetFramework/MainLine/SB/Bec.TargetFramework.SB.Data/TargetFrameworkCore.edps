@@ -5,46 +5,38 @@
     <Generation>
       <GeneratedFiles>
         <File Name="TargetFrameworkCore.TargetFrameworkCoreEntities.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusTaskHandler.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusTask.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.BusMessage.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusTaskSchedule.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeTemplate.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusType.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusMessageProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeValueTemplate.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeStructureTemplate.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeStructureTransitionTemplate.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeStructure.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeStructureTransition.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusMessageProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.StatusTypeValue.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusTaskScheduleProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.BusEventType.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusTaskScheduleProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.BusEvent.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.BusEventMessageSubscriber.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.BusEventBusEventMessageSubscriber.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.ClassificationTypeCategory.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusEventMessageSubscriber.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.ClassificationType.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.Setting.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.BusMessageContent.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.VStatusType.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.VBusMessageProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="TargetFrameworkCore.VBusTaskSchedule.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusTask.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusTaskSchedule.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.BusTaskHandler.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
-        <File Name="BusTaskHandlerDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusTaskHandlerDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusTaskDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusTaskDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="TargetFrameworkCore.VBusTaskSchedule.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.VBusMessageProcessLog.cs" Project="Bec.TargetFramework.SB.Data" />
+        <File Name="TargetFrameworkCore.VStatusType.cs" Project="Bec.TargetFramework.SB.Data" />
         <File Name="BusMessageDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusMessageDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusTaskScheduleDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeTemplateDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="StatusTypeTemplateDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="StatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeValueTemplateDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="StatusTypeValueTemplateDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeStructureTemplateDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
@@ -55,60 +47,68 @@
         <File Name="StatusTypeStructureDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeStructureTransitionDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="StatusTypeStructureTransitionDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="StatusTypeValueDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="StatusTypeValueDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusTaskScheduleProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusTaskScheduleProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusEventTypeDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusEventTypeDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusTaskScheduleProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusTaskScheduleProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusEventDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusEventDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="BusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusEventBusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusEventBusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="ClassificationTypeCategoryDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="ClassificationTypeCategoryDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusEventMessageSubscriberDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusEventMessageSubscriberDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="ClassificationTypeDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="ClassificationTypeDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="SettingDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="SettingDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusMessageContentDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="BusMessageContentDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="VStatusTypeDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="VStatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="VBusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="VBusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="VBusTaskScheduleDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
-        <File Name="VBusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusTaskDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusTaskDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusTaskScheduleDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="BusTaskHandlerDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="BusTaskHandlerDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="VBusTaskScheduleProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
         <File Name="VBusTaskScheduleProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
-        <File Name="BusTaskHandlerConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="BusTaskConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="VBusTaskScheduleDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="VBusTaskScheduleDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="VBusMessageProcessLogDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="VBusMessageProcessLogDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
+        <File Name="VStatusTypeDTO.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" OverwriteMode="None" />
+        <File Name="VStatusTypeDTO.Generated.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="DTO" />
         <File Name="BusMessageConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="BusTaskScheduleConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeTemplateConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="BusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeValueTemplateConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeStructureTemplateConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeStructureTransitionTemplateConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeStructureConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeStructureTransitionConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="StatusTypeValueConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="BusTaskScheduleProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusEventTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusTaskScheduleProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusEventConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="BusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusEventBusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="ClassificationTypeCategoryConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusEventMessageSubscriberConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="ClassificationTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="SettingConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="BusMessageContentConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="VStatusTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="VBusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
-        <File Name="VBusTaskScheduleConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusTaskConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusTaskScheduleConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="BusTaskHandlerConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
         <File Name="VBusTaskScheduleProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="VBusTaskScheduleConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="VBusMessageProcessLogConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
+        <File Name="VStatusTypeConverter.cs" Project="Bec.TargetFramework.SB.Entities" ProjectFolder="Converter" />
       </GeneratedFiles>
     </Generation>
     <DatabaseFirstNamingRules>

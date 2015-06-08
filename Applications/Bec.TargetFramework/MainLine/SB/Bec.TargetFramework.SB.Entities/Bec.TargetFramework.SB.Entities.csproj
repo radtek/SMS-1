@@ -90,11 +90,15 @@
     <Compile Include="Converter\StatusTypeTemplateConverter.cs" />
     <Compile Include="Converter\StatusTypeValueConverter.cs" />
     <Compile Include="Converter\StatusTypeValueTemplateConverter.cs" />
-    <Compile Include="Converter\VBusMessageProcessLogConverter.cs" />
+    <Compile Include="Converter\VBusMessageProcessLogConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Converter\VBusTaskScheduleConverter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converter\VBusTaskScheduleProcessLogConverter.cs" />
+    <Compile Include="Converter\VBusTaskScheduleProcessLogConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Converter\VStatusTypeConverter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,11 +118,9 @@
     <Compile Include="DTO\BusEventTypeDTO.Generated.cs">
       <DependentUpon>BusEventTypeDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="DTO\BusMessageContent1DTO.cs" />
     <Compile Include="DTO\BusMessageContentDTO.cs" />
     <Compile Include="DTO\BusMessageContentDTO.Generated.cs">
       <DependentUpon>BusMessageContentDTO.cs</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="DTO\BusMessageDTO.cs" />
     <Compile Include="DTO\BusMessageDTO.Generated.cs">
@@ -198,7 +200,6 @@
     <Compile Include="DTO\VBusTaskScheduleDTO.cs" />
     <Compile Include="DTO\VBusTaskScheduleDTO.Generated.cs">
       <DependentUpon>VBusTaskScheduleDTO.cs</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="DTO\VBusTaskScheduleProcessLogDTO.cs" />
     <Compile Include="DTO\VBusTaskScheduleProcessLogDTO.Generated.cs">
@@ -207,7 +208,6 @@
     <Compile Include="DTO\VStatusTypeDTO.cs" />
     <Compile Include="DTO\VStatusTypeDTO.Generated.cs">
       <DependentUpon>VStatusTypeDTO.cs</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enums\TargetFrameworkCoreEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

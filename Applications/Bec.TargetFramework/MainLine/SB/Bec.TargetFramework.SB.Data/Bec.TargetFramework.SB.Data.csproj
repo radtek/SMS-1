@@ -114,11 +114,15 @@
     <Compile Include="TargetFrameworkCore.StatusTypeValue.cs" />
     <Compile Include="TargetFrameworkCore.StatusTypeValueTemplate.cs" />
     <Compile Include="TargetFrameworkCore.TargetFrameworkCoreEntities.cs" />
-    <Compile Include="TargetFrameworkCore.VBusMessageProcessLog.cs" />
+    <Compile Include="TargetFrameworkCore.VBusMessageProcessLog.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TargetFrameworkCore.VBusTaskSchedule.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs" />
+    <Compile Include="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TargetFrameworkCore.VStatusType.cs">
       <SubType>Code</SubType>
     </Compile>
