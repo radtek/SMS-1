@@ -57,6 +57,7 @@ namespace BodgeIt
         {
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
             await SendAsync<object>(client, string.Format("api/OrganisationLogic/ExpireOrganisations?days={0}&hours={1}&minutes={2}", numericUpDownDays.Value, numericUpDownHours.Value, numericUpDownMinutes.Value), HttpMethod.Post, "user", null);
+            MessageBox.Show("Done");
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -69,6 +70,7 @@ namespace BodgeIt
             };
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
             await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisation?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false", new Guid(textOrgId.Text), comboType.SelectedValue, textUsername.Text, System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+            MessageBox.Show("Done");
         }
 
         private async Task SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
@@ -84,7 +86,6 @@ namespace BodgeIt
             {
                 var x = await client.SendAsync(req);
                 x.EnsureSuccessStatusCode();
-                MessageBox.Show("Done");
             }
             catch (Exception ex)
             {
@@ -194,8 +195,8 @@ namespace BodgeIt
 
             //insert new notifications for permanent users
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            foreach(var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID={0}", id), HttpMethod.Post, "user", null);
-
+            foreach (var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID={0}", id), HttpMethod.Post, "user", null);
+            MessageBox.Show("Done");
         }
 
         private void button5_Click(object sender, EventArgs e)
