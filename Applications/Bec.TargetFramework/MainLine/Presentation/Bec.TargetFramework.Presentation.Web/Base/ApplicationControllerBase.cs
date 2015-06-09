@@ -19,13 +19,15 @@ namespace Bec.TargetFramework.Presentation.Web.Base
 {
     /// <summary>
     /// TF Base Controller
-    ///// </summary>
-    [PreventMultipleLoginsActionFilter]
-    //[PreventMultipleSubmitsActionFilter]
-    [SessionExpireFilter]
-    //[AuditActionFilter(AuditingLevel = 1)]
+    /// </summary>
+
     [AjaxFriendlyAuthorize]
-    [TermsAndConditionsFilter]
+    [PreventMultipleLoginsActionFilter(Order = 100)]
+    [SessionExpireFilter(Order = 200)]
+    [TermsAndConditionsFilter(Order = 300)]
+    //[AuditActionFilter(AuditingLevel = 1)]
+    //[PreventMultipleSubmitsActionFilter]
+
     public class ApplicationControllerBase : Controller
     {
         private ILogger m_Logger { get; set; }

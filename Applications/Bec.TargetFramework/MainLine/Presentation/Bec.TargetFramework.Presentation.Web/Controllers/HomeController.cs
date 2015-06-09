@@ -21,6 +21,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
+        public ActionResult Denied()
+        {
+            return View("Denied");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
