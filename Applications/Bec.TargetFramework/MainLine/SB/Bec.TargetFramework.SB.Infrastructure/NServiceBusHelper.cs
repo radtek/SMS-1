@@ -57,10 +57,8 @@ namespace Bec.TargetFramework.SB.Infrastructure
             configuration.UseContainer<AutofacBuilder>(s => s.ExistingLifetimeScope(container));
         
             // transport mechanism
-            configuration.UseTransport<RabbitMQTransport>().DisableCallbackReceiver();
+            configuration.UseTransport<RabbitMQTransport>();
 
-            configuration.EnableOutbox();
-           
             // whether to clean the queues on startup
             configuration.PurgeOnStartup(purgeOnStartup);
             // encryption of messages

@@ -14,6 +14,7 @@ using NServiceBus.Unicast.Subscriptions.MessageDrivenSubscriptions;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.IOC;
 
 namespace Bec.TargetFramework.SB.Handlers.Base
 {
