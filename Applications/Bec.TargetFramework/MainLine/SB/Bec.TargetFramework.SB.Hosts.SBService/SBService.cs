@@ -39,17 +39,11 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
     partial class SBService : ServiceBase
     {
         public string m_BaseAddress { get; set; }
-        private Autofac.IContainer m_IocContainer { get; set; }
 
-        public static IBus ServiceBus
-        {
-            get { return m_Bus; }
-            set { m_Bus = value; }
-        }
+        public static ILifetimeScope LifetimeScope;
 
         private IDisposable m_Server = null;
-
-        private static IBus m_Bus;
+        private IBus m_Bus = null;
 
         public SBService()
         {
@@ -65,8 +59,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar>();
 
-            // start bus
-            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
+            LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
+
+            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(LifetimeScope)).Start();
         }
 
         public void StartService(string[] args)
@@ -83,9 +78,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             }
             catch (Exception ex)
             {
-                if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
+                if (LifetimeScope != null)
                 {
-                    var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();
+                    var logger = LifetimeScope.Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }
@@ -121,6 +116,12 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 
             if (m_Bus != null)
                 m_Bus.Dispose();
+
+            if (LifetimeScope != null)
+                LifetimeScope.Dispose();
+
+            IocProvider.DisposeAndRemoveIocContainerUsingAppDomainFriendlyName();
+
         }
 
     }

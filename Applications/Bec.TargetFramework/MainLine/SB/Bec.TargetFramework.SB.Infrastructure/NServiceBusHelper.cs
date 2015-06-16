@@ -21,11 +21,9 @@ namespace Bec.TargetFramework.SB.Infrastructure
 {
     public class NServiceBusHelper
     {
-        public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(IContainer container, bool purgeOnStartup = true,bool traceEnable = false)
+        public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(ILifetimeScope lifetimeScope, bool purgeOnStartup = true,bool traceEnable = false)
         {
-            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
-
-            var iLogger = iocContainer.Resolve<ILogger>();
+            var iLogger = lifetimeScope.Resolve<ILogger>();
             iLogger.CreateLogger();
 
             LogManager.Use<SerilogFactory>();
@@ -47,14 +45,14 @@ namespace Bec.TargetFramework.SB.Infrastructure
                .DefiningCommandsAs(p => p.Namespace != null && p.Namespace.StartsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespace"])
                    && p.Namespace.EndsWith(ConfigurationManager.AppSettings["nservicebus:messageConventionNamespaceEndCommand"]));
             }
-           
+
             // persistence provider for subscribers, publishers
             configuration.UsePersistence<InMemoryPersistence>();
 
             configuration.UseSerialization<JsonSerializer>();
 
             // IOC configuration
-            configuration.UseContainer<AutofacBuilder>(s => s.ExistingLifetimeScope(container));
+            configuration.UseContainer<AutofacBuilder>(s => s.ExistingLifetimeScope(lifetimeScope));
         
             // transport mechanism
             configuration.UseTransport<RabbitMQTransport>();

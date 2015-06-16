@@ -20,10 +20,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
 {
     public class BusEventHandler : BaseEventHandler<Bec.TargetFramework.SB.Messages.Events.SBEvent>
     {
-        public BusEventHandler(ILogger logger,
-            IBusLogicClient busLogic,
-            SBSettings settings)
-            : base(logger, busLogic, settings)
+        public BusEventHandler()
         {
             
         }

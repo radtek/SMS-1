@@ -49,8 +49,8 @@ namespace Bec.TargetFramework.SB.TaskServices
 
     partial class TaskService : ServiceBase
     {
-        private static IBus m_Bus;
-        private static IScheduler m_JobScheduler;
+        private IBus m_Bus;
+        private ILifetimeScope m_LifetimeScope;
 
         public TaskService()
         {
@@ -66,6 +66,9 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
+            // create scope for service
+            m_LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
+
             // start bus
             m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
         }
@@ -79,7 +82,7 @@ namespace Bec.TargetFramework.SB.TaskServices
                 InitialiseIOC();
 
                 // create scheduler and start 
-                SchedulerHelper.InitialiseAndStartScheduler();
+                SchedulerHelper.InitialiseAndStartScheduler(m_LifetimeScope);
             }
             catch (Exception ex)
             {
@@ -119,9 +122,16 @@ namespace Bec.TargetFramework.SB.TaskServices
             if (m_Bus != null)
                 m_Bus.Dispose();
 
-            if (m_JobScheduler != null)
-                if(!m_JobScheduler.IsShutdown)
-                    m_JobScheduler.Shutdown(true);
+            if (m_LifetimeScope != null && m_LifetimeScope.IsRegistered<IScheduler>())
+            {
+                var scheduler = m_LifetimeScope.Resolve<IScheduler>();
+
+                if (!scheduler.IsShutdown)
+                    scheduler.Shutdown(true);
+            }
+
+            if (m_LifetimeScope != null)
+                m_LifetimeScope.Dispose(); 
         }
     }
 }

@@ -239,9 +239,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\BusLogicController.cs" />
-    <Compile Include="API\BusTaskLogicController.cs" />
-    <Compile Include="API\EventPublishController.cs" />
+    <Compile Include="API\BusLogicController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\BusTaskLogicController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="API\EventPublishController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Base\LogicBase.cs" />
     <Compile Include="Formatters\JilFormatter.cs" />
     <Compile Include="Handlers\BusEventHandler.cs" />
@@ -284,7 +290,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="WebApiProxy\WebApiProxy.config" />
+    <None Include="WebApiProxy\WebApiProxy.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
@@ -368,6 +376,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

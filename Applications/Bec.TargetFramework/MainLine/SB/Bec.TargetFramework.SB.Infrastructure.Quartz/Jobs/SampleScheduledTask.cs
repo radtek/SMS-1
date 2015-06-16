@@ -13,11 +13,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
 
     public class SampleScheduledTask : BaseBusTask
     {
-        public SampleScheduledTask() : base
-            (
-                IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<ILogger>(),
-                IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IBusTaskLogicClient>()
-            )
+        public SampleScheduledTask(ILifetimeScope container, ILogger logger, IBusTaskLogicClient taskClient, IEventPublishClient eventClient)
+            : base(container, logger, taskClient, eventClient)
         {
         }
 

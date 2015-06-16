@@ -15,18 +15,10 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.API
 {
     public class BusLogicController : BusLogic
     {
-        public BusLogicController(ILogger logger, ICacheProvider cacheProvider)
-            : base(logger,cacheProvider)
-        {
-
-        }
-
         public BusLogicController()
-            : base(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>(),
-            IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ICacheProvider>()
-            )
         {
 
         }
+
     }
 }

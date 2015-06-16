@@ -11,34 +11,19 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Entities;
 using EnsureThat;
 using Bec.TargetFramework.SB.Data;
+using NServiceBus;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService.Base
 {
     public class LogicBase : ApiController
     {
-        public LogicBase(ILogger logger, ICacheProvider cacheProvider)
-        {
-            Ensure.That(logger).IsNotNull();
-            Ensure.That(cacheProvider).IsNotNull();
+        public ILogger Logger { get; set; }
+        public ICacheProvider CacheProvider { get; set; }
 
-            this.m_Logger = logger;
-            this.m_CacheProvider = cacheProvider;
-        }
+        public IBus Bus { get; set; }
 
-        public ILogger Logger
+        public LogicBase()
         {
-            get
-            {
-                return this.m_Logger;
-            }
-        }
-
-        public ICacheProvider CacheProvider
-        {
-            get
-            {
-                return this.m_CacheProvider;
-            }
         }
 
         public int GetClassificationDataForTypeName(string categoryName, string typeName)
@@ -69,46 +54,5 @@ string status)
             return scope.DbContext.VStatusTypes.Single(s => s.Name.Equals(status) && s.StatusTypeName.Equals(statusTypeEnum));
 
         }
-
-        private ILogger m_Logger { get; set; }
-
-        private ICacheProvider m_CacheProvider { get; set; }
-
-        public void SetAuditFields<T>(T entity, bool isNew) where T : class
-        {
-            //var userIdentityDto = GetUserIdentificationMessageDTOFromContext();
-
-            //var properties = TypeDescriptor.GetProperties(typeof (T));
-
-            //if (isNew)
-            //{
-            //    if (properties["CreatedOn"] != null)
-            //    {
-            //        properties["CreatedOn"].SetValue(entity, DateTime.Now);
-            //    }
-                
-            //    if (properties["CreatedBy"] != null)
-            //    {
-            //        if (userIdentityDto != null)
-            //            properties["CreatedBy"].SetValue(entity, userIdentityDto.UserID);
-            //        else
-            //            properties["CreatedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
-            //    }
-            //}
-
-            //if (properties["ModifiedOn"] != null)
-            //{
-            //    properties["ModifiedOn"].SetValue(entity, DateTime.Now);
-            //}
-            //if (properties["ModifiedBy"] != null)
-            //{
-            //    if (userIdentityDto != null)
-            //        properties["ModifiedBy"].SetValue(entity, userIdentityDto.UserID);
-            //    else
-            //        properties["ModifiedBy"].SetValue(entity, ClaimsPrincipal.Current.Identity.Name);
-            //}
-        }
-       
-
     }
 }

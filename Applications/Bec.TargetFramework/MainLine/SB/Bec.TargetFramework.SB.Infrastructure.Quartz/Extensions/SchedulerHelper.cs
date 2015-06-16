@@ -25,10 +25,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 {
     public static class SchedulerHelper
     {
-        public static void ScheduleQuartzJob(Action<QuartzConfigurator> jobConfigurator)
+        public static void ScheduleQuartzJob(ILifetimeScope lifetimeScope, Action<QuartzConfigurator> jobConfigurator)
         {
-            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
-
             var jobConfig = new QuartzConfigurator();
 
             jobConfigurator(jobConfig);
@@ -38,8 +36,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                 var jobDetail = jobConfig.Job();
                 var jobTriggers = jobConfig.Triggers.Select(triggerFactory => triggerFactory()).Where(trigger => trigger != null);
 
-                var scheduler = iocContainer.Resolve<IScheduler>();
-                var logger = iocContainer.Resolve<ILogger>();
+                var scheduler = lifetimeScope.Resolve<IScheduler>();
+                var logger = lifetimeScope.Resolve<ILogger>();
 
                 if (scheduler != null)
                 {
@@ -78,6 +76,23 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
+        private static void PurgeScheduledTasks(IScheduler scheduler,string taskName,string groupName)
+        {
+            IList<string> jobGroups = scheduler.GetJobGroupNames();
+            IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
+
+            foreach (string group in jobGroups)
+            {
+                var groupMatcher = GroupMatcher<JobKey>.GroupContains(group);
+                var jobKeys = scheduler.GetJobKeys(groupMatcher);
+                foreach (var jobKey in jobKeys)
+                {
+                    if(taskName.Equals(jobKey.Name) && groupName.Equals(jobKey.Group))
+                        scheduler.DeleteJob(jobKey);
+                }
+            }
+        }
+
         private static void ValidateSchedulerSettings()
         {
             Ensure.That(System.Configuration.ConfigurationManager.AppSettings["ApplicationName"])
@@ -86,22 +101,53 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                 .IsNotNullOrWhiteSpace();
         }
 
-        public static void ShutdownScheduler()
+        public static void ShutdownScheduler(ILifetimeScope lifetimeScope)
         {
-            var scheduler = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IScheduler>();
+            var scheduler = lifetimeScope.Resolve<IScheduler>();
 
             if (scheduler != null && !scheduler.IsShutdown)
                 scheduler.Shutdown();
         }
 
-        public static void InitialiseAndStartScheduler()
+        public static void InitialiseExecuteTaskImmediately(ILifetimeScope lifetimeScope, string taskName, string groupName, Type taskType)
+        {
+            var scheduler = lifetimeScope.Resolve<IScheduler>();
+
+            // purge all current jobs
+            PurgeScheduledTasks(scheduler, taskName,groupName);
+
+            DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTime.UtcNow);
+        DateTimeOffset startTime = DateBuilder.NextGivenSecondDate(null, 10);
+
+            var jobKey = new JobKey(taskName, groupName);
+
+            // if already registered then delete and reschedule
+            if (scheduler.CheckExists(jobKey))
+                scheduler.DeleteJob(jobKey);
+
+            ScheduleQuartzJob(lifetimeScope, q =>
+            {
+                q.WithJob(JobBuilder.Create(taskType)
+                .WithIdentity(jobKey)
+                .RequestRecovery()
+                .Build);
+
+                var triggerBuilder = TriggerBuilder.Create();
+                    triggerBuilder.StartAt(new DateTimeOffset(DateTime.Now.AddSeconds(10)));
+                    triggerBuilder.WithSimpleSchedule(a => a.WithIntervalInSeconds(10));
+                      
+                q.AddTrigger(() => triggerBuilder.Build());
+            });
+        }
+
+        public static void InitialiseAndStartScheduler(ILifetimeScope lifetimeScope)
         {
             ValidateSchedulerSettings();
 
-            var scheduler = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IScheduler>();
+            var scheduler = lifetimeScope.Resolve<IScheduler>();
 
             var busTaskLogicClient =
-                IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IBusTaskLogicClient>();
+                lifetimeScope.Resolve<IBusTaskLogicClient>();
 
             var appName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
             var appEnvironment = System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"];
@@ -122,7 +168,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                     if (!scheduler.CheckExists(jobKey))
                         scheduler.DeleteJob(jobKey);
 
-                    ScheduleQuartzJob(q =>
+                    ScheduleQuartzJob(lifetimeScope, q =>
                     {
                         var taskType = System.Type.GetType(item.HandlerObjectTypeName + ", " + item.HandlerObjectTypeAssemblyName);
 

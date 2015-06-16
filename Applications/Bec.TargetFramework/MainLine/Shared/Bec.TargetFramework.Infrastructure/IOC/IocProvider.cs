@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,17 @@ namespace Bec.TargetFramework.Infrastructure.IOC
             return m_IocContainers.ContainsKey(AppDomain.CurrentDomain.FriendlyName) ? m_IocContainers[AppDomain.CurrentDomain.FriendlyName] : null;
         }
 
+        public static void DisposeAndRemoveIocContainerUsingAppDomainFriendlyName()
+        {
+            var container =  m_IocContainers.ContainsKey(AppDomain.CurrentDomain.FriendlyName) ? m_IocContainers[AppDomain.CurrentDomain.FriendlyName] : null;
+
+            if(container != null)
+            {
+                container.Dispose();
+                m_IocContainers.Remove(AppDomain.CurrentDomain.FriendlyName);
+            }
+        }
+
         public static Autofac.IContainer IocContainers
         {
             get
@@ -45,7 +57,7 @@ namespace Bec.TargetFramework.Infrastructure.IOC
             }
         }
 
-        public static void RegisterProxyClients(this ContainerBuilder builder, string proxyClientName, string url)
+        public static void RegisterProxyClients(this ContainerBuilder builder, string proxyClientName, string url,bool autoWireProperties = false)
         {
             Assembly.Load(proxyClientName).GetTypes()
                .Where(p => p.Name.EndsWith("Client") && !p.IsInterface)
@@ -55,7 +67,11 @@ namespace Bec.TargetFramework.Infrastructure.IOC
                    var typeInstance = Activator.CreateInstance(item, new object[] { url });
                    var typeInterface = item.GetInterface("I" + item.Name);
                    Console.WriteLine(proxyClientName +  ": Registering Client Interface:" + typeInterface + " url:" + url);
-                   builder.RegisterInstance(typeInstance).As(typeInterface);
+
+                   if (autoWireProperties)
+                       builder.RegisterInstance(typeInstance).As(typeInterface).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+                   else
+                       builder.RegisterInstance(typeInstance).As(typeInterface);
                });
         }
 

@@ -14,14 +14,11 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
 
     public class ExpireOrganisationsScheduledTask : BaseBusTask
     {
-        IOrganisationLogicClient m_OrgLogic;
-        public ExpireOrganisationsScheduledTask()
-            : base (
-                IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<ILogger>(),
-                IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IBusTaskLogicClient>()
-            )
+        public IOrganisationLogicClient m_OrgLogic;
+
+        public ExpireOrganisationsScheduledTask(ILifetimeScope container,ILogger logger, IBusTaskLogicClient taskClient,IEventPublishClient eventClient)
+            : base(container,logger,taskClient,eventClient)
         {
-            m_OrgLogic = IocProvider.GetIocContainerUsingAppDomainFriendlyName().Resolve<IOrganisationLogicClient>();
         }
 
         public override void ExecuteTask(IJobExecutionContext context)

@@ -26,8 +26,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class BusTaskLogic : LogicBase
     {
-        public BusTaskLogic(ILogger logger, ICacheProvider cacheProvider)
-            : base(logger, cacheProvider)
+        public BusTaskLogic()
         {
         }
 

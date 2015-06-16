@@ -16,7 +16,7 @@ INSERT INTO public."BusEvent" ("BusEventID", "BusEventName", "BusEventDescriptio
 VALUES (TransferEventID, E'SearchEvent', E'SearchEvent', TransferEventTypeID);
 
 INSERT INTO public."BusEventMessageSubscriber" ("BusEventMessageSubscriberID", "Name", "ObjectName", "ObjectAssembly", "DefaultMessageSubscriberFilter")
-VALUES (TransferSubscriberEventID, E'MutateSearchEvent', E'Bec.TargetFramework.SB.Messages.Events.MutateSearchEvent', E'Bec.TargetFramework.SB.Messages', NULL);
+VALUES (TransferSubscriberEventID, E'ProcessSearchEvent', E'Bec.TargetFramework.SB.Messages.Events.ProcessSearchEvent', E'Bec.TargetFramework.SB.Messages', NULL);
 
 INSERT INTO public."BusEventBusEventMessageSubscriber" ("BusEventID", "BusEventMessageSubscriberID", "IsActive", "IsDeleted", "BusEventMessageSubscriberFilter")
 VALUES (TransferEventID, TransferSubscriberEventID, True, False, NULL);

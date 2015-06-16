@@ -22,49 +22,35 @@ namespace Bec.TargetFramework.SB.Handlers.Base
     {
 
         public IBus Bus { get; set; }
+        public ILogger m_Logger { get; set; }
+        public IBusLogicClient m_BusLogic { get; set; }
+        public SBSettings m_SBSettings { get; set; }
 
-        protected ILogger m_Logger;
-        protected IBusLogicClient m_BusLogic;
-        protected SBSettings m_SBSettings;
-        static readonly object m_ConcurrencyLock;
+        public ILifetimeScope m_LifetimeScope { get; set; }
 
-        static BaseEventHandler()
+        public BaseEventHandler()
         {
-            m_ConcurrencyLock = new object();
-        }
-
-        public BaseEventHandler(ILogger logger,
-            IBusLogicClient busLogic,
-            SBSettings settings)
-        {
-            m_Logger = logger;
-            m_SBSettings = settings;
-            m_BusLogic = busLogic;
-
         }
 
         public virtual void Handle(T message)
         {
-            lock (m_ConcurrencyLock)
+            if (!HasMessageAlreadyBeenProcessed())
             {
-                if (!HasMessageAlreadyBeenProcessed())
+                try
                 {
-                    try
-                    {
-                        HandleMessage(message);
-                    }
-                    catch (System.Exception)
-                    {
-                    	throw;
-                    }
-                    finally
-                    {
-                        Dispose();
-                    }
+                    HandleMessage(message);
                 }
-                else
-                    return;
+                catch (System.Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    Dispose();
+                }
             }
+            else
+                return;
         }
         public virtual void HandleMessage(T message)
         {

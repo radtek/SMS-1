@@ -10,6 +10,8 @@ using Owin;
 using Swashbuckle.Application;
 using WebApiProxy.Server;
 using Bec.TargetFramework.Infrastructure.IOC;
+using Autofac.Integration.WebApi;
+using System.Web.Http.ExceptionHandling;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService
 {
@@ -19,9 +21,6 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             var config = new HttpConfiguration();
 
-            //config.Formatters.RemoveAt(0);
-            //config.Formatters.Insert(0, new JilMediaTypeFormatter());
-
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -30,15 +29,13 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                 defaults:new { id = RouteParameter.Optional });
 
             config.RegisterProxyRoutes();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(SBService.LifetimeScope);
 
-            config.EnableSwagger(c => c.SingleApiVersion("v1","BEF SB Services"))
-                .EnableSwaggerUi();
-
+            app.UseAutofacMiddleware(SBService.LifetimeScope);
+            app.UseAutofacWebApi(config);
             app.UseWebApi(config);
 
-            var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
-
-            app.UseAutofacMiddleware(iocContainer);
+            
         }
     }
 }

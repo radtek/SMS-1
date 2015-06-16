@@ -17,19 +17,16 @@ using NServiceBus;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Messages.Events;
 using Bec.TargetFramework.SB.Interfaces;
+using Bec.TargetFramework.SB.Hosts.SBService.API;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 {
     public class EventPublishLogic : LogicBase
     {
-        private BusLogic m_BusLogic;
-
-        public EventPublishLogic(ILogger logger, ICacheProvider cacheProvider, BusLogic bLogic)
-            : base(logger, cacheProvider)
+        public BusLogicController BusLogic {get;set;}
+        public EventPublishLogic()
         {
-            m_BusLogic = bLogic;
         }
-
 
         public bool PublishEvent(EventPayloadDTO pDto)
         {
@@ -39,7 +36,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
             // create instance of T and cat as ITFEvent
             var instanceOfT = Activator.CreateInstance<SBEvent>();
 
-            var eventDto = m_BusLogic.GetBusEventByName(pDto.EventName);
+            var eventDto = BusLogic.GetBusEventByName(pDto.EventName);
 
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();
@@ -77,17 +74,15 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             instanceOfT.EventPayloadDto = dto;
 
-            var serviceBus = SBService.ServiceBus;
-
-            serviceBus.SetMessageHeader(instanceOfT, "Source", "EventPublisher");
-            serviceBus.SetMessageHeader(instanceOfT, "MessageType", instanceOfT.GetType().FullName + "," + instanceOfT.GetType().Assembly.FullName);
-            serviceBus.SetMessageHeader(instanceOfT, "ServiceType", "EventPublisher");
+            Bus.SetMessageHeader(instanceOfT, "Source", "EventPublisher");
+            Bus.SetMessageHeader(instanceOfT, "MessageType", instanceOfT.GetType().FullName + "," + instanceOfT.GetType().Assembly.FullName);
+            Bus.SetMessageHeader(instanceOfT, "ServiceType", "EventPublisher");
 
             if (!string.IsNullOrEmpty(dto.EventReference))
-                serviceBus.SetMessageHeader(instanceOfT, "EventReference", dto.EventReference);
+                Bus.SetMessageHeader(instanceOfT, "EventReference", dto.EventReference);
 
             // publish message on bus
-            serviceBus.Publish<SBEvent>(instanceOfT);
+            Bus.Publish<SBEvent>(instanceOfT);
 
             return true;
         }

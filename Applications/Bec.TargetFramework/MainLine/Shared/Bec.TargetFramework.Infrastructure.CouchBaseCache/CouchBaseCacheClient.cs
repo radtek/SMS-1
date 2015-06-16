@@ -66,7 +66,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 {
                     Exception = result.Exception,
                     Message = formatResult(result, key)
-                });
+                }); throw result.Exception;
             }
             return result.Success;
         }
@@ -81,7 +81,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 {
                     Exception = result.Exception,
                     Message = formatResult(result, key)
-                });
+                }); throw result.Exception;
             }
             return result.Success;
         }
@@ -96,7 +96,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                 {
                     Exception = result.Exception,
                     Message = formatResult(result, key)
-                });
+                }); throw result.Exception;
             }
             return result.Success;
         }
@@ -168,6 +168,7 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+                throw result.Exception;
             }
 
             return result.Success;
@@ -188,6 +189,8 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+
+                throw result.Exception;
             }
             return result.Success;
         }
@@ -204,6 +207,8 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+
+                throw result.Exception;
             }
             return result.Success;
         }
@@ -236,6 +241,8 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+
+                throw result.Exception;
             }
             return result.Success;
         }
@@ -252,6 +259,8 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+
+                throw result.Exception;
             }
             return result.Success;
         }
@@ -267,6 +276,8 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
                     Exception = result.Exception,
                     Message = formatResult(result, key)
                 });
+
+                throw result.Exception;
             }
 
             return result.Success;

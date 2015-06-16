@@ -10,19 +10,37 @@ using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Client.Clients;
+using ServiceStack.Text;
+using Autofac;
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
 {
     public class BaseBusTask : IJob
     {
-        protected ILogger m_Logger { get; set; }
-        protected IBusTaskLogicClient m_BusTaskLogicClient { get; set; }
+        public ILogger m_Logger { get; set; }
+        public IBusTaskLogicClient m_BusTaskLogicClient { get; set; }
+
+        public IEventPublishClient m_EventPublishClient { get; set; }
         protected VBusTaskScheduleDTO m_BusTaskScheduleDto { get; set; }
 
-        public BaseBusTask(ILogger logger, IBusTaskLogicClient busTaskClient)
+        private ILifetimeScope m_IocContainer;
+        private ILifetimeScope m_LifetimeScope;
+
+        private bool m_IsHybridJob = false;
+
+        public ILifetimeScope LifetimeScope
+        {
+            get { return m_LifetimeScope; }
+            set { m_LifetimeScope = value; }
+        }
+
+        public BaseBusTask(ILifetimeScope container,ILogger logger,IBusTaskLogicClient busClient,IEventPublishClient eventClient)
         {
             m_Logger = logger;
-            m_BusTaskLogicClient = busTaskClient;
+            m_BusTaskLogicClient = busClient;
+            m_EventPublishClient = eventClient;
+
+            m_IocContainer = container;
         }
 
         public void Execute(IJobExecutionContext context)
@@ -32,6 +50,9 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
 
             try
             {
+                // create scope
+                m_LifetimeScope = m_IocContainer.BeginLifetimeScope();
+
                 MarkAsProcessing();
 
                 // Execute task
@@ -47,15 +68,27 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
 
                 throw;
             }
+            finally
+            {
+                if (m_LifetimeScope != null)
+                    m_LifetimeScope.Dispose();
+            }
         }
 
+        /// <summary>
+        /// Method to override for logging of task
+        /// </summary>
+        /// <param name="context"></param>
         public virtual void ExecuteTask(IJobExecutionContext context)
         {
         }
 
         protected void LoadBusTaskScheduleDto(IJobExecutionContext context)
         {
-            m_BusTaskScheduleDto = JsonHelper.DeserializeData<VBusTaskScheduleDTO>(context.JobDetail.JobDataMap.GetString("DTO"));
+            m_IsHybridJob = !context.JobDetail.JobDataMap.Any(s => s.Key.Equals("DTO"));
+
+            if(!m_IsHybridJob)
+                m_BusTaskScheduleDto = JsonHelper.DeserializeData<VBusTaskScheduleDTO>(context.JobDetail.JobDataMap.GetString("DTO"));
         }
 
         protected void MarkAsFailed(Exception ex)
@@ -63,11 +96,12 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
             var logDto = new ProcessLogDTO
             {
                 HasError = true,
-                ProcessDetail = ex.FlattenException(),
+                ProcessDetail = ex.FlattenException().ToJson(),
                 ScheduleDto = m_BusTaskScheduleDto,
                 StatusValue = BusTaskStatusEnum.Failed
             };
 
+            if (!m_IsHybridJob)
             m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
         }
 
@@ -86,7 +120,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
             if (processMessage != null)
                 logDto.ProcessMessage = processMessage;
 
-            m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
+            if (!m_IsHybridJob)
+                m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
         }
 
         protected void MarkAsProcessing()
@@ -98,7 +133,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
                 StatusValue = BusTaskStatusEnum.Processing
             };
 
-            m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
+            if (!m_IsHybridJob)
+                m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
         }
 
         protected void CreateProcessLogEntryWhilstProcessing(string processMessage,string processDetail = null)
@@ -111,7 +147,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
                 ProcessDetail = processDetail
             };
 
-            m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
+            if (!m_IsHybridJob)
+                m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
         }
 
         protected void MarkAsPending()
@@ -123,7 +160,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
                 StatusValue = BusTaskStatusEnum.Pending
             };
 
-            m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
+            if (!m_IsHybridJob)
+                m_BusTaskLogicClient.SaveBusTaskScheduleProcessLog(logDto);
         }
     }
 }

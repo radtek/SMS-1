@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.SB.Messages.Events
 {
-    public class MutateSearchEvent : IEvent
+    public class ProcessSearchEvent : IEvent
     {
         public string TransferInterfaceProcessLogInputID { get; set; }
     }

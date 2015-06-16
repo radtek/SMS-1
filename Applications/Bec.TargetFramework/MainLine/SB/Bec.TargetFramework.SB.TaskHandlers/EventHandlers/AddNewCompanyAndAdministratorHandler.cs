@@ -21,15 +21,11 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 {
     public class AddNewCompanyAndAdministratorHandler : BaseEventHandler<AddNewCompanyAndAdministratorEvent>
     {
-        private INotificationLogicClient m_nLogic;
-        private CommonSettings m_CommonSettings;
+        public INotificationLogicClient m_nLogic {get;set;}
+        public CommonSettings m_CommonSettings {get;set;}
 
-        public AddNewCompanyAndAdministratorHandler(ILogger logger,
-            IBusLogicClient bLogic, SBSettings settings, INotificationLogicClient nLogic, CommonSettings common)
-            : base(logger, bLogic, settings)
+        public AddNewCompanyAndAdministratorHandler()
         {
-            m_nLogic= nLogic;
-            m_CommonSettings = common;
         }
 
         public override void Dispose()
