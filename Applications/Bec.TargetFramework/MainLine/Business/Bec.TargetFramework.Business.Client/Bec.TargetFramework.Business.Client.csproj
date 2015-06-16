@@ -60,7 +60,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebApiProxy.Tasks, Version=1.0.4.25616, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WebApiProxy.Tasks, Version=1.0.4.20792, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\WebApiProxy.Tasks.dll</HintPath>
     </Reference>
