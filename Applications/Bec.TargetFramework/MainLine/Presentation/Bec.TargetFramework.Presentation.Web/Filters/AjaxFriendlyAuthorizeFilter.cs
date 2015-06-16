@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             {
                 //temporary users not allowed
                 WebUserObject userObject = httpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-                if (userObject == null || userObject.IsTemporaryUser) return false;
+                if (userObject != null && userObject.IsTemporaryUser) return false;
             }
             return res;
         }

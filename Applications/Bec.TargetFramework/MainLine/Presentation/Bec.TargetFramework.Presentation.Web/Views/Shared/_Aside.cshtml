@@ -23,7 +23,7 @@
                 @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
                 {
                 <li class="@Html.RouteIf("active", "home", "index")">
-                    <a href="@Url.Action("index", "home")" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
+                    <a href="@Url.Action("index", "home", new { Area = "" })" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
                 </li>
                 }
                 @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))

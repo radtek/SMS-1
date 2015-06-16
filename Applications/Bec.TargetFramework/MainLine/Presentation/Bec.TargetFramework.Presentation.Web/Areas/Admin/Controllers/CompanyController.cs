@@ -14,11 +14,11 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Security;
+using Bec.TargetFramework.Presentation.Web.Filters;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
-    [ClaimsAuthorize("Add", "Company")]
+    [ClaimsRequired("Add", "Company", Order = 1000)]
     public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         private IOrganisationLogicClient m_OrganisationClient;
@@ -74,7 +74,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             List<PostCodeDTO> list = await m_AddressClient.FindAddressesByPostCodeAsync(postcode, null);
 
             return Json(list, JsonRequestBehavior.AllowGet);
-        }       
+        }
 
         public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
         {

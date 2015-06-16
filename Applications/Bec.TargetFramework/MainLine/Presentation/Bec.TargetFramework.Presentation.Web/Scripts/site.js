@@ -105,7 +105,9 @@ function hideParentModal() {
 
 function dateString(date) {
     try {
-        return new Date(date).toLocaleString();
+        var ret = new Date(date).toLocaleString();
+        if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
+        return ret;
     }
     catch (ex) {
         return "";
@@ -232,7 +234,7 @@ var gridItem = function (options) {
         }
     };
 
-    this.scrollToRow = function(item) {
+    this.scrollToRow = function (item) {
         if (!this.grid || !item) return;
         var row = this.grid.tbody.find("tr[data-uid='" + item.uid + "']");
         this.grid.select(row);
