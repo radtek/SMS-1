@@ -7,7 +7,6 @@ using System.Web.Http;
 using Bec.TargetFramework.SB.Hosts.SBService.Formatters;
 using Bec.TargetFramework.Infrastructure;
 using Owin;
-using Swashbuckle.Application;
 using WebApiProxy.Server;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Autofac.Integration.WebApi;

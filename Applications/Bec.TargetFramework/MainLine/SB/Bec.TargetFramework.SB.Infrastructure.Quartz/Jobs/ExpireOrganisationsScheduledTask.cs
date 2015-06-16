@@ -16,9 +16,10 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
     {
         public IOrganisationLogicClient m_OrgLogic;
 
-        public ExpireOrganisationsScheduledTask(ILifetimeScope container,ILogger logger, IBusTaskLogicClient taskClient,IEventPublishClient eventClient)
+        public ExpireOrganisationsScheduledTask(ILifetimeScope container,ILogger logger, IBusTaskLogicClient taskClient,IEventPublishClient eventClient,IOrganisationLogicClient orgClient)
             : base(container,logger,taskClient,eventClient)
         {
+            m_OrgLogic = orgClient;
         }
 
         public override void ExecuteTask(IJobExecutionContext context)
