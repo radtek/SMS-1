@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Build\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Build\release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -83,6 +83,10 @@
     <ProjectReference Include="..\WebApiProxy.Core\WebApiProxy.Core.csproj">
       <Project>{94508206-8537-4088-923b-e7fcb0539903}</Project>
       <Name>WebApiProxy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApiProxy.Server\WebApiProxy.Server.csproj">
+      <Project>{4e5b8c2f-9008-4a17-abd1-a92e046c6a1e}</Project>
+      <Name>WebApiProxy.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebApiProxy.Tasks\WebApiProxy.Tasks.csproj">
       <Project>{a635de23-ddc1-43ed-bc5d-d49b7e8a4355}</Project>

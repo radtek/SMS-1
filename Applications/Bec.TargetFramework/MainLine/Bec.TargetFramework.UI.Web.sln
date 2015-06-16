@@ -114,6 +114,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.Busines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.SB.Infrastructure.Quartz", "SB\Bec.TargetFramework.SB.Infrastructure.Quartz\Bec.TargetFramework.SB.Infrastructure.Quartz.csproj", "{AFB811AE-7881-4A2A-AAC4-C52424300199}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiProxy.Generator", "External\WebApiProxy-master\WebApiProxy.Generator\WebApiProxy.Generator.csproj", "{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -510,6 +512,16 @@ Global
 		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AFB811AE-7881-4A2A-AAC4-C52424300199}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -554,5 +566,6 @@ Global
 		{A635DE23-DDC1-43ED-BC5D-D49B7E8A4355} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5} = {262EC12E-67D8-49A2-A97D-BFC31321CFCE}
 		{AFB811AE-7881-4A2A-AAC4-C52424300199} = {D41EC1D0-2E2F-48E2-9983-A16C30A9AFCE}
+		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 	EndGlobalSection
 EndGlobal
