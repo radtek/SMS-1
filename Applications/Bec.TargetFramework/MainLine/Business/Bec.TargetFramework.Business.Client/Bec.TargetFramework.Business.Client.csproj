@@ -60,6 +60,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebApiProxy.Tasks, Version=1.0.4.25616, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\WebApiProxy.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -89,14 +93,6 @@
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\WebApiProxy-master\WebApiProxy.Core\WebApiProxy.Core.csproj">
-      <Project>{94508206-8537-4088-923b-e7fcb0539903}</Project>
-      <Name>WebApiProxy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\External\WebApiProxy-master\WebApiProxy.Tasks\WebApiProxy.Tasks.csproj">
-      <Project>{a635de23-ddc1-43ed-bc5d-d49b7e8a4355}</Project>
-      <Name>WebApiProxy.Tasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
