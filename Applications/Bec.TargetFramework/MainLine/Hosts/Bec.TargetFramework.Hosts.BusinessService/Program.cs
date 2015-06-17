@@ -47,6 +47,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
                         Console.WriteLine("Press <Enter> to stop the Business service.");
                         Console.ReadLine();
 
+                        service.Stop();
                     }
                     catch (Exception ex)
                     {
@@ -54,6 +55,10 @@ namespace Bec.TargetFramework.Hosts.BusinessService
                             new SerilogLogger(true, false, "BusinessService").Error(ex);
                         else
                             Serilog.Log.Logger.Error(ex, ex.Message, null);
+                    }
+                    finally
+                    {
+                        service.Dispose();
                     }
                 }
             }

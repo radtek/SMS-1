@@ -39,16 +39,20 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                 }
                 else
                 {
-                    SBService service = new SBService();
-
                     try
                     {
-                        service.StartService(args);
+                        using (var service = new SBService())
+                        {
+                            service.StartService(args);
 
-                        Console.WriteLine("Press <Enter> to stop the SB Service.");
-                        Console.ReadLine();
+                            Console.WriteLine("Press <Enter> to stop the SB Service.");
+                            Console.ReadLine();
 
-                        service.Stop();
+                            if (service.CanStop)
+                                service.Stop();
+
+                            return;
+                        }
                     }
                     catch (Exception ex)
                     {

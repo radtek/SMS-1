@@ -38,7 +38,9 @@
             // 
             // serviceInstaller
             // 
+            this.serviceInstaller.DisplayName = "Bec.TargetFramework.SB.Hosts.SBService";
             this.serviceInstaller.ServiceName = "Bec.TargetFramework.SB.Hosts.SBService";
+            this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 

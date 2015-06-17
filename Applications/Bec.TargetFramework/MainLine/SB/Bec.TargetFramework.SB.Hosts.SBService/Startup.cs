@@ -28,9 +28,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                 defaults:new { id = RouteParameter.Optional });
 
             config.RegisterProxyRoutes();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(SBService.LifetimeScope);
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(SBService.m_LifetimeScope);
 
-            app.UseAutofacMiddleware(SBService.LifetimeScope);
+            app.UseAutofacMiddleware(SBService.m_LifetimeScope);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
 

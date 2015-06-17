@@ -39,6 +39,7 @@
             // serviceInstaller
             // 
             this.serviceInstaller.ServiceName = "Bec.TargetFramework.SB.TaskService";
+            this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 

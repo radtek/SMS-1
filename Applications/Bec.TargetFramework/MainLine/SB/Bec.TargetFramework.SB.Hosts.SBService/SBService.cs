@@ -40,10 +40,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
     {
         public string m_BaseAddress { get; set; }
 
-        public static ILifetimeScope LifetimeScope;
+        public static ILifetimeScope m_LifetimeScope;
 
         private IDisposable m_Server = null;
-        private IBus m_Bus = null;
 
         public SBService()
         {
@@ -59,9 +58,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar>();
 
-            LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
+            NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
 
-            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(LifetimeScope)).Start();
+            m_LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
         }
 
         public void StartService(string[] args)
@@ -78,9 +77,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             }
             catch (Exception ex)
             {
-                if (LifetimeScope != null)
+                if (m_LifetimeScope != null)
                 {
-                    var logger = LifetimeScope.Resolve<ILogger>();
+                    var logger = m_LifetimeScope.Resolve<ILogger>();
 
                     logger.Error(ex, ex.Message);
                 }
@@ -114,14 +113,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             if (m_Server != null)
                 m_Server.Dispose();
 
-            if (m_Bus != null)
-                m_Bus.Dispose();
-
-            if (LifetimeScope != null)
-                LifetimeScope.Dispose();
-
-            IocProvider.DisposeAndRemoveIocContainerUsingAppDomainFriendlyName();
-
+            if (m_LifetimeScope != null)
+                m_LifetimeScope.Dispose();
         }
 
     }

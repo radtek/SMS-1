@@ -66,11 +66,10 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
+            NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
+
             // create scope for service
             m_LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
-
-            // start bus
-            m_Bus = NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
         }
 
         public void StartService(string[] args)
@@ -119,19 +118,8 @@ namespace Bec.TargetFramework.SB.TaskServices
 
         private void StopServices()
         {
-            if (m_Bus != null)
-                m_Bus.Dispose();
-
-            if (m_LifetimeScope != null && m_LifetimeScope.IsRegistered<IScheduler>())
-            {
-                var scheduler = m_LifetimeScope.Resolve<IScheduler>();
-
-                if (!scheduler.IsShutdown)
-                    scheduler.Shutdown(true);
-            }
-
             if (m_LifetimeScope != null)
-                m_LifetimeScope.Dispose(); 
+                m_LifetimeScope.Dispose();
         }
     }
 }

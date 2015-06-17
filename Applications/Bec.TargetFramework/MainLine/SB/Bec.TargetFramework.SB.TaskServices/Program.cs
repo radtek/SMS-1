@@ -40,14 +40,20 @@ namespace Bec.TargetFramework.SB.TaskServices
                 }
                 else
                 {
-                    TaskService service = new TaskService();
-
                     try
                     {
-                        service.StartService(args);
+                        using (var service = new TaskService())
+                        {
+                            service.StartService(args);
 
-                        Console.WriteLine("Press <Enter> to stop the Task Services.");
-                        Console.ReadLine();
+                            Console.WriteLine("Press <Enter> to stop the Task Service.");
+                            Console.ReadLine();
+
+                            if (service.CanStop)
+                                service.Stop();
+
+                            return;
+                        }
 
                     }
                     catch (Exception ex)
@@ -56,10 +62,6 @@ namespace Bec.TargetFramework.SB.TaskServices
                             new SerilogLogger(true, false, "TaskService").Error(ex);
                         else
                             Serilog.Log.Logger.Error(ex, ex.Message, null);
-                    }
-                    finally
-                    {
-                        service.Stop();
                     }
                 }
             }
