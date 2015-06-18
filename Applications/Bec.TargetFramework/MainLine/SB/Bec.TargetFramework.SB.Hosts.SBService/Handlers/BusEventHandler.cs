@@ -84,7 +84,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             }
             catch (System.Exception ex)
             {
-                LogError("TFEventHandler Error", ex, NServiceBusHelper.GetBusMessageDto(Bus.CurrentMessageContext.Headers).EventReference);
+                LogMessageAsFailed();
 
                 throw;
             }

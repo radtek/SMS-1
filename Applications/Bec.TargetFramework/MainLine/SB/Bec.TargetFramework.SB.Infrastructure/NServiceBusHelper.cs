@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -15,24 +16,36 @@ using NServiceBus.Serilog;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.IOC;
 using EnsureThat;
+using NServiceBus.Config;
+using NServiceBus.Config.ConfigurationSource;
+using NServiceBus.Features;
+using NServiceBus.Persistence;
+using NServiceBus.Persistence.ExtendedInMemory;
 using RabbitMQ.Client;
 
 namespace Bec.TargetFramework.SB.Infrastructure
 {
     public class NServiceBusHelper
     {
-        public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(ILifetimeScope lifetimeScope, bool purgeOnStartup = true,bool traceEnable = false)
+        public static BusConfiguration CreateDefaultStartableBusUsingaAutofacBuilder(ILifetimeScope lifetimeScope,  bool purgeOnStartup = true,bool traceEnable = false)
         {
             var iLogger = lifetimeScope.Resolve<ILogger>();
+
             iLogger.CreateLogger();
 
             LogManager.Use<SerilogFactory>();
 
             BusConfiguration configuration = new BusConfiguration();
 
-            Ensure.That(ConfigurationManager.AppSettings["nservicebus:endPointName"]).IsNotNullOrWhiteSpace();
+            #if DEBUG
+                var endpointName = ConfigurationManager.AppSettings["nservicebus:endPointName"];
+                ConfigurationManager.AppSettings["nservicebus:endPointName"] = Environment.UserName + "_" + endpointName ;
+            #endif
 
-            configuration.EndpointName(ConfigurationManager.AppSettings["nservicebus:endPointName"]);
+            configuration.CustomConfigurationSource(new ConfigurationSource());
+
+            if (ConfigurationManager.AppSettings["nservicebus:endPointName"] != null)
+                configuration.EndpointName(ConfigurationManager.AppSettings["nservicebus:endPointName"]);
 
             if (ConfigurationManager.AppSettings["nservicebus:purgeQueuesOnStartup"] != null)
                 purgeOnStartup = bool.Parse(ConfigurationManager.AppSettings["nservicebus:purgeQueuesOnStartup"]);
@@ -59,10 +72,13 @@ namespace Bec.TargetFramework.SB.Infrastructure
 
             // whether to clean the queues on startup
             configuration.PurgeOnStartup(purgeOnStartup);
-            // encryption of messages
-            //configuration.RijndaelEncryptionService();
-            // whether to use encryption of messages
+
+            // enable installers
             configuration.EnableInstallers();
+
+            // using RabbitMq disabled transactions
+            configuration.DisableFeature<NServiceBus.Features.TimeoutManager>();
+            configuration.Transactions().Disable();
 
             configuration.SerilogTracingTarget(Serilog.Log.Logger);
 
@@ -104,6 +120,51 @@ namespace Bec.TargetFramework.SB.Infrastructure
                 dto.EventReference = headers["EventReference"];
 
             return dto;
+        }
+    }
+
+    public class ConfigurationSource : IConfigurationSource
+    {
+        public T GetConfiguration<T>() where T : class, new()
+        {
+            if (typeof(T) == typeof(UnicastBusConfig))
+            {
+                //read from existing config 
+                var config = (UnicastBusConfig)ConfigurationManager
+                    .GetSection(typeof(UnicastBusConfig).Name);
+                if (config == null)
+                {
+                    //create new config if it doesn't exist
+                    config = new UnicastBusConfig
+                    {
+                        MessageEndpointMappings = new MessageEndpointMappingCollection()
+                    };
+                }
+
+                var collection = new MessageEndpointMappingCollection();
+
+                config.MessageEndpointMappings.OfType<MessageEndpointMapping>().ToList().ForEach(s =>
+                {
+                    collection.Add(
+                    new MessageEndpointMapping
+                    {
+                        AssemblyName = s.AssemblyName,
+                        TypeFullName = s.TypeFullName,
+                        Endpoint = ConfigurationManager.AppSettings["nservicebus:endPointName"]
+                    });
+                });
+
+                // update endpoint name in mappings
+                config = new UnicastBusConfig
+                {
+                    MessageEndpointMappings = collection
+                };
+
+                return config as T;
+            }
+
+            // To in app.config for other sections not defined in this method, otherwise return null.
+            return ConfigurationManager.GetSection(typeof(T).Name) as T;
         }
     }
 }

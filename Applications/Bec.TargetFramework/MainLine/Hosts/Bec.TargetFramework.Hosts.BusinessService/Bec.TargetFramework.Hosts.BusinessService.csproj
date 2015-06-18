@@ -44,7 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\..\Build\debug\Bec.TargetFramework.Hosts.BusinessService.XML</DocumentationFile>
+    <DocumentationFile>bin\debug\Bec.TargetFramework.Hosts.BusinessService.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -65,7 +65,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.Register(c => new SettingServiceLocal(c.Resolve<SettingLogic>())).As<SettingServiceLocal>();
 
             var type = typeof(ISettings);
-            AllAssemblies.Matching("Bec.TargetFramework")
+            AppDomain.CurrentDomain.GetAssemblies().Where(s => s.FullName.StartsWith("Bec.TargetFramework"))
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
                 .ToList().ForEach(item =>

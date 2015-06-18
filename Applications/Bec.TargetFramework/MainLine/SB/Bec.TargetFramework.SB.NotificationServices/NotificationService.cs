@@ -64,9 +64,9 @@ namespace Bec.TargetFramework.SB.NotificationServices
             IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
             // create default configuration
-            m_Bus = NServiceBus.Bus.Create(
-                NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
-                ).Start();
+            //m_Bus = NServiceBus.Bus.Create(
+            //    NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName), true)
+            //    ).Start();
         }
 
         public void StartService(string[] args)
