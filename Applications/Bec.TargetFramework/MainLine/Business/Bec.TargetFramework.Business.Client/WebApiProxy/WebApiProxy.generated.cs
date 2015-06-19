@@ -62,8 +62,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 
 	
-	public partial interface IAddressLogicClient : IClientBase
-	{	
+	public partial interface IAddressLogicClient : IClientBase	{	
 
 		/// <param name="postCode"></param>
 		/// <param name="buildingNameOrNumber"></param>
@@ -87,8 +86,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IClassificationDataLogicClient : IClientBase
-	{	
+	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
 		Task<List<CountryCodeDTO>> GetCountriesAsync();
@@ -128,8 +126,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IDataLogicClient : IClientBase
-	{	
+	public partial interface IDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
 		Task<String> GenerateRandomNameAsync();
@@ -140,8 +137,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IInvoiceLogicClient : IClientBase
-	{	
+	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
@@ -289,8 +285,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface INotificationLogicClient : IClientBase
-	{	
+	public partial interface INotificationLogicClient : IClientBase	{	
 
 		/// <param name="uaoID"></param>
 		/// <param name="organisationId"></param>
@@ -460,8 +455,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IOrganisationLogicClient : IClientBase
-	{	
+	public partial interface IOrganisationLogicClient : IClientBase	{	
 
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
@@ -598,8 +592,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IPaymentLogicClient : IClientBase
-	{	
+	public partial interface IPaymentLogicClient : IClientBase	{	
 
 		/// <param name="transactionOrderId"></param>
 		/// <returns></returns>
@@ -628,8 +621,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IProductLogicClient : IClientBase
-	{	
+	public partial interface IProductLogicClient : IClientBase	{	
 
 		/// <param name="productId"></param>
 		/// <param name="versionNumber"></param>
@@ -644,8 +636,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IShoppingCartLogicClient : IClientBase
-	{	
+	public partial interface IShoppingCartLogicClient : IClientBase	{	
 
 		/// <param name="userAccountOrganisationID"></param>
 		/// <param name="cardTypeEnum"></param>
@@ -690,8 +681,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface ITFSettingsLogicClient : IClientBase
-	{	
+	public partial interface ITFSettingsLogicClient : IClientBase	{	
 
 		/// <returns></returns>
 		Task<Dictionary<String, String>> GetSettingsAsync();
@@ -702,8 +692,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface ITransactionOrderLogicClient : IClientBase
-	{	
+	public partial interface ITransactionOrderLogicClient : IClientBase	{	
 
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
@@ -736,8 +725,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IUserAccountAuditLogicClient : IClientBase
-	{	
+	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
 
 		/// <param name="requestData"></param>
 		/// <returns></returns>
@@ -750,8 +738,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IUserLogicClient : IClientBase
-	{	
+	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
 
 		/// <param name="username"></param>
 		/// <param name="password"></param>
@@ -800,24 +787,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="lockUser"></param>
 		/// <returns></returns>
 		void LockOrUnlockUser(Guid userId,Boolean lockUser);
-
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		Task<String> ResetPasswordAndSetVerificationKeyAsync(Guid userId);
-
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		String ResetPasswordAndSetVerificationKey(Guid userId);
-
-
-		/// <param name="email"></param>
-		/// <returns></returns>
-		Task ResetPasswordAsync(String email);
-
-		/// <param name="email"></param>
-		/// <returns></returns>
-		void ResetPassword(String email);
 
 
 		/// <param name="userName"></param>
@@ -2886,19 +2855,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-        public virtual Task<Dictionary<String, String>> GetSettingsAsync()
+		public virtual Task<Dictionary<String, String>> GetSettingsAsync()
 		{
 			string _user = getHttpContextUser();
-            return GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user);
+			return GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-        public virtual Dictionary<String, String> GetSettings()
+		public virtual Dictionary<String, String> GetSettings()
 		{
 			string _user = getHttpContextUser();
-            return Task.Run(() => GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user)).Result;
+			return Task.Run(() => GetAsync<Dictionary<String, String>>("api/TFSettingsLogic/GetSettings", _user)).Result;
 		}
 
 		#endregion
@@ -3092,7 +3061,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<ContactDTO> AddUserAsync(ContactDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUser", dto, _user);
+			return PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUserAsync", dto, _user);
 		}
 
 		/// <summary>
@@ -3101,7 +3070,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual ContactDTO AddUser(ContactDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUser", dto, _user)).Result;
+			return Task.Run(() => PostAsync<ContactDTO, ContactDTO>("api/UserLogic/AddUserAsync", dto, _user)).Result;
 		}
 
 		/// <summary>
@@ -3159,7 +3128,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task LockOrUnlockUserAsync(Guid userId,Boolean lockUser)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/LockOrUnlockUser?userId=" + userId + "&lockUser=" + lockUser, null, _user);
+			return PostAsync<object>("api/UserLogic/LockOrUnlockUserAsync?userId=" + userId + "&lockUser=" + lockUser, null, _user);
 		}
 
 		/// <summary>
@@ -3170,51 +3139,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void LockOrUnlockUser(Guid userId,Boolean lockUser)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/LockOrUnlockUser?userId=" + userId + "&lockUser=" + lockUser, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		public virtual Task<String> ResetPasswordAndSetVerificationKeyAsync(Guid userId)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, String>("api/UserLogic/ResetPasswordAndSetVerificationKey?userId=" + userId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		public virtual String ResetPasswordAndSetVerificationKey(Guid userId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, String>("api/UserLogic/ResetPasswordAndSetVerificationKey?userId=" + userId, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <returns></returns>
-		public virtual Task ResetPasswordAsync(String email)
-		{
-			email = email.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/ResetPassword?email=" + email, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		public virtual void ResetPassword(String email)
-		{
-			email = email.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/ResetPassword?email=" + email, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/LockOrUnlockUserAsync?userId=" + userId + "&lockUser=" + lockUser, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3532,7 +3457,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task AddUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<UserAccount>("api/UserLogic/AddUserAccount", user, _user);
+			return PostAsync<UserAccount>("api/UserLogic/AddUserAccountAsync", user, _user);
 		}
 
 		/// <summary>
@@ -3541,7 +3466,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void AddUserAccount(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/AddUserAccount", user, _user)).Wait();
+			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/AddUserAccountAsync", user, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3551,7 +3476,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task RemoveUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<UserAccount>("api/UserLogic/RemoveUserAccount", user, _user);
+			return PostAsync<UserAccount>("api/UserLogic/RemoveUserAccountAsync", user, _user);
 		}
 
 		/// <summary>
@@ -3560,7 +3485,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void RemoveUserAccount(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/RemoveUserAccount", user, _user)).Wait();
+			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/RemoveUserAccountAsync", user, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3570,7 +3495,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task UpdateUserAccountAsync(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<UserAccount>("api/UserLogic/UpdateUserAccount", user, _user);
+			return PostAsync<UserAccount>("api/UserLogic/UpdateUserAccountAsync", user, _user);
 		}
 
 		/// <summary>
@@ -3579,7 +3504,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void UpdateUserAccount(UserAccount user)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/UpdateUserAccount", user, _user)).Wait();
+			Task.Run(() => PostAsync<UserAccount>("api/UserLogic/UpdateUserAccountAsync", user, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3701,7 +3626,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/LogEveryoneElseOut?userId=" + userId + "&sessionId=" + sessionId, null, _user);
+			return PostAsync<object>("api/UserLogic/LogEveryoneElseOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user);
 		}
 
 		/// <summary>
@@ -3713,7 +3638,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/LogEveryoneElseOut?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/LogEveryoneElseOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3732,7 +3657,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			userIdAddress = userIdAddress.UrlEncode();
 			userLocation = userLocation.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/SaveUserAccountLoginSession?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user);
+			return PostAsync<object>("api/UserLogic/SaveUserAccountLoginSessionAsync?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user);
 		}
 
 		/// <summary>
@@ -3750,7 +3675,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			userIdAddress = userIdAddress.UrlEncode();
 			userLocation = userLocation.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/SaveUserAccountLoginSession?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SaveUserAccountLoginSessionAsync?userId=" + userId + "&sessionId=" + sessionId + "&userHostAddress=" + userHostAddress + "&userIdAddress=" + userIdAddress + "&userLocation=" + userLocation, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3763,7 +3688,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionData?userId=" + userId + "&sessionId=" + sessionId, requestData, _user);
+			return PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionDataAsync?userId=" + userId + "&sessionId=" + sessionId, requestData, _user);
 		}
 
 		/// <summary>
@@ -3775,7 +3700,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionData?userId=" + userId + "&sessionId=" + sessionId, requestData, _user)).Wait();
+			Task.Run(() => PostAsync<Dictionary<String, String>>("api/UserLogic/SaveUserAccountLoginSessionDataAsync?userId=" + userId + "&sessionId=" + sessionId, requestData, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3786,7 +3711,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task LockUserTemporaryAccountAsync(Guid tempUserId)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/LockUserTemporaryAccount?tempUserId=" + tempUserId, null, _user);
+			return PostAsync<object>("api/UserLogic/LockUserTemporaryAccountAsync?tempUserId=" + tempUserId, null, _user);
 		}
 
 		/// <summary>
@@ -3796,7 +3721,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void LockUserTemporaryAccount(Guid tempUserId)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/LockUserTemporaryAccount?tempUserId=" + tempUserId, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/LockUserTemporaryAccountAsync?tempUserId=" + tempUserId, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3877,7 +3802,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			email = email.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccount?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
+			return PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccountAsync?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
 		}
 
 		/// <summary>
@@ -3892,7 +3817,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			email = email.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccount?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccountAsync?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -3910,7 +3835,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			password = password.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccount?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
+			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
 		}
 
 		/// <summary>
@@ -3927,7 +3852,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			password = password.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccount?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -3937,7 +3862,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task CreateContactAsync(ContactDTO contactDTO)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO>("api/UserLogic/CreateContact", contactDTO, _user);
+			return PostAsync<ContactDTO>("api/UserLogic/CreateContactAsync", contactDTO, _user);
 		}
 
 		/// <summary>
@@ -3946,7 +3871,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void CreateContact(ContactDTO contactDTO)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/CreateContact", contactDTO, _user)).Wait();
+			Task.Run(() => PostAsync<ContactDTO>("api/UserLogic/CreateContactAsync", contactDTO, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3978,7 +3903,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task DeleteAccountAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return DeleteAsync("api/UserLogic/DeleteAccount?userID=" + userID, _user);
+			return DeleteAsync("api/UserLogic/DeleteAccountAsync?userID=" + userID, _user);
 		}
 
 		/// <summary>
@@ -3988,7 +3913,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void DeleteAccount(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => DeleteAsync("api/UserLogic/DeleteAccount?userID=" + userID, _user)).Wait();
+			Task.Run(() => DeleteAsync("api/UserLogic/DeleteAccountAsync?userID=" + userID, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3999,7 +3924,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task CloseAccountAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/CloseAccount?userID=" + userID, null, _user);
+			return PostAsync<object>("api/UserLogic/CloseAccountAsync?userID=" + userID, null, _user);
 		}
 
 		/// <summary>
@@ -4009,7 +3934,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void CloseAccount(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/CloseAccount?userID=" + userID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/CloseAccountAsync?userID=" + userID, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4040,7 +3965,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/SendUsernameReminder?email=" + email, null, _user);
+			return PostAsync<object>("api/UserLogic/SendUsernameReminderAsync?email=" + email, null, _user);
 		}
 
 		/// <summary>
@@ -4051,7 +3976,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/SendUsernameReminder?email=" + email, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SendUsernameReminderAsync?email=" + email, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4065,7 +3990,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			username = username.UrlEncode();
 			siteUrl = siteUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/SendPasswordResetNotification?username=" + username + "&siteUrl=" + siteUrl, null, _user);
+			return PostAsync<object>("api/UserLogic/SendPasswordResetNotificationAsync?username=" + username + "&siteUrl=" + siteUrl, null, _user);
 		}
 
 		/// <summary>
@@ -4078,7 +4003,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			username = username.UrlEncode();
 			siteUrl = siteUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/SendPasswordResetNotification?username=" + username + "&siteUrl=" + siteUrl, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SendPasswordResetNotificationAsync?username=" + username + "&siteUrl=" + siteUrl, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4089,7 +4014,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequest?requestID=" + requestID, null, _user);
+			return PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequestAsync?requestID=" + requestID, null, _user);
 		}
 
 		/// <summary>
@@ -4099,7 +4024,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Guid ExpirePasswordResetRequest(Guid requestID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequest?requestID=" + requestID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequestAsync?requestID=" + requestID, null, _user)).Result;
 		}
 
 		/// <summary>

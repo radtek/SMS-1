@@ -10,15 +10,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using BrockAllen.MembershipReboot.AccountService;
 
 namespace BrockAllen.MembershipReboot
 {
     public class UserAccountService<TAccount> : IEventSource
         where TAccount : UserAccount
     {
-        public MembershipRebootConfiguration<TAccount> Configuration { get; set; }
+        public MembershipRebootConfiguration Config { get; set; }
 
-        IUserAccountRepository<TAccount> userRepository;
+        public MembershipRebootConfiguration<TAccount> Configuration { get { return Config as MembershipRebootConfiguration<TAccount>; } }
+        IPartialUserLogicController UserLogic { get; set; }
 
         Lazy<AggregateValidator<TAccount>> usernameValidator;
         Lazy<AggregateValidator<TAccount>> emailValidator;
@@ -27,23 +29,10 @@ namespace BrockAllen.MembershipReboot
 
         public ITwoFactorAuthenticationPolicy TwoFactorAuthenticationPolicy { get; set; }
 
-        public UserAccountService(IUserAccountRepository<TAccount> userRepository)
-            : this(new MembershipRebootConfiguration<TAccount>(), userRepository)
+        public UserAccountService()
         {
-        }
-
-        public UserAccountService(MembershipRebootConfiguration<TAccount> configuration, IUserAccountRepository<TAccount> userRepository)
-        {
-            if (configuration == null) throw new ArgumentNullException("configuration");
-            if (userRepository == null) throw new ArgumentNullException("userRepository");
-
-            this.Configuration = configuration;
-
             var validationEventBus = new EventBus();
             validationEventBus.Add(new UserAccountValidator<TAccount>(this));
-            this.userRepository = new EventBusUserAccountRepository<TAccount>(this, userRepository,
-                new AggregateEventBus { validationEventBus, configuration.ValidationBus },
-                configuration.EventBus);
 
             this.usernameValidator = new Lazy<AggregateValidator<TAccount>>(() =>
             {
@@ -54,7 +43,7 @@ namespace BrockAllen.MembershipReboot
                     val.Add(UserAccountValidation<TAccount>.UsernameOnlyContainsLettersAndDigits);
                 }
                 val.Add(UserAccountValidation<TAccount>.UsernameMustNotAlreadyExist);
-                val.Add(configuration.UsernameValidator);
+                val.Add(Configuration.UsernameValidator);
                 return val;
             });
 
@@ -64,7 +53,7 @@ namespace BrockAllen.MembershipReboot
                 val.Add(UserAccountValidation<TAccount>.EmailIsRequiredIfRequireAccountVerificationEnabled);
                 val.Add(UserAccountValidation<TAccount>.EmailIsValidFormat);
                 val.Add(UserAccountValidation<TAccount>.EmailMustNotAlreadyExist);
-                val.Add(configuration.EmailValidator);
+                val.Add(Configuration.EmailValidator);
                 return val;
             });
 
@@ -72,7 +61,7 @@ namespace BrockAllen.MembershipReboot
             {
                 var val = new AggregateValidator<TAccount>();
                 val.Add(UserAccountValidation<TAccount>.PasswordMustBeDifferentThanCurrent);
-                val.Add(configuration.PasswordValidator);
+                val.Add(Configuration.PasswordValidator);
                 return val;
             });
         }
@@ -123,12 +112,12 @@ namespace BrockAllen.MembershipReboot
             //}
         }
 
-        public virtual List<UserAccount> GetAll()
+        internal virtual List<UserAccount> GetAll()
         {
             return GetAll(null) as List<UserAccount>;
         }
 
-        public virtual void Update(UserAccount account)
+        public virtual async Task UpdateAsync(UserAccount account)
         {
             if (account == null)
             {
@@ -143,12 +132,12 @@ namespace BrockAllen.MembershipReboot
             // Don't use Task.Factory! It will fail the unit tests
             //Task.Factory.StartNew(() =>
             //    {
-            //        this.userRepository.Update(account);});
+            //        this.userRepository.await UpdateAsync(account);});
 
-            this.userRepository.Update(account as TAccount);
+            await UserLogic.UpdateUserAccountAsync(account);
         }
 
-        public virtual List<TAccount> GetAll(string tenant)
+        internal virtual IEnumerable<UserAccount> GetAll(string tenant)
         {
             if (!Configuration.MultiTenant)
             {
@@ -160,7 +149,7 @@ namespace BrockAllen.MembershipReboot
 
             if (String.IsNullOrWhiteSpace(tenant)) return Enumerable.Empty<TAccount>().AsQueryable().ToList();
 
-            return this.userRepository.GetAll().Where(x => x.Tenant == tenant && x.IsAccountClosed == false).ToList();
+            return UserLogic.GetAllUserAccount().Where(x => x.Tenant == tenant && x.IsAccountClosed == false);
         }
 
         public virtual TAccount GetByUsername(string username)
@@ -181,14 +170,14 @@ namespace BrockAllen.MembershipReboot
             if (!Configuration.UsernamesUniqueAcrossTenants && String.IsNullOrWhiteSpace(tenant)) return null;
             if (String.IsNullOrWhiteSpace(username)) return null;
 
-            var query = userRepository.GetByUsername(username);
+            var query = UserLogic.GetBAUserAccountByUsername(username);
 
 
             if (query == null)
             {
                 Tracing.Warning("[UserAccountService.GetByUsername] failed to locate account: {0}, {1}", tenant, username);
             }
-            return query;
+            return query as TAccount;
         }
 
         public virtual TAccount GetByEmail(string email)
@@ -209,27 +198,27 @@ namespace BrockAllen.MembershipReboot
             if (String.IsNullOrWhiteSpace(tenant)) return null;
             if (String.IsNullOrWhiteSpace(email)) return null;
 
-            var account = userRepository.GetByEmail(email);
+            var account = UserLogic.GetBAUserAccountByEmail(email);
             if (account == null)
             {
                 Tracing.Warning("[UserAccountService.GetByEmail] failed to locate account: {0}, {1}", tenant, email);
             }
-            return account;
+            return account as TAccount;
         }
 
         public virtual TAccount GetByID(Guid id)
         {
             Tracing.Information("[UserAccountService.GetByID] called for id: {0}", id);
 
-            var account = this.userRepository.Get(id);
+            var account = this.UserLogic.GetUserAccount(id);
             if (account == null)
             {
                 Tracing.Warning("[UserAccountService.GetByID] failed to locate account: {0}", id);
             }
-            return account;
+            return account as TAccount;
         }
 
-        public bool HasTooManyRecentForgotUsernameRequestFailures(TAccount account)
+        public async Task<bool> HasTooManyRecentForgotUsernameRequestFailuresAsync(TAccount account)
         {
             var result = false;
             if (Configuration.forgottenUsernameLockoutFailedAttempts <= account.FailedForgotUsernameAttempts)
@@ -239,13 +228,13 @@ namespace BrockAllen.MembershipReboot
             if (result)
             {
                 account.FailedForgotUsernameAttempts++;
-                Update(account);
+                await UpdateAsync(account);
             }
             
             return result;
         }
 
-        public bool HasTooManyRecentForgotPasswordRequestFailures(TAccount account)
+        public async Task<bool> HasTooManyRecentForgotPasswordRequestFailuresAsync(TAccount account)
         {
             var result = false;
             if (Configuration.forgottenPasswordLockoutFailedAttempts <= account.FailedForgotPasswordAttempts)
@@ -255,12 +244,12 @@ namespace BrockAllen.MembershipReboot
             if (result)
             {
                 account.FailedForgotPasswordAttempts++;
-                Update(account);
+                await UpdateAsync(account);
             }
 
             return result;
         }
-        public bool VerifySecretQuestionAndAnswer(Guid accountID, PasswordResetQuestionAnswer answer, string controllerName)
+        public async Task<bool> VerifySecretQuestionAndAnswerAsync(Guid accountID, PasswordResetQuestionAnswer answer, string controllerName)
         {
             Tracing.Information("[UserAccountService.VerifySecretQuestionAndAnswer] called: {0}", accountID);
 
@@ -293,7 +282,7 @@ namespace BrockAllen.MembershipReboot
                     }
                     else
                         account.FailedForgotUsernameAttempts = 0;
-                    LockOrUnlockForgotUsernameRequest(account);
+                    await LockOrUnlockForgotUsernameRequestAsync(account);
                 }
                 else if (controllerName == "ForgottenPassword")
                 {
@@ -307,18 +296,18 @@ namespace BrockAllen.MembershipReboot
                     }
                     else
                         account.FailedForgotPasswordAttempts = 0;
-                    LockOrUnlockForgotPasswordRequest(account);
+                    await LockOrUnlockForgotPasswordRequestAsync(account);
                 }
                 else //Change password
                 {
                     //No lockout for change password screen
                 }
 
-            Update(account);
+            await UpdateAsync(account);
             return failed;
         }
 
-        protected virtual void LockOrUnlockForgotUsernameRequest(TAccount account)
+        protected virtual async Task LockOrUnlockForgotUsernameRequestAsync(TAccount account)
         {
             var result = false;
             if (Configuration.forgottenUsernameLockoutFailedAttempts <= account.FailedForgotUsernameAttempts)
@@ -335,9 +324,9 @@ namespace BrockAllen.MembershipReboot
                     account.FailedForgotUsernameAttempts = 1;
                 }
             }
-            Update(account);
+            await UpdateAsync(account);
         }
-        protected virtual void LockOrUnlockForgotPasswordRequest(TAccount account)
+        protected virtual async Task LockOrUnlockForgotPasswordRequestAsync(TAccount account)
         {
             var result = false;
             if (Configuration.forgottenPasswordLockoutFailedAttempts <= account.FailedForgotPasswordAttempts)
@@ -354,23 +343,23 @@ namespace BrockAllen.MembershipReboot
                     account.FailedForgotPasswordAttempts = 1;
                 }
             }
-            Update(account);
+            await UpdateAsync(account);
         }
-        public virtual TAccount GetByVerificationKey(string key)
-        {
-            Tracing.Information("[UserAccountService.GetByVerificationKey] called for key: {0}", key);
+        //public virtual TAccount GetByVerificationKey(string key)
+        //{
+        //    Tracing.Information("[UserAccountService.GetByVerificationKey] called for key: {0}", key);
 
-            if (String.IsNullOrWhiteSpace(key)) return null;
+        //    if (String.IsNullOrWhiteSpace(key)) return null;
 
-            key = this.Configuration.Crypto.Hash(key);
+        //    key = this.Configuration.Crypto.Hash(key);
 
-            var account = userRepository.GetByVerificationKey(key);
-            if (account == null)
-            {
-                Tracing.Warning("[UserAccountService.GetByVerificationKey] failed to locate account: {0}", key);
-            }
-            return account;
-        }
+        //    var account = UserLogic.GetByVerificationKey(key);
+        //    if (account == null)
+        //    {
+        //        Tracing.Warning("[UserAccountService.GetByVerificationKey] failed to locate account: {0}", key);
+        //    }
+        //    return account;
+        //}
 
         public virtual TAccount GetByLinkedAccount(string provider, string id)
         {
@@ -392,7 +381,7 @@ namespace BrockAllen.MembershipReboot
             if (String.IsNullOrWhiteSpace(id)) return null;
 
             var query =
-                from u in userRepository.GetAll()
+                from u in UserLogic.GetAllUserAccount()
                 where u.Tenant == tenant
                 from l in u.LinkedAccounts
                 where l.ProviderName == provider && l.ProviderAccountID == id
@@ -403,7 +392,7 @@ namespace BrockAllen.MembershipReboot
             {
                 Tracing.Warning("[UserAccountService.GetByLinkedAccount] failed to locate by tenant: {0}, provider: {1}, id: {2}", tenant, provider, id);
             }
-            return account;
+            return account as TAccount;
         }
 
         public virtual TAccount GetByCertificate(string thumbprint)
@@ -425,7 +414,7 @@ namespace BrockAllen.MembershipReboot
             if (String.IsNullOrWhiteSpace(thumbprint)) return null;
 
             var query =
-                from u in userRepository.GetAll()
+                from u in UserLogic.GetAllUserAccount()
                 where u.Tenant == tenant
                 from c in u.Certificates
                 where c.Thumbprint == thumbprint
@@ -436,7 +425,7 @@ namespace BrockAllen.MembershipReboot
             {
                 Tracing.Warning("[UserAccountService.GetByCertificate] failed to locate by certificate thumbprint: {0}, {1}", tenant, thumbprint);
             }
-            return account;
+            return account as TAccount;
         }
 
         public virtual bool UsernameExists(string username)
@@ -452,7 +441,7 @@ namespace BrockAllen.MembershipReboot
 
             if (Configuration.UsernamesUniqueAcrossTenants)
             {
-                return (this.userRepository.GetByUsername(username) != null);
+                return (UserLogic.GetBAUserAccountByUsername(username) != null);
             }
             else
             {
@@ -464,7 +453,7 @@ namespace BrockAllen.MembershipReboot
 
                 if (String.IsNullOrWhiteSpace(tenant)) return false;
 
-                return (this.userRepository.GetByUsername(username) != null);
+                return (UserLogic.GetBAUserAccountByUsername(username) != null);
             }
         }
 
@@ -486,7 +475,7 @@ namespace BrockAllen.MembershipReboot
             if (String.IsNullOrWhiteSpace(tenant)) return false;
             if (String.IsNullOrWhiteSpace(email)) return false;
 
-            return (this.userRepository.GetByEmail(email) != null);
+            return (UserLogic.GetBAUserAccountByEmail(email) != null);
         }
 
         protected internal bool EmailExistsOtherThan(TAccount account, string email)
@@ -497,14 +486,14 @@ namespace BrockAllen.MembershipReboot
 
             if (String.IsNullOrWhiteSpace(email)) return false;
 
-            return (this.userRepository.GetByEmailNotID(email,account.ID) != null);
+            return (UserLogic.GetBAUserAccountByEmailAndNotID(email, account.ID) != null);
         }
 
-        public virtual TAccount CreateAccount(string username, string password, string email, bool temporaryAccount, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string username, string password, string email, bool temporaryAccount, Guid userId)
         {
-            return CreateAccount(null, username, password, email, temporaryAccount, userId);
+            return await CreateAccountAsync(null, username, password, email, temporaryAccount, userId);
         }
-        public virtual TAccount CreateAccount(string tenant, string username, string password, string email, bool temporaryAccount, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string tenant, string username, string password, string email, bool temporaryAccount, Guid userId)
         {
             if (Configuration.EmailIsUsername)
             {
@@ -520,7 +509,7 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Information("[UserAccountService.CreateAccount] called: {0}, {1}, {2}", tenant, username, email);
 
-            var account = this.userRepository.Create();
+            TAccount account = UserLogic.CreateUserAccount() as TAccount;
             Init(account, tenant, username, password, email, temporaryAccount, userId);
 
            // ValidateEmail(account, email); //Don't want to throw error when email already exists because temp account and permanent account can have same email id
@@ -530,8 +519,8 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.CreateAccount] success");
 
             this.AddEvent(new AccountCreatedEvent<TAccount> { Account = account, InitialPassword = password, VerificationKey = m_key });
-            
-            this.userRepository.Add(account);
+
+            await UserLogic.AddUserAccountAsync(account);
 
             return account;
         }
@@ -603,7 +592,7 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        public virtual void RequestAccountVerification(Guid accountID)
+        public virtual async Task RequestAccountVerification(Guid accountID)
         {
             Tracing.Information("[UserAccountService.RequestAccountVerification] called for account id: {0}", accountID);
 
@@ -630,83 +619,83 @@ namespace BrockAllen.MembershipReboot
             var key = SetVerificationKey(account, VerificationKeyPurpose.ChangeEmail, state: account.Email);
             this.AddEvent(new EmailChangeRequestedEvent<TAccount> { Account = account, NewEmail = account.Email, VerificationKey = key });
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void CancelNewAccount(string key)
-        {
-            bool closed;
-            CancelNewAccount(key, out closed);
-        }
+        //public virtual void CancelNewAccount(string key)
+        //{
+        //    bool closed;
+        //    CancelNewAccount(key, out closed);
+        //}
 
-        public virtual void CancelNewAccount(string key, out bool accountClosed)
-        {
-            Tracing.Information("[UserAccountService.CancelNewAccount] called: {0}", key);
+        //public virtual void CancelNewAccount(string key, out bool accountClosed)
+        //{
+        //    Tracing.Information("[UserAccountService.CancelNewAccount] called: {0}", key);
 
-            accountClosed = false;
+        //    accountClosed = false;
 
-            var account = this.GetByVerificationKey(key);
-            if (account == null)
-            {
-                Tracing.Error("[UserAccountService.CancelNewAccount] failed -- account not found from key");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    var account = this.GetByVerificationKey(key);
+        //    if (account == null)
+        //    {
+        //        Tracing.Error("[UserAccountService.CancelNewAccount] failed -- account not found from key");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            if (account.VerificationPurpose == null)
-            {
-                Tracing.Error("[UserAccountService.CancelNewAccount] failed -- no purpose");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    if (account.VerificationPurpose == null)
+        //    {
+        //        Tracing.Error("[UserAccountService.CancelNewAccount] failed -- no purpose");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            var hashedKey = Configuration.Crypto.Hash(key);
-            var result = Configuration.Crypto.SlowEquals(account.VerificationKey, hashedKey);
-            if (!result)
-            {
-                Tracing.Error("[UserAccountService.CancelNewAccount] failed -- key verification failed");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    var hashedKey = Configuration.Crypto.Hash(key);
+        //    var result = Configuration.Crypto.SlowEquals(account.VerificationKey, hashedKey);
+        //    if (!result)
+        //    {
+        //        Tracing.Error("[UserAccountService.CancelNewAccount] failed -- key verification failed");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            if (account.VerificationPurpose == (int)VerificationKeyPurpose.ChangeEmail &&
-                account.IsNew())
-            {
-                // if last login is null then they've never logged in so we can delete the account
-                Tracing.Verbose("[UserAccountService.CancelNewAccount] succeeded (deleting account)");
-                DeleteAccount(account);
-                accountClosed = true;
-            }
-            else
-            {
-                Tracing.Error("[UserAccountService.CancelNewAccount] account not new");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
-        }
+        //    if (account.VerificationPurpose == (int)VerificationKeyPurpose.ChangeEmail &&
+        //        account.IsNew())
+        //    {
+        //        // if last login is null then they've never logged in so we can delete the account
+        //        Tracing.Verbose("[UserAccountService.CancelNewAccount] succeeded (deleting account)");
+        //        DeleteAccount(account);
+        //        accountClosed = true;
+        //    }
+        //    else
+        //    {
+        //        Tracing.Error("[UserAccountService.CancelNewAccount] account not new");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
+        //}
 
-        public virtual void DeleteAccount(Guid accountID)
+        public virtual async Task DeleteAccountAsync(Guid accountID)
         {
             Tracing.Information("[UserAccountService.DeleteAccount] called: {0}", accountID);
 
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
-            DeleteAccount(account);
+            await DeleteAccountAsync(account);
         }
 
-        protected virtual void DeleteAccount(TAccount account)
+        protected virtual async Task DeleteAccountAsync(TAccount account)
         {
             if (account == null) throw new ArgumentNullException("account");
 
             Tracing.Verbose("[UserAccountService.DeleteAccount] marking account as closed: {0}", account.ID);
 
             CloseAccount(account);
-            Update(account);
+            await UpdateAsync(account);
 
             if (Configuration.AllowAccountDeletion || account.IsNew())
             {
                 Tracing.Verbose("[UserAccountService.DeleteAccount] removing account record: {0}", account.ID);
-                this.userRepository.Remove(account);
+                await UserLogic.RemoveUserAccountAsync(account);
             }
         }
-        public virtual void CloseAccount(Guid accountID)
+        public virtual async Task CloseAccountAsync(Guid accountID)
         {
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
@@ -714,7 +703,7 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.DeleteAccount] marking account as closed: {0}", account.ID);
 
             CloseAccount(account);
-            Update(account);
+            await UpdateAsync(account);
         }
         //public virtual UserLoginValidation Authenticate(string username, string password)
         //{
@@ -1005,8 +994,8 @@ namespace BrockAllen.MembershipReboot
                 }
             }
 
-            // update account on other thread
-            Task.Factory.StartNew(() => { Update(account); });
+            //deliberately not awaited
+            UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.Authenticate] authentication outcome: {0}", result.valid ? "Successful Login" : "Failed Login");
 
@@ -1132,17 +1121,11 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        public virtual bool AuthenticateWithCode(Guid accountID, string code)
-        {
-            TAccount account;
-            return AuthenticateWithCode(accountID, code, out account);
-        }
-
-        public virtual bool AuthenticateWithCode(Guid accountID, string code, out TAccount account)
+        public virtual async Task<TAccount> AuthenticateWithCodeAsync(Guid accountID, string code)
         {
             Tracing.Information("[UserAccountService.AuthenticateWithCode] called {0}", accountID);
 
-            account = this.GetByID(accountID);
+            var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
             Tracing.Information("[UserAccountService.AuthenticateWithCode] called for accountID: {0}", account.ID);
@@ -1150,37 +1133,37 @@ namespace BrockAllen.MembershipReboot
             if (code == null)
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed - null code");
-                return false;
+                return null;
             }
 
             if (account.IsAccountClosed)
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed -- account closed");
-                return false;
+                return null;
             }
 
             if (!account.IsLoginAllowed)
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed -- login not allowed");
-                return false;
+                return null;
             }
 
             if (account.AccountTwoFactorAuthMode != (int)TwoFactorAuthMode.Mobile)
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed -- two factor auth mode not mobile");
-                return false;
+                return null;
             }
 
             if (account.CurrentTwoFactorAuthStatus != (int)TwoFactorAuthMode.Mobile)
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed -- current auth status not mobile");
-                return false;
+                return null;
             }
 
             if (!VerifyMobileCode(account, code))
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCode] failed -- mobile code failed to verify");
-                return false;
+                return null;
             }
 
             ClearMobileAuthCode(account);
@@ -1198,65 +1181,51 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.AuthenticateWithCode] TwoFactorAuthenticationPolicy issuing a new two factor auth token");
             };
 
-            Update(account);
+            await UpdateAsync(account);
 
-            return true;
+            return account;
         }
 
-        public virtual bool AuthenticateWithCertificate(X509Certificate2 certificate)
-        {
-            TAccount account;
-            return AuthenticateWithCertificate(certificate, out account);
-        }
-
-        public virtual bool AuthenticateWithCertificate(X509Certificate2 certificate, out TAccount account)
+        public virtual async Task<TAccount> AuthenticateWithCertificate(X509Certificate2 certificate)
         {
             Tracing.Information("[UserAccountService.AuthenticateWithCertificate] called");
 
             if (!certificate.Validate())
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCertificate] failed -- cert failed to validate");
-                account = null;
-                return false;
+                return null;
             }
 
-            account = this.GetByCertificate(certificate.Thumbprint);
-            if (account == null) return false;
+            var account = this.GetByCertificate(certificate.Thumbprint);
+            if (account == null) return null;
 
             var result = Authenticate(account, certificate);
-            Update(account);
+            await UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.AuthenticateWithCertificate] result {0}", result);
 
-            return result;
+            return account;
         }
 
-        public virtual bool AuthenticateWithCertificate(Guid accountID, X509Certificate2 certificate)
-        {
-            TAccount account;
-            return AuthenticateWithCertificate(accountID, certificate, out account);
-        }
-
-        public virtual bool AuthenticateWithCertificate(Guid accountID, X509Certificate2 certificate, out TAccount account)
+        public virtual async Task<TAccount> AuthenticateWithCertificateAsync(Guid accountID, X509Certificate2 certificate)
         {
             Tracing.Information("[UserAccountService.AuthenticateWithCertificate] called for userID: {0}", accountID);
 
             if (!certificate.Validate())
             {
                 Tracing.Error("[UserAccountService.AuthenticateWithCertificate] failed -- cert failed to validate");
-                account = null;
-                return false;
+                return null;
             }
 
-            account = this.GetByID(accountID);
+            var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
             var result = Authenticate(account, certificate);
-            Update(account);
+            await UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.AuthenticateWithCertificate] result: {0}", result);
 
-            return result;
+            return account;
         }
 
         protected virtual bool Authenticate(TAccount account, X509Certificate2 certificate)
@@ -1296,7 +1265,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        public virtual void SetIsLoginAllowed(Guid accountID, bool isLoginAllowed)
+        public virtual async Task SetIsLoginAllowedAsync(Guid accountID, bool isLoginAllowed)
         {
             Tracing.Information("[UserAccountService.SetIsLoginAllowed] called: {0}", accountID);
 
@@ -1307,10 +1276,10 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Verbose("[UserAccountService.SetIsLoginAllowed] success");
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void SetRequiresPasswordReset(Guid accountID, bool requiresPasswordReset)
+        public virtual async Task SetRequiresPasswordResetAsync(Guid accountID, bool requiresPasswordReset)
         {
             Tracing.Information("[UserAccountService.SetRequiresPasswordReset] called: {0}", accountID);
 
@@ -1321,10 +1290,10 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Verbose("[UserAccountService.SetRequiresPasswordReset] success");
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void SetPassword(Guid accountID, string newPassword)
+        public virtual async Task SetPasswordAsync(Guid accountID, string newPassword)
         {
             Tracing.Information("[UserAccountService.SetPassword] called: {0}", accountID);
 
@@ -1340,12 +1309,12 @@ namespace BrockAllen.MembershipReboot
             //ValidatePassword(account, newPassword); This checks for different check which we don't need so commented it
 
             SetPassword(account, newPassword);
-            Update(account);
+            await UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.SetPassword] success");
         }
 
-        public virtual void SetPasswordAndClearVerificationKey(Guid accountID, string newPassword)
+        public virtual async Task SetPasswordAndClearVerificationKeyAsync(Guid accountID, string newPassword)
         {
             Tracing.Information("[UserAccountService.SetPassword] called: {0}", accountID);
 
@@ -1361,12 +1330,12 @@ namespace BrockAllen.MembershipReboot
             ValidatePassword(account, newPassword);
             SetPassword(account, newPassword);
             ClearVerificationKey(account);
-            Update(account);
+            await UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.SetPassword] success");
         }
 
-        public virtual void ChangePassword(Guid accountID, string oldPassword, string newPassword)
+        public virtual async Task ChangePasswordAsync(Guid accountID, string oldPassword, string newPassword)
         {
             Tracing.Information("[UserAccountService.ChangePassword] called: {0}", accountID);
 
@@ -1395,26 +1364,26 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.ChangePassword] success");
 
             SetPassword(account, newPassword);
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void ResetPassword(string email)
+        public virtual async Task ResetPasswordAsync(string email)
         {
-            ResetPassword(null, email);
+            ResetPasswordAsync(null, email);
         }
 
-        public string ResetPasswordAndReturnVerificationKey(Guid userId)
+        public async Task<string> ResetPasswordAndReturnVerificationKeyAsync(Guid userId)
         {
             var account = this.GetByID(userId);
 
             var key = SetVerificationKey(account, VerificationKeyPurpose.ResetPassword);
             
-            Update(account);
+            await UpdateAsync(account);
 
             return key;
         }
 
-        public virtual void ResetPassword(string tenant, string email)
+        public virtual async Task ResetPasswordAsync(string tenant, string email)
         {
             if (!Configuration.MultiTenant)
             {
@@ -1447,53 +1416,53 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.ResetPassword] success");
 
             ResetPassword(account);
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual bool ChangePasswordFromResetKey(string key, string newPassword)
-        {
-            TAccount account;
-            return ChangePasswordFromResetKey(key, newPassword, out account);
-        }
+        //public virtual bool ChangePasswordFromResetKey(string key, string newPassword)
+        //{
+        //    TAccount account;
+        //    return ChangePasswordFromResetKey(key, newPassword, out account);
+        //}
 
-        public virtual bool ChangePasswordFromResetKey(string key, string newPassword, out TAccount account)
-        {
-            Tracing.Information("[UserAccountService.ChangePasswordFromResetKey] called: {0}", key);
+        //public virtual bool ChangePasswordFromResetKey(string key, string newPassword, out TAccount account)
+        //{
+        //    Tracing.Information("[UserAccountService.ChangePasswordFromResetKey] called: {0}", key);
 
-            if (String.IsNullOrWhiteSpace(key))
-            {
-                Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- null key");
-                account = null;
-                return false;
-            }
+        //    if (String.IsNullOrWhiteSpace(key))
+        //    {
+        //        Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- null key");
+        //        account = null;
+        //        return false;
+        //    }
 
-            account = this.GetByVerificationKey(key);
-            if (account == null) return false;
+        //    account = this.GetByVerificationKey(key);
+        //    if (account == null) return false;
 
-            ValidatePassword(account, newPassword);
+        //    ValidatePassword(account, newPassword);
 
-            if (!account.IsAccountVerified)
-            {
-                Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- account not verified");
-                return false;
-            }
+        //    if (!account.IsAccountVerified)
+        //    {
+        //        Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- account not verified");
+        //        return false;
+        //    }
 
-            if (!IsVerificationKeyValid(account, VerificationKeyPurpose.ResetPassword, key))
-            {
-                Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- key verification failed");
-                return false;
-            }
+        //    if (!IsVerificationKeyValid(account, VerificationKeyPurpose.ResetPassword, key))
+        //    {
+        //        Tracing.Error("[UserAccountService.ChangePasswordFromResetKey] failed -- key verification failed");
+        //        return false;
+        //    }
 
-            Tracing.Verbose("[UserAccountService.ChangePasswordFromResetKey] success");
+        //    Tracing.Verbose("[UserAccountService.ChangePasswordFromResetKey] success");
 
-            ClearVerificationKey(account);
-            SetPassword(account, newPassword);
-            Update(account);
+        //    ClearVerificationKey(account);
+        //    SetPassword(account, newPassword);
+        //    await UpdateAsync(account);
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public virtual void AddPasswordResetSecret(Guid accountID, string password, string question, string answer)
+        public virtual async Task AddPasswordResetSecretAsync(Guid accountID, string password, string question, string answer)
         {
             Tracing.Information("[UserAccountService.AddPasswordResetSecret] called: {0}", accountID);
 
@@ -1539,10 +1508,10 @@ namespace BrockAllen.MembershipReboot
 
             this.AddEvent(new PasswordResetSecretAddedEvent<TAccount> { Account = account, Secret = secret });
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void RemovePasswordResetSecret(Guid accountID, Guid PasswordResetSecretID)
+        public virtual async Task RemovePasswordResetSecretAsync(Guid accountID, Guid PasswordResetSecretID)
         {
             Tracing.Information("[UserAccountService.RemovePasswordResetSecret] called: Acct: {0}, Question: {1}", accountID, PasswordResetSecretID);
 
@@ -1556,7 +1525,7 @@ namespace BrockAllen.MembershipReboot
 
                 account.PasswordResetSecrets.Remove(item);
                 this.AddEvent(new PasswordResetSecretRemovedEvent<TAccount> { Account = account, Secret = item });
-                Update(account);
+                await UpdateAsync(account);
             }
             else
             {
@@ -1564,7 +1533,7 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        public virtual void ResetPasswordFromSecretQuestionAndAnswer(Guid accountID, PasswordResetQuestionAnswer[] answers)
+        public virtual async Task ResetPasswordFromSecretQuestionAndAnswerAsync(Guid accountID, PasswordResetQuestionAnswer[] answers)
         {
             Tracing.Information("[UserAccountService.ResetPasswordFromSecretQuestionAndAnswer] called: {0}", accountID);
 
@@ -1600,7 +1569,7 @@ namespace BrockAllen.MembershipReboot
 
                 this.AddEvent(new PasswordResetFailedEvent<TAccount> { Account = account });
 
-                Update(account);
+                await UpdateAsync(account);
 
                 Tracing.Error("[UserAccountService.ResetPasswordFromSecretQuestionAndAnswer] failed -- too many failed password reset attempts");
                 throw new ValidationException(Resources.ValidationMessages.InvalidQuestionOrAnswer);
@@ -1641,7 +1610,7 @@ namespace BrockAllen.MembershipReboot
                 ResetPassword(account);
             }
 
-            Update(account);
+            await UpdateAsync(account);
 
             if (failed)
             {
@@ -1649,12 +1618,12 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        public virtual void SendUsernameReminder(string email)
+        public virtual async Task SendUsernameReminderAsync(string email)
         {
-            SendUsernameReminder(null, email);
+            await SendUsernameReminderAsync(null, email);
         }
 
-        public virtual void SendUsernameReminder(string tenant, string email)
+        public virtual async Task SendUsernameReminderAsync(string tenant, string email)
         {
             if (!Configuration.MultiTenant)
             {
@@ -1688,10 +1657,10 @@ namespace BrockAllen.MembershipReboot
 
             this.AddEvent(new UsernameReminderRequestedEvent<TAccount> { Account = account });
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void ChangeUsername(Guid accountID, string newUsername)
+        public virtual async Task ChangeUsernameAsync(Guid accountID, string newUsername)
         {
             Tracing.Information("[UserAccountService.ChangeUsername] called account id: {0}, new username: {1}", accountID, newUsername);
 
@@ -1718,10 +1687,10 @@ namespace BrockAllen.MembershipReboot
 
             this.AddEvent(new UsernameChangedEvent<TAccount> { Account = account });
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void ChangeEmailRequest(Guid accountID, string newEmail)
+        public virtual async Task ChangeEmailRequestAsync(Guid accountID, string newEmail)
         {
             Tracing.Information("[UserAccountService.ChangeEmailRequest] called: {0}, {1}", accountID, newEmail);
 
@@ -1750,93 +1719,93 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Verbose("[UserAccountService.ChangeEmailRequest] success");
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void VerifyEmailFromKey(string key)
-        {
-            TAccount account;
-            VerifyEmailFromKey(key, out account);
-        }
+        //public virtual void VerifyEmailFromKey(string key)
+        //{
+        //    TAccount account;
+        //    VerifyEmailFromKey(key, out account);
+        //}
 
-        public virtual void VerifyEmailFromKey(string key, out TAccount account)
-        {
-            VerifyEmailFromKey(key, null, out account);
-        }
+        //public virtual void VerifyEmailFromKey(string key, out TAccount account)
+        //{
+        //    VerifyEmailFromKey(key, null, out account);
+        //}
 
-        public virtual void VerifyEmailFromKey(string key, string password)
-        {
-            TAccount account;
-            VerifyEmailFromKey(key, password, out account);
-        }
+        //public virtual void VerifyEmailFromKey(string key, string password)
+        //{
+        //    TAccount account;
+        //    VerifyEmailFromKey(key, password, out account);
+        //}
 
-        public virtual void VerifyEmailFromKey(string key, string password, out TAccount account)
-        {
-            Tracing.Information("[UserAccountService.VerifyEmailFromKey] called");
+        //public virtual void VerifyEmailFromKey(string key, string password, out TAccount account)
+        //{
+        //    Tracing.Information("[UserAccountService.VerifyEmailFromKey] called");
 
-            if (String.IsNullOrWhiteSpace(key))
-            {
-                Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- null key");
-                account = null;
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    if (String.IsNullOrWhiteSpace(key))
+        //    {
+        //        Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- null key");
+        //        account = null;
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            account = this.GetByVerificationKey(key);
-            if (account == null)
-            {
-                Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- invalid key");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    account = this.GetByVerificationKey(key);
+        //    if (account == null)
+        //    {
+        //        Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- invalid key");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            Tracing.Information("[UserAccountService.VerifyEmailFromKey] account located: id: {0}", account.ID);
+        //    Tracing.Information("[UserAccountService.VerifyEmailFromKey] account located: id: {0}", account.ID);
 
-            if (account.HasPassword() && String.IsNullOrWhiteSpace(password))
-            {
-                Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- null password");
-                account = null;
-                throw new ValidationException(Resources.ValidationMessages.InvalidPassword);
-            }
+        //    if (account.HasPassword() && String.IsNullOrWhiteSpace(password))
+        //    {
+        //        Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- null password");
+        //        account = null;
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidPassword);
+        //    }
 
-            if (!IsVerificationKeyValid(account, VerificationKeyPurpose.ChangeEmail, key))
-            {
-                Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- key verification failed");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    if (!IsVerificationKeyValid(account, VerificationKeyPurpose.ChangeEmail, key))
+        //    {
+        //        Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- key verification failed");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            if (account.HasPassword() && !Authenticate(account, password, AuthenticationPurpose.VerifyPassword).valid)
-            {
-                Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- authN failed");
-                throw new ValidationException(Resources.ValidationMessages.InvalidPassword);
-            }
+        //    if (account.HasPassword() && !Authenticate(account, password, AuthenticationPurpose.VerifyPassword).valid)
+        //    {
+        //        Tracing.Error("[UserAccountService.VerifyEmailFromKey] failed -- authN failed");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidPassword);
+        //    }
 
-            if (String.IsNullOrWhiteSpace(account.VerificationStorage))
-            {
-                Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] failed -- verification storage empty");
-                throw new ValidationException(Resources.ValidationMessages.InvalidKey);
-            }
+        //    if (String.IsNullOrWhiteSpace(account.VerificationStorage))
+        //    {
+        //        Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] failed -- verification storage empty");
+        //        throw new ValidationException(Resources.ValidationMessages.InvalidKey);
+        //    }
 
-            // one last check
-            ValidateEmail(account, account.VerificationStorage);
+        //    // one last check
+        //    ValidateEmail(account, account.VerificationStorage);
 
-            account.Email = account.VerificationStorage;
-            account.IsAccountVerified = true;
+        //    account.Email = account.VerificationStorage;
+        //    account.IsAccountVerified = true;
 
-            ClearVerificationKey(account);
+        //    ClearVerificationKey(account);
 
-            this.AddEvent(new EmailVerifiedEvent<TAccount> { Account = account });
+        //    this.AddEvent(new EmailVerifiedEvent<TAccount> { Account = account });
 
-            if (Configuration.EmailIsUsername)
-            {
-                Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] security setting EmailIsUsername is true and AllowEmailChangeWhenEmailIsUsername is true, so changing username: {0}, to: {1}", account.Username, account.Email);
-                account.Username = account.Email;
-            }
+        //    if (Configuration.EmailIsUsername)
+        //    {
+        //        Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] security setting EmailIsUsername is true and AllowEmailChangeWhenEmailIsUsername is true, so changing username: {0}, to: {1}", account.Username, account.Email);
+        //        account.Username = account.Email;
+        //    }
 
-            Update(account);
+        //    await UpdateAsync(account);
 
-            Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] success");
-        }
+        //    Tracing.Verbose("[UserAccountService.VerifyEmailFromKey] success");
+        //}
 
-        public virtual void RemoveMobilePhone(Guid accountID)
+        public virtual async Task RemoveMobilePhoneAsync(Guid accountID)
         {
             Tracing.Information("[UserAccountService.RemoveMobilePhone] called: {0}", accountID);
 
@@ -1866,10 +1835,10 @@ namespace BrockAllen.MembershipReboot
 
             this.AddEvent(new MobilePhoneRemovedEvent<TAccount> { Account = account });
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void ChangeMobilePhoneRequest(Guid accountID, string newMobilePhoneNumber)
+        public virtual async Task ChangeMobilePhoneRequestAsync(Guid accountID, string newMobilePhoneNumber)
         {
             Tracing.Information("[UserAccountService.ChangeMobilePhoneRequest] called: {0}, {1}", accountID, newMobilePhoneNumber);
 
@@ -1907,10 +1876,10 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.RequestChangeMobilePhoneNumber] complete, but not issuing a new code");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual bool ChangeMobilePhoneFromCode(Guid accountID, string code)
+        public virtual async Task<bool> ChangeMobilePhoneFromCodeAsync(Guid accountID, string code)
         {
             Tracing.Information("[UserAccountService.ChangeMobileFromCode] called: {0}", accountID);
 
@@ -1947,7 +1916,7 @@ namespace BrockAllen.MembershipReboot
 
             this.AddEvent(new MobilePhoneChangedEvent<TAccount> { Account = account });
 
-            Update(account);
+            await UpdateAsync(account);
 
             return true;
         }
@@ -2219,7 +2188,7 @@ namespace BrockAllen.MembershipReboot
             return IsMobileCodeOlderThan(account, MembershipRebootConstants.UserAccount.MobileCodeResendDelayMinutes);
         }
 
-        public virtual void ConfigureTwoFactorAuthentication(Guid accountID, TwoFactorAuthMode mode)
+        public virtual async Task ConfigureTwoFactorAuthenticationAsync(Guid accountID, TwoFactorAuthMode mode)
         {
             Tracing.Information("[UserAccountService.ConfigureTwoFactorAuthentication] called: {0}", accountID);
 
@@ -2227,7 +2196,7 @@ namespace BrockAllen.MembershipReboot
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
             ConfigureTwoFactorAuthentication(account, mode);
-            Update(account);
+            await UpdateAsync(account);
 
             Tracing.Verbose("[UserAccountService.ConfigureTwoFactorAuthentication] success");
         }
@@ -2365,7 +2334,7 @@ namespace BrockAllen.MembershipReboot
             return true;
         }
 
-        public virtual void SendTwoFactorAuthenticationCode(Guid accountID)
+        public virtual async Task SendTwoFactorAuthenticationCodeAsync(Guid accountID)
         {
             Tracing.Information("[UserAccountService.SendTwoFactorAuthenticationCode] called: {0}", accountID);
 
@@ -2373,7 +2342,7 @@ namespace BrockAllen.MembershipReboot
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
             RequestTwoFactorAuthCode(account, true);
-            Update(account);
+            await UpdateAsync(account);
         }
 
         protected virtual void CloseAccount(TAccount account)
@@ -2403,7 +2372,7 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        public virtual void AddClaim(Guid accountID, string type, string value)
+        public virtual async Task AddClaimAsync(Guid accountID, string type, string value)
         {
             Tracing.Information("[UserAccountService.AddClaim] called for accountID: {0}", accountID);
 
@@ -2433,10 +2402,10 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.AddClaim] claim added");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void RemoveClaim(Guid accountID, string type)
+        public virtual async Task RemoveClaimAsync(Guid accountID, string type)
         {
             Tracing.Information("[UserAccountService.RemoveClaim] called for accountID: {0}", accountID);
 
@@ -2460,10 +2429,10 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.RemoveClaim] claim removed");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void RemoveClaim(Guid accountID, string type, string value)
+        public virtual async Task RemoveClaimAsync(Guid accountID, string type, string value)
         {
             Tracing.Information("[UserAccountService.RemoveClaim] called for accountID: {0}", accountID);
 
@@ -2492,7 +2461,7 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.RemoveClaim] claim removed");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
         protected virtual LinkedAccount GetLinkedAccount(TAccount account, string provider, string id)
@@ -2504,7 +2473,7 @@ namespace BrockAllen.MembershipReboot
             return account.LinkedAccounts.Where(x => x.ProviderName == provider && x.ProviderAccountID == id).SingleOrDefault();
         }
 
-        public virtual void AddOrUpdateLinkedAccount(TAccount account, string provider, string id, IEnumerable<Claim> claims = null)
+        public virtual async Task AddOrUpdateLinkedAccountAsync(TAccount account, string provider, string id, IEnumerable<Claim> claims = null)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2548,10 +2517,10 @@ namespace BrockAllen.MembershipReboot
                 linked.Claims.Add(claim);
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void RemoveLinkedAccount(Guid accountID, string provider)
+        public virtual async Task RemoveLinkedAccountAsync(Guid accountID, string provider)
         {
             Tracing.Information("[UserAccountService.RemoveLinkedAccount] called for account ID: {0}", accountID);
 
@@ -2566,10 +2535,10 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.RemoveLinkedAccount] linked account removed");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void RemoveLinkedAccount(Guid accountID, string provider, string id)
+        public virtual async Task RemoveLinkedAccountAsync(Guid accountID, string provider, string id)
         {
             Tracing.Information("[UserAccountService.RemoveLinkedAccount] called for account ID: {0}", accountID);
 
@@ -2584,10 +2553,10 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.RemoveLinkedAccount] linked account removed");
             }
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void AddCertificate(Guid accountID, X509Certificate2 certificate)
+        public virtual async Task AddCertificateAsync(Guid accountID, X509Certificate2 certificate)
         {
             Tracing.Information("[UserAccountService.AddCertificate] called for account ID: {0}", accountID);
 
@@ -2600,24 +2569,24 @@ namespace BrockAllen.MembershipReboot
                 throw new ValidationException(Resources.ValidationMessages.InvalidCertificate);
             }
 
-            RemoveCertificate(account, certificate);
-            AddCertificate(account, certificate.Thumbprint, certificate.Subject);
+            await RemoveCertificateAsync(account, certificate);
+            await AddCertificateAsync(account, certificate.Thumbprint, certificate.Subject);
 
-            Update(account);
+            await UpdateAsync(account);
         }
 
-        public virtual void AddCertificate(Guid accountID, string thumbprint, string subject)
+        public virtual async Task AddCertificate(Guid accountID, string thumbprint, string subject)
         {
             Tracing.Information("[UserAccountService.AddCertificate] called for account ID: {0}", accountID);
 
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
-            AddCertificate(account, thumbprint, subject);
-            Update(account);
+            await AddCertificateAsync(account, thumbprint, subject);
+            await UpdateAsync(account);
         }
 
-        protected virtual void AddCertificate(TAccount account, string thumbprint, string subject)
+        protected virtual async Task AddCertificateAsync(TAccount account, string thumbprint, string subject)
         {
             Tracing.Information("[UserAccountService.AddCertificate] called for accountID: {0}", account.ID);
 
@@ -2640,17 +2609,17 @@ namespace BrockAllen.MembershipReboot
             this.AddEvent(new CertificateAddedEvent<TAccount> { Account = account, Certificate = cert });
         }
 
-        public virtual void RemoveCertificate(Guid accountID, X509Certificate2 certificate)
+        public virtual async Task RemoveCertificateAsync(Guid accountID, X509Certificate2 certificate)
         {
             Tracing.Information("[UserAccountService.RemoveCertificate] called for account ID: {0}", accountID);
 
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
-            RemoveCertificate(account, certificate);
-            Update(account);
+            await RemoveCertificateAsync(account, certificate);
+            await UpdateAsync(account);
         }
-        protected virtual void RemoveCertificate(TAccount account, X509Certificate2 certificate)
+        protected virtual async Task RemoveCertificateAsync(TAccount account, X509Certificate2 certificate)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2667,20 +2636,20 @@ namespace BrockAllen.MembershipReboot
                 throw new ArgumentException("Invalid certificate");
             }
 
-            RemoveCertificate(account, certificate.Thumbprint);
+            await RemoveCertificateAsync(account, certificate.Thumbprint);
         }
 
-        public virtual void RemoveCertificate(Guid accountID, string thumbprint)
+        public virtual async Task RemoveCertificateAsync(Guid accountID, string thumbprint)
         {
             Tracing.Information("[UserAccountService.RemoveCertificate] called for account ID: {0}", accountID);
 
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
-            RemoveCertificate(account, thumbprint);
-            Update(account);
+            await RemoveCertificateAsync(account, thumbprint);
+            await UpdateAsync(account);
         }
-        protected virtual void RemoveCertificate(TAccount account, string thumbprint)
+        protected virtual async Task RemoveCertificateAsync(TAccount account, string thumbprint)
         {
             if (account == null) throw new ArgumentNullException("account");
 
@@ -2837,13 +2806,7 @@ namespace BrockAllen.MembershipReboot
 
     public class UserAccountService : UserAccountService<UserAccount>
     {
-        //public UserAccountService(IUserAccountRepository userRepository)
-        //    : this(new MembershipRebootConfiguration(), userRepository)
-        //{
-        //}
-
-        public UserAccountService(MembershipRebootConfiguration configuration, IUserAccountRepository userRepository)
-            : base(configuration, userRepository)
+        public UserAccountService()
         {
         }
     }

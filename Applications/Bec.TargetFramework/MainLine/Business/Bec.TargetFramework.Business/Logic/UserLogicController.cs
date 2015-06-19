@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace Bec.TargetFramework.Business.Logic
 {
     [Trace(TraceExceptionsOnly = true)]
-    public class UserLogicController : LogicBase
+    public class UserLogicController : LogicBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController
     {
         public UserAccountService UaService { get; set; }
         public AuthenticationService AuthSvc { get; set; }
@@ -116,7 +116,7 @@ namespace Bec.TargetFramework.Business.Logic
         //    return dto;
         //}
 
-        public async Task<ContactDTO> AddUser(ContactDTO dto)
+        public async Task<ContactDTO> AddUserAsync(ContactDTO dto)
         {
             Ensure.That(dto).IsNotNull();
             var userContact = new Contact();
@@ -124,7 +124,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var userAccount = UaService.CreateAccount(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, true, Guid.NewGuid());
+                var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, true, Guid.NewGuid());
 
                 //user contact
                 userContact.InjectFrom<NullableInjection>(dto);
@@ -153,14 +153,14 @@ namespace Bec.TargetFramework.Business.Logic
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="newPassword"></param>
-        public void ResetUserPassword(Guid userID, string newPassword)
+        public async Task ResetUserPassword(Guid userID, string newPassword)
         {
             var userAccount = UaService.GetByID(userID);
 
             if (userAccount.IsTemporaryAccount)
-                UaService.SetPasswordAndClearVerificationKey(userID, newPassword);
+                await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
             else
-                UaService.SetPassword(userID, newPassword);
+                await UaService.SetPasswordAsync(userID, newPassword);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task LockOrUnlockUser(Guid userId, bool lockUser)
+        public async Task LockOrUnlockUserAsync(Guid userId, bool lockUser)
         {
             Ensure.That(userId).IsNot(Guid.Empty);
             var user = new Bec.TargetFramework.Data.UserAccount();
@@ -203,16 +203,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public string ResetPasswordAndSetVerificationKey(Guid userId)
-        {
-            return UaService.ResetPasswordAndReturnVerificationKey(userId);
-        }
+        //public string ResetPasswordAndSetVerificationKey(Guid userId)
+        //{
+        //    return UaService.ResetPasswordAndReturnVerificationKey(userId);
+        //}
 
-        public void ResetPassword(string email)
-        {
-            var account = UaService.GetByEmail(email);
-            UaService.ResetPassword(email);
-        }
+        //public async Task ResetPassword(string email)
+        //{
+        //    var account = UaService.GetByEmail(email);
+        //    await UaService.ResetPasswordAsync(email);
+        //}
 
         [EnsureArgumentAspect]
         public bool IsUserExist(string userName)
@@ -407,7 +407,7 @@ namespace Bec.TargetFramework.Business.Logic
             return new BrockAllen.MembershipReboot.UserAccount();
         }
 
-        public async Task AddUserAccount(BrockAllen.MembershipReboot.UserAccount user)
+        public async Task AddUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -430,7 +430,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task RemoveUserAccount(BrockAllen.MembershipReboot.UserAccount user)
+        public async Task RemoveUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -440,7 +440,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UpdateUserAccount(BrockAllen.MembershipReboot.UserAccount user)
+        public async Task UpdateUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -537,7 +537,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task LogEveryoneElseOut(Guid userId, string sessionId)
+        public async Task LogEveryoneElseOutAsync(Guid userId, string sessionId)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -553,7 +553,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SaveUserAccountLoginSession(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
+        public async Task SaveUserAccountLoginSessionAsync(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -574,7 +574,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SaveUserAccountLoginSessionData(Guid userId, string sessionId, Dictionary<string, string> requestData)
+        public async Task SaveUserAccountLoginSessionDataAsync(Guid userId, string sessionId, Dictionary<string, string> requestData)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -593,7 +593,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public void LockUserTemporaryAccount(Guid tempUserId)
+        public async Task LockUserTemporaryAccountAsync(Guid tempUserId)
         {
             var tempAccount = UaService.GetByID(tempUserId);
 
@@ -602,7 +602,7 @@ namespace Bec.TargetFramework.Business.Logic
             tempAccount.IsAccountClosed = true;
             tempAccount.IsLoginAllowed = false;
 
-            UaService.Update(tempAccount);
+            await UaService.UpdateAsync(tempAccount);
         }
 
         public bool DoesUserExist(Guid userID, bool isTemporary)
@@ -635,17 +635,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public BrockAllen.MembershipReboot.UserAccount CreateTemporaryAccount(string email, string password, bool temporaryAccount, Guid userId)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateTemporaryAccountAsync(string email, string password, bool temporaryAccount, Guid userId)
         {
-            return UaService.CreateAccount(DataLogic.GenerateRandomName(), password, email, temporaryAccount, userId);
+            return await UaService.CreateAccountAsync(DataLogic.GenerateRandomName(), password, email, temporaryAccount, userId);
         }
 
-        public BrockAllen.MembershipReboot.UserAccount CreateAccount(string userName, string password, string email, bool temporaryAccount, Guid userId)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, bool temporaryAccount, Guid userId)
         {
-            return UaService.CreateAccount(userName, password, email, temporaryAccount, userId);
+            return await UaService.CreateAccountAsync(userName, password, email, temporaryAccount, userId);
         }
 
-        public async Task CreateContact(ContactDTO contactDTO)
+        public async Task CreateContactAsync(ContactDTO contactDTO)
         {
             Ensure.That(contactDTO).IsNotNull();
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
@@ -666,13 +666,13 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public void DeleteAccount(Guid userID)
+        public async Task DeleteAccountAsync(Guid userID)
         {
-            UaService.DeleteAccount(userID);
+            await UaService.DeleteAccountAsync(userID);
         }
-        public void CloseAccount(Guid userID)
+        public async Task CloseAccountAsync(Guid userID)
         {
-            UaService.CloseAccount(userID);
+            await UaService.CloseAccountAsync(userID);
         }
 
         public List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn()
@@ -683,7 +683,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SendUsernameReminder(string email)
+        public async Task SendUsernameReminderAsync(string email)
         {
             //check user exists
             var user = this.GetUserAccountByEmail(email, true).FirstOrDefault();
@@ -716,7 +716,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SendPasswordResetNotification(string username, string siteUrl)
+        public async Task SendPasswordResetNotificationAsync(string username, string siteUrl)
         {
             //check user exists
             Data.UserAccount user = null;
@@ -764,7 +764,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> ExpirePasswordResetRequest(Guid requestID)
+        public async Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {

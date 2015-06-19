@@ -140,7 +140,21 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" : IClientBase\r\n\t{\t\r\n");
+            this.Write(" : IClientBase");
+            
+            #line 71 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+if(definition.Name == "UserLogic"){
+            
+            #line default
+            #line hidden
+            this.Write(", BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController");
+            
+            #line 71 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t{\t\r\n");
             
             #line 73 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
  foreach(var method in definition.ActionMethods) { 

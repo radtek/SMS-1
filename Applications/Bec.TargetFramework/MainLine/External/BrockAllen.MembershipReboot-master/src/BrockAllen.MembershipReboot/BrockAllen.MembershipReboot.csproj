@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AccountService\AuthenticationPurpose.cs" />
     <Compile Include="AccountService\DebuggerEventHandler.cs" />
+    <Compile Include="AccountService\IPartialUserLogicController.cs" />
     <Compile Include="AccountService\PasswordResetQuestionAnswer.cs" />
     <Compile Include="AccountService\UserAccountValidator.cs" />
     <Compile Include="Account\LinkedAccountClaim.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Notification\Email\EmailMessageFormatter.cs" />
     <Compile Include="Notification\SMS\SmsNotificationEventHandler.cs" />
     <Compile Include="Notification\SMS\SmsMessageFormatter.cs" />
-    <Compile Include="Repository\EventBusUserAccountRepository.cs" />
     <Compile Include="AccountService\UserAccountValidation.cs" />
     <Compile Include="Bus\EventBus.cs" />
     <Compile Include="Bus\Events.cs" />
@@ -101,7 +101,6 @@
     <Compile Include="Configuration\ApplicationInformation.cs" />
     <Compile Include="Notification\Message.cs" />
     <Compile Include="Notification\IMessageDelivery.cs" />
-    <Compile Include="Repository\IUserAccountRepository.cs" />
     <Compile Include="Account\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\SecuritySettings.cs" />

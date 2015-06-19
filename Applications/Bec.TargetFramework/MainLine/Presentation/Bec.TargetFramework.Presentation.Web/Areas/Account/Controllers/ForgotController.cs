@@ -113,7 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (ua != null && ua.ID == requestUserID)
             {
                 //change password
-                UserLogicClient.ResetUserPassword(requestUserID, model.NewPassword);
+                await UserLogicClient.ResetUserPasswordAsync(requestUserID, model.NewPassword);
                 await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
 
                 return RedirectToAction("Index", "Home", new { area = "" });

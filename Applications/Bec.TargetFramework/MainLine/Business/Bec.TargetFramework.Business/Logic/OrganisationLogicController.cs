@@ -229,7 +229,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             UserAccountOrganisationDTO uao;
             Guid? userOrgID;
-            var ua = UserLogic.CreateAccount(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
+            var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
@@ -518,7 +518,7 @@ namespace Bec.TargetFramework.Business.Logic
             
             
             //disable old temps
-            UserLogic.LockUserTemporaryAccount(orgInfo.OrganisationAdminUserID.Value);
+            await UserLogic.LockUserTemporaryAccountAsync(orgInfo.OrganisationAdminUserID.Value);
         }
     }
 }

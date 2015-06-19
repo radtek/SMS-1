@@ -8,7 +8,6 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.Infrastructure.Settings;
 using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Ef;
 using BrockAllen.MembershipReboot.WebHost;
 using NServiceBus;
 using Serilog.Extras.Web;
@@ -34,7 +33,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinderProvider();
-            builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>().PropertiesAutowired();
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
             builder.Register(c => new SerilogLogger(true, true, "TFWebApplication")).As<ILogger>().SingleInstance();
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
@@ -46,7 +44,7 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
 
             builder.Register(c => Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
-            builder.RegisterType<UserAccountService>().SingleInstance();
+            builder.RegisterType<UserAccountService>().PropertiesAutowired();
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);

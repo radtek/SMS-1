@@ -82,10 +82,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot.Ef\BrockAllen.MembershipReboot.Ef.csproj">
-      <Project>{453c8a9d-72aa-4f8d-9354-8b0f57f2b58a}</Project>
-      <Name>BrockAllen.MembershipReboot.Ef</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot.WebHost\BrockAllen.MembershipReboot.WebHost.csproj">
       <Project>{754ae1b9-11d0-4270-98c7-8da69b150860}</Project>
       <Name>BrockAllen.MembershipReboot.WebHost</Name>

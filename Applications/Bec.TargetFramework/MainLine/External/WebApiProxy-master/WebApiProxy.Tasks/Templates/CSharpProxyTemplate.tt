@@ -68,7 +68,7 @@ namespace <#= Configuration.Namespace#>.Interfaces
 	}
 
 <# foreach(var definition in Configuration.Metadata.Definitions) { #>	
-	public partial interface I<#=definition.Name#><#=Configuration.ClientSuffix#> : IClientBase
+	public partial interface I<#=definition.Name#><#=Configuration.ClientSuffix#> : IClientBase<#if(definition.Name == "UserLogic"){#>, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController<#}#>
 	{	
 <# foreach(var method in definition.ActionMethods) { 
 		var mName = method.Name;

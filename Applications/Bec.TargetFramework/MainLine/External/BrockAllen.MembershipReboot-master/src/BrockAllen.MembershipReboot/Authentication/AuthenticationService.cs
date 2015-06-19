@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BrockAllen.MembershipReboot
 {
@@ -140,41 +141,21 @@ namespace BrockAllen.MembershipReboot
             IssueToken(cp, MembershipRebootConstants.AuthenticationService.TwoFactorAuthTokenLifetime, false);
         }
 
-        public void SignInWithLinkedAccount(
+        public async Task<TAccount> SignInWithLinkedAccount(
                     string providerName,
                     string providerAccountID,
                     IEnumerable<Claim> externalClaims)
         {
-            SignInWithLinkedAccount(null, providerName, providerAccountID, externalClaims);
+            return await SignInWithLinkedAccount(null, providerName, providerAccountID, externalClaims);
         }
 
-        public void SignInWithLinkedAccount(
-           string providerName,
-           string providerAccountID,
-           IEnumerable<Claim> externalClaims,
-           out TAccount account)
-        {
-            SignInWithLinkedAccount(null, providerName, providerAccountID, externalClaims, out account);
-        }
-
-        public void SignInWithLinkedAccount(
+        public async Task<TAccount> SignInWithLinkedAccount(
             string tenant,
             string providerName,
             string providerAccountID,
             IEnumerable<Claim> claims)
         {
-            TAccount account;
-            SignInWithLinkedAccount(null, providerName, providerAccountID, claims, out account);
-        }
-
-        public void SignInWithLinkedAccount(
-            string tenant,
-            string providerName,
-            string providerAccountID,
-            IEnumerable<Claim> claims,
-            out TAccount account)
-        {
-            account = null;
+            TAccount account = null;
 
             if (!UserAccountService.Configuration.MultiTenant)
             {
@@ -229,14 +210,14 @@ namespace BrockAllen.MembershipReboot
                     // verification is disabled then we need to be very confident that the external provider has
                     // provided us with a verified email
                     //Added temporary account parameter as false. This can be changed if we are using this functionality
-                    account = this.UserAccountService.CreateAccount(tenant, name, null, email, false, Guid.NewGuid());
+                    account = await UserAccountService.CreateAccountAsync(tenant, name, null, email, false, Guid.NewGuid());
                 }
             }
 
             if (account == null) throw new Exception("Failed to locate account");
 
             // add/update the provider with this account
-            this.UserAccountService.AddOrUpdateLinkedAccount(account, providerName, providerAccountID, claims);
+            await UserAccountService.AddOrUpdateLinkedAccountAsync(account, providerName, providerAccountID, claims);
             //this.UserAccountService.Update(account);
 
             // log them in if the account if they're verified
@@ -247,6 +228,8 @@ namespace BrockAllen.MembershipReboot
                 // should be done in the claims transformer
                 this.SignIn(account, providerName);
             }
+
+            return account;
         }
 
         public virtual void SignOut()
