@@ -89,7 +89,9 @@ namespace Bec.TargetFramework.SB.TaskServices
             {
                 InitialiseIOC();
 
-                Thread.Sleep(5000);
+                #if DEBUG
+                    Thread.Sleep(10000);
+                #endif
 
                 // create scheduler and start 
                 SchedulerHelper.InitialiseAndStartScheduler(m_LifetimeScope);
