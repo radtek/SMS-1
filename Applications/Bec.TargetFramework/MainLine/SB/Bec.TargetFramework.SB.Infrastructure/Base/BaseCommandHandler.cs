@@ -20,15 +20,13 @@ namespace Bec.TargetFramework.SB.Handlers.Base
 
         public IBus Bus { get; set; }
 
-        protected ILogger m_Logger;
-        protected IBusLogicClient m_BusLogic;
-        protected IEventPublishLogicClient m_EventPublish;
+        public ILogger m_Logger { get; set; }
+        public IBusLogicClient m_BusLogic { get; set; }
+        public IEventPublishLogicClient m_EventPublish { get; set; }
 
-        public BaseCommandHandler(ILogger logger, IBusLogicClient busLogic, IEventPublishLogicClient eventClient)
+        public BaseCommandHandler()
         {
-            m_Logger = logger;
-            m_BusLogic = busLogic;
-            m_EventPublish = eventClient;
+
         }
 
         public virtual void Handle(T message)

@@ -82,7 +82,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                 Bus.SetMessageHeader(instanceOfT, "EventReference", dto.EventReference);
 
             // publish message on bus
-            Bus.Publish<SBEvent>(instanceOfT);
+            Bus.Publish(instanceOfT);
 
             return true;
         }

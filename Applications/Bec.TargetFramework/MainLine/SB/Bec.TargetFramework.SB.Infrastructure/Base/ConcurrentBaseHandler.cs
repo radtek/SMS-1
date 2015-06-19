@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.SB.Handlers.Base
 {
-    public class ConcurrentBaseHandler<T> : BaseHandler<T>,IDisposable where T:IEvent
+    public class ConcurrentBaseHandler<T> : BaseHandler<T>, IDisposable where T : IEvent
     {
         static readonly object m_ConcurrencyLock;
 

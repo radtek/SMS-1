@@ -56,12 +56,8 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
-        private static void PurgeScheduledTasks(IScheduler scheduler,List<VBusTaskScheduleDTO> dtos)
+        private static void PurgeScheduledTasksByApplication(IScheduler scheduler,List<VBusTaskScheduleDTO> dtos)
         {
-            // purge only for current application
-            var appName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
-            var appEnvironment = System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"];
-
             IList<string> jobGroups = scheduler.GetJobGroupNames();
             IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
 
@@ -77,7 +73,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
-        private static void PurgeScheduledTasks(IScheduler scheduler,string taskName,string groupName)
+        private static void PurgeScheduledTaskByTaskAndGroup(IScheduler scheduler,string taskName,string groupName)
         {
             IList<string> jobGroups = scheduler.GetJobGroupNames();
             IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
@@ -94,6 +90,25 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             }
         }
 
+        private static void PurgeAllScheduledTasksByGroup(IScheduler scheduler, string groupName = null)
+        {
+            IList<string> jobGroups = scheduler.GetJobGroupNames();
+            IList<string> triggerGroups = scheduler.GetTriggerGroupNames();
+
+            foreach (string group in jobGroups)
+            {
+                var groupMatcher = GroupMatcher<JobKey>.GroupContains(group);
+                var jobKeys = scheduler.GetJobKeys(groupMatcher);
+                foreach (var jobKey in jobKeys)
+                {
+                    if(groupName != null && jobKey.Group.Equals(groupName))
+                        scheduler.DeleteJob(jobKey);
+                    else
+                        scheduler.DeleteJob(jobKey);
+                }
+            }
+        }
+
         private static void ValidateSchedulerSettings()
         {
             Ensure.That(System.Configuration.ConfigurationManager.AppSettings["ApplicationName"])
@@ -102,25 +117,34 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                 .IsNotNullOrWhiteSpace();
         }
 
-        public static void ShutdownScheduler(ILifetimeScope lifetimeScope)
+        public static void ShutdownScheduler(ILifetimeScope lifetimeScope,bool purgeTempTasks = false)
         {
-            var scheduler = lifetimeScope.Resolve<IScheduler>();
+            if (lifetimeScope != null)
+            {
+                var scheduler = lifetimeScope.Resolve<IScheduler>();
 
-            if (scheduler != null && !scheduler.IsShutdown)
-                scheduler.Shutdown();
+                if(purgeTempTasks)
+                    PurgeTempTasks(lifetimeScope);
+
+                if (scheduler != null && !scheduler.IsShutdown)
+                    scheduler.Shutdown();
+            }
         }
 
-        public static void InitialiseExecuteTaskImmediately(ILifetimeScope lifetimeScope, string taskName, string groupName, Type taskType)
+        public static void InitialiseExecuteTempTaskImmediately(ILifetimeScope lifetimeScope, string taskName, Type taskType)
         {
             var scheduler = lifetimeScope.Resolve<IScheduler>();
+            var logger = lifetimeScope.Resolve<ILogger>();
 
             // purge all current jobs
-            PurgeScheduledTasks(scheduler, taskName,groupName);
+            PurgeScheduledTaskByTaskAndGroup(scheduler, taskName, "TEMP");
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTime.UtcNow);
-        DateTimeOffset startTime = DateBuilder.NextGivenSecondDate(null, 10);
 
-            var jobKey = new JobKey(taskName, groupName);
+            // execute from 10 seconds of trigger being created
+            DateTimeOffset startTime = DateBuilder.NextGivenSecondDate(null, 10);
+
+            var jobKey = new JobKey(taskName, "TEMP");
 
             // if already registered then delete and reschedule
             if (scheduler.CheckExists(jobKey))
@@ -138,7 +162,17 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
                     triggerBuilder.WithSimpleSchedule(a => a.WithIntervalInSeconds(10));
                       
                 q.AddTrigger(() => triggerBuilder.Build());
+
+                logger.Trace(string.Format("Execute Temp Scheduled Job: {0} Group:{1}", taskName, "TEMP"));
             });
+        }
+
+        public static void PurgeTempTasks(ILifetimeScope lifetimeScope)
+        {
+            var scheduler = lifetimeScope.Resolve<IScheduler>();
+
+            // purge all temp tasks
+            PurgeAllScheduledTasksByGroup(scheduler,"TEMP");
         }
 
         public static void InitialiseAndStartScheduler(ILifetimeScope lifetimeScope)
@@ -156,7 +190,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
             var busTaskDtos = busTaskLogicClient.AllBusTaskSchedulesByAppNameAndEnv(appName, appEnvironment);
 
             // purge all current jobs
-            PurgeScheduledTasks(scheduler, busTaskDtos);
+            PurgeScheduledTasksByApplication(scheduler, busTaskDtos);
 
             if (busTaskDtos.Count > 0)
             {

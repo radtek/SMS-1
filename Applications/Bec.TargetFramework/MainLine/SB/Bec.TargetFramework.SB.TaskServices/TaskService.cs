@@ -19,6 +19,7 @@ using Bec.TargetFramework.Infrastructure.IOC;
 using System.Collections.Concurrent;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs;
+using NServiceBus.Config;
 using NServiceBus.Pipeline;
 using Quartz;
 
@@ -66,9 +67,17 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             IocProvider.BuildAndRegisterIocContainer<IOC.DependencyRegistrar>();
 
-            NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
+            var busConfig = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName());
 
-            // create scope for service
+            busConfig.OverrideLocalAddress("Y");
+
+            // add assemblies as needed
+            busConfig.AssembliesToScan(AllAssemblies.Matching("NServiceBus")
+                .And("Bec.TargetFramework.SB.Messages")
+                .And("Bec.TargetFramework.SB.TaskHandlers")
+                .And("Bec.TargetFramework.SB.NotificationServices"));
+
+            NServiceBus.Bus.Create(busConfig).Start();
             m_LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
         }
 
@@ -79,6 +88,8 @@ namespace Bec.TargetFramework.SB.TaskServices
             try
             {
                 InitialiseIOC();
+
+                Thread.Sleep(5000);
 
                 // create scheduler and start 
                 SchedulerHelper.InitialiseAndStartScheduler(m_LifetimeScope);
@@ -118,6 +129,9 @@ namespace Bec.TargetFramework.SB.TaskServices
 
         private void StopServices()
         {
+            // shutdown scheduler
+            SchedulerHelper.ShutdownScheduler(m_LifetimeScope);
+
             if (m_LifetimeScope != null)
                 m_LifetimeScope.Dispose();
         }

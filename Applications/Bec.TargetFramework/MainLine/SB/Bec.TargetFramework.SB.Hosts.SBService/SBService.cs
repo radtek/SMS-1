@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Messages.Events;
+using NServiceBus.Config;
 using NServiceBus.Features;
 using NServiceBus.Pipeline;
 using NServiceBus.Pipeline.Contexts;
@@ -58,7 +59,14 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             IocProvider.BuildAndRegisterIocContainer<Bec.TargetFramework.SB.Hosts.SBService.IOC.DependencyRegistrar>();
 
-            NServiceBus.Bus.Create(NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName())).Start();
+            var busConfig = NServiceBusHelper.CreateDefaultStartableBusUsingaAutofacBuilder(IocProvider.GetIocContainerUsingAppDomainFriendlyName());
+
+            // add assemblies as needed
+            busConfig.AssembliesToScan(AllAssemblies.Matching("NServiceBus")
+                .And("Bec.TargetFramework.SB.Messages")
+                .And("Bec.TargetFramework.SB.Hosts.SBService"));
+
+            NServiceBus.Bus.Create(busConfig).Start();
 
             m_LifetimeScope = IocProvider.GetIocContainerUsingAppDomainFriendlyName().BeginLifetimeScope();
         }

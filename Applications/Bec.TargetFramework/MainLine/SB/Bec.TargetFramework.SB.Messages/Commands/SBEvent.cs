@@ -10,7 +10,7 @@ namespace Bec.TargetFramework.SB.Messages.Events
     using NServiceBus;
     using Bec.TargetFramework.SB.Entities;
 
-    public class SBEvent : ISBEvent
+    public class SBEvent : IEvent
     {
         public EventPayloadDTO EventPayloadDto { get; set; }
     }

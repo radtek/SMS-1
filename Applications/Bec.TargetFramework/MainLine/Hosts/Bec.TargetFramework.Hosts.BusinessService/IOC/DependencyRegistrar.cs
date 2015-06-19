@@ -7,11 +7,11 @@ using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.Infrastructure.Settings;
-using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.Ef;
-using BrockAllen.MembershipReboot.WebHost;
-using NServiceBus;
-using System.Configuration;
+    using BrockAllen.MembershipReboot;
+    using BrockAllen.MembershipReboot.Ef;
+    using BrockAllen.MembershipReboot.WebHost;
+    using NServiceBus;
+    using System.Configuration;
 using System.Linq;
 using System.Reflection;
 
@@ -39,7 +39,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
             builder.Register(c => Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
             builder.RegisterType<UserAccountService>().SingleInstance();
-            
+
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
 

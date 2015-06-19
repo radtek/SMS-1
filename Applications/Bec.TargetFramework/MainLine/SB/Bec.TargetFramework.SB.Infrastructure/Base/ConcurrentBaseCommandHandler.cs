@@ -22,8 +22,8 @@ namespace Bec.TargetFramework.SB.Handlers.Base
             m_ConcurrencyLock = new object();
         }
 
-        public ConcurrentBaseCommandHandler(ILogger logger, IBusLogicClient busLogic, IEventPublishLogicClient eventClient)
-            : base(logger, busLogic, eventClient)
+        public ConcurrentBaseCommandHandler()
+           
         {
 
         }
