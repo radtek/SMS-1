@@ -11,9 +11,8 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : ApplicationControllerBase
     {
-        public HomeController(ILogger logger) : base(logger)
+        public HomeController()
         {
-            
         }
 
         public ActionResult Index()

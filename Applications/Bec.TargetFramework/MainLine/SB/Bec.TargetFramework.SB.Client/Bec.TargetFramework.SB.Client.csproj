@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -114,6 +118,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
       <Name>Bec.TargetFramework.SB.Entities</Name>

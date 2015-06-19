@@ -98,9 +98,19 @@ namespace WebApiProxy.Generator
         private void button2_Click(object sender, EventArgs e)
         {
             txtProjectDirectory.Text = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Business\Bec.TargetFramework.Business.Client\WebApiProxy";
+            txtEndpoint.Text = "http://localhost:9000/api/proxies";
             txtProxyNamespace.Text = "Bec.TargetFramework.Business.Client";
             txtEntitiesNamespace.Text = "Bec.TargetFramework.Entities";
             txtEnumsNamespace.Text = "Bec.TargetFramework.Entities.Enums";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            txtProjectDirectory.Text = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\SB\Bec.TargetFramework.SB.Client\WebApiProxy";
+            txtEndpoint.Text = "http://localhost:9002/api/proxies";
+            txtProxyNamespace.Text = "Bec.TargetFramework.SB.Client";
+            txtEntitiesNamespace.Text = "Bec.TargetFramework.SB.Entities";
+            txtEnumsNamespace.Text = "Bec.TargetFramework.SB.Entities.Enums";
         }
     }
 }

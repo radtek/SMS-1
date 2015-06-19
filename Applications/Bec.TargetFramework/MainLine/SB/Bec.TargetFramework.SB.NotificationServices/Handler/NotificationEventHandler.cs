@@ -36,23 +36,20 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
     using Bec.TargetFramework.SB.Messages.Events;
     using Bec.TargetFramework.Infrastructure.Settings;
     using Bec.TargetFramework.Infrastructure.IOC;
+    using Bec.TargetFramework.SB.Client.Interfaces;
 
     public class NotificationEventHandler : ConcurrentBaseHandler<NotificationEvent>
     {
         private IClassificationDataLogicClient m_ClassificationLogic;
         private INotificationLogicClient m_NotificationLogic;
         private IUserLogicClient m_UserLogic;
-        private CommonSettings m_CommonSettings;
 
-        public NotificationEventHandler(ILogger logger, INotificationLogicClient notifLogic,
-            IBusLogicClient busLogic, IEventPublishClient eventClient, IClassificationDataLogicClient dataLogic, IUserLogicClient uLogic,
-            CommonSettings settings, SBSettings sbSettings)
-            : base(logger, busLogic, sbSettings, eventClient)
+        public NotificationEventHandler(ILogger logger, INotificationLogicClient notifLogic, IBusLogicClient busLogic, IEventPublishLogicClient eventClient, IClassificationDataLogicClient dataLogic, IUserLogicClient uLogic)
+            : base(logger, busLogic, eventClient)
         {
             m_ClassificationLogic = dataLogic;
             m_NotificationLogic = notifLogic;
             m_UserLogic = uLogic;
-            m_CommonSettings = settings;
         }
 
         public override void Dispose()

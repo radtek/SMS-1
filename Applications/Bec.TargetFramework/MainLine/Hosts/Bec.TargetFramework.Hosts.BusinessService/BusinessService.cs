@@ -1,35 +1,14 @@
 ﻿using Autofac;
-using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.SB.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.ServiceModel;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Integration.Wcf;
-using System.ServiceModel.Description;
-using System.ServiceModel.Configuration;
-using System.Configuration;
+using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
-using Enyim.Caching;
 using Microsoft.Owin.Hosting;
 using NServiceBus;
-using NServiceBus.Installation.Environments;
-using NServiceBus.Serilog;
+using System;
+using System.Configuration;
+using System.ServiceProcess;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
-    using Bec.TargetFramework.Infrastructure;
-    using Bec.TargetFramework.SB.Messages.Commands;
-    using Bec.TargetFramework.Infrastructure.IOC;
-    using Bec.TargetFramework.Hosts.BusinessService.API;
-    using Bec.TargetFramework.Business.Logic;
 
     public partial class BusinessService : ServiceBase
     {

@@ -7,18 +7,18 @@ namespace Bec.TargetFramework.Data.Infrastructure
 {
     public interface IUnitOfWork : IUnitOfWorkForService
     {
-        bool Save();
-        Task<bool> SaveAsync();
+        void Save();
+        Task SaveAsync();
 
         /// <summary>
         /// Disables tracking and linq delayed execution
         /// </summary>
-        void DisableProxyAndLazyLoading();
+        //void DisableProxyAndLazyLoading();
 
-        /// <summary>
-        /// Enables tracking and linq delayed execution
-        /// </summary>
-        void EnableProxyAndLazyLoading();
+        ///// <summary>
+        ///// Enables tracking and linq delayed execution
+        ///// </summary>
+        //void EnableProxyAndLazyLoading();
     }
 
     public interface IUnitOfWorkForService

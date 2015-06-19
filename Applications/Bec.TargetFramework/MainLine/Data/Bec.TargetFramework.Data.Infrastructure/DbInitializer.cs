@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Data.Infrastructure
 {
-    public class DbInitializer
-    {
-        public static void Initialize(IContainer autoFacContainer)
-        {
-            var settings = autoFacContainer.Resolve<CommonSettings>();
+    //public class DbInitializer
+    //{
+    //    public static void Initialize(IContainer autoFacContainer)
+    //    {
+    //        var settings = autoFacContainer.Resolve<CommonSettings>();
 
-            // add interceptor
-            if (settings != null)
-                DbInterception.Add(new LoggerCommandInterceptor(new SerilogLogger(true,false,"Database"), settings.LogTraceDatabase, settings.LogDebugDatabase));
-        }
-    }
+    //        // add interceptor
+    //        if (settings != null)
+    //            DbInterception.Add(new LoggerCommandInterceptor(new SerilogLogger(true,false,"Database"), settings.LogTraceDatabase, settings.LogDebugDatabase));
+    //    }
+    //}
 }

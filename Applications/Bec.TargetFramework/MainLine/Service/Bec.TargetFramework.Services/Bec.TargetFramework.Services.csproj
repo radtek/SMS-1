@@ -91,13 +91,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ISettingService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Configuration\SettingServiceLocal.cs" />
-    <Compile Include="Configuration\SettingService.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

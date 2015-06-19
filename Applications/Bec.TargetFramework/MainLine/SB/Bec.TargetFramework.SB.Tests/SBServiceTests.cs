@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.SB.Tests
         [TestMethod]
         public void SendNotificationEvent()
         {
-            using (var proxy = new EventPublishClient(ConfigurationManager.AppSettings["SBServiceBaseURL"]))
+            using (var proxy = new EventPublishLogicClient(ConfigurationManager.AppSettings["SBServiceBaseURL"]))
             {
                 var tempAccountDto = new TemporaryAccountDTO
                 {

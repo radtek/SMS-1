@@ -80,6 +80,5 @@ namespace Bec.TargetFramework.Entities
 
          [DataMember]
          public List<VProductDeductionDTO> ProductDTODeductions { get; set; }
-
     }
 }

@@ -13,16 +13,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     [SessionExpireFilter]
     public class AcceptTCsController : Controller
     {
-        INotificationLogicClient m_NotificationLogicClient;
-        public AcceptTCsController(INotificationLogicClient nClient)
+        public INotificationLogicClient NotificationLogicClient { get; set; }
+        public AcceptTCsController()
         {
-            m_NotificationLogicClient = nClient;
         }
 
         public ActionResult Index()
         {
             var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-            var result = m_NotificationLogicClient.GetTcAndCsText(userObject.UserID);
+            var result = NotificationLogicClient.GetTcAndCsText(userObject.UserID);
             ViewBag.NotificationID = result.NotificationID;
             ViewBag.NotificationConstructID = result.NotificationConstructID;
             ViewBag.NotificationConstructVersionNumber = result.NotificationConstructVersionNumber;
@@ -33,7 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public ActionResult GetPDF(Guid ncID, int version)
         {
             var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-            return File(m_NotificationLogicClient.GetTcAndCsData(ncID, version), "application/pdf", "TermsAndConditions.pdf");
+            return File(NotificationLogicClient.GetTcAndCsData(ncID, version), "application/pdf", "TermsAndConditions.pdf");
         }
 
         [HttpPost]
@@ -44,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (userObject != null) userObject.NeedsTCs = false;
 
             //update database
-            m_NotificationLogicClient.MarkAccepted(notificationID);
+            NotificationLogicClient.MarkAccepted(notificationID);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
     }

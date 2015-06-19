@@ -16,10 +16,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     [Authorize]
     public class LogoutController : Controller
     {
-        AuthenticationService authSvc;
-        public LogoutController(AuthenticationService authSvc)
+        public AuthenticationService AuthSvc { get; set; }
+        public LogoutController()
         {
-            this.authSvc = authSvc;
         }
 
         // GET: Account/Logout
@@ -27,7 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                authSvc.SignOut();
+                AuthSvc.SignOut();
                 SessionHelper.ClearSession();
 
                 return RedirectToAction("Index", "Login", new { area = "Account" });

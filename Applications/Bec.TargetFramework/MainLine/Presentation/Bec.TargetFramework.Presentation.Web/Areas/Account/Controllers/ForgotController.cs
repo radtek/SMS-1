@@ -1,4 +1,5 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Models;
 using BrockAllen.MembershipReboot;
@@ -14,19 +15,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
     public class ForgotController : Controller
     {
-        AuthenticationService authSvc;
-        IUserLogicClient m_UserLogicClient;
-        IOrganisationLogicClient m_OrgLogicClient;
-        INotificationLogicClient m_NotificationLogicClient;
-        CommonSettings m_CommonSettings;
+        public AuthenticationService AuthSvc { get; set; }
+        public IUserLogicClient UserLogicClient { get; set; }
+        public INotificationLogicClient NotificationLogicClient { get; set; }
+        public ITFSettingsLogicClient SettingsClient { get; set; }
+
         HttpClient httpClient;
-        public ForgotController(AuthenticationService aSvc, IUserLogicClient uClient, IOrganisationLogicClient oClient, INotificationLogicClient nClient, CommonSettings cSettings)
+        public ForgotController()
         {
-            authSvc = aSvc;
-            m_UserLogicClient = uClient;
-            m_OrgLogicClient = oClient;
-            m_NotificationLogicClient = nClient;
-            m_CommonSettings = cSettings;
             httpClient = new HttpClient { BaseAddress = new Uri("https://www.google.com/recaptcha/api/") };
         }
         // GET: Account/Forgot
@@ -47,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             //send email if the email address is found
             if (response.success)
             {
-                m_UserLogicClient.SendUsernameReminder(email);
+                UserLogicClient.SendUsernameReminder(email);
 
                 ViewBag.Message = "Thank you. The registered Username has been sent to the specified email address.";
                 ViewBag.Link = true;
@@ -67,7 +63,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (response.success)
             {
                 //send email if the username is found
-                m_UserLogicClient.SendPasswordResetNotification(username, Request.Url.OriginalString.Replace("/Password", "/Reset") + "?resetId={0}&expire={1}");
+                UserLogicClient.SendPasswordResetNotification(username, Request.Url.OriginalString.Replace("/Password", "/Reset") + "?resetId={0}&expire={1}");
 
                 ViewBag.Message = "Thank you. Instructions to reset your password have been sent to your registered email address.";
                 return View("ForgotDone");
@@ -83,7 +79,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             if (expire)
             {
-                await m_UserLogicClient.ExpirePasswordResetRequestAsync(resetID);
+                await UserLogicClient.ExpirePasswordResetRequestAsync(resetID);
                 ViewBag.Message = "The request to reset your password has been revoked.";
                 ViewBag.Link = true;
                 return View("ForgotDone");
@@ -91,7 +87,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             else
             {
                 //TODO: check whether the reset request is still valid
-                if (await m_UserLogicClient.IsPasswordResetRequestValidAsync(resetID))
+                if (await UserLogicClient.IsPasswordResetRequestValidAsync(resetID))
                 {
                     ViewBag.RequestID = resetID;
                     return View();
@@ -99,7 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 else
                 {
                     //invalid guid
-                    ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", m_CommonSettings.SupportTelephoneNumber);
+                    ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
                     return View("ForgotDone");
                 }
             }
@@ -110,21 +106,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             
             //expire the reset request
-            var requestUserID = await m_UserLogicClient.ExpirePasswordResetRequestAsync(model.RequestID);
+            var requestUserID = await UserLogicClient.ExpirePasswordResetRequestAsync(model.RequestID);
 
             //check username matches the reset request
-            var ua = m_UserLogicClient.GetBAUserAccountByUsername(model.Username);
+            var ua = UserLogicClient.GetBAUserAccountByUsername(model.Username);
             if (ua != null && ua.ID == requestUserID)
             {
                 //change password
-                m_UserLogicClient.ResetUserPassword(requestUserID, model.NewPassword);
-                await LoginController.login(this, ua, authSvc, m_UserLogicClient, m_NotificationLogicClient);
+                UserLogicClient.ResetUserPassword(requestUserID, model.NewPassword);
+                await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
 
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
             else
             {
-                ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", m_CommonSettings.SupportTelephoneNumber);
+                ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
                 return View("ForgotDone");
             }
         }

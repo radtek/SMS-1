@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Interfaces;
 using NServiceBus;
@@ -21,10 +22,8 @@ namespace Bec.TargetFramework.SB.Handlers.Base
             m_ConcurrencyLock = new object();
         }
 
-        public ConcurrentBaseHandler(ILogger logger,
-            IBusLogicClient busLogic,
-            SBSettings settings, IEventPublishClient eventClient)
-            : base(logger, busLogic, settings,eventClient)
+        public ConcurrentBaseHandler(ILogger logger, IBusLogicClient busLogic, IEventPublishLogicClient eventClient)
+            : base(logger, busLogic,eventClient)
         {
         
         }

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
-
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
 using Bec.TargetFramework.SB.Infrastructure;
@@ -22,15 +22,11 @@ namespace Bec.TargetFramework.SB.Handlers.Base
 
         protected ILogger m_Logger;
         protected IBusLogicClient m_BusLogic;
-        protected SBSettings m_CommonSettings;
-        protected IEventPublishClient m_EventPublish;
+        protected IEventPublishLogicClient m_EventPublish;
 
-        public BaseCommandHandler(ILogger logger,
-            IBusLogicClient busLogic,
-            SBSettings settings,IEventPublishClient eventClient)
+        public BaseCommandHandler(ILogger logger, IBusLogicClient busLogic, IEventPublishLogicClient eventClient)
         {
             m_Logger = logger;
-            m_CommonSettings = settings;
             m_BusLogic = busLogic;
             m_EventPublish = eventClient;
         }

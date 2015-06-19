@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Infrastructure.Settings;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Service.Configuration
 {
@@ -65,12 +66,12 @@ namespace Bec.TargetFramework.Service.Configuration
         /// </summary>
         /// <param name="setting">Setting</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        public virtual void InsertSetting(SettingDTO setting, bool clearCache = true)
+        public virtual async Task InsertSettingAsync(SettingDTO setting, bool clearCache = true)
         {
             if (setting == null)
                 throw new ArgumentNullException("setting");
 
-            m_SettingLogic.InsertSetting(setting);
+            await m_SettingLogic.InsertSettingAsync(setting);
         }
 
         /// <summary>
@@ -78,24 +79,24 @@ namespace Bec.TargetFramework.Service.Configuration
         /// </summary>
         /// <param name="setting">Setting</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        public virtual void UpdateSetting(SettingDTO setting, bool clearCache = true)
+        public virtual async Task UpdateSettingAsync(SettingDTO setting, bool clearCache = true)
         {
             if (setting == null)
                 throw new ArgumentNullException("setting");
 
-           m_SettingLogic.UpdateSetting(setting);
+            await m_SettingLogic.UpdateSettingAsync(setting);
         }
 
         /// <summary>
         /// Deletes a setting
         /// </summary>
         /// <param name="setting">Setting</param>
-        public virtual void DeleteSetting(SettingDTO setting)
+        public virtual async Task DeleteSettingAsync(SettingDTO setting)
         {
             if (setting == null)
                 throw new ArgumentNullException("setting");
 
-            m_SettingLogic.DeleteSetting(setting);
+            await m_SettingLogic.DeleteSettingAsync(setting);
         }
 
         /// <summary>
@@ -125,8 +126,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="storeId">Store identifier</param>
         /// <param name="loadSharedValueIfNotFound">A value indicating whether a shared (for all stores) value should be loaded if a value specific for a certain is not found</param>
         /// <returns>Setting value</returns>
-        public virtual T GetSettingByKey<T>(string key, T defaultValue = default(T),
-            int storeId = 0, bool loadSharedValueIfNotFound = false)
+        public virtual T GetSettingByKey<T>(string key, T defaultValue = default(T), int storeId = 0, bool loadSharedValueIfNotFound = false)
         {
             if (String.IsNullOrEmpty(key))
                 return defaultValue;
@@ -147,7 +147,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="value">Value</param>
         /// <param name="storeId">Store identifier</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        public virtual void SetSetting<T>(string key, T value, int storeId = 0, bool clearCache = true)
+        public virtual async Task SetSettingAsync<T>(string key, T value, int storeId = 0, bool clearCache = true)
         {
             if (key == null)
                 throw new ArgumentNullException("key");
@@ -163,12 +163,12 @@ namespace Bec.TargetFramework.Service.Configuration
                     Name = key,
                     Value = valueStr
                 };
-                InsertSetting(setting, clearCache);
+                await InsertSettingAsync(setting, clearCache);
             }
             else
             {
                 setting.Value = valueStr;
-                UpdateSetting(setting);
+                await UpdateSettingAsync(setting);
             }
         }
 
@@ -259,7 +259,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <typeparam name="T">Type</typeparam>
         /// <param name="storeId">Store identifier</param>
         /// <param name="settings">Setting instance</param>
-        public virtual void SaveSetting<T>(T settings, int storeId = 0) where T : ISettings, new()
+        public virtual async Task SaveSettingAsync<T>(T settings, int storeId = 0) where T : ISettings, new()
         {
             /* We do not clear cache after each setting update.
              * This behavior can increase performance because cached settings will not be cleared 
@@ -277,9 +277,9 @@ namespace Bec.TargetFramework.Service.Configuration
                 //Duck typing is not supported in C#. That's why we're using dynamic type
                 dynamic value = prop.GetValue(settings, null);
                 if (value != null)
-                    SetSetting(key, value, storeId, false);
+                    await SetSettingAsync(key, value, storeId, false);
                 else
-                    SetSetting(key, "", storeId, false);
+                    await SetSettingAsync(key, "", storeId, false);
             }
         }
 
@@ -292,7 +292,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="keySelector">Key selector</param>
         /// <param name="storeId">Store ID</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        public virtual void SaveSetting<T, TPropType>(T settings,
+        public virtual async Task SaveSettingAsync<T, TPropType>(T settings,
             Expression<Func<T, TPropType>> keySelector,
             int storeId = 0, bool clearCache = true) where T : ISettings, new()
         {
@@ -316,20 +316,20 @@ namespace Bec.TargetFramework.Service.Configuration
             //Duck typing is not supported in C#. That's why we're using dynamic type
             dynamic value = propInfo.GetValue(settings, null);
             if (value != null)
-                SetSetting(key, value, storeId, clearCache);
+                await SetSettingAsync(key, value, storeId, clearCache);
             else
-                SetSetting(key, "", storeId, clearCache);
+                await SetSettingAsync(key, "", storeId, clearCache);
         }
 
         /// <summary>
         /// Delete all settings
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
-        public virtual void DeleteSetting<T>() where T : ISettings, new()
+        public virtual async Task DeleteSettingAsync<T>() where T : ISettings, new()
         {
 
             foreach (var setting in GetAllSettings().Values)
-                DeleteSetting(setting);
+                await DeleteSettingAsync(setting);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="settings">Settings</param>
         /// <param name="keySelector">Key selector</param>
         /// <param name="storeId">Store ID</param>
-        public virtual void DeleteSetting<T, TPropType>(T settings,
+        public virtual async Task DeleteSettingAsync<T, TPropType>(T settings,
             Expression<Func<T, TPropType>> keySelector, int storeId = 0) where T : ISettings, new()
         {
             var member = keySelector.Body as MemberExpression;
@@ -364,7 +364,7 @@ namespace Bec.TargetFramework.Service.Configuration
 
             var setting = GetSettingByName(key);
 
-            DeleteSetting(setting);
+            await DeleteSettingAsync(setting);
         }
 
 

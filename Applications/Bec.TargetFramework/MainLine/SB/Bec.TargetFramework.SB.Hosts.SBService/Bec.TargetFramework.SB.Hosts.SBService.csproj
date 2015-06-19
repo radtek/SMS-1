@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{575F97EF-6442-4D06-BB7E-490AE110D504}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.SB.Hosts.SBService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.SB.Hosts.SBService</AssemblyName>
@@ -254,34 +254,20 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebApiProxy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WebApiProxy.Server, Version=1.2.0.7729, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\WebApiProxy.1.2.0.7729\lib\net45\WebApiProxy.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="WebApiProxy.Server">
-      <HintPath>..\..\packages\WebApiProxy.1.2.0.7729\lib\net45\WebApiProxy.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="WebApiProxy.Tasks">
-      <HintPath>..\..\packages\WebApiProxy.CSharp.1.0.4.7731\lib\net45\WebApiProxy.Tasks.dll</HintPath>
+      <HintPath>..\..\References\WebApiProxy.Server.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\BusLogicController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="API\BusTaskLogicController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="API\EventPublishController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Base\LogicBase.cs" />
     <Compile Include="Formatters\JilFormatter.cs" />
     <Compile Include="Handlers\BusEventHandler.cs" />
+    <Compile Include="Helpers\LogicHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
-    <Compile Include="Logic\BusLogic.cs" />
-    <Compile Include="Logic\BusTaskLogic.cs" />
-    <Compile Include="Logic\EventPublishLogic.cs" />
+    <Compile Include="Logic\BusLogicController.cs" />
+    <Compile Include="Logic\BusTaskLogicController.cs" />
+    <Compile Include="Logic\EventPublishLogicController.cs" />
+    <Compile Include="Logic\SettingsLogicController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -297,7 +283,6 @@
       <DependentUpon>SBService.cs</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -316,9 +301,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="WebApiProxy\WebApiProxy.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
@@ -335,14 +317,6 @@
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
-      <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
-      <Name>Bec.TargetFramework.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
-      <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
-      <Name>Bec.TargetFramework.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
@@ -410,9 +384,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\packages\WebApiProxy.CSharp.1.0.4.7731\build\WebApiProxy.CSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\WebApiProxy.CSharp.1.0.4.7731\build\WebApiProxy.CSharp.targets'))" />
   </Target>
-  <Import Project="..\..\packages\WebApiProxy.CSharp.1.0.4.7731\build\WebApiProxy.CSharp.targets" Condition="Exists('..\..\packages\WebApiProxy.CSharp.1.0.4.7731\build\WebApiProxy.CSharp.targets')" />
   <Import Project="..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
     <Error Condition="!Exists('..\..\packages\PostSharp.3.1.43\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />

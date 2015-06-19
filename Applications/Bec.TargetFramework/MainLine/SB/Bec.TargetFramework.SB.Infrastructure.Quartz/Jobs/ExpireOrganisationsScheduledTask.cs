@@ -7,6 +7,7 @@ using Autofac;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Client.Clients;
 using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.SB.Client.Interfaces;
 
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
@@ -16,7 +17,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
     {
         public IOrganisationLogicClient m_OrgLogic;
 
-        public ExpireOrganisationsScheduledTask(ILifetimeScope container,ILogger logger, IBusTaskLogicClient taskClient,IEventPublishClient eventClient,IOrganisationLogicClient orgClient)
+        public ExpireOrganisationsScheduledTask(ILifetimeScope container, ILogger logger, IBusTaskLogicClient taskClient, IEventPublishLogicClient eventClient, IOrganisationLogicClient orgClient)
             : base(container,logger,taskClient,eventClient)
         {
             m_OrgLogic = orgClient;

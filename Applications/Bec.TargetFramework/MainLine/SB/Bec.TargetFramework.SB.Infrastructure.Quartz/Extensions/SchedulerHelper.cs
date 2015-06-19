@@ -19,6 +19,7 @@ using Quartz.Impl.Matchers;
 using Bec.TargetFramework.SB.Interfaces;
 using EnsureThat;
 using Bec.TargetFramework.SB.Entities;
+using Bec.TargetFramework.SB.Client.Interfaces;
 
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
@@ -146,8 +147,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions
 
             var scheduler = lifetimeScope.Resolve<IScheduler>();
 
-            var busTaskLogicClient =
-                lifetimeScope.Resolve<IBusTaskLogicClient>();
+            var busTaskLogicClient = lifetimeScope.Resolve<IBusTaskLogicClient>();
 
             var appName = System.Configuration.ConfigurationManager.AppSettings["ApplicationName"];
             var appEnvironment = System.Configuration.ConfigurationManager.AppSettings["ApplicationEnvironment"];

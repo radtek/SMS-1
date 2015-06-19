@@ -156,7 +156,6 @@
     </Compile>
     <Compile Include="DTO\Custom\EventPayload.cs" />
     <Compile Include="DTO\Custom\ProcessLogDTO.cs" />
-    <Compile Include="DTO\Custom\SBSettings.cs" />
     <Compile Include="DTO\SettingDTO.cs" />
     <Compile Include="DTO\SettingDTO.Generated.cs">
       <DependentUpon>SettingDTO.cs</DependentUpon>

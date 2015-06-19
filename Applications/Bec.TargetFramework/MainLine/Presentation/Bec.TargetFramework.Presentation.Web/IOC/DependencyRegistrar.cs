@@ -1,43 +1,23 @@
-﻿using System.Net;
-using System.ServiceModel.Description;
-using Bec.TargetFramework.Infrastructure;
+﻿using Autofac;
+using Autofac.Integration.Mvc;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure.Caching;
+using Bec.TargetFramework.Infrastructure.CouchBaseCache;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Enyim.Caching.Configuration;
+using Bec.TargetFramework.Infrastructure.Settings;
+using BrockAllen.MembershipReboot;
+using BrockAllen.MembershipReboot.Ef;
+using BrockAllen.MembershipReboot.WebHost;
+using NServiceBus;
 using Serilog.Extras.Web;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
 
 namespace BEC.TargetFramework.Presentation.Web.IOC
 {
-    using System;
-    using System.Linq;
-    using System.Web;
-
-    using Bec.TargetFramework.Infrastructure.CouchBaseCache;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-    using BrockAllen.MembershipReboot;
-    using BrockAllen.MembershipReboot.Ef;
-    using System.Web.Mvc;
-    using BrockAllen.MembershipReboot.WebHost;
-    using System.Reflection;
-    using Bec.TargetFramework.Infrastructure.Log;
-    using Autofac;
-    using Autofac.Integration.Mvc;
-    using System.Data.Entity.Infrastructure.Interception;
-   
-    using Autofac.Core;
-    using System.Collections.Generic;
-    using Autofac.Builder;
-    using Bec.TargetFramework.Infrastructure.Caching;
-    using System.ServiceModel;
-    using Autofac.Integration.Wcf;
-    using System.Configuration;
-    using Bec.TargetFramework.Service.Configuration;
-    using Bec.TargetFramework.Infrastructure.IOC;
-    using NServiceBus;
-    using Bec.TargetFramework.Infrastructure.Settings;
-    using Bec.TargetFramework.Business.Client.Interfaces;
-
-
     /// <summary>
     /// IOC Configuration - Loads on Startup of Web Application
     /// </summary>
@@ -51,10 +31,10 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             // disable lifycycle tracing
             ApplicationLifecycleModule.IsEnabled = false;
 
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinderProvider();
-            builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>();
+            builder.RegisterType<DefaultUserAccountRepository>().As<IUserAccountRepository>().PropertiesAutowired();
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
             builder.Register(c => new SerilogLogger(true, true, "TFWebApplication")).As<ILogger>().SingleInstance();
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),
@@ -64,23 +44,12 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
                 ConfigurationManager.AppSettings["couchbase:uri"],
                 ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
-            builder.RegisterInstance(new UserAccountService(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create(), new DefaultUserAccountRepository())).As<UserAccountService>();
+
+            builder.Register(c => Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
+            builder.RegisterType<UserAccountService>().SingleInstance();
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-
-            builder.Register(c => new SettingService(c.Resolve<ISettingsLogicClient>())).As<SettingService>();
-
-            var type = typeof(ISettings);
-            AllAssemblies.Matching("Bec.TargetFramework")
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface)
-                .ToList().ForEach(item =>
-                {
-                    builder.Register(c => c.Resolve<SettingService>().GetType().GetMethod("LoadSetting").MakeGenericMethod(item).Invoke(c.Resolve<SettingService>(), new object[1] { 0 })).As(item);
-                });
         }
-
     }
-
 }

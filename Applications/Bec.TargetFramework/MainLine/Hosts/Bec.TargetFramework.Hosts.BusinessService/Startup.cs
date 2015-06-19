@@ -40,11 +40,12 @@ namespace Bec.TargetFramework.Hosts.BusinessService
 
             config.Services.Add(typeof(IExceptionLogger), new TraceExceptionLogger());
 
-            app.UseWebApi(config);
 
             var iocContainer = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName);
 
             app.UseAutofacMiddleware(iocContainer);
+            app.UseAutofacWebApi(config);
+            app.UseWebApi(config);
         }
 
         public class TraceExceptionLogger : ExceptionLogger

@@ -1,5 +1,4 @@
 ﻿using Bec.TargetFramework.Aop.Aspects;
-using Bec.TargetFramework.Business.Infrastructure.Interfaces;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
@@ -15,20 +14,12 @@ using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business
 {
-    public class TransactionHelper
+    public static class TransactionHelper
     {
-        private ITransactionOrderLogic m_TransactionLogic;
-
-        public TransactionHelper(ITransactionOrderLogic sLogic)
-        {
-            m_TransactionLogic = sLogic;
-        }
-
         public static void CreateTransactionOrderProcessLog(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid transactionOrderID, TransactionOrderStatusEnum transStatusEnumValue,Guid? orderPaymentID = null)
         {
             // set status to processing
-            var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(),
-                transStatusEnumValue.GetStringValue());
+            var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(), transStatusEnumValue.GetStringValue());
 
             Ensure.That(statusType);
 
@@ -43,27 +34,27 @@ namespace Bec.TargetFramework.Business
                 IsTransactionOrderProcessed = false
             };
 
-            if (orderPaymentID.HasValue)
+            if (orderPaymentID.HasValue) 
                 log.TransactionOrderPaymentID = orderPaymentID;
 
             scope.DbContext.TransactionOrderProcessLogs.Add(log);
         }
 
         [EnsureArgumentAspect]
-        public static TransactionOrderItem CreateLineItemFromShoppingCartItem(Bec.TargetFramework.Data.TransactionOrder transactionOrder, ShoppingCartItemDTO cartItem)
+        public static TransactionOrderItem CreateLineItemFromShoppingCartItem(Bec.TargetFramework.Data.TransactionOrder transactionOrder, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             var lineItem = new TransactionOrderItem
             {
                 OrderItemID = Guid.NewGuid(),
                 OrderID = transactionOrder.TransactionOrderID,
                 Quantity = cartItem.Quantity,
-                Price = cartItem.ProductPricingDto.ProductPrice,
-                DiscountTotal = cartItem.ProductPricingDto.Discounts,
-                DiscountTotalPercentage = cartItem.ProductPricingDto.ProductDiscountsPercentage,
-                DiscountTotalValue = cartItem.ProductPricingDto.ProductDiscounts,
-                DeductionTotalPercentage = cartItem.ProductPricingDto.ProductDeductionsPercentage,
-                DeductionTotalValue = cartItem.ProductPricingDto.ProductDeductions,
-                DeductionTotal = cartItem.ProductPricingDto.Deductions,
+                Price = itemPrice.ProductPrice,
+                DiscountTotal = itemPrice.Discounts,
+                DiscountTotalPercentage = itemPrice.ProductDiscountsPercentage,
+                DiscountTotalValue = itemPrice.ProductDiscounts,
+                DeductionTotalPercentage = itemPrice.ProductDeductionsPercentage,
+                DeductionTotalValue = itemPrice.ProductDeductions,
+                DeductionTotal = itemPrice.Deductions,
                 IsActive = true,
                 IsDeleted = false
             };

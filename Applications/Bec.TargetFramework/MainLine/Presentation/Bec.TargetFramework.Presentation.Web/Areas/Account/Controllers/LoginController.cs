@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using Bec.TargetFramework.Entities.Injections;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Security;
 using Bec.TargetFramework.UI.Process.Filters;
@@ -30,23 +31,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     [Authorize]
     public class LoginController : Controller
     {
-        AuthenticationService authSvc;
-        IUserLogicClient m_UserLogicClient;
-        private ILogger logger;
-        private CommonSettings m_CommonSettings;
-        IOrganisationLogicClient m_OrgLogicClient;
-        INotificationLogicClient m_NotificationLogicClient;
+        public AuthenticationService AuthSvc { get; set; }
+        public IUserLogicClient UserLogicClient { get; set; }
+        public ITFSettingsLogicClient SettingsClient { get; set; }
+        public INotificationLogicClient NotificationLogicClient { get; set; }
 
-        public LoginController(ILogger logger, AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient, INotificationLogicClient nClient)
+        public LoginController()
         {
-            this.logger = logger;
-
-            this.authSvc = authSvc;
-
-            m_UserLogicClient = userClient;
-            m_CommonSettings = cSettings;
-            m_OrgLogicClient = orgClient;
-            m_NotificationLogicClient = nClient;
         }
 
         [AllowAnonymous]
@@ -91,18 +82,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await m_UserLogicClient.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
+                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
 
                 if (!loginValidationResult.valid)
                 {
+                    var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
                     TempData["version"] = Settings.OctoVersion;
-                    ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", loginValidationResult.validationMessage, m_CommonSettings.SupportTelephoneNumber));
+                    ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", loginValidationResult.validationMessage, commonSettings.SupportTelephoneNumber));
                 }
                 else
                 {
                     var ua = new BrockAllen.MembershipReboot.UserAccount();
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
-                    await login(this, ua, authSvc, m_UserLogicClient, m_NotificationLogicClient);
+                    await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
 
                     if (ua.IsTemporaryAccount)
                         return RedirectToAction("Index", "Register", new { area = "Account" });
@@ -145,7 +137,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public void Logout()
         {
-            logout(this, authSvc);
+            logout(this, AuthSvc);
         }
 
         internal static void logout(Controller controller, AuthenticationService asvc)

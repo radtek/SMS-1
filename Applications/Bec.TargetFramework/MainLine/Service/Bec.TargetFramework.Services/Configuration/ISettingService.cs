@@ -4,6 +4,7 @@ using Bec.TargetFramework.Infrastructure.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Service.Configuration
 {
@@ -23,7 +24,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// Deletes a setting
         /// </summary>
         /// <param name="setting">Setting</param>
-        void DeleteSetting(SettingDTO setting);
+        Task DeleteSettingAsync(SettingDTO setting);
 
         /// <summary>
         /// Get setting value by key
@@ -45,7 +46,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="value">Value</param>
         /// <param name="storeId">Store identifier</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        void SetSetting<T>(string key, T value, int storeId = 0, bool clearCache = true);
+        Task SetSettingAsync<T>(string key, T value, int storeId = 0, bool clearCache = true);
 
         /// <summary>
         /// Gets all settings
@@ -62,8 +63,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="keySelector">Key selector</param>
         /// <param name="storeId">Store identifier</param>
         /// <returns>true -setting exists; false - does not exist</returns>
-        bool SettingExists<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector, int storeId = 0)
+        bool SettingExists<T, TPropType>(T settings, Expression<Func<T, TPropType>> keySelector, int storeId = 0)
             where T : ISettings, new();
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <typeparam name="T">Type</typeparam>
         /// <param name="storeId">Store identifier</param>
         /// <param name="settings">Setting instance</param>
-        void SaveSetting<T>(T settings, int storeId = 0) where T : ISettings, new();
+        Task SaveSettingAsync<T>(T settings, int storeId = 0) where T : ISettings, new();
 
         /// <summary>
         /// Save settings object
@@ -90,15 +90,13 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="keySelector">Key selector</param>
         /// <param name="storeId">Store ID</param>
         /// <param name="clearCache">A value indicating whether to clear cache after setting update</param>
-        void SaveSetting<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector,
-            int storeId = 0, bool clearCache = true) where T : ISettings, new();
+        Task SaveSettingAsync<T, TPropType>(T settings, Expression<Func<T, TPropType>> keySelector, int storeId = 0, bool clearCache = true) where T : ISettings, new();
 
         /// <summary>
         /// Delete all settings
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
-        void DeleteSetting<T>() where T : ISettings, new();
+        Task DeleteSettingAsync<T>() where T : ISettings, new();
 
         /// <summary>
         /// Delete settings object
@@ -108,8 +106,7 @@ namespace Bec.TargetFramework.Service.Configuration
         /// <param name="settings">Settings</param>
         /// <param name="keySelector">Key selector</param>
         /// <param name="storeId">Store ID</param>
-        void DeleteSetting<T, TPropType>(T settings,
-            Expression<Func<T, TPropType>> keySelector, int storeId = 0) where T : ISettings, new();
+        Task DeleteSettingAsync<T, TPropType>(T settings, Expression<Func<T, TPropType>> keySelector, int storeId = 0) where T : ISettings, new();
 
     }
 }

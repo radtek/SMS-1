@@ -82,14 +82,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IBusLogicClient.cs" />
-    <Compile Include="Interfaces\IBusTaskLogic.cs" />
-    <Compile Include="Interfaces\IClientBase.cs" />
-    <Compile Include="Interfaces\IEventPublishClient.cs" />
     <Compile Include="Interfaces\ISBEvent.cs" />
     <Compile Include="Interfaces\INotificationDataService.cs" />
     <Compile Include="Interfaces\INotificationProcessService.cs" />
     <Compile Include="Interfaces\ILRDataService.cs" />
+    <Compile Include="Interfaces\ProxyInterfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +96,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
       <Name>Bec.TargetFramework.SB.Entities</Name>

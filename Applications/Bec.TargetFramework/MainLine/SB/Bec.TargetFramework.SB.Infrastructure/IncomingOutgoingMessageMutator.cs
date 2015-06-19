@@ -15,6 +15,7 @@ using ServiceStack.Text;
 using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
+using Bec.TargetFramework.SB.Client.Interfaces;
 
 namespace Bec.TargetFramework.SB.Infrastructure
 {

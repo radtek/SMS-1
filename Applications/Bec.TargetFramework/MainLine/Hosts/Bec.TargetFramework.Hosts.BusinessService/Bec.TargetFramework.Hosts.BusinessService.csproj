@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FFA3DDD3-A1F8-4BF0-92B3-272FD8CE3765}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.Hosts.BusinessService</RootNamespace>
     <AssemblyName>Bec.TargetFramework.Hosts.BusinessService</AssemblyName>
@@ -311,14 +311,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\AddressLogicController.cs" />
-    <Compile Include="API\ClassificationDataController.cs" />
-    <Compile Include="API\DataLogicController.cs" />
-    <Compile Include="API\NotificationLogicController.cs" />
-    <Compile Include="API\OrganisationLogicController.cs" />
-    <Compile Include="API\SettingsLogicController.cs" />
-    <Compile Include="API\UserLogicController.cs" />
-    <Compile Include="API\ValidationLogicController.cs" />
     <Compile Include="BusinessService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -394,14 +386,6 @@
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Messages\Bec.TargetFramework.SB.Messages.csproj">
       <Project>{dcf731c2-85ee-46fd-9e4c-e38df52bdea1}</Project>
       <Name>Bec.TargetFramework.SB.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
-      <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
-      <Name>Bec.TargetFramework.Services.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
-      <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
-      <Name>Bec.TargetFramework.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>

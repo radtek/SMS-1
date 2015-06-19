@@ -21,6 +21,7 @@ using <#= Configuration.Namespace#>.Models;
 using <#= Configuration.EntitiesNamespace #>;
 using <#= Configuration.EnumsNamespace #>;
 using System.Web.Http;
+using Bec.TargetFramework.Infrastructure;
 using BrockAllen.MembershipReboot;
 using ServiceStack.Text;
 
@@ -70,6 +71,8 @@ namespace <#= Configuration.Namespace#>.Interfaces
 	public partial interface I<#=definition.Name#><#=Configuration.ClientSuffix#> : IClientBase
 	{	
 <# foreach(var method in definition.ActionMethods) { 
+		var mName = method.Name;
+		if (mName.EndsWith("Async")) mName = mName.Substring(0, mName.Length - 5);
 		var allParameters = method.UrlParameters.AsEnumerable().Where(m => m != null);
 		
 		//var queryParameterString = "\"";
@@ -95,13 +98,13 @@ namespace <#= Configuration.Namespace#>.Interfaces
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
 		/// <returns></returns>
-		<#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= method.Name #>Async(<#= parameterList#>);
+		<#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= mName #>Async(<#= parameterList#>);
 
 <# foreach(var p in method.UrlParameters) {#>
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
 		/// <returns></returns>
-		<#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= method.Name #>(<#= parameterList#>);
+		<#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>(<#= parameterList#>);
 
 <#}#>				
 	}
@@ -152,7 +155,12 @@ namespace <#= Configuration.Namespace#>.Clients
                     Task<string> incorrectMessageTask = Task.Run(() => response.Content.ReadAsStringAsync());
                     throw new Exception(incorrectMessageTask.Result, ex);
                 }
-                throw new Exception(he["ExceptionMessage"].ToString());
+				if (he.ContainsKey("ExceptionMessage"))
+					throw new Exception(he["ExceptionMessage"].ToString());
+				else if (he.ContainsKey("Message"))
+					throw new Exception(he["Message"].ToString());
+				else
+				throw new Exception(he.Keys.Dump() + ": " + he.Values.Dump());
             }		
 		}
 
@@ -219,7 +227,7 @@ namespace <#= Configuration.Namespace#>.Clients
             return await response.ReadContentAsAsync<T>();
         }
 
-        private async Task<HttpResponseMessage> SendAsync<T>(string requestUri, HttpMethod method, string user, T value)
+        private Task<HttpResponseMessage> SendAsync<T>(string requestUri, HttpMethod method, string user, T value)
         {
             var req = new HttpRequestMessage
             {
@@ -228,7 +236,7 @@ namespace <#= Configuration.Namespace#>.Clients
             };
             if (value != null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeHeaderValue)null);
             if (user != null) req.Headers.Add("User", user);
-            return await HttpClient.SendAsync(req);
+            return HttpClient.SendAsync(req);
         }
 
         protected string getHttpContextUser()
@@ -261,7 +269,10 @@ namespace <#= Configuration.Namespace#>.Clients
 		}
 
 		#region Methods
-<# foreach(var method in definition.ActionMethods) { 
+<# foreach(var method in definition.ActionMethods) {
+		var mName = method.Name;
+		if (mName.EndsWith("Async")) mName = mName.Substring(0, mName.Length - 5);
+
 		var allParameters = method.UrlParameters.AsEnumerable();
 
 		var queryParameterString = "\"";
@@ -335,13 +346,13 @@ namespace <#= Configuration.Namespace#>.Clients
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
 		/// <returns></returns>
-		public virtual async <#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= method.Name #>Async(<#= parameterList#>)
+		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "Task" : "Task<" + method.ReturnType + ">" #> <#= mName #>Async(<#= parameterList#>)
 		{
 <# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
 			<#=p.Name#> = <#=p.Name#>.UrlEncode();
 <# } #>
 			string _user = getHttpContextUser();
-			<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>return <#}#>await <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user);
+			return <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user);
 		}
 
 		/// <summary>
@@ -350,13 +361,13 @@ namespace <#= Configuration.Namespace#>.Clients
 <# foreach(var p in method.UrlParameters) { #>
 		/// <param name="<#= p.Name #>"><#= p.Description #></param>
 <# } #>
-		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= method.Name #>(<#= parameterList#>)
+		public virtual <#= String.IsNullOrEmpty(method.ReturnType) ? "void" : method.ReturnType #> <#= mName #>(<#= parameterList#>)
 		{
 <# foreach(var p in method.UrlParameters.Where(m=>m.Type == "String")) { #>
 			<#=p.Name#> = <#=p.Name#>.UrlEncode();
 <# } #>
 			string _user = getHttpContextUser();
-			<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>return <#}#>Task.Run(() => <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user))<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>.Result<#}#>;
+			<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>return <#}#>Task.Run(() => <#=methodVerb#>Async<#= bodyTypeString #>(<#=url#><#= (postOrPut || methodVerb == "Delete") ? bodyParameterString:""#>, _user)).<# if(!String.IsNullOrEmpty(method.ReturnType)) { #>Result<#} else {#>Wait()<#}#>;
 		}
 
 <#}#>

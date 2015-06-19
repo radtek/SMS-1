@@ -12,6 +12,7 @@ using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Client.Clients;
 using ServiceStack.Text;
 using Autofac;
+using Bec.TargetFramework.SB.Client.Interfaces;
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
 {
@@ -19,8 +20,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
     {
         public ILogger m_Logger { get; set; }
         public IBusTaskLogicClient m_BusTaskLogicClient { get; set; }
-
-        public IEventPublishClient m_EventPublishClient { get; set; }
+        public IEventPublishLogicClient m_EventPublishClient { get; set; }
         protected VBusTaskScheduleDTO m_BusTaskScheduleDto { get; set; }
 
         private ILifetimeScope m_IocContainer;
@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Base
             set { m_LifetimeScope = value; }
         }
 
-        public BaseBusTask(ILifetimeScope container,ILogger logger,IBusTaskLogicClient busClient,IEventPublishClient eventClient)
+        public BaseBusTask(ILifetimeScope container, ILogger logger, IBusTaskLogicClient busClient, IEventPublishLogicClient eventClient)
         {
             m_Logger = logger;
             m_BusTaskLogicClient = busClient;

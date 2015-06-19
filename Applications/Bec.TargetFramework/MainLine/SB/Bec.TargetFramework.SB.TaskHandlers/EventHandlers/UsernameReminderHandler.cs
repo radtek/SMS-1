@@ -1,5 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Entities;
@@ -22,7 +23,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
     public class UsernameReminderHandler : BaseEventHandler<UsernameReminderEvent>
     {
         public INotificationLogicClient m_nLogic { get; set; }
-        public CommonSettings m_CommonSettings { get; set; }
+        public ITFSettingsLogicClient SettingsClient { get; set; }
 
         public UsernameReminderHandler()
         {
@@ -44,7 +45,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 // add coltemp accountid as recipient
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
-                    m_CommonSettings,
+                    SettingsClient.GetSettings().AsSettings<CommonSettings>(),
                     new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.UsernameReminderDto.UserAccountOrganisationID } },
                     new NotificationDictionaryDTO { NotificationDictionary = dictionary });
 

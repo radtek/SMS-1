@@ -2837,10 +2837,10 @@ namespace BrockAllen.MembershipReboot
 
     public class UserAccountService : UserAccountService<UserAccount>
     {
-        public UserAccountService(IUserAccountRepository userRepository)
-            : this(new MembershipRebootConfiguration(), userRepository)
-        {
-        }
+        //public UserAccountService(IUserAccountRepository userRepository)
+        //    : this(new MembershipRebootConfiguration(), userRepository)
+        //{
+        //}
 
         public UserAccountService(MembershipRebootConfiguration configuration, IUserAccountRepository userRepository)
             : base(configuration, userRepository)

@@ -165,17 +165,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\InvoiceHelper.cs" />
     <Compile Include="Extensions\LogicHelper.cs" />
-    <Compile Include="Logic\DataLogic.cs" />
-    <Compile Include="Logic\Helper\SRAValidationEnum.cs" />
-    <Compile Include="Logic\SettingLogic.cs" />
-    <Compile Include="Logic\NotificationLogic.cs" />
-    <Compile Include="Logic\ClassificationDataLogic.cs" />
-    <Compile Include="Base\LogicBase.cs" />
-    <Compile Include="Logic\UserAccountAuditLogic.cs" />
-    <Compile Include="Logic\OrganisationLogic.cs" />
-    <Compile Include="Logic\AddressLogic.cs" />
-    <Compile Include="Logic\UserLogic.cs" />
+    <Compile Include="Extensions\TransactionHelper.cs" />
+    <Compile Include="Logic\DataLogicController.cs" />
+    <Compile Include="Extensions\DeductionHelper.cs" />
+    <Compile Include="Logic\InvoiceLogicController.cs" />
+    <Compile Include="Logic\PaymentLogicController.cs" />
+    <Compile Include="Logic\ProductLogicController.cs" />
+    <Compile Include="Logic\SettingsLogicController.cs" />
+    <Compile Include="Logic\NotificationLogicController.cs" />
+    <Compile Include="Logic\ClassificationDataLogicController.cs" />
+    <Compile Include="Logic\ShoppingCartLogicController.cs" />
+    <Compile Include="Logic\TransactionOrderLogicController.cs" />
+    <Compile Include="Logic\UserAccountAuditLogicController.cs" />
+    <Compile Include="Logic\OrganisationLogicController.cs" />
+    <Compile Include="Logic\AddressLogicController.cs" />
+    <Compile Include="Logic\UserLogicController.cs" />
+    <Compile Include="Product\Interfaces\ICartPricingStep.cs" />
+    <Compile Include="Product\Interfaces\IProductPricingStep.cs" />
+    <Compile Include="Product\Helpers\PricingHelper.cs" />
+    <Compile Include="Product\Processor\CartPricingProcessor.cs" />
+    <Compile Include="Product\Processor\ProductPricingProcessor.cs" />
+    <Compile Include="Product\Steps\CartDeductionPricingStep.cs" />
+    <Compile Include="Product\Steps\CartDiscountPricingStep.cs" />
+    <Compile Include="Product\Steps\CartPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductAttributePricingStep.cs" />
+    <Compile Include="Product\Steps\ProductDeductionPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductDiscountPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductPricingStep.cs" />
+    <Compile Include="Product\Steps\ProductSpecPricingStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -188,6 +207,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ReportHelper.cs" />
+    <Compile Include="Web References\FirstData\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Bec.TargetFramework.Aop\Bec.TargetFramework.Aop.csproj">
@@ -206,6 +230,10 @@
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Data\Bec.TargetFramework.SB.Data.csproj">
+      <Project>{df0b93f6-efbb-43fc-af47-a75bf771d110}</Project>
+      <Name>Bec.TargetFramework.SB.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Entities\Bec.TargetFramework.SB.Entities.csproj">
       <Project>{90c7ddd5-cc14-411e-99fe-b2515bcf6aa1}</Project>
       <Name>Bec.TargetFramework.SB.Entities</Name>
@@ -213,10 +241,6 @@
     <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Interfaces\Bec.TargetFramework.SB.Interfaces.csproj">
       <Project>{de97e066-2b1d-4cd5-9bba-3db1508ea1d7}</Project>
       <Name>Bec.TargetFramework.SB.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services.Contracts\Bec.TargetFramework.Services.Contracts.csproj">
-      <Project>{25eb3d9e-afdd-4b36-94bc-d672295c2701}</Project>
-      <Name>Bec.TargetFramework.Services.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
@@ -242,12 +266,54 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\FirstData\a1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\ipgapi.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\IPGApiActionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\FirstData\IPGApiOrderResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\FirstData\order.wsdl" />
+    <None Include="Web References\FirstData\PayTypes_1_0_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FirstData\SOAPTypes_1_0_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\FirstData\v1.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://test.ipg-online.com/ipgapi/services/order.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FirstData\</RelPath>
+      <UpdateFromURL>https://test.ipg-online.com/ipgapi/services/order.wsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Bec_TargetFramework_Business_FirstData_IPGApiOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

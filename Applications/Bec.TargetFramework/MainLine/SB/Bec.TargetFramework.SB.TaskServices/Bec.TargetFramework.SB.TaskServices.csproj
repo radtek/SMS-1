@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A3E92056-1E79-4FD4-9B76-88E32FA29558}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bec.TargetFramework.SB.TaskServices</RootNamespace>
     <AssemblyName>Bec.TargetFramework.SB.TaskServices</AssemblyName>
@@ -328,10 +328,6 @@
     <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Service\Bec.TargetFramework.Services\Bec.TargetFramework.Services.csproj">
-      <Project>{176321fb-b20b-4524-9084-306f32d6b168}</Project>
-      <Name>Bec.TargetFramework.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>

@@ -16,11 +16,11 @@ namespace Bec.TargetFramework.Security.Configuration
 
             //config.AddEventHandler(new DebuggerEventHandler());
 
-            var appinfo = new AspNetApplicationInformation("Test", "Test Email Signature",
-                "UserAccount/Login",
-                "UserAccount/ChangeEmail/Confirm/",
-                "UserAccount/Register/Cancel/",
-                "UserAccount/PasswordReset/Confirm/");
+            //var appinfo = new AspNetApplicationInformation("Test", "Test Email Signature",
+            //    "UserAccount/Login",
+            //    "UserAccount/ChangeEmail/Confirm/",
+            //    "UserAccount/Register/Cancel/",
+            //    "UserAccount/PasswordReset/Confirm/");
             //var emailFormatter = new EmailMessageFormatter(appinfo);
 
             //config.AddEventHandler(new EmailAccountEventsHandler(emailFormatter));

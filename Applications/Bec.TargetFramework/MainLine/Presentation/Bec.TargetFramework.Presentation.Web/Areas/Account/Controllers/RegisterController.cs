@@ -1,6 +1,7 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Base;
@@ -20,27 +21,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     [SessionExpireFilter]
     public class RegisterController : Controller
     {
-        AuthenticationService authSvc;
-        IUserLogicClient m_UserLogicClient;
-        private CommonSettings m_CommonSettings;
-        IOrganisationLogicClient m_OrgLogicClient;
-        INotificationLogicClient m_NotificationLogicClient;
-        public RegisterController(AuthenticationService authSvc, IUserLogicClient userClient, CommonSettings cSettings, IOrganisationLogicClient orgClient, INotificationLogicClient nClient)
+        public AuthenticationService AuthSvc { get; set; }
+        public IUserLogicClient UserLogicClient { get; set; }
+        public ITFSettingsLogicClient SettingsClient { get; set; }
+        public IOrganisationLogicClient OrgLogicClient { get; set; }
+        public INotificationLogicClient NotificationLogicClient { get; set; }
+        public RegisterController()
         {
-            this.authSvc = authSvc;
-
-            m_UserLogicClient = userClient;
-            m_CommonSettings = cSettings;
-            m_OrgLogicClient = orgClient;
-            m_NotificationLogicClient = nClient;
         }
 
         public ActionResult Index()
         {
-            var uaDTO = m_UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
+            var uaDTO = UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
             if (!uaDTO.IsTemporaryAccount)
             {
-                LoginController.logout(this, authSvc);
+                LoginController.logout(this, AuthSvc);
                 return RedirectToAction("Index", "Login", new { area = "Account" });
             }
             else
@@ -51,13 +46,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public async Task<ActionResult> Index(CreatePermanentLoginModel model)
         {
             //check for any subsequent locking of this account
-            var tempua = m_UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
+            var tempua = UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
             if (!tempua.IsLoginAllowed)
             {
                 return RedirectToAction("Index", "Login", new { area = "Account" });
             }
 
-            if (string.IsNullOrWhiteSpace(model.NewUsername) || await m_UserLogicClient.IsUserExistAsync(model.NewUsername))
+            if (string.IsNullOrWhiteSpace(model.NewUsername) || await UserLogicClient.IsUserExistAsync(model.NewUsername))
             {
                 ModelState.AddModelError("", "This username is unavailable, please chose another");
                 return View(model);
@@ -70,16 +65,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-            var userAccountOrg = m_UserLogicClient.GetUserAccountOrganisation(userObject.UserID).Single();
+            var userAccountOrg = UserLogicClient.GetUserAccountOrganisation(userObject.UserID).Single();
             if (model.Pin != userAccountOrg.Organisation.CompanyPinCode)
             {
                 //increment invalid pin count.
                 //if pincount >=3, expire organisation
-                if (m_OrgLogicClient.IncrementInvalidPIN(userAccountOrg.OrganisationID))
+                if (OrgLogicClient.IncrementInvalidPIN(userAccountOrg.OrganisationID))
                 {
-                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + m_CommonSettings.SupportTelephoneNumber);
+                    var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
+                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
                     ViewBag.PinExpired = true;
-                    ViewBag.PublicWebsiteUrl = m_CommonSettings.PublicWebsiteUrl;
+                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
                 }
                 else
                     ModelState.AddModelError("", "Invalid PIN");
@@ -87,17 +83,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            var contact = m_UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
+            var contact = UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
 
-            m_OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
-            m_OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
+            OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
+            OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
             //delete original temp user account
             
-            m_UserLogicClient.LockUserTemporaryAccount(tempua.ID);
+            UserLogicClient.LockUserTemporaryAccount(tempua.ID);
 
-            LoginController.logout(this, authSvc);
-            var ua = m_UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
-            await LoginController.login(this, ua, authSvc, m_UserLogicClient, m_NotificationLogicClient);
+            LoginController.logout(this, AuthSvc);
+            var ua = UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
+            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 
@@ -105,7 +101,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         //used by client validation
         public async Task<ActionResult> UsernameAvailable(string username)
         {
-            if (string.IsNullOrWhiteSpace(username) || await m_UserLogicClient.IsUserExistAsync(username))
+            if (string.IsNullOrWhiteSpace(username) || await UserLogicClient.IsUserExistAsync(username))
                 return Json("This username is unavailable, please chose another", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);

@@ -30,22 +30,10 @@ namespace Bec.TargetFramework.Presentation.Web.Base
 
     public class ApplicationControllerBase : Controller
     {
-        private ILogger m_Logger { get; set; }
+        public ILogger Logger { get; set; }
 
-        public ILogger Logger
+        public ApplicationControllerBase()
         {
-
-            get
-            {
-                return m_Logger;
-            }
-        }
-
-        public ApplicationControllerBase(ILogger logger)
-        {
-            Ensure.That(logger).IsNotNull();
-
-            m_Logger = logger;
         }
 
         protected ActionResult RespondTo(Action<FormatCollection> format)

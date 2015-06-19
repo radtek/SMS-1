@@ -12,8 +12,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     [ClaimsRequired("View", "Home")]
     public class HomeController : ApplicationControllerBase
     {
-        public HomeController(ILogger logger) : base(logger)
-        { }
+        public HomeController()
+        {
+        }
 
         // GET: Admin/Home
         public ActionResult Index()

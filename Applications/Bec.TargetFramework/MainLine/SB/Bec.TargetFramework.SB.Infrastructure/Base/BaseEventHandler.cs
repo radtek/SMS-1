@@ -15,17 +15,15 @@ using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.SB.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.SB.Client.Interfaces;
 
 namespace Bec.TargetFramework.SB.Handlers.Base
 {
     public class BaseEventHandler<T> : IHandleMessages<T>, IDisposable where T:IEvent
     {
-
         public IBus Bus { get; set; }
         public ILogger m_Logger { get; set; }
         public IBusLogicClient m_BusLogic { get; set; }
-        public SBSettings m_SBSettings { get; set; }
-
         public ILifetimeScope m_LifetimeScope { get; set; }
 
         public BaseEventHandler()

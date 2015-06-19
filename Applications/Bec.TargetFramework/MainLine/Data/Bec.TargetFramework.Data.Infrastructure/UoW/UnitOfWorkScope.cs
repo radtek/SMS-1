@@ -202,23 +202,17 @@ namespace Bec.TargetFramework.Data.Infrastructure
         /// <summary>
         /// For child unit of work scopes: Mark for saving. For the root: Do actually save.
         /// </summary>
-        public bool Save()
+        public void Save()
         {
             PerformScopeStateValidation();
 
-            if (!isRoot)
-            {
-                return false;
-            }
+            if (!isRoot) return;
 
             int count;
             try
             {
                 count = scopedDbContext.DbContext.SaveChanges();
-
-                if (m_UseTransaction)
-                    m_ContextTransaction.Commit();
-
+                if (m_UseTransaction) m_ContextTransaction.Commit();
             }
             catch (DbEntityValidationException e)
             {
@@ -228,15 +222,14 @@ namespace Bec.TargetFramework.Data.Infrastructure
             {
                 m_Logger.Error(ex, "UOW Save");
 
-                if (m_UseTransaction)
-                    m_ContextTransaction.Rollback();
+                if (m_UseTransaction)m_ContextTransaction.Rollback();
 
                 throw;
             }
 
             scopedDbContext.AllowSaving = false;
 
-            return (m_EntityErrors.Count == 0);
+            if (m_EntityErrors.Count != 0) throw new Exception(m_EntityErrors.Dump());
         }
 
         private void PerformScopeStateValidation()
@@ -263,21 +256,17 @@ namespace Bec.TargetFramework.Data.Infrastructure
         /// Saves the DbContext
         /// </summary>
         /// <returns>Bool true for success</returns>
-        public async Task<bool> SaveAsync()
+        public async Task SaveAsync()
         {
             PerformScopeStateValidation();
 
-            if (!isRoot)
-            {
-                return false;
-            }
+            if (!isRoot) return;
 
             int count;
             try
             {
                 count = await scopedDbContext.DbContext.SaveChangesAsync();
-                if (m_UseTransaction)
-                    m_ContextTransaction.Commit();
+                if (m_UseTransaction) m_ContextTransaction.Commit();
             }
             catch (DbEntityValidationException e)
             {
@@ -287,15 +276,14 @@ namespace Bec.TargetFramework.Data.Infrastructure
             {
                 m_Logger.Error(ex, "UOW Save");
 
-                if (m_UseTransaction)
-                    m_ContextTransaction.Rollback();
+                if (m_UseTransaction) m_ContextTransaction.Rollback();
 
                 throw;
             }
 
             scopedDbContext.AllowSaving = false;
 
-            return (m_EntityErrors.Count == 0);
+            if (m_EntityErrors.Count != 0) throw new Exception(m_EntityErrors.Dump());
         }
 
         private void ProcessDbEntityValidationErrors(DbEntityValidationException e)
@@ -340,64 +328,64 @@ namespace Bec.TargetFramework.Data.Infrastructure
             }
         }
 
-        public IRepository<T, TKey> GetGenericRepository<T, TKey>() where T : class,new()
-        {
-            var repos = m_Provider.GetGenericRepository<T, TKey>();
+        //public IRepository<T, TKey> GetGenericRepository<T, TKey>() where T : class,new()
+        //{
+        //    var repos = m_Provider.GetGenericRepository<T, TKey>();
 
-            repos.IsInScope = true;
+        //    repos.IsInScope = true;
 
-            return repos;
-        }
+        //    return repos;
+        //}
 
-        public ICompoundKeyRepository<T, TKey, TKey1> GetGenericRepository<T, TKey, TKey1>() where T : class, new()
-        {
-            var repos = m_Provider.GetGenericRepository<T, TKey, TKey1>();
+        //public ICompoundKeyRepository<T, TKey, TKey1> GetGenericRepository<T, TKey, TKey1>() where T : class, new()
+        //{
+        //    var repos = m_Provider.GetGenericRepository<T, TKey, TKey1>();
 
-            repos.IsInScope = true;
+        //    repos.IsInScope = true;
 
-            return repos;
-        }
+        //    return repos;
+        //}
 
-        public IRepository<T, TKey> GetGenericRepositoryNoTracking<T, TKey>() where T : class,new()
-        {
-            var repos = m_Provider.GetGenericRepository<T, TKey>();
+        //public IRepository<T, TKey> GetGenericRepositoryNoTracking<T, TKey>() where T : class,new()
+        //{
+        //    var repos = m_Provider.GetGenericRepository<T, TKey>();
 
-            repos.IsInScope = true;
-            repos.TurnOffTracking = true;
+        //    repos.IsInScope = true;
+        //    repos.TurnOffTracking = true;
 
-            return repos;
-        }
+        //    return repos;
+        //}
 
-        public ICompoundKeyRepository<T, TKey, TKey1> GetGenericRepositoryNoTracking<T, TKey, TKey1>() where T : class, new()
-        {
-            var repos = m_Provider.GetGenericRepository<T, TKey, TKey1>();
+        //public ICompoundKeyRepository<T, TKey, TKey1> GetGenericRepositoryNoTracking<T, TKey, TKey1>() where T : class, new()
+        //{
+        //    var repos = m_Provider.GetGenericRepository<T, TKey, TKey1>();
 
-            repos.IsInScope = true;
-            repos.TurnOffTracking = true;
+        //    repos.IsInScope = true;
+        //    repos.TurnOffTracking = true;
 
-            return repos;
-        }
+        //    return repos;
+        //}
 
-        public T GetCustomRepository<T>() where T : class
-        {
-            return m_Provider.GetCustomRepository<T>();
-        }
+        //public T GetCustomRepository<T>() where T : class
+        //{
+        //    return m_Provider.GetCustomRepository<T>();
+        //}
 
 
-        public void DisableProxyAndLazyLoading()
-        {
-            if (m_Provider != null && m_Provider.DbContext != null) SetProxyAndLazy(false);
-        }
+        //public void DisableProxyAndLazyLoading()
+        //{
+        //    if (m_Provider != null && m_Provider.DbContext != null) SetProxyAndLazy(false);
+        //}
 
-        public void EnableProxyAndLazyLoading()
-        {
-            if (m_Provider != null && m_Provider.DbContext != null) SetProxyAndLazy(true);
-        }
+        //public void EnableProxyAndLazyLoading()
+        //{
+        //    if (m_Provider != null && m_Provider.DbContext != null) SetProxyAndLazy(true);
+        //}
 
-        private void SetProxyAndLazy(bool enableDisable)
-        {
-            m_Provider.DbContext.Configuration.LazyLoadingEnabled = enableDisable;
-            m_Provider.DbContext.Configuration.ProxyCreationEnabled = enableDisable;
-        }
+        //private void SetProxyAndLazy(bool enableDisable)
+        //{
+        //    m_Provider.DbContext.Configuration.LazyLoadingEnabled = enableDisable;
+        //    m_Provider.DbContext.Configuration.ProxyCreationEnabled = enableDisable;
+        //}
     }
 }
