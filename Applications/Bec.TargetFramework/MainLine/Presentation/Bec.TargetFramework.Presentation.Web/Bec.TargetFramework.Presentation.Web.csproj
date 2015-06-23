@@ -459,6 +459,7 @@
     <Content Include="Content\img\sa-default.png" />
     <Content Include="Content\img\saturation.png" />
     <Content Include="Content\img\select2-spinner.gif" />
+    <Content Include="Content\img\SMS Master Screen.jpg" />
     <Content Include="Content\img\sort_asc.png" />
     <Content Include="Content\img\sort_asc_disabled.png" />
     <Content Include="Content\img\sort_both.png" />

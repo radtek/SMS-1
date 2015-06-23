@@ -434,5 +434,8 @@ namespace BrockAllen.MembershipReboot
             return PasswordResetSecrets[rand.Next(PasswordResetSecrets.Count)];
         }
 
+        [DataMember]
+        public string FullName { get; set; }
+
     }
 }

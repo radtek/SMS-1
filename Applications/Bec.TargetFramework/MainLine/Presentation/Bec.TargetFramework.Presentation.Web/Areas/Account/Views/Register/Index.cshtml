@@ -10,7 +10,7 @@
             <div class="well no-padding">
                 <form action="@Url.Action("Index", "Register", new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
                     <header>
-                        Create Permanent Account
+                        Create Account
                     </header>
                     @Html.AntiForgeryToken()
                     @Html.ValidationBootstrap()
@@ -36,7 +36,7 @@
                         </section>
                         <section>
                             <strong>Choose a new password</strong>
-                            <label class="label">Your password must contain at least one upper case letter, at least one number and at least one special character. It must be at least 10 characters long.</label>
+                            <label class="label">Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
                             <label class="label">Password</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>

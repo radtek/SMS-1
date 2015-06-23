@@ -318,6 +318,15 @@ namespace Bec.TargetFramework.Business.Logic
                     ua = new BrockAllen.MembershipReboot.UserAccount();
                     ua.InjectFrom<NullableInjection>(uaDb);
                     ua.PasswordResetSecrets = GetPasswordResetSecrets(uaDb.ID);
+                    ua.FullName = ua.Username;
+
+                    var uao = uaDb.UserAccountOrganisations.FirstOrDefault();
+                    if (uao != null)
+                    {
+                        var c = scope.DbContext.Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
+                        if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
+                    }
+                        
                 }
             }
             return ua;

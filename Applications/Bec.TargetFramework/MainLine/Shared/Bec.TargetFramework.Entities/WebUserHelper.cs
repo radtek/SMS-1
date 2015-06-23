@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Entities
                 IPAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? context.Request.UserHostAddress,
                 SessionIdentifier = Guid.NewGuid().ToString(),
                 URLAccessed = context.Request.RawUrl,
-                UserName = (context.Request.IsAuthenticated) ? context.User.Identity.Name : "Anonymous",
+                UserName = ua.FullName,
                 UserID = ua.ID,
                 IsTemporaryUser = ua.IsTemporaryAccount,
                 NeedsTCs = needsTc

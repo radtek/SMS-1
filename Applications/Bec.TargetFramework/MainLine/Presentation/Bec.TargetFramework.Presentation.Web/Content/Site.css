@@ -13,3 +13,22 @@
 .smart-form label{
     margin-bottom:3px;
 }
+
+#logo{
+    margin:0;
+}
+
+#logo img{
+    width:220px;
+    height:49px;
+    padding:0;
+}
+
+#extr-page #header #logo img{
+    width:220px;
+    height:49px;
+}
+
+#extr-page #header #logo{
+    margin-top:11px;
+}
