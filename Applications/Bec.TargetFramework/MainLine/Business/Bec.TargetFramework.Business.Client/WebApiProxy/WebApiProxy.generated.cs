@@ -1315,8 +1315,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class AddressLogicClient : ClientBase, Interfaces.IAddressLogicClient
-	{		
+	public partial class AddressLogicClient : ClientBase, Interfaces.IAddressLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -1388,8 +1387,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class ClassificationDataLogicClient : ClientBase, Interfaces.IClassificationDataLogicClient
-	{		
+	public partial class ClassificationDataLogicClient : ClientBase, Interfaces.IClassificationDataLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -1501,8 +1499,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class DataLogicClient : ClientBase, Interfaces.IDataLogicClient
-	{		
+	public partial class DataLogicClient : ClientBase, Interfaces.IDataLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -1543,8 +1540,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class InvoiceLogicClient : ClientBase, Interfaces.IInvoiceLogicClient
-	{		
+	public partial class InvoiceLogicClient : ClientBase, Interfaces.IInvoiceLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -1902,8 +1898,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class NotificationLogicClient : ClientBase, Interfaces.INotificationLogicClient
-	{		
+	public partial class NotificationLogicClient : ClientBase, Interfaces.INotificationLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2275,8 +2270,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class OrganisationLogicClient : ClientBase, Interfaces.IOrganisationLogicClient
-	{		
+	public partial class OrganisationLogicClient : ClientBase, Interfaces.IOrganisationLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2601,8 +2595,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class PaymentLogicClient : ClientBase, Interfaces.IPaymentLogicClient
-	{		
+	public partial class PaymentLogicClient : ClientBase, Interfaces.IPaymentLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2685,8 +2678,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class ProductLogicClient : ClientBase, Interfaces.IProductLogicClient
-	{		
+	public partial class ProductLogicClient : ClientBase, Interfaces.IProductLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2731,8 +2723,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class ShoppingCartLogicClient : ClientBase, Interfaces.IShoppingCartLogicClient
-	{		
+	public partial class ShoppingCartLogicClient : ClientBase, Interfaces.IShoppingCartLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2833,8 +2824,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class TFSettingsLogicClient : ClientBase, Interfaces.ITFSettingsLogicClient
-	{		
+	public partial class TFSettingsLogicClient : ClientBase, Interfaces.ITFSettingsLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2875,8 +2865,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class TransactionOrderLogicClient : ClientBase, Interfaces.ITransactionOrderLogicClient
-	{		
+	public partial class TransactionOrderLogicClient : ClientBase, Interfaces.ITransactionOrderLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -2963,8 +2952,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class UserAccountAuditLogicClient : ClientBase, Interfaces.IUserAccountAuditLogicClient
-	{		
+	public partial class UserAccountAuditLogicClient : ClientBase, Interfaces.IUserAccountAuditLogicClient	{		
 
 		/// <summary>
 		/// 
@@ -3009,8 +2997,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class UserLogicClient : ClientBase, Interfaces.IUserLogicClient
-	{		
+	public partial class UserLogicClient : ClientBase, Interfaces.IUserLogicClient, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{		
 
 		/// <summary>
 		/// 

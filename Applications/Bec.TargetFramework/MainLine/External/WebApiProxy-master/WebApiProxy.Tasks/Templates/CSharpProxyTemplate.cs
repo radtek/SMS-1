@@ -401,7 +401,20 @@ if(definition.Name == "UserLogic"){
             
             #line default
             #line hidden
-            this.Write("\r\n\t{\t\t\r\n\r\n\t\t/// <summary>\r\n\t\t/// ");
+            
+            #line 254 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+if(definition.Name == "UserLogic"){
+            
+            #line default
+            #line hidden
+            this.Write(", BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController");
+            
+            #line 254 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t{\t\t\r\n\r\n\t\t/// <summary>\r\n\t\t/// ");
             
             #line 258 "C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\External\WebApiProxy-master\WebApiProxy.Tasks\Templates\CSharpProxyTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(definition.Description.ToSummary()));

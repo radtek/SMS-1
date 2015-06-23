@@ -20,7 +20,7 @@ namespace BrockAllen.MembershipReboot
         public MembershipRebootConfiguration Config { get; set; }
 
         public MembershipRebootConfiguration<TAccount> Configuration { get { return Config as MembershipRebootConfiguration<TAccount>; } }
-        IPartialUserLogicController UserLogic { get; set; }
+        public IPartialUserLogicController UserLogic { get; set; }
 
         Lazy<AggregateValidator<TAccount>> usernameValidator;
         Lazy<AggregateValidator<TAccount>> emailValidator;

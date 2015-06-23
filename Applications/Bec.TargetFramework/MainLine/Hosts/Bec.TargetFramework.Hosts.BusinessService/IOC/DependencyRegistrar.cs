@@ -8,6 +8,7 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.Infrastructure.Settings;
 using BrockAllen.MembershipReboot;
+using BrockAllen.MembershipReboot.AccountService;
 using BrockAllen.MembershipReboot.WebHost;
 using NServiceBus;
 using System.Configuration;
@@ -35,14 +36,15 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                 ConfigurationManager.AppSettings["couchbase:uri"],
                 ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
-            builder.Register(c => Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
-            builder.RegisterType<UserAccountService>().PropertiesAutowired();
+
+            builder.RegisterInstance(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
+            builder.RegisterType<UserAccountService>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
 
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
 
             var assembly = AllAssemblies.Matching("Bec.TargetFrameWork.Business").First();
-            builder.RegisterApiControllers(assembly).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            builder.RegisterApiControllers(assembly).AsSelf().AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
         }
     }
 }

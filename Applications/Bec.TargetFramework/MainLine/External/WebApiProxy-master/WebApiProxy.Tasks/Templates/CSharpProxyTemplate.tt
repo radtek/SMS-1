@@ -251,7 +251,7 @@ namespace <#= Configuration.Namespace#>.Clients
 	/// <summary>
 	/// <#= definition.Description.ToSummary() #>
 	/// </summary>
-	public partial class <#=definition.Name#><#= Configuration.ClientSuffix#> : ClientBase, Interfaces.I<#=definition.Name#><#=Configuration.ClientSuffix#>
+	public partial class <#=definition.Name#><#= Configuration.ClientSuffix#> : ClientBase, Interfaces.I<#=definition.Name#><#=Configuration.ClientSuffix#><#if(definition.Name == "UserLogic"){#>, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController<#}#>
 	{		
 
 		/// <summary>

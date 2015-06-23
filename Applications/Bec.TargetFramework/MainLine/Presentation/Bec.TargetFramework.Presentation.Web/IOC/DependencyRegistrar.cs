@@ -43,8 +43,8 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
                 ConfigurationManager.AppSettings["couchbase:connectionTimeout"],
                 ConfigurationManager.AppSettings["couchbase:deadTimeout"])).As<ICacheProvider>().SingleInstance();
 
-            builder.Register(c => Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
-            builder.RegisterType<UserAccountService>().PropertiesAutowired();
+            builder.RegisterInstance(Bec.TargetFramework.Security.Configuration.MembershipRebootConfig.Create());
+            builder.RegisterType<UserAccountService>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);

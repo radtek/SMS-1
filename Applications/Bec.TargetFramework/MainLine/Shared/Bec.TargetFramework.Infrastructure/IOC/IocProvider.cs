@@ -65,13 +65,12 @@ namespace Bec.TargetFramework.Infrastructure.IOC
                {
                   
                    var typeInstance = Activator.CreateInstance(item, new object[] { url });
-                   var typeInterface = item.GetInterface("I" + item.Name);
-                   Console.WriteLine(proxyClientName +  ": Registering Client Interface:" + typeInterface + " url:" + url);
+                   Console.WriteLine(proxyClientName + ": Registering Client Interface:" + item.Name + " url:" + url);
 
                    if (autoWireProperties)
-                       builder.RegisterInstance(typeInstance).As(typeInterface).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+                       builder.RegisterInstance(typeInstance).AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
                    else
-                       builder.RegisterInstance(typeInstance).As(typeInterface);
+                       builder.RegisterInstance(typeInstance).AsImplementedInterfaces();
                });
         }
 
