@@ -231,7 +231,7 @@
             gridElementId: 'verifiedGrid',
             url: '@Url.Action("LoadCompanies", "Company", new { area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Verified })',
             schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-            defaultSort: { field: "OrganisationPinCreated", dir: "desc" },
+            defaultSort: { field: "PinCreated", dir: "desc" },
             change: verifiedChange,
             jumpToId: '@TempData["VerifiedCompanyId"]',
             panels: ['verifiedPanel'],
@@ -245,14 +245,14 @@
                     title: "Company Name"
                 },
                 {
-                    field: "OrganisationPinCode",
+                    field: "PinCode",
                     title: "PIN Number"
                 },
                 {
-                    field: "OrganisationPinCreated",
+                    field: "PinCreated",
                     title: "PIN Created",
                     template: function (dataItem) {
-                        return dateString(dataItem.OrganisationPinCreated);
+                        return dateString(dataItem.PinCreated);
                     }
                 },
                 {
@@ -380,7 +380,7 @@
 
         //update links
         $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
         $("#uEmailLogButton").data('href', '@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
@@ -401,12 +401,12 @@
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#ddvRegulator").text(regulatorName);
 
-        $("p#ddvPINNumber").text(dataItem.OrganisationPinCode);
-        $("p#ddvPINCreatedOn").text(dateString(dataItem.OrganisationPinCreated));
+        $("p#ddvPINNumber").text(dataItem.PinCode);
+        $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));
         $("p#ddvLoginsSent").text(dateString(dataItem.OrganisationAdminCreated));
 
         //update links
-        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Company", new { area = "Admin" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + dataItem.Name);
         $("#vEmailLogButton").data('href', '@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 

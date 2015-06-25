@@ -17,6 +17,7 @@ using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -26,8 +27,9 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public UserAccountService UaService { get; set; }
         public AuthenticationService AuthSvc { get; set; }
-        public DataLogicController DataLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
+        public OrganisationLogicController OrganisationLogic { get; set; }
+
         public UserLogicController()
         {
         }
@@ -646,7 +648,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<BrockAllen.MembershipReboot.UserAccount> CreateTemporaryAccountAsync(string email, string password, bool temporaryAccount, Guid userId)
         {
-            return await UaService.CreateAccountAsync(DataLogic.GenerateRandomName(), password, email, temporaryAccount, userId);
+            return await UaService.CreateAccountAsync(RandomPasswordGenerator.GenerateRandomName(), password, email, temporaryAccount, userId);
         }
 
         public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, bool temporaryAccount, Guid userId)
@@ -803,6 +805,139 @@ namespace Bec.TargetFramework.Business.Logic
                 return rr;
             else
                 return null;
+        }
+
+
+        public async Task GeneratePinAsync(Guid uaoID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+
+                if (!string.IsNullOrEmpty(uao.PinCode)) throw new Exception("Cannot generate pin; pin already exists. Please go back and try again.");
+
+                uao.PinCode = CreatePin(4);
+                uao.PinCreated = DateTime.Now;
+                uao.UserAccount.IsLoginAllowed = true;
+
+                await scope.SaveAsync();
+            }
+        }
+
+        private string CreatePin(int length)
+        {
+            Random r = new Random();
+            StringBuilder pin = new StringBuilder(length);
+            int thisNum;
+            int? prevNum = null;
+            do
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    do
+                    {
+                        thisNum = r.Next(0, 36);
+                    } while (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)); //avoid repeated or consecutive characters
+                    prevNum = thisNum;
+                    pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
+                }
+            } while (PinExists(pin.ToString()));
+            return pin.ToString();
+        }
+
+        private bool PinExists(string pin)
+        {
+            return false;
+            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            //{
+            //    return scope.DbContext.Organisations.Any(o => o.CompanyPinCode == pin);
+            //}
+        }
+
+        public async Task<bool> IncrementInvalidPINAsync(Guid uaoID)
+        {
+            bool ret = false;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+                uao.PinAttempts++;
+                if (uao.PinAttempts >= 3)
+                {
+                    await OrganisationLogic.ExpireOrganisationAsync(uao.OrganisationID);
+                    ret = true;
+                }
+                await scope.SaveAsync();
+            }
+            return ret;
+        }
+
+        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
+        {
+            var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
+
+            //has to be called outside of transaction.
+            await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, UserTypeEnum.OrganisationAdministrator, username, password, false, false);
+
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            {
+                var vStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
+                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s=>s.StatusChangedOn).First();
+                
+                //progress status to 'active' if it's only 'verified'
+                if (currentStatus.StatusTypeID == vStatus.StatusTypeID && currentStatus.StatusTypeValueID == vStatus.StatusTypeValueID)
+                    await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
+                
+                //delete original temp user account
+                await LockUserTemporaryAccountAsync(uao.UserID);
+
+                await scope.SaveAsync();
+            }
+        }
+
+        public async Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
+        {
+            VUserAccountOrganisationDTO oldUaInfo;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                oldUaInfo = scope.DbContext.VUserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId).ToDto();
+                var orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == oldUaInfo.OrganisationID); //will be null if org type != professional
+                if (orgInfo != null)
+                {                 //check status
+                    var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                    var activeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
+                    if (orgInfo.StatusTypeValueID != verifiedStatus.StatusTypeValueID && orgInfo.StatusTypeValueID != activeStatus.StatusTypeValueID)
+                        throw new Exception(string.Format("Cannot resend logins for a company of status '{0}'. Please go back and try again.", orgInfo.StatusValueName));
+                }
+            }
+
+            //generate new username & password
+            var randomUsername = RandomPasswordGenerator.GenerateRandomName();
+            var randomPassword = RandomPasswordGenerator.Generate(10);
+            var userContactDto = new ContactDTO
+            {
+                Telephone1 = oldUaInfo.Telephone,
+                FirstName = oldUaInfo.FirstName,
+                LastName = oldUaInfo.LastName,
+                EmailAddress1 = oldUaInfo.Email,
+                Salutation = oldUaInfo.Salutation
+            };
+
+            //add new user & email them
+            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true);
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var user = scope.DbContext.UserAccounts.Single(x => x.ID == newUao.UserID);
+                user.IsLoginAllowed = true;
+                await scope.SaveAsync();
+            }
+
+            //disable old temps
+            await LockUserTemporaryAccountAsync(oldUaInfo.ID);
+
+            await GeneratePinAsync(newUao.UserAccountOrganisationID);
+
+            return newUao;
         }
     }
 }

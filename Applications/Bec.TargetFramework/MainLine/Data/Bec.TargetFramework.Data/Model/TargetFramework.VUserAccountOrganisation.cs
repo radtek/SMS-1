@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsTemporaryAccount in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsTemporaryAccount
+        public virtual bool IsTemporaryAccount
         {
             get;
             set;
@@ -60,7 +60,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for UserTypeID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> UserTypeID
+        public virtual global::System.Guid UserTypeID
         {
             get;
             set;
@@ -80,7 +80,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> OrganisationID
+        public virtual global::System.Guid OrganisationID
         {
             get;
             set;
@@ -100,7 +100,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsBranch in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsBranch
+        public virtual bool IsBranch
         {
             get;
             set;
@@ -110,7 +110,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsHeadOffice in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsHeadOffice
+        public virtual bool IsHeadOffice
         {
             get;
             set;
@@ -120,7 +120,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsUserOrganisation in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsUserOrganisation
+        public virtual bool IsUserOrganisation
         {
             get;
             set;
@@ -140,7 +140,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationTypeID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> OrganisationTypeID
+        public virtual int OrganisationTypeID
         {
             get;
             set;
@@ -180,7 +180,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsVATRegistered in the schema.
         /// </summary>
-        public virtual global::System.Nullable<bool> IsVATRegistered
+        public virtual bool IsVATRegistered
         {
             get;
             set;
@@ -260,7 +260,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for ContactID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> ContactID
+        public virtual global::System.Guid ContactID
         {
             get;
             set;
@@ -270,7 +270,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for AddressID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> AddressID
+        public virtual global::System.Guid AddressID
         {
             get;
             set;
@@ -371,6 +371,46 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for IsPrimaryAddress in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> IsPrimaryAddress
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinCode in the schema.
+        /// </summary>
+        public virtual string PinCode
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinCreated in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> PinCreated
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Salutation in the schema.
+        /// </summary>
+        public virtual string Salutation
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Telephone in the schema.
+        /// </summary>
+        public virtual string Telephone
         {
             get;
             set;

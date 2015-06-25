@@ -30,7 +30,7 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
             // disable lifycycle tracing
             ApplicationLifecycleModule.IsEnabled = false;
 
-            builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            builder.RegisterControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinderProvider();
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();

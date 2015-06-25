@@ -126,17 +126,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 				
 	}
 	
-	public partial interface IDataLogicClient : IClientBase	{	
-
-		/// <returns></returns>
-		Task<String> GenerateRandomNameAsync();
-
-		/// <returns></returns>
-		String GenerateRandomName();
-
-				
-	}
-	
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
@@ -505,13 +494,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void ActivateOrganisation(Guid organisationID);
 
 
-		/// <returns></returns>
-		Task GeneratePinAsync(GeneratePinDTO dto);
-
-		/// <returns></returns>
-		void GeneratePin(GeneratePinDTO dto);
-
-
 		/// <param name="orgStatus"></param>
 		/// <returns></returns>
 		Task<List<VOrganisationWithStatusAndAdminDTO>> GetCompaniesAsync(ProfessionalOrganisationStatusEnum orgStatus);
@@ -535,16 +517,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
+		/// <param name="sendEmail"></param>
 		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,ContactDTO userContactDto);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
+		/// <param name="sendEmail"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto);
+		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,ContactDTO userContactDto);
 
 
 		/// <param name="userOrgID"></param>
@@ -573,21 +557,31 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 
 		/// <param name="organisationID"></param>
+		/// <param name="temporary"></param>
 		/// <returns></returns>
-		Task<Boolean> IncrementInvalidPINAsync(Guid organisationID);
+		Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary);
 
 		/// <param name="organisationID"></param>
+		/// <param name="temporary"></param>
 		/// <returns></returns>
-		Boolean IncrementInvalidPIN(Guid organisationID);
+		List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary);
 
 
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="enumType"></param>
+		/// <param name="status"></param>
+		/// <param name="reason"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		Task ResendLoginsAsync(Guid organisationId);
+		Task AddOrganisationStatusAsync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="enumType"></param>
+		/// <param name="status"></param>
+		/// <param name="reason"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		void ResendLogins(Guid organisationId);
+		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
 				
 	}
@@ -1172,6 +1166,48 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IsPasswordResetRequestValid(Guid requestID);
 
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task GeneratePinAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		void GeneratePin(Guid uaoID);
+
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<Boolean> IncrementInvalidPINAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Boolean IncrementInvalidPIN(Guid uaoID);
+
+
+		/// <param name="orgID"></param>
+		/// <param name="tempUaoId"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password);
+
+		/// <param name="orgID"></param>
+		/// <param name="tempUaoId"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password);
+
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		UserAccountOrganisationDTO ResendLogins(Guid uaoId);
+
 				
 	}
 
@@ -1492,47 +1528,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			typeName = typeName.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/ClassificationDataLogic/GetClassificationDataForTypeName?categoryName=" + categoryName + "&typeName=" + typeName, _user)).Result;
-		}
-
-		#endregion
-	}
-	/// <summary>
-	/// 
-	/// </summary>
-	public partial class DataLogicClient : ClientBase, Interfaces.IDataLogicClient	{		
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public DataLogicClient(string url) : base(url)
-		{
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public DataLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
-		{
-		}
-
-		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<String> GenerateRandomNameAsync()
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, String>("api/DataLogic/GenerateRandomName", null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual String GenerateRandomName()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, String>("api/DataLogic/GenerateRandomName", null, _user)).Result;
 		}
 
 		#endregion
@@ -2396,25 +2391,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
-		public virtual Task GeneratePinAsync(GeneratePinDTO dto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<GeneratePinDTO>("api/OrganisationLogic/GeneratePinAsync", dto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void GeneratePin(GeneratePinDTO dto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<GeneratePinDTO>("api/OrganisationLogic/GeneratePinAsync", dto, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="orgStatus"></param>
 		/// <returns></returns>
 		public virtual Task<List<VOrganisationWithStatusAndAdminDTO>> GetCompaniesAsync(ProfessionalOrganisationStatusEnum orgStatus)
@@ -2462,13 +2438,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
+		/// <param name="sendEmail"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto)
+		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,ContactDTO userContactDto)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user);
+			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail, userContactDto, _user);
 		}
 
 		/// <summary>
@@ -2479,12 +2456,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,ContactDTO userContactDto)
+		/// <param name="sendEmail"></param>
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,ContactDTO userContactDto)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary, userContactDto, _user)).Result;
+			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail, userContactDto, _user)).Result;
 		}
 
 		/// <summary>
@@ -2552,42 +2530,54 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
+		/// <param name="temporary"></param>
 		/// <returns></returns>
-		public virtual Task<Boolean> IncrementInvalidPINAsync(Guid organisationID)
+		public virtual Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/OrganisationLogic/IncrementInvalidPINAsync?organisationID=" + organisationID, null, _user);
+			return GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
-		public virtual Boolean IncrementInvalidPIN(Guid organisationID)
+		/// <param name="temporary"></param>
+		public virtual List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IncrementInvalidPINAsync?organisationID=" + organisationID, null, _user)).Result;
+			return Task.Run(() => GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary, _user)).Result;
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="enumType"></param>
+		/// <param name="status"></param>
+		/// <param name="reason"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		public virtual Task ResendLoginsAsync(Guid organisationId)
+		public virtual Task AddOrganisationStatusAsync(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/ResendLoginsAsync?organisationId=" + organisationId, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationId"></param>
-		public virtual void ResendLogins(Guid organisationId)
+		/// <param name="orgID"></param>
+		/// <param name="enumType"></param>
+		/// <param name="status"></param>
+		/// <param name="reason"></param>
+		/// <param name="notes"></param>
+		public virtual void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ResendLoginsAsync?organisationId=" + organisationId, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion
@@ -4033,6 +4023,100 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsPasswordResetRequestValid?requestID=" + requestID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task GeneratePinAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual void GeneratePin(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> IncrementInvalidPINAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/UserLogic/IncrementInvalidPINAsync?uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual Boolean IncrementInvalidPIN(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IncrementInvalidPINAsync?uaoID=" + uaoID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="tempUaoId"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		public virtual Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password)
+		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="tempUaoId"></param>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		public virtual void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password)
+		{
+			username = username.UrlEncode();
+			password = password.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, UserAccountOrganisationDTO>("api/UserLogic/ResendLoginsAsync?uaoId=" + uaoId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual UserAccountOrganisationDTO ResendLogins(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, UserAccountOrganisationDTO>("api/UserLogic/ResendLoginsAsync?uaoId=" + uaoId, null, _user)).Result;
 		}
 
 		#endregion

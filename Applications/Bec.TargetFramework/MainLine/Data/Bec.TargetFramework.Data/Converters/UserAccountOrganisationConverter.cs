@@ -43,6 +43,9 @@ namespace Bec.TargetFramework.Entities
             target.PrimaryContactID = source.PrimaryContactID;
             target.UserTypeID = source.UserTypeID;
             target.ParentID = source.ParentID;
+            target.PinCode = source.PinCode;
+            target.PinCreated = source.PinCreated;
+            target.PinAttempts = source.PinAttempts;
 
             // Navigation Properties
             if (level > 0) {
@@ -88,6 +91,9 @@ namespace Bec.TargetFramework.Entities
             target.PrimaryContactID = source.PrimaryContactID;
             target.UserTypeID = source.UserTypeID;
             target.ParentID = source.ParentID;
+            target.PinCode = source.PinCode;
+            target.PinCreated = source.PinCreated;
+            target.PinAttempts = source.PinAttempts;
 
             // User-defined partial method
             OnEntityCreating(source, target);

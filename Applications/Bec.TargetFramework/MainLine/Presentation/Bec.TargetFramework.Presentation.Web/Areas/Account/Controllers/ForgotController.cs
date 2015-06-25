@@ -43,7 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             //send email if the email address is found
             if (response.success)
             {
-                UserLogicClient.SendUsernameReminder(email);
+                await UserLogicClient.SendUsernameReminderAsync(email);
 
                 ViewBag.Message = "Thank you. The registered Username has been sent to the specified email address.";
                 ViewBag.Link = true;
@@ -63,7 +63,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (response.success)
             {
                 //send email if the username is found
-                UserLogicClient.SendPasswordResetNotification(username, Request.Url.OriginalString.Replace("/Password", "/Reset") + "?resetId={0}&expire={1}");
+                await UserLogicClient.SendPasswordResetNotificationAsync(username, Request.Url.OriginalString.Replace("/Password", "/Reset") + "?resetId={0}&expire={1}");
 
                 ViewBag.Message = "Thank you. Instructions to reset your password have been sent to your registered email address.";
                 return View("ForgotDone");
@@ -109,7 +109,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var requestUserID = await UserLogicClient.ExpirePasswordResetRequestAsync(model.RequestID);
 
             //check username matches the reset request
-            var ua = UserLogicClient.GetBAUserAccountByUsername(model.Username);
+            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.Username);
             if (ua != null && ua.ID == requestUserID)
             {
                 //change password

@@ -1,0 +1,93 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header"> View Invited Users </h2>
+        <hr class="simple">
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <a data-href="@Url.Action("ViewAddUser", "Users", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm" data-modallink="true">Invite User</a>
+                    </div>
+                    <div class="well">
+                        <div id="inviteGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="iPanel">
+                <div class="col-sm-6">
+                    <!-- well -->
+                    <div class="well">
+                        <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
+                        <a id="revokeButton" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                        <h5>Selected Invite</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Name:</dt>
+                            <dd><p id="ddName"></p></dd>
+                            <dt>Email:</dt>
+                            <dd><p id="ddEmail"></p></dd>
+                            <dt>Pin:</dt>
+                            <dd><p id="ddPin"></p></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section pagespecific {
+    <script type="text/javascript">
+
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var iGrid = new gridItem(
+            {
+                gridElementId: 'inviteGrid',
+                url: '@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", registered = false })',
+                schema: { data: "list", total: "total", model: { id: "ID" } },
+                defaultSort: { field: "LastName", dir: "asc" },
+                panels: ['iPanel'],
+                change: iChange,
+                jumpToId: '@TempData["UserId"]',
+                columns: [
+                        {
+                            field: "ID",
+                            hidden: true,
+                        },
+                        {
+                            field: "LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                        },
+                        {
+                            field: "Email",
+                            title: "Email"
+                        },
+                        {
+                            field: "PinCode",
+                            title: "Pin"
+                        }
+                ]
+            });
+
+        $(document).ready(function () {
+            iGrid.makeGrid();
+
+            findModalLinks();
+        });
+
+        //data binding for the panes beneath each grid
+        function iChange(dataItem) {
+            $("p#ddName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddEmail").text(dataItem.Email || "");
+            $("p#ddPin").text(dataItem.PinCode || "");
+
+            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#revokeButton").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+        }
+
+    </script>
+}

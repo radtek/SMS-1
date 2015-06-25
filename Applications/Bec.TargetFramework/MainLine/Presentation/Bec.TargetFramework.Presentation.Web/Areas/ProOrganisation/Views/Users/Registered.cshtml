@@ -1,0 +1,82 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header"> View Registered Users </h2>
+        <hr class="simple">
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div id="regGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="rPanel">
+                <div class="col-sm-6">
+                    <!-- well -->
+                    <div class="well">
+                        <h5>Selected User</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Name:</dt>
+                            <dd><p id="ddName"></p></dd>
+                            <dt>Email:</dt>
+                            <dd><p id="ddEmail"></p></dd>
+                            <dt>Username:</dt>
+                            <dd><p id="ddUsername"></p></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section pagespecific {
+    <script type="text/javascript">
+
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var iGrid = new gridItem(
+            {
+                gridElementId: 'regGrid',
+                url: '@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", registered = true })',
+                schema: { data: "list", total: "total", model: { id: "UserID" } },
+                defaultSort: { field: "LastName", dir: "asc" },
+                panels: ['rPanel'],
+                change: rChange,
+                columns: [
+                        {
+                            field: "UserID",
+                            hidden: true,
+                        },
+                        {
+                            field: "LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                        },
+                        {
+                            field: "Email",
+                            title: "Email"
+                        },
+                        {
+                            field: "Username",
+                            title: "Username"
+                        }
+                ]
+            });
+
+        $(document).ready(function () {
+            iGrid.makeGrid();
+        });
+
+        //data binding for the panes beneath each grid
+        function rChange(dataItem) {
+            $("p#ddName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddEmail").text(dataItem.Email || "");
+            $("p#ddUsername").text(dataItem.Username || "");
+        }
+
+    </script>
+}

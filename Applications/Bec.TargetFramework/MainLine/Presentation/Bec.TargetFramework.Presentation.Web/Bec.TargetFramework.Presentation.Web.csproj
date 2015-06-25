@@ -301,8 +301,9 @@
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
+    <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
@@ -854,13 +855,19 @@
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_ResendLogins.cshtml" />
+    <Content Include="Views\Shared\_ResendLogins.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Reset.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\web.config" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Invited.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Registered.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />
@@ -1971,9 +1978,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

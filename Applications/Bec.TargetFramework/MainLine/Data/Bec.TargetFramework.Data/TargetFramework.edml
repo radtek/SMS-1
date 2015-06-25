@@ -3117,6 +3117,9 @@
           <Property Name="PrimaryContactID" Type="uuid" />
           <Property Name="UserTypeID" Type="uuid" Nullable="false" />
           <Property Name="ParentID" Type="uuid" />
+          <Property Name="PinCode" Type="varchar" MaxLength="40" />
+          <Property Name="PinCreated" Type="timestamptz" />
+          <Property Name="PinAttempts" Type="smallint" Nullable="false" DefaultValue="0" />
         </EntityType>
         <EntityType Name="StatusTypeRole">
           <Key>
@@ -9202,40 +9205,44 @@
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="ID" Type="uuid" Nullable="false" />
-          <Property Name="IsTemporaryAccount" Type="boolean" />
+          <Property Name="IsTemporaryAccount" Type="boolean" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="UserTypeID" Type="uuid" />
+          <Property Name="UserTypeID" Type="uuid" Nullable="false" />
           <Property Name="OrganisationBranchID" Type="uuid" />
-          <Property Name="OrganisationID" Type="uuid" />
-          <Property Name="Name" Type="varchar" MaxLength="2000" />
-          <Property Name="IsBranch" Type="boolean" />
-          <Property Name="IsHeadOffice" Type="boolean" />
-          <Property Name="IsUserOrganisation" Type="boolean" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="2000" />
+          <Property Name="IsBranch" Type="boolean" Nullable="false" />
+          <Property Name="IsHeadOffice" Type="boolean" Nullable="false" />
+          <Property Name="IsUserOrganisation" Type="boolean" Nullable="false" />
           <Property Name="IsPaymentProvider" Type="boolean" />
-          <Property Name="OrganisationTypeID" Type="int" />
+          <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
           <Property Name="OrganisationTypeName" Type="varchar" MaxLength="200" />
           <Property Name="UserTypeName" Type="varchar" MaxLength="200" />
-          <Property Name="VATNumber" Type="varchar" MaxLength="50" />
-          <Property Name="IsVATRegistered" Type="boolean" />
+          <Property Name="VATNumber" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsVATRegistered" Type="boolean" Nullable="false" />
           <Property Name="BirthDate" Type="timestamp" />
           <Property Name="EmailAddress1" Type="varchar" MaxLength="200" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
           <Property Name="MiddleName" Type="varchar" MaxLength="100" />
-          <Property Name="Username" Type="varchar" MaxLength="100" />
+          <Property Name="Username" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
-          <Property Name="ContactID" Type="uuid" />
-          <Property Name="AddressID" Type="uuid" />
+          <Property Name="ContactID" Type="uuid" Nullable="false" />
+          <Property Name="AddressID" Type="uuid" Nullable="false" />
           <Property Name="BuildingName" Type="varchar" MaxLength="500" />
           <Property Name="City" Type="varchar" MaxLength="200" />
           <Property Name="CountryCode" Type="varchar" MaxLength="300" />
           <Property Name="County" Type="varchar" MaxLength="200" />
-          <Property Name="Line1" Type="varchar" MaxLength="500" />
+          <Property Name="Line1" Type="varchar" Nullable="false" MaxLength="500" />
           <Property Name="Line2" Type="varchar" MaxLength="500" />
           <Property Name="Line3" Type="varchar" MaxLength="500" />
           <Property Name="PostalCode" Type="varchar" MaxLength="200" />
           <Property Name="Town" Type="varchar" MaxLength="200" />
           <Property Name="IsPrimaryAddress" Type="boolean" />
+          <Property Name="PinCode" Type="varchar" MaxLength="40" />
+          <Property Name="PinCreated" Type="timestamptz" />
+          <Property Name="Salutation" Type="varchar" MaxLength="100" />
+          <Property Name="Telephone" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="vOrganisationDetail">
           <Key>
@@ -9596,12 +9603,9 @@
           <Property Name="ParentOrganisationID" Type="uuid" />
           <Property Name="IsPaymentProvider" Type="boolean" DefaultValue="false" />
           <Property Name="PrimaryContactID" Type="uuid" />
-          <Property Name="CompanyPinCode" Type="varchar" MaxLength="40" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="CompanyPinCreated" Type="timestamptz" />
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
           <Property Name="IsCompanyPinCreated" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="PinAttempts" Type="smallint" Nullable="false" DefaultValue="0" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -9612,14 +9616,15 @@
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="2000" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="OrganisationVerified" Type="boolean" />
-          <Property Name="OrganisationPinCreated" Type="timestamptz" />
-          <Property Name="OrganisationPinCode" Type="varchar" MaxLength="40" />
+          <Property Name="PinCreated" Type="timestamptz" />
+          <Property Name="PinCode" Type="varchar" MaxLength="40" />
           <Property Name="OrganisationAdminSalutation" Type="varchar" MaxLength="100" />
           <Property Name="OrganisationAdminFirstName" Type="varchar" MaxLength="100" />
           <Property Name="OrganisationAdminLastName" Type="varchar" MaxLength="100" />
@@ -9646,6 +9651,7 @@
           <Property Name="VerifiedOn" Type="timestamptz" />
           <Property Name="VerifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="VerifiedNotes" Type="text" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -20806,6 +20812,9 @@
           <Property Name="PrimaryContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="55095be7-6af5-4dae-976b-959b6e9bf9d0" />
           <Property Name="UserTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="690fb7a3-13e1-49ec-a268-8ef3687a27d8" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="7ee4e296-5a1c-4053-b879-aeae3c62691e" />
+          <Property Name="PinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="cfcaa05b-656a-42c2-b557-9b9f221c78c1" />
+          <Property Name="PinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7df22fdf-9aa8-4f83-b12c-4e572fc2f779" />
+          <Property Name="PinAttempts" Type="Int16" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="0c0ee2b8-7141-479f-9075-eb14ea356ead" />
           <NavigationProperty Name="OrganisationUnit" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_OrganisationUnit" FromRole="UserAccountOrganisations" ToRole="OrganisationUnit" ed:Guid="4dd881da-86e0-4a4d-aeba-1c4c79c2b01e" />
           <NavigationProperty Name="UserType" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_UserType" FromRole="UserAccountOrganisations" ToRole="UserType" ed:Guid="d42c377a-4a56-4f0b-8e96-06ce823da35b" />
           <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.fk_UserAccunts" FromRole="UserAccountOrganisations" ToRole="UserAccount" ed:Guid="9a83d5ac-57a6-4ca5-84cf-469f944920a2" />
@@ -27801,40 +27810,44 @@
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="79412f71-4dc3-4abe-848d-1b83dedcfd34" />
-          <Property Name="IsTemporaryAccount" Type="Boolean" ed:ValidateRequired="False" ed:Guid="238c9c20-3be8-4eb6-b712-affd935a21fa" />
+          <Property Name="IsTemporaryAccount" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="238c9c20-3be8-4eb6-b712-affd935a21fa" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b5dfcedd-38b8-4186-bc0c-a2d7d4c75c55" />
-          <Property Name="UserTypeID" Type="Guid" ed:ValidateRequired="False" ed:Guid="8d49b751-812f-4998-94ed-ab6b1671ab8b" />
+          <Property Name="UserTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8d49b751-812f-4998-94ed-ab6b1671ab8b" />
           <Property Name="OrganisationBranchID" Type="Guid" ed:ValidateRequired="False" ed:Guid="c8c3b67e-9aee-4d65-9c15-39b004e7fa3a" />
-          <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b43433ba-04b2-4dde-b024-90354cde1750" />
-          <Property Name="Name" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="8120b2df-6835-4938-913a-788827e87f73" />
-          <Property Name="IsBranch" Type="Boolean" ed:ValidateRequired="False" ed:Guid="aecd26fa-9b30-4f52-8a5c-afef10e8f30d" />
-          <Property Name="IsHeadOffice" Type="Boolean" ed:ValidateRequired="False" ed:Guid="7a6f1c56-5a90-4b20-9186-468489cf9c97" />
-          <Property Name="IsUserOrganisation" Type="Boolean" ed:ValidateRequired="False" ed:Guid="a4f81fb9-9a21-41ef-b22c-e7fc39e2c628" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b43433ba-04b2-4dde-b024-90354cde1750" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="8120b2df-6835-4938-913a-788827e87f73" />
+          <Property Name="IsBranch" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="aecd26fa-9b30-4f52-8a5c-afef10e8f30d" />
+          <Property Name="IsHeadOffice" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="7a6f1c56-5a90-4b20-9186-468489cf9c97" />
+          <Property Name="IsUserOrganisation" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a4f81fb9-9a21-41ef-b22c-e7fc39e2c628" />
           <Property Name="IsPaymentProvider" Type="Boolean" ed:ValidateRequired="False" ed:Guid="023f531e-e719-471e-8576-d02c9f95894e" />
-          <Property Name="OrganisationTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="72562a46-8be0-4452-986f-9ed5f046ce6a" />
+          <Property Name="OrganisationTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="72562a46-8be0-4452-986f-9ed5f046ce6a" />
           <Property Name="OrganisationTypeName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="afb37219-eee1-47d0-b1a9-b6cc12d21c45" />
           <Property Name="UserTypeName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="0118ed1b-a84a-49be-8ed5-cf6c436ebd18" />
-          <Property Name="VATNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="66e2b0d4-affa-4645-b802-420b9f1c8b34" />
-          <Property Name="IsVATRegistered" Type="Boolean" ed:ValidateRequired="False" ed:Guid="4cfb8f61-dfea-48de-a264-78b608b42e7a" />
+          <Property Name="VATNumber" Type="String" Nullable="false" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="True" ed:Guid="66e2b0d4-affa-4645-b802-420b9f1c8b34" />
+          <Property Name="IsVATRegistered" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="4cfb8f61-dfea-48de-a264-78b608b42e7a" />
           <Property Name="BirthDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="815a99fc-9fbd-47a4-9ae8-1accfbf3234a" />
           <Property Name="EmailAddress1" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="8ed3e2d7-0c88-4146-b276-5a065d26cb32" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="745872c0-1083-4e7f-8905-cca8a68f76c4" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="172946ff-eb20-4012-8363-e3f8fd7c4ba0" />
           <Property Name="MiddleName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="b23af307-49a9-4c46-a500-0c5f0bca0c54" />
-          <Property Name="Username" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="78dbf0c8-384f-4740-a329-701b4fe801e5" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="78dbf0c8-384f-4740-a329-701b4fe801e5" />
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="fd63c389-cf52-4990-ba34-c1cdaf3734f6" />
-          <Property Name="ContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="df0d00d8-8a59-4928-8657-d31d3b15a628" />
-          <Property Name="AddressID" Type="Guid" ed:ValidateRequired="False" ed:Guid="619ee670-f094-4572-9077-832c15695103" />
+          <Property Name="ContactID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="df0d00d8-8a59-4928-8657-d31d3b15a628" />
+          <Property Name="AddressID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="619ee670-f094-4572-9077-832c15695103" />
           <Property Name="BuildingName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="958f570a-4749-4804-8ffc-189c4db0b2dd" />
           <Property Name="City" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="999dcab8-a8d2-41c0-8347-e23adc74cbb1" />
           <Property Name="CountryCode" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="53b7f30e-366a-4586-8177-d667d065f7b9" />
           <Property Name="County" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="c90c28cd-b23d-4ff3-9bd2-b8a7b9973e16" />
-          <Property Name="Line1" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="b386e514-aaf1-4543-98da-3017410a1f80" />
+          <Property Name="Line1" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="b386e514-aaf1-4543-98da-3017410a1f80" />
           <Property Name="Line2" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="666bc439-6099-4183-8add-da9f19df15b0" />
           <Property Name="Line3" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="842040ee-1245-4e2b-a84d-8ba7dae6e9d7" />
           <Property Name="PostalCode" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="fa8fa3e4-79a8-417b-852e-7de8bef4ea32" />
           <Property Name="Town" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e0e65634-6c81-4a7e-9053-463a7d0815ee" />
           <Property Name="IsPrimaryAddress" Type="Boolean" ed:ValidateRequired="False" ed:Guid="9236d6a5-908b-4f98-9af6-7289f33decd0" />
+          <Property Name="PinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="4f7e78a3-65e8-4b31-9c50-9e64588175cd" />
+          <Property Name="PinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="3054e067-67f9-4d64-b5e6-78c16b2182df" />
+          <Property Name="Salutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="4502fbe1-e25f-4b25-b3c9-4b8d1a44404c" />
+          <Property Name="Telephone" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="6bcf9a91-3877-4393-bd33-aa4b5ae73ae4" />
         </EntityType>
         <EntityType Name="VOrganisationDetail" ed:Guid="984bea8e-fff3-4a31-a5bb-cb0778791ce3">
           <Key>
@@ -28229,12 +28242,9 @@
           <Property Name="ParentOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="8fafbf2d-2d12-4227-9d5c-5efb1a95339b" />
           <Property Name="IsPaymentProvider" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="3614292d-1308-47a6-bc0c-81c8f74dcb6f" />
           <Property Name="PrimaryContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4693df9a-d22d-4f9c-bc60-460e907ed840" />
-          <Property Name="CompanyPinCode" Type="String" DefaultValue="''" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="cf8fbf9d-d9d6-408c-a147-7bd34db0ed14" />
-          <Property Name="CompanyPinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c049120f-48bc-471c-b850-1754df68f7a3" />
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="af838f7a-3334-4df8-8eee-d1e5899012c4" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
-          <Property Name="PinAttempts" Type="Int16" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="3d6e0d43-8dd0-4032-be26-01dadbf56d47" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -28282,14 +28292,15 @@
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
+            <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="742f87d0-0657-4f08-9add-91b9148e437b" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="10471631-6e63-40b2-a84d-104852ecc8c9" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="5ed9da1a-1fc5-427c-bc77-4631b6f8cf9e" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="277ee2a0-739e-406f-b2d0-02025c897f8c" />
           <Property Name="OrganisationVerified" Type="Boolean" ed:ValidateRequired="False" ed:Guid="23239fb7-5001-4c79-ab38-f5d85299f4dd" />
-          <Property Name="OrganisationPinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="5a1d4416-68bd-4d27-8bca-1f9aae8217d7" />
-          <Property Name="OrganisationPinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="0fe9cc4b-580c-4719-af33-167334a62bda" />
+          <Property Name="PinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="5a1d4416-68bd-4d27-8bca-1f9aae8217d7" />
+          <Property Name="PinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="0fe9cc4b-580c-4719-af33-167334a62bda" />
           <Property Name="OrganisationAdminSalutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="1a92b01f-bc43-4ce6-9b60-60c073a6d156" />
           <Property Name="OrganisationAdminFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d6405f08-76c5-4800-b8ef-7a802b8e133e" />
           <Property Name="OrganisationAdminLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e8665290-880d-47ad-9eef-7e80f41574d4" />
@@ -28316,6 +28327,7 @@
           <Property Name="VerifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="5327d2df-ce2a-4149-b620-2aefd433553c" />
           <Property Name="VerifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f704e80e-c51b-4898-b332-7cf186093594" />
           <Property Name="VerifiedNotes" Type="String" ed:ValidateRequired="False" ed:Guid="63ab2b1c-2919-4365-a7d6-d1270d6297f1" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9e7bbaa8-4241-4e19-814f-1a53b486de98" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -36238,6 +36250,9 @@
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="PrimaryContactID" ColumnName="PrimaryContactID" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="PinCreated" ColumnName="PinCreated" />
+                <ScalarProperty Name="PinAttempts" ColumnName="PinAttempts" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42125,6 +42140,10 @@
                 <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
                 <ScalarProperty Name="Town" ColumnName="Town" />
                 <ScalarProperty Name="IsPrimaryAddress" ColumnName="IsPrimaryAddress" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="PinCreated" ColumnName="PinCreated" />
+                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42498,12 +42517,9 @@
                 <ScalarProperty Name="ParentOrganisationID" ColumnName="ParentOrganisationID" />
                 <ScalarProperty Name="IsPaymentProvider" ColumnName="IsPaymentProvider" />
                 <ScalarProperty Name="PrimaryContactID" ColumnName="PrimaryContactID" />
-                <ScalarProperty Name="CompanyPinCode" ColumnName="CompanyPinCode" />
-                <ScalarProperty Name="CompanyPinCreated" ColumnName="CompanyPinCreated" />
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
-                <ScalarProperty Name="PinAttempts" ColumnName="PinAttempts" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42514,8 +42530,8 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="OrganisationVerified" ColumnName="OrganisationVerified" />
-                <ScalarProperty Name="OrganisationPinCreated" ColumnName="OrganisationPinCreated" />
-                <ScalarProperty Name="OrganisationPinCode" ColumnName="OrganisationPinCode" />
+                <ScalarProperty Name="PinCreated" ColumnName="PinCreated" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
                 <ScalarProperty Name="OrganisationAdminSalutation" ColumnName="OrganisationAdminSalutation" />
                 <ScalarProperty Name="OrganisationAdminFirstName" ColumnName="OrganisationAdminFirstName" />
                 <ScalarProperty Name="OrganisationAdminLastName" ColumnName="OrganisationAdminLastName" />
@@ -42543,6 +42559,7 @@
                 <ScalarProperty Name="VerifiedOn" ColumnName="VerifiedOn" />
                 <ScalarProperty Name="VerifiedBy" ColumnName="VerifiedBy" />
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

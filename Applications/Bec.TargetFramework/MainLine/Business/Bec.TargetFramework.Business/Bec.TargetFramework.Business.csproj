@@ -168,7 +168,6 @@
     <Compile Include="Extensions\InvoiceHelper.cs" />
     <Compile Include="Extensions\LogicHelper.cs" />
     <Compile Include="Extensions\TransactionHelper.cs" />
-    <Compile Include="Logic\DataLogicController.cs" />
     <Compile Include="Extensions\DeductionHelper.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
     <Compile Include="Logic\PaymentLogicController.cs" />

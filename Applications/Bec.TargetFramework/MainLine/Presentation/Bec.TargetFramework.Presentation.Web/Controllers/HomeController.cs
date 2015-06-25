@@ -25,23 +25,20 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View("Denied");
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
         public ActionResult ViewCancel()
         {
             return PartialView("_Cancel");
+        }
+
+        public async Task<ActionResult> ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
+        {
+            ViewBag.orgId = uaoId;
+            ViewBag.label = label;
+            ViewBag.RedirectAction = redirectAction;
+            ViewBag.RedirectController = redirectController;
+            ViewBag.RedirectArea = redirectArea;
+            return PartialView("_ResendLogins");
         }
     }
 }

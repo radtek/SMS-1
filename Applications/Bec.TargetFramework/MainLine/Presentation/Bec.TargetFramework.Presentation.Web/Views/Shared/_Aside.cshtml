@@ -40,6 +40,20 @@
                         </ul>
                     </li>
                 }
+                @*@if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
+                {*@
+                    <li class="@Html.RouteIf("open", "Users")">
+                        <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Users</span></a>
+                        <ul>
+                            <li class="@Html.RouteIf("active", "Users", "Invited")">
+                                <a href="@Url.Action("Invited", "Users", new { area = "ProOrganisation" })">Invited</a>
+                            </li>
+                            <li class="@Html.RouteIf("active", "Users", "Registered")">
+                                <a href="@Url.Action("Registered", "Users", new { area = "ProOrganisation" })">Registered</a>
+                            </li>
+                        </ul>
+                    </li>
+                @*}*@
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

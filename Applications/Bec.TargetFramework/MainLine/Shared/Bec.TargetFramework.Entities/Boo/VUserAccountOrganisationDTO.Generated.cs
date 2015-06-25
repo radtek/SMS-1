@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VUserAccountOrganisationDTO() {
         }
 
-        public VUserAccountOrganisationDTO(global::System.Guid iD, global::System.Nullable<bool> isTemporaryAccount, global::System.Guid userAccountOrganisationID, global::System.Nullable<System.Guid> userTypeID, global::System.Nullable<System.Guid> organisationBranchID, global::System.Nullable<System.Guid> organisationID, string name, global::System.Nullable<bool> isBranch, global::System.Nullable<bool> isHeadOffice, global::System.Nullable<bool> isUserOrganisation, global::System.Nullable<bool> isPaymentProvider, global::System.Nullable<int> organisationTypeID, string organisationTypeName, string userTypeName, string vATNumber, global::System.Nullable<bool> isVATRegistered, global::System.Nullable<System.DateTime> birthDate, string emailAddress1, string firstName, string lastName, string middleName, string username, string email, global::System.Nullable<System.Guid> contactID, global::System.Nullable<System.Guid> addressID, string buildingName, string city, string countryCode, string county, string line1, string line2, string line3, string postalCode, string town, global::System.Nullable<bool> isPrimaryAddress) {
+        public VUserAccountOrganisationDTO(global::System.Guid iD, bool isTemporaryAccount, global::System.Guid userAccountOrganisationID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> organisationBranchID, global::System.Guid organisationID, string name, bool isBranch, bool isHeadOffice, bool isUserOrganisation, global::System.Nullable<bool> isPaymentProvider, int organisationTypeID, string organisationTypeName, string userTypeName, string vATNumber, bool isVATRegistered, global::System.Nullable<System.DateTime> birthDate, string emailAddress1, string firstName, string lastName, string middleName, string username, string email, global::System.Guid contactID, global::System.Guid addressID, string buildingName, string city, string countryCode, string county, string line1, string line2, string line3, string postalCode, string town, global::System.Nullable<bool> isPrimaryAddress, string pinCode, global::System.Nullable<System.DateTime> pinCreated, string salutation, string telephone) {
 
           this.ID = iD;
           this.IsTemporaryAccount = isTemporaryAccount;
@@ -59,6 +59,10 @@ namespace Bec.TargetFramework.Entities
           this.PostalCode = postalCode;
           this.Town = town;
           this.IsPrimaryAddress = isPrimaryAddress;
+          this.PinCode = pinCode;
+          this.PinCreated = pinCreated;
+          this.Salutation = salutation;
+          this.Telephone = telephone;
         }
 
         #endregion
@@ -69,37 +73,37 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid ID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsTemporaryAccount { get; set; }
+        public bool IsTemporaryAccount { get; set; }
 
         [DataMember]
         public global::System.Guid UserAccountOrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> UserTypeID { get; set; }
+        public global::System.Guid UserTypeID { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.Guid> OrganisationBranchID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> OrganisationID { get; set; }
+        public global::System.Guid OrganisationID { get; set; }
 
         [DataMember]
         public string Name { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsBranch { get; set; }
+        public bool IsBranch { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsHeadOffice { get; set; }
+        public bool IsHeadOffice { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsUserOrganisation { get; set; }
+        public bool IsUserOrganisation { get; set; }
 
         [DataMember]
         public global::System.Nullable<bool> IsPaymentProvider { get; set; }
 
         [DataMember]
-        public global::System.Nullable<int> OrganisationTypeID { get; set; }
+        public int OrganisationTypeID { get; set; }
 
         [DataMember]
         public string OrganisationTypeName { get; set; }
@@ -111,7 +115,7 @@ namespace Bec.TargetFramework.Entities
         public string VATNumber { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsVATRegistered { get; set; }
+        public bool IsVATRegistered { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.DateTime> BirthDate { get; set; }
@@ -135,10 +139,10 @@ namespace Bec.TargetFramework.Entities
         public string Email { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> ContactID { get; set; }
+        public global::System.Guid ContactID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> AddressID { get; set; }
+        public global::System.Guid AddressID { get; set; }
 
         [DataMember]
         public string BuildingName { get; set; }
@@ -169,6 +173,18 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<bool> IsPrimaryAddress { get; set; }
+
+        [DataMember]
+        public string PinCode { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> PinCreated { get; set; }
+
+        [DataMember]
+        public string Salutation { get; set; }
+
+        [DataMember]
+        public string Telephone { get; set; }
 
         #endregion
     }
