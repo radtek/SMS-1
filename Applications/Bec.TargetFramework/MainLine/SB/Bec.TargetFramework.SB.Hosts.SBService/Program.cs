@@ -20,15 +20,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             try
             {
-                bool runAsWindowsService = true;
-                
-                if (args != null && args.Length > 0)
-                {
-                    if (args[0].Equals("-c"))
-                        runAsWindowsService = false;
-                }
-
-                if (runAsWindowsService)
+                if (!Environment.UserInteractive)
                 {
                     ServiceBase[] ServicesToRun;
                     ServicesToRun = new ServiceBase[] 
