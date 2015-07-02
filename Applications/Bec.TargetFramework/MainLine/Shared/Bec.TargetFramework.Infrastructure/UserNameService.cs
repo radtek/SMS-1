@@ -9,6 +9,10 @@ namespace Bec.TargetFramework.Infrastructure
 {
     public class UserNameService
     {
+        public UserNameService()
+        {
+            UserName = "System";
+        }
         public string UserName { get; set; }
         internal void GetUserName(ApiController controller)
         {

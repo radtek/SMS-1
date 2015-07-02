@@ -31,17 +31,29 @@ namespace Bec.TargetFramework.Business.Logic
         {
         }
 
-        public async Task ExpireOrganisationsAsync(int days, int hours, int minutes)
+        public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var exp = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID && org.PinCreated != null))
+                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
                 {
-                    var testDate = org.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
-                    if (testDate < DateTime.Now) await ExpireOrganisationAsync(org.OrganisationID);
+                    var testDate = uao.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
+                    if (testDate < DateTime.Now)
+                    {
+                        uao.UserAccount.IsLoginAllowed = false;
+                        uao.PinCode = null;
+
+                        if (uao.Organisation != null)
+                        {
+                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                            if (status != null && status.StatusTypeValueID == exp.StatusTypeValueID)
+                                await ExpireOrganisationAsync(uao.OrganisationID);
+                        }
+                    }
                 }
+
                 await scope.SaveAsync();
             }
         }
@@ -349,23 +361,20 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                Logger.Trace("expiring " + organisationID.ToString());
-
+                Logger.Trace("Expiring organisation" + organisationID.ToString());
                 await AddOrganisationStatusAsync(organisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Expired, null, "Automatic expiry");
-
-                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == organisationID))
-                {
-                    uao.UserAccount.IsLoginAllowed = false;
-                }
                 await scope.SaveAsync();
             }
         }
 
-        public List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID, bool temporary)
+        public List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID, bool temporary, bool loginAllowed, bool hasPin)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary).ToDtos();
+                //if (hasPin)
+                    return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed && x.PinCreated.HasValue == hasPin).ToDtos();
+                //else
+                    //return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed).ToDtos();
             }
         }
 

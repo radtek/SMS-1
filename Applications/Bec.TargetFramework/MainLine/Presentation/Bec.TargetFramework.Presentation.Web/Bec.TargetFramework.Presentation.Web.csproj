@@ -868,6 +868,7 @@
     <Content Include="Areas\ProOrganisation\Views\_ViewStart.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_GenerateUserPin.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

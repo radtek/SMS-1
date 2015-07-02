@@ -25,7 +25,7 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
 
         public override void ExecuteTask(IJobExecutionContext context)
         {
-            m_OrgLogic.ExpireOrganisations(7, 0, 0);
+            m_OrgLogic.ExpireTemporaryLogins(7, 0, 0);
         }
     }
 }

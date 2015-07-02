@@ -41,7 +41,7 @@
         var iGrid = new gridItem(
             {
                 gridElementId: 'regGrid',
-                url: '@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", registered = true })',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, hasPin = false }))',
                 schema: { data: "list", total: "total", model: { id: "UserID" } },
                 defaultSort: { field: "LastName", dir: "asc" },
                 panels: ['rPanel'],
@@ -50,6 +50,10 @@
                         {
                             field: "UserID",
                             hidden: true,
+                        },
+                        {
+                            field: "Salutation",
+                            title: "Salutation"
                         },
                         {
                             field: "LastName",

@@ -416,6 +416,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for IsLoginAllowed in the schema.
+        /// </summary>
+        public virtual bool IsLoginAllowed
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

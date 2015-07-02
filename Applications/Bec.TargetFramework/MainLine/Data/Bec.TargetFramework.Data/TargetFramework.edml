@@ -9243,6 +9243,7 @@
           <Property Name="PinCreated" Type="timestamptz" />
           <Property Name="Salutation" Type="varchar" MaxLength="100" />
           <Property Name="Telephone" Type="varchar" MaxLength="50" />
+          <Property Name="IsLoginAllowed" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vOrganisationDetail">
           <Key>
@@ -27848,6 +27849,7 @@
           <Property Name="PinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="3054e067-67f9-4d64-b5e6-78c16b2182df" />
           <Property Name="Salutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="4502fbe1-e25f-4b25-b3c9-4b8d1a44404c" />
           <Property Name="Telephone" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="6bcf9a91-3877-4393-bd33-aa4b5ae73ae4" />
+          <Property Name="IsLoginAllowed" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="f17304d2-708e-4da4-9c44-3d7835713848" />
         </EntityType>
         <EntityType Name="VOrganisationDetail" ed:Guid="984bea8e-fff3-4a31-a5bb-cb0778791ce3">
           <Key>
@@ -42144,6 +42146,7 @@
                 <ScalarProperty Name="PinCreated" ColumnName="PinCreated" />
                 <ScalarProperty Name="Salutation" ColumnName="Salutation" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="IsLoginAllowed" ColumnName="IsLoginAllowed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

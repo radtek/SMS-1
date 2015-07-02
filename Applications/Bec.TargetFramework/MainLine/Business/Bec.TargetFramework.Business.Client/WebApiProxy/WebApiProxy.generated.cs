@@ -450,13 +450,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
 		/// <returns></returns>
-		Task ExpireOrganisationsAsync(Int32 days,Int32 hours,Int32 minutes);
+		Task ExpireTemporaryLoginsAsync(Int32 days,Int32 hours,Int32 minutes);
 
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
 		/// <returns></returns>
-		void ExpireOrganisations(Int32 days,Int32 hours,Int32 minutes);
+		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
 
 
 		/// <param name="manual"></param>
@@ -558,13 +558,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="organisationID"></param>
 		/// <param name="temporary"></param>
+		/// <param name="loginAllowed"></param>
+		/// <param name="hasPin"></param>
 		/// <returns></returns>
-		Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary);
+		Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin);
 
 		/// <param name="organisationID"></param>
 		/// <param name="temporary"></param>
+		/// <param name="loginAllowed"></param>
+		/// <param name="hasPin"></param>
 		/// <returns></returns>
-		List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary);
+		List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin);
 
 
 		/// <param name="orgID"></param>
@@ -2289,10 +2293,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
 		/// <returns></returns>
-		public virtual Task ExpireOrganisationsAsync(Int32 days,Int32 hours,Int32 minutes)
+		public virtual Task ExpireTemporaryLoginsAsync(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/ExpireOrganisationsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user);
 		}
 
 		/// <summary>
@@ -2301,10 +2305,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
-		public virtual void ExpireOrganisations(Int32 days,Int32 hours,Int32 minutes)
+		public virtual void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireOrganisationsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -2531,11 +2535,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="temporary"></param>
+		/// <param name="loginAllowed"></param>
+		/// <param name="hasPin"></param>
 		/// <returns></returns>
-		public virtual Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary)
+		public virtual Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary, _user);
+			return GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary + "&loginAllowed=" + loginAllowed + "&hasPin=" + hasPin, _user);
 		}
 
 		/// <summary>
@@ -2543,10 +2549,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="temporary"></param>
-		public virtual List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary)
+		/// <param name="loginAllowed"></param>
+		/// <param name="hasPin"></param>
+		public virtual List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary, _user)).Result;
+			return Task.Run(() => GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary + "&loginAllowed=" + loginAllowed + "&hasPin=" + hasPin, _user)).Result;
 		}
 
 		/// <summary>

@@ -29,11 +29,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetUsers(bool registered)
+        public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, bool hasPin)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var list = await orgClient.GetUsersAsync(orgID, !registered);
+            var list = await orgClient.GetUsersAsync(orgID, temporary, loginAllowed, hasPin);
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
@@ -49,8 +49,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, contact);
-
-            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID);
             
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -72,6 +70,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var uao = await userClient.ResendLoginsAsync(uaoId);
 
             TempData["UserId"] = uao.UserID;
+            TempData["tabIndex"] = 1;
             return RedirectToAction("Invited");
         }
 
@@ -86,6 +85,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> RevokeInvite(Guid userId)
         {
             await userClient.LockUserTemporaryAccountAsync(userId);
+            return RedirectToAction("Invited");
+        }
+
+        public ActionResult ViewGeneratePin(Guid uaoId, Guid userId, string label)
+        {
+            ViewBag.uaoId = uaoId;
+            ViewBag.userId = userId;
+            ViewBag.fullName = label;
+            return PartialView("_GenerateUserPin");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GeneratePin(Guid uaoId, Guid userId)
+        {
+            await userClient.GeneratePinAsync(uaoId);
+
+            TempData["UserId"] = userId;
+            TempData["tabIndex"] = 1;
             return RedirectToAction("Invited");
         }
     }

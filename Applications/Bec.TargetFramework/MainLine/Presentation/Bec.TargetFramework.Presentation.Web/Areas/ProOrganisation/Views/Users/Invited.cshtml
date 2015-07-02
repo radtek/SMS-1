@@ -5,34 +5,111 @@
         <hr class="simple">
         <div class="col-sm-12">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <a data-href="@Url.Action("ViewAddUser", "Users", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm" data-modallink="true">Invite User</a>
-                    </div>
-                    <div class="well">
-                        <div id="inviteGrid"></div>
-                    </div>
-                </div>
-            </div>
+            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
+                <li><a href="#s1"> New Invites </a></li>
+                <li><a href="#s2"> With Pin </a></li>
+                <li><a href="#s3"> Expired </a></li>
+            </ul>
+            <div id="myTabContent1" class="tab-content padding-10">
 
-            <div class="row hidden" id="iPanel">
-                <div class="col-sm-6">
-                    <!-- well -->
-                    <div class="well">
-                        <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
-                        <a id="revokeButton" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
-                        <h5>Selected Invite</h5>
-                        <dl class="dl-horizontal">
-                            <dt>Name:</dt>
-                            <dd><p id="ddName"></p></dd>
-                            <dt>Email:</dt>
-                            <dd><p id="ddEmail"></p></dd>
-                            <dt>Pin:</dt>
-                            <dd><p id="ddPin"></p></dd>
-                        </dl>
+                <div class="tab-pane fade in active" id="s1" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <a data-href="@Url.Action("ViewAddUser", "Users", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm" data-modallink="true">Invite User</a>
+                            </div>
+                            <div class="well">
+                                <div id="nGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="nPanel">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <a id="generatePinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate Pin</a>
+                                <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                                <h5>Selected Invite</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Salutation:</dt>
+                                    <dd><p id="ddnSal"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddnName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddnEmail"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade" id="s2" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <div id="wGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="wPanel">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
+                                <a id="revokeButton2" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                                <h5>Selected Invite</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Salutation:</dt>
+                                    <dd><p id="ddwSal"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddwName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddwEmail"></p></dd>
+                                    <dt>Pin:</dt>
+                                    <dd><p id="ddwPin"></p></dd>
+                                    <dt>Pin Created:</dt>
+                                    <dd><p id="ddwPinCreated"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="s3" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="well">
+                                <div id="eGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="ePanel">
+                        <div class="col-sm-6">
+                            <!-- well -->
+                            <div class="well">
+                                <a id="regeneratePinButton" class="btn btn-primary btn-sm" data-modallink="true">Regenerate Pin</a>
+                                <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                                <h5>Selected Invite</h5>
+                                <dl class="dl-horizontal">
+                                    <dt>Salutation:</dt>
+                                    <dd><p id="ddeSal"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddeName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddeEmail"></p></dd>
+                                    <dt>Pin:</dt>
+                                    <dd><p id="ddePin"></p></dd>
+                                    <dt>Pin Created:</dt>
+                                    <dd><p id="ddePinCreated"></p></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -43,19 +120,53 @@
     <script type="text/javascript">
 
         //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var iGrid = new gridItem(
+        var nGrid = new gridItem(
             {
-                gridElementId: 'inviteGrid',
-                url: '@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", registered = false })',
+                gridElementId: 'nGrid',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = false }))',
                 schema: { data: "list", total: "total", model: { id: "ID" } },
                 defaultSort: { field: "LastName", dir: "asc" },
-                panels: ['iPanel'],
-                change: iChange,
+                panels: ['nPanel'],
+                change: nChange,
                 jumpToId: '@TempData["UserId"]',
                 columns: [
                         {
                             field: "ID",
                             hidden: true,
+                        },
+                        {
+                            field: "Salutation",
+                            title: "Salutation"
+                        },
+                        {
+                            field: "LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                        },
+                        {
+                            field: "Email",
+                            title: "Email"
+                        }
+                ]
+            });
+
+        var wGrid = new gridItem(
+            {
+                gridElementId: 'wGrid',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true, hasPin = true }))',
+                schema: { data: "list", total: "total", model: { id: "ID" } },
+                defaultSort: { field: "LastName", dir: "asc" },
+                panels: ['wPanel'],
+                change: wChange,
+                jumpToId: '@TempData["UserId"]',
+                columns: [
+                        {
+                            field: "ID",
+                            hidden: true,
+                        },
+                        {
+                            field: "Salutation",
+                            title: "Salutation"
                         },
                         {
                             field: "LastName",
@@ -69,24 +180,100 @@
                         {
                             field: "PinCode",
                             title: "Pin"
+                        },
+                        {
+                            field: "PinCreated",
+                            title: "Pin Created",
+                            template: function (dataItem) {
+                                return dateString(dataItem.PinCreated);
+                            }
                         }
                 ]
             });
 
-        $(document).ready(function () {
-            iGrid.makeGrid();
+        var eGrid = new gridItem(
+            {
+                gridElementId: 'eGrid',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = true }))',
+                schema: { data: "list", total: "total", model: { id: "ID" } },
+                defaultSort: { field: "LastName", dir: "asc" },
+                panels: ['ePanel'],
+                change: eChange,
+                jumpToId: '@TempData["UserId"]',
+                columns: [
+                        {
+                            field: "ID",
+                            hidden: true,
+                        },
+                        {
+                            field: "Salutation",
+                            title: "Salutation"
+                        },
+                        {
+                            field: "LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                        },
+                        {
+                            field: "Email",
+                            title: "Email"
+                        },
+                        {
+                            field: "PinCreated",
+                            title: "Pin Created",
+                            template: function (dataItem) {
+                                return dateString(dataItem.PinCreated);
+                            }
+                        }
+                ]
+            });
 
+        var tabs = new tabItem("myTab1",
+        {
+            s1: {
+                grids: [nGrid]
+            },
+            s2: {
+                grids: [wGrid]
+            },
+            s3: {
+                grids: [eGrid]
+            },
+        });
+
+        $(document).ready(function () {
+            tabs.makeTab();
+            tabs.showTab(@TempData["tabIndex"]);
             findModalLinks();
         });
 
         //data binding for the panes beneath each grid
-        function iChange(dataItem) {
-            $("p#ddName").text(dataItem.FirstName + " " + dataItem.LastName);
-            $("p#ddEmail").text(dataItem.Email || "");
-            $("p#ddPin").text(dataItem.PinCode || "");
+        function nChange(dataItem) {
+            $("p#ddnSal").text(dataItem.Salutation || "");
+            $("p#ddnName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddnEmail").text(dataItem.Email || "");
+
+            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+        }
+        function wChange(dataItem) {
+            $("p#ddwSal").text(dataItem.Salutation || "");
+            $("p#ddwName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddwEmail").text(dataItem.Email || "");
+            $("p#ddwPin").text(dataItem.PinCode || "");
+            $("p#ddwPinCreated").text(dateString(dataItem.PinCreated));
 
             $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
-            $("#revokeButton").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+        }
+        function eChange(dataItem) {
+            $("p#ddeSal").text(dataItem.Salutation || "");
+            $("p#ddeName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddeEmail").text(dataItem.Email || "");
+            $("p#ddePinCreated").text(dateString(dataItem.PinCreated));
+
+            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
         }
 
     </script>
