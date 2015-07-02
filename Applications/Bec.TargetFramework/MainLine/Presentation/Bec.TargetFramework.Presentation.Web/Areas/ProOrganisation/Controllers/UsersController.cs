@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
-    //[ClaimsRequired("Add", "ProUsers", Order = 1000)]
+    [ClaimsRequired("Add", "ProUsers", Order = 1000)]
     public class UsersController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }

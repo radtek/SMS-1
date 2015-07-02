@@ -40,8 +40,8 @@
                         </ul>
                     </li>
                 }
-                @*@if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
-                {*@
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
+                {
                     <li class="@Html.RouteIf("open", "Users")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Users</span></a>
                         <ul>
@@ -53,7 +53,7 @@
                             </li>
                         </ul>
                     </li>
-                @*}*@
+                }
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

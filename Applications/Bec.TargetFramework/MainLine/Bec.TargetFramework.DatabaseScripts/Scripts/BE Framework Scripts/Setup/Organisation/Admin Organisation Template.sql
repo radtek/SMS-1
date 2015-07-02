@@ -6,12 +6,16 @@ Declare DoVersionNumber integer;
 Declare UserRoleID uuid;
 Declare EmployeeRoleID uuid;
 Declare OrganisationTypeID integer;
+Declare userUser uuid;
+Declare adminUser uuid;
 Begin
 
 -- declare variables
 UserRoleID := (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1);
 EmployeeRoleID := (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1);
 OrganisationTypeID := (select "OrganisationTypeID" from "OrganisationType" where "Name" = 'Administration' limit 1);
+userUser := (select "UserTypeID" from "UserType" where "Name" = 'User');
+adminUser := (select "UserTypeID" from "UserType" where "Name" = 'Administrator');
 
 INSERT INTO
   public."DefaultOrganisationTemplate"
@@ -173,6 +177,29 @@ VALUES (
   true
 );
 
+INSERT INTO
+  public."DefaultOrganisationUserTargetTemplate"
+(
+  "DefaultOrganisationTemplateID",
+  "DefaultOrganisationTemplateVersionNumber",
+  "IsActive",
+  "IsDeleted",
+  "StatusTypeTemplateID",
+  "StatusTypeTemplateVersionNumber",
+  "UserTypeID",
+  "IsDefault"
+)
+VALUES (
+  DoTemplateID,
+  DoVersionNumber,
+  true,
+  false,
+  (select "StatusTypeTemplateID" from "vStatusTypeTemplate" where "IsStart" = true and "TemplateName" = 'User Organisation Status' limit 1),
+  1,
+  (select "UserTypeID" from "UserType" where "Name" = 'User' limit 1),
+  true
+);
+
 -- Security
 INSERT INTO
   public."DefaultOrganisationRoleTemplate"
@@ -256,31 +283,32 @@ VALUES (
 );
 
 -- add user target
-INSERT INTO
-  public."DefaultOrganisationRoleTargetTemplate"
-(
-  "DefaultOrganisationRoleTemplateID",
-  "DefaultOrganisationUserTargetTemplateID"
-)
-VALUES (
-  (select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
-  	and dot."RoleID" = UserRoleID and dot."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1),
-  (select "DefaultOrganisationUserTargetTemplateID" from "DefaultOrganisationUserTargetTemplate" where "DefaultOrganisationTemplateID" = DoTemplateID
-  	and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1)
-);
 
-INSERT INTO
-  public."DefaultOrganisationRoleTargetTemplate"
+INSERT INTO public."DefaultOrganisationRoleTargetTemplate"
 (
   "DefaultOrganisationRoleTemplateID",
   "DefaultOrganisationUserTargetTemplateID"
 )
-VALUES (
-  (select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
+select 
+(select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
+  	and dot."RoleID" = UserRoleID and dot."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1),
+    "DefaultOrganisationUserTargetTemplateID"
+from "DefaultOrganisationUserTargetTemplate"
+where "DefaultOrganisationTemplateID" = DoTemplateID and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber
+and "UserTypeID" = adminUser;
+
+INSERT INTO public."DefaultOrganisationRoleTargetTemplate"
+(
+  "DefaultOrganisationRoleTemplateID",
+  "DefaultOrganisationUserTargetTemplateID"
+)
+select 
+(select dot."DefaultOrganisationRoleTemplateID" from "DefaultOrganisationRoleTemplate" dot where dot."DefaultOrganisationTemplateID" = DoTemplateID
   	and dot."RoleID" = EmployeeRoleID and dot."DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1),
-  (select "DefaultOrganisationUserTargetTemplateID" from "DefaultOrganisationUserTargetTemplate" where "DefaultOrganisationTemplateID" = DoTemplateID
-  	and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1)
-);
+    "DefaultOrganisationUserTargetTemplateID"
+from "DefaultOrganisationUserTargetTemplate"
+where "DefaultOrganisationTemplateID" = DoTemplateID and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber;
+--and "UserTypeID" = userUser; --all users, no filter
 
 INSERT INTO
   public."DefaultOrganisationGroupTargetTemplate"

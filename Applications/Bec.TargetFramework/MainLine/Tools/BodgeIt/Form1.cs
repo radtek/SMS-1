@@ -56,7 +56,7 @@ namespace BodgeIt
         private async void button1_Click(object sender, EventArgs e)
         {
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            await SendAsync<object>(client, string.Format("api/OrganisationLogic/ExpireOrganisations?days={0}&hours={1}&minutes={2}", numericUpDownDays.Value, numericUpDownHours.Value, numericUpDownMinutes.Value), HttpMethod.Post, "user", null);
+            await SendAsync<object>(client, string.Format("api/OrganisationLogic/ExpireOrganisationsAsync?days={0}&hours={1}&minutes={2}", numericUpDownDays.Value, numericUpDownHours.Value, numericUpDownMinutes.Value), HttpMethod.Post, "user", null);
             MessageBox.Show("Done");
         }
 
@@ -69,7 +69,7 @@ namespace BodgeIt
                 Salutation = textSalutation.Text
             };
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisation?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false", new Guid(textOrgId.Text), comboType.SelectedValue, textUsername.Text, System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+            await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), comboType.SelectedValue, textUsername.Text, System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
             MessageBox.Show("Done");
         }
 
@@ -195,7 +195,7 @@ namespace BodgeIt
 
             //insert new notifications for permanent users
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            foreach (var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotification?userOrgID={0}", id), HttpMethod.Post, "user", null);
+            foreach (var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID={0}", id), HttpMethod.Post, "user", null);
             MessageBox.Show("Done");
         }
 
