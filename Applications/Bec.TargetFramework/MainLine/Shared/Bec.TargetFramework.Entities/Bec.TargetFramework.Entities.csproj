@@ -1380,14 +1380,16 @@
     <Compile Include="Boo\ShoppingCartBlueprintTemplateDTO.Generated.cs">
       <DependentUpon>ShoppingCartBlueprintTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ShoppingCartDTO.cs" />
+    <Compile Include="Boo\ShoppingCartDTO.Generated.cs">
+      <DependentUpon>ShoppingCartDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartItemDTO.cs" />
+    <Compile Include="Boo\ShoppingCartItemDTO.Generated.cs">
+      <DependentUpon>ShoppingCartItemDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTO\CartPricingDTO.cs" />
-    <Compile Include="DTO\ShoppingCartDTO.Generated.cs">
-      <DependentUpon>CartPricingDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="DTO\CartPricingItemDTO.cs" />
-    <Compile Include="DTO\ShoppingCartItemDTO.Generated.cs">
-      <DependentUpon>CartPricingItemDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.Generated.cs">
       <DependentUpon>ShoppingCartItemProductAttributeDTO.cs</DependentUpon>
@@ -1841,7 +1843,6 @@
     <Compile Include="DTO\FirmDetailsDTO.cs" />
     <Compile Include="DTO\CompanyDTO.cs" />
     <Compile Include="DTO\ForgotPasswordDTO.cs" />
-    <Compile Include="DTO\GeneratePinDTO.cs" />
     <Compile Include="DTO\IDCheckRequestDTO.cs" />
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />

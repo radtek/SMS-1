@@ -128,6 +128,7 @@
     <Compile Include="Settings\CommonSettings.cs" />
     <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Settings\SettingsLogicBase.cs" />
+    <Compile Include="UserNameService.cs" />
     <Compile Include="WCF\DataContractExtensions.cs" />
     <Compile Include="WCF\Event\WcfGlobalEvent.cs" />
     <Compile Include="WCF\Exception\Fault.cs" />

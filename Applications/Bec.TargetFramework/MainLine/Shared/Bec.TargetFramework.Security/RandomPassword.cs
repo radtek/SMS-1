@@ -9,6 +9,14 @@ namespace Bec.TargetFramework.Security
 {
     public class RandomPasswordGenerator
     {
+        public static string GenerateRandomName()
+        {
+            Random r = new Random();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 8; i++) sb.Append(r.Next(10));
+            return sb.ToString();
+        }
+
         // Define default min and max password lengths.
         private static int DEFAULT_MIN_PASSWORD_LENGTH = 10;
         private static int DEFAULT_MAX_PASSWORD_LENGTH = 10;

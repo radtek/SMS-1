@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
+          this.PinAttempts = 0;
         }
 
         #region Properties
@@ -163,6 +164,36 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ParentID in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.Guid> ParentID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinCode in the schema.
+        /// </summary>
+        public virtual string PinCode
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinCreated in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> PinCreated
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for PinAttempts in the schema.
+        /// </summary>
+        public virtual short PinAttempts
         {
             get;
             set;

@@ -189,7 +189,7 @@ var gridItem = function (options) {
             selectable: "row",
             filterable: false,
             sortable: true,
-            navigatable: true,
+            //navigatable: true,
             pageable: {
                 numeric: false,
                 previousNext: false,
@@ -209,7 +209,7 @@ var gridItem = function (options) {
 
         if (self.options.jumpToId != null && self.options.jumpToId != "") {
             for (var i = 0; i < gridData.length; i++) {
-                if (self.options.jumpToId.replace(/-/g, "") == gridData[i].OrganisationID) {
+                if (self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {
                     self.scrollToRow(gridData[i]);
                     self.options.jumpToId = null; //make sure this is one off
                     break;

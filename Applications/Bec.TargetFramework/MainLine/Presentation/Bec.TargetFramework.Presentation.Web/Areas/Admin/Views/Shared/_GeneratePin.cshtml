@@ -1,5 +1,4 @@
 ﻿@using Bec.TargetFramework.Entities
-@model GeneratePinDTO
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="generatePinLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -14,7 +13,8 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
-                                @Html.HiddenFor(model => model.OrganisationId, new { Value = ViewBag.orgId })
+                                <input type="hidden" name="orgId" value="@ViewBag.orgId" />
+                                <input type="hidden" name="uaoId" value="@ViewBag.uaoId" />
 
                                 <div class="row">
                                     <section class="col col-7">
@@ -24,7 +24,7 @@
                                     <section class="col col-5">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.EditorFor(model => model.ContactedTelephoneNumber, new { maxlength = 20 } )
+                                            <input type="text" name="notes" maxlength="20" />
                                         </label>
                                     </section>
                                 </div>

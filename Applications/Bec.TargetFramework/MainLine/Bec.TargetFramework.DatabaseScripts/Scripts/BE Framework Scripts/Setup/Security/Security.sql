@@ -1,5 +1,4 @@
-﻿
-/* Data for the 'public.Role' table  (Records 1 - 10) */
+﻿/* Data for the 'public.Role' table  (Records 1 - 10) */
 
 INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
 VALUES (E'a1d1f8b2-2139-11e4-b1aa-a7c8d954f17c', E'User', E'User Role',
@@ -54,4 +53,19 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
   (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'CompanyStructure' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),
+  TRUE);
+
+    --add pro user claims
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
+  TRUE);
+  --and
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
   TRUE);

@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Base;
@@ -24,15 +25,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public AuthenticationService AuthSvc { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
-        public IOrganisationLogicClient OrgLogicClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public RegisterController()
         {
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var uaDTO = UserLogicClient.GetUserAccountByUsername(HttpContext.User.Identity.Name);
+            var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
             if (!uaDTO.IsTemporaryAccount)
             {
                 LoginController.logout(this, AuthSvc);
@@ -46,11 +46,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public async Task<ActionResult> Index(CreatePermanentLoginModel model)
         {
             //check for any subsequent locking of this account
-            var tempua = UserLogicClient.GetBAUserAccountByUsername(HttpContext.User.Identity.Name);
-            if (!tempua.IsLoginAllowed)
-            {
-                return RedirectToAction("Index", "Login", new { area = "Account" });
-            }
+            var tempua = await UserLogicClient.GetBAUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
+            if (!tempua.IsLoginAllowed) return RedirectToAction("Index", "Login", new { area = "Account" });
 
             if (string.IsNullOrWhiteSpace(model.NewUsername) || await UserLogicClient.IsUserExistAsync(model.NewUsername))
             {
@@ -64,15 +61,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-            var userAccountOrg = UserLogicClient.GetUserAccountOrganisation(userObject.UserID).Single();
-            if (model.Pin != userAccountOrg.Organisation.CompanyPinCode)
+            var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
+            if (model.Pin != userAccountOrg.PinCode)
             {
                 //increment invalid pin count.
                 //if pincount >=3, expire organisation
-                if (OrgLogicClient.IncrementInvalidPIN(userAccountOrg.OrganisationID))
+                if (await UserLogicClient.IncrementInvalidPINAsync(userAccountOrg.UserAccountOrganisationID))
                 {
-                    var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
+                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
                     ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
                     ViewBag.PinExpired = true;
                     ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
@@ -83,16 +79,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            var contact = UserLogicClient.GetUserAccountOrganisationPrimaryContact(userAccountOrg.UserAccountOrganisationID);
+            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(userAccountOrg.UserTypeID.ToString());
 
-            OrgLogicClient.AddNewUserToOrganisation(userAccountOrg.OrganisationID, UserTypeEnum.OrganisationAdministrator, model.NewUsername, model.NewPassword, false, contact);
-            OrgLogicClient.ActivateOrganisation(userAccountOrg.OrganisationID);
-            //delete original temp user account
-            
-            UserLogicClient.LockUserTemporaryAccount(tempua.ID);
+            await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, userType.Value, model.NewUsername, model.NewPassword);
 
             LoginController.logout(this, AuthSvc);
-            var ua = UserLogicClient.GetBAUserAccountByUsername(model.NewUsername);
+            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);
             await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
             return RedirectToAction("Index", "Home", new { area = "" });
         }

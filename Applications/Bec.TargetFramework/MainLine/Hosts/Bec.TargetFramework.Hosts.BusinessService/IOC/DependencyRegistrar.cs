@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using Bec.TargetFramework.Business.Logic;
+using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.CouchBaseCache;
 using Bec.TargetFramework.Infrastructure.IOC;
@@ -44,7 +45,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
 
             var assembly = AllAssemblies.Matching("Bec.TargetFrameWork.Business").First();
-            builder.RegisterApiControllers(assembly).AsSelf().AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+            builder.RegisterApiControllers(assembly).AsSelf().AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
+
+            builder.RegisterType<UserNameService>().InstancePerRequest();
         }
     }
 }

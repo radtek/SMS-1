@@ -24,7 +24,6 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public TFSettingsLogicController Settings { get; set; }
         public UserLogicController UserLogic { get; set; }
-        public DataLogicController DataLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public NotificationLogicController NotificationLogic { get; set; }
 
@@ -32,17 +31,29 @@ namespace Bec.TargetFramework.Business.Logic
         {
         }
 
-        public async Task ExpireOrganisationsAsync(int days, int hours, int minutes)
+        public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var exp = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                foreach (var org in scope.DbContext.VOrganisationWithStatusAndAdmins.Where(org => org.StatusTypeValueID == status.StatusTypeValueID && org.OrganisationPinCreated != null))
+                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
                 {
-                    var testDate = org.OrganisationPinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
-                    if (testDate < DateTime.Now) await ExpireOrganisationAsync(org.OrganisationID);
+                    var testDate = uao.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
+                    if (testDate < DateTime.Now)
+                    {
+                        uao.UserAccount.IsLoginAllowed = false;
+                        uao.PinCode = null;
+
+                        if (uao.Organisation != null)
+                        {
+                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                            if (status != null && status.StatusTypeValueID == exp.StatusTypeValueID)
+                                await ExpireOrganisationAsync(uao.OrganisationID);
+                        }
+                    }
                 }
+
                 await scope.SaveAsync();
             }
         }
@@ -73,20 +84,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var org = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
                 if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot reject a company of status '{0}'. Please go back and try again.", org.StatusValueName));
 
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Rejected.GetStringValue());
-                Ensure.That(status);
-
-                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
-                {
-                    OrganisationID = dto.OrganisationId,
-                    ReasonID = dto.Reason,
-                    Notes = dto.Notes,
-                    StatusTypeID = status.StatusTypeID,
-                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
-                    StatusTypeValueID = status.StatusTypeValueID,
-                    StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = GetUserName()
-                });
+                await AddOrganisationStatusAsync(dto.OrganisationId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Rejected, dto.Reason, dto.Notes);
 
                 await scope.SaveAsync();
             }
@@ -100,87 +98,9 @@ namespace Bec.TargetFramework.Business.Logic
                 var org = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == organisationID);
                 if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot activate a company of status '{0}'. Please go back and try again.", org.StatusValueName));
 
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
-                Ensure.That(status);
-
-                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
-                {
-                    OrganisationID = organisationID,
-                    StatusTypeID = status.StatusTypeID,
-                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
-                    StatusTypeValueID = status.StatusTypeValueID,
-                    StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = GetUserName()
-                });
+                await AddOrganisationStatusAsync(organisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Active, null, null);
 
                 await scope.SaveAsync();
-            }
-        }
-
-        public async Task GeneratePinAsync(GeneratePinDTO dto)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Unverified.GetStringValue());
-                var orgSA = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == dto.OrganisationId);
-                if (orgSA.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot generate pin for a company of status '{0}'. Please go back and try again.", orgSA.StatusValueName));
-
-                var org = scope.DbContext.Organisations.Single(o => o.OrganisationID == dto.OrganisationId);
-                org.CompanyPinCode = CreatePin(4);
-                org.CompanyPinCreated = DateTime.Now;
-                org.IsCompanyPinCreated = true;
-
-                var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                Ensure.That(status);
-
-                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
-                {
-                    OrganisationID = dto.OrganisationId,
-                    Notes = dto.ContactedTelephoneNumber,
-                    StatusTypeID = status.StatusTypeID,
-                    StatusTypeVersionNumber = status.StatusTypeVersionNumber,
-                    StatusTypeValueID = status.StatusTypeValueID,
-                    StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = GetUserName()
-                });
-
-                //enable temp logins now the pin has been set
-                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.OrganisationID == dto.OrganisationId))
-                {
-                    var user = scope.DbContext.UserAccounts.Single(x => x.ID == uao.UserID);
-                    user.IsLoginAllowed = true;
-                }
-
-                await scope.SaveAsync();
-            }
-        }
-
-        private string CreatePin(int length)
-        {
-            Random r = new Random();
-            StringBuilder pin = new StringBuilder(length);
-            int thisNum;
-            int? prevNum = null;
-            do
-            {
-                for (int i = 0; i < length; i++)
-                {
-                    do
-                    {
-                        thisNum = r.Next(0, 36);
-                    } while (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)); //avoid repeated or consecutive characters
-                    prevNum = thisNum;
-                    pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
-                }
-            } while (PinExists(pin.ToString()));
-            return pin.ToString();
-        }
-
-        private bool PinExists(string pin)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                return scope.DbContext.Organisations.Any(o => o.CompanyPinCode == pin);
             }
         }
 
@@ -208,7 +128,7 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
-            var randomUsername = DataLogic.GenerateRandomName();
+            var randomUsername = RandomPasswordGenerator.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
@@ -219,13 +139,12 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation
             };
 
-            var userAccountOrganisation = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
-            await SendNewUserEmailAsync(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto, organisationID);
+            await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true);
 
             return organisationID;
         }
 
-        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary)
+        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail)
         {
             UserAccountOrganisationDTO uao;
             Guid? userOrgID;
@@ -269,7 +188,9 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary) await CreateTsAndCsNotificationAsync(userOrgID.Value);
+            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
+
+            if (sendEmail) await SendNewUserEmailAsync(username, password, uao.UserAccountOrganisationID, userContactDto, organisationID);
 
             return uao;
         }
@@ -335,7 +256,7 @@ namespace Bec.TargetFramework.Business.Logic
                 PayloadAsJson = payLoad
             };
 
-           await EventPublishClient.PublishEventAsync(dto);
+            await EventPublishClient.PublishEventAsync(dto);
         }
 
         private async Task<Guid?> AddOrganisationAsync(int organisationTypeID, DefaultOrganisation defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
@@ -352,7 +273,7 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.Name,
                     "",
-                    GetUserName());
+                    UserNameService.UserName);
 
                 ////    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
 
@@ -436,89 +357,45 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> IncrementInvalidPINAsync(Guid organisationID)
-        {
-            bool ret = false;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var org = scope.DbContext.Organisations.Single(x => x.OrganisationID == organisationID);
-                org.PinAttempts++;
-                if (org.PinAttempts >= 3)
-                {
-                    await ExpireOrganisationAsync(organisationID);
-                    ret = true;
-                }
-                await scope.SaveAsync();
-            }
-            return ret;
-        }
-
-        private async Task ExpireOrganisationAsync(Guid organisationID)
+        internal async Task ExpireOrganisationAsync(Guid organisationID)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var expStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Expired.GetStringValue());
-
-                Logger.Trace("expiring " + organisationID.ToString());
-                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
-                {
-                    OrganisationID = organisationID,
-                    Notes = "Automatic expiry",
-                    StatusTypeID = expStatus.StatusTypeID,
-                    StatusTypeVersionNumber = expStatus.StatusTypeVersionNumber,
-                    StatusTypeValueID = expStatus.StatusTypeValueID,
-                    StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = GetUserName()
-                });
-
-                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(r => r.OrganisationID == organisationID))
-                {
-                    var user = scope.DbContext.UserAccounts.Single(u => u.ID == uao.UserID);
-                    user.IsLoginAllowed = false;
-                }
+                Logger.Trace("Expiring organisation" + organisationID.ToString());
+                await AddOrganisationStatusAsync(organisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Expired, null, "Automatic expiry");
                 await scope.SaveAsync();
             }
         }
 
-        public async Task ResendLoginsAsync(Guid organisationId)
+        public List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID, bool temporary, bool loginAllowed, bool hasPin)
         {
-            VOrganisationWithStatusAndAdmin orgInfo;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                //get current sys admin details to copy
-                orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.Single(x => x.OrganisationID == organisationId);
-
-                //check still in verified status
-                var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                if (orgInfo.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot resend logins for a company of status '{0}'. Please go back and try again.", orgInfo.StatusValueName));
+                //if (hasPin)
+                    return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed && x.PinCreated.HasValue == hasPin).ToDtos();
+                //else
+                    //return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed).ToDtos();
             }
+        }
 
-                //generate new username & password
-                var randomUsername = DataLogic.GenerateRandomName();
-                var randomPassword = RandomPasswordGenerator.Generate(10);
-                var userContactDto = new ContactDTO
+        public async Task AddOrganisationStatusAsync(Guid orgID, StatusTypeEnum enumType, ProfessionalOrganisationStatusEnum status, int? reason, string notes)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var s = LogicHelper.GetStatusType(scope, enumType.GetStringValue(), status.GetStringValue());
+                scope.DbContext.OrganisationStatus.Add(new OrganisationStatus
                 {
-                    Telephone1 = orgInfo.OrganisationAdminTelephone,
-                    FirstName = orgInfo.OrganisationAdminFirstName,
-                    LastName = orgInfo.OrganisationAdminLastName,
-                    EmailAddress1 = orgInfo.OrganisationAdminEmail,
-                    Salutation = orgInfo.OrganisationAdminSalutation
-                };
-
-                //add new user & email them
-                var userAccountOrganisation = await AddNewUserToOrganisationAsync(organisationId, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true);
-                using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-                {
-                    var user = scope.DbContext.UserAccounts.Single(x => x.ID == userAccountOrganisation.UserID);
-                    user.IsLoginAllowed = true;
-
-                    await scope.SaveAsync();
-                }
-            await SendNewUserEmailAsync(randomUsername, randomPassword, userAccountOrganisation.UserAccountOrganisationID, userContactDto, organisationId);
-            
-            
-            //disable old temps
-            await UserLogic.LockUserTemporaryAccountAsync(orgInfo.OrganisationAdminUserID.Value);
+                    OrganisationID = orgID,
+                    ReasonID = reason,
+                    Notes = notes,
+                    StatusTypeID = s.StatusTypeID,
+                    StatusTypeVersionNumber = s.StatusTypeVersionNumber,
+                    StatusTypeValueID = s.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Now,
+                    StatusChangedBy = UserNameService.UserName
+                });
+                await scope.SaveAsync();
+            }
         }
     }
 }

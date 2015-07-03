@@ -1685,6 +1685,57 @@
     </Templates>
     <AttributeAssemblies />
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="ContactID" Table="public.Contact" Type="Column" />
+      <Exclude Name="ContactName" Table="public.Contact" Type="Column" />
+      <Exclude Name="MasterContactID" Table="public.Contact" Type="Column" />
+      <Exclude Name="ParentID" Table="public.Contact" Type="Column" />
+      <Exclude Name="OwnerID" Table="public.Contact" Type="Column" />
+      <Exclude Name="CustomerTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="PreferredContactMethodID" Table="public.Contact" Type="Column" />
+      <Exclude Name="IsBackOfficeCustomer" Table="public.Contact" Type="Column" />
+      <Exclude Name="Salutation" Table="public.Contact" Type="Column" />
+      <Exclude Name="JobTitle" Table="public.Contact" Type="Column" />
+      <Exclude Name="FirstName" Table="public.Contact" Type="Column" />
+      <Exclude Name="Department" Table="public.Contact" Type="Column" />
+      <Exclude Name="NickName" Table="public.Contact" Type="Column" />
+      <Exclude Name="MiddleName" Table="public.Contact" Type="Column" />
+      <Exclude Name="LastName" Table="public.Contact" Type="Column" />
+      <Exclude Name="BirthDate" Table="public.Contact" Type="Column" />
+      <Exclude Name="Description" Table="public.Contact" Type="Column" />
+      <Exclude Name="GenderTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="HasChildren" Table="public.Contact" Type="Column" />
+      <Exclude Name="EducationTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="WebSiteURL" Table="public.Contact" Type="Column" />
+      <Exclude Name="EmailAddress1" Table="public.Contact" Type="Column" />
+      <Exclude Name="EmailAddress2" Table="public.Contact" Type="Column" />
+      <Exclude Name="EmailAddress3" Table="public.Contact" Type="Column" />
+      <Exclude Name="AssistantName" Table="public.Contact" Type="Column" />
+      <Exclude Name="AssistantPhone" Table="public.Contact" Type="Column" />
+      <Exclude Name="ManagerName" Table="public.Contact" Type="Column" />
+      <Exclude Name="ManagerPhone" Table="public.Contact" Type="Column" />
+      <Exclude Name="CountryTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="DoNotFax" Table="public.Contact" Type="Column" />
+      <Exclude Name="DoNotEmail" Table="public.Contact" Type="Column" />
+      <Exclude Name="DoNotTelephone" Table="public.Contact" Type="Column" />
+      <Exclude Name="IsPrivate" Table="public.Contact" Type="Column" />
+      <Exclude Name="Telephone1" Table="public.Contact" Type="Column" />
+      <Exclude Name="Telephone2" Table="public.Contact" Type="Column" />
+      <Exclude Name="Telephone3" Table="public.Contact" Type="Column" />
+      <Exclude Name="Fax" Table="public.Contact" Type="Column" />
+      <Exclude Name="MobileNumber1" Table="public.Contact" Type="Column" />
+      <Exclude Name="MobileNumber2" Table="public.Contact" Type="Column" />
+      <Exclude Name="MobileNumber3" Table="public.Contact" Type="Column" />
+      <Exclude Name="OrganisationUnitID" Table="public.Contact" Type="Column" />
+      <Exclude Name="ParentContactID" Table="public.Contact" Type="Column" />
+      <Exclude Name="IsPrimaryContact" Table="public.Contact" Type="Column" />
+      <Exclude Name="ContactTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="ContactSubTypeID" Table="public.Contact" Type="Column" />
+      <Exclude Name="ContactCategoryID" Table="public.Contact" Type="Column" />
+      <Exclude Name="IsActive" Table="public.Contact" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.Contact" Type="Column" />
+      <Exclude Name="FirmName" Table="public.Contact" Type="Column" />
+      <Exclude Name="RowVersion" Table="public.Contact" Type="Column" />
+      <Exclude Name="Contact_pkey" Table="public.Contact" Type="Constraint" />
       <Exclude Name="NotificationConstructDataID" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="NotificationConstructID" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="NotificationConstructVersionNumber" Table="public.NotificationConstructData" Type="Column" />
@@ -1712,6 +1763,36 @@
       <Exclude Name="pkNotificationRecipient" Table="public.NotificationRecipient" Type="Constraint" />
       <Exclude Name="fk_NotificationRecipient_Notification" Table="public.NotificationRecipient" Type="Constraint" />
       <Exclude Name="fk_NotificationRecipient_UserAccountOrganisation" Table="public.NotificationRecipient" Type="Constraint" />
+      <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsBranch" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsHeadOffice" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsActive" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsUserOrganisation" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsPaymentProvider" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PrimaryContactID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyVerified" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PinAttempts" Table="public.Organisation" Type="Column" />
+      <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.OrganisationStatus" Type="Column" />
       <Exclude Name="StatusTypeID" Table="public.OrganisationStatus" Type="Column" />
       <Exclude Name="StatusTypeVersionNumber" Table="public.OrganisationStatus" Type="Column" />
@@ -1725,6 +1806,30 @@
       <Exclude Name="fk_OrganisationStatus_Organisation" Table="public.OrganisationStatus" Type="Constraint" />
       <Exclude Name="fk_OrganisationStatus_StatusType" Table="public.OrganisationStatus" Type="Constraint" />
       <Exclude Name="fk_OrganisationStatus_StatusTypeValue" Table="public.OrganisationStatus" Type="Constraint" />
+      <Exclude Name="UserID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationUnitID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="JobTitle" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="NickName" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsActive" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserSubTypeID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserCategoryID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserJobTypeID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserTypeID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="ParentID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="PrimaryContactID" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="PinCode" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="PinCreated" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="PinAttempts" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="RowVersion" Table="public.UserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserAccountOrganisationUnit_pkey" Table="public.UserAccountOrganisation" Type="Constraint" />
+      <Exclude Name="fk_UserAccountOrganisationUnit_Organisation" Table="public.UserAccountOrganisation" Type="Constraint" />
+      <Exclude Name="fk_UserAccountOrganisationUnit_OrganisationUnit" Table="public.UserAccountOrganisation" Type="Constraint" />
+      <Exclude Name="fk_UserAccountOrganisation_Contact" Table="public.UserAccountOrganisation" Type="Constraint" />
+      <Exclude Name="fk_UserAccountOrganisation_UserType" Table="public.UserAccountOrganisation" Type="Constraint" />
+      <Exclude Name="fk_UserAccunts" Table="public.UserAccountOrganisation" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1982,41 +2087,6 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="ID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationBranchID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Name" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsBranch" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsHeadOffice" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsUserOrganisation" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsPaymentProvider" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationTypeName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="UserTypeName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="VATNumber" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsVATRegistered" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="BirthDate" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="EmailAddress1" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="FirstName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="LastName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="MiddleName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Username" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Email" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="ContactID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="AddressID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="BuildingName" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="City" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="CountryCode" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="County" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Line1" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Line2" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Line3" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="PostalCode" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Town" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsPrimaryAddress" Table="public.vUserAccountOrganisation" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
@@ -2045,9 +2115,14 @@
       <Exclude Name="instancestatus" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="workflowtype" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="" Table="public.vUserWorkflowInstanceStatus" Type="Constraint" />
+      <Exclude Name="RowVersion" Table="public.Contact" Type="Column" />
       <Exclude Name="CreatedOn" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="AcceptedDate" Table="public.NotificationRecipient" Type="Column" />
+      <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PinAttempts" Table="public.Organisation" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.OrganisationStatus" Type="Column" />
+      <Exclude Name="RowVersion" Table="public.UserAccountOrganisation" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -2073,20 +2148,6 @@
       <Exclude Name="StatusChangedOn" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Name" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsBranch" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsHeadOffice" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsUserOrganisation" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="VATNumber" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="IsVATRegistered" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Username" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="ContactID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="AddressID" Table="public.vUserAccountOrganisation" Type="Column" />
-      <Exclude Name="Line1" Table="public.vUserAccountOrganisation" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />

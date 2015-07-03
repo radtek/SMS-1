@@ -29,11 +29,9 @@ namespace Bec.TargetFramework.Data
           this.IsDeleted = false;
           this.IsUserOrganisation = false;
           this.IsPaymentProvider = false;
-          this.CompanyPinCode = @"";
           this.IsCompanyVerified = false;
           this.IsCompanyPinCreated = false;
           this.ReturnUrl = @"";
-          this.PinAttempts = 0;
         }
 
         #region Properties
@@ -239,26 +237,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for CompanyPinCode in the schema.
-        /// </summary>
-        public virtual string CompanyPinCode
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for CompanyPinCreated in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> CompanyPinCreated
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for IsCompanyVerified in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> IsCompanyVerified
@@ -282,16 +260,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ReturnUrl in the schema.
         /// </summary>
         public virtual string ReturnUrl
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for PinAttempts in the schema.
-        /// </summary>
-        public virtual short PinAttempts
         {
             get;
             set;

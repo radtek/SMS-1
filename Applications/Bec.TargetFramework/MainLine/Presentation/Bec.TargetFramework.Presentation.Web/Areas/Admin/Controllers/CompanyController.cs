@@ -24,6 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public IAddressLogicClient AddressClient { get; set; }
         public INotificationLogicClient NotificationClient { get; set; }
+        public IUserLogicClient UserLogicClient { get; set; }
 
         public CompanyController()
         {
@@ -88,21 +89,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewGeneratePin(Guid orgId)
+        public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
+            ViewBag.uaoId = uaoId;
             ViewBag.companyName = org.Name;
             return PartialView("_GeneratePin");
         }
 
         [HttpPost]
-        public async Task<ActionResult> GeneratePin(GeneratePinDTO model)
+        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
-            await OrganisationClient.GeneratePinAsync(model);
+            await UserLogicClient.GeneratePinAsync(uaoId);
+            
+            //set org status
+            await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
 
-            TempData["VerifiedCompanyId"] = model.OrganisationId;
+            TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
         }
@@ -116,21 +121,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> ViewResendLogins(Guid orgId)
+        public ActionResult ViewResendLogins(Guid uaoId, string label)
         {
-            var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
-            if (org == null) return new HttpNotFoundResult("Organisation not found");
-            ViewBag.orgId = orgId;
-            ViewBag.companyName = org.Name;
+            ViewBag.uaoId = uaoId;
+            ViewBag.label = label;
+            ViewBag.RedirectAction = "ResendLogins";
+            ViewBag.RedirectController = "Company";
+            ViewBag.RedirectArea = "Admin";
             return PartialView("_ResendLogins");
         }
 
         [HttpPost]
-        public async Task<ActionResult> ResendLogins(Guid orgId)
+        public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
-            await OrganisationClient.ResendLoginsAsync(orgId);
+            var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
 
-            TempData["VerifiedCompanyId"] = orgId;
+            TempData["VerifiedCompanyId"] = uao.OrganisationID;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
         }

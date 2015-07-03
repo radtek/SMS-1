@@ -108,10 +108,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc)
         {
-            List<Claim> additionalClaims = await GenerateUserClaims(ua.ID, ulc);
+            Guid? orgID = null;
+            List<Claim> additionalClaims = new List<Claim>();
+            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(ua.ID);
+            foreach (var org in orgs)
+            {
+                //take the first org for now, in time we may allow user to switch between asoociated orgs.
+                orgID = orgID ?? org.OrganisationID;
+                foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID.Value))
+                    additionalClaims.Add(new Claim(item.Type, item.Value));
+            }
+            if (orgID == null) throw new Exception("User not associated with any organisation");
             asvc.SignIn(ua, false, additionalClaims);
             bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, "TcPublic")).Count > 0;
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, needsTc);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID.Value, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }
 
@@ -122,13 +132,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             foreach (var org in orgs)
             {
                 foreach (var item in await ulc.GetUserClaimsAsync(userId, org.OrganisationID.Value))
-                {
-                    //string claim = string.Empty;
-                    //if (item.Type.StartsWith("R_")) claim = ClaimsAuthorization.ResourceType + item.Type.Replace("R_", "");
-                    //else if (item.Type.StartsWith("S_")) claim = ClaimsAuthorization.StateType + item.Type.Replace("S_", "");
-                    //claims.Add(new Claim(claim, item.Value));
                     claims.Add(new Claim(item.Type, item.Value));
-                }
             }
             return claims;
         }

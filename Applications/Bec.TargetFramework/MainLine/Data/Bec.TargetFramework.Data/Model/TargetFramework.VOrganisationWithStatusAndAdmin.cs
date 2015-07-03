@@ -78,9 +78,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for OrganisationPinCreated in the schema.
+        /// There are no comments for PinCreated in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.DateTime> OrganisationPinCreated
+        public virtual global::System.Nullable<System.DateTime> PinCreated
         {
             get;
             set;
@@ -88,9 +88,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for OrganisationPinCode in the schema.
+        /// There are no comments for PinCode in the schema.
         /// </summary>
-        public virtual string OrganisationPinCode
+        public virtual string PinCode
         {
             get;
             set;
@@ -351,6 +351,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VerifiedNotes in the schema.
         /// </summary>
         public virtual string VerifiedNotes
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Guid UserAccountOrganisationID
         {
             get;
             set;

@@ -64,6 +64,11 @@ namespace Bec.TargetFramework.Entities
             target.PostalCode = source.PostalCode;
             target.Town = source.Town;
             target.IsPrimaryAddress = source.IsPrimaryAddress;
+            target.PinCode = source.PinCode;
+            target.PinCreated = source.PinCreated;
+            target.Salutation = source.Salutation;
+            target.Telephone = source.Telephone;
+            target.IsLoginAllowed = source.IsLoginAllowed;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -114,6 +119,11 @@ namespace Bec.TargetFramework.Entities
             target.PostalCode = source.PostalCode;
             target.Town = source.Town;
             target.IsPrimaryAddress = source.IsPrimaryAddress;
+            target.PinCode = source.PinCode;
+            target.PinCreated = source.PinCreated;
+            target.Salutation = source.Salutation;
+            target.Telephone = source.Telephone;
+            target.IsLoginAllowed = source.IsLoginAllowed;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -34,8 +34,8 @@ namespace Bec.TargetFramework.Entities
             target.CreatedOn = source.CreatedOn;
             target.CreatedBy = source.CreatedBy;
             target.OrganisationVerified = source.OrganisationVerified;
-            target.OrganisationPinCreated = source.OrganisationPinCreated;
-            target.OrganisationPinCode = source.OrganisationPinCode;
+            target.PinCreated = source.PinCreated;
+            target.PinCode = source.PinCode;
             target.OrganisationAdminSalutation = source.OrganisationAdminSalutation;
             target.OrganisationAdminFirstName = source.OrganisationAdminFirstName;
             target.OrganisationAdminLastName = source.OrganisationAdminLastName;
@@ -62,6 +62,7 @@ namespace Bec.TargetFramework.Entities
             target.VerifiedOn = source.VerifiedOn;
             target.VerifiedBy = source.VerifiedBy;
             target.VerifiedNotes = source.VerifiedNotes;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -82,8 +83,8 @@ namespace Bec.TargetFramework.Entities
             target.CreatedOn = source.CreatedOn;
             target.CreatedBy = source.CreatedBy;
             target.OrganisationVerified = source.OrganisationVerified;
-            target.OrganisationPinCreated = source.OrganisationPinCreated;
-            target.OrganisationPinCode = source.OrganisationPinCode;
+            target.PinCreated = source.PinCreated;
+            target.PinCode = source.PinCode;
             target.OrganisationAdminSalutation = source.OrganisationAdminSalutation;
             target.OrganisationAdminFirstName = source.OrganisationAdminFirstName;
             target.OrganisationAdminLastName = source.OrganisationAdminLastName;
@@ -110,6 +111,7 @@ namespace Bec.TargetFramework.Entities
             target.VerifiedOn = source.VerifiedOn;
             target.VerifiedBy = source.VerifiedBy;
             target.VerifiedNotes = source.VerifiedNotes;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

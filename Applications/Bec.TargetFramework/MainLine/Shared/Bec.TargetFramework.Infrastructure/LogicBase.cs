@@ -7,6 +7,7 @@ using System.Web.Http;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
+using Autofac;
 
 
 namespace Bec.TargetFramework.Infrastructure
@@ -15,9 +16,22 @@ namespace Bec.TargetFramework.Infrastructure
     {
         public ILogger Logger { get; set; }
         public ICacheProvider CacheProvider { get; set; }
+
+        public UserNameService UserNameService { get; set; }
         
         public LogicBase()
+        {            
+        }
+
+        protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
         {
+            base.Initialize(controllerContext);
+
+            // this provides services with the "User" header from the original request
+            // (for when service methods are invoked indirectly, via another controller)
+            // as ApiController.Request is not populated when calling methods directly.
+            // UserNameService, if registered, must be scoped 'per request'.
+            if (UserNameService != null) UserNameService.GetUserName(this);
         }
 
         //public int GetClassificationDataForTypeName(string categoryName, string typeName)
@@ -47,14 +61,5 @@ namespace Bec.TargetFramework.Infrastructure
         //    return scope.DbContext.VStatusTypes.Single(s => s.Name.Equals(status) && s.StatusTypeName.Equals(statusTypeEnum));
 
         //}
-
-        protected string GetUserName()
-        {
-            IEnumerable<string> values;
-            if (Request.Headers.TryGetValues("User", out values))
-                return values.First();
-            else
-                return "";
-        }
     }
 }
