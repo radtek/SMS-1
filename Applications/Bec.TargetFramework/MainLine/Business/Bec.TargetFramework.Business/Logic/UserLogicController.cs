@@ -871,12 +871,12 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
+        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, UserTypeEnum userType, string username, string password)
         {
             var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
 
             //has to be called outside of transaction.
-            await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, UserTypeEnum.OrganisationAdministrator, username, password, false, false);
+            await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false);
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
             {

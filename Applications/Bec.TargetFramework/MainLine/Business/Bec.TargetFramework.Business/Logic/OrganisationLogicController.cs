@@ -188,7 +188,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary) await CreateTsAndCsNotificationAsync(userOrgID.Value);
+            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
 
             if (sendEmail) await SendNewUserEmailAsync(username, password, uao.UserAccountOrganisationID, userContactDto, organisationID);
 

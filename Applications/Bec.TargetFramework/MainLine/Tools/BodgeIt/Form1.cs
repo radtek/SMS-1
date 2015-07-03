@@ -184,7 +184,7 @@ namespace BodgeIt
                 await c.ExecuteNonQueryAsync();
 
                 c.Parameters.Clear();
-                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\"";
+                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" uao join \"UserType\" uat on uat.\"UserTypeID\" =  uao.\"UserTypeID\" where uat.\"Name\" = 'Organisation Administrator'";
                 using (var r = await c.ExecuteReaderAsync())
                 {
                     while (await r.ReadAsync()) uaos.Add(r.GetGuid(0));

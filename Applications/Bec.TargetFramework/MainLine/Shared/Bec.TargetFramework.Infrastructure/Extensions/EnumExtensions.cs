@@ -41,6 +41,18 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
             return attribs.Length > 0 ? Guid.Parse( attribs[0].StringValue) : Guid.Empty;
         }
 
+        public static T? GetEnumValue<T>(string attribValue)
+            where T: struct
+        {
+            var type = typeof(T);
+            foreach (var fieldInfo in type.GetFields())
+            {
+                var sa = fieldInfo.GetCustomAttribute<StringValueAttribute>();
+                if (sa != null && sa.StringValue == attribValue) return (T)fieldInfo.GetValue(null);
+            }
+            return null;
+        }
+
         public static int GetIntValue(this Enum argEnum)
         {
             return Convert.ToInt32(argEnum);

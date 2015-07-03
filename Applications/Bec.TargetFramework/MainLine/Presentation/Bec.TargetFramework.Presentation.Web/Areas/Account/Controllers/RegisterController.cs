@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Base;
@@ -78,7 +79,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, model.NewUsername, model.NewPassword);
+            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(userAccountOrg.UserTypeID.ToString());
+
+            await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, userType.Value, model.NewUsername, model.NewPassword);
 
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);

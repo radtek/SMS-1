@@ -1191,17 +1191,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
+		/// <param name="userType"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password);
+		Task RegisterUserAsync(Guid orgID,Guid tempUaoId,UserTypeEnum userType,String username,String password);
 
 		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
+		/// <param name="userType"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password);
+		void RegisterUser(Guid orgID,Guid tempUaoId,UserTypeEnum userType,String username,String password);
 
 
 		/// <param name="uaoId"></param>
@@ -4080,15 +4082,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
+		/// <param name="userType"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public virtual Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password)
+		public virtual Task RegisterUserAsync(Guid orgID,Guid tempUaoId,UserTypeEnum userType,String username,String password)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user);
+			return PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&userType=" + userType + "&username=" + username + "&password=" + password, null, _user);
 		}
 
 		/// <summary>
@@ -4096,14 +4099,15 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
+		/// <param name="userType"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
-		public virtual void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password)
+		public virtual void RegisterUser(Guid orgID,Guid tempUaoId,UserTypeEnum userType,String username,String password)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&userType=" + userType + "&username=" + username + "&password=" + password, null, _user)).Wait();
 		}
 
 		/// <summary>
