@@ -30,7 +30,7 @@
                             <dt>Internal Reference:</dt>
                             <dd><p id="ddReference"></p></dd>
                             <dt>Price:</dt>
-                            <dd><p id="ddPrice"></p></dd>
+                            <dd><p id="ddPrice" data-a-sign="£ "></p></dd>
                             <dt>Created:</dt>
                             <dd><p id="ddCreated"></p></dd>
                         </dl>
@@ -43,6 +43,7 @@
 </div>
 
 @section pagespecific {
+    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
     <script type="text/javascript">
 
         //set up grid options for the three grids. most are passed straight on to kendo grid.
@@ -84,6 +85,8 @@
             txGrid.makeGrid();
 
             findModalLinks();
+
+            $("p#ddPrice").autoNumeric('init', { mDec: '0' });
         });
 
         //data binding for the panes beneath each grid
@@ -91,7 +94,7 @@
             $("p#ddAddress").text(dataItem.Address.Line1 || "");
             $("p#ddPostcode").text(dataItem.Address.PostalCode || "");
             $("p#ddReference").text(dataItem.Reference || "");
-            $("p#ddPrice").text(dataItem.Price || "");
+            $("p#ddPrice").autoNumeric('set', dataItem.Price);
             $("p#ddCreated").text(dateString(dataItem.CreatedOn));
 
             $("#purchaseButton").data('href', '@Url.Action("ViewPurchase", "Buyer", new { area = "SmsTransaction" })' + "?smsTransactionId=" + dataItem.SmsTransactionID);
