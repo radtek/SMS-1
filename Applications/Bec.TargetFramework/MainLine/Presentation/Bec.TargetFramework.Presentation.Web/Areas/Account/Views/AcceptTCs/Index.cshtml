@@ -27,7 +27,7 @@
                         </fieldset>
                     </div>
                     <footer>
-                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left" })
+                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left" id="download-btn" })
                         <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" disabled />
                     </footer>
                 </form>
@@ -50,6 +50,12 @@
         else {
             if (!$('body').hasClass('hidden-menu')) $('body').addClass('hidden-menu');
         }
+    });
+
+    $('#formSubmit').click(function () {
+        $('#tc').prop('disabled', true);
+        $('#download-btn').prop('disabled', true);
+        $('#formSubmit').prop('disabled', true);
     });
 </script>
 }

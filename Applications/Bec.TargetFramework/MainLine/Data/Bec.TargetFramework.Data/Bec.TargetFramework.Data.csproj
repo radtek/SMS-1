@@ -357,6 +357,7 @@
     <Compile Include="Converters\ShoppingCartItemConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
+    <Compile Include="Converters\SmsTransactionConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeOptionTemplateConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeRelationshipConverter.cs" />
@@ -738,6 +739,7 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItem.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
+    <Compile Include="Model\TargetFramework.SmsTransaction.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttribute.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttributeOptionTemplate.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttributeRelationship.cs" />

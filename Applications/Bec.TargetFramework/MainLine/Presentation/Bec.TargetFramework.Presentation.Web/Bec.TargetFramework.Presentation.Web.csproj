@@ -304,6 +304,8 @@
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
@@ -328,6 +330,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\SmsTransaction\Views\Buyer\_Purchase.cshtml" />
+    <None Include="Areas\SmsTransaction\Views\Shared\_AddSmsTransaction.cshtml" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -817,6 +821,7 @@
     <Content Include="Scripts\AddCompany.js" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\autoNumeric.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\css\your_style.less" />
@@ -849,6 +854,7 @@
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
+    <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
@@ -868,6 +874,10 @@
     <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_GenerateUserPin.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\web.config" />
+    <Content Include="Areas\SmsTransaction\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Views\Shared\_Message.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

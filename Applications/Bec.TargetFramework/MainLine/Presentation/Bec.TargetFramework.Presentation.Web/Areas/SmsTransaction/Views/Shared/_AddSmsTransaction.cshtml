@@ -1,0 +1,202 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model SmsTransactionDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addTransactionLabel">Add Transaction</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="@Url.Action("AddSmsTransaction", "Buyer", new { area = "SmsTransaction" })" method="POST" id="addTransaction-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            <input id="Name" type="hidden" />
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">Lookup Postcode</label>
+                                        <label class="input">
+                                            <input id="postcodelookup" type="text" tabindex="1" maxlength="10" />
+                                        </label>
+                                    </section>
+
+                                    <section class="col">
+                                        <label class="label">&nbsp;</label>
+                                        <button id="findaddressbutton" type="button" class="btn btn-default btn-sm" tabindex="2">Find Address</button>
+                                    </section>
+                                </div>
+
+                                <section>
+                                    <label class="select">
+                                        <select id="addressresults" tabindex="3"></select>
+                                        <i></i>
+                                    </label>
+                                </section>
+
+
+                                <div class="row">
+                                    <section class="col" id="noMatch">
+                                        <em style="color:#d56161">No matches found, please enter address below</em>
+                                    </section>
+                                </div>
+
+                                <div class="row" id="manAddRow">
+                                    <section class="col">
+                                        <input type="checkbox" id="manualAddress" />
+                                        <label for="manualAddress" tabindex="4">Edit Address Details</label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Transaction Address</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "5", maxlength = 50 })
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-6">
+                                        <label class="label">Additional Address Information</label>
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "12", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "6", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "7", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.County, new { id = "County", @readonly = "readonly", placeholder = "Country", tabindex = "8", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "9", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Price</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Price, new { tabindex = "10", maxlength = 10, id="Price" })
+                                        </label>
+                                        <label class="label" id="formatPrice" data-a-sign="£ "></label>
+                                    </section>
+
+                                    <section class="col col-6">
+                                        <label class="label">Internal Reference</label>
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Reference, new { tabindex = "13", maxlength = 500 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Tenure</label>
+                                        <label class="select">
+                                            @Html.DropDownListFor(m => m.TenureTypeID, Html.EnumList<TenureTypeIDEnum>(), new { tabindex = "11" })
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" tabindex="14">
+                    Add Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
+<script type="text/javascript" src="~/Scripts/FindAddress.js"></script>
+<script type="text/javascript">
+
+    $('#formatPrice').autoNumeric('init');
+
+    $("#Price").bind('input', function () {
+        $('#formatPrice').autoNumeric('set', $("#Price").val())
+    });
+
+    // submit from when Save button clicked
+    $("#submitAddTransaction").click(function () {
+        $("#addTransaction-form").submit();
+    });
+
+    $("#addTransaction-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+            "Address.Line1": {
+                required: true
+            },
+            "Address.Town": {
+                required: true
+            },
+            "Address.PostalCode": {
+                required: true,
+                minlength: 5
+            },
+            Price: {
+                required: true,
+                number: true,
+                min: 1
+            },
+            Reference: {
+                required: true
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#submitAddTransaction").prop('disabled', true);
+        form.submit();
+    }
+</script>

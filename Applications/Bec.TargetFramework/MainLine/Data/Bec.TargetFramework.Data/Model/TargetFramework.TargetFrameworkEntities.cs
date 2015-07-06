@@ -1966,6 +1966,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for EventStatus in the schema.
         /// </summary>
         public virtual DbSet<EventStatus> EventStatus { get; set; }
+    
+        /// <summary>
+        /// There are no comments for SmsTransaction in the schema.
+        /// </summary>
+        public virtual DbSet<SmsTransaction> SmsTransactions { get; set; }
 
         #region Methods
 

@@ -1111,4 +1111,12 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Failed to validate callback")]
         Failed_to_validate_callback = 5232
     }
+
+    public enum TenureTypeIDEnum : int
+    {
+        [StringValue("Freehold")]
+        Freehold = 5233,
+        [StringValue("Leasehold")]
+        Leasehold = 5234
+    }
 }

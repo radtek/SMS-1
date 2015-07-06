@@ -2,17 +2,7 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model RejectCompanyDTO
-@{
-    List<object> rejects = new List<object>();
-    Type eType = typeof(RejectionTypeIDEnum);
-    foreach (var item in Enum.GetValues(eType))
-    {
-        var member = eType.GetMember(item.ToString())[0];
-        StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
-        rejects.Add(new { Text = attr.StringValue, Value = (int)item });
-    }
-    var r = new SelectList(rejects, "Value", "Text");
-}
+
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="rejectCompanyLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -40,7 +30,7 @@
                                 <div class="row">
                                     <section class="col col-4">
                                         <label class="select">
-                                            @Html.DropDownListFor(model => model.Reason, r, "Please Select")
+                                            @Html.DropDownListFor(model => model.Reason, Html.EnumList<RejectionTypeIDEnum>(), "Please Select")
                                             <i></i>
                                         </label>
                                     </section>
