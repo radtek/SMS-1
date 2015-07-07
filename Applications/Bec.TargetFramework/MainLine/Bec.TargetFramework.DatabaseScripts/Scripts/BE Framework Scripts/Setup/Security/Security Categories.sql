@@ -33,3 +33,6 @@ values (uuid_generate_v1(), 'CompanyStructure', 'CompanyStructure', TRUE);
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'ProUsers', 'ProUsers', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'SmsTransaction', 'SmsTransaction', TRUE);

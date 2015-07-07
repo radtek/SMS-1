@@ -397,5 +397,57 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveAsync();
             }
         }
+
+        public List<SmsTransactionDTO> GetSmsTransactions(Guid orgID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.SmsTransactions.Where(x => x.OrganisationID == orgID).ToDtosWithRelated(1);
+            }
+        }
+
+        public async Task<Guid> AddSmsTransaction(Guid orgID, SmsTransactionDTO dto)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var addressID = await FindOrCreateAddress(dto.Address);
+                SmsTransaction tx = new SmsTransaction
+                {
+                    SmsTransactionID = Guid.NewGuid(),
+                    AddressID = addressID,
+                    Price = dto.Price,
+                    Reference = dto.Reference,
+                    OrganisationID = orgID,
+                    TenureTypeID = dto.TenureTypeID,
+                    CreatedOn = DateTime.Now
+                };
+                scope.DbContext.SmsTransactions.Add(tx);
+                await scope.SaveAsync();
+                return tx.SmsTransactionID;
+            }
+        }
+
+        private async Task<Guid> FindOrCreateAddress(AddressDTO addressDTO)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var existing = scope.DbContext.Addresses.FirstOrDefault(x =>
+                    x.Line1 == addressDTO.Line1 &&
+                    x.Line2 == addressDTO.Line2 &&
+                    x.Town == addressDTO.Town &&
+                    x.County == addressDTO.County &&
+                    x.PostalCode == addressDTO.PostalCode);
+
+                if (existing == null)
+                {
+                    existing = addressDTO.ToEntity();
+                    existing.AddressID = Guid.NewGuid();
+                    scope.DbContext.Addresses.Add(existing);
+                }
+                //have to call svae regardless
+                await scope.SaveAsync();
+                return existing.AddressID;
+            }
+        }
     }
 }

@@ -1388,6 +1388,10 @@
     <Compile Include="Boo\ShoppingCartItemDTO.Generated.cs">
       <DependentUpon>ShoppingCartItemDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsTransactionDTO.cs" />
+    <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
+      <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />

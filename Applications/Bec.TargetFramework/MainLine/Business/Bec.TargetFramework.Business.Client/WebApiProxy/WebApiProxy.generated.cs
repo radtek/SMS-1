@@ -587,6 +587,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<List<SmsTransactionDTO>> GetSmsTransactionsAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		List<SmsTransactionDTO> GetSmsTransactions(Guid orgID);
+
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<Guid> AddSmsTransactionAsync(Guid orgID,SmsTransactionDTO dto);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto);
+
 				
 	}
 	
@@ -2588,6 +2606,48 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<List<SmsTransactionDTO>> GetSmsTransactionsAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<SmsTransactionDTO>>("api/OrganisationLogic/GetSmsTransactions?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual List<SmsTransactionDTO> GetSmsTransactions(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<SmsTransactionDTO>>("api/OrganisationLogic/GetSmsTransactions?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> AddSmsTransactionAsync(Guid orgID,SmsTransactionDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID, dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID, dto, _user)).Result;
 		}
 
 		#endregion

@@ -54,6 +54,12 @@
                         </ul>
                     </li>
                 }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+                {
+                    <li class="@Html.RouteIf("active", "SmsTransaction", "index")">
+                        <a href="@Url.Action("index", "Buyer", new { Area = "SmsTransaction" })" title="Personal Home Page"><i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Transactions</span></a>
+                    </li>
+                }
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

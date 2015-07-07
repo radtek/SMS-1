@@ -32,3 +32,12 @@
 #extr-page #header #logo{
     margin-top:11px;
 }
+
+h2.inline-heading {
+    display:inline-block;
+}
+
+a.inline-heading {
+    position:relative;
+    top:-3px;
+}

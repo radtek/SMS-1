@@ -103,6 +103,11 @@ function hideParentModal() {
     modalStack[modalStack.length - 2].modal('hide');
 };
 
+function hideCurrentModal() {
+    //the child modal hasn't been hidden yet
+    modalStack[modalStack.length - 1].modal('hide');
+};
+
 function dateString(date) {
     try {
         var ret = new Date(date).toLocaleString();

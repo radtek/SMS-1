@@ -2,11 +2,14 @@
 
 using System;
 using System.Reflection;
+using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Microsoft.Ajax.Utilities;
+using System.Collections.Generic;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 #endregion
 
@@ -159,6 +162,25 @@ namespace Bec.TargetFramework.Presentation.Web
             var hasAction = action.Equals(currentAction, StringComparison.InvariantCultureIgnoreCase);
 
             return hasAction && hasController;
+        }
+
+        /// <summary>
+        /// Creates a SelectList with 'Text' and 'Value' members populated from the specified enum's values and StringValueAttribute values
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="helper"></param>
+        /// <returns></returns>
+        public static SelectList EnumList<T>(this HtmlHelper helper)
+        {
+            List<object> rejects = new List<object>();
+            Type eType = typeof(T);
+            foreach (var item in Enum.GetValues(eType))
+            {
+                var member = eType.GetMember(item.ToString())[0];
+                StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
+                rejects.Add(new { Text = attr.StringValue, Value = (int)item });
+            }
+            return new SelectList(rejects, "Value", "Text");
         }
     }
 }

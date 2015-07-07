@@ -1,0 +1,104 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+
+        <h2 class="row-seperator-header inline-heading">View Transactions</h2>
+        <a data-href="@Url.Action("ViewAddSmsTransaction", "Buyer", new { area  = "SmsTransaction" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Transaction</a>
+
+        <hr class="simple">
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div id="txGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="rPanel">
+                <div class="col-sm-6">
+                    <!-- well -->
+                    <div class="well">
+                        <a id="purchaseButton" class="btn btn-primary btn-sm" data-modallink="true">Purchase Product</a>
+                        <h5>Selected Transaction</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Address:</dt>
+                            <dd><p id="ddAddress"></p></dd>
+                            <dt>Postcode:</dt>
+                            <dd><p id="ddPostcode"></p></dd>
+                            <dt>Internal Reference:</dt>
+                            <dd><p id="ddReference"></p></dd>
+                            <dt>Price:</dt>
+                            <dd><p id="ddPrice" data-a-sign="£ "></p></dd>
+                            <dt>Created:</dt>
+                            <dd><p id="ddCreated"></p></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section pagespecific {
+    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
+    <script type="text/javascript">
+
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var txGrid = new gridItem(
+            {
+                gridElementId: 'txGrid',
+                url: '@Url.Action("GetSmsTransactions", "Buyer", new { area = "SmsTransaction" })',
+                schema: { data: "list", total: "total", model: { id: "SmsTransactionID" } },
+                defaultSort: { field: "SmsTransactionID", dir: "asc" },
+                panels: ['rPanel'],
+                jumpTo: '@TempData["SmsTransactionID"]',
+                change: txChange,
+                columns: [
+                        {
+                            field: "SmsTransactionID",
+                            hidden: true,
+                        },
+                        {
+                            field: "Reference",
+                            title: "Reference"
+                        },
+                        {
+                            field: "CreatedOn",
+                            title: "Created",
+                            template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                        },
+                        {
+                            field: "Address.Line1",
+                            title: "Address Line 1"
+                        },
+                        {
+                            field: "Address.PostalCode",
+                            title: "Postcode"
+                        }
+                ]
+            });
+
+        $(document).ready(function () {
+            txGrid.makeGrid();
+
+            findModalLinks();
+
+            $("p#ddPrice").autoNumeric('init', { mDec: '0' });
+        });
+
+        //data binding for the panes beneath each grid
+        function txChange(dataItem) {
+            $("p#ddAddress").text(dataItem.Address.Line1 || "");
+            $("p#ddPostcode").text(dataItem.Address.PostalCode || "");
+            $("p#ddReference").text(dataItem.Reference || "");
+            $("p#ddPrice").autoNumeric('set', dataItem.Price);
+            $("p#ddCreated").text(dateString(dataItem.CreatedOn));
+
+            $("#purchaseButton").data('href', '@Url.Action("ViewPurchase", "Buyer", new { area = "SmsTransaction" })' + "?smsTransactionId=" + dataItem.SmsTransactionID);
+        }
+
+    </script>
+}
