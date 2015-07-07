@@ -1,15 +1,15 @@
 ﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-        <h2 class="row-seperator-header"> View Transactions </h2>
+
+        <h2 class="row-seperator-header inline-heading">View Transactions</h2>
+        <a data-href="@Url.Action("ViewAddSmsTransaction", "Buyer", new { area  = "SmsTransaction" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Transaction</a>
+
         <hr class="simple">
         <div class="col-sm-12">
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="well">
-                        <a data-href="@Url.Action("ViewAddSmsTransaction", "Buyer", new { area  = "SmsTransaction" })" class="btn btn-primary btn-sm" data-modallink="true">Add Transaction</a>
-                    </div>
                     <div class="well">
                         <div id="txGrid"></div>
                     </div>
@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        <a id="purchaseButton" class="btn btn-primary btn-sm" data-modallink="true">Purchase</a>
+                        <a id="purchaseButton" class="btn btn-primary btn-sm" data-modallink="true">Purchase Product</a>
                         <h5>Selected Transaction</h5>
                         <dl class="dl-horizontal">
                             <dt>Address:</dt>
