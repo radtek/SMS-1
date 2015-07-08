@@ -38,6 +38,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             var eventDto = BusLogic.GetBusEventByName(pDto.EventName);
 
+            // make sure the event dto exists e.g. the event is in the database
+            Ensure.That(eventDto).IsNotNull();
+
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();
 
