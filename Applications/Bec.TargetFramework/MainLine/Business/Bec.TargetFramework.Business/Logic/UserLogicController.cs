@@ -696,34 +696,32 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task SendUsernameReminderAsync(string email)
         {
-            //check user exists
-            var user = this.GetUserAccountByEmail(email, true).FirstOrDefault();
-            if (user != null)
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, true))
             {
-                var uao = GetUserAccountOrganisation(user.ID).First();
-                var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
-
-                var tempDto = new UsernameReminderDTO
+                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.UserAccount.Email == email && x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
                 {
-                    UserID = user.ID,
-                    Username = user.Username,
-                    Salutation = primaryContact.Salutation,
-                    FirstName = primaryContact.FirstName,
-                    LastName = primaryContact.LastName,
-                    UserAccountOrganisationID = uao.UserAccountOrganisationID
-                };
+                    var tempDto = new UsernameReminderDTO
+                    {
+                        UserID = uao.UserAccount.ID,
+                        Username = uao.UserAccount.Username,
+                        Salutation = uao.Contact.Salutation,
+                        FirstName = uao.Contact.FirstName,
+                        LastName = uao.Contact.LastName,
+                        UserAccountOrganisationID = uao.UserAccountOrganisationID
+                    };
 
-                string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
+                    string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
 
-                var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-                {
-                    EventName = "UsernameReminderEvent",
-                    EventSource = AppDomain.CurrentDomain.FriendlyName,
-                    EventReference = "0001",
-                    PayloadAsJson = payLoad
-                };
+                    var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+                    {
+                        EventName = "UsernameReminderEvent",
+                        EventSource = AppDomain.CurrentDomain.FriendlyName,
+                        EventReference = "0001",
+                        PayloadAsJson = payLoad
+                    };
 
-                await EventPublishClient.PublishEventAsync(dto);
+                    await EventPublishClient.PublishEventAsync(dto);
+                }
             }
         }
 

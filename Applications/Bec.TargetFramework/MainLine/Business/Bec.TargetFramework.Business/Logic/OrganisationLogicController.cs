@@ -146,7 +146,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail)
         {
-            UserAccountOrganisationDTO uao;
+            UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
             var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
@@ -159,7 +159,7 @@ namespace Bec.TargetFramework.Business.Logic
                 userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
                 Ensure.That(userOrgID).IsNotNull();
 
-                uao = UserAccountOrganisationConverter.ToDto(scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value));
+                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value);
 
                 // create or update contact
                 if (userContactDto.ContactID == Guid.Empty)
@@ -177,22 +177,24 @@ namespace Bec.TargetFramework.Business.Logic
                         Salutation = userContactDto.Salutation
                     };
                     scope.DbContext.Contacts.Add(contact);
+                    uao.PrimaryContactID = contact.ContactID;
                 }
                 else
                 {
                     var existingUserContact = scope.DbContext.Contacts.Single(c => c.ContactID == userContactDto.ContactID);
                     existingUserContact.ParentID = userOrgID.Value;
+                    uao.PrimaryContactID = existingUserContact.ContactID;
                 }
-
+                uaoDto = uao.ToDto();
                 await scope.SaveAsync();
             }
 
             //create Ts & Cs notification
             if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
 
-            if (sendEmail) await SendNewUserEmailAsync(username, password, uao.UserAccountOrganisationID, userContactDto, organisationID);
+            if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID);
 
-            return uao;
+            return uaoDto;
         }
 
         public async Task CreateTsAndCsNotificationAsync(Guid userOrgID)
@@ -410,10 +412,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var addressID = await FindOrCreateAddress(dto.Address);
+                var txID = Guid.NewGuid();
+                var addressID = await FindOrCreateAddress(dto.Address, txID);
                 SmsTransaction tx = new SmsTransaction
                 {
-                    SmsTransactionID = Guid.NewGuid(),
+                    SmsTransactionID = txID,
                     AddressID = addressID,
                     Price = dto.Price,
                     Reference = dto.Reference,
@@ -427,7 +430,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Guid> FindOrCreateAddress(AddressDTO addressDTO)
+        private async Task<Guid> FindOrCreateAddress(AddressDTO addressDTO, Guid parentID)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -442,6 +445,9 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     existing = addressDTO.ToEntity();
                     existing.AddressID = Guid.NewGuid();
+                    existing.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
+                    existing.Name = String.Empty;
+                    existing.ParentID = parentID;
                     scope.DbContext.Addresses.Add(existing);
                 }
                 //have to call svae regardless
