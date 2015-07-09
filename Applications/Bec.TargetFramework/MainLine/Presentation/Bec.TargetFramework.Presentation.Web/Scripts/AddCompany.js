@@ -3,14 +3,6 @@ $("#formSubmit").click(function () {
     $("#addTempCompany-form").submit();
 });
 
-$('#cancelAdd').click(function () {
-    handleModal({ url: $(this).data('href') }, {
-        cancelYes: function () {
-            hideParentModal();
-        }
-    }, true);
-});
-
 // Validation
 $("#addTempCompany-form").validate({
     ignore: '.skip',

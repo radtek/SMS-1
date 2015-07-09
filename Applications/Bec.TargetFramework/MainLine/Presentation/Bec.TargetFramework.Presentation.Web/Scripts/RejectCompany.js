@@ -3,14 +3,6 @@ $("#submitReject").click(function () {
     $("#rejectTempCompany-form").submit();
 });
 
-$('#cancelReject').click(function () {
-    handleModal({ url: $(this).data('href') }, {
-        cancelYes: function () {
-            hideParentModal();
-        }
-    }, true);
-});
-
 // Validation
 $("#rejectTempCompany-form").validate({
     ignore: '.skip',

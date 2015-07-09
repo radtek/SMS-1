@@ -3,14 +3,6 @@ $("#submitGeneratePin").click(function () {
     $("#generatePin-form").submit();
 });
 
-$('#cancelGeneratePin').click(function () {
-    handleModal({ url: $(this).data('href') }, {
-        cancelYes: function () {
-            hideParentModal();
-        }
-    }, true);
-});
-
 // Validation
 $("#generatePin-form").validate({
     ignore: '.skip',
