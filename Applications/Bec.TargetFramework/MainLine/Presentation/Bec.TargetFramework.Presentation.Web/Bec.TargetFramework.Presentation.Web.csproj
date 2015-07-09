@@ -330,7 +330,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_Purchase.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <None Include="Areas\SmsTransaction\Views\Shared\_AddSmsTransaction.cshtml" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />

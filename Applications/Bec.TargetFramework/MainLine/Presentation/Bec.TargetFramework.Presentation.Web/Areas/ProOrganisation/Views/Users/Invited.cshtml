@@ -268,8 +268,8 @@
             $("p#ddnName").text(dataItem.FirstName + " " + dataItem.LastName);
             $("p#ddnEmail").text(dataItem.Email || "");
 
-            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
-            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + "%20" + dataItem.LastName));
+            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + "%20" + dataItem.LastName));
         }
         function wChange(dataItem) {
             $("p#ddwSal").text(dataItem.Salutation || "");
@@ -278,8 +278,8 @@
             $("p#ddwPin").text(dataItem.PinCode || "");
             $("p#ddwPinCreated").text(dateString(dataItem.PinCreated));
 
-            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
-            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.FirstName + "%20" + dataItem.LastName));
+            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + "%20" + dataItem.LastName));
         }
         function eChange(dataItem) {
             $("p#ddeSal").text(dataItem.Salutation || "");
@@ -287,8 +287,8 @@
             $("p#ddeEmail").text(dataItem.Email || "");
             $("p#ddePinCreated").text(dateString(dataItem.PinCreated));
 
-            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
-            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + dataItem.FirstName + "%20" + dataItem.LastName);
+            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" +encodeURIComponent( dataItem.FirstName + "%20" + dataItem.LastName));
+            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + "%20" + dataItem.LastName));
         }
 
     </script>

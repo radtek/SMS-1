@@ -403,7 +403,7 @@
         $("p#ddvLoginsSent").text(dateString(dataItem.OrganisationAdminCreated));
 
         //update links
-        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Company", new { area = "Admin" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + dataItem.Name);
+        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Company", new { area = "Admin" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Name));
         $("#vEmailLogButton").data('href', '@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
