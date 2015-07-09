@@ -1,6 +1,8 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     public class BuyerController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
         public ActionResult Index()
         {
             return View();
@@ -21,9 +24,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> GetSmsTransactions()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var list = await orgClient.GetSmsTransactionsAsync(orgID);
-            var jsonData = new { total = list.Count, list };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + "&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)");
+            return Content(res.ToString(Formatting.None), "application/json");
         }
 
         public ActionResult ViewAddSmsTransaction()

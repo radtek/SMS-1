@@ -42,8 +42,11 @@
             {
                 gridElementId: 'regGrid',
                 url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, hasPin = false }))',
-                schema: { data: "list", total: "total", model: { id: "UserID" } },
-                defaultSort: { field: "LastName", dir: "asc" },
+                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
+                defaultSort: { field: "Contact.LastName", dir: "asc" },
                 panels: ['rPanel'],
                 change: rChange,
                 columns: [
@@ -52,20 +55,20 @@
                             hidden: true,
                         },
                         {
-                            field: "Salutation",
+                            field: "Contact.Salutation",
                             title: "Salutation"
                         },
                         {
-                            field: "LastName",
+                            field: "Contact.LastName",
                             title: "Name",
-                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
                         },
                         {
-                            field: "Email",
+                            field: "UserAccount.Email",
                             title: "Email"
                         },
                         {
-                            field: "Username",
+                            field: "UserAccount.Username",
                             title: "Username"
                         }
                 ]
@@ -77,9 +80,9 @@
 
         //data binding for the panes beneath each grid
         function rChange(dataItem) {
-            $("p#ddName").text(dataItem.FirstName + " " + dataItem.LastName);
-            $("p#ddEmail").text(dataItem.Email || "");
-            $("p#ddUsername").text(dataItem.Username || "");
+            $("p#ddName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+            $("p#ddEmail").text(dataItem.UserAccount.Email || "");
+            $("p#ddUsername").text(dataItem.UserAccount.Username || "");
         }
 
     </script>

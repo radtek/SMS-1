@@ -556,21 +556,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		VOrganisationDTO GetOrganisationDTO(Guid id);
 
 
-		/// <param name="organisationID"></param>
-		/// <param name="temporary"></param>
-		/// <param name="loginAllowed"></param>
-		/// <param name="hasPin"></param>
-		/// <returns></returns>
-		Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin);
-
-		/// <param name="organisationID"></param>
-		/// <param name="temporary"></param>
-		/// <param name="loginAllowed"></param>
-		/// <param name="hasPin"></param>
-		/// <returns></returns>
-		List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin);
-
-
 		/// <param name="orgID"></param>
 		/// <param name="enumType"></param>
 		/// <param name="status"></param>
@@ -586,15 +571,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <returns></returns>
 		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
-
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<List<SmsTransactionDTO>> GetSmsTransactionsAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		List<SmsTransactionDTO> GetSmsTransactions(Guid orgID);
 
 
 		/// <param name="orgID"></param>
@@ -648,6 +624,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
 		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
+
+				
+	}
+	
+	public partial interface IQueryLogicClient : IClientBase	{	
+
+		/// <param name="id"></param>
+		/// <returns></returns>
+        Task<Newtonsoft.Json.Linq.JObject> GetAsync(String id, string query);
+
+		/// <param name="id"></param>
+		/// <returns></returns>
+        Newtonsoft.Json.Linq.JObject Get(String id, string query);
 
 				
 	}
@@ -2553,33 +2542,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="temporary"></param>
-		/// <param name="loginAllowed"></param>
-		/// <param name="hasPin"></param>
-		/// <returns></returns>
-		public virtual Task<List<VUserAccountOrganisationDTO>> GetUsersAsync(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary + "&loginAllowed=" + loginAllowed + "&hasPin=" + hasPin, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <param name="temporary"></param>
-		/// <param name="loginAllowed"></param>
-		/// <param name="hasPin"></param>
-		public virtual List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID,Boolean temporary,Boolean loginAllowed,Boolean hasPin)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VUserAccountOrganisationDTO>>("api/OrganisationLogic/GetUsers?organisationID=" + organisationID + "&temporary=" + temporary + "&loginAllowed=" + loginAllowed + "&hasPin=" + hasPin, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="enumType"></param>
 		/// <param name="status"></param>
@@ -2606,27 +2568,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddOrganisationStatusAsync?orgID=" + orgID + "&enumType=" + enumType + "&status=" + status + "&reason=" + reason + "&notes=" + notes, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<List<SmsTransactionDTO>> GetSmsTransactionsAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<SmsTransactionDTO>>("api/OrganisationLogic/GetSmsTransactions?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual List<SmsTransactionDTO> GetSmsTransactions(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<SmsTransactionDTO>>("api/OrganisationLogic/GetSmsTransactions?orgID=" + orgID, _user)).Result;
 		}
 
 		/// <summary>
@@ -2776,6 +2717,51 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user)).Result;
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class QueryLogicClient : ClientBase, Interfaces.IQueryLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public QueryLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public QueryLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+        public virtual Task<Newtonsoft.Json.Linq.JObject> GetAsync(String id, string query)
+		{
+			id = id.UrlEncode();
+			string _user = getHttpContextUser();
+            return GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+        public virtual Newtonsoft.Json.Linq.JObject Get(String id, string query)
+		{
+			id = id.UrlEncode();
+			string _user = getHttpContextUser();
+            return Task.Run(() => GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user)).Result;
 		}
 
 		#endregion

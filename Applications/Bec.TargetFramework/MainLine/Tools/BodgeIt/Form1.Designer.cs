@@ -60,14 +60,16 @@
             this.comboAddress = new System.Windows.Forms.ComboBox();
             this.comboDB = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.textReportFilename = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -395,6 +397,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update Latest Ts && Cs Report SELECT MATCHING SERVER && DB ABOVE";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(231, 18);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "1. Create new version";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(231, 73);
@@ -449,16 +461,6 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "Name";
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(231, 18);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "1. Create new version";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -468,11 +470,33 @@
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(424, 396);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "Test";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(565, 396);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 11;
+            this.button8.Text = "Test";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 470);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.comboDB);
@@ -540,6 +564,8 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 

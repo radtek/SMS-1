@@ -182,28 +182,43 @@ var gridItem = function (options) {
     this.makeGrid = function () {
         if (this.loaded) return;
         this.loaded = true;
-        this.grid = $("#" + this.options.gridElementId).kendoGrid({
+        var o = {
             dataSource: {
                 transport: {
-                    read: getGridDataFromUrl(this.options.url)
+                    read: this.options.url
+                    //read: getGridDataFromUrl(this.options.url)
                 },
                 schema: this.options.schema,
-                sort: loadGridSort(this.options.gridElementId) || this.options.defaultSort
+                sort: loadGridSort(this.options.gridElementId) || this.options.defaultSort,
             },
             height: 300,
             selectable: "row",
             filterable: false,
             sortable: true,
             //navigatable: true,
-            pageable: {
-                numeric: false,
-                previousNext: false,
-                messages: { display: "{2} rows" }
-            },
+            //pageable: {
+            //    numeric: false,
+            //    previousNext: false,
+            //    messages: { display: "{2} rows" }
+            //},
             columns: options.columns,
             dataBound: this.dataBound,
             change: this.change
-        }).data("kendoGrid");
+        }
+        if (this.options.type) o.dataSource.type = this.options.type;
+        if (this.options.serverSorting) o.dataSource.serverSorting = this.options.serverSorting;
+        if (this.options.serverPaging) {
+            o.dataSource.serverPaging = this.options.serverPaging;
+            o.pageable = { pageSize: 10 }
+        }
+        else {
+            o.pageable = {
+                numeric: false,
+                previousNext: false,
+                messages: { display: "{2} rows" }
+            }
+        }
+        this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
     };
 
     this.dataBound = function (e) {
@@ -214,7 +229,7 @@ var gridItem = function (options) {
 
         if (self.options.jumpToId != null && self.options.jumpToId != "") {
             for (var i = 0; i < gridData.length; i++) {
-                if (self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {
+                if (self.options.jumpToId == gridData[i][self.options.schema.model.id] || self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {
                     self.scrollToRow(gridData[i]);
                     self.options.jumpToId = null; //make sure this is one off
                     break;
@@ -241,7 +256,8 @@ var gridItem = function (options) {
 
     this.scrollToRow = function (item) {
         if (!this.grid || !item) return;
-        var row = this.grid.tbody.find("tr[data-uid='" + item.uid + "']");
+        var gridItem = this.grid.dataSource.get(item.id);
+        var row = this.grid.tbody.find("tr[data-uid='" + gridItem.uid + "']");
         this.grid.select(row);
 
         var scrollContentOffset = this.grid.tbody.offset().top;

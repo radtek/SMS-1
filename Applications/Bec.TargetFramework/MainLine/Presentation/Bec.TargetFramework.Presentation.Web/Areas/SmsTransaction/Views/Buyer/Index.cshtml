@@ -51,7 +51,10 @@
             {
                 gridElementId: 'txGrid',
                 url: '@Url.Action("GetSmsTransactions", "Buyer", new { area = "SmsTransaction" })',
-                schema: { data: "list", total: "total", model: { id: "SmsTransactionID" } },
+                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
                 defaultSort: { field: "SmsTransactionID", dir: "asc" },
                 panels: ['rPanel'],
                 jumpTo: '@TempData["SmsTransactionID"]',

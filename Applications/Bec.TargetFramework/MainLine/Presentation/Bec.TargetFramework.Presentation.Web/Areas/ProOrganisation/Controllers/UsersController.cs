@@ -3,6 +3,8 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     public class UsersController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
-        public IUserLogicClient userClient { get; set;
-        }
+        public IUserLogicClient userClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
+
         // GET: ProOrganisation/Users
         public ActionResult Invited()
         {
@@ -32,10 +35,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, bool hasPin)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-
-            var list = await orgClient.GetUsersAsync(orgID, temporary, loginAllowed, hasPin);
-            var jsonData = new { total = list.Count, list };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + "&$select=UserAccountOrganisationID,UserID,PinCode,PinCreated&$expand=UserAccount($select=ID,Email,Username),Contact($select=Salutation,FirstName,LastName)&$filter=UserAccount/IsTemporaryAccount eq " + temporary.ToString().ToLower() + " and UserAccount/IsLoginAllowed eq " + loginAllowed.ToString().ToLower() + " and PinCode " + (hasPin ? "ne" : "eq") + " null");
+            return Content(res.ToString(Formatting.None), "application/json");
         }
 
         public ActionResult ViewAddUser()
