@@ -56,7 +56,7 @@ namespace BodgeIt
         private async void button1_Click(object sender, EventArgs e)
         {
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            await SendAsync<object>(client, string.Format("api/OrganisationLogic/ExpireOrganisationsAsync?days={0}&hours={1}&minutes={2}", numericUpDownDays.Value, numericUpDownHours.Value, numericUpDownMinutes.Value), HttpMethod.Post, "user", null);
+            await SendAsync<object>(client, string.Format("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days={0}&hours={1}&minutes={2}", numericUpDownDays.Value, numericUpDownHours.Value, numericUpDownMinutes.Value), HttpMethod.Post, "user", null);
             MessageBox.Show("Done");
         }
 
