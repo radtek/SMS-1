@@ -426,6 +426,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for Created in the schema.
+        /// </summary>
+        public virtual global::System.DateTime Created
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

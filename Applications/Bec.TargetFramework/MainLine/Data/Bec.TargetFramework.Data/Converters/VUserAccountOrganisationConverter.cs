@@ -69,6 +69,7 @@ namespace Bec.TargetFramework.Entities
             target.Salutation = source.Salutation;
             target.Telephone = source.Telephone;
             target.IsLoginAllowed = source.IsLoginAllowed;
+            target.Created = source.Created;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -124,6 +125,7 @@ namespace Bec.TargetFramework.Entities
             target.Salutation = source.Salutation;
             target.Telephone = source.Telephone;
             target.IsLoginAllowed = source.IsLoginAllowed;
+            target.Created = source.Created;
 
             // User-defined partial method
             OnEntityCreating(source, target);

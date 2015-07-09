@@ -10,7 +10,7 @@
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
                 <li><a href="#s1"> New Invites </a></li>
-                <li><a href="#s2"> With Pin </a></li>
+                <li><a href="#s2"> With PIN </a></li>
                 <li><a href="#s3"> Expired </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
@@ -28,7 +28,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="generatePinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate Pin</a>
+                                <a id="generatePinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate PIN</a>
                                 <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
@@ -67,9 +67,9 @@
                                     <dd><p id="ddwName"></p></dd>
                                     <dt>Email:</dt>
                                     <dd><p id="ddwEmail"></p></dd>
-                                    <dt>Pin:</dt>
+                                    <dt>PIN:</dt>
                                     <dd><p id="ddwPin"></p></dd>
-                                    <dt>Pin Created:</dt>
+                                    <dt>PIN Created:</dt>
                                     <dd><p id="ddwPinCreated"></p></dd>
                                 </dl>
                             </div>
@@ -90,7 +90,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="regeneratePinButton" class="btn btn-primary btn-sm" data-modallink="true">Regenerate Pin</a>
+                                <a id="regeneratePinButton" class="btn btn-primary btn-sm" data-modallink="true">Regenerate PIN</a>
                                 <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
@@ -100,9 +100,9 @@
                                     <dd><p id="ddeName"></p></dd>
                                     <dt>Email:</dt>
                                     <dd><p id="ddeEmail"></p></dd>
-                                    <dt>Pin:</dt>
+                                    <dt>PIN:</dt>
                                     <dd><p id="ddePin"></p></dd>
-                                    <dt>Pin Created:</dt>
+                                    <dt>PIN Created:</dt>
                                     <dd><p id="ddePinCreated"></p></dd>
                                 </dl>
                             </div>
@@ -146,6 +146,11 @@
                         {
                             field: "Email",
                             title: "Email"
+                        },
+                        {
+                            field: "Created",
+                            title: "Invite Created",
+                            template: function (dataItem) { return dateString(dataItem.Created); }
                         }
                 ]
             });
@@ -178,12 +183,17 @@
                             title: "Email"
                         },
                         {
+                            field: "Created",
+                            title: "Invite Created",
+                            template: function (dataItem) { return dateString(dataItem.Created); }
+                        },
+                        {
                             field: "PinCode",
-                            title: "Pin"
+                            title: "PIN"
                         },
                         {
                             field: "PinCreated",
-                            title: "Pin Created",
+                            title: "PIN Created",
                             template: function (dataItem) {
                                 return dateString(dataItem.PinCreated);
                             }
@@ -219,8 +229,13 @@
                             title: "Email"
                         },
                         {
+                            field: "Created",
+                            title: "Invite Created",
+                            template: function (dataItem) { return dateString(dataItem.Created); }
+                        },
+                        {
                             field: "PinCreated",
-                            title: "Pin Created",
+                            title: "PIN Created",
                             template: function (dataItem) {
                                 return dateString(dataItem.PinCreated);
                             }

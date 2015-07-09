@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VUserAccountOrganisationDTO() {
         }
 
-        public VUserAccountOrganisationDTO(global::System.Guid iD, bool isTemporaryAccount, global::System.Guid userAccountOrganisationID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> organisationBranchID, global::System.Guid organisationID, string name, bool isBranch, bool isHeadOffice, bool isUserOrganisation, global::System.Nullable<bool> isPaymentProvider, int organisationTypeID, string organisationTypeName, string userTypeName, string vATNumber, bool isVATRegistered, global::System.Nullable<System.DateTime> birthDate, string emailAddress1, string firstName, string lastName, string middleName, string username, string email, global::System.Guid contactID, global::System.Guid addressID, string buildingName, string city, string countryCode, string county, string line1, string line2, string line3, string postalCode, string town, global::System.Nullable<bool> isPrimaryAddress, string pinCode, global::System.Nullable<System.DateTime> pinCreated, string salutation, string telephone, bool isLoginAllowed) {
+        public VUserAccountOrganisationDTO(global::System.Guid iD, bool isTemporaryAccount, global::System.Guid userAccountOrganisationID, global::System.Guid userTypeID, global::System.Nullable<System.Guid> organisationBranchID, global::System.Guid organisationID, string name, bool isBranch, bool isHeadOffice, bool isUserOrganisation, global::System.Nullable<bool> isPaymentProvider, int organisationTypeID, string organisationTypeName, string userTypeName, string vATNumber, bool isVATRegistered, global::System.Nullable<System.DateTime> birthDate, string emailAddress1, string firstName, string lastName, string middleName, string username, string email, global::System.Guid contactID, global::System.Guid addressID, string buildingName, string city, string countryCode, string county, string line1, string line2, string line3, string postalCode, string town, global::System.Nullable<bool> isPrimaryAddress, string pinCode, global::System.Nullable<System.DateTime> pinCreated, string salutation, string telephone, bool isLoginAllowed, global::System.DateTime created) {
 
           this.ID = iD;
           this.IsTemporaryAccount = isTemporaryAccount;
@@ -64,6 +64,7 @@ namespace Bec.TargetFramework.Entities
           this.Salutation = salutation;
           this.Telephone = telephone;
           this.IsLoginAllowed = isLoginAllowed;
+          this.Created = created;
         }
 
         #endregion
@@ -189,6 +190,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsLoginAllowed { get; set; }
+
+        [DataMember]
+        public global::System.DateTime Created { get; set; }
 
         #endregion
     }

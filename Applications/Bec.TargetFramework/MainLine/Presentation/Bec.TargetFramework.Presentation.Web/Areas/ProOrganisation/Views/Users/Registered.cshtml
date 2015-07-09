@@ -67,6 +67,11 @@
                         {
                             field: "Username",
                             title: "Username"
+                        },
+                        {
+                            field: "Created",
+                            title: "Invite Created",
+                            template: function (dataItem) { return dateString(dataItem.Created); }
                         }
                 ]
             });
