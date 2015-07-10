@@ -111,6 +111,7 @@ namespace BodgeIt
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Template.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Create Default Organisation.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));
@@ -207,6 +208,25 @@ namespace BodgeIt
                 con.Open();
                 runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "NewT&CNotification.sql")));
                 con.Close();
+            }
+            MessageBox.Show("Done");
+        }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            button4_Click(this, null);
+
+            for (int i = 1; i < 6; i++)
+            {
+                var contact = new
+                {
+                    FirstName = "Admin",
+                    LastName = "T" + i.ToString(),
+                    EmailAddress1 = textEmail.Text,
+                    Salutation = textSalutation.Text
+                };
+                HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+                await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), comboType.SelectedValue, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
             }
             MessageBox.Show("Done");
         }

@@ -102,6 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventHandlers\AddNewUserHandler.cs" />
     <Compile Include="EventHandlers\ForgotPasswordHandler.cs" />
     <Compile Include="EventHandlers\UsernameReminderHandler.cs" />
     <Compile Include="EventHandlers\AddNewCompanyAndAdministratorHandler.cs" />

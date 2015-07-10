@@ -192,7 +192,7 @@ namespace Bec.TargetFramework.Business.Logic
             //create Ts & Cs notification
             if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
 
-            if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID);
+            if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
             return uaoDto;
         }
@@ -217,8 +217,16 @@ namespace Bec.TargetFramework.Business.Logic
             await NotificationLogic.SaveNotificationAsync(notificationDto);
         }
 
-        private async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID)
+        private async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
         {
+            string eventName = "TestEvent";
+            switch (userType)
+            {
+                case UserTypeEnum.User:
+                    eventName = "NewUser";
+                    break;
+            }            
+
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
             {
@@ -232,16 +240,24 @@ namespace Bec.TargetFramework.Business.Logic
                 WebsiteURL = commonSettings.PublicWebsiteUrl
             };
 
-            string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
-
             //add entry to EventStatus table
             EventStatus es;
+            string payLoad;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                var executingUao = scope.DbContext.UserAccountOrganisations.SingleOrDefault(x => x.UserAccount.Username == UserNameService.UserName);
+                if (executingUao != null && executingUao.Contact != null)
+                {
+                    tempDto.InviterSalutation = executingUao.Contact.Salutation;
+                    tempDto.InviterFirstName = executingUao.Contact.FirstName;
+                    tempDto.InviterLastName = executingUao.Contact.LastName;
+                }
+                payLoad = JsonHelper.SerializeData(new object[] { tempDto });
+
                 es = new EventStatus()
                 {
                     EventStatusID = Guid.NewGuid(),
-                    EventName = "TestEvent",
+                    EventName = eventName,
                     EventReference = organisationID.ToString(),
                     Status = "Pending",
                     Created = DateTime.Now
@@ -252,7 +268,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
             {
-                EventName = "TestEvent",
+                EventName = eventName,
                 EventSource = AppDomain.CurrentDomain.FriendlyName,
                 EventReference = es.EventStatusID.ToString(),
                 PayloadAsJson = payLoad

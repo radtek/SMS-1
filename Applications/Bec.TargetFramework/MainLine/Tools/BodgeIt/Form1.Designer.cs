@@ -60,14 +60,15 @@
             this.comboAddress = new System.Windows.Forms.ComboBox();
             this.comboDB = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.textReportFilename = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -166,6 +167,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label12);
@@ -192,7 +194,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(213, 204);
+            this.button2.Location = new System.Drawing.Point(213, 182);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 16;
@@ -395,6 +397,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update Latest Ts && Cs Report SELECT MATCHING SERVER && DB ABOVE";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(231, 18);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 23);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "1. Create new version";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(231, 73);
@@ -449,16 +461,6 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "Name";
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(231, 18);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "1. Create new version";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -467,6 +469,16 @@
             this.label15.Size = new System.Drawing.Size(22, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(213, 211);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 17;
+            this.button7.Text = "Add T1-T5";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // Form1
             // 
@@ -540,6 +552,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button7;
     }
 }
 

@@ -17,5 +17,8 @@ namespace Bec.TargetFramework.Entities
         public string ProductName { get; set; }
         public string WebsiteURL { get; set; }
         public Guid UserAccountOrganisationID { get; set; }
+        public string InviterSalutation { get; set; }
+        public string InviterFirstName { get; set; }
+        public string InviterLastName { get; set; }
     }
 }

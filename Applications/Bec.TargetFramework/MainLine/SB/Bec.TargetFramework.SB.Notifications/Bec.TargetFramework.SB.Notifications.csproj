@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Base\BaseNotificationMutator.cs" />
     <Compile Include="Base\IBaseNotificationMutator.cs" />
+    <Compile Include="Mutators\AddNewUserTempDetailsMutator.cs" />
     <Compile Include="Mutators\AddCompanyAdministratorTempDetailsMutator.cs" />
     <Compile Include="Mutators\ForgotPasswordMutator.cs" />
     <Compile Include="Mutators\UsernameReminderMutator.cs" />

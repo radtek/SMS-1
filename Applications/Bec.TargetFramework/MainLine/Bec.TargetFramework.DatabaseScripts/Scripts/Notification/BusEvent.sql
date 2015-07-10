@@ -1,4 +1,4 @@
-﻿-- username
+﻿-- new admin
 INSERT INTO
   public."BusEvent"
 (
@@ -137,6 +137,54 @@ INSERT INTO
 VALUES (
   '5fb1b2c4-489f-11e4-8ad9-175db514c526',
   '5fb1b2c4-489f-11e4-a026-2b96867a5561',
+  true,
+  false,
+  null
+);
+
+-- new user
+INSERT INTO
+  public."BusEvent"
+(
+  "BusEventID",
+  "BusEventName",
+  "BusEventDescription",
+  "BusEventTypeID"
+)
+VALUES (
+  'D97F6BA0-6734-4472-9B73-932AA0A81637',
+  'NewUser',
+  '',
+  '707d82de-3ddd-11e4-95c4-a77fdf4021b5'
+);
+
+INSERT INTO
+  public."BusEventMessageSubscriber"
+(
+  "BusEventMessageSubscriberID",
+  "Name",
+  "ObjectName",
+  "ObjectAssembly"
+)
+VALUES (
+  '3DAA0BBD-4364-46D7-8A2C-15991526D0DD',
+  'NewUser',
+  'Bec.TargetFramework.SB.Messages.Events.AddNewUserEvent',
+  'Bec.TargetFramework.SB.Messages'
+);
+
+INSERT INTO
+  public."BusEventBusEventMessageSubscriber"
+(
+  "BusEventID",
+  "BusEventMessageSubscriberID",
+  "IsActive",
+  "IsDeleted",
+  "BusEventMessageSubscriberFilter"
+)
+VALUES (
+  'D97F6BA0-6734-4472-9B73-932AA0A81637',
+  '3DAA0BBD-4364-46D7-8A2C-15991526D0DD',
   true,
   false,
   null
