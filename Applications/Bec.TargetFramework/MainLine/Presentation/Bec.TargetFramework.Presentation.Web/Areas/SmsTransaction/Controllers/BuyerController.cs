@@ -21,10 +21,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetSmsTransactions()
+        public async Task<ActionResult> GetSmsTransactions(string search)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + "&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)&$filter=OrganisationID eq " + orgID.ToString());
+            string extraFilter = "";
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                extraFilter = string.Format(" and(contains(tolower(Reference), '{0}') or contains(tolower(Address/Line1), '{0}') or contains(tolower(Address/PostalCode), '{0}'))", search);
+            }
+            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + string.Format("&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)&$filter=OrganisationID eq {0}" , orgID) + extraFilter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

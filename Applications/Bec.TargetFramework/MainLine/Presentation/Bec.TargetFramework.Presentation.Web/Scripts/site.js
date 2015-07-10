@@ -10,16 +10,31 @@ function ajaxWrapper(options) {
     });
 }
 
-//reurns a function to use in kendo grid - call options.success for kendo
-function getGridDataFromUrl(url) {
+function getGridDataFromUrl(gridOptions) {
     return function (options) {
-        ajaxWrapper({
-            url: url,
+        var ajaxOptions = {
+            url: gridOptions.url,
+            data: dataMap(options.data, gridOptions),
             cache: false
-        }).done(function (result) {
+        };
+        ajaxWrapper(ajaxOptions).done(function (result) {
             options.success(result);
         });
     };
+}
+
+function dataMap(data, gridOptions) {
+
+    var d = {};
+    if (gridOptions.type == 'odata-v4') {
+        d = kendo.data.transports['odata-v4'].parameterMap(data);
+        delete d['$inlinecount'];
+        d['$count'] = true;
+    }
+    if (gridOptions.searchElementId) {
+        d.search = $('#' + gridOptions.searchElementId).val();
+    }
+    return d;
 }
 
 var modalStack = [];
@@ -185,8 +200,7 @@ var gridItem = function (options) {
         var o = {
             dataSource: {
                 transport: {
-                    read: this.options.url
-                    //read: getGridDataFromUrl(this.options.url)
+                    read: getGridDataFromUrl(this.options)
                 },
                 schema: this.options.schema,
                 sort: loadGridSort(this.options.gridElementId) || this.options.defaultSort,
@@ -219,6 +233,9 @@ var gridItem = function (options) {
             }
         }
         this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
+
+        $('#' + this.options.searchButtonId).click(function () { self.grid.dataSource.read(); });
+
     };
 
     this.dataBound = function (e) {
