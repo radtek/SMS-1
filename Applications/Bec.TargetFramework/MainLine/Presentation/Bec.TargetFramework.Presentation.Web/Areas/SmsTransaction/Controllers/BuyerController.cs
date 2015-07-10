@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> GetSmsTransactions()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + "&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)");
+            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + "&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)&$filter=OrganisationID eq " + orgID.ToString());
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

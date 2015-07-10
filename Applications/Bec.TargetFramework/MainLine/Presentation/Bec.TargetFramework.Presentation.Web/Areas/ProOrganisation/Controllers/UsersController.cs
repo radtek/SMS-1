@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, bool hasPin)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + "&$select=UserAccountOrganisationID,UserID,PinCode,PinCreated&$expand=UserAccount($select=ID,Email,Username),Contact($select=Salutation,FirstName,LastName)&$filter=UserAccount/IsTemporaryAccount eq " + temporary.ToString().ToLower() + " and UserAccount/IsLoginAllowed eq " + loginAllowed.ToString().ToLower() + " and PinCode " + (hasPin ? "ne" : "eq") + " null");
+            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + "&$select=UserAccountOrganisationID,UserID,PinCode,PinCreated&$expand=UserAccount($select=ID,Email,Username),Contact($select=Salutation,FirstName,LastName)&$filter=OrganisationID eq " + orgID.ToString() + " and UserAccount/IsTemporaryAccount eq " + temporary.ToString().ToLower() + " and UserAccount/IsLoginAllowed eq " + loginAllowed.ToString().ToLower() + " and PinCode " + (hasPin ? "ne" : "eq") + " null");
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
