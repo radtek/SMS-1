@@ -64,7 +64,7 @@ $("#findaddressbutton").click(function () {
     fa.prop('disabled', true);
 
     ajaxWrapper({
-        url: window.location.origin + '/Admin/Company/FindAddress',
+        url: window.location.origin + '/Home/FindAddress',
         data: { postcode: pc }
     })
     .always(function () {

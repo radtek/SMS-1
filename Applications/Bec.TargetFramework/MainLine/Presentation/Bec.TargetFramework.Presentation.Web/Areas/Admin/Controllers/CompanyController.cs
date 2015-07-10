@@ -22,7 +22,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
     {
         public IOrganisationLogicClient OrganisationClient { get; set; }
-        public IAddressLogicClient AddressClient { get; set; }
         public INotificationLogicClient NotificationClient { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
 
@@ -64,13 +63,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Provisional");
-        }
-
-        public async Task<ActionResult> FindAddress(string postcode)
-        {
-            List<PostCodeDTO> list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);
-
-            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)

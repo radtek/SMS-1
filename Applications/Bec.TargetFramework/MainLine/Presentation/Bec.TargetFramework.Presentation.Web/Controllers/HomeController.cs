@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Presentation.Web.Base;
 using System.Threading.Tasks;
+using Bec.TargetFramework.Business.Client.Interfaces;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : ApplicationControllerBase
     {
+        public IAddressLogicClient AddressClient { get; set; }
         public HomeController()
         {
         }
@@ -47,6 +49,13 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             ViewBag.RedirectController = redirectController;
             ViewBag.RedirectArea = redirectArea;
             return PartialView("_ResendLogins");
+        }
+
+        public async Task<ActionResult> FindAddress(string postcode)
+        {
+            var list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
 }
