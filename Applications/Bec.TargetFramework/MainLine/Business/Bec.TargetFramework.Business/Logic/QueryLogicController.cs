@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Infrastructure;
 using Microsoft.OData.Edm;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,17 +39,18 @@ namespace Bec.TargetFramework.Business.Logic
             return Ok(new QueryResult { Items = res, Count = Request.ODataProperties().TotalCount, NextLink = Request.ODataProperties().NextLink });
         }
 
-        private static Dictionary<Type, IEdmModel> models = new Dictionary<Type, IEdmModel>();
+        private static ConcurrentDictionary<Type, Lazy<IEdmModel>> models = new ConcurrentDictionary<Type, Lazy<IEdmModel>>();
         private IEdmModel GetEdmModel(Type entityClrType)
         {
-            if (!models.ContainsKey(entityClrType))
-            {
-                ODataConventionModelBuilder builder = new ODataConventionModelBuilder(ActionContext.ActionDescriptor.Configuration, isQueryCompositionMode: true);
-                EntityTypeConfiguration entityTypeConfiguration = builder.AddEntityType(entityClrType);
-                builder.AddEntitySet(entityClrType.Name, entityTypeConfiguration);
-                models.Add(entityClrType, builder.GetEdmModel());
-            }
-            return models[entityClrType];
+            return models.GetOrAdd(entityClrType, (type) => 
+                new Lazy<IEdmModel>(() =>
+                    {
+                        ODataConventionModelBuilder builder = new ODataConventionModelBuilder(ActionContext.ActionDescriptor.Configuration, isQueryCompositionMode: true);
+                        EntityTypeConfiguration entityTypeConfiguration = builder.AddEntityType(type);
+                        builder.AddEntitySet(type.Name, entityTypeConfiguration);
+                        return builder.GetEdmModel();
+                    }
+                )).Value;
         }
     }
 
