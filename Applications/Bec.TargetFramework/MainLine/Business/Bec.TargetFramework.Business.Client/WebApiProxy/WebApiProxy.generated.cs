@@ -459,6 +459,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
 
 
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task ExpireUserAccountOrganisationAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		void ExpireUserAccountOrganisation(Guid uaoID);
+
+
 		/// <param name="manual"></param>
 		/// <param name="line1"></param>
 		/// <param name="line2"></param>
@@ -2329,6 +2338,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireTemporaryLoginsAsync?days=" + days + "&hours=" + hours + "&minutes=" + minutes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task ExpireUserAccountOrganisationAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/ExpireUserAccountOrganisationAsync?uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual void ExpireUserAccountOrganisation(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ExpireUserAccountOrganisationAsync?uaoID=" + uaoID, null, _user)).Wait();
 		}
 
 		/// <summary>

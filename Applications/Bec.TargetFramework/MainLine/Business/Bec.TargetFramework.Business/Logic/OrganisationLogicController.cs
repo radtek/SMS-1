@@ -35,25 +35,32 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var exp = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-
                 foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
                 {
                     var testDate = uao.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
-                    if (testDate < DateTime.Now)
-                    {
-                        uao.UserAccount.IsLoginAllowed = false;
-                        uao.PinCode = null;
-
-                        if (uao.Organisation != null)
-                        {
-                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
-                            if (status != null && status.StatusTypeValueID == exp.StatusTypeValueID)
-                                await ExpireOrganisationAsync(uao.OrganisationID);
-                        }
-                    }
+                    if (testDate < DateTime.Now) await ExpireUserAccountOrganisationAsync(uao.UserAccountOrganisationID);
                 }
 
+                await scope.SaveAsync();
+            }
+        }
+
+        public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+                var varifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+
+                uao.UserAccount.IsLoginAllowed = false;
+                uao.PinCode = null;
+
+                if (uao.Organisation != null)
+                {
+                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                    if (status != null && status.StatusTypeValueID == varifiedStatus.StatusTypeValueID)
+                        await ExpireOrganisationAsync(uao.OrganisationID);
+                }
                 await scope.SaveAsync();
             }
         }

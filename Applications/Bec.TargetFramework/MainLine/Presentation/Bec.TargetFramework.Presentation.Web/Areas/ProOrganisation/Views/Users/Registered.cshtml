@@ -52,13 +52,9 @@
                             hidden: true,
                         },
                         {
-                            field: "Salutation",
-                            title: "Salutation"
-                        },
-                        {
                             field: "LastName",
                             title: "Name",
-                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
                         },
                         {
                             field: "Email",
@@ -82,7 +78,7 @@
 
         //data binding for the panes beneath each grid
         function rChange(dataItem) {
-            $("p#ddName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
             $("p#ddEmail").text(dataItem.Email || "");
             $("p#ddUsername").text(dataItem.Username || "");
         }

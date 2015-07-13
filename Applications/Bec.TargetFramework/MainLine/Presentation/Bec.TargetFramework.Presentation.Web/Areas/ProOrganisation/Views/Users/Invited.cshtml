@@ -32,8 +32,6 @@
                                 <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Salutation:</dt>
-                                    <dd><p id="ddnSal"></p></dd>
                                     <dt>Name:</dt>
                                     <dd><p id="ddnName"></p></dd>
                                     <dt>Email:</dt>
@@ -61,8 +59,6 @@
                                 <a id="revokeButton2" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Salutation:</dt>
-                                    <dd><p id="ddwSal"></p></dd>
                                     <dt>Name:</dt>
                                     <dd><p id="ddwName"></p></dd>
                                     <dt>Email:</dt>
@@ -94,8 +90,6 @@
                                 <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Salutation:</dt>
-                                    <dd><p id="ddeSal"></p></dd>
                                     <dt>Name:</dt>
                                     <dd><p id="ddeName"></p></dd>
                                     <dt>Email:</dt>
@@ -135,13 +129,9 @@
                             hidden: true,
                         },
                         {
-                            field: "Salutation",
-                            title: "Salutation"
-                        },
-                        {
                             field: "LastName",
                             title: "Name",
-                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
                         },
                         {
                             field: "Email",
@@ -170,13 +160,9 @@
                             hidden: true,
                         },
                         {
-                            field: "Salutation",
-                            title: "Salutation"
-                        },
-                        {
                             field: "LastName",
                             title: "Name",
-                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
                         },
                         {
                             field: "Email",
@@ -216,13 +202,9 @@
                             hidden: true,
                         },
                         {
-                            field: "Salutation",
-                            title: "Salutation"
-                        },
-                        {
                             field: "LastName",
                             title: "Name",
-                            template: function (dataItem) { return dataItem.FirstName + " " + dataItem.LastName; }
+                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
                         },
                         {
                             field: "Email",
@@ -264,16 +246,14 @@
 
         //data binding for the panes beneath each grid
         function nChange(dataItem) {
-            $("p#ddnSal").text(dataItem.Salutation || "");
-            $("p#ddnName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddnName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
             $("p#ddnEmail").text(dataItem.Email || "");
 
             $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
             $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
         }
         function wChange(dataItem) {
-            $("p#ddwSal").text(dataItem.Salutation || "");
-            $("p#ddwName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddwName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
             $("p#ddwEmail").text(dataItem.Email || "");
             $("p#ddwPin").text(dataItem.PinCode || "");
             $("p#ddwPinCreated").text(dateString(dataItem.PinCreated));
@@ -282,8 +262,7 @@
             $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
         }
         function eChange(dataItem) {
-            $("p#ddeSal").text(dataItem.Salutation || "");
-            $("p#ddeName").text(dataItem.FirstName + " " + dataItem.LastName);
+            $("p#ddeName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
             $("p#ddeEmail").text(dataItem.Email || "");
             $("p#ddePinCreated").text(dateString(dataItem.PinCreated));
 

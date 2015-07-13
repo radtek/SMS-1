@@ -861,7 +861,7 @@ namespace Bec.TargetFramework.Business.Logic
                 uao.PinAttempts++;
                 if (uao.PinAttempts >= 3)
                 {
-                    await OrganisationLogic.ExpireOrganisationAsync(uao.OrganisationID);
+                    await OrganisationLogic.ExpireUserAccountOrganisationAsync(uaoID);
                     ret = true;
                 }
                 await scope.SaveAsync();

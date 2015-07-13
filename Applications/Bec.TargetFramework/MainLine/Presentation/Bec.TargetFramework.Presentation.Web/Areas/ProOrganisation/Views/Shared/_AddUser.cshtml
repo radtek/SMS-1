@@ -26,7 +26,7 @@
                             @Html.AntiForgeryToken()
                             <fieldset>
                                 <section>
-                                    <label class="label">Salutation</label>
+                                    <label class="label">Title</label>
                                     <label class="select">
                                         @Html.DropDownListFor(m => m.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "13" })
                                         <i></i>
