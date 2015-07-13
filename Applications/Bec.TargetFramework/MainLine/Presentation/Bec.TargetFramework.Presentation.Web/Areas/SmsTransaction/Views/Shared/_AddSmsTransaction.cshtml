@@ -108,7 +108,7 @@
                                         <label class="label">Price</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Price, new { tabindex = "10", maxlength = 10, id="Price" })
+                                            @Html.TextBoxFor(m => m.Price, new { tabindex = "10", maxlength = 10, id = "Price" })
                                         </label>
                                         <label class="label" id="formatPrice" data-a-sign="£ "></label>
                                     </section>
@@ -179,7 +179,7 @@
             },
             Price: {
                 required: true,
-                number: true,
+                digits: true,
                 min: 1
             },
             Reference: {
