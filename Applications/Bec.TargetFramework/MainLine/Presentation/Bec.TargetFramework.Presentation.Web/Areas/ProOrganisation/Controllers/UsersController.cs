@@ -2,12 +2,14 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using Bec.TargetFramework.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -35,7 +37,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, bool hasPin)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + "&$select=UserAccountOrganisationID,UserID,PinCode,PinCreated&$expand=UserAccount($select=ID,Email,Username),Contact($select=Salutation,FirstName,LastName)&$filter=OrganisationID eq " + orgID.ToString() + " and UserAccount/IsTemporaryAccount eq " + temporary.ToString().ToLower() + " and UserAccount/IsLoginAllowed eq " + loginAllowed.ToString().ToLower() + " and PinCode " + (hasPin ? "ne" : "eq") + " null");
+
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { 
+                x.UserAccountOrganisationID, x.UserID, x.PinCode, x.PinCreated, 
+                x.UserAccount.ID, x.UserAccount.Email, x.UserAccount.Username,
+                x.Contact.Salutation, x.Contact.FirstName, x.Contact.LastName });
+
+            var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+                x.OrganisationID == orgID &&
+                x.UserAccount.IsTemporaryAccount == temporary &&
+                x.UserAccount.IsLoginAllowed == loginAllowed);
+
+            if (hasPin)
+                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode != null));
+            else
+                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode == null));
+
+            var filter = ODataHelper.Filter(where);
+
+            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

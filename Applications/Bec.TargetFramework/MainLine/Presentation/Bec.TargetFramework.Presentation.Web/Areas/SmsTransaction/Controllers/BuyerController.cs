@@ -1,11 +1,13 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -24,13 +26,22 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> GetSmsTransactions(string search)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            string extraFilter = "";
+
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.Reference, x.Price, x.CreatedOn, x.Address.Line1, x.Address.PostalCode, x.SmsTransactionID });
+
+            var where = ODataHelper.Expression<SmsTransactionDTO>(x => x.OrganisationID == orgID);
+
             if (!string.IsNullOrEmpty(search))
             {
-                search = search.ToLower();
-                extraFilter = string.Format(" and(contains(tolower(Reference), '{0}') or contains(tolower(Address/Line1), '{0}') or contains(tolower(Address/PostalCode), '{0}'))", search);
+                where = Expression.And(where, ODataHelper.Expression<SmsTransactionDTO>(x =>
+                    x.Reference.ToLower().Contains(search) ||
+                    x.Address.Line1.ToLower().Contains(search) ||
+                    x.Address.PostalCode.ToLower().Contains(search)
+                    ));
             }
-            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + string.Format("&$select=Reference,Price,CreatedOn&$expand=Address($select=Line1,PostalCode)&$filter=OrganisationID eq {0}" , orgID) + extraFilter);
+            var filter = ODataHelper.Filter(where);
+
+            JObject res = await queryClient.GetAsync("SmsTransactions", Request.QueryString + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
