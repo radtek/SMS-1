@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) db.Dispose();
+            if (disposing && db != null) db.Dispose();
             base.Dispose(disposing);
         }
     }
