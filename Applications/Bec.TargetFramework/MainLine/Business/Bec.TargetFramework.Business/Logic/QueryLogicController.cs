@@ -52,6 +52,12 @@ namespace Bec.TargetFramework.Business.Logic
                     }
                 )).Value;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) db.Dispose();
+            base.Dispose(disposing);
+        }
     }
 
     public class QueryResult
