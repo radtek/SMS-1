@@ -234,7 +234,10 @@ var gridItem = function (options) {
         }
         this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
 
-        $('#' + this.options.searchButtonId).click(function () { self.grid.dataSource.read(); });
+        $('#' + this.options.searchButtonId).click(function () {
+            self.grid.dataSource.page(1);
+            self.grid.dataSource.read();
+        });
 
     };
 
@@ -274,16 +277,18 @@ var gridItem = function (options) {
     this.scrollToRow = function (item) {
         if (!this.grid || !item) return;
         var gridItem = this.grid.dataSource.get(item.id);
-        var row = this.grid.tbody.find("tr[data-uid='" + gridItem.uid + "']");
-        this.grid.select(row);
+        if (gridItem) {
+            var row = this.grid.tbody.find("tr[data-uid='" + gridItem.uid + "']");
+            this.grid.select(row);
 
-        var scrollContentOffset = this.grid.tbody.offset().top;
-        var selectContentOffset = this.grid.select().offset().top;
-        var distance = selectContentOffset - scrollContentOffset;
+            var scrollContentOffset = this.grid.tbody.offset().top;
+            var selectContentOffset = this.grid.select().offset().top;
+            var distance = selectContentOffset - scrollContentOffset;
 
-        this.grid.content.animate({
-            scrollTop: distance
-        }, 400);
+            this.grid.content.animate({
+                scrollTop: distance
+            }, 400);
+        }
     };
 }
 

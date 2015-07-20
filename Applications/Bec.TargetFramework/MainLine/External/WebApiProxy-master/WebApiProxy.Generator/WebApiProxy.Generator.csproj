@@ -43,14 +43,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebApiProxy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\debug\WebApiProxy.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="WebApiProxy.Tasks, Version=1.0.4.22593, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\debug\WebApiProxy.Tasks.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generator.cs">
@@ -86,6 +78,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiProxy.Core\WebApiProxy.Core.csproj">
+      <Project>{94508206-8537-4088-923b-e7fcb0539903}</Project>
+      <Name>WebApiProxy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebApiProxy.Tasks\WebApiProxy.Tasks.csproj">
+      <Project>{a635de23-ddc1-43ed-bc5d-d49b7e8a4355}</Project>
+      <Name>WebApiProxy.Tasks</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

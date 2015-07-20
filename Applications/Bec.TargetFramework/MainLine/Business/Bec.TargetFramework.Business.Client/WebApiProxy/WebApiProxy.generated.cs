@@ -61,7 +61,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		HttpClient HttpClient { get; }
 	}
 
-	
 	public partial interface IAddressLogicClient : IClientBase	{	
 
 		/// <param name="postCode"></param>
@@ -74,7 +73,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<PostCodeDTO> FindAddressesByPostCode(String postCode,String buildingNameOrNumber);
 
-
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		Task<GoogleGeoCodeResponse> GeoCodePostcodeAsync(String postCode);
@@ -82,10 +80,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="postCode"></param>
 		/// <returns></returns>
 		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
-
-				
 	}
-	
+
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -93,7 +89,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		List<CountryCodeDTO> GetCountries();
-
 
 		/// <param name="typeName"></param>
 		/// <returns></returns>
@@ -103,7 +98,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<ClassificationTypeDTO> GetRootClassificationDataForTypeName(String typeName);
 
-
 		/// <param name="classificationTypeID"></param>
 		/// <returns></returns>
 		Task<List<ClassificationTypeDTO>> GetSubClassificationDataForParentIDAsync(Int32 classificationTypeID);
@@ -111,7 +105,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="classificationTypeID"></param>
 		/// <returns></returns>
 		List<ClassificationTypeDTO> GetSubClassificationDataForParentID(Int32 classificationTypeID);
-
 
 		/// <param name="categoryName"></param>
 		/// <param name="typeName"></param>
@@ -122,10 +115,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="typeName"></param>
 		/// <returns></returns>
 		Int32 GetClassificationDataForTypeName(String categoryName,String typeName);
-
-				
 	}
-	
+
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
@@ -136,13 +127,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean DoesInvoiceExistForShoppingCart(Guid shoppingCartId);
 
-
 		/// <returns></returns>
 		Task<VOrganisationDetailDTO> GetPaymentProviderOrganisationDetailAsync();
 
 		/// <returns></returns>
 		VOrganisationDetailDTO GetPaymentProviderOrganisationDetail();
-
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -152,7 +141,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatus(Guid invoiceID);
 
-
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
 		Task<InvoiceDTO> GetInvoiceForShoppingCartAsync(Guid shoppingCartId);
@@ -160,7 +148,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="shoppingCartId"></param>
 		/// <returns></returns>
 		InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId);
-
 
 		/// <param name="cartID"></param>
 		/// <returns></returns>
@@ -170,7 +157,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task DeleteInvoiceAsync(Guid invoiceID);
@@ -178,7 +164,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void DeleteInvoice(Guid invoiceID);
-
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -188,7 +173,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void FreezeInvoice(Guid invoiceID);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task CloseInvoiceAsync(Guid invoiceID);
@@ -196,7 +180,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void CloseInvoice(Guid invoiceID);
-
 
 		/// <param name="invoiceID"></param>
 		/// <param name="value"></param>
@@ -208,7 +191,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceWithAccountingStatus(Guid invoiceID,InvoiceAccountingStatusIDEnum value);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task MarkInvoiceAsPaidAsync(Guid invoiceID);
@@ -216,7 +198,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void MarkInvoiceAsPaid(Guid invoiceID);
-
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -226,7 +207,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceAsUnpaid(Guid invoiceID);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task MarkInvoiceAsCancelledAsync(Guid invoiceID);
@@ -234,7 +214,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void MarkInvoiceAsCancelled(Guid invoiceID);
-
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -244,7 +223,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceAsProcessing(Guid invoiceID);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task MarkInvoiceAsPaymentDueAsync(Guid invoiceID);
@@ -252,7 +230,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void MarkInvoiceAsPaymentDue(Guid invoiceID);
-
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -262,7 +239,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceAsActive(Guid invoiceID);
 
-
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		Task MarkInvoiceAsPaymentScheduledAsync(Guid invoiceID);
@@ -270,10 +246,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
 		void MarkInvoiceAsPaymentScheduled(Guid invoiceID);
-
-				
 	}
-	
+
 	public partial interface INotificationLogicClient : IClientBase	{	
 
 		/// <param name="uaoID"></param>
@@ -296,13 +270,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriod(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
 
-
 		/// <returns></returns>
 		Task SaveNotificationAsync(NotificationDTO dto);
 
 		/// <returns></returns>
 		void SaveNotification(NotificationDTO dto);
-
 
 		/// <param name="userTypeID"></param>
 		/// <param name="organisationTypeID"></param>
@@ -316,7 +288,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VNotificationConstructGroupDTO> GetNotificationGroupConstructs(Guid userTypeID,Int32 organisationTypeID,NotificationGroupTypeIDEnum enumValue);
 
-
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
@@ -326,7 +297,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
 		NotificationConstructDTO GetNotificationConstruct(Guid organisationNotificationConstructID,Int32 versionNumber);
-
 
 		/// <param name="userAccountOrganisationID"></param>
 		/// <param name="userTypeID"></param>
@@ -342,7 +312,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VNotificationWithUAOVerificationCodeDTO> GetAllUserNotificationsForUserWithNotificationGroupNotAccepted(Guid userAccountOrganisationID,Guid userTypeID,Int32 organisationTypeId,NotificationGroupTypeIDEnum groupEnumValue);
 
-
 		/// <param name="name"></param>
 		/// <returns></returns>
 		Task<NotificationConstructDTO> GetLatestNotificationConstructIdFromNameAsync(String name);
@@ -350,7 +319,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="name"></param>
 		/// <returns></returns>
 		NotificationConstructDTO GetLatestNotificationConstructIdFromName(String name);
-
 
 		/// <param name="organisationNotificationConstructID"></param>
 		/// <param name="versionNumber"></param>
@@ -362,7 +330,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VNotificationConstructDTO GetNotificationConstructViewData(Guid organisationNotificationConstructID,Int32 versionNumber);
 
-
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
@@ -372,7 +339,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
-
 
 		/// <param name="accountID"></param>
 		/// <param name="constructName"></param>
@@ -384,7 +350,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName);
 
-
 		/// <param name="accountID"></param>
 		/// <returns></returns>
 		Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
@@ -392,7 +357,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountID"></param>
 		/// <returns></returns>
 		NotificationResultDTO GetTcAndCsText(Guid accountID);
-
 
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
@@ -404,7 +368,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber);
 
-
 		/// <param name="notificationID"></param>
 		/// <returns></returns>
 		Task MarkAcceptedAsync(Guid notificationID);
@@ -412,7 +375,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationID"></param>
 		/// <returns></returns>
 		void MarkAccepted(Guid notificationID);
-
 
 		/// <param name="eventStatusID"></param>
 		/// <param name="status"></param>
@@ -430,7 +392,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void UpdateEventStatus(Guid eventStatusID,String status,String recipients,String subject,String body);
 
-
 		/// <param name="eventName"></param>
 		/// <param name="eventReference"></param>
 		/// <returns></returns>
@@ -440,10 +401,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="eventReference"></param>
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
-
-				
 	}
-	
+
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 
 		/// <param name="days"></param>
@@ -457,7 +416,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="minutes"></param>
 		/// <returns></returns>
 		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
-
 
 		/// <param name="manual"></param>
 		/// <param name="line1"></param>
@@ -477,13 +435,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode);
 
-
 		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
 
 		/// <returns></returns>
 		void RejectOrganisation(RejectCompanyDTO dto);
-
 
 		/// <param name="organisationID"></param>
 		/// <returns></returns>
@@ -493,7 +449,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ActivateOrganisation(Guid organisationID);
 
-
 		/// <param name="orgStatus"></param>
 		/// <returns></returns>
 		Task<List<VOrganisationWithStatusAndAdminDTO>> GetCompaniesAsync(ProfessionalOrganisationStatusEnum orgStatus);
@@ -502,7 +457,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus);
 
-
 		/// <param name="organisationType"></param>
 		/// <returns></returns>
 		Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
@@ -510,7 +464,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationType"></param>
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
-
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
@@ -530,7 +483,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,ContactDTO userContactDto);
 
-
 		/// <param name="userOrgID"></param>
 		/// <returns></returns>
 		Task CreateTsAndCsNotificationAsync(Guid userOrgID);
@@ -539,13 +491,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void CreateTsAndCsNotification(Guid userOrgID);
 
-
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
 
 		/// <returns></returns>
 		Nullable<Guid> GetTemporaryOrganisationBranchID();
-
 
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -554,7 +504,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="id"></param>
 		/// <returns></returns>
 		VOrganisationDTO GetOrganisationDTO(Guid id);
-
 
 		/// <param name="orgID"></param>
 		/// <param name="enumType"></param>
@@ -572,7 +521,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
-
 		/// <param name="orgID"></param>
 		/// <returns></returns>
 		Task<Guid> AddSmsTransactionAsync(Guid orgID,SmsTransactionDTO dto);
@@ -580,10 +528,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto);
-
-				
 	}
-	
+
 	public partial interface IPaymentLogicClient : IClientBase	{	
 
 		/// <param name="transactionOrderId"></param>
@@ -594,7 +540,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderPaymentDTO GetTheSuccessfulOrderPaymentForTransactionOrder(Guid transactionOrderId);
 
-
 		/// <param name="transactionOrderId"></param>
 		/// <returns></returns>
 		Task<Boolean> DoesASuccessfulOrderPaymentExistForTransactionOrderAsync(Guid transactionOrderId);
@@ -603,16 +548,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean DoesASuccessfulOrderPaymentExistForTransactionOrder(Guid transactionOrderId);
 
-
 		/// <returns></returns>
 		Task<TransactionOrderPaymentDTO> ProcessPaymentTransactionAsync(OrderRequestDTO request);
 
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
-
-				
 	}
-	
+
 	public partial interface IProductLogicClient : IClientBase	{	
 
 		/// <param name="productId"></param>
@@ -624,23 +566,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
 		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
-
-				
 	}
-	
-	public partial interface IQueryLogicClient : IClientBase	{	
 
-		/// <param name="id"></param>
-		/// <returns></returns>
-        Task<Newtonsoft.Json.Linq.JObject> GetAsync(String id, string query);
-
-		/// <param name="id"></param>
-		/// <returns></returns>
-        Newtonsoft.Json.Linq.JObject Get(String id, string query);
-
-				
-	}
-	
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
 
 		/// <param name="userAccountOrganisationID"></param>
@@ -657,7 +584,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		ShoppingCartDTO CreateShoppingCart(Guid userAccountOrganisationID,PaymentCardTypeIDEnum cardTypeEnum,PaymentMethodTypeIDEnum paymentTypeEnum,String countryCode);
 
-
 		/// <param name="cartID"></param>
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
@@ -672,7 +598,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity);
 
-
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
 		/// <returns></returns>
@@ -682,10 +607,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="itemID"></param>
 		/// <returns></returns>
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
-
-				
 	}
-	
+
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -693,10 +616,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		Dictionary<String, String> GetSettings();
-
-				
 	}
-	
+
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
 
 		/// <param name="invoiceId"></param>
@@ -707,7 +628,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderDTO GetTransactionForInvoice(Guid invoiceId);
 
-
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
 		Task<Boolean> DoesTransactionExistForInvoiceAsync(Guid invoiceId);
@@ -715,7 +635,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="invoiceId"></param>
 		/// <returns></returns>
 		Boolean DoesTransactionExistForInvoice(Guid invoiceId);
-
 
 		/// <param name="invoiceID"></param>
 		/// <param name="typeEnumValue"></param>
@@ -726,10 +645,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="typeEnumValue"></param>
 		/// <returns></returns>
 		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
-
-				
 	}
-	
+
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
 
 		/// <param name="requestData"></param>
@@ -739,10 +656,8 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="requestData"></param>
 		/// <returns></returns>
 		void CreateAndSaveAudit(String requestData,WebUserObject wuo);
-
-				
 	}
-	
+
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
 
 		/// <param name="username"></param>
@@ -755,13 +670,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserLoginValidation AuthenticateUser(String username,String password);
 
-
 		/// <returns></returns>
 		Task<ContactDTO> AddUserAsync(ContactDTO dto);
 
 		/// <returns></returns>
 		ContactDTO AddUser(ContactDTO dto);
-
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
@@ -773,7 +686,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ResetUserPassword(Guid userID,String newPassword);
 
-
 		/// <param name="userID"></param>
 		/// <returns></returns>
 		Task<Boolean> HasPasswordExpiredAsync(Guid userID);
@@ -781,7 +693,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userID"></param>
 		/// <returns></returns>
 		Boolean HasPasswordExpired(Guid userID);
-
 
 		/// <param name="userId"></param>
 		/// <param name="lockUser"></param>
@@ -793,7 +704,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void LockOrUnlockUser(Guid userId,Boolean lockUser);
 
-
 		/// <param name="userName"></param>
 		/// <returns></returns>
 		Task<Boolean> IsUserExistAsync(String userName);
@@ -801,7 +711,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userName"></param>
 		/// <returns></returns>
 		Boolean IsUserExist(String userName);
-
 
 		/// <param name="email"></param>
 		/// <returns></returns>
@@ -811,7 +720,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IsEmailExist(String email);
 
-
 		/// <param name="contactID"></param>
 		/// <returns></returns>
 		Task<IEnumerable<AddressDTO>> GetUserAddressesAsync(Guid contactID);
@@ -820,13 +728,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		IEnumerable<AddressDTO> GetUserAddresses(Guid contactID);
 
-
 		/// <returns></returns>
 		Task<List<UserAccount>> GetAllUserAccountAsync();
 
 		/// <returns></returns>
 		List<UserAccount> GetAllUserAccount();
-
 
 		/// <param name="key"></param>
 		/// <returns></returns>
@@ -836,7 +742,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccount GetUserAccount(Guid key);
 
-
 		/// <param name="email"></param>
 		/// <returns></returns>
 		Task<UserAccount> GetBAUserAccountByEmailAsync(String email);
@@ -844,7 +749,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <returns></returns>
 		UserAccount GetBAUserAccountByEmail(String email);
-
 
 		/// <param name="email"></param>
 		/// <param name="id"></param>
@@ -856,7 +760,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccount GetBAUserAccountByEmailAndNotID(String email,Guid id);
 
-
 		/// <param name="username"></param>
 		/// <returns></returns>
 		Task<UserAccount> GetBAUserAccountByUsernameAsync(String username);
@@ -864,7 +767,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="username"></param>
 		/// <returns></returns>
 		UserAccount GetBAUserAccountByUsername(String username);
-
 
 		/// <param name="email"></param>
 		/// <param name="permanentAccountonly"></param>
@@ -876,7 +778,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<UserAccountDTO> GetUserAccountByEmail(String email,Boolean permanentAccountonly);
 
-
 		/// <param name="userName"></param>
 		/// <returns></returns>
 		Task<UserAccountDTO> GetUserAccountByUsernameAsync(String userName);
@@ -884,7 +785,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userName"></param>
 		/// <returns></returns>
 		UserAccountDTO GetUserAccountByUsername(String userName);
-
 
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -894,7 +794,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<ContactDTO> GetUserContacts(Guid userId);
 
-
 		/// <param name="key"></param>
 		/// <returns></returns>
 		Task<List<UserAccount>> GetUserAccountsAsync(Guid key);
@@ -902,7 +801,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="key"></param>
 		/// <returns></returns>
 		List<UserAccount> GetUserAccounts(Guid key);
-
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -912,13 +810,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID);
 
-
 		/// <returns></returns>
 		Task<UserAccount> CreateUserAccountAsync();
 
 		/// <returns></returns>
 		UserAccount CreateUserAccount();
-
 
 		/// <returns></returns>
 		Task AddUserAccountAsync(UserAccount user);
@@ -926,20 +822,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddUserAccount(UserAccount user);
 
-
 		/// <returns></returns>
 		Task RemoveUserAccountAsync(UserAccount user);
 
 		/// <returns></returns>
 		void RemoveUserAccount(UserAccount user);
 
-
 		/// <returns></returns>
 		Task UpdateUserAccountAsync(UserAccount user);
 
 		/// <returns></returns>
 		void UpdateUserAccount(UserAccount user);
-
 
 		/// <param name="userId"></param>
 		/// <param name="organisationID"></param>
@@ -951,7 +844,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<UserClaimDTO> GetUserClaims(Guid userId,Guid organisationID);
 
-
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Task<ContactDTO> GetUserAccountOrganisationPrimaryContactAsync(Guid uaoID);
@@ -959,7 +851,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID);
-
 
 		/// <param name="accountID"></param>
 		/// <param name="personalOrg"></param>
@@ -971,7 +862,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID,Boolean personalOrg);
 
-
 		/// <param name="accountID"></param>
 		/// <returns></returns>
 		Task<List<VUserAccountOrganisationUserTypeOrganisationTypeDTO>> GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(Guid accountID);
@@ -980,7 +870,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID);
 
-
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Task<List<String>> UserLoginSessionsAsync(Guid userId);
@@ -988,7 +877,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		List<String> UserLoginSessions(Guid userId);
-
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -999,7 +887,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
 		void LogEveryoneElseOut(Guid userId,String sessionId);
-
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -1017,7 +904,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void SaveUserAccountLoginSession(Guid userId,String sessionId,String userHostAddress,String userIdAddress,String userLocation);
 
-
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
@@ -1028,7 +914,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void SaveUserAccountLoginSessionData(Guid userId,String sessionId,Dictionary<String, String> requestData);
 
-
 		/// <param name="tempUserId"></param>
 		/// <returns></returns>
 		Task LockUserTemporaryAccountAsync(Guid tempUserId);
@@ -1036,7 +921,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="tempUserId"></param>
 		/// <returns></returns>
 		void LockUserTemporaryAccount(Guid tempUserId);
-
 
 		/// <param name="userID"></param>
 		/// <param name="isTemporary"></param>
@@ -1048,7 +932,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean DoesUserExist(Guid userID,Boolean isTemporary);
 
-
 		/// <param name="userID"></param>
 		/// <returns></returns>
 		Task<UserAccountOrganisationDTO> GetPermanentUAOAsync(Guid userID);
@@ -1057,7 +940,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccountOrganisationDTO GetPermanentUAO(Guid userID);
 
-
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Task<Guid> GetPersonalUserAccountOrganisationAsync(Guid userId);
@@ -1065,7 +947,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Guid GetPersonalUserAccountOrganisation(Guid userId);
-
 
 		/// <param name="email"></param>
 		/// <param name="password"></param>
@@ -1080,7 +961,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		UserAccount CreateTemporaryAccount(String email,String password,Boolean temporaryAccount,Guid userId);
-
 
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
@@ -1098,13 +978,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccount CreateAccount(String userName,String password,String email,Boolean temporaryAccount,Guid userId);
 
-
 		/// <returns></returns>
 		Task CreateContactAsync(ContactDTO contactDTO);
 
 		/// <returns></returns>
 		void CreateContact(ContactDTO contactDTO);
-
 
 		/// <param name="parentID"></param>
 		/// <returns></returns>
@@ -1114,7 +992,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean ContactExists(Guid parentID);
 
-
 		/// <param name="userID"></param>
 		/// <returns></returns>
 		Task DeleteAccountAsync(Guid userID);
@@ -1122,7 +999,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userID"></param>
 		/// <returns></returns>
 		void DeleteAccount(Guid userID);
-
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1132,13 +1008,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void CloseAccount(Guid userID);
 
-
 		/// <returns></returns>
 		Task<List<VUserAccountNotLoggedInDTO>> GetUserAccountsNotLoggedInAsync();
 
 		/// <returns></returns>
 		List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn();
-
 
 		/// <param name="email"></param>
 		/// <returns></returns>
@@ -1147,7 +1021,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="email"></param>
 		/// <returns></returns>
 		void SendUsernameReminder(String email);
-
 
 		/// <param name="username"></param>
 		/// <param name="siteUrl"></param>
@@ -1159,7 +1032,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void SendPasswordResetNotification(String username,String siteUrl);
 
-
 		/// <param name="requestID"></param>
 		/// <returns></returns>
 		Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID);
@@ -1167,7 +1039,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="requestID"></param>
 		/// <returns></returns>
 		Guid ExpirePasswordResetRequest(Guid requestID);
-
 
 		/// <param name="requestID"></param>
 		/// <returns></returns>
@@ -1177,7 +1048,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IsPasswordResetRequestValid(Guid requestID);
 
-
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Task GeneratePinAsync(Guid uaoID);
@@ -1186,7 +1056,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void GeneratePin(Guid uaoID);
 
-
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Task<Boolean> IncrementInvalidPINAsync(Guid uaoID);
@@ -1194,7 +1063,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Boolean IncrementInvalidPIN(Guid uaoID);
-
 
 		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
@@ -1212,7 +1080,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void RegisterUser(Guid orgID,Guid tempUaoId,UserTypeEnum userType,String username,String password);
 
-
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
 		Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId);
@@ -1220,8 +1087,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
 		UserAccountOrganisationDTO ResendLogins(Guid uaoId);
-
-				
 	}
 
 }
@@ -2717,51 +2582,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user)).Result;
-		}
-
-		#endregion
-	}
-	/// <summary>
-	/// 
-	/// </summary>
-	public partial class QueryLogicClient : ClientBase, Interfaces.IQueryLogicClient	{		
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public QueryLogicClient(string url) : base(url)
-		{
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public QueryLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
-		{
-		}
-
-		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-        public virtual Task<Newtonsoft.Json.Linq.JObject> GetAsync(String id, string query)
-		{
-			id = id.UrlEncode();
-			string _user = getHttpContextUser();
-            return GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="id"></param>
-        public virtual Newtonsoft.Json.Linq.JObject Get(String id, string query)
-		{
-			id = id.UrlEncode();
-			string _user = getHttpContextUser();
-            return Task.Run(() => GetAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/Get/" + id + "?" + query, _user)).Result;
 		}
 
 		#endregion
