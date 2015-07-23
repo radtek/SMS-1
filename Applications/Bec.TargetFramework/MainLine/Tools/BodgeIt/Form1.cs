@@ -73,7 +73,7 @@ namespace BodgeIt
             MessageBox.Show("Done");
         }
 
-        private async Task SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+        private async Task<HttpResponseMessage> SendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
         {
             var req = new HttpRequestMessage
             {
@@ -82,16 +82,19 @@ namespace BodgeIt
             };
             if (value != null) req.Content = new ObjectContent<T>(value, new JsonMediaTypeFormatter(), (MediaTypeHeaderValue)null);
             if (user != null) req.Headers.Add("User", user);
-            try
-            {
+            //try
+            //{
+            //    var x = await client.SendAsync(req);
+            //    x.EnsureSuccessStatusCode();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
                 var x = await client.SendAsync(req);
-                x.EnsureSuccessStatusCode();
+           // x.EnsureSuccessStatusCode();
+            return x;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -212,7 +215,7 @@ namespace BodgeIt
             MessageBox.Show("Done");
         }
 
-        private async void button7_Click(object sender, EventArgs e)
+        private async void buttonAutoAdmin_Click(object sender, EventArgs e)
         {
             button4_Click(this, null);
 
@@ -229,6 +232,31 @@ namespace BodgeIt
                 await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), comboType.SelectedValue, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
             }
             MessageBox.Show("Done");
+        }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+            //var r = await SendAsync<object>(client, string.Format("api/OrganisationLogic/GetUsers?$select=UserID,NickName&$expand=Contact($select=Salutation,FirstName,LastName)"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference,CreatedOn&$expand=Address($select=Line1,PostalCode)"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("odata/test(Id='SmsTransactions')?$select=Reference&$count=true"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("odata/GetSalesTaxRate(PostalCode=10)"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("odata/test(Id='SmsTransactions')"), HttpMethod.Get, "user", null);
+
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true&$top=3&$skip=0"), HttpMethod.Get, "user", null);
+            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$count=true"), HttpMethod.Get, "user", null);
+            
+            var s = await r.Content.ReadAsStringAsync();
+            MessageBox.Show(r.StatusCode + Environment.NewLine + s);
+        }
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:63262/") };
+            var r = await SendAsync<object>(client, string.Format("api/Values?$count=true&$select=Id,CustomerId&$filter=Num1 lt 20"), HttpMethod.Get, "user", null);
+            var s = await r.Content.ReadAsStringAsync();
+            MessageBox.Show(r.StatusCode + Environment.NewLine + s);
         }
     }
 }

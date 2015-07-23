@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.OData;
+using System.Web.OData.Query;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -46,21 +48,21 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-        {
+                    {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var varifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                uao.UserAccount.IsLoginAllowed = false;
-                uao.PinCode = null;
+                        uao.UserAccount.IsLoginAllowed = false;
+                        uao.PinCode = null;
 
-                if (uao.Organisation != null)
-                {
-                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                        if (uao.Organisation != null)
+                        {
+                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
                     if (status != null && status.StatusTypeValueID == varifiedStatus.StatusTypeValueID)
-                        await ExpireOrganisationAsync(uao.OrganisationID);
-                }
+                                await ExpireOrganisationAsync(uao.OrganisationID);
+                        }
                 await scope.SaveAsync();
             }
         }
@@ -190,6 +192,7 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     var existingUserContact = scope.DbContext.Contacts.Single(c => c.ContactID == userContactDto.ContactID);
                     existingUserContact.ParentID = userOrgID.Value;
+
                     uao.PrimaryContactID = existingUserContact.ContactID;
                 }
                 uaoDto = uao.ToDto();
@@ -228,7 +231,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             string eventName = "TestEvent";
             switch (userType)
-            {
+        {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
@@ -392,17 +395,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VUserAccountOrganisationDTO> GetUsers(Guid organisationID, bool temporary, bool loginAllowed, bool hasPin)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                //if (hasPin)
-                    return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed && x.PinCreated.HasValue == hasPin).ToDtos();
-                //else
-                    //return scope.DbContext.VUserAccountOrganisations.Where(x => x.OrganisationID == organisationID && x.IsTemporaryAccount == temporary && x.IsLoginAllowed == loginAllowed).ToDtos();
-            }
-        }
-
         public async Task AddOrganisationStatusAsync(Guid orgID, StatusTypeEnum enumType, ProfessionalOrganisationStatusEnum status, int? reason, string notes)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
@@ -420,14 +412,6 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusChangedBy = UserNameService.UserName
                 });
                 await scope.SaveAsync();
-            }
-        }
-
-        public List<SmsTransactionDTO> GetSmsTransactions(Guid orgID)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                return scope.DbContext.SmsTransactions.Where(x => x.OrganisationID == orgID).ToDtosWithRelated(1);
             }
         }
 

@@ -118,29 +118,36 @@
             {
                 gridElementId: 'nGrid',
                 url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = false }))',
-                schema: { data: "list", total: "total", model: { id: "ID" } },
-                defaultSort: { field: "LastName", dir: "asc" },
+                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
+                defaultSort: { field: "Contact.LastName", dir: "asc" },
                 panels: ['nPanel'],
                 change: nChange,
                 jumpToId: '@TempData["UserId"]',
                 columns: [
                         {
-                            field: "ID",
+                            field: "UserID",
                             hidden: true,
                         },
                         {
-                            field: "LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
+                            field: "Contact.Salutation",
+                            title: "Salutation"
                         },
                         {
-                            field: "Email",
+                            field: "Contact.LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        },
+                        {
+                            field: "UserAccount.Email",
                             title: "Email"
                         },
                         {
-                            field: "Created",
+                            field: "UserAccount.Created",
                             title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.Created); }
+                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
                         }
                 ]
             });
@@ -149,29 +156,36 @@
             {
                 gridElementId: 'wGrid',
                 url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true, hasPin = true }))',
-                schema: { data: "list", total: "total", model: { id: "ID" } },
-                defaultSort: { field: "LastName", dir: "asc" },
+                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
+                defaultSort: { field: "Contact.LastName", dir: "asc" },
                 panels: ['wPanel'],
                 change: wChange,
                 jumpToId: '@TempData["UserId"]',
                 columns: [
                         {
-                            field: "ID",
+                            field: "UserID",
                             hidden: true,
                         },
                         {
-                            field: "LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
+                            field: "Contact.Salutation",
+                            title: "Salutation"
                         },
                         {
-                            field: "Email",
+                            field: "Contact.LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        },
+                        {
+                            field: "UserAccount.Email",
                             title: "Email"
                         },
                         {
-                            field: "Created",
+                            field: "UserAccount.Created",
                             title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.Created); }
+                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
                         },
                         {
                             field: "PinCode",
@@ -191,29 +205,36 @@
             {
                 gridElementId: 'eGrid',
                 url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = true }))',
-                schema: { data: "list", total: "total", model: { id: "ID" } },
-                defaultSort: { field: "LastName", dir: "asc" },
+                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
+                defaultSort: { field: "Contact.LastName", dir: "asc" },
                 panels: ['ePanel'],
                 change: eChange,
                 jumpToId: '@TempData["UserId"]',
                 columns: [
                         {
-                            field: "ID",
+                            field: "UserID",
                             hidden: true,
                         },
                         {
-                            field: "LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName; }
+                            field: "Contact.Salutation",
+                            title: "Salutation"
                         },
                         {
-                            field: "Email",
+                            field: "Contact.LastName",
+                            title: "Name",
+                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        },
+                        {
+                            field: "UserAccount.Email",
                             title: "Email"
                         },
                         {
-                            field: "Created",
+                            field: "UserAccount.Created",
                             title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.Created); }
+                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
                         },
                         {
                             field: "PinCreated",
@@ -246,28 +267,31 @@
 
         //data binding for the panes beneath each grid
         function nChange(dataItem) {
-            $("p#ddnName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
-            $("p#ddnEmail").text(dataItem.Email || "");
+            $("p#ddnSal").text(dataItem.Contact.Salutation || "");
+            $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+            $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
 
-            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
-            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
+            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
         }
         function wChange(dataItem) {
-            $("p#ddwName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
-            $("p#ddwEmail").text(dataItem.Email || "");
+            $("p#ddwSal").text(dataItem.Contact.Salutation || "");
+            $("p#ddwName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+            $("p#ddwEmail").text(dataItem.UserAccount.Email || "");
             $("p#ddwPin").text(dataItem.PinCode || "");
             $("p#ddwPinCreated").text(dateString(dataItem.PinCreated));
 
-            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
-            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
+            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
         }
         function eChange(dataItem) {
-            $("p#ddeName").text(dataItem.Salutation + " " + dataItem.FirstName + " " + dataItem.LastName);
-            $("p#ddeEmail").text(dataItem.Email || "");
+            $("p#ddeSal").text(dataItem.Contact.Salutation || "");
+            $("p#ddeName").text(dataItem.FirstName + " " + dataItem.Contact.LastName);
+            $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
             $("p#ddePinCreated").text(dateString(dataItem.PinCreated));
 
-            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.ID + "&label=" +encodeURIComponent( dataItem.FirstName + " " + dataItem.LastName));
-            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.ID + "&label=" + encodeURIComponent(dataItem.FirstName + " " + dataItem.LastName));
+            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
         }
 
     </script>

@@ -72,6 +72,7 @@ namespace Bec.TargetFramework.Entities
             target.IsForgotPasswordRequestAllowed = source.IsForgotPasswordRequestAllowed;
             target.LastForgotUsernameFailedAttempt = source.LastForgotUsernameFailedAttempt;
             target.LastForgotPasswordFailedAttempt = source.LastForgotPasswordFailedAttempt;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
@@ -143,6 +144,7 @@ namespace Bec.TargetFramework.Entities
             target.IsForgotPasswordRequestAllowed = source.IsForgotPasswordRequestAllowed;
             target.LastForgotUsernameFailedAttempt = source.LastForgotUsernameFailedAttempt;
             target.LastForgotPasswordFailedAttempt = source.LastForgotPasswordFailedAttempt;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);

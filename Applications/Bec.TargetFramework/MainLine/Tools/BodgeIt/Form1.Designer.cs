@@ -55,6 +55,7 @@
             this.comboType = new System.Windows.Forms.ComboBox();
             this.textOrgId = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.comboAddress = new System.Windows.Forms.ComboBox();
@@ -68,7 +69,8 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.buttonAutoAdmin = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -167,7 +169,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label12);
@@ -179,6 +180,7 @@
             this.groupBox2.Controls.Add(this.textLastName);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.buttonAutoAdmin);
             this.groupBox2.Controls.Add(this.textFirstName);
             this.groupBox2.Controls.Add(this.textSalutation);
             this.groupBox2.Controls.Add(this.label6);
@@ -339,6 +341,16 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Org ID";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(424, 396);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "Test";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(473, 39);
@@ -470,21 +482,33 @@
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
             // 
-            // button7
+            // button8
             // 
-            this.button7.Location = new System.Drawing.Point(213, 211);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 17;
-            this.button7.Text = "Add T1-T5";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button8.Location = new System.Drawing.Point(565, 396);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 11;
+            this.button8.Text = "Test";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // buttonAutoAdmin
+            // 
+            this.buttonAutoAdmin.Location = new System.Drawing.Point(213, 211);
+            this.buttonAutoAdmin.Name = "buttonAutoAdmin";
+            this.buttonAutoAdmin.Size = new System.Drawing.Size(75, 23);
+            this.buttonAutoAdmin.TabIndex = 17;
+            this.buttonAutoAdmin.Text = "Add T1-T5";
+            this.buttonAutoAdmin.UseVisualStyleBackColor = true;
+            this.buttonAutoAdmin.Click += new System.EventHandler(this.buttonAutoAdmin_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 470);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.comboDB);
@@ -553,6 +577,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button buttonAutoAdmin;
     }
 }
 

@@ -2,10 +2,14 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using Bec.TargetFramework.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,8 +20,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     public class UsersController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
-        public IUserLogicClient userClient { get; set;
-        }
+        public IUserLogicClient userClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
+
         // GET: ProOrganisation/Users
         public ActionResult Invited()
         {
@@ -33,9 +38,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var list = await orgClient.GetUsersAsync(orgID, temporary, loginAllowed, hasPin);
-            var jsonData = new { total = list.Count, list };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
+            {
+                x.UserAccountOrganisationID,
+                x.UserID,
+                x.PinCode,
+                x.PinCreated,
+                x.UserAccount.ID,
+                x.UserAccount.Email,
+                x.UserAccount.Username,
+                x.UserAccount.Created,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName
+            });
+
+            var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+                x.OrganisationID == orgID &&
+                x.UserAccount.IsTemporaryAccount == temporary &&
+                x.UserAccount.IsLoginAllowed == loginAllowed);
+
+            if (hasPin)
+                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode != null));
+            else
+                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode == null));
+
+            var filter = ODataHelper.Filter(where);
+
+            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", Request.QueryString + select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
 
         public ActionResult ViewAddUser()
@@ -104,6 +135,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Invited");
+        }
+
+        public async Task<ActionResult> ViewEditUser(Guid uaoID)
+        {
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
+            {
+                x.UserAccountOrganisationID,
+                x.UserAccount.Email,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName
+            }, true);
+
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", Request.QueryString + select + filter);
+
+            ViewBag.uaoID = uaoID;
+            return PartialView("_EditUser", res.First());//.ToString(Formatting.None));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditUser(Guid uaoID)
+        {
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            await queryClient.UpdateGraphAsync("UserAccountOrganisations", Request.Form, filter);
+            return RedirectToAction("Registered");
         }
     }
 }
