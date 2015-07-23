@@ -21,15 +21,7 @@ namespace Bec.TargetFramework.SB.TaskServices
         {
             try
             {
-                bool runAsWindowsService = true;
-                
-                if (args != null && args.Length > 0)
-                {
-                    if (args[0].Equals("-c"))
-                        runAsWindowsService = false;
-                }
-
-                if (runAsWindowsService)
+                if (!Environment.UserInteractive)
                 {
                     ServiceBase[] ServicesToRun;
                     ServicesToRun = new ServiceBase[] 
@@ -40,21 +32,16 @@ namespace Bec.TargetFramework.SB.TaskServices
                 }
                 else
                 {
+                    TaskService service = new TaskService();
+
                     try
                     {
-                        using (var service = new TaskService())
-                        {
-                            service.StartService(args);
+                        service.StartService(args);
 
-                            Console.WriteLine("Press <Enter> to stop the Task Service.");
-                            Console.ReadLine();
+                        Console.WriteLine("Press <Enter> to stop the Task service.");
+                        Console.ReadLine();
 
-                            if (service.CanStop)
-                                service.Stop();
-
-                            return;
-                        }
-
+                        service.Stop();
                     }
                     catch (Exception ex)
                     {
@@ -62,6 +49,10 @@ namespace Bec.TargetFramework.SB.TaskServices
                             new SerilogLogger(true, false, "TaskService").Error(ex);
                         else
                             Serilog.Log.Logger.Error(ex, ex.Message, null);
+                    }
+                    finally
+                    {
+                        service.Dispose();
                     }
                 }
             }
