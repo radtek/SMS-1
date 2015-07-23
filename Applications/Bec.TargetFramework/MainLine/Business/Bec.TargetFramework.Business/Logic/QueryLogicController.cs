@@ -1,9 +1,12 @@
 ﻿using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Infrastructure;
 using Microsoft.OData.Edm;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +60,45 @@ namespace Bec.TargetFramework.Business.Logic
         {
             if (disposing && db != null) db.Dispose();
             base.Dispose(disposing);
+        }
+
+        public async Task UpdateGraph(string id, JObject patch)
+        {
+            var dbSet = dbType.GetProperty(id).GetValue(db) as IQueryable;
+            var itemType = dbSet.GetType().GetGenericArguments()[0];
+
+            var model = this.GetEdmModel(itemType);
+            var entitySetContext = new ODataQueryContext(model, itemType, Request.ODataProperties().Path);
+            var options = new ODataQueryOptions(entitySetContext, Request);
+
+            var res = options.ApplyTo(dbSet);
+            var list = await res.ToListAsync();
+            var item = list.Single();
+
+            patchObject(db, item, patch);
+
+            await db.SaveChangesAsync();
+        }
+
+        private void patchObject(DbContext dbc, object obj, JObject patch)
+        {
+            var t = obj.GetType();
+            foreach (var prop in patch.Properties())
+            {
+                var p = t.GetProperty(prop.Name);
+                if (p != null)
+                {
+                    if (prop.Value is JObject)
+                        patchObject(dbc, p.GetValue(obj), prop.Value as JObject);
+                    else
+                    {
+                        if (prop.Name == "RowVersion")
+                            dbc.Entry(obj).Property("RowVersion").OriginalValue = (Int64)prop.Value;
+                        else
+                            p.SetValue(obj, (prop.Value as JValue).Value);
+                    }
+                }
+            }
         }
     }
 

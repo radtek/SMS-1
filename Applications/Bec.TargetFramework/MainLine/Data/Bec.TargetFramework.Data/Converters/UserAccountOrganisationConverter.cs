@@ -46,6 +46,7 @@ namespace Bec.TargetFramework.Entities
             target.PinCode = source.PinCode;
             target.PinCreated = source.PinCreated;
             target.PinAttempts = source.PinAttempts;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
@@ -94,6 +95,7 @@ namespace Bec.TargetFramework.Entities
             target.PinCode = source.PinCode;
             target.PinCreated = source.PinCreated;
             target.PinAttempts = source.PinAttempts;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);

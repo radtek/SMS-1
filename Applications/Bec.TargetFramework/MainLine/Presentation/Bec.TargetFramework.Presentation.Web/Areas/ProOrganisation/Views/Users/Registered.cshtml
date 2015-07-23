@@ -17,6 +17,7 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
+                        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true">Edit User</a>
                         <h5>Selected User</h5>
                         <dl class="dl-horizontal">
                             <dt>Name:</dt>
@@ -37,11 +38,11 @@
 @section pagespecific {
     <script type="text/javascript">
 
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var iGrid = new gridItem(
-            {
-                gridElementId: 'regGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, hasPin = false }))',
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var iGrid = new gridItem(
+        {
+            gridElementId: 'regGrid',
+            url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, hasPin = false }))',
                 schema: { data: "Items", total: "Count", model: { id: "UserID" } },
                 type: 'odata-v4',
                 serverSorting: true,
@@ -76,6 +77,8 @@
 
         $(document).ready(function () {
             iGrid.makeGrid();
+
+            findModalLinks();
         });
 
         //data binding for the panes beneath each grid
@@ -83,6 +86,8 @@
             $("p#ddName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
             $("p#ddEmail").text(dataItem.UserAccount.Email || "");
             $("p#ddUsername").text(dataItem.UserAccount.Username || "");
+
+            $("#editButton").data('href', '@Url.Action("ViewEditUser", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID);
         }
 
     </script>

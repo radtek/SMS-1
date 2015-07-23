@@ -464,6 +464,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for RowVersion in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> RowVersion
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

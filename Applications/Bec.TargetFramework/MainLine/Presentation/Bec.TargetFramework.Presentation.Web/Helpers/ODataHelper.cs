@@ -19,18 +19,20 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             Expand = new Dictionary<string, Result>();
         }
 
-        public string ToODataString()
+        public string ToODataString(bool includeRowVersions)
         {
-            return ts(true);
+            return ts(true, includeRowVersions);
         }
 
         //build the select query
-        private string ts(bool root)
+        private string ts(bool root, bool includeRowVersions)
         {
             var sb = new StringBuilder();
             if (root) sb.Append("&");
             sb.Append("$select=");
-            sb.Append(string.Join(",", Select));
+            IEnumerable<string> list = Select;
+            if (includeRowVersions) list = list.Concat(new List<string> { "RowVersion" });
+            sb.Append(string.Join(",", list));
 
             if (Expand.Any())
             {
@@ -44,7 +46,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 first = false;
                 sb.Append(x.Key);
                 sb.Append("(");
-                sb.Append(x.Value.ts(false));
+                sb.Append(x.Value.ts(false, includeRowVersions));
                 sb.Append(")");
             }
             return sb.ToString();
@@ -54,7 +56,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
     public static class ODataHelper
     {
         //return a select query for OData
-        public static string Select<T>(Expression<Func<T, object>> expression)
+        public static string Select<T>(Expression<Func<T, object>> expression, bool includeRowVersions = false)
         {
             Result r = new Result();
             var nx = expression.Body as NewExpression;
@@ -78,7 +80,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 }
                 level.Select.Add(mx.Member.Name);
             }
-            return r.ToODataString();
+            return r.ToODataString(includeRowVersions);
         }
 
         //create an expression to use with Expression.And etc

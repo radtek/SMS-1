@@ -879,6 +879,7 @@
     <Content Include="Areas\SmsTransaction\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

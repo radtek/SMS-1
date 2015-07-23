@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.GetAsync("UserAccountOrganisations", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", Request.QueryString + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
@@ -125,6 +125,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Invited");
+        }
+
+        public async Task<ActionResult> ViewEditUser(Guid uaoID)
+        {
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
+            {
+                x.UserAccountOrganisationID,
+                x.UserAccount.Email,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName
+            }, true);
+
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", Request.QueryString + select + filter);
+
+            ViewBag.uaoID = uaoID;
+            return PartialView("_EditUser", res.First());//.ToString(Formatting.None));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditUser(Guid uaoID)
+        {
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            await queryClient.UpdateGraphAsync("UserAccountOrganisations", Request.Form, filter);
+            return RedirectToAction("Registered");
         }
     }
 }
