@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net.Sockets;
+﻿using Bec.TargetFramework.Infrastructure.Serilog;
+using System;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Serilog;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService
 {
+    // TODO ZM: This code is used in multiple places (SBService, BusinessService, TaskService, etc.)
     static class Program
     {
         /// <summary>
@@ -20,47 +14,51 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
         {
             try
             {
-                if (!Environment.UserInteractive)
-                {
-                    ServiceBase[] ServicesToRun;
-                    ServicesToRun = new ServiceBase[] 
-                    { 
-                        new SBService() 
-                    };
-                    ServiceBase.Run(ServicesToRun);
-                }
-                else
-                {
-                    try
-                    {
-                        using (var service = new SBService())
-                        {
-                            service.StartService(args);
-
-                            Console.WriteLine("Press <Enter> to stop the SB Service.");
-                            Console.ReadLine();
-
-                            if (service.CanStop)
-                                service.Stop();
-
-                            return;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (Serilog.Log.Logger == null)
-                            new SerilogLogger(true, false, "TaskService").Error(ex);
-                        else
-                            Serilog.Log.Logger.Error(ex, ex.Message, null);
-                    }
-                }
+                InitialiseWindowsService(args);
             }
             catch (Exception ex)
             {
-                if (Serilog.Log.Logger == null)
-                    new SerilogLogger(true, false, "TaskService").Error(ex);
-                else
-                    Serilog.Log.Logger.Error(ex, ex.Message, null);
+                LogError(ex);
+            }
+        }
+
+        private static void InitialiseWindowsService(string[] args)
+        {
+            if (!Environment.UserInteractive)
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[] 
+                { 
+                    new SBService() 
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+            else
+            {
+                using (var service = new SBService())
+                {
+                    service.StartService(args);
+
+                    Console.WriteLine("Press <Enter> to stop the SB Service.");
+                    Console.ReadLine();
+
+                    if (service.CanStop)
+                    {
+                        service.Stop();
+                    }
+                }
+            }
+        }
+
+        private static void LogError(Exception exeption)
+        {
+            if (Serilog.Log.Logger == null)
+            {
+                new SerilogLogger(true, false, "SBService").Error(exeption);
+            }
+            else
+            {
+                Serilog.Log.Logger.Error(exeption, exeption.Message, null);
             }
         }
     }
