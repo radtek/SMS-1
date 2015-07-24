@@ -1,43 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
+﻿using Autofac;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.SB.Infrastructure;
+using Bec.TargetFramework.WindowsService;
+using Microsoft.Owin.Hosting;
+using NServiceBus;
+using System;
+using System.Configuration;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.SB.Messages.Events;
-using NServiceBus.Config;
-using NServiceBus.Features;
-using NServiceBus.Pipeline;
-using NServiceBus.Pipeline.Contexts;
-using NServiceBus.Serilog.Tracing;
 
 namespace Bec.TargetFramework.SB.Hosts.SBService
 {
-    using System.Configuration;
-    using Autofac;
-    using Autofac.Integration.WebApi;
-
-
-
-    using NServiceBus;
-    using NServiceBus.Installation.Environments;
-    using Bec.TargetFramework.Infrastructure.Log;
-    using Bec.TargetFramework.Infrastructure;
-    using Microsoft.Owin.Hosting;
-    using Bec.TargetFramework.SB.Infrastructure;
-    using NServiceBus.Serilog;
-    using NServiceBus.Logging;
-    using Bec.TargetFramework.Infrastructure.Settings;
-    using Bec.TargetFramework.Infrastructure.IOC;
-
-
-
-    partial class SBService : ServiceBase
+    partial class SBService : ServiceBase, IWindowsService
     {
         public string m_BaseAddress { get; set; }
 

@@ -1,54 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Bec.TargetFramework.SB.Entities;
-using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.SB.Infrastructure;
-using NServiceBus.Serilog;
-using NServiceBus.Serilog.Tracing;
+﻿using Autofac;
 using Bec.TargetFramework.Infrastructure.IOC;
-using System.Collections.Concurrent;
+using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Extensions;
-using Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs;
-using NServiceBus.Config;
-using NServiceBus.Pipeline;
-using Quartz;
+using Bec.TargetFramework.WindowsService;
+using NServiceBus;
+using System;
+using System.ServiceProcess;
+using System.Threading;
 
 namespace Bec.TargetFramework.SB.TaskServices
 {
-    using System.Configuration;
-    using System.ServiceModel;
-    using System.ServiceModel.Configuration;
-
-    using Autofac;
-    using Autofac.Integration.Wcf;
-    using Autofac.Integration.WebApi;
-
-
-
-    using NServiceBus;
-    using NServiceBus.Installation.Environments;
-    using Bec.TargetFramework.SB.Interfaces;
-    using Bec.TargetFramework.Infrastructure.Log;
-    using NServiceBus.Logging;
-    using NServiceBus.Features;
-    using Bec.TargetFramework.SB.Messages.Events;
-    using Bec.TargetFramework.Infrastructure.Helpers;
-    using System.Collections.Concurrent;
-    using Quartz.Impl.Matchers;
-
-
-
-    partial class TaskService : ServiceBase
+    partial class TaskService : ServiceBase, IWindowsService
     {
         private IBus m_Bus;
         private ILifetimeScope m_LifetimeScope;

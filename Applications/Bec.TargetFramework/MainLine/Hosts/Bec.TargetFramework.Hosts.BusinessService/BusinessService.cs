@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.WindowsService;
 using Microsoft.Owin.Hosting;
 using NServiceBus;
 using System;
@@ -9,8 +10,7 @@ using System.ServiceProcess;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
-
-    public partial class BusinessService : ServiceBase
+    public partial class BusinessService : ServiceBase, IWindowsService
     {
         public string m_BaseAddress { get; set; }
 
