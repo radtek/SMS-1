@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationAdminEmail = source.OrganisationAdminEmail;
             target.Regulator = source.Regulator;
             target.RegulatorOther = source.RegulatorOther;
+            target.RegulatorNumber = source.RegulatorNumber;
             target.Line1 = source.Line1;
             target.Line2 = source.Line2;
             target.Town = source.Town;
@@ -92,6 +93,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationAdminEmail = source.OrganisationAdminEmail;
             target.Regulator = source.Regulator;
             target.RegulatorOther = source.RegulatorOther;
+            target.RegulatorNumber = source.RegulatorNumber;
             target.Line1 = source.Line1;
             target.Line2 = source.Line2;
             target.Town = source.Town;

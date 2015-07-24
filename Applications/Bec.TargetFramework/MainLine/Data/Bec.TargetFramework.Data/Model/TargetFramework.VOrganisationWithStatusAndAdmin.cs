@@ -168,6 +168,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for RegulatorNumber in the schema.
+        /// </summary>
+        public virtual string RegulatorNumber
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for Line1 in the schema.
         /// </summary>
         public virtual string Line1

@@ -303,14 +303,6 @@ namespace Bec.TargetFramework.Business.Logic
                     "",
                     UserNameService.UserName);
 
-                ////    if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());
-
-                ////}
-
-                ////// perform other operations
-                ////using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-                ////{
-
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();
 
@@ -321,7 +313,6 @@ namespace Bec.TargetFramework.Business.Logic
                     ParentID = organisationID.Value,
                     ContactName = "",
                     IsPrimaryContact = true
-
                 };
 
                 scope.DbContext.Contacts.Add(contact);
@@ -331,7 +322,8 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     ContactID = contact.ContactID,
                     RegulatorName = dto.Regulator,
-                    RegulatorOtherName = dto.RegulatorOther
+                    RegulatorOtherName = dto.RegulatorOther,
+                    RegulatorNumber = dto.RegulatorNumber
                 };
 
                 scope.DbContext.ContactRegulators.Add(contactRegulator);

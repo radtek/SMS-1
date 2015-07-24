@@ -9620,6 +9620,7 @@
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
           <Property Name="IsCompanyPinCreated" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -9646,6 +9647,7 @@
           <Property Name="OrganisationAdminEmail" Type="varchar" MaxLength="100" />
           <Property Name="Regulator" Type="varchar" MaxLength="500" />
           <Property Name="RegulatorOther" Type="varchar" MaxLength="500" />
+          <Property Name="RegulatorNumber" Type="varchar" MaxLength="50" />
           <Property Name="Line1" Type="varchar" Nullable="false" MaxLength="500" />
           <Property Name="Line2" Type="varchar" MaxLength="500" />
           <Property Name="Town" Type="varchar" MaxLength="200" />
@@ -28313,6 +28315,7 @@
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="af838f7a-3334-4df8-8eee-d1e5899012c4" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
+          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -28377,6 +28380,7 @@
           <Property Name="OrganisationAdminEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="2e173aee-d49c-41e6-8ecc-0f71d7cb18d8" />
           <Property Name="Regulator" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="33eb5ef9-04d5-4442-9b95-eab160b499f4" />
           <Property Name="RegulatorOther" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5f68dd2d-591e-4678-bc78-45444dfbd422" />
+          <Property Name="RegulatorNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="030e6770-5305-4e5d-b042-c181054afa21" />
           <Property Name="Line1" Type="String" Nullable="false" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="True" ed:Guid="31ede97c-1da8-4e69-8afa-1be008533020" />
           <Property Name="Line2" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="98991b90-b23d-4f84-a252-d1af9b312a7a" />
           <Property Name="Town" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="3626973c-0dd8-4856-aac1-7c749e871b5e" />
@@ -42635,6 +42639,7 @@
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42675,6 +42680,7 @@
                 <ScalarProperty Name="VerifiedBy" ColumnName="VerifiedBy" />
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="RegulatorNumber" ColumnName="RegulatorNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

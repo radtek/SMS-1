@@ -42,6 +42,7 @@
                                     <dd><p id="dduCompanyPostCode"></p></dd>
                                     <dd><p id="dduAdditional"></p></dd>
                                     <dt>Regulator:</dt><dd><p id="dduRegulator"></p></dd>
+                                    <dt>Regulator number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -374,6 +375,7 @@
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#dduRegulator").text(regulatorName);
+        $("p#dduRegulatorNumber").text(dataItem.RegulatorNumber || "");
 
         //update links
         $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
