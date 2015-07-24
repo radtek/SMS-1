@@ -77,12 +77,12 @@ function validateSubmit(form) {
         abortSave: function () {
             $("#formSubmit").prop('disabled', false);
         },
-        saveWithDuplicates: function () {
+        save: function () {
             form.submit();
         }
     },
     true,
-    "saveWithDuplicates"); //default action if no duplicate results
+    "save"); //default action if no duplicate results
 }
 
 $("#otherRegulatorLabel").hide();
