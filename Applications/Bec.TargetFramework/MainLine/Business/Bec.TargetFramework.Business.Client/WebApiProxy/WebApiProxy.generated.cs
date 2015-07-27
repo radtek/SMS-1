@@ -81,7 +81,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
 	}
-	
+
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -116,7 +116,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Int32 GetClassificationDataForTypeName(String categoryName,String typeName);
 	}
-	
+
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
@@ -247,7 +247,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceAsPaymentScheduled(Guid invoiceID);
 	}
-	
+
 	public partial interface INotificationLogicClient : IClientBase	{	
 
 		/// <param name="uaoID"></param>
@@ -402,7 +402,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
 	}
-	
+
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 
 		/// <param name="days"></param>
@@ -417,7 +417,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
 
-
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Task ExpireUserAccountOrganisationAsync(Guid uaoID);
@@ -426,24 +425,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ExpireUserAccountOrganisation(Guid uaoID);
 
-
-		/// <param name="manual"></param>
-		/// <param name="line1"></param>
-		/// <param name="line2"></param>
-		/// <param name="town"></param>
-		/// <param name="county"></param>
+		/// <param name="companyName"></param>
 		/// <param name="postalCode"></param>
 		/// <returns></returns>
-		Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(Boolean manual,String line1,String line2,String town,String county,String postalCode);
+		Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(String companyName,String postalCode);
 
-		/// <param name="manual"></param>
-		/// <param name="line1"></param>
-		/// <param name="line2"></param>
-		/// <param name="town"></param>
-		/// <param name="county"></param>
+		/// <param name="companyName"></param>
 		/// <param name="postalCode"></param>
 		/// <returns></returns>
-		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode);
+		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(String companyName,String postalCode);
 
 		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
@@ -539,7 +529,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto);
 	}
-	
+
 	public partial interface IPaymentLogicClient : IClientBase	{	
 
 		/// <param name="transactionOrderId"></param>
@@ -564,7 +554,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
 	}
-	
+
 	public partial interface IProductLogicClient : IClientBase	{	
 
 		/// <param name="productId"></param>
@@ -577,7 +567,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
 	}
-	
+
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
 
 		/// <param name="userAccountOrganisationID"></param>
@@ -618,7 +608,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
 	}
-	
+
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -627,7 +617,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Dictionary<String, String> GetSettings();
 	}
-	
+
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
 
 		/// <param name="invoiceId"></param>
@@ -656,7 +646,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 	}
-	
+
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
 
 		/// <param name="requestData"></param>
@@ -667,7 +657,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void CreateAndSaveAudit(String requestData,WebUserObject wuo);
 	}
-	
+
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
 
 		/// <param name="username"></param>
@@ -2219,42 +2209,28 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="manual"></param>
-		/// <param name="line1"></param>
-		/// <param name="line2"></param>
-		/// <param name="town"></param>
-		/// <param name="county"></param>
+		/// <param name="companyName"></param>
 		/// <param name="postalCode"></param>
 		/// <returns></returns>
-		public virtual Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(Boolean manual,String line1,String line2,String town,String county,String postalCode)
+		public virtual Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(String companyName,String postalCode)
 		{
-			line1 = line1.UrlEncode();
-			line2 = line2.UrlEncode();
-			town = town.UrlEncode();
-			county = county.UrlEncode();
+			companyName = companyName.UrlEncode();
 			postalCode = postalCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?manual=" + manual + "&line1=" + line1 + "&line2=" + line2 + "&town=" + town + "&county=" + county + "&postalCode=" + postalCode, null, _user);
+			return PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?companyName=" + companyName + "&postalCode=" + postalCode, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="manual"></param>
-		/// <param name="line1"></param>
-		/// <param name="line2"></param>
-		/// <param name="town"></param>
-		/// <param name="county"></param>
+		/// <param name="companyName"></param>
 		/// <param name="postalCode"></param>
-		public virtual List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(Boolean manual,String line1,String line2,String town,String county,String postalCode)
+		public virtual List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(String companyName,String postalCode)
 		{
-			line1 = line1.UrlEncode();
-			line2 = line2.UrlEncode();
-			town = town.UrlEncode();
-			county = county.UrlEncode();
+			companyName = companyName.UrlEncode();
 			postalCode = postalCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?manual=" + manual + "&line1=" + line1 + "&line2=" + line2 + "&town=" + town + "&county=" + county + "&postalCode=" + postalCode, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?companyName=" + companyName + "&postalCode=" + postalCode, null, _user)).Result;
 		}
 
 		/// <summary>

@@ -104,9 +104,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewDuplicates(bool Manual, string Line1, string Line2, string Town, string County, string PostalCode)
+        public async Task<ActionResult> ViewDuplicates(string CompanyName, string PostalCode)
         {
-            var list = await OrganisationClient.FindDuplicateOrganisationsAsync(Manual, Line1, Line2, Town, County, PostalCode);
+            var list = await OrganisationClient.FindDuplicateOrganisationsAsync(CompanyName, PostalCode);
             if (list.Count > 0)
                 return PartialView("_Duplicates", list);
             else

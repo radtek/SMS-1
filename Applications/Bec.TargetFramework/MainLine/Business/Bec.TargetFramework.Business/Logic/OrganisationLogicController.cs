@@ -8,16 +8,14 @@ using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
-using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.Security;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.OData;
-using System.Web.OData.Query;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -48,39 +46,32 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-                    {
+        {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var varifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                        uao.UserAccount.IsLoginAllowed = false;
-                        uao.PinCode = null;
+                uao.UserAccount.IsLoginAllowed = false;
+                uao.PinCode = null;
 
-                        if (uao.Organisation != null)
-                        {
-                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                if (uao.Organisation != null)
+                {
+                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
                     if (status != null && status.StatusTypeValueID == varifiedStatus.StatusTypeValueID)
-                                await ExpireOrganisationAsync(uao.OrganisationID);
-                        }
+                        await ExpireOrganisationAsync(uao.OrganisationID);
+                }
                 await scope.SaveAsync();
             }
         }
 
-        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(bool manual, string line1, string line2, string town, string county, string postalCode)
+        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(string companyName, string postalCode)
         {
             Ensure.That(postalCode).IsNotNullOrWhiteSpace();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                var query = scope.DbContext.VOrganisationWithStatusAndAdmins.Where(item => item.PostalCode == postalCode);
-                if (!manual)
-                {
-                    if (!string.IsNullOrWhiteSpace(line1)) query = query.Where(item => item.Line1 == line1);
-                    if (!string.IsNullOrWhiteSpace(line2)) query = query.Where(item => item.Line2 == line2);
-                    if (!string.IsNullOrWhiteSpace(town)) query = query.Where(item => item.Town == town);
-                    if (!string.IsNullOrWhiteSpace(county)) query = query.Where(item => item.County == county);
-                }
+                var query = GetDuplicateOrganisations(companyName, postalCode);
                 return query.OrderBy(c => c.Name).ThenBy(c => c.CreatedOn).ToDtos();
             }
         }
@@ -131,8 +122,15 @@ namespace Bec.TargetFramework.Business.Logic
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContext.DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation"));
             }
-
             Ensure.That(defaultOrganisation).IsNotNull();
+
+            bool isDuplicate = true;
+            // check if the organisation is not a duplicate
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            {
+                isDuplicate = GetDuplicateOrganisations(dto.CompanyName, dto.PostalCode).Any();
+            }
+            Ensure.That(isDuplicate).IsFalse();
 
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
@@ -231,11 +229,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             string eventName = "TestEvent";
             switch (userType)
-        {
+            {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
-            }            
+            }
 
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
@@ -299,7 +297,7 @@ namespace Bec.TargetFramework.Business.Logic
                     organisationTypeID,
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
-                    dto.Name,
+                    dto.CompanyName,
                     "",
                     UserNameService.UserName);
 
@@ -455,6 +453,20 @@ namespace Bec.TargetFramework.Business.Logic
                 //have to call svae regardless
                 await scope.SaveAsync();
                 return existing.AddressID;
+            }
+        }
+
+        private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(string companyName, string postalCode)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
+                var query = scope.DbContext.VOrganisationWithStatusAndAdmins
+                    .Where(item =>
+                        item.PostalCode.ToLower() == postalCode.Trim().ToLower() &&
+                        item.Name.ToLower() == companyName.Trim().ToLower());
+
+                return query;
             }
         }
     }

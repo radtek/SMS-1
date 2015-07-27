@@ -1,21 +1,20 @@
 ﻿@using Bec.TargetFramework.Entities
 @model AddCompanyDTO
-
 @{
     List<SelectListItem> regulators = new List<SelectListItem>
     {
-        new SelectListItem{Text = "SRA",Value="SRA"},
-        new SelectListItem{Text = "CLC",Value="CLC"},
-        new SelectListItem{Text = "Other",Value="Other"}
+        new SelectListItem{Text = "SRA", Value="SRA"},
+        new SelectListItem{Text = "CLC", Value="CLC"},
+        new SelectListItem{Text = "Other", Value="Other"}
     };
 
     List<SelectListItem> titles = new List<SelectListItem>
     {
-        new SelectListItem{Text = "Mr.",Value="Mr."},
-        new SelectListItem{Text = "Mrs.",Value="Mrs."},
-        new SelectListItem{Text = "Miss",Value="Miss"},
-        new SelectListItem{Text = "Ms.",Value="Ms."},
-        new SelectListItem{Text = "Dr.",Value="Dr."}
+        new SelectListItem{Text = "Mr", Value="Mr."},
+        new SelectListItem{Text = "Mrs", Value="Mrs."},
+        new SelectListItem{Text = "Miss", Value="Miss"},
+        new SelectListItem{Text = "Ms", Value="Ms"},
+        new SelectListItem{Text = "Dr", Value="Dr"}
     };
 }
 
@@ -64,7 +63,7 @@
 
                                 <div class="row" id="manAddRow">
                                     <section class="col">
-                                        <input type="checkbox" id="manualAddress" />
+                                        @Html.CheckBoxFor(m => m.Manual, new { id = "manualAddress" })
                                         <label for="manualAddress" tabindex="4">Edit Address Details</label>
                                     </section>
                                 </div>
@@ -74,7 +73,7 @@
                                         <label class="label">Company Name</label>
                                         <label class="input ">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Name, new { tabindex = "5", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "5", maxlength = 50 })
                                         </label>
                                     </section>
 

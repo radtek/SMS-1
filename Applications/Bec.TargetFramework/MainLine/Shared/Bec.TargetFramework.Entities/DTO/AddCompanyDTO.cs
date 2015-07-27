@@ -11,7 +11,7 @@ namespace Bec.TargetFramework.Entities
     public class AddCompanyDTO
     {
         [DataMember]
-        public string Name { get; set; }
+        public string CompanyName { get; set; }
         [DataMember]
         public string Line1 { get; set; }
         [DataMember]
@@ -40,5 +40,7 @@ namespace Bec.TargetFramework.Entities
         public string RegulatorOther { get; set; }
         [DataMember]
         public string RegulatorNumber { get; set; }
+        [DataMember]
+        public bool Manual { get; set; }
     }
 }
