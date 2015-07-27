@@ -95,11 +95,20 @@
                                         </label>
                                     </section>
 
-                                    <section class="col col-6">
+                                    <section class="col col-3">
                                         <label class="label">Regulator</label>
                                         <label class="select">
                                             @Html.DropDownListFor(m => m.Regulator, new SelectList(regulators, "Value", "Text"), "Please Select", new { tabindex = "12" })
                                             <i></i>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-3" id="otherRegulatorSection">
+                                        <label class="label">Other Regulator</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.RegulatorOther, new { placeholder = "Enter Regulator", maxlength = 50 })
+
                                         </label>
                                     </section>
 
@@ -113,10 +122,9 @@
                                     </section>
 
                                     <section class="col col-6">
-                                        <label class="input" id="otherRegulatorLabel">
+                                        <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.RegulatorOther, new { placeholder = "Enter Regulator", maxlength = 50 })
-
+                                            @Html.TextBoxFor(m => m.RegulatorNumber, new { placeholder = "Regulator Number", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>

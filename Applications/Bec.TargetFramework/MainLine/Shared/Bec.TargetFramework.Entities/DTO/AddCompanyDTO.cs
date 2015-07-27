@@ -39,6 +39,8 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string RegulatorOther { get; set; }
         [DataMember]
+        public string RegulatorNumber { get; set; }
+        [DataMember]
         public bool Manual { get; set; }
     }
 }
