@@ -244,19 +244,15 @@ namespace BodgeIt
             //var r = await SendAsync<object>(client, string.Format("odata/test(Id='SmsTransactions')"), HttpMethod.Get, "user", null);
 
             //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true&$top=3&$skip=0"), HttpMethod.Get, "user", null);
-            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true"), HttpMethod.Get, "user", null);
             //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$count=true"), HttpMethod.Get, "user", null);
-            
+
+            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/Organisations?$select=OrganisationID&$top=1&$expand=OrganisationStatus($top=1;$orderby=StatusChangedBy;$select=StatusChangedBy)"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationStatus?$select=OrganisationID,StatusChangedBy&$orderby=StatusChangedBy"), HttpMethod.Get, "user", null);
             var s = await r.Content.ReadAsStringAsync();
-            MessageBox.Show(r.StatusCode + Environment.NewLine + s);
+            JObject j = JObject.Parse(s);
+            MessageBox.Show(r.StatusCode + Environment.NewLine + j.ToString());
         }
 
-        private async void button8_Click(object sender, EventArgs e)
-        {
-            HttpClient client = new HttpClient { BaseAddress = new Uri("http://localhost:63262/") };
-            var r = await SendAsync<object>(client, string.Format("api/Values?$count=true&$select=Id,CustomerId&$filter=Num1 lt 20"), HttpMethod.Get, "user", null);
-            var s = await r.Content.ReadAsStringAsync();
-            MessageBox.Show(r.StatusCode + Environment.NewLine + s);
-        }
     }
 }

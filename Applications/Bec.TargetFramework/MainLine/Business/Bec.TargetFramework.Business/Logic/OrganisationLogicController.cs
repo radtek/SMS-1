@@ -48,21 +48,21 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-                    {
+        {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
-                var varifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
+                var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                        uao.UserAccount.IsLoginAllowed = false;
-                        uao.PinCode = null;
+                uao.UserAccount.IsLoginAllowed = false;
+                uao.PinCode = null;
 
-                        if (uao.Organisation != null)
-                        {
-                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
-                    if (status != null && status.StatusTypeValueID == varifiedStatus.StatusTypeValueID)
-                                await ExpireOrganisationAsync(uao.OrganisationID);
-                        }
+                if (uao.Organisation != null)
+                {
+                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                    if (status != null && status.StatusTypeValueID == verifiedStatus.StatusTypeValueID)
+                        await ExpireOrganisationAsync(uao.OrganisationID);
+                }
                 await scope.SaveAsync();
             }
         }
@@ -460,6 +460,50 @@ namespace Bec.TargetFramework.Business.Logic
                 //have to call svae regardless
                 await scope.SaveAsync();
                 return existing.AddressID;
+            }
+        }
+
+        public List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
+            }
+        }
+
+        public async Task<Guid> AddBankAccount(Guid orgID, OrganisationBankAccountDTO accountDTO)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var unsafeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Unsafe.GetStringValue());
+                
+                var account = accountDTO.ToEntity();
+                account.OrganisationBankAccountID = Guid.NewGuid();
+                account.OrganisationID = orgID;
+                scope.DbContext.OrganisationBankAccounts.Add(account);
+
+                await AddBankAccountStatusAsync(account.OrganisationBankAccountID, BankAccountStatusEnum.Unsafe);
+
+                await scope.SaveAsync();
+                return account.OrganisationBankAccountID;
+            }
+        }
+
+        public async Task AddBankAccountStatusAsync(Guid baID, BankAccountStatusEnum status)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), status.GetStringValue());
+                scope.DbContext.OrganisationBankAccountStatus.Add(new OrganisationBankAccountStatus
+                {
+                    OrganisationBankAccountID = baID,
+                    StatusTypeID = s.StatusTypeID,
+                    StatusTypeVersionNumber = s.StatusTypeVersionNumber,
+                    StatusTypeValueID = s.StatusTypeValueID,
+                    StatusChangedOn = DateTime.Now,
+                    StatusChangedBy = UserNameService.UserName
+                });
+                await scope.SaveAsync();
             }
         }
     }

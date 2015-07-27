@@ -302,6 +302,8 @@
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
+    <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
@@ -880,6 +882,11 @@
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.cshtml" />
+    <Content Include="Areas\BankAccount\Views\web.config" />
+    <Content Include="Areas\BankAccount\Views\Account\Index.cshtml" />
+    <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.cshtml" />
+    <Content Include="Areas\BankAccount\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\BankAccount\Views\Shared\_AddStatus.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

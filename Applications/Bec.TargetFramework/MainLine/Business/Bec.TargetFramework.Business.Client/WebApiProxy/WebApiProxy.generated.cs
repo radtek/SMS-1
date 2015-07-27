@@ -81,7 +81,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
 	}
-	
+
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -116,7 +116,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Int32 GetClassificationDataForTypeName(String categoryName,String typeName);
 	}
-	
+
 	public partial interface IInvoiceLogicClient : IClientBase	{	
 
 		/// <param name="shoppingCartId"></param>
@@ -247,7 +247,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void MarkInvoiceAsPaymentScheduled(Guid invoiceID);
 	}
-	
+
 	public partial interface INotificationLogicClient : IClientBase	{	
 
 		/// <param name="uaoID"></param>
@@ -402,7 +402,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
 	}
-	
+
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 
 		/// <param name="days"></param>
@@ -417,7 +417,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ExpireTemporaryLogins(Int32 days,Int32 hours,Int32 minutes);
 
-
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		Task ExpireUserAccountOrganisationAsync(Guid uaoID);
@@ -425,7 +424,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		void ExpireUserAccountOrganisation(Guid uaoID);
-
 
 		/// <param name="manual"></param>
 		/// <param name="line1"></param>
@@ -538,8 +536,34 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
+
+		/// <param name="baID"></param>
+		/// <param name="status"></param>
+		/// <returns></returns>
+		Task AddBankAccountStatusAsync(Guid baID,BankAccountStatusEnum status);
+
+		/// <param name="baID"></param>
+		/// <param name="status"></param>
+		/// <returns></returns>
+		void AddBankAccountStatus(Guid baID,BankAccountStatusEnum status);
 	}
-	
+
 	public partial interface IPaymentLogicClient : IClientBase	{	
 
 		/// <param name="transactionOrderId"></param>
@@ -564,7 +588,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
 	}
-	
+
 	public partial interface IProductLogicClient : IClientBase	{	
 
 		/// <param name="productId"></param>
@@ -577,7 +601,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
 	}
-	
+
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
 
 		/// <param name="userAccountOrganisationID"></param>
@@ -618,7 +642,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void RemoveProductFromShoppingCart(Guid cartID,Guid itemID);
 	}
-	
+
 	public partial interface ITFSettingsLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -627,7 +651,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Dictionary<String, String> GetSettings();
 	}
-	
+
 	public partial interface ITransactionOrderLogicClient : IClientBase	{	
 
 		/// <param name="invoiceId"></param>
@@ -656,7 +680,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderDTO CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID,TransactionTypeIDEnum typeEnumValue);
 	}
-	
+
 	public partial interface IUserAccountAuditLogicClient : IClientBase	{	
 
 		/// <param name="requestData"></param>
@@ -667,7 +691,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void CreateAndSaveAudit(String requestData,WebUserObject wuo);
 	}
-	
+
 	public partial interface IUserLogicClient : IClientBase, BrockAllen.MembershipReboot.AccountService.IPartialUserLogicController	{	
 
 		/// <param name="username"></param>
@@ -2485,6 +2509,71 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<OrganisationBankAccountDTO, Guid>("api/OrganisationLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<OrganisationBankAccountDTO, Guid>("api/OrganisationLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="baID"></param>
+		/// <param name="status"></param>
+		/// <returns></returns>
+		public virtual Task AddBankAccountStatusAsync(Guid baID,BankAccountStatusEnum status)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?baID=" + baID + "&status=" + status, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="baID"></param>
+		/// <param name="status"></param>
+		public virtual void AddBankAccountStatus(Guid baID,BankAccountStatusEnum status)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?baID=" + baID + "&status=" + status, null, _user)).Wait();
 		}
 
 		#endregion

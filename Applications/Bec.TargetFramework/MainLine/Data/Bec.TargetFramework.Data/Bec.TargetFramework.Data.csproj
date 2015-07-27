@@ -228,6 +228,7 @@
     <Compile Include="Converters\OrganisationAccountingPeriodConverter.cs" />
     <Compile Include="Converters\OrganisationArtefactConverter.cs" />
     <Compile Include="Converters\OrganisationBankAccountConverter.cs" />
+    <Compile Include="Converters\OrganisationBankAccountStatusConverter.cs" />
     <Compile Include="Converters\OrganisationConverter.cs" />
     <Compile Include="Converters\OrganisationDetailConverter.cs" />
     <Compile Include="Converters\OrganisationDirectDebitMandateConverter.cs" />
@@ -427,6 +428,7 @@
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
     <Compile Include="Converters\VNotificationRecipientStatusConverter.cs" />
     <Compile Include="Converters\VNotificationWithUAOVerificationCodeConverter.cs" />
+    <Compile Include="Converters\VOrganisationBankAccountsWithStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationCheckoutDiscountConverter.cs" />
     <Compile Include="Converters\VOrganisationClaimConverter.cs" />
     <Compile Include="Converters\VOrganisationComplianceOfficerConverter.cs" />
@@ -611,6 +613,7 @@
     <Compile Include="Model\TargetFramework.OrganisationAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.OrganisationArtefact.cs" />
     <Compile Include="Model\TargetFramework.OrganisationBankAccount.cs" />
+    <Compile Include="Model\TargetFramework.OrganisationBankAccountStatus.cs" />
     <Compile Include="Model\TargetFramework.OrganisationDetail.cs" />
     <Compile Include="Model\TargetFramework.OrganisationDirectDebitMandate.cs" />
     <Compile Include="Model\TargetFramework.OrganisationDirectDebitMandateProcessLog.cs" />
@@ -813,6 +816,7 @@
     <Compile Include="Model\TargetFramework.VNotificationRecipientStatus.cs" />
     <Compile Include="Model\TargetFramework.VNotificationWithUAOVerificationCode.cs" />
     <Compile Include="Model\TargetFramework.VOrganisation.cs" />
+    <Compile Include="Model\TargetFramework.VOrganisationBankAccountsWithStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationCheckoutDiscount.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationClaim.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationComplianceOfficer.cs" />

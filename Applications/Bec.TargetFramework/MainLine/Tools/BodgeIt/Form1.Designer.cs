@@ -49,6 +49,7 @@
             this.textLastName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.buttonAutoAdmin = new System.Windows.Forms.Button();
             this.textFirstName = new System.Windows.Forms.TextBox();
             this.textSalutation = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -69,8 +70,6 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.button8 = new System.Windows.Forms.Button();
-            this.buttonAutoAdmin = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -290,6 +289,16 @@
             this.label8.TabIndex = 6;
             this.label8.Text = "First Name";
             // 
+            // buttonAutoAdmin
+            // 
+            this.buttonAutoAdmin.Location = new System.Drawing.Point(213, 211);
+            this.buttonAutoAdmin.Name = "buttonAutoAdmin";
+            this.buttonAutoAdmin.Size = new System.Drawing.Size(75, 23);
+            this.buttonAutoAdmin.TabIndex = 17;
+            this.buttonAutoAdmin.Text = "Add T1-T5";
+            this.buttonAutoAdmin.UseVisualStyleBackColor = true;
+            this.buttonAutoAdmin.Click += new System.EventHandler(this.buttonAutoAdmin_Click);
+            // 
             // textFirstName
             // 
             this.textFirstName.Location = new System.Drawing.Point(75, 100);
@@ -482,32 +491,11 @@
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
             // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(565, 396);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 11;
-            this.button8.Text = "Test";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // buttonAutoAdmin
-            // 
-            this.buttonAutoAdmin.Location = new System.Drawing.Point(213, 211);
-            this.buttonAutoAdmin.Name = "buttonAutoAdmin";
-            this.buttonAutoAdmin.Size = new System.Drawing.Size(75, 23);
-            this.buttonAutoAdmin.TabIndex = 17;
-            this.buttonAutoAdmin.Text = "Add T1-T5";
-            this.buttonAutoAdmin.UseVisualStyleBackColor = true;
-            this.buttonAutoAdmin.Click += new System.EventHandler(this.buttonAutoAdmin_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 470);
-            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox3);
@@ -577,7 +565,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button buttonAutoAdmin;
     }
 }

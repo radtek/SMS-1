@@ -1971,6 +1971,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsTransaction in the schema.
         /// </summary>
         public virtual DbSet<SmsTransaction> SmsTransactions { get; set; }
+    
+        /// <summary>
+        /// There are no comments for OrganisationBankAccountStatus in the schema.
+        /// </summary>
+        public virtual DbSet<OrganisationBankAccountStatus> OrganisationBankAccountStatus { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VOrganisationBankAccountsWithStatus in the schema.
+        /// </summary>
+        public virtual DbSet<VOrganisationBankAccountsWithStatus> VOrganisationBankAccountsWithStatus { get; set; }
 
         #region Methods
 

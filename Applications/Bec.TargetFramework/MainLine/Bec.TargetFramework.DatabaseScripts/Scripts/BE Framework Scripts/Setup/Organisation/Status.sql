@@ -3,6 +3,7 @@ DO $$
 Declare UserOrganisationDefaultStatusID uuid;
 Declare OrganisationStatusID uuid;
 Declare BranchStatusID uuid;
+Declare BankAccountStatusID uuid;
 Begin
 
 -- base templates
@@ -22,6 +23,11 @@ INSERT INTO public."StatusTypeTemplate" ("StatusTypeTemplateID", "StatusTypeTemp
 VALUES (E'21f059d2-4d75-11e4-99b6-f78cc018b0e6', 1, E'Branch Status', E'Branch Default Status', True, False);
 
 BranchStatusID := (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Branch Status');
+
+INSERT INTO public."StatusTypeTemplate" ("StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'45f059d2-4d75-11e4-99b6-f78cc018b0e6', 1, E'Bank Account Status', E'Bank Account Default Status', True, False);
+
+BankAccountStatusID := (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Bank Account Status');
 
 -- User Organisation Default Status
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
@@ -98,9 +104,27 @@ VALUES (E'21f589de-4d75-11e4-909c-d7c5856bb4cb', BranchStatusID, 1,
 (select st."StatusTypeValueTemplateID" from "StatusTypeValueTemplate" st  where st."StatusTypeTemplateID" = BranchStatusID and  st."StatusTypeTemplateVersionNumber" = 1 and st."Name" = 'Rejected' limit 1),
  2, False, True);
 
+
+-- Bank Account Status
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'21f27c9e-4d75-11e4-b2cd-4459059339fc', BankAccountStatusID, 1, E'Unsafe', E'Unsafe', True, False);
+
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'21f2a3ea-4d75-11e4-861b-44675af579e3', BankAccountStatusID, 1, E'Safe', E'Safe', True, False);
+
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'21f2cb04-4d75-11e4-8cd4-4471a5d77f34', BankAccountStatusID, 1, E'Archived', E'Archived', True, False);
+
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'21f2cb04-4d75-11e4-8cd4-4481a5d77f34', BankAccountStatusID, 1, E'Fraud Suspicion', E'Fraud Suspicion', True, False);
+
+INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (E'21f2cb04-4d75-11e4-8cd4-4491a5d77f34', BankAccountStatusID, 1, E'Potential Fraud', E'Potential Fraud', True, False);
+
 -- Process Templates
 perform "fn_PromoteStatusTypeTemplate"(UserOrganisationDefaultStatusID,1);
 perform "fn_PromoteStatusTypeTemplate"(OrganisationStatusID,1);
 perform "fn_PromoteStatusTypeTemplate"(BranchStatusID,1);
+perform "fn_PromoteStatusTypeTemplate"(BankAccountStatusID,1);
 
 END $$;

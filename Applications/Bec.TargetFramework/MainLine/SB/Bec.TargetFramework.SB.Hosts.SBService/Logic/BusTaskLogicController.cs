@@ -53,7 +53,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
         public async Task SaveBusTaskScheduleProcessLog(ProcessLogDTO logDto)
         {
             Ensure.That(logDto).IsNotNull();
-            CreateBusTaskScheduleProcessLog(logDto.ScheduleDto, logDto, logDto.ParentID, logDto.StatusValue);
+            await CreateBusTaskScheduleProcessLog(logDto.ScheduleDto, logDto, logDto.ParentID, logDto.StatusValue);
         }
 
         private async Task CreateBusTaskScheduleProcessLog(VBusTaskScheduleDTO taskSchedule, ProcessLogDTO logDto, Guid? parentId, BusTaskStatusEnum statusEnumValue)

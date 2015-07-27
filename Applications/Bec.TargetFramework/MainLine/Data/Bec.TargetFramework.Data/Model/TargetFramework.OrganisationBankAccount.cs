@@ -32,9 +32,9 @@ namespace Bec.TargetFramework.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for OrganisationBankAccountId in the schema.
+        /// There are no comments for OrganisationBankAccountID in the schema.
         /// </summary>
-        public virtual int OrganisationBankAccountId
+        public virtual global::System.Guid OrganisationBankAccountID
         {
             get;
             set;
@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Guid OrganisationID
+        public virtual global::System.Nullable<System.Guid> OrganisationID
         {
             get;
             set;
@@ -162,6 +162,26 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for RowVersion in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> RowVersion
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Created in the schema.
+        /// </summary>
+        public virtual global::System.DateTime Created
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for IsDirectDebtAccount in the schema.
         /// </summary>
         public virtual bool IsDirectDebtAccount
@@ -176,6 +196,15 @@ namespace Bec.TargetFramework.Data
         #region Navigation Properties
     
         /// <summary>
+        /// There are no comments for Organisation in the schema.
+        /// </summary>
+        public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
         /// There are no comments for OrganisationPaymentMethods in the schema.
         /// </summary>
         public virtual ICollection<OrganisationPaymentMethod> OrganisationPaymentMethods
@@ -185,9 +214,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for Organisation in the schema.
+        /// There are no comments for OrganisationBankAccountStatus in the schema.
         /// </summary>
-        public virtual Organisation Organisation
+        public virtual ICollection<OrganisationBankAccountStatus> OrganisationBankAccountStatus
         {
             get;
             set;

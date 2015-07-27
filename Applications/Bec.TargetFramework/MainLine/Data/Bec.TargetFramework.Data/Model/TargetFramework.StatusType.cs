@@ -302,6 +302,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for OrganisationBankAccountStatus in the schema.
+        /// </summary>
+        public virtual ICollection<OrganisationBankAccountStatus> OrganisationBankAccountStatus
+        {
+            get;
+            set;
+        }
 
         #endregion
     }
