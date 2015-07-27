@@ -31,6 +31,9 @@ $("#addTempCompany-form").validate({
                 }
             }
         },
+        RegulatorNumber: {
+            required: true
+        },
         OrganisationAdminSalutation: {
             required: true
         },
@@ -85,17 +88,17 @@ function validateSubmit(form) {
     "saveWithDuplicates"); //default action if no duplicate results
 }
 
-$("#otherRegulatorLabel").hide();
+$("#otherRegulatorSection").hide();
 $("#Regulator").change(function () {
     var selectedValue = this.value;
 
     if (selectedValue.toLowerCase() == 'other') {
-        $("#otherRegulatorLabel").show();
+        $("#otherRegulatorSection").show();
 
     } else {
-        $("#otherRegulatorLabel").next('em[for="RegulatorOther"]').remove();
-        $("#otherRegulatorLabel").removeClass("state-error");
-        $("#otherRegulatorLabel").hide();
+        $("#otherRegulatorSection").next('em[for="RegulatorOther"]').remove();
+        $("#otherRegulatorSection").removeClass("state-error");
+        $("#otherRegulatorSection").hide();
         $("#RegulatorOther").val(null);
     }
 });

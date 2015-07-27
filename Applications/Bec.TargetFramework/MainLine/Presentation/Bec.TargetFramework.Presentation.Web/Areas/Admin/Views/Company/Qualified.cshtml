@@ -34,6 +34,7 @@
                                     <dd><p id="ddaCompanyPostCode"></p></dd>
                                     <dd><p id="ddaAdditional"></p></dd>
                                     <dt>Regulator:</dt><dd><p id="ddaRegulator"></p></dd>
+                                    <dt>Regulator Number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -159,6 +160,7 @@
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#ddaRegulator").text(regulatorName);
+        $("p#dduRegulatorNumber").text(dataItem.RegulatorNumber);
 
         $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
         $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
