@@ -12,6 +12,8 @@ using Bec.TargetFramework.Security;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,18 +65,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(bool manual, string line1, string line2, string town, string county, string postalCode)
+        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(string companyName, string postalCode)
         {
             Ensure.That(postalCode).IsNotNullOrWhiteSpace();
 
             using (new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                var query = GetDuplicateOrganisations(manual, line1, line2, town, county, postalCode);
+                var query = GetDuplicateOrganisations(companyName, postalCode);
                 return query.OrderBy(c => c.Name).ThenBy(c => c.CreatedOn).ToDtos();
             }
         }
-
-        
 
         public async Task RejectOrganisationAsync(RejectCompanyDTO dto)
         {
@@ -128,7 +128,7 @@ namespace Bec.TargetFramework.Business.Logic
             // check if the organisation is not a duplicate
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                isDuplicate = GetDuplicateOrganisations(dto.Manual, dto.Line1, dto.Line2, dto.Town, dto.County, dto.PostalCode).Any();
+                isDuplicate = GetDuplicateOrganisations(dto.CompanyName, dto.PostalCode).Any();
             }
             Ensure.That(isDuplicate).IsFalse();
 
@@ -297,7 +297,7 @@ namespace Bec.TargetFramework.Business.Logic
                     organisationTypeID,
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
-                    dto.Name,
+                    dto.CompanyName,
                     "",
                     UserNameService.UserName);
 
@@ -456,18 +456,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(bool manual, string line1, string line2, string town, string county, string postalCode)
+        private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(string companyName, string postalCode)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                var query = scope.DbContext.VOrganisationWithStatusAndAdmins.Where(item => item.PostalCode == postalCode);
-                if (!manual)
-                {
-                    if (!string.IsNullOrWhiteSpace(line1)) query = query.Where(item => item.Line1 == line1);
-                    if (!string.IsNullOrWhiteSpace(line2)) query = query.Where(item => item.Line2 == line2);
-                    if (!string.IsNullOrWhiteSpace(town)) query = query.Where(item => item.Town == town);
-                    if (!string.IsNullOrWhiteSpace(county)) query = query.Where(item => item.County == county);
-                }
+                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
+                var query = scope.DbContext.VOrganisationWithStatusAndAdmins
+                    .Where(item =>
+                        item.PostalCode.ToLower() == postalCode.Trim().ToLower() &&
+                        item.Name.ToLower() == companyName.Trim().ToLower());
+
                 return query;
             }
         }

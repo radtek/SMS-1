@@ -21,7 +21,7 @@ resList.change(function () {
     else {
         manAddRow.show();
         checkMan(false);
-        $('#Name').val(selOpt.attr('data-Company')).valid();
+        $('#CompanyName').val(selOpt.attr('data-Company')).valid();
         $('#Line1').val(selOpt.attr('data-Line1')).valid();
         $('#Line2').val(selOpt.attr('data-Line2')).valid();
         $('#Town').val(selOpt.attr('data-PostTown')).valid();
@@ -33,7 +33,7 @@ resList.change(function () {
 function clearForm() {
     manAddRow.hide();
     checkMan(true);
-    $('#Name').val('');
+    $('#CompanyName').val('');
     $('#Line1').val('');
     $('#Line2').val('');
     $('#Town').val('');

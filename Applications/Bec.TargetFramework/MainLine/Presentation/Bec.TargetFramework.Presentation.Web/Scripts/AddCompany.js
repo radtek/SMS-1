@@ -8,7 +8,7 @@ $("#addTempCompany-form").validate({
     ignore: '.skip',
     // Rules for form validation
     rules: {
-        Name: {
+        CompanyName: {
             required: true
         },
         Line1: {
@@ -68,11 +68,7 @@ function validateSubmit(form) {
     {
         url: 'ViewDuplicates',
         data: {
-            Manual: $('#manualAddress').prop('checked'),
-            Line1: $('#Line1').val(),
-            Line2: $('#Line2').val(),
-            Town: $('#Town').val(),
-            County: $('#County').val(),
+            CompanyName: $('#CompanyName').val(),
             Postalcode: $('#PostalCode').val()
         }
     },
