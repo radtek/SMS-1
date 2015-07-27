@@ -31,6 +31,9 @@ $("#addTempCompany-form").validate({
                 }
             }
         },
+        RegulatorNumber: {
+            required: true
+        },
         OrganisationAdminSalutation: {
             required: true
         },
