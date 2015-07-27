@@ -305,6 +305,9 @@ namespace Bec.TargetFramework.Business.Logic
 
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();
+                // TODO ZM: consider validation pattern for dtos
+                // Maybe trimming all strings in EF will be a solution http://romiller.com/2014/10/20/ef6-1workaround-trailing-blanks-issue-in-string-joins/
+                Ensure.That(dto.RegulatorNumber).IsNotNull();
 
                 // create contact for organisation
                 var contact = new Contact
@@ -323,7 +326,7 @@ namespace Bec.TargetFramework.Business.Logic
                     ContactID = contact.ContactID,
                     RegulatorName = dto.Regulator,
                     RegulatorOtherName = dto.RegulatorOther,
-                    RegulatorNumber = dto.RegulatorNumber
+                    RegulatorNumber = dto.RegulatorNumber.Trim()
                 };
 
                 scope.DbContext.ContactRegulators.Add(contactRegulator);
