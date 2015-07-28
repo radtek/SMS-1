@@ -345,6 +345,10 @@
       <Project>{b9a79fd2-4e5f-4153-b277-27ebfc74fc4f}</Project>
       <Name>Bec.TargetFramework.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.WindowsService\Bec.TargetFramework.WindowsService.csproj">
+      <Project>{1900f9f1-33d3-494b-b2b4-447f3d6afd76}</Project>
+      <Name>Bec.TargetFramework.WindowsService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bec.TargetFramework.SB.Client\Bec.TargetFramework.SB.Client.csproj">
       <Project>{e4e0ed10-111e-4b5c-bb6f-07f2eccb30ae}</Project>
       <Name>Bec.TargetFramework.SB.Client</Name>

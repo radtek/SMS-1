@@ -102,6 +102,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.SB.Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiProxy.Generator", "External\WebApiProxy-master\WebApiProxy.Generator\WebApiProxy.Generator.csproj", "{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.WindowsService", "Shared\Bec.TargetFramework.WindowsService\Bec.TargetFramework.WindowsService.csproj", "{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -444,6 +446,16 @@ Global
 		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A}.Release|x86.ActiveCfg = Release|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -483,5 +495,6 @@ Global
 		{CF410EAB-4608-4239-BFF9-9A729DA9FBB5} = {262EC12E-67D8-49A2-A97D-BFC31321CFCE}
 		{AFB811AE-7881-4A2A-AAC4-C52424300199} = {D41EC1D0-2E2F-48E2-9983-A16C30A9AFCE}
 		{8E836E6A-7511-4DE8-8FB5-04E6EDE6024A} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
+		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76} = {9BD72299-11FB-427E-A607-94738F69CB50}
 	EndGlobalSection
 EndGlobal
