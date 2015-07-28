@@ -35,6 +35,7 @@ namespace WebApiProxy.Generator
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             errorProvider.Clear();
+            SuccessMsgLabel.Hide();
 
             bool hasErrors = false;
 
@@ -86,6 +87,9 @@ namespace WebApiProxy.Generator
                     string fileName = Path.Combine(txtProjectDirectory.Text, configuration.Name + ".generated.cs");
 
                     File.WriteAllText(fileName, source);
+                    // TODO: Just for now to see when it is finished
+                    SuccessMsgLabel.Show();
+
                     //File.WriteAllText(Configuration.CacheFile, source);
                 }
                 catch (Exception)
