@@ -7,35 +7,34 @@
             <!-- Widget ID (each widget will need unique ID)-->
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
-                <li><a href="#s1">No Accounts</a></li>
-                <li><a href="#s2">With Accounts</a></li>
+                <li><a href="#s1"> Active </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
                 <div class="tab-pane fade in active" id="s1" role="tabpanel">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="noAccountsGrid"></div>
+                                <div id="activeGrid"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row hidden" id="noAccountsPanel">
+                    <div class="row hidden" id="activePanel">
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Name:</dt><dd><p id="ddnaCompanyName"></p></dd>
+                                    <dt>Name:</dt><dd><p id="ddaCompanyName"></p></dd>
                                     <dt>Address:</dt>
-                                    <dd><p id="ddnaCompanyAddress1"></p></dd>
-                                    <dd><p id="ddnaCompanyAddress2"></p></dd>
-                                    <dd><p id="ddnaCompanyTownCity"></p></dd>
-                                    <dd><p id="ddnaCompanyCounty"></p></dd>
-                                    <dd><p id="ddnaCompanyPostCode"></p></dd>
-                                    <dd><p id="ddnaAdditional"></p></dd>
-                                    <dt>Regulator:</dt><dd><p id="ddnaRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt><dd><p id="ddnaRegulatorNumber"></p></dd>
+                                    <dd><p id="ddaCompanyAddress1"></p></dd>
+                                    <dd><p id="ddaCompanyAddress2"></p></dd>
+                                    <dd><p id="ddaCompanyTownCity"></p></dd>
+                                    <dd><p id="ddaCompanyCounty"></p></dd>
+                                    <dd><p id="ddaCompanyPostCode"></p></dd>
+                                    <dd><p id="ddaAdditional"></p></dd>
+                                    <dt>Regulator:</dt><dd><p id="ddaRegulator"></p></dd>
+                                    <dt>Regulator Number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -44,83 +43,20 @@
                             <div class="well">
                                 <h5>System Administrator</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Name:</dt><dd><p id="ddnaSystemAdminName"></p></dd>
-                                    <dt>Email:</dt><dd><p id="ddnaSystemAdminEmail"></p></dd>
-                                    <dt>Telephone:</dt><dd><p id="ddnaSystemAdminTel"></p></dd>
+                                    <dt>Name:</dt><dd><p id="ddaSystemAdminName"></p></dd>
+                                    <dt>Email:</dt><dd><p id="ddaSystemAdminEmail"></p></dd>
+                                    <dt>Telephone:</dt><dd><p id="ddaSystemAdminTel"></p></dd>
                                 </dl>
                                 <h5>Verified Details</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Verified On:</dt><dd><p id="ddnaCompanyVerifiedOn"></p></dd>
-                                    <dt>Verified By:</dt><dd><p id="ddnaCompanyVerifiedBy"></p></dd>
-                                    <dt>Telephone:</dt><dd><p id="ddnaCompanyVerifiedTelephone"></p></dd>
+                                    <dt>Verified On:</dt><dd><p id="ddaCompanyVerifiedOn"></p></dd>
+                                    <dt>Verified By:</dt><dd><p id="ddaCompanyVerifiedBy"></p></dd>
+                                    <dt>Telephone:</dt><dd><p id="ddaCompanyVerifiedTelephone"></p></dd>
                                 </dl>
                                 <h5>Other Details</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Created On:</dt><dd><p id="ddnaCompanyCreatedOn"></p></dd>
-                                    <dt>Created By:</dt><dd><p id="ddnaCompanyCreatedBy"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade in active" id="s2" role="tabpanel">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="well">
-                                <div id="withAccountsGrid"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row hidden" id="withAccountsPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Company</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddwaCompanyName"></p></dd>
-                                    <dt>Address:</dt>
-                                    <dd><p id="ddwaCompanyAddress1"></p></dd>
-                                    <dd><p id="ddwaCompanyAddress2"></p></dd>
-                                    <dd><p id="ddwaCompanyTownCity"></p></dd>
-                                    <dd><p id="ddwaCompanyCounty"></p></dd>
-                                    <dd><p id="ddwaCompanyPostCode"></p></dd>
-                                    <dd><p id="ddwaAdditional"></p></dd>
-                                    <dt>Regulator:</dt>
-                                    <dd><p id="ddwaRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt>
-                                    <dd><p id="ddwaRegulatorNumber"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>System Administrator</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddwaSystemAdminName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="ddwaSystemAdminEmail"></p></dd>
-                                    <dt>Telephone:</dt>
-                                    <dd><p id="ddwaSystemAdminTel"></p></dd>
-                                </dl>
-                                <h5>Verified Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Verified On:</dt>
-                                    <dd><p id="ddwaCompanyVerifiedOn"></p></dd>
-                                    <dt>Verified By:</dt>
-                                    <dd><p id="ddwaCompanyVerifiedBy"></p></dd>
-                                    <dt>Telephone:</dt>
-                                    <dd><p id="ddwaCompanyVerifiedTelephone"></p></dd>
-                                </dl>
-                                <h5>Other Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Created On:</dt>
-                                    <dd><p id="ddwaCompanyCreatedOn"></p></dd>
-                                    <dt>Created By:</dt>
-                                    <dd><p id="ddwaCompanyCreatedBy"></p></dd>
+                                    <dt>Created On:</dt><dd><p id="ddaCompanyCreatedOn"></p></dd>
+                                    <dt>Created By:</dt><dd><p id="ddaCompanyCreatedBy"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -136,68 +72,15 @@
     <script type="text/javascript">
 
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var naGrid = new gridItem(
+    var uGrid = new gridItem(
         {
-            gridElementId: 'noAccountsGrid',
+            gridElementId: 'activeGrid',
             url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
             schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
             defaultSort: { field: "Name", dir: "asc" },
-            change: noAccountsChange,
-            panels: ['noAccountsPanel'],
-            columns: [
-                    {
-                        field: "OrganisationID",
-                        hidden: true,
-                    },
-                    {
-                        field: "Name",
-                        title: "Company Name"
-                    },
-                    {
-                        field: "Line1",
-                        title: "Address 1"
-                    },
-                    {
-                        field: "PostalCode",
-                        title: "Post Code"
-                    },
-                    {
-                        field: "OrganisationAdminLastName",
-                        title: "System Administrator",
-                        template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
-                        }
-                    },
-                    {
-                        field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
-                    },
-                    {
-                        field: "OrganisationAdminEmail",
-                        title: "Email"
-                    },
-                    {
-                        field: "CreatedOn",
-                        title: "Created On",
-                        template: function (dataItem) {
-                            return dateString(dataItem.CreatedOn);
-                        }
-                    },
-                    {
-                        field: "CreatedBy",
-                        title: "Created By"
-                    }
-            ]
-        });
-
-    var waGrid = new gridItem(
-        {
-            gridElementId: 'withAccountsGrid',
-            url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
-            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-            defaultSort: { field: "Name", dir: "asc" },
-            change: withAccountsChange,
-            panels: ['withAccountsPanel'],
+            change: activeChange,
+            //jumpToId: '@TempData["AddTempCompanyId"]',
+            panels: ['activePanel'],
             columns: [
                     {
                         field: "OrganisationID",
@@ -248,10 +131,7 @@
     var tabs = new tabItem("myTab1",
         {
             s1: {
-                grids: [naGrid]
-            },
-            s2: {
-                grids: [waGrid]
+                grids: [uGrid]
             }
         });
 
@@ -259,55 +139,37 @@
         //set up tabs
         tabs.makeTab();
         tabs.showTab(@TempData["tabIndex"]);
+
+        //findModalLinks();
     });
 
     //data binding for the panes beneath each grid
-    function noAccountsChange(dataItem) {
-        $("p#ddnaCompanyName").text(dataItem.Name || "");
-        $("p#ddnaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-        $("p#ddnaCompanyCounty").text(dataItem.County || "");
-        $("p#ddnaCompanyPostCode").text(dataItem.PostalCode || "");
-        $("p#ddnaCompanyTownCity").text(dataItem.Town || "");
-        $("p#ddnaCompanyAddress2").text(dataItem.Line2 || "");
-        $("p#ddnaCompanyAddress1").text(dataItem.Line1 || "");
-        $("p#ddnaAdditional").text(dataItem.AdditionalAddressInformation || "");
-        $("p#ddnaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-        $("p#ddnaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-        $("p#ddnaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    function activeChange(dataItem) {
+        $("p#ddaCompanyName").text(dataItem.Name || "");
+        $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+        $("p#ddaCompanyCounty").text(dataItem.County || "");
+        $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
+        $("p#ddaCompanyTownCity").text(dataItem.Town || "");
+        $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
+        $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
+        $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
+        $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+        $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+        $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
 
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-        $("p#ddnaRegulator").text(regulatorName);
-        $("p#ddnaRegulatorNumber").text(dataItem.RegulatorNumber);
+        $("p#ddaRegulator").text(regulatorName);
+        $("p#dduRegulatorNumber").text(dataItem.RegulatorNumber);
 
-        $("p#ddnaCompanyCreatedBy").text(dataItem.CreatedBy || "");
-        $("p#ddnaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
-        $("p#ddnaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
-        $("p#ddnaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
-    }
+        $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
+        $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
+        $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
+        $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
 
-    function withAccountsChange(dataItem) {
-        $("p#ddwaCompanyName").text(dataItem.Name || "");
-        $("p#ddwaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-        $("p#ddwaCompanyCounty").text(dataItem.County || "");
-        $("p#ddwaCompanyPostCode").text(dataItem.PostalCode || "");
-        $("p#ddwaCompanyTownCity").text(dataItem.Town || "");
-        $("p#ddwaCompanyAddress2").text(dataItem.Line2 || "");
-        $("p#ddwaCompanyAddress1").text(dataItem.Line1 || "");
-        $("p#ddwaAdditional").text(dataItem.AdditionalAddressInformation || "");
-        $("p#ddwaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-        $("p#ddwaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-        $("p#ddwaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-
-        var regulatorName = dataItem.Regulator || "";
-        if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-        $("p#ddwaRegulator").text(regulatorName);
-        $("p#ddwaRegulatorNumber").text(dataItem.RegulatorNumber);
-
-        $("p#ddwaCompanyCreatedBy").text(dataItem.CreatedBy || "");
-        $("p#ddwaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
-        $("p#ddwaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
-        $("p#ddwaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
+        //update reject & generate links
+        $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
     </script>
