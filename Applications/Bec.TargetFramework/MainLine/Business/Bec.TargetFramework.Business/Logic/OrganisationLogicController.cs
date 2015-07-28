@@ -104,12 +104,38 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus)
+        public List<VOrganisationWithStatusAndAdminDTO> GetCompaniesByStatus(ProfessionalOrganisationStatusEnum orgStatus)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), orgStatus.GetStringValue());
-                return scope.DbContext.VOrganisationWithStatusAndAdmins.Where(item => item.StatusTypeValueID == status.StatusTypeValueID).ToDtos();
+                return GetCompanies(item => item.StatusTypeValueID == status.StatusTypeValueID);
+            }
+        }
+
+        public List<VOrganisationWithStatusAndAdminDTO> GetCompaniesHavingAccounts()
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                // todo: implement
+                return GetCompanies(item => true);
+            }
+        }
+
+        public List<VOrganisationWithStatusAndAdminDTO> GetCompaniesWithoutAccounts()
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                // todo: implement
+                return GetCompanies(item => false);
+            }
+        }
+
+        private List<VOrganisationWithStatusAndAdminDTO> GetCompanies(Predicate<VOrganisationWithStatusAndAdmin> predicate)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.VOrganisationWithStatusAndAdmins.Where(item => predicate(item)).ToDtos();
             }
         }
 

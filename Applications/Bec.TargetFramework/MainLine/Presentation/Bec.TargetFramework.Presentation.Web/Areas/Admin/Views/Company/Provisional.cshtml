@@ -89,7 +89,7 @@
                                     <dd><p id="ddvCompanyPostCode"></p></dd>
                                     <dd><p id="ddvAdditional"></p></dd>
                                     <dt>Regulator:</dt><dd><p id="ddvRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
+                                    <dt>Regulator Number:</dt><dd><p id="ddvRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                     <dd><p id="ddrCompanyPostCode"></p></dd>
                                     <dd><p id="ddrAdditional"></p></dd>
                                     <dt>Regulator:</dt><dd><p id="ddrRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
+                                    <dt>Regulator Number:</dt><dd><p id="ddrRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -401,6 +401,7 @@
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#ddvRegulator").text(regulatorName);
+        $("p#ddvRegulatorNumber").text(dataItem.RegulatorNumber || "");
 
         $("p#ddvPINNumber").text(dataItem.PinCode);
         $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));
@@ -426,6 +427,7 @@
         var regulatorName = dataItem.Regulator || "";
         if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
         $("p#ddrRegulator").text(regulatorName);
+        $("p#ddrRegulatorNumber").text(dataItem.RegulatorNumber || "");
 
         $("p#ddrRejectedOn").text(dateString(dataItem.StatusChangedOn));
         $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
