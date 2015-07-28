@@ -19,34 +19,25 @@ namespace BodgeIt
     {
         const string baseDir = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Scripts";
         Dictionary<int, string> tfCons = new Dictionary<int,string>(){
-            {0,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {1,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
+            {0,"Host=localhost;User Id=postgres;Password=admin;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
+            {1,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
+            {2,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
         };
 
         Dictionary<int, string> coreCons = new Dictionary<int, string>(){
-            {0,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {1,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
+            {0,"Host=localhost;User Id=postgres;Password=admin;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
+            {1,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
+            {2,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
         };
 
         public Form1()
         {
-            InitializeComponent();
-
-            comboType.DataSource = new [] { 
-                new { Text = "User", Value = 1 },
-                new { Text = "Administrator", Value = 2 },
-                new { Text = "ComplianceOfficer", Value = 3 },
-                new { Text = "Temporary", Value = 4 },
-                new { Text = "BranchAdministrator", Value = 5 },
-                new { Text = "OrganisationAdministrator", Value = 6 } 
-            };
-            comboType.DisplayMember = "Text";
-            comboType.ValueMember = "Value";
-            comboType.SelectedIndex = 1;            
+            InitializeComponent();        
 
             comboDB.DataSource = new[] { 
-                new { Text = "bec-dev-01", Value = 0 },
-                new { Text = "sys-db-01", Value = 1 }
+                new { Text = "localhost", Value = 0 },
+                new { Text = "bec-dev-01", Value = 1 },
+                new { Text = "sys-db-01", Value = 2 }
             };
             comboDB.DisplayMember = "Text";
             comboDB.ValueMember = "Value";
@@ -69,7 +60,7 @@ namespace BodgeIt
                 Salutation = textSalutation.Text
             };
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), comboType.SelectedValue, textUsername.Text, System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+            await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&username={1}&password={2}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), textUsername.Text, System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
             MessageBox.Show("Done");
         }
 
@@ -104,7 +95,7 @@ namespace BodgeIt
                 using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
                 {
                     con.Open();
-                    runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade;");
+                    runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\";");
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security Categories.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Status.sql")));
@@ -219,6 +210,8 @@ namespace BodgeIt
         {
             button4_Click(this, null);
 
+            Guid orgID = new Guid(textOrgId.Text);
+
             for (int i = 1; i < 6; i++)
             {
                 var contact = new
@@ -229,7 +222,17 @@ namespace BodgeIt
                     Salutation = textSalutation.Text
                 };
                 HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-                await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue={1}&username={2}&password={3}&isTemporary=false&sendEmail=false", new Guid(textOrgId.Text), comboType.SelectedValue, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&username={1}&password={2}&isTemporary=false&sendEmail=false", orgID, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+                var s = await x.Content.ReadAsStringAsync();
+                Guid g = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
+
+                //apply all available roles
+
+                var y = await SendAsync<Guid[]>(client, string.Format("api/OrganisationLogic/GetRoles?orgID={0}", orgID), HttpMethod.Get, "user", null);
+                var t = await y.Content.ReadAsStringAsync();
+                Guid[] roles = JArray.Parse(t).Select(j => (Guid)j["OrganisationRoleID"]).ToArray();
+
+                await SendAsync<Guid[]>(client, string.Format("api/UserLogic/SetRolesAsync?uaoID={0}", g), HttpMethod.Post, "user", roles);
             }
             MessageBox.Show("Done");
         }

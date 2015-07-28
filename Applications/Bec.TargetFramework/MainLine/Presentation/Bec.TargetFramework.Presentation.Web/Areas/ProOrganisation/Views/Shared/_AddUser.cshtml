@@ -20,7 +20,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-12">
                         <form action="@Url.Action("AddUser", "Users", new { area = "ProOrganisation" })" method="POST" id="addUser-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
@@ -52,6 +52,20 @@
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.EmailAddress1, new { tabindex = "4" })
                                     </label>
+                                </section>
+
+                                <section>
+                                    <label class="label">Roles</label>
+                                    
+                                    @foreach (OrganisationRoleDTO role in ViewBag.Roles)
+                                    {
+                                        <label class="checkbox ">
+                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" />
+                                            <i></i>
+                                            <label for="role-@role.OrganisationRoleID">@role.RoleName</label>
+                                        </label>
+                                    }
+                                    
                                 </section>
 
                             </fieldset>

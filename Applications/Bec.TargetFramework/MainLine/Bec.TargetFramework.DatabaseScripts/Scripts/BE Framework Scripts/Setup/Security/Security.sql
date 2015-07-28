@@ -20,6 +20,11 @@ VALUES (E'b88822a0-3cc0-11e4-acf9-bfd11fd091e6', E'Organisation Administrator', 
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
 
+ INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
+VALUES (E'b55522a0-3cc0-11e4-acf9-bfd11fd091e6', E'Accounts Administrator', E'Accounts Administrator Role',
+(select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
+ NULL, NULL, NULL, True, False, True);
+
 INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
 VALUES (E'b88849b0-3cc0-11e4-8d6b-0719c31a5e20', E'Organisation Branch Administrator', E'Organisation Branch Administrator Role',
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
@@ -36,45 +41,62 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1),
-  TRUE);
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
 
-  --admin user claim
+--employee add transaction
+    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
+
+--org admin add users
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
+--org admin add transaction
+    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
+--org admin addbank account
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'BankAccount' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
+
+--bec accounts
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Accounts Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'BankAccount' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Configure' limit 1), TRUE);
+
+--bec admin
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'Company' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
-  TRUE);
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
 
-    --add pro user claims
+--add pro user claims
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
-  TRUE);
-  --and
-   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
- values (
-  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
-  (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
-  TRUE);
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
 
-    --add SmsTransaction claims
+--configure validated accounts (import)
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
-  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
-  TRUE);
-  --and
-   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
- values (
-  (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1),
-  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
-  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1),
-  TRUE);
-
-  
+  (select "ResourceID" from "Resource" where "ResourceName" = 'ValidatedAccount' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);

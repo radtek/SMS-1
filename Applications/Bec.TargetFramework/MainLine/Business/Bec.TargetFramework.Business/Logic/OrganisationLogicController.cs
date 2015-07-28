@@ -125,11 +125,14 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             DefaultOrganisation defaultOrganisation = null;
+            Guid orgRoleID;
             // get status type for professional organisation
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContext.DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation"));
+                //always add firm sys admins to this role
+                orgRoleID = scope.DbContext.OrganisationRoles.Single(x => x.RoleName == "Organisation Administrator").OrganisationRoleID;
             }
 
             Ensure.That(defaultOrganisation).IsNotNull();
@@ -148,13 +151,14 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation
             };
 
-            await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true);
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, randomUsername, randomPassword, true, true, orgRoleID);
 
             return organisationID;
         }
 
-        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail)
+        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, string username, string password, bool isTemporary, bool sendEmail, [System.Web.Http.FromUri]params Guid[] roles)
         {
+            UserTypeEnum userTypeValue = UserTypeEnum.User;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
             var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
@@ -167,6 +171,8 @@ namespace Bec.TargetFramework.Business.Logic
                 // add user to organisation
                 userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
                 Ensure.That(userOrgID).IsNotNull();
+
+                await UserLogic.SetRolesAsync(userOrgID.Value, roles);
 
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value);
 
@@ -504,6 +510,14 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusChangedBy = UserNameService.UserName
                 });
                 await scope.SaveAsync();
+            }
+        }
+
+        public List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.OrganisationRoles.Where(x => x.OrganisationID == orgID).ToDtos();
             }
         }
     }

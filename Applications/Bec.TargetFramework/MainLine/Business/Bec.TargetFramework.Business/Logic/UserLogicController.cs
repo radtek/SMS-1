@@ -869,23 +869,30 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, UserTypeEnum userType, string username, string password)
+        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
         {
+            Guid[] roles;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                //copy roles from temp user
+                roles = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
+
+            }
             var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
 
             //has to be called outside of transaction.
-            await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false);
+            var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, username, password, false, false, roles);
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
             {
                 var vStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
-                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s=>s.StatusChangedOn).First();
-                
+                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
+
                 //progress status to 'active' if it's only 'verified'
                 if (currentStatus.StatusTypeID == vStatus.StatusTypeID && currentStatus.StatusTypeValueID == vStatus.StatusTypeValueID)
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
-                
+
                 //delete original temp user account
                 await LockUserTemporaryAccountAsync(uao.UserID);
 
@@ -896,8 +903,10 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
         {
             VUserAccountOrganisationDTO oldUaInfo;
+            Guid[] roles = null;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
+                roles = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoId).Select(x => x.OrganisationRoleID).ToArray();
                 oldUaInfo = scope.DbContext.VUserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId).ToDto();
                 var orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == oldUaInfo.OrganisationID); //will be null if org type != professional
                 if (orgInfo != null)
@@ -922,9 +931,11 @@ namespace Bec.TargetFramework.Business.Logic
             };
 
             //add new user & email them
-            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true);
+            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, randomUsername, randomPassword, true, true, roles);
+
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                //disable the old user
                 var user = scope.DbContext.UserAccounts.Single(x => x.ID == newUao.UserID);
                 user.IsLoginAllowed = true;
                 await scope.SaveAsync();
@@ -936,6 +947,33 @@ namespace Bec.TargetFramework.Business.Logic
             await GeneratePinAsync(newUao.UserAccountOrganisationID);
 
             return newUao;
+        }
+
+        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                return scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+            }
+        }
+
+        public async Task SetRolesAsync(Guid uaoID, params Guid[] orgRoleIDs)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var remove = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID);
+                scope.DbContext.UserAccountOrganisationRoles.RemoveRange(remove);
+
+                foreach (var roleID in orgRoleIDs)
+                {
+                    scope.DbContext.UserAccountOrganisationRoles.Add(new UserAccountOrganisationRole
+                    {
+                        UserAccountOrganisationID = uaoID,
+                        OrganisationRoleID = roleID
+                    });
+                }
+                await scope.SaveAsync();
+            }
         }
     }
 }

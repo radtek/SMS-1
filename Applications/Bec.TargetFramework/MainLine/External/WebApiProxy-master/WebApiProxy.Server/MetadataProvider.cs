@@ -72,7 +72,9 @@ namespace WebApiProxy.Server
                                                                           IsOptional = b.ParameterDescriptor.IsOptional,
                                                                           DefaultValue = b.ParameterDescriptor.DefaultValue
                                                                       },
-                                                      Url = a.RelativePath,
+                                                      Url = "api/" + a.ActionDescriptor.ControllerDescriptor.ControllerName + "/" + a.ActionDescriptor.ActionName + makeParams(a.ParameterDescriptions),
+
+                                                      ArrayParameters = a.ParameterDescriptions.Where(x => x.ParameterDescriptor.ParameterType.IsArray).Select(p => p.Name),
 
                                                       Description = a.Documentation ?? "",
                                                       ReturnType = ParseType(a.ResponseDescription.ResponseType ?? a.ResponseDescription.DeclaredType),
@@ -87,6 +89,15 @@ namespace WebApiProxy.Server
             metadata.Models = metadata.Models.Distinct(new ModelDefinitionEqualityComparer()).OrderBy(d => d.Name);
             return metadata;
 
+        }
+
+        private string makeParams(System.Collections.ObjectModel.Collection<ApiParameterDescription> collection)
+        {
+            string r = string.Join("&", collection.Where(p => p.ParameterDescriptor != null && p.Source == ApiParameterSource.FromUri && !p.ParameterDescriptor.ParameterType.IsArray).Select(p => p.Name + "={" + p.Name + "}"));
+            if (r.Length > 0)
+                return "?" + r;
+            else
+                return "";
         }
 
         private string ParseType(Type type, ModelDefinition model = null)

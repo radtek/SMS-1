@@ -1,7 +1,8 @@
 ﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
-@model UserAccountOrganisationDTO
+@using Bec.TargetFramework.Presentation.Web.Helpers;
+@model Edit<UserAccountOrganisationDTO>
 @{
     List<SelectListItem> titles = new List<SelectListItem>
     {
@@ -25,13 +26,13 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("uaoID", (object)ViewBag.uaoID)
-                            @Html.HiddenFor(m => m.Contact.RowVersion)
-                            @Html.HiddenFor(m => m.UserAccount.RowVersion)
+                            @Html.HiddenFor(m => m.Model.Contact.RowVersion)
+                            @Html.HiddenFor(m => m.Model.UserAccount.RowVersion)
                             <fieldset>
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "13" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "13" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -39,22 +40,43 @@
                                     <label class="label">First Name</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Contact.FirstName, new { tabindex = "1", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.Model.Contact.FirstName, new { tabindex = "1", maxlength = 50 })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Last Name</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Contact.LastName, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.Model.Contact.LastName, new { tabindex = "2", maxlength = 50 })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Email address</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.UserAccount.Email, new { tabindex = "3" })
+                                        @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3" })
                                     </label>
+                                </section>
+
+                                <section>
+                                    <label class="label">Roles</label>
+
+                                    @foreach (var role in ViewBag.Roles)
+                                    {
+                                        <label class="checkbox ">
+                                            @if (role.Value)
+                                            {
+                                                <input type="checkbox" id="role-@role.Key.OrganisationRoleID" name="role-@role.Key.OrganisationRoleID" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" id="role-@role.Key.OrganisationRoleID" name="role-@role.Key.OrganisationRoleID" />
+                                            }
+                                            <i></i>
+                                            <label for="role-@role.Key.OrganisationRoleID">@role.Key.RoleName</label>
+                                        </label>
+                                    }
+
                                 </section>
 
                             </fieldset>

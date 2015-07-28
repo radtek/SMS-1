@@ -83,7 +83,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         private static Newtonsoft.Json.Linq.JObject fromD(NameValueCollection vals)
         {
             Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
-            foreach (var key in vals.AllKeys.Where(k => k.Contains("."))) addD(key.Split('.').ToList(), o, vals[key]);
+            foreach (var key in vals.AllKeys.Where(k => k.StartsWith("Model."))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
             return o;
         }
 
