@@ -474,22 +474,26 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
 
 		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
 		/// <param name="sendEmail"></param>
+		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,String username,String password,Boolean isTemporary,Boolean sendEmail,Guid[] roles,ContactDTO userContactDto);
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
 
 		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
 		/// <param name="sendEmail"></param>
+		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,String username,String password,Boolean isTemporary,Boolean sendEmail,Guid[] roles,ContactDTO userContactDto);
+		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
 
 		/// <param name="userOrgID"></param>
 		/// <returns></returns>
@@ -544,6 +548,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <returns></returns>
 		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID);
+
+		/// <returns></returns>
+		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync();
+
+		/// <returns></returns>
+		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts();
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -1135,14 +1145,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		Task SetRolesAsync(Guid uaoID,Guid[] orgRoleIDs);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		void SetRoles(Guid uaoID,Guid[] orgRoleIDs);
 	}
 
 }
@@ -2394,35 +2396,39 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
 		/// <param name="sendEmail"></param>
+		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,String username,String password,Boolean isTemporary,Boolean sendEmail,Guid[] roles,ContactDTO userContactDto)
+		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + mapArray("roles", roles), userContactDto, _user);
+			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="organisationID"></param>
+		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <param name="isTemporary"></param>
 		/// <param name="sendEmail"></param>
+		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,String username,String password,Boolean isTemporary,Boolean sendEmail,Guid[] roles,ContactDTO userContactDto)
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
 		{
 			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + mapArray("roles", roles), userContactDto, _user)).Result;
+			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
 		}
 
 		/// <summary>
@@ -2557,6 +2563,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync()
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOutstandingBankAccounts", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOutstandingBankAccounts", _user)).Result;
 		}
 
 		/// <summary>
@@ -4182,27 +4207,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		public virtual Task SetRolesAsync(Guid uaoID,Guid[] orgRoleIDs)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<Guid[]>("api/UserLogic/SetRolesAsync?uaoID=" + uaoID + mapArray("orgRoleIDs", orgRoleIDs), orgRoleIDs, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		public virtual void SetRoles(Guid uaoID,Guid[] orgRoleIDs)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<Guid[]>("api/UserLogic/SetRolesAsync?uaoID=" + uaoID + mapArray("orgRoleIDs", orgRoleIDs), orgRoleIDs, _user)).Wait();
 		}
 
 		#endregion

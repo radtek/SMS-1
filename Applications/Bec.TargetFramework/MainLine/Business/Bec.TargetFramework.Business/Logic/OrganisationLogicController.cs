@@ -131,8 +131,6 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContext.DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation"));
-                //always add firm sys admins to this role
-                orgRoleID = scope.DbContext.OrganisationRoles.Single(x => x.RoleName == "Organisation Administrator").OrganisationRoleID;
             }
 
             Ensure.That(defaultOrganisation).IsNotNull();
@@ -151,14 +149,13 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation
             };
 
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, randomUsername, randomPassword, true, true, orgRoleID);
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
 
             return organisationID;
         }
 
-        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, string username, string password, bool isTemporary, bool sendEmail, [System.Web.Http.FromUri]params Guid[] roles)
+        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
-            UserTypeEnum userTypeValue = UserTypeEnum.User;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
             var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
@@ -169,10 +166,17 @@ namespace Bec.TargetFramework.Business.Logic
                 Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
 
                 // add user to organisation
-                userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID);
+                userOrgID = scope.DbContext.FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID, addDefaultRoles);
                 Ensure.That(userOrgID).IsNotNull();
 
-                await UserLogic.SetRolesAsync(userOrgID.Value, roles);
+                foreach (var roleID in roles)
+                {
+                    scope.DbContext.UserAccountOrganisationRoles.Add(new UserAccountOrganisationRole
+                    {
+                        UserAccountOrganisationID = userOrgID.Value,
+                        OrganisationRoleID = roleID
+                    });
+                }
 
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == userOrgID.Value);
 
@@ -426,11 +430,28 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var txID = Guid.NewGuid();
-                var addressID = await FindOrCreateAddress(dto.Address, txID);
+
+                var address = scope.DbContext.Addresses.FirstOrDefault(x =>
+                    x.Line1 == dto.Address.Line1 &&
+                    x.Line2 == dto.Address.Line2 &&
+                    x.Town == dto.Address.Town &&
+                    x.County == dto.Address.County &&
+                    x.PostalCode == dto.Address.PostalCode);
+
+                if (address == null)
+                {
+                    address = dto.Address.ToEntity();
+                    address.AddressID = Guid.NewGuid();
+                    address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
+                    address.Name = String.Empty;
+                    address.ParentID = txID;
+                    scope.DbContext.Addresses.Add(address); // TODO: erm, this doesn't appear to work
+                }
+
                 SmsTransaction tx = new SmsTransaction
                 {
                     SmsTransactionID = txID,
-                    AddressID = addressID,
+                    Address = address,
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
@@ -443,37 +464,22 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Guid> FindOrCreateAddress(AddressDTO addressDTO, Guid parentID)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var existing = scope.DbContext.Addresses.FirstOrDefault(x =>
-                    x.Line1 == addressDTO.Line1 &&
-                    x.Line2 == addressDTO.Line2 &&
-                    x.Town == addressDTO.Town &&
-                    x.County == addressDTO.County &&
-                    x.PostalCode == addressDTO.PostalCode);
-
-                if (existing == null)
-                {
-                    existing = addressDTO.ToEntity();
-                    existing.AddressID = Guid.NewGuid();
-                    existing.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
-                    existing.Name = String.Empty;
-                    existing.ParentID = parentID;
-                    scope.DbContext.Addresses.Add(existing);
-                }
-                //have to call svae regardless
-                await scope.SaveAsync();
-                return existing.AddressID;
-            }
-        }
 
         public List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 return scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
+            }
+        }
+
+        public List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts()
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var safeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Safe.GetStringValue());
+                var archivedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Archived.GetStringValue());
+                return scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => !(x.Status == safeStatus.Name || x.Status == archivedStatus.Name)).ToDtos();
             }
         }
 

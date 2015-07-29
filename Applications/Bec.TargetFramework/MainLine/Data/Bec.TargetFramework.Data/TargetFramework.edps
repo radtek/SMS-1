@@ -1695,7 +1695,15 @@
         </ed:Property>
       </Template>
     </Templates>
-    <AttributeAssemblies />
+    <AttributeAssemblies>
+      <AttributeAssembly Name="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" File="..\..\Build\debug\Bec.TargetFramework.Data.Attributes.dll">
+        <AttributeType Name="CollectionUpdateBehaviourAttribute" AttributeNamespace="Bec.TargetFramework.Data.Attributes" AttributeAllowMultiple="False" AttributeValidOn="All">
+          <AttributeConstructor>
+            <ed:Property Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Default="Ignore" />
+          </AttributeConstructor>
+        </AttributeType>
+      </AttributeAssembly>
+    </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
       <Exclude Name="NotificationConstructDataID" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="NotificationConstructID" Table="public.NotificationConstructData" Type="Column" />

@@ -872,16 +872,18 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
         {
             Guid[] roles;
+            UserTypeEnum userType;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 //copy roles from temp user
                 roles = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
-
+                var oldUao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
+                userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUao.UserTypeID.ToString()).Value;
             }
             var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
 
             //has to be called outside of transaction.
-            var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, username, password, false, false, roles);
+            var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false, false, roles);
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
             {
@@ -930,8 +932,10 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = oldUaInfo.Salutation
             };
 
+            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUaInfo.UserTypeID.ToString()).Value;
+
             //add new user & email them
-            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, randomUsername, randomPassword, true, true, roles);
+            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, userType, randomUsername, randomPassword, true, true, false, roles);
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -954,25 +958,6 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 return scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
-            }
-        }
-
-        public async Task SetRolesAsync(Guid uaoID, params Guid[] orgRoleIDs)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
-            {
-                var remove = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID);
-                scope.DbContext.UserAccountOrganisationRoles.RemoveRange(remove);
-
-                foreach (var roleID in orgRoleIDs)
-                {
-                    scope.DbContext.UserAccountOrganisationRoles.Add(new UserAccountOrganisationRole
-                    {
-                        UserAccountOrganisationID = uaoID,
-                        OrganisationRoleID = roleID
-                    });
-                }
-                await scope.SaveAsync();
             }
         }
     }

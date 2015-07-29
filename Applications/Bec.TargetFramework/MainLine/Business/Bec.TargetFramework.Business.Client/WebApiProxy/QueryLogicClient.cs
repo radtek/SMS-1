@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
         ///// <returns></returns>
         //Newtonsoft.Json.Linq.JObject Get(String id, string query);
 
-        Task UpdateGraphAsync(String id, NameValueCollection patch, string filter);
+        Task UpdateGraphAsync(String id, Newtonsoft.Json.Linq.JObject patch, string filter);
     }
 
     /// <summary>
@@ -72,33 +72,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
             return arr.Select(i => i.ToObject<T>());
         }
 
-        public virtual Task UpdateGraphAsync(String id, NameValueCollection nvc, string filter)
+        public virtual Task UpdateGraphAsync(String id, Newtonsoft.Json.Linq.JObject patch, string filter)
         {
             id = id.UrlEncode();
-            Newtonsoft.Json.Linq.JObject patch = fromD(nvc);
             string _user = getHttpContextUser();
             return PostAsync<Newtonsoft.Json.Linq.JObject>("api/QueryLogic/UpdateGraph/" + id + "?" + filter, patch, _user);
-        }
-
-        private static Newtonsoft.Json.Linq.JObject fromD(NameValueCollection vals)
-        {
-            Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
-            foreach (var key in vals.AllKeys.Where(k => k.StartsWith("Model."))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
-            return o;
-        }
-
-        private static Newtonsoft.Json.Linq.JObject addD(List<string> keys, Newtonsoft.Json.Linq.JObject o, string val)
-        {
-            if (keys.Count == 1)
-                o[keys[0]] = val;
-            else
-            {
-                var sub = new Newtonsoft.Json.Linq.JObject();
-                var prop = o.Property(keys[0]);
-                if (prop != null) sub = prop.Value as Newtonsoft.Json.Linq.JObject;
-                o[keys[0]] = addD(keys.Skip(1).ToList(), sub, val);
-            }
-            return o;
         }
 
         #endregion

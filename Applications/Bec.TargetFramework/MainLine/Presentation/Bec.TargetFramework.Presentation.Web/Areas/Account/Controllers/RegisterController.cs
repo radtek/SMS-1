@@ -79,8 +79,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(userAccountOrg.UserTypeID.ToString());
-
             await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, model.NewUsername, model.NewPassword);
 
             LoginController.logout(this, AuthSvc);

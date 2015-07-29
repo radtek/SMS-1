@@ -38,6 +38,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for Name in the schema.
+        /// </summary>
+        public virtual string Name
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for OrganisationBankAccountID in the schema.
         /// </summary>
         public virtual global::System.Guid OrganisationBankAccountID

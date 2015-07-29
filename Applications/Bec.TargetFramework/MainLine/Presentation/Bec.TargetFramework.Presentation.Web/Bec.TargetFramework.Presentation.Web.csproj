@@ -302,6 +302,7 @@
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
@@ -887,7 +888,8 @@
     <Content Include="Areas\BankAccount\Views\Account\Index.cshtml" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.cshtml" />
     <Content Include="Areas\BankAccount\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\BankAccount\Views\Shared\_AddStatus.cshtml" />
+    <Content Include="Views\Shared\_AddStatus.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\demo.min.js" />

@@ -60,20 +60,20 @@
 
                                 <section>
                                     <label class="label">Roles</label>
-
                                     @foreach (var role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            @if (role.Value)
+                                            @if (role.Value.Item2)
                                             {
-                                                <input type="checkbox" id="role-@role.Key.OrganisationRoleID" name="role-@role.Key.OrganisationRoleID" checked="checked" />
+                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" checked="checked" />
                                             }
                                             else
                                             {
-                                                <input type="checkbox" id="role-@role.Key.OrganisationRoleID" name="role-@role.Key.OrganisationRoleID" />
+                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" />
                                             }
+                                            <input name="Model.UserAccountOrganisationRoles[@role.Value.Item1].OrganisationRoleID" type="hidden" value="@role.Key.OrganisationRoleID" />
                                             <i></i>
-                                            <label for="role-@role.Key.OrganisationRoleID">@role.Key.RoleName</label>
+                                            <label for="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected">@role.Key.RoleName</label>
                                         </label>
                                     }
 

@@ -86,7 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, roles, contact);
+            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
 
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -165,7 +165,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             
             var allRoles = await orgClient.GetAvailableRolesAsync(orgID);
             var userRoles = userClient.GetRoles(uaoID);
-            ViewBag.Roles = allRoles.ToDictionary(k => k, v => userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID));
+            int i = 0;
+            ViewBag.Roles = allRoles.ToDictionary(k => k, v => Tuple.Create(i++, userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID)));
 
             return PartialView("_EditUser", Edit.MakeModel(res.First()));
         }
@@ -174,14 +175,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> EditUser(Guid uaoID)
         {
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-            await queryClient.UpdateGraphAsync("UserAccountOrganisations", Request.Form, filter);
+            var data = Edit.fromD(Request.Form);
+            
+            //manipulate collection of roles to include only selected ones
+            var array = data["UserAccountOrganisationRoles"] as JArray;
+            var toRemove = array.Where(x => x["Selected"] == null).ToList();
+            foreach (var r in toRemove) array.Remove(r);
 
-            var roles = Edit.ReadFormValues(Request, "role-", s => Guid.Parse(s), v => v == "on")
-                .Where(x => x.Value)
-                .Select(x => x.Key).ToArray();
+            await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
 
-            //TODO: consider rowversion check, or making this part of UpdateGraph
-            await userClient.SetRolesAsync(uaoID, roles);
+            //var roles = Edit.ReadFormValues(Request, "role-", s => Guid.Parse(s), v => v == "on")
+            //    .Where(x => x.Value)
+            //    .Select(x => x.Key).ToArray();
+
+            ////TODO: consider rowversion check, or making this part of UpdateGraph
+            //await userClient.SetRolesAsync(uaoID, roles);
 
             return RedirectToAction("Registered");
         }

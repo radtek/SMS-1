@@ -222,17 +222,17 @@ namespace BodgeIt
                     Salutation = textSalutation.Text
                 };
                 HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&username={1}&password={2}&isTemporary=false&sendEmail=false", orgID, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
+                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&username={1}&password={2}&isTemporary=false&sendEmail=false&addDefaultRoles=true", orgID, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
                 var s = await x.Content.ReadAsStringAsync();
                 Guid g = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
 
                 //apply all available roles
 
-                var y = await SendAsync<Guid[]>(client, string.Format("api/OrganisationLogic/GetRoles?orgID={0}", orgID), HttpMethod.Get, "user", null);
-                var t = await y.Content.ReadAsStringAsync();
-                Guid[] roles = JArray.Parse(t).Select(j => (Guid)j["OrganisationRoleID"]).ToArray();
+                //var y = await SendAsync<Guid[]>(client, string.Format("api/OrganisationLogic/GetRoles?orgID={0}", orgID), HttpMethod.Get, "user", null);
+                //var t = await y.Content.ReadAsStringAsync();
+                //Guid[] roles = JArray.Parse(t).Select(j => (Guid)j["OrganisationRoleID"]).ToArray();
 
-                await SendAsync<Guid[]>(client, string.Format("api/UserLogic/SetRolesAsync?uaoID={0}", g), HttpMethod.Post, "user", roles);
+                //await SendAsync<Guid[]>(client, string.Format("api/UserLogic/SetRolesAsync?uaoID={0}", g), HttpMethod.Post, "user", roles);
             }
             MessageBox.Show("Done");
         }

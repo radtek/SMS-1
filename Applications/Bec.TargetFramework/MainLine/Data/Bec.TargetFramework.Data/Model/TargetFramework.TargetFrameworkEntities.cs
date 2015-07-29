@@ -2049,7 +2049,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnAddUserToOrganisation in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> FnAddUserToOrganisation (global::System.Nullable<System.Guid> useraccountid, global::System.Nullable<System.Guid> organisationid, global::System.Nullable<System.Guid> usertypeid, global::System.Nullable<System.Guid> organisationbranchid)
+        public virtual global::System.Nullable<System.Guid> FnAddUserToOrganisation (global::System.Nullable<System.Guid> useraccountid, global::System.Nullable<System.Guid> organisationid, global::System.Nullable<System.Guid> usertypeid, global::System.Nullable<System.Guid> organisationbranchid, global::System.Nullable<bool> adddefaultroles)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2083,6 +2083,10 @@ namespace Bec.TargetFramework.Data
                 if (organisationbranchid.HasValue)
                     organisationbranchidParameter.Value = organisationbranchid;
                 command.Parameters.Add(organisationbranchidParameter);
+                EntityParameter adddefaultrolesParameter = new EntityParameter("adddefaultroles", System.Data.DbType.Boolean);
+                if (adddefaultroles.HasValue)
+                    adddefaultrolesParameter.Value = adddefaultroles;
+                command.Parameters.Add(adddefaultrolesParameter);
                 result = (global::System.Nullable<System.Guid>)command.ExecuteScalar();
               }
             }

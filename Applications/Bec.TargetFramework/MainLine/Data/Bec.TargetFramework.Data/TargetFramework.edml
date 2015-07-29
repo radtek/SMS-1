@@ -3143,7 +3143,7 @@
           <Property Name="PinCode" Type="varchar" MaxLength="40" />
           <Property Name="PinCreated" Type="timestamptz" />
           <Property Name="PinAttempts" Type="smallint" Nullable="false" DefaultValue="0" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="StatusTypeRole">
           <Key>
@@ -6153,7 +6153,7 @@
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="FirmName" Type="varchar" MaxLength="500" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate">
           <Key>
@@ -6608,7 +6608,7 @@
           <Property Name="IsForgotPasswordRequestAllowed" Type="boolean" Nullable="false" />
           <Property Name="LastForgotUsernameFailedAttempt" Type="timestamp" />
           <Property Name="LastForgotPasswordFailedAttempt" Type="timestamp" />
-          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="UserClaims">
           <Key>
@@ -9783,6 +9783,7 @@
             <PropertyRef Name="BankAccountNumber" />
           </Key>
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="2000" />
           <Property Name="OrganisationBankAccountID" Type="uuid" Nullable="false" />
           <Property Name="BankAccountNumber" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="Created" Type="timestamptz" Nullable="false" />
@@ -17821,6 +17822,7 @@
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
           <Parameter Name="usertypeid" Type="uuid" Mode="In" />
           <Parameter Name="organisationbranchid" Type="uuid" Mode="In" />
+          <Parameter Name="adddefaultroles" Type="boolean" Mode="In" />
         </Function>
         <Function Name="fn_CreateOrganisationFromDefault" devart:IsConcealedFunction="true" devart:ReturnType="uuid" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_CreateOrganisationFromDefault">
           <Parameter Name="organisationtypeid" Type="int" Mode="In" />
@@ -20655,6 +20657,7 @@
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
             <Parameter Name="usertypeid" Mode="In" Type="Guid" />
             <Parameter Name="organisationbranchid" Mode="In" Type="Guid" />
+            <Parameter Name="adddefaultroles" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="FnCreateOrganisationFromDefault" ReturnType="Collection(Guid)" ed:Guid="bec72812-7ad1-48e4-94a8-191f035abb9e">
             <Parameter Name="organisationtypeid" Mode="In" Type="Int32" />
@@ -20973,12 +20976,22 @@
           <Property Name="PinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="cfcaa05b-656a-42c2-b557-9b9f221c78c1" />
           <Property Name="PinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7df22fdf-9aa8-4f83-b12c-4e572fc2f779" />
           <Property Name="PinAttempts" Type="Int16" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="0c0ee2b8-7141-479f-9075-eb14ea356ead" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="9cd1a938-e32a-4ddb-a9b1-428dbe08c090" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="9cd1a938-e32a-4ddb-a9b1-428dbe08c090" />
           <NavigationProperty Name="OrganisationUnit" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_OrganisationUnit" FromRole="UserAccountOrganisations" ToRole="OrganisationUnit" ed:Guid="4dd881da-86e0-4a4d-aeba-1c4c79c2b01e" />
           <NavigationProperty Name="UserType" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_UserType" FromRole="UserAccountOrganisations" ToRole="UserType" ed:Guid="d42c377a-4a56-4f0b-8e96-06ce823da35b" />
           <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.fk_UserAccunts" FromRole="UserAccountOrganisations" ToRole="UserAccount" ed:Guid="9a83d5ac-57a6-4ca5-84cf-469f944920a2" />
           <NavigationProperty Name="UserAccountOrganisationTeams" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationTeam_UserAccountOrganisationUnit" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationTeams" ed:Guid="46be539b-9afe-44b2-b606-36ec7dfdc75f" />
-          <NavigationProperty Name="UserAccountOrganisationRoles" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationRole_UserAccountOrganisationUnit" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationRoles" ed:Guid="ee263e09-a8f8-4543-8096-890b8ed48973" />
+          <NavigationProperty Name="UserAccountOrganisationRoles" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationRole_UserAccountOrganisationUnit" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationRoles" ed:Guid="ee263e09-a8f8-4543-8096-890b8ed48973">
+            <ed:Attributes>
+              <ed:Attribute Name="Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviourAttribute" Assembly="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                <ed:AttributeConstructor>
+                  <ed:PropertyValue Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                    <UpdateBehaviour xmlns="">Replace</UpdateBehaviour>
+                  </ed:PropertyValue>
+                </ed:AttributeConstructor>
+              </ed:Attribute>
+            </ed:Attributes>
+          </NavigationProperty>
           <NavigationProperty Name="UserAccountOrganisationGroups" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationGroup_UserAccountOrganisationUnit" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationGroups" ed:Guid="e8cefd10-06f6-4db9-929d-2019c7e6d8da" />
           <NavigationProperty Name="UserAccountOrganisationStatus" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationStatus_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="UserAccountOrganisationStatus" ed:Guid="b759094f-2b60-468a-8b84-dbda8637a4ad" />
           <NavigationProperty Name="NotificationRecipients" Relationship="Bec.TargetFramework.Data.fk_NotificationRecipient_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="NotificationRecipients" ed:Guid="8f162e13-3e48-467c-91a1-c0fde24cf19a" />
@@ -24611,7 +24624,7 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="44bb772a-5db1-4be1-ab0b-693ab4de1959" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="c368d0ed-7cc1-4ba9-938b-bff927ee5555" />
           <Property Name="FirmName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="2c09c718-6071-4028-a8e0-561a2a84fbe9" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="d0632baa-1c3b-43a5-8155-63bf33cbf22f" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="d0632baa-1c3b-43a5-8155-63bf33cbf22f" />
           <NavigationProperty Name="ContactNames" Relationship="Bec.TargetFramework.Data.fk_ContactName_Contact" FromRole="Contact" ToRole="ContactNames" ed:Guid="f7d6222e-8524-447e-b668-e37bf93b6a1d" />
           <NavigationProperty Name="ContactPhones" Relationship="Bec.TargetFramework.Data.fk_ContactPhone_Contact" FromRole="Contact" ToRole="ContactPhones" ed:Guid="4787eefd-7a16-4ed2-afdc-789f333b44ba" />
           <NavigationProperty Name="ContactRegulators" Relationship="Bec.TargetFramework.Data.fk_ContactOrganisationRegulator_Contact" FromRole="Contact" ToRole="ContactRegulators" ed:Guid="8d2ae885-c79f-4f42-b6ac-656cea67515e" />
@@ -25175,7 +25188,7 @@
           <Property Name="IsForgotPasswordRequestAllowed" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a12170e6-33a6-4c51-9909-6ea72dd803c4" />
           <Property Name="LastForgotUsernameFailedAttempt" Type="DateTime" ed:ValidateRequired="False" ed:Guid="52a3acc5-1212-40f7-afbd-34ca56bed7d0" />
           <Property Name="LastForgotPasswordFailedAttempt" Type="DateTime" ed:ValidateRequired="False" ed:Guid="0d87856f-8d31-4d4b-9fef-f34650008e68" />
-          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="4bbd1af4-6bee-424a-b93f-c4ab5263c22f" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="4bbd1af4-6bee-424a-b93f-c4ab5263c22f" />
           <NavigationProperty Name="UserAccountOrganisations" Relationship="Bec.TargetFramework.Data.fk_UserAccunts" FromRole="UserAccount" ToRole="UserAccountOrganisations" ed:Guid="c39943f8-5f9a-438e-b3e4-86ddf99de0ea" />
           <NavigationProperty Name="UserCertificates" Relationship="Bec.TargetFramework.Data.FK_dboUserCertificates_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserCertificates" ed:Guid="69b0e6c5-989f-4181-8099-9ea339bc489b" />
           <NavigationProperty Name="UserAccountLedgerAccounts" Relationship="Bec.TargetFramework.Data.fk_UserAccountLedgerAccount_UserAccounts" FromRole="UserAccount" ToRole="UserAccountLedgerAccounts" ed:Guid="98bac6d9-6562-4e27-91a2-f4af29fce520" />
@@ -28603,6 +28616,7 @@
             <PropertyRef Name="BankAccountNumber" />
           </Key>
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b6d358b3-b4e5-4704-b957-e43e3286dae7" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="50d53710-111d-458c-852a-96e49ff4dd77" />
           <Property Name="OrganisationBankAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7b641793-9d73-4c9a-8eb4-6e1c98938438" />
           <Property Name="BankAccountNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="True" ed:Guid="fa63caa2-3fc4-4932-9ce2-9252ccab8c35" />
           <Property Name="Created" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="623dc2cb-f8a2-4465-9ad0-eaddd2c8ebb4" />
@@ -42944,6 +42958,7 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

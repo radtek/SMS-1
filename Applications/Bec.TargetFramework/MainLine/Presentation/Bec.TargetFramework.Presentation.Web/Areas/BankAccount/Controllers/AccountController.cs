@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 {
-    [ClaimsRequired("Add", "BankAccount", Order = 1000)]
+    [ClaimsRequired("View", "BankAccount", Order = 1000)]
     public class AccountController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
@@ -48,6 +48,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         }
 
         [HttpPost]
+        [ClaimsRequired("Add", "BankAccount", Order = 1000)]
         public async Task<ActionResult> AddBankAccount(OrganisationBankAccountDTO dto)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
@@ -61,6 +62,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
+            ViewBag.action = "AddStatus";
+            ViewBag.controller = "Account";
+            ViewBag.area = "BankAccount";
             return PartialView("_AddStatus");
         }
 

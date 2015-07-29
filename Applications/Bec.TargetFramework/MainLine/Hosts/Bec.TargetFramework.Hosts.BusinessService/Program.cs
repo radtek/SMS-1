@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Log = Serilog.Log;
+using Devart.Data.PostgreSql.Entity.Configuration;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
@@ -17,6 +18,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
         /// </summary>
         static void Main(string[] args)
         {
+            PgSqlEntityProviderConfig.Instance.DmlOptions.InsertNullBehaviour = InsertNullBehaviour.InsertDefaultOrNull;
             try
             {
                 if (!Environment.UserInteractive)

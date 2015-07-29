@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.OrganisationID = source.OrganisationID;
+            target.Name = source.Name;
             target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.BankAccountNumber = source.BankAccountNumber;
             target.Created = source.Created;
@@ -51,6 +52,7 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.OrganisationID = source.OrganisationID;
+            target.Name = source.Name;
             target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.BankAccountNumber = source.BankAccountNumber;
             target.Created = source.Created;

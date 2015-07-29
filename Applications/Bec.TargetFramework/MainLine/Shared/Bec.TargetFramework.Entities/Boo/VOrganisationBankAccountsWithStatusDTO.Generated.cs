@@ -22,9 +22,10 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationBankAccountsWithStatusDTO() {
         }
 
-        public VOrganisationBankAccountsWithStatusDTO(global::System.Guid organisationID, global::System.Guid organisationBankAccountID, string bankAccountNumber, global::System.DateTime created, string status, string sortCode) {
+        public VOrganisationBankAccountsWithStatusDTO(global::System.Guid organisationID, string name, global::System.Guid organisationBankAccountID, string bankAccountNumber, global::System.DateTime created, string status, string sortCode) {
 
           this.OrganisationID = organisationID;
+          this.Name = name;
           this.OrganisationBankAccountID = organisationBankAccountID;
           this.BankAccountNumber = bankAccountNumber;
           this.Created = created;
@@ -38,6 +39,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid OrganisationID { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
 
         [DataMember]
         public global::System.Guid OrganisationBankAccountID { get; set; }
