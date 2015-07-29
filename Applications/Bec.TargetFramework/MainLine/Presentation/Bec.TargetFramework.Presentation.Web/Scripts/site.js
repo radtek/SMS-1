@@ -291,3 +291,11 @@ var gridItem = function (options) {
     };
 }
 
+function showHistory(selector, dataItem){
+    $(selector).empty();
+    for (var i = 0; i < dataItem.History.length; i++) {
+        var h = dataItem.History[i];
+        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusName + ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>' + ' by ' + h.StatusChangedBy + '</div>';
+        $(selector).append(item);
+    }
+}

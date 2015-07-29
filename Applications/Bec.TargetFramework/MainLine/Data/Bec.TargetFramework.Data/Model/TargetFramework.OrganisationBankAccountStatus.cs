@@ -86,6 +86,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for Notes in the schema.
+        /// </summary>
+        public virtual string Notes
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for WasActive in the schema.
+        /// </summary>
+        public virtual bool WasActive
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

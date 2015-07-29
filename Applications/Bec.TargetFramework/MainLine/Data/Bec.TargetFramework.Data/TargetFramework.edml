@@ -9776,6 +9776,8 @@
           <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
           <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
           <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
+          <Property Name="Notes" Type="text" />
+          <Property Name="WasActive" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vOrganisationBankAccountsWithStatus">
           <Key>
@@ -9789,6 +9791,11 @@
           <Property Name="Created" Type="timestamptz" Nullable="false" />
           <Property Name="Status" Type="varchar" MaxLength="200" />
           <Property Name="SortCode" Type="varchar" MaxLength="10" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" />
+          <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
+          <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Notes" Type="text" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -28606,6 +28613,8 @@
           <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="83871d4b-5c14-4ea8-a285-1d85763fd2de" />
           <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="73536fe2-9629-405b-934c-7e2fb6662655" />
           <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d8a5db5f-b767-48a4-b69e-43163638bdaa" />
+          <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="7c3473f9-5d78-401f-9e72-1e7fba96223d" />
+          <Property Name="WasActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="c0a2b8d1-0ad1-4a86-b20c-f79acefceacc" />
           <NavigationProperty Name="OrganisationBankAccount" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccountStatus" ToRole="OrganisationBankAccount" ed:Guid="b70e910a-a125-4ddc-9aed-72d3818e8acc" />
           <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk" FromRole="OrganisationBankAccountStatus" ToRole="StatusType" ed:Guid="84560dba-a15f-4bc8-9808-1d38fcae8603" />
           <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1" FromRole="OrganisationBankAccountStatus" ToRole="StatusTypeValue" ed:Guid="c09eb3f0-f1f3-4557-801b-ba2a05d08be9" />
@@ -28622,6 +28631,11 @@
           <Property Name="Created" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="623dc2cb-f8a2-4465-9ad0-eaddd2c8ebb4" />
           <Property Name="Status" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="ac8bb5ba-5aa9-4f01-acdc-df42d151e107" />
           <Property Name="SortCode" Type="String" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="False" ed:Guid="b7795837-8e03-4258-9b20-6d8f5b079448" />
+          <Property Name="Description" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="aa328673-15cb-4209-85dd-d70345fb4f9c" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="1442c0cd-a168-4d17-ac90-989ac412c5b8" />
+          <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="da596a9a-9315-4e1a-b165-5bacad2348cd" />
+          <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
+          <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -42946,6 +42960,8 @@
                 <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
                 <ScalarProperty Name="StatusTypeVersionNumber" ColumnName="StatusTypeVersionNumber" />
                 <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="WasActive" ColumnName="WasActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42959,6 +42975,11 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
+                <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

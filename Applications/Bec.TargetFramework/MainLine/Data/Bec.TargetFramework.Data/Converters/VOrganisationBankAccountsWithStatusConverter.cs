@@ -36,6 +36,11 @@ namespace Bec.TargetFramework.Entities
             target.Created = source.Created;
             target.Status = source.Status;
             target.SortCode = source.SortCode;
+            target.Description = source.Description;
+            target.IsActive = source.IsActive;
+            target.StatusChangedOn = source.StatusChangedOn;
+            target.StatusChangedBy = source.StatusChangedBy;
+            target.Notes = source.Notes;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -58,6 +63,11 @@ namespace Bec.TargetFramework.Entities
             target.Created = source.Created;
             target.Status = source.Status;
             target.SortCode = source.SortCode;
+            target.Description = source.Description;
+            target.IsActive = source.IsActive;
+            target.StatusChangedOn = source.StatusChangedOn;
+            target.StatusChangedBy = source.StatusChangedBy;
+            target.Notes = source.Notes;
 
             // User-defined partial method
             OnEntityCreating(source, target);

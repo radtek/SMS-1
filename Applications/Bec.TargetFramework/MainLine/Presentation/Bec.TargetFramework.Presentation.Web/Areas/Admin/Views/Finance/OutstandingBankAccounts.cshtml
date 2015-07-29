@@ -30,7 +30,16 @@
                             <dd><p id="ddSortCode"></p></dd>
                             <dt>Created:</dt>
                             <dd><p id="ddCreated"></p></dd>
+                            <dt>Status:</dt>
+                            <dd><p id="ddStatus"></p></dd>
                         </dl>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h5>Account History</h5>
+                        <div id="history"></div>
                     </div>
                 </div>
             </div>
@@ -71,6 +80,15 @@
                             title: "Status"
                         },
                         {
+                            field: "StatusChangedBy",
+                            title: "Changed By"
+                        },
+                        {
+                            field: "StatusChangedOn",
+                            title: "Changed On",
+                            template: function (dataItem) { return dateString(dataItem.StatusChangedOn); }
+                        },
+                        {
                             field: "Created",
                             title: "Created",
                             template: function (dataItem) {
@@ -91,12 +109,12 @@
             $("p#ddAccountNumber").text(dataItem.BankAccountNumber || "");
             $("p#ddSortCode").text(dataItem.SortCode || "");
             $("p#ddCreated").text(dateString(dataItem.Created));
+            $("p#ddStatus").text(dataItem.Description || "");
 
-            $("#markPotentialButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.PotentialFraud" + "&title=" + encodeURIComponent("Confirm Potential Fraud") + "&message=" + encodeURIComponent("Are you sure that you wish to confirm this account as Potential Fraud?"));
-            $("#markSafeButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.Safe" + "&title=" + encodeURIComponent("Mark Safe") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account Safe?"));
+            $("#markPotentialButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.PotentialFraud" + "&title=" + encodeURIComponent("Confirm Potential Fraud") + "&message=" + encodeURIComponent("Are you sure that you wish to confirm this account as Potential Fraud?") + "&includeNotes=true");
+            $("#markSafeButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.Safe" + "&title=" + encodeURIComponent("Mark Safe") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account Safe?") + "&includeNotes=true");
                
-            //$("#markPotentialButton").attr("disabled", dataItem.Status != "Fraud Suspicion");
-            //$("#markSafeButton").attr("disabled", dataItem.Status != "Fraud Suspicion");
+            showHistory('#history', dataItem);
         }
 
     </script>

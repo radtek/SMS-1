@@ -469,7 +469,14 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                return scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
+                //TODO: tidy this up when OData sub-queries work
+                var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
+                foreach (var item in ret)
+                {
+                    item.History = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderBy(x=>x.StatusChangedOn).ToDtos();
+                    foreach (var h in item.History) h.StatusName = scope.DbContext.VStatusTypes.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).Name;
+                }
+                return ret;
             }
         }
 
@@ -477,9 +484,16 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
+                //TODO: tidy this up when OData sub-queries work
                 var safeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Safe.GetStringValue());
-                var archivedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Archived.GetStringValue());
-                return scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => !(x.Status == safeStatus.Name || x.Status == archivedStatus.Name)).ToDtos();
+
+                var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.IsActive && x.Status != safeStatus.Name).ToDtos();
+                foreach (var item in ret)
+                {
+                    item.History = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderBy(x => x.StatusChangedOn).ToDtos();
+                    foreach (var h in item.History) h.StatusName = scope.DbContext.VStatusTypes.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).Name;
+                }
+                return ret;
             }
         }
 
@@ -487,33 +501,66 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var unsafeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Unsafe.GetStringValue());
+                var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
                 
                 var account = accountDTO.ToEntity();
                 account.OrganisationBankAccountID = Guid.NewGuid();
                 account.OrganisationID = orgID;
+                account.IsActive = true;
                 scope.DbContext.OrganisationBankAccounts.Add(account);
 
-                await AddBankAccountStatusAsync(account.OrganisationBankAccountID, BankAccountStatusEnum.Unsafe);
+                await AddStatus(orgID, account.OrganisationBankAccountID, orgID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "", true);
 
                 await scope.SaveAsync();
                 return account.OrganisationBankAccountID;
             }
         }
 
-        public async Task AddBankAccountStatusAsync(Guid baID, BankAccountStatusEnum status)
+        public async Task AddBankAccountStatusAsync(Guid currentOrgID, Guid baID, BankAccountStatusEnum status, string notes)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
+                var ba = scope.DbContext.OrganisationBankAccounts.Single(x => x.OrganisationBankAccountID == baID);
                 var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), status.GetStringValue());
+
+                await AddStatus(currentOrgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, notes, ba.IsActive);
+                await scope.SaveAsync();
+            }
+        }
+
+        public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var ba = scope.DbContext.OrganisationBankAccounts.Single(x => x.OrganisationBankAccountID == baID);
+                var s = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == baID).OrderByDescending(x => x.StatusChangedOn).First();
+
+                ba.IsActive = active;
+                await AddStatus(orgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "", ba.IsActive);
+                await scope.SaveAsync();
+            }
+        }
+
+        private async Task AddStatus(Guid currentOrgID, Guid baID, Guid? baOrgID, Guid statusTypeID, int statusTypeVersionNumber, Guid statusTypeValueID, string notes, bool wasActive)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                string updatedBy;
+                if (baOrgID != currentOrgID)
+                    updatedBy = scope.DbContext.OrganisationDetails.Single(x => x.OrganisationID == currentOrgID).Name;
+                else
+                    updatedBy = UserNameService.UserName;
+
                 scope.DbContext.OrganisationBankAccountStatus.Add(new OrganisationBankAccountStatus
                 {
                     OrganisationBankAccountID = baID,
-                    StatusTypeID = s.StatusTypeID,
-                    StatusTypeVersionNumber = s.StatusTypeVersionNumber,
-                    StatusTypeValueID = s.StatusTypeValueID,
+                    StatusTypeID = statusTypeID,
+                    StatusTypeVersionNumber = statusTypeVersionNumber,
+                    StatusTypeValueID = statusTypeValueID,
                     StatusChangedOn = DateTime.Now,
-                    StatusChangedBy = UserNameService.UserName
+                    StatusChangedBy = updatedBy,
+                    Notes = notes,
+                    WasActive = wasActive
                 });
                 await scope.SaveAsync();
             }

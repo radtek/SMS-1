@@ -36,6 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
+            ViewBag.includeNotes = true;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Finance";
             ViewBag.area = "Admin";
@@ -43,10 +44,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status)
+        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(baID, status);
+            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("OutstandingBankAccounts");
         }

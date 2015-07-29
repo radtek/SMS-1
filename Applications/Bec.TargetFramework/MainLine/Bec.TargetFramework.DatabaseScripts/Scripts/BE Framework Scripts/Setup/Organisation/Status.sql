@@ -107,19 +107,16 @@ VALUES (E'21f589de-4d75-11e4-909c-d7c5856bb4cb', BranchStatusID, 1,
 
 -- Bank Account Status
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
-VALUES (E'21f27c9e-4d75-11e4-b2cd-4459059339fc', BankAccountStatusID, 1, E'Unsafe', E'Unsafe', True, False);
+VALUES (E'21f27c9e-4d75-11e4-b2cd-4459059339fc', BankAccountStatusID, 1, E'Pending Validation', E'This bank account has yet to complete the validation process. You will be notified when it can be used', True, False);
 
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
-VALUES (E'21f2a3ea-4d75-11e4-861b-44675af579e3', BankAccountStatusID, 1, E'Safe', E'Safe', True, False);
+VALUES (E'21f2a3ea-4d75-11e4-861b-44675af579e3', BankAccountStatusID, 1, E'Safe', E'This bank account is available to use', True, False);
 
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
-VALUES (E'21f2cb04-4d75-11e4-8cd4-4471a5d77f34', BankAccountStatusID, 1, E'Archived', E'Archived', True, False);
+VALUES (E'21f2cb04-4d75-11e4-8cd4-4481a5d77f34', BankAccountStatusID, 1, E'Fraud Suspicion', E'This bank account has been highlighted for fraud suspicion', True, False);
 
 INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
-VALUES (E'21f2cb04-4d75-11e4-8cd4-4481a5d77f34', BankAccountStatusID, 1, E'Fraud Suspicion', E'Fraud Suspicion', True, False);
-
-INSERT INTO public."StatusTypeValueTemplate" ("StatusTypeValueTemplateID", "StatusTypeTemplateID", "StatusTypeTemplateVersionNumber", "Name", "Description", "IsActive", "IsDeleted")
-VALUES (E'21f2cb04-4d75-11e4-8cd4-4491a5d77f34', BankAccountStatusID, 1, E'Potential Fraud', E'Potential Fraud', True, False);
+VALUES (E'21f2cb04-4d75-11e4-8cd4-4491a5d77f34', BankAccountStatusID, 1, E'Potential Fraud', E'This bank account has been identified as potentially fraudulent', True, False);
 
 -- Process Templates
 perform "fn_PromoteStatusTypeTemplate"(UserOrganisationDefaultStatusID,1);

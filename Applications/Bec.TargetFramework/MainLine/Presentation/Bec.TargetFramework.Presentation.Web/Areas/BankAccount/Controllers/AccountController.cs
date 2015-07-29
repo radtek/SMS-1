@@ -22,8 +22,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(bool? showmessage)
         {
+            ViewBag.showmessage = showmessage;
             return View();
         }
 
@@ -53,15 +54,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             TempData["OrganisationBankAccountID"] = await orgClient.AddBankAccountAsync(orgID, dto);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { showmessage = true });
         }
 
-        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status)
+        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? includeNotes)
         {
             ViewBag.OrganisationBankAccountID = baID;
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
+            ViewBag.includeNotes = includeNotes;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Account";
             ViewBag.area = "BankAccount";
@@ -69,10 +71,30 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status)
+        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(baID, status);
+            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes);
+            TempData["OrganisationBankAccountID"] = baID;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ViewToggleActive(Guid baID, string title, string message, bool isactive)
+        {
+            ViewBag.OrganisationBankAccountID = baID;
+            ViewBag.title = title;
+            ViewBag.message = message;
+            ViewBag.isactive = isactive;
+            ViewBag.action = "ToggleActive";
+            ViewBag.controller = "Account";
+            ViewBag.area = "BankAccount";
+            return PartialView("_AddStatus");
+        }
+        [HttpPost]
+        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }

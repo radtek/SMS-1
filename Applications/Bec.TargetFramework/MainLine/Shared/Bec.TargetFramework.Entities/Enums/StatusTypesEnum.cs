@@ -113,16 +113,14 @@ namespace Bec.TargetFramework.Entities.Enums
 
     public enum BankAccountStatusEnum : int
     {
-        [StringValue("Unsafe")]
-        Unsafe = 1,
+        [StringValue("Pending Validation")]
+        PendingValidation = 1,
         [StringValue("Safe")]
         Safe = 2,
-        [StringValue("Archived")]
-        Archived = 3,
         [StringValue("Fraud Suspicion")]
-        FraudSuspicion = 4,
+        FraudSuspicion = 3,
         [StringValue("Potential Fraud")]
-        PotentialFraud = 5
+        PotentialFraud = 4
     }
 
     public enum BusTaskScheduleStatusEnum : int

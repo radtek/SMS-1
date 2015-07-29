@@ -35,6 +35,8 @@ namespace Bec.TargetFramework.Entities
             target.StatusTypeID = source.StatusTypeID;
             target.StatusTypeVersionNumber = source.StatusTypeVersionNumber;
             target.StatusTypeValueID = source.StatusTypeValueID;
+            target.Notes = source.Notes;
+            target.WasActive = source.WasActive;
 
             // Navigation Properties
             if (level > 0) {
@@ -63,6 +65,8 @@ namespace Bec.TargetFramework.Entities
             target.StatusTypeID = source.StatusTypeID;
             target.StatusTypeVersionNumber = source.StatusTypeVersionNumber;
             target.StatusTypeValueID = source.StatusTypeValueID;
+            target.Notes = source.Notes;
+            target.WasActive = source.WasActive;
 
             // User-defined partial method
             OnEntityCreating(source, target);

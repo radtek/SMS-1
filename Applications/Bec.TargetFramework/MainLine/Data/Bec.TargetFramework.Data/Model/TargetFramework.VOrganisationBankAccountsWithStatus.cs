@@ -96,6 +96,56 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for Description in the schema.
+        /// </summary>
+        public virtual string Description
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsActive in the schema.
+        /// </summary>
+        public virtual bool IsActive
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for StatusChangedOn in the schema.
+        /// </summary>
+        public virtual global::System.DateTime StatusChangedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for StatusChangedBy in the schema.
+        /// </summary>
+        public virtual string StatusChangedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Notes in the schema.
+        /// </summary>
+        public virtual string Notes
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

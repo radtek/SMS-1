@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationBankAccountsWithStatusDTO() {
         }
 
-        public VOrganisationBankAccountsWithStatusDTO(global::System.Guid organisationID, string name, global::System.Guid organisationBankAccountID, string bankAccountNumber, global::System.DateTime created, string status, string sortCode) {
+        public VOrganisationBankAccountsWithStatusDTO(global::System.Guid organisationID, string name, global::System.Guid organisationBankAccountID, string bankAccountNumber, global::System.DateTime created, string status, string sortCode, string description, bool isActive, global::System.DateTime statusChangedOn, string statusChangedBy, string notes) {
 
           this.OrganisationID = organisationID;
           this.Name = name;
@@ -31,6 +31,11 @@ namespace Bec.TargetFramework.Entities
           this.Created = created;
           this.Status = status;
           this.SortCode = sortCode;
+          this.Description = description;
+          this.IsActive = isActive;
+          this.StatusChangedOn = statusChangedOn;
+          this.StatusChangedBy = statusChangedBy;
+          this.Notes = notes;
         }
 
         #endregion
@@ -57,6 +62,21 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string SortCode { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public global::System.DateTime StatusChangedOn { get; set; }
+
+        [DataMember]
+        public string StatusChangedBy { get; set; }
+
+        [DataMember]
+        public string Notes { get; set; }
 
         #endregion
     }

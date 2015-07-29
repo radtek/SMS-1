@@ -563,15 +563,31 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
 
+		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		Task AddBankAccountStatusAsync(Guid baID,BankAccountStatusEnum status);
+		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
 
+		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		void AddBankAccountStatus(Guid baID,BankAccountStatusEnum status);
+		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <returns></returns>
+		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active);
+
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <returns></returns>
+		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -2608,24 +2624,55 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(Guid baID,BankAccountStatusEnum status)
+		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?baID=" + baID + "&status=" + status, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
-		public virtual void AddBankAccountStatus(Guid baID,BankAccountStatusEnum status)
+		/// <param name="notes"></param>
+		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <returns></returns>
+		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?baID=" + baID + "&status=" + status, null, _user)).Wait();
+			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
 		}
 
 		/// <summary>
