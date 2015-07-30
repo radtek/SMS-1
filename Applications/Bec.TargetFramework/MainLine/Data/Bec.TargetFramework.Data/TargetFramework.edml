@@ -6717,7 +6717,7 @@
           <Key>
             <PropertyRef Name="AddressID" />
           </Key>
-          <Property Name="AddressID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="AddressID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="PrimaryContactName" Type="varchar" MaxLength="100" />
           <Property Name="Line1" Type="varchar" Nullable="false" MaxLength="500" />
@@ -9753,7 +9753,7 @@
           <Key>
             <PropertyRef Name="SmsTransactionID" />
           </Key>
-          <Property Name="SmsTransactionID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="SmsTransactionID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="AddressID" Type="uuid" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
           <Property Name="Reference" Type="varchar" Nullable="false" MaxLength="500" />
