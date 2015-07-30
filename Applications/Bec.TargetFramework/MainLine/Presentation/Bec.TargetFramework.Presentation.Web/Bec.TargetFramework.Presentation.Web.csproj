@@ -302,12 +302,13 @@
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
-    <Compile Include="Controllers\InternalNotificationsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InternalNotificationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
@@ -881,10 +882,7 @@
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1844,7 +1842,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -1987,7 +1984,8 @@
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\Home\Denied.cshtml" />
-    <Content Include="Views\InternalNotifications\_LatestNotifications.cshtml" />
+    <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
+    <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

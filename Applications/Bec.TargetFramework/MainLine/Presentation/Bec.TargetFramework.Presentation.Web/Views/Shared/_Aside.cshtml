@@ -60,6 +60,12 @@
                         <a href="@Url.Action("index", "Buyer", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
+                {
+                    <li class="@Html.RouteIf("active", "InternalNotifications", "Index")">
+                        <a href="@Url.Action("Index", "InternalNotifications", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-bell"></i> <span class="menu-item-parent">Notifications</span></a>
+                    </li>
+                }
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

@@ -1,35 +1,10 @@
 ﻿    <!-- HEADER -->
 <header id="header">
     <div id="logo-group">
-
         <span id="logo"><img src="~/Content/img/SMS Master Screen.png" /></span>
 
-        @if (Request.IsAuthenticated)
-        {
-            <!-- Note: The activity badge color changes when clicked and resets the number to 0
-                Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
-            <span id="activity" class="activity-dropdown"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
+        @{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, Request.IsAuthenticated); }
 
-            <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
-            <div class="ajax-dropdown">
-                <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
-                <h4>Notifications</h4>
-                <!-- notification content -->
-                <div class="ajax-notifications custom-scroll">
-                    @{ Html.RenderAction("LatestNotifications", "InternalNotifications", new { area = "" }); }
-                </div>
-                <!-- end notification content -->
-                <!-- footer: refresh area -->
-                <span>
-                    Last updated on: 12/12/2013 9:43AM
-                    <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
-                    <i class="fa fa-refresh"></i>
-                </button>
-                </span>
-                <!-- end footer -->
-            </div>
-            <!-- END AJAX-DROPDOWN -->
-        }
     </div>
 
     <section id="top-right">
