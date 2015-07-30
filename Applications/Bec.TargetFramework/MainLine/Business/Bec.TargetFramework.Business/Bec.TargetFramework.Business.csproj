@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Bec.TargetFramework.Data.Attributes.dll</HintPath>
+    </Reference>
     <Reference Include="EnsureThat">
       <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
     </Reference>
@@ -233,10 +237,6 @@
     <ProjectReference Include="..\..\Bec.TargetFramework.Aop\Bec.TargetFramework.Aop.csproj">
       <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
       <Name>Bec.TargetFramework.Aop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Attributes\Bec.TargetFramework.Data.Attributes.csproj">
-      <Project>{17333cbb-16f8-404b-9a3e-b084276984e3}</Project>
-      <Name>Bec.TargetFramework.Data.Attributes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>

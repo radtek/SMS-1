@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\debug\Bec.TargetFramework.Data.Attributes.dll</HintPath>
+      <HintPath>..\..\References\Bec.TargetFramework.Data.Attributes.dll</HintPath>
     </Reference>
     <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
