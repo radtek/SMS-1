@@ -303,6 +303,9 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
+    <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
+    <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
@@ -321,6 +324,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Edit.cs" />
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -882,6 +886,13 @@
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.cshtml" />
+    <Content Include="Areas\BankAccount\Views\web.config" />
+    <Content Include="Areas\BankAccount\Views\Account\Index.cshtml" />
+    <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.cshtml" />
+    <Content Include="Areas\BankAccount\Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_AddStatus.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

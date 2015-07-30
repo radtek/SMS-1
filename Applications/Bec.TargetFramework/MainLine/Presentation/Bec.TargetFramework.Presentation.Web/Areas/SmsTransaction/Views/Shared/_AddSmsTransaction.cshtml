@@ -15,7 +15,7 @@
                         <form action="@Url.Action("AddSmsTransaction", "Buyer", new { area = "SmsTransaction" })" method="POST" id="addTransaction-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
-                            <input id="Name" type="hidden" />
+                            <input id="CompanyName" type="hidden" />
                             <fieldset>
                                 <div class="row">
                                     <section class="col col-4">

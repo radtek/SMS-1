@@ -22,9 +22,9 @@ namespace Bec.TargetFramework.Entities
         public OrganisationBankAccountDTO() {
         }
 
-        public OrganisationBankAccountDTO(int organisationBankAccountId, global::System.Guid organisationID, int bankAccountTypeID, string sortCode, string bankAccountNumber, string iBANNumber, string swiftCode, int bankAccountDurationTypeID, global::System.Nullable<int> bankAccountOpeningYear, global::System.Nullable<int> bankAccountOpeningMonth, bool isPrimary, bool isActive, bool isDeleted, bool isDirectDebtAccount, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, OrganisationDTO organisation) {
+        public OrganisationBankAccountDTO(global::System.Guid organisationBankAccountID, global::System.Nullable<System.Guid> organisationID, int bankAccountTypeID, string sortCode, string bankAccountNumber, string iBANNumber, string swiftCode, int bankAccountDurationTypeID, global::System.Nullable<int> bankAccountOpeningYear, global::System.Nullable<int> bankAccountOpeningMonth, bool isPrimary, bool isActive, bool isDeleted, global::System.Nullable<long> rowVersion, global::System.DateTime created, bool isDirectDebtAccount, OrganisationDTO organisation, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationBankAccountStatusDTO> organisationBankAccountStatus) {
 
-          this.OrganisationBankAccountId = organisationBankAccountId;
+          this.OrganisationBankAccountID = organisationBankAccountID;
           this.OrganisationID = organisationID;
           this.BankAccountTypeID = bankAccountTypeID;
           this.SortCode = sortCode;
@@ -37,9 +37,12 @@ namespace Bec.TargetFramework.Entities
           this.IsPrimary = isPrimary;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
+          this.RowVersion = rowVersion;
+          this.Created = created;
           this.IsDirectDebtAccount = isDirectDebtAccount;
-          this.OrganisationPaymentMethods = organisationPaymentMethods;
           this.Organisation = organisation;
+          this.OrganisationPaymentMethods = organisationPaymentMethods;
+          this.OrganisationBankAccountStatus = organisationBankAccountStatus;
         }
 
         #endregion
@@ -47,10 +50,10 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public int OrganisationBankAccountId { get; set; }
+        public global::System.Guid OrganisationBankAccountID { get; set; }
 
         [DataMember]
-        public global::System.Guid OrganisationID { get; set; }
+        public global::System.Nullable<System.Guid> OrganisationID { get; set; }
 
         [DataMember]
         public int BankAccountTypeID { get; set; }
@@ -86,6 +89,12 @@ namespace Bec.TargetFramework.Entities
         public bool IsDeleted { get; set; }
 
         [DataMember]
+        public global::System.Nullable<long> RowVersion { get; set; }
+
+        [DataMember]
+        public global::System.DateTime Created { get; set; }
+
+        [DataMember]
         public bool IsDirectDebtAccount { get; set; }
 
         #endregion
@@ -93,10 +102,13 @@ namespace Bec.TargetFramework.Entities
         #region Navigation Properties
 
         [DataMember]
+        public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
         public List<OrganisationPaymentMethodDTO> OrganisationPaymentMethods { get; set; }
 
         [DataMember]
-        public OrganisationDTO Organisation { get; set; }
+        public List<OrganisationBankAccountStatusDTO> OrganisationBankAccountStatus { get; set; }
 
         #endregion
     }

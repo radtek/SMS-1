@@ -41,7 +41,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return PartialView("_Message");
         }
 
-        public async Task<ActionResult> ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
+        public ActionResult ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
         {
             ViewBag.orgId = uaoId;
             ViewBag.label = label;

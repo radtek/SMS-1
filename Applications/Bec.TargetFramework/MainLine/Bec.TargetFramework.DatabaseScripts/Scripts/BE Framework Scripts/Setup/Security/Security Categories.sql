@@ -36,3 +36,9 @@ values (uuid_generate_v1(), 'ProUsers', 'ProUsers', TRUE);
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'SmsTransaction', 'SmsTransaction', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'BankAccount', 'BankAccount', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'ValidatedAccount', 'ValidatedAccount', TRUE);

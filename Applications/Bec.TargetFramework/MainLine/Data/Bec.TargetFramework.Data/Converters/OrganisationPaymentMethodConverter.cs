@@ -31,7 +31,6 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.OrganisationID = source.OrganisationID;
             target.GlobalPaymentMethodID = source.GlobalPaymentMethodID;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.IsDirectDebit = source.IsDirectDebit;
@@ -44,16 +43,17 @@ namespace Bec.TargetFramework.Entities
             target.DirectDebitMonthCollectionPeriodNumber = source.DirectDebitMonthCollectionPeriodNumber;
             target.BACSMonthPaymentDay = source.BACSMonthPaymentDay;
             target.DirectDebitNumberOfNotificationDaysBeforeCollection = source.DirectDebitNumberOfNotificationDaysBeforeCollection;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.BACSNumberOfNotificationDaysBeforeExpectationOfPayment = source.BACSNumberOfNotificationDaysBeforeExpectationOfPayment;
 
             // Navigation Properties
             if (level > 0) {
               target.GlobalPaymentMethod = source.GlobalPaymentMethod.ToDtoWithRelated(level - 1);
-              target.OrganisationBankAccount = source.OrganisationBankAccount.ToDtoWithRelated(level - 1);
               target.OrganisationDirectDebitMandate = source.OrganisationDirectDebitMandate.ToDtoWithRelated(level - 1);
               target.StatusType = source.StatusType.ToDtoWithRelated(level - 1);
               target.StatusTypeValue = source.StatusTypeValue.ToDtoWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+              target.OrganisationBankAccount = source.OrganisationBankAccount.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -72,7 +72,6 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.OrganisationID = source.OrganisationID;
             target.GlobalPaymentMethodID = source.GlobalPaymentMethodID;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.IsDirectDebit = source.IsDirectDebit;
@@ -85,6 +84,7 @@ namespace Bec.TargetFramework.Entities
             target.DirectDebitMonthCollectionPeriodNumber = source.DirectDebitMonthCollectionPeriodNumber;
             target.BACSMonthPaymentDay = source.BACSMonthPaymentDay;
             target.DirectDebitNumberOfNotificationDaysBeforeCollection = source.DirectDebitNumberOfNotificationDaysBeforeCollection;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.BACSNumberOfNotificationDaysBeforeExpectationOfPayment = source.BACSNumberOfNotificationDaysBeforeExpectationOfPayment;
 
             // User-defined partial method

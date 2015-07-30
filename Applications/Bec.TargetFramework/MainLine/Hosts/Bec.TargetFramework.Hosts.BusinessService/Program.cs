@@ -1,4 +1,5 @@
 ﻿using Bec.TargetFramework.WindowsService;
+using Devart.Data.PostgreSql.Entity.Configuration;
 
 namespace Bec.TargetFramework.Hosts.BusinessService
 {
@@ -6,6 +7,7 @@ namespace Bec.TargetFramework.Hosts.BusinessService
     {
         static void Main(string[] args)
         {
+            PgSqlEntityProviderConfig.Instance.DmlOptions.InsertNullBehaviour = InsertNullBehaviour.InsertDefaultOrNull;
             WindowsServiceInitialiser<BusinessService>.InitialiseWindowsService(args);
         }
     }

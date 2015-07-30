@@ -253,6 +253,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for UserAccountOrganisationRoles in the schema.
         /// </summary>
+        [Bec.TargetFramework.Data.Attributes.CollectionUpdateBehaviour(Bec.TargetFramework.Data.Attributes.UpdateBehaviour.Replace)]
         public virtual ICollection<UserAccountOrganisationRole> UserAccountOrganisationRoles
         {
             get;

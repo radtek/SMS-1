@@ -53,16 +53,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for OrganisationBankAccountId in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<int> OrganisationBankAccountId
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for IsActive in the schema.
         /// </summary>
         public virtual bool IsActive
@@ -183,6 +173,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for OrganisationBankAccountID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> OrganisationBankAccountID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for BACSNumberOfNotificationDaysBeforeExpectationOfPayment in the schema.
         /// </summary>
         public virtual global::System.Nullable<int> BACSNumberOfNotificationDaysBeforeExpectationOfPayment
@@ -200,15 +200,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for GlobalPaymentMethod in the schema.
         /// </summary>
         public virtual GlobalPaymentMethod GlobalPaymentMethod
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for OrganisationBankAccount in the schema.
-        /// </summary>
-        public virtual OrganisationBankAccount OrganisationBankAccount
         {
             get;
             set;
@@ -245,6 +236,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Organisation in the schema.
         /// </summary>
         public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for OrganisationBankAccount in the schema.
+        /// </summary>
+        public virtual OrganisationBankAccount OrganisationBankAccount
         {
             get;
             set;
