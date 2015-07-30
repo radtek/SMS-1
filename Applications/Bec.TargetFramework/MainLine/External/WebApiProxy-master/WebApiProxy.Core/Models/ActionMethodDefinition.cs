@@ -18,5 +18,6 @@ namespace WebApiProxy.Core.Models
 
         public string ReturnType { get; set; }
 
+        public IEnumerable<string> ArrayParameters { get; set; }
 	}
 }

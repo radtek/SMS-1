@@ -234,6 +234,10 @@
       <Project>{ca898625-ec6f-4835-b02e-1c89d7c975db}</Project>
       <Name>Bec.TargetFramework.Aop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Attributes\Bec.TargetFramework.Data.Attributes.csproj">
+      <Project>{17333cbb-16f8-404b-9a3e-b084276984e3}</Project>
+      <Name>Bec.TargetFramework.Data.Attributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\Bec.TargetFramework.Data.Infrastructure\Bec.TargetFramework.Data.Infrastructure.csproj">
       <Project>{54d394c4-ab61-4f76-b312-57b6e4588852}</Project>
       <Name>Bec.TargetFramework.Data.Infrastructure</Name>

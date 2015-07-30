@@ -22,11 +22,10 @@ namespace Bec.TargetFramework.Entities
         public OrganisationPaymentMethodDTO() {
         }
 
-        public OrganisationPaymentMethodDTO(global::System.Guid organisationID, global::System.Guid globalPaymentMethodID, global::System.Nullable<int> organisationBankAccountId, bool isActive, bool isDeleted, bool isDirectDebit, bool isBACS, global::System.Nullable<System.Guid> organisationDirectDebitMandateID, bool isPrimary, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.Nullable<int> directDebitMonthCollectionPeriodNumber, global::System.Nullable<int> bACSMonthPaymentDay, global::System.Nullable<int> directDebitNumberOfNotificationDaysBeforeCollection, global::System.Nullable<int> bACSNumberOfNotificationDaysBeforeExpectationOfPayment, GlobalPaymentMethodDTO globalPaymentMethod, OrganisationBankAccountDTO organisationBankAccount, OrganisationDirectDebitMandateDTO organisationDirectDebitMandate, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, OrganisationDTO organisation) {
+        public OrganisationPaymentMethodDTO(global::System.Guid organisationID, global::System.Guid globalPaymentMethodID, bool isActive, bool isDeleted, bool isDirectDebit, bool isBACS, global::System.Nullable<System.Guid> organisationDirectDebitMandateID, bool isPrimary, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, global::System.Nullable<int> directDebitMonthCollectionPeriodNumber, global::System.Nullable<int> bACSMonthPaymentDay, global::System.Nullable<int> directDebitNumberOfNotificationDaysBeforeCollection, global::System.Nullable<System.Guid> organisationBankAccountID, global::System.Nullable<int> bACSNumberOfNotificationDaysBeforeExpectationOfPayment, GlobalPaymentMethodDTO globalPaymentMethod, OrganisationDirectDebitMandateDTO organisationDirectDebitMandate, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue, OrganisationDTO organisation, OrganisationBankAccountDTO organisationBankAccount) {
 
           this.OrganisationID = organisationID;
           this.GlobalPaymentMethodID = globalPaymentMethodID;
-          this.OrganisationBankAccountId = organisationBankAccountId;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
           this.IsDirectDebit = isDirectDebit;
@@ -39,13 +38,14 @@ namespace Bec.TargetFramework.Entities
           this.DirectDebitMonthCollectionPeriodNumber = directDebitMonthCollectionPeriodNumber;
           this.BACSMonthPaymentDay = bACSMonthPaymentDay;
           this.DirectDebitNumberOfNotificationDaysBeforeCollection = directDebitNumberOfNotificationDaysBeforeCollection;
+          this.OrganisationBankAccountID = organisationBankAccountID;
           this.BACSNumberOfNotificationDaysBeforeExpectationOfPayment = bACSNumberOfNotificationDaysBeforeExpectationOfPayment;
           this.GlobalPaymentMethod = globalPaymentMethod;
-          this.OrganisationBankAccount = organisationBankAccount;
           this.OrganisationDirectDebitMandate = organisationDirectDebitMandate;
           this.StatusType = statusType;
           this.StatusTypeValue = statusTypeValue;
           this.Organisation = organisation;
+          this.OrganisationBankAccount = organisationBankAccount;
         }
 
         #endregion
@@ -57,9 +57,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid GlobalPaymentMethodID { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<int> OrganisationBankAccountId { get; set; }
 
         [DataMember]
         public bool IsActive { get; set; }
@@ -98,6 +95,9 @@ namespace Bec.TargetFramework.Entities
         public global::System.Nullable<int> DirectDebitNumberOfNotificationDaysBeforeCollection { get; set; }
 
         [DataMember]
+        public global::System.Nullable<System.Guid> OrganisationBankAccountID { get; set; }
+
+        [DataMember]
         public global::System.Nullable<int> BACSNumberOfNotificationDaysBeforeExpectationOfPayment { get; set; }
 
         #endregion
@@ -106,9 +106,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public GlobalPaymentMethodDTO GlobalPaymentMethod { get; set; }
-
-        [DataMember]
-        public OrganisationBankAccountDTO OrganisationBankAccount { get; set; }
 
         [DataMember]
         public OrganisationDirectDebitMandateDTO OrganisationDirectDebitMandate { get; set; }
@@ -121,6 +118,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
+        public OrganisationBankAccountDTO OrganisationBankAccount { get; set; }
 
         #endregion
     }

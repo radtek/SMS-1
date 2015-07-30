@@ -1,4 +1,5 @@
 ﻿using Bec.TargetFramework.Data;
+using Bec.TargetFramework.Data.Attributes;
 using Bec.TargetFramework.Infrastructure;
 using Microsoft.OData.Edm;
 using Newtonsoft.Json.Linq;
@@ -7,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,7 +84,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         private void patchObject(DbContext dbc, object obj, JObject patch)
         {
-            var t = obj.GetType();
+            var t = ObjectContext.GetObjectType(obj.GetType());
             foreach (var prop in patch.Properties())
             {
                 var p = t.GetProperty(prop.Name);
@@ -92,10 +94,31 @@ namespace Bec.TargetFramework.Business.Logic
                         patchObject(dbc, p.GetValue(obj), prop.Value as JObject);
                     else
                     {
-                        if (prop.Name == "RowVersion")
-                            dbc.Entry(obj).Property("RowVersion").OriginalValue = (Int64)prop.Value;
+                        if (prop.Value is JArray)
+                        {
+                            var att = p.GetCustomAttributes(typeof(CollectionUpdateBehaviourAttribute), false).SingleOrDefault() as CollectionUpdateBehaviourAttribute;
+                            if (att != null && att.Behaviour == UpdateBehaviour.Replace)
+                            {
+                                var col = p.GetValue(obj);
+                                var colType = col.GetType();
+                                var itemType = colType.GetGenericArguments()[0];
+
+                                colType.GetMethod("Clear").Invoke(col, null);
+                                foreach (JObject item in prop.Value as JArray)
+                                {
+                                    object newItem = Activator.CreateInstance(itemType);
+                                    patchObject(dbc, newItem, item);
+                                    colType.GetMethod("Add").Invoke(col, new[] { newItem });
+                                }
+                            }
+                        }
                         else
-                            p.SetValue(obj, (prop.Value as JValue).Value);
+                        {
+                            if (prop.Name == "RowVersion")
+                                dbc.Entry(obj).Property("RowVersion").OriginalValue = (Int64)prop.Value;
+                            else
+                                p.SetValue(obj, Convert.ChangeType(prop.Value, p.PropertyType));
+                        }
                     }
                 }
             }

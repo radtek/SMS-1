@@ -386,6 +386,8 @@
         <File Name="TargetFramework.PasswordResetRequest.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.EventStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.OrganisationBankAccountStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VOrganisationBankAccountsWithStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1149,6 +1151,10 @@
         <File Name="EventStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="SmsTransactionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="SmsTransactionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="OrganisationBankAccountStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="OrganisationBankAccountStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VOrganisationBankAccountsWithStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VOrganisationBankAccountsWithStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1532,6 +1538,8 @@
         <File Name="PasswordResetRequestConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="EventStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="OrganisationBankAccountStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VOrganisationBankAccountsWithStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1687,7 +1695,15 @@
         </ed:Property>
       </Template>
     </Templates>
-    <AttributeAssemblies />
+    <AttributeAssemblies>
+      <AttributeAssembly Name="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" File="..\..\Build\debug\Bec.TargetFramework.Data.Attributes.dll">
+        <AttributeType Name="CollectionUpdateBehaviourAttribute" AttributeNamespace="Bec.TargetFramework.Data.Attributes" AttributeAllowMultiple="False" AttributeValidOn="All">
+          <AttributeConstructor>
+            <ed:Property Name="behaviour" Type="Bec.TargetFramework.Data.Attributes.UpdateBehaviour, Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Default="Ignore" />
+          </AttributeConstructor>
+        </AttributeType>
+      </AttributeAssembly>
+    </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
       <Exclude Name="DefaultOrganisationUserTargetTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
       <Exclude Name="DefaultOrganisationTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
@@ -2022,6 +2038,20 @@
       <Exclude Name="RegisteredPractitionersCount" Table="public.vOrganisationDetail" Type="Column" />
       <Exclude Name="StaffCount" Table="public.vOrganisationDetail" Type="Column" />
       <Exclude Name="MonthlyCompletionsCount" Table="public.vOrganisationDetail" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="GlobalPaymentMethodID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationBankAccountID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsActive" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsDirectDebit" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsBACS" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationDirectDebitMandateID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsPrimary" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="StatusTypeID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PaymentMethodStatus" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationName" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="OrganisationID" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="IsBranch" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="IsActive" Table="public.vOrganisationStatus" Type="Column" />
@@ -2047,6 +2077,112 @@
       <Exclude Name="NextStatusEnd" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Reason" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Notes" Table="public.vOrganisationStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="HasInfinitePeriods" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanQuantity" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="ActivatedOn" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CancelledOn" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CancelReasonID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DueInvoicesCount" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DueSince" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DueAmount" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsActive" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsFree" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsRenewal" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewedOn" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionReference" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanName" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="InvoiceName" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="Price" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="Period" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="TrialPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="TrialPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="FreeQuantity" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="SetupCost" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DowngradePenalty" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CountryCode" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CurrencyCode" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CancellationPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CancellationPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanStatusID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsTransactionBased" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CoolOffPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="CoolOffPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewalPrice" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewalPercentage" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewalIsPercentageOfOriginalPrice" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="HasForwardCycleFee" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="ForwardCycleFee" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="ForwardCycleFreeIsSameAsPrice" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewalOfferPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="RenewalOfferPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="ForwardCycleFeePeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="ForwardCycleFeePeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="HasRenewalOffer" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PriceDailyProRata" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsAutoRenew" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="AutoRenewDecisionPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="AutoRenewDecisionUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="AutoRenewPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="AutoRenewPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanGroupID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanTypeID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanCategoryID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="GlobalPaymentMethodID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatus" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusTypeName" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusOrder" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusTypeValueID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusTypeID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusTypeVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusIsStart" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusIsEnd" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsCancelled" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsRenewed" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusCreatedOn" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="PlanSubscriptionStatusDetail" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="Name" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationBankAccountID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsDirectDebit" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsBACS" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationDirectDebitMandateID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="IsPrimary" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DirectDebitMonthCollectionPeriodNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BACSMonthPaymentDay" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DirectDebitNumberOfNotificationDaysBeforeCollection" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BACSNumberOfNotificationDaysBeforeExpectationOfPayment" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatus" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusTypeName" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusOrder" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusTypeValueID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusTypeID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusTypeVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusIsStart" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationPaymentMethodStatusIsEnd" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingLagPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingLagPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="BillingPeriodDayOfMonth" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DelayedBillingPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="DelayedBillingPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="HasDelayedBilling" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="NumberOfBillingPeriods" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="InvoiceToProcessingDelayPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="InvoiceToProcessingDelayPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="InvoiceNotificationConstructID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="InvoiceNotificationConstructVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="EstimatedProcessingPeriod" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="EstimatedProcessingPeriodUnitID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
@@ -2138,7 +2274,11 @@
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="CreatedOn" Table="public.vOrganisationDetail" Type="Column" />
+      <Exclude Name="OrganisationBankAccountID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationBankAccountId" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.vOrganisationStatus" Type="Column" />
+      <Exclude Name="OrganisationBankAccountID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
+      <Exclude Name="OrganisationBankAccountId" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />

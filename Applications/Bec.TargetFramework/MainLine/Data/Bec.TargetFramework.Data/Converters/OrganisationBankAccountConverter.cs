@@ -29,7 +29,7 @@ namespace Bec.TargetFramework.Entities
             var target = new OrganisationBankAccountDTO();
 
             // Properties
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.OrganisationID = source.OrganisationID;
             target.BankAccountTypeID = source.BankAccountTypeID;
             target.SortCode = source.SortCode;
@@ -42,12 +42,15 @@ namespace Bec.TargetFramework.Entities
             target.IsPrimary = source.IsPrimary;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
+            target.Created = source.Created;
             target.IsDirectDebtAccount = source.IsDirectDebtAccount;
 
             // Navigation Properties
             if (level > 0) {
-              target.OrganisationPaymentMethods = source.OrganisationPaymentMethods.ToDtosWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+              target.OrganisationPaymentMethods = source.OrganisationPaymentMethods.ToDtosWithRelated(level - 1);
+              target.OrganisationBankAccountStatus = source.OrganisationBankAccountStatus.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -64,7 +67,7 @@ namespace Bec.TargetFramework.Entities
             var target = new Bec.TargetFramework.Data.OrganisationBankAccount();
 
             // Properties
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.OrganisationID = source.OrganisationID;
             target.BankAccountTypeID = source.BankAccountTypeID;
             target.SortCode = source.SortCode;
@@ -77,6 +80,8 @@ namespace Bec.TargetFramework.Entities
             target.IsPrimary = source.IsPrimary;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
+            target.Created = source.Created;
             target.IsDirectDebtAccount = source.IsDirectDebtAccount;
 
             // User-defined partial method

@@ -111,6 +111,17 @@ namespace Bec.TargetFramework.Entities.Enums
         Active = 5
     }
 
+    public enum BankAccountStatusEnum : int
+    {
+        [StringValue("Pending Validation")]
+        PendingValidation = 1,
+        [StringValue("Safe")]
+        Safe = 2,
+        [StringValue("Fraud Suspicion")]
+        FraudSuspicion = 3,
+        [StringValue("Potential Fraud")]
+        PotentialFraud = 4
+    }
 
     public enum BusTaskScheduleStatusEnum : int
     {
@@ -208,6 +219,8 @@ namespace Bec.TargetFramework.Entities.Enums
        BusMessageProcessLogStatus = 14,
        [StringValue("Professional Organisation Status")]
        ProfessionalOrganisation = 15,
+       [StringValue("Bank Account Status")]
+       BankAccount = 16,
     }
 
     
