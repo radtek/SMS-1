@@ -169,7 +169,9 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             else if (ex is UnaryExpression)
             {
                 var ux = ex as UnaryExpression;
-                return pre(ux.Operand);
+                var ret = pre(ux.Operand);
+                if (ux.NodeType == ExpressionType.Not) ret += " eq false";
+                return ret;
             }
             return "";
         }
@@ -199,7 +201,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 case ExpressionType.GreaterThan: return "gt";
                 case ExpressionType.GreaterThanOrEqual: return "ge";
                 case ExpressionType.Increment: return "add";
-                case ExpressionType.IsFalse: return "eg false";
+                case ExpressionType.IsFalse: return "eq false";
                 case ExpressionType.IsTrue: return "eq true";
                 case ExpressionType.LessThan: return "lt";
                 case ExpressionType.LessThanOrEqual: return "le";

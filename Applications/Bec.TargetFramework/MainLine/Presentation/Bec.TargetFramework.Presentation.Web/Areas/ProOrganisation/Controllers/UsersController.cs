@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             }, true);
 
             var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+                !x.UserAccount.IsDeleted &&
                 x.OrganisationID == orgID &&
                 x.UserAccount.IsTemporaryAccount == temporary &&
                 x.UserAccount.IsLoginAllowed == loginAllowed);
