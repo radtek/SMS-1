@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Web;
+using System.Threading.Tasks;
 
-namespace Bec.TargetFramework.Presentation.Web.Helpers
+namespace BodgeIt
 {
     public class Result
     {
@@ -66,6 +65,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
 
         private static void makeNewExpression(NewExpression nx, Result r)
         {
+            Stack<string> s = new Stack<string>();
             foreach (var x in nx.Arguments)
             {
                 MethodCallExpression sel = x as MethodCallExpression;
@@ -76,7 +76,6 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                     MemberExpression mx = x as MemberExpression;
                     MemberExpression m = mx.Expression as MemberExpression;
 
-                    Stack<string> s = new Stack<string>();
                     while (m != null)
                     {
                         s.Push(m.Member.Name);
@@ -94,7 +93,6 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 }
             }
         }
-
         private static void subSelect(MethodCallExpression sel, Result r)
         {
             MemberExpression prop = sel.Arguments[0] as MemberExpression;
@@ -262,17 +260,6 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 if (m.Name == "Ceiling") return "ceiling";
             }
             return null;
-        }
-
-        internal static JArray SortArray(JArray jArray, string property, bool desc)
-        {
-            JArray ret = new JArray();
-            var ordered = desc ?
-                jArray.OrderByDescending(x => x[property]) :
-                jArray.OrderBy(x => x[property]);
-
-            foreach (var item in ordered) ret.Add(item);
-            return ret;
         }
     }
 }
