@@ -1860,6 +1860,7 @@
     <Compile Include="DTO\LoginDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousDTO.cs" />
     <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ColpNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\NotificationRenderDTO.cs" />
