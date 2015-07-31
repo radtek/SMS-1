@@ -31,12 +31,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> GetBankAccounts()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            //var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID, x.BankAccountNumber, x.SortCode, x.Created });
-            //var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID);
-
-            //JObject res = await queryClient.QueryAsync("OrganisationBankAccounts", Request.QueryString + select + filter);
-            //return Content(res.ToString(Formatting.None), "application/json");
-
             var list = await orgClient.GetOrganisationBankAccountsAsync(orgID);
             
             var jsonData = new { total = list.Count, list };
