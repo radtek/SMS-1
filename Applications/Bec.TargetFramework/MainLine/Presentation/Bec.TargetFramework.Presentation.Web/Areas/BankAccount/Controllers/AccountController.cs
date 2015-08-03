@@ -22,9 +22,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index(bool? showmessage)
+        public ActionResult Index()
         {
-            ViewBag.showmessage = showmessage;
             return View();
         }
 
@@ -48,7 +47,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             TempData["OrganisationBankAccountID"] = await orgClient.AddBankAccountAsync(orgID, dto);
-            return RedirectToAction("Index", new { showmessage = true });
+            TempData["ShowMessage"] = true;
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? includeNotes)
