@@ -92,5 +92,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
+
+        public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode)
+        {
+            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID });
+            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
+            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+
+            if (accounts.Any())
+                return Json("This account number and sort code have already been entered", JsonRequestBehavior.AllowGet);
+            else
+                return Json("true", JsonRequestBehavior.AllowGet);
+        }
     }
 }

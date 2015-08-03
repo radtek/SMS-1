@@ -54,6 +54,22 @@
         $("#addBankAccount-form").submit();
     });
 
+    var check = {
+        url: '@Url.Action("CheckBankAccount", "Account", new { Area = "BankAccount" })',
+        data: {
+            accountNumber: function () {
+                return $('#BankAccountNumber').val();
+            },
+            sortCode: function () {
+                return $('#SortCode').val();
+            }
+        },
+        dataType: 'json',
+        error: function (xhr, status, error) {
+            checkRedirect(xhr.responseJSON);
+        }
+    }
+
     $("#addBankAccount-form").validate({
         ignore: '.skip',
         // Rules for form validation
@@ -61,12 +77,14 @@
             BankAccountNumber: {
                 required: true,
                 digits: true,
-                minlength: 8
+                minlength: 8,
+                remote: check
             },
             SortCode: {
                 required: true,
                 digits: true,
-                minlength: 6
+                minlength: 6,
+                remote: check
             }
         },
 
