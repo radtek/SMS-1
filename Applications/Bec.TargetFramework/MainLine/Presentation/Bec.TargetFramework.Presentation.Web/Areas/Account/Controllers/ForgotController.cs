@@ -19,6 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public IUserLogicClient UserLogicClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
+        public IOrganisationLogicClient orgClient { get; set; }
 
         HttpClient httpClient;
         public ForgotController()
@@ -114,7 +115,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             {
                 //change password
                 await UserLogicClient.ResetUserPasswordAsync(requestUserID, model.NewPassword);
-                await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
+                await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
 
                 return RedirectToAction("Index", "Home", new { area = "" });
             }

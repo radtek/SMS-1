@@ -561,14 +561,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                return scope.DbContext.OrganisationRoles.Where(x => x.OrganisationID == orgID).ToDtos();
-            }
-        }
-
         private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(string companyName, string postalCode)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))

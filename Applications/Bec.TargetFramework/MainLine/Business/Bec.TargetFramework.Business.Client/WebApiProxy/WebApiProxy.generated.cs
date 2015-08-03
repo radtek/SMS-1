@@ -580,14 +580,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="active"></param>
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -2651,27 +2643,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user)).Result;
 		}
 
 		#endregion

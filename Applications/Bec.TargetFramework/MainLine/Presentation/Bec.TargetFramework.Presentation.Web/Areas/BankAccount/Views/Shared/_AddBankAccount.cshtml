@@ -60,11 +60,13 @@
         rules: {
             BankAccountNumber: {
                 required: true,
-                digits: true
+                digits: true,
+                minlength: 8
             },
             SortCode: {
                 required: true,
-                digits: true
+                digits: true,
+                minlength: 6
             }
         },
 

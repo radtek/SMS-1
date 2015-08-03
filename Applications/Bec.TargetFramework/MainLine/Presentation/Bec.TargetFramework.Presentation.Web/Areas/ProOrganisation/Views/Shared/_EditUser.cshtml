@@ -63,17 +63,10 @@
                                     @foreach (var role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            @if (role.Value.Item2)
-                                            {
-                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" checked="checked" />
-                                            }
-                                            else
-                                            {
-                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" />
-                                            }
-                                            <input name="Model.UserAccountOrganisationRoles[@role.Value.Item1].OrganisationRoleID" type="hidden" value="@role.Key.OrganisationRoleID" />
+                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Item1].Selected" @role.Item2 @role.Item3 />
+                                            <input name="Model.UserAccountOrganisationRoles[@role.Item1].OrganisationRoleID" type="hidden" value="@role.Item4" />
                                             <i></i>
-                                            <label for="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected">@role.Key.RoleName</label>
+                                            <label for="Model.UserAccountOrganisationRoles[@role.Item1].Selected">@role.Item5</label>
                                         </label>
                                     }
 

@@ -7,6 +7,9 @@
     </div>
     @if (Request.IsAuthenticated)
     {
+        <div style="margin-top:2px;">
+            <h5>@Bec.TargetFramework.Entities.WebUserHelper.GetWebUserObject(Context).OrganisationName</h5>
+        </div>
     <!-- projects dropdown -->
       
     <!-- end projects dropdown -->
