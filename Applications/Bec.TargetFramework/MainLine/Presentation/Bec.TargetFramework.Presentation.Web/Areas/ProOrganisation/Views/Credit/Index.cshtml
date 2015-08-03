@@ -1,0 +1,102 @@
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+
+        <h2 class="row-seperator-header inline-heading">View Credit</h2>
+        <a data-href="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Top Up Credit</a>
+        <br />
+        <input type="date" id="from" />
+        <input type="date" id="to" />
+        <button onclick="applyFilter()">Filter</button>
+
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div id="statementGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="rPanel">
+                <div class="col-sm-6">
+                    <!-- well -->
+                    <div class="well">                       
+
+                        <h5>Selected Transaction</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Reference:</dt>
+                            <dd><p id="ddReference"></p></dd>
+                            <dt>Amount:</dt>
+                            <dd><p id="ddAmount"></p></dd>
+                            <dt>Date:</dt>
+                            <dd><p id="ddDate"></p></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section pagespecific {
+    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
+    <script type="text/javascript">
+
+        var shownMessage = false;
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var statementGrid = new gridItem(
+            {
+                gridElementId: 'statementGrid',
+                url: '@Url.Action("GetStatement", "Credit", new { area = "ProOrganisation" })',
+                schema: { data: "list", total: "total", model: { id: "TransactionOrderID" } },
+                defaultSort: { field: "BalanceOn", dir: "asc" },
+                panels: ['rPanel'],
+                change: txChange,
+                extraParameters: function () {
+                    return "&from=" + $('#from').val() + "&to=" + $('#to').val();
+                },
+                columns: [
+                        {
+                            field: "Reference",
+                            title: "Reference"
+                        },
+                        {
+                            field: "Balance",
+                            title: "Amount"
+                        },
+                        {
+                            field: "BalanceOn",
+                            title: "Date",
+                            template: function (dataItem) { return dateString(dataItem.StatusChangedOn); }
+                        }
+                ]
+            });
+
+        $(document).ready(function () {
+            findModalLinks();
+
+            var now = new Date();
+            //year-1 doesn't work
+            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10));
+            $('#to').val(now.toJSON().slice(0, 10));
+
+            statementGrid.makeGrid();
+        });
+
+        function applyFilter(){
+            statementGrid.grid.dataSource.read();
+        }
+
+        //data binding for the panes beneath each grid
+        function txChange(dataItem) {
+            $("p#ddReference").text(dataItem.Reference || "");
+            $("p#ddAmount").text(dataItem.Balance || "");
+            $("p#ddDate").text(dataItem.BalanceOn || "");
+        }
+
+    </script>
+}

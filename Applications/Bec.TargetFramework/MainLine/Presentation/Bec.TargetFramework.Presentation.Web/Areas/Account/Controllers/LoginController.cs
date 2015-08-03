@@ -108,20 +108,23 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc)
         {
-            Guid? orgID = null;
+            Guid orgID;
+            Guid uaoID;
             List<Claim> additionalClaims = new List<Claim>();
             List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(ua.ID);
-            foreach (var org in orgs)
-            {
-                //take the first org for now, in time we may allow user to switch between asoociated orgs.
-                orgID = orgID ?? org.OrganisationID;
-                foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID.Value))
-                    additionalClaims.Add(new Claim(item.Type, item.Value));
-            }
+            
+            //take the first org for now, in time we may allow user to switch between associated orgs.
+            var org = orgs.First(x => x.OrganisationID.HasValue);
+            
+            orgID = org.OrganisationID.Value;
+            uaoID = org.UserAccountOrganisationID;
+            foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID.Value))
+                additionalClaims.Add(new Claim(item.Type, item.Value));
+           
             if (orgID == null) throw new Exception("User not associated with any organisation");
             asvc.SignIn(ua, false, additionalClaims);
             bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, "TcPublic")).Count > 0;
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID.Value, needsTc);
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }
 

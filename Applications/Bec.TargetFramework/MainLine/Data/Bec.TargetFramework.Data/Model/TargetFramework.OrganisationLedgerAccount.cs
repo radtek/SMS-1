@@ -237,15 +237,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for LedgerAccountTransactions in the schema.
-        /// </summary>
-        public virtual ICollection<LedgerAccountTransaction> LedgerAccountTransactions
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for LedgerAccountBalances in the schema.
         /// </summary>
         public virtual ICollection<LedgerAccountBalance> LedgerAccountBalances
@@ -258,6 +249,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Organisation in the schema.
         /// </summary>
         public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for OrganisationLedgerTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<OrganisationLedgerTransaction> OrganisationLedgerTransactions
         {
             get;
             set;

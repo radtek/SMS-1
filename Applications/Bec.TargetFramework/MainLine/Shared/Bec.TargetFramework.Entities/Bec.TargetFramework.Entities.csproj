@@ -583,9 +583,6 @@
     </Compile>
     <Compile Include="Boo\LedgerAccountDTO.cs" />
     <Compile Include="Boo\LedgerAccountTransactionDTO.cs" />
-    <Compile Include="Boo\LedgerAccountTransactionDTO.Generated.cs">
-      <DependentUpon>LedgerAccountTransactionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\LegalOrganisationDetailDTO.cs" />
     <Compile Include="Boo\LegalOrganisationDetailDTO.Generated.cs">
       <DependentUpon>LegalOrganisationDetailDTO.cs</DependentUpon>
@@ -814,12 +811,10 @@
     <Compile Include="Boo\OperationDTO.Generated.cs">
       <DependentUpon>OperationDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\OrganisationAccountDTO.cs" />
     <Compile Include="Boo\OrganisationAccountingPeriodDTO.cs" />
     <Compile Include="Boo\OrganisationAccountingPeriodDTO.Generated.cs">
       <DependentUpon>OrganisationAccountingPeriodDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\OrganisationAccountTransactionDTO.cs" />
     <Compile Include="Boo\OrganisationArchiveDTO.cs" />
     <Compile Include="Boo\OrganisationArtefactDTO.cs" />
     <Compile Include="Boo\OrganisationArtefactDTO.Generated.cs">
@@ -881,6 +876,10 @@
     <Compile Include="Boo\OrganisationLedgerAccountDTO.cs" />
     <Compile Include="Boo\OrganisationLedgerAccountDTO.Generated.cs">
       <DependentUpon>OrganisationLedgerAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.Generated.cs">
+      <DependentUpon>OrganisationAccountDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
     <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />

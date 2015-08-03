@@ -96,7 +96,6 @@
         <File Name="TargetFramework.CountryCode.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DefaultOrganisationGroupRoleTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.LedgerAccountBalance.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.LedgerAccountTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DefaultOrganisationGroupTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DiscountTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationLedgerAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -388,6 +387,7 @@
         <File Name="TargetFramework.SmsTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationBankAccountStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationBankAccountsWithStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.OrganisationLedgerTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -571,8 +571,6 @@
         <File Name="DefaultOrganisationGroupRoleTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="LedgerAccountBalanceDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="LedgerAccountBalanceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="LedgerAccountTransactionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="LedgerAccountTransactionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationGroupTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationGroupTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DiscountTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1155,6 +1153,8 @@
         <File Name="OrganisationBankAccountStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="OrganisationLedgerTransactionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="OrganisationLedgerTransactionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1248,7 +1248,6 @@
         <File Name="CountryCodeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DefaultOrganisationGroupRoleTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="LedgerAccountBalanceConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="LedgerAccountTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DefaultOrganisationGroupTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DiscountTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationLedgerAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1540,6 +1539,7 @@
         <File Name="SmsTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationBankAccountStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationBankAccountsWithStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="OrganisationLedgerTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1705,25 +1705,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="DefaultOrganisationUserTargetTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationTemplateVersionNumber" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="UserSubTypeID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="UserCategoryID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="UserSubCategoryID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="IsActive" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="StatusTypeTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="StatusTypeTemplateVersionNumber" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="UserTypeID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="IsDefault" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="pkDefaultOrganisationUserTargetTemplate" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
-      <Exclude Name="DefaultOrganisationUserTargetTemplate_fk" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationUserTargetTemplate_DefaultOrganisationSta" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationUserTargetTemplate_DefaultOrganisationTem" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationUserTargetTemplate_UserType" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
       <Exclude Name="NotificationConstructDataID" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="NotificationConstructID" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="NotificationConstructVersionNumber" Table="public.NotificationConstructData" Type="Column" />
@@ -1738,25 +1719,6 @@
       <Exclude Name="UsesDataSources" Table="public.NotificationConstructData" Type="Column" />
       <Exclude Name="pkNotificationConstructData" Table="public.NotificationConstructData" Type="Constraint" />
       <Exclude Name="fk_NotificationConstructData_NotificationConstruct" Table="public.NotificationConstructData" Type="Constraint" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplateID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplateVersion" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructGroupTemplateID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructGroupTemplateVersion" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="UserTypeID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructTemplateID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="IsActive" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="ConditionString" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructTemplateVersionNumber" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_idx" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_fk" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_fk2" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_fk3" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_fk4" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
-      <Exclude Name="fk_NotificationConstructGroupNotificationConstructTemplate_Noti" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
       <Exclude Name="NotificationRecipientID" Table="public.NotificationRecipient" Type="Column" />
       <Exclude Name="NotificationID" Table="public.NotificationRecipient" Type="Column" />
       <Exclude Name="ToParentID" Table="public.NotificationRecipient" Type="Column" />
@@ -1770,41 +1732,37 @@
       <Exclude Name="pkNotificationRecipient" Table="public.NotificationRecipient" Type="Constraint" />
       <Exclude Name="fk_NotificationRecipient_Notification" Table="public.NotificationRecipient" Type="Constraint" />
       <Exclude Name="fk_NotificationRecipient_UserAccountOrganisation" Table="public.NotificationRecipient" Type="Constraint" />
-      <Exclude Name="OrganisationID" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="StatusTypeID" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="StatusTypeVersionNumber" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="StatusTypeValueID" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="StatusChangedOn" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="StatusChangedBy" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="ParentID" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="ReasonID" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="Notes" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="pkOrganisationStatus" Table="public.OrganisationStatus" Type="Constraint" />
-      <Exclude Name="fk_OrganisationStatus_Organisation" Table="public.OrganisationStatus" Type="Constraint" />
-      <Exclude Name="fk_OrganisationStatus_StatusType" Table="public.OrganisationStatus" Type="Constraint" />
-      <Exclude Name="fk_OrganisationStatus_StatusTypeValue" Table="public.OrganisationStatus" Type="Constraint" />
-      <Exclude Name="ProductBusTaskID" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="ProductID" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="ProductVersionID" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="IsActive" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="BusTaskID" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="Order" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="BusTaskVersionNumber" Table="public.ProductBusTask" Type="Column" />
-      <Exclude Name="pkProductBusTask" Table="public.ProductBusTask" Type="Constraint" />
-      <Exclude Name="fk_ProductBusTask_BusTask" Table="public.ProductBusTask" Type="Constraint" />
-      <Exclude Name="fk_ProductTFProductTask_Product" Table="public.ProductBusTask" Type="Constraint" />
-      <Exclude Name="ProductBusTaskTemplateID" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="ProductTemplateID" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="ProductVersionID" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="IsActive" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="BusTaskID" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="Order" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="BusTaskVersionNumber" Table="public.ProductBusTaskTemplate" Type="Column" />
-      <Exclude Name="pkProductBusTaskTemplate" Table="public.ProductBusTaskTemplate" Type="Constraint" />
-      <Exclude Name="fk_ProductBusTaskTemplate_BusTask" Table="public.ProductBusTaskTemplate" Type="Constraint" />
-      <Exclude Name="fk_ProductTFProductTaskTemplate_ProductTemplate" Table="public.ProductBusTaskTemplate" Type="Constraint" />
+      <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsBranch" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsHeadOffice" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsActive" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsUserOrganisation" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedOn" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ModifiedBy" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationSubCategoryID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ParentOrganisationID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsPaymentProvider" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PrimaryContactID" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
+      <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyVerified" Table="public.Organisation" Type="Column" />
+      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
+      <Exclude Name="PinAttempts" Table="public.Organisation" Type="Column" />
+      <Exclude Name="RowVersion" Table="public.Organisation" Type="Column" />
+      <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -2225,33 +2183,12 @@
       <Exclude Name="WorkflowInstanceStatusID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="instancestatus" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
       <Exclude Name="workflowtype" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
-      <Exclude Name="OrganisationID" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsVATRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="VATNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsCompanyHouseRegistered" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="RegisteredCompanyNumber" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="PartnersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="RegisteredPractitionersCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="StaffCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="MonthlyCompletionsCount" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsActive" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="IsDeleted" Table="legal.LegalOrganisationDetails" Type="Column" />
-      <Exclude Name="pkLegalOrganisationDetails" Table="legal.LegalOrganisationDetails" Type="Constraint" />
-      <Exclude Name="fk_LegalOrganisationDetails_Organisation" Table="legal.LegalOrganisationDetails" Type="Constraint" />
-      <Exclude Name="WorkflowTemplateID" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.DefaultOrganisationUserTargetTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationUserTargetTemplate_fk" Table="public.DefaultOrganisationUserTargetTemplate" Type="Constraint" />
+      <Exclude Name="" Table="public.vUserWorkflowInstanceStatus" Type="Constraint" />
       <Exclude Name="CreatedOn" Table="public.NotificationConstructData" Type="Column" />
-      <Exclude Name="WorkflowTemplateID" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="WorkflowTemplateVersionNumber" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Column" />
-      <Exclude Name="NotificationConstructGroupNotificationConstructTemplate_fk2" Table="public.NotificationConstructGroupNotificationConstructTemplate" Type="Constraint" />
       <Exclude Name="AcceptedDate" Table="public.NotificationRecipient" Type="Column" />
       <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
       <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="PinAttempts" Table="public.Organisation" Type="Column" />
-      <Exclude Name="StatusChangedOn" Table="public.OrganisationStatus" Type="Column" />
-      <Exclude Name="fk_ProductBusTask_BusTask" Table="public.ProductBusTask" Type="Constraint" />
-      <Exclude Name="fk_ProductBusTaskTemplate_BusTask" Table="public.ProductBusTaskTemplate" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -2286,21 +2223,6 @@
       <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="RegulatorID" Table="public.vUserRoleRegulatorDetail" Type="Column" />
-      <Exclude Name="UserID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vUserWorkflowInstanceStatus" Type="Column" />
-      <Exclude Name="SmsTransactionID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="AddressID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="Price" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="Reference" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="IsActive" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="OrganisationID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="TenureTypeID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="RowVersion" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="pkSmsTransaction" Table="sms.SmsTransaction" Type="Constraint" />
-      <Exclude Name="fk_SmsTransaction_Address" Table="sms.SmsTransaction" Type="Constraint" />
-      <Exclude Name="fk_SmsTransaction_Organisation" Table="sms.SmsTransaction" Type="Constraint" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

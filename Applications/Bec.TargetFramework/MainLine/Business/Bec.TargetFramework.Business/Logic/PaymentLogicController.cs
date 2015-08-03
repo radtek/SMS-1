@@ -156,7 +156,7 @@ namespace Bec.TargetFramework.Business.Logic
                     b.Country = request.CountryCode;
                     b.Address1 = request.Line1;
                     b.Address2 = request.Line2;
-                    b.City = request.City;
+                    b.City = request.Town;
                     b.Email = request.Email;
                     b.State = request.County;
 

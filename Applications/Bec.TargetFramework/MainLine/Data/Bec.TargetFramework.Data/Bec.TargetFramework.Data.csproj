@@ -183,7 +183,6 @@
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
     <Compile Include="Converters\InvoiceProcessLogConverter.cs" />
     <Compile Include="Converters\LedgerAccountBalanceConverter.cs" />
-    <Compile Include="Converters\LedgerAccountTransactionConverter.cs" />
     <Compile Include="Converters\LegalOrganisationDetailConverter.cs" />
     <Compile Include="Converters\LinkedAccountClaimConverter.cs" />
     <Compile Include="Converters\LinkedAccountConverter.cs" />
@@ -243,6 +242,7 @@
     <Compile Include="Converters\OrganisationGroupRoleConverter.cs" />
     <Compile Include="Converters\OrganisationInsuranceDetailConverter.cs" />
     <Compile Include="Converters\OrganisationLedgerAccountConverter.cs" />
+    <Compile Include="Converters\OrganisationLedgerTransactionConverter.cs" />
     <Compile Include="Converters\OrganisationPaymentMethodConverter.cs" />
     <Compile Include="Converters\OrganisationPlanSubscriptionConverter.cs" />
     <Compile Include="Converters\OrganisationProductPurchaseConverter.cs" />
@@ -567,7 +567,6 @@
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
     <Compile Include="Model\TargetFramework.InvoiceProcessLog.cs" />
     <Compile Include="Model\TargetFramework.LedgerAccountBalance.cs" />
-    <Compile Include="Model\TargetFramework.LedgerAccountTransaction.cs" />
     <Compile Include="Model\TargetFramework.LegalOrganisationDetail.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccount.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccountClaim.cs" />
@@ -627,6 +626,7 @@
     <Compile Include="Model\TargetFramework.OrganisationGroupRole.cs" />
     <Compile Include="Model\TargetFramework.OrganisationInsuranceDetail.cs" />
     <Compile Include="Model\TargetFramework.OrganisationLedgerAccount.cs" />
+    <Compile Include="Model\TargetFramework.OrganisationLedgerTransaction.cs" />
     <Compile Include="Model\TargetFramework.OrganisationPaymentMethod.cs" />
     <Compile Include="Model\TargetFramework.OrganisationPlanSubscription.cs" />
     <Compile Include="Model\TargetFramework.OrganisationProductPurchase.cs" />

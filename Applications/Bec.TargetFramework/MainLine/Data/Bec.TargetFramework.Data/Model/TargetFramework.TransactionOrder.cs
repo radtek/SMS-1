@@ -504,15 +504,6 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for LedgerAccountTransactions in the schema.
-        /// </summary>
-        public virtual ICollection<LedgerAccountTransaction> LedgerAccountTransactions
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
         /// There are no comments for TransactionOrderProcessLogs in the schema.
         /// </summary>
         public virtual ICollection<TransactionOrderProcessLog> TransactionOrderProcessLogs
@@ -525,6 +516,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for GlobalPaymentMethod in the schema.
         /// </summary>
         public virtual GlobalPaymentMethod GlobalPaymentMethod
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for OrganisationLedgerTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<OrganisationLedgerTransaction> OrganisationLedgerTransactions
         {
             get;
             set;

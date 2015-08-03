@@ -206,6 +206,8 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 return string.Format("'{0}'", obj.ToString());
             else if (t.Name == "Boolean")
                 return obj.ToString().ToLower();
+            else if (t.Name == "DateTime")
+                return ((DateTime)obj).ToUniversalTime().ToString("O");
             else
                 return obj.ToString();
         }
@@ -273,6 +275,17 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
 
             foreach (var item in ordered) ret.Add(item);
             return ret;
+        }
+
+        internal static string RemoveParameters(HttpRequestBase Request)
+        {
+            Dictionary<string, string> take = new Dictionary<string, string>();
+            foreach (var k in Request.QueryString.AllKeys.Where(x => x != null && x.StartsWith("$")))
+                take.Add(k, Request.QueryString[k]);
+            if (take.Count > 0) 
+                return "?" + string.Join("&", take.Select(d => HttpUtility.UrlEncode(d.Key) + "=" + HttpUtility.UrlEncode(d.Value)));
+            else
+                return string.Empty;
         }
     }
 }

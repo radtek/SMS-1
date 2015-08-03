@@ -12,8 +12,11 @@ function ajaxWrapper(options) {
 
 function getGridDataFromUrl(gridOptions) {
     return function (options) {
+        var extra = '';
+        if (gridOptions.extraParameters) extra = gridOptions.extraParameters();
+        if (gridOptions.url.indexOf('?') < 0) extra = '?' + extra;
         var ajaxOptions = {
-            url: gridOptions.url,
+            url: gridOptions.url + extra,
             data: dataMap(options.data, gridOptions),
             cache: false
         };

@@ -98,7 +98,6 @@
           <EntitySet Name="CountryCodes" EntityType="Bec.TargetFramework.Data.Store.CountryCode" store:Type="Tables" Schema="public" Table="CountryCode" />
           <EntitySet Name="DefaultOrganisationGroupRoleTemplates" EntityType="Bec.TargetFramework.Data.Store.DefaultOrganisationGroupRoleTemplate" store:Type="Tables" Schema="public" Table="DefaultOrganisationGroupRoleTemplate" />
           <EntitySet Name="LedgerAccountBalances" EntityType="Bec.TargetFramework.Data.Store.LedgerAccountBalance" store:Type="Tables" Schema="public" Table="LedgerAccountBalance" />
-          <EntitySet Name="LedgerAccountTransactions" EntityType="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" store:Type="Tables" Schema="public" Table="LedgerAccountTransaction" />
           <EntitySet Name="DefaultOrganisationGroupTemplates" EntityType="Bec.TargetFramework.Data.Store.DefaultOrganisationGroupTemplate" store:Type="Tables" Schema="public" Table="DefaultOrganisationGroupTemplate" />
           <EntitySet Name="DiscountTemplates" EntityType="Bec.TargetFramework.Data.Store.DiscountTemplate" store:Type="Tables" Schema="public" Table="DiscountTemplate" />
           <EntitySet Name="OrganisationLedgerAccounts" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" store:Type="Tables" Schema="public" Table="OrganisationLedgerAccount" />
@@ -404,6 +403,7 @@
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsTransaction" store:Type="Tables" Schema="sms" Table="SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus" store:Type="Tables" Schema="public" Table="OrganisationBankAccountStatus" />
           <EntitySet Name="vOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.Store.vOrganisationBankAccountsWithStatus" store:Type="Views" Schema="public" Table="vOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" store:Type="Tables" Schema="public" Table="OrganisationLedgerTransaction" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -1095,10 +1095,6 @@
           <AssociationSet Name="FK_DefaultonGroupDefault_DefaultOrganisationRoleT" Association="Bec.TargetFramework.Data.Store.FK_DefaultonGroupDefault_DefaultOrganisationRoleT">
             <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
             <End Role="DefaultOrganisationGroupRoleTemplate" EntitySet="DefaultOrganisationGroupRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrder" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_TransactionOrder">
-            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
-            <End Role="LedgerAccountTransaction" EntitySet="LedgerAccountTransactions" />
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationGroup_DefaultOrganisationT" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationGroup_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
@@ -2412,10 +2408,6 @@
             <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
             <End Role="UserAccountLedgerAccount" EntitySet="UserAccountLedgerAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccount" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_LedgerAccount">
-            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
-            <End Role="LedgerAccountTransaction" EntitySet="LedgerAccountTransactions" />
-          </AssociationSet>
           <AssociationSet Name="fk_ShoppingCart_GlobalPaymentMethod" Association="Bec.TargetFramework.Data.Store.fk_ShoppingCart_GlobalPaymentMethod">
             <End Role="GlobalPaymentMethod" EntitySet="GlobalPaymentMethods" />
             <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
@@ -2891,6 +2883,14 @@
           <AssociationSet Name="OrganisationBankAccountStatus_fk1" Association="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus_fk1">
             <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
             <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccount" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_LedgerAccount">
+            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrder" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_TransactionOrder">
+            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -3546,6 +3546,7 @@
           <Property Name="ShoppingCartID" Type="uuid" Nullable="false" />
           <Property Name="InvoiceLineItemID" Type="uuid" />
           <Property Name="AccountID" Type="uuid" />
+          <Property Name="CustomerPrice" Type="numeric" Scale="8" />
         </EntityType>
         <EntityType Name="ProductDeduction">
           <Key>
@@ -4469,16 +4470,6 @@
           <Property Name="BalanceCollectedClosing" Type="numeric" Scale="8" />
           <Property Name="IsDebit" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="IsCredit" Type="boolean" Nullable="false" DefaultValue="false" />
-        </EntityType>
-        <EntityType Name="LedgerAccountTransaction">
-          <Key>
-            <PropertyRef Name="LedgerAccountID" />
-            <PropertyRef Name="TransactionOrderID" />
-            <PropertyRef Name="BalanceOn" />
-          </Key>
-          <Property Name="LedgerAccountID" Type="uuid" Nullable="false" />
-          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
-          <Property Name="BalanceOn" Type="timestamp" Nullable="false" />
         </EntityType>
         <EntityType Name="DefaultOrganisationGroupTemplate">
           <Key>
@@ -5540,7 +5531,7 @@
           <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
           <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
           <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
-          <Property Name="StatusChangedOn" Type="timestamp" Nullable="false" />
+          <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="ParentID" Type="uuid" />
           <Property Name="ReasonID" Type="int" />
@@ -9799,6 +9790,17 @@
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Notes" Type="text" />
         </EntityType>
+        <EntityType Name="OrganisationLedgerTransaction">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="uuid" Nullable="false" />
+          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
+          <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
+          <Property Name="Balance" Type="numeric" Nullable="false" Scale="8" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -12098,18 +12100,6 @@
             </Principal>
             <Dependent Role="DefaultOrganisationGroupRoleTemplate">
               <PropertyRef Name="DefaultOrganisationRoleTemplateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LedgerAccountTransaction_TransactionOrder">
-          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.Store.TransactionOrder" Multiplicity="1" />
-          <End Role="LedgerAccountTransaction" Type="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TransactionOrder">
-              <PropertyRef Name="TransactionOrderID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransaction">
-              <PropertyRef Name="TransactionOrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -16333,18 +16323,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_LedgerAccountTransaction_LedgerAccount">
-          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" Multiplicity="1" />
-          <End Role="LedgerAccountTransaction" Type="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganisationLedgerAccount">
-              <PropertyRef Name="OrganisationLedgerAccountID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransaction">
-              <PropertyRef Name="LedgerAccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ShoppingCart_GlobalPaymentMethod">
           <End Role="GlobalPaymentMethod" Type="Bec.TargetFramework.Data.Store.GlobalPaymentMethod" Multiplicity="1" />
           <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.Store.ShoppingCart" Multiplicity="*" />
@@ -17819,6 +17797,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LedgerAccountTransaction_LedgerAccount">
+          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationLedgerAccount">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LedgerAccountTransaction_TransactionOrder">
+          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.Store.TransactionOrder" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionOrder">
+              <PropertyRef Name="TransactionOrderID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="TransactionOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -17938,7 +17940,6 @@
           <EntitySet Name="CountryCodes" EntityType="Bec.TargetFramework.Data.CountryCode" />
           <EntitySet Name="DefaultOrganisationGroupRoleTemplates" EntityType="Bec.TargetFramework.Data.DefaultOrganisationGroupRoleTemplate" />
           <EntitySet Name="LedgerAccountBalances" EntityType="Bec.TargetFramework.Data.LedgerAccountBalance" />
-          <EntitySet Name="LedgerAccountTransactions" EntityType="Bec.TargetFramework.Data.LedgerAccountTransaction" />
           <EntitySet Name="DefaultOrganisationGroupTemplates" EntityType="Bec.TargetFramework.Data.DefaultOrganisationGroupTemplate" />
           <EntitySet Name="DiscountTemplates" EntityType="Bec.TargetFramework.Data.DiscountTemplate" />
           <EntitySet Name="OrganisationLedgerAccounts" EntityType="Bec.TargetFramework.Data.OrganisationLedgerAccount" />
@@ -18230,6 +18231,7 @@
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.OrganisationBankAccountStatus" />
           <EntitySet Name="VOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.VOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.OrganisationLedgerTransaction" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -18905,10 +18907,6 @@
           <AssociationSet Name="FK_DefaultonGroupDefault_DefaultOrganisationRoleTSet" Association="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRoleT">
             <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
             <End Role="DefaultOrganisationGroupRoleTemplates" EntitySet="DefaultOrganisationGroupRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrderSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder">
-            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
-            <End Role="LedgerAccountTransactions" EntitySet="LedgerAccountTransactions" />
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationGroup_DefaultOrganisationTSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationGroup_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
@@ -20174,10 +20172,6 @@
             <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
             <End Role="UserAccountLedgerAccounts" EntitySet="UserAccountLedgerAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccountSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount">
-            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
-            <End Role="LedgerAccountTransactions" EntitySet="LedgerAccountTransactions" />
-          </AssociationSet>
           <AssociationSet Name="fk_ShoppingCart_GlobalPaymentMethodSet" Association="Bec.TargetFramework.Data.fk_ShoppingCart_GlobalPaymentMethod">
             <End Role="GlobalPaymentMethod" EntitySet="GlobalPaymentMethods" />
             <End Role="ShoppingCarts" EntitySet="ShoppingCarts" />
@@ -20653,6 +20647,14 @@
           <AssociationSet Name="OrganisationBankAccountStatus_fk1Set" Association="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1">
             <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
             <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccountSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount">
+            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrderSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder">
+            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -21485,6 +21487,7 @@
           <Property Name="ShoppingCartID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7ed9bbd0-6432-4d20-a459-e6d0da2ac3ad" />
           <Property Name="InvoiceLineItemID" Type="Guid" ed:ValidateRequired="False" ed:Guid="97418c93-b9b9-44fa-825f-b446daea96a1" />
           <Property Name="AccountID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6fb0705b-df56-4567-b758-1329901d086f" />
+          <Property Name="CustomerPrice" Type="Decimal" Scale="8" ed:ValidateRequired="False" ed:Guid="aa5a5bbb-f15c-4166-8a6f-620df5f28131" />
           <NavigationProperty Name="Product" Relationship="Bec.TargetFramework.Data.fk_UserShoppingCartItem_Product" FromRole="ShoppingCartItems" ToRole="Product" ed:Guid="8b820a62-d366-423a-b477-ea44934135fa" />
           <NavigationProperty Name="ShoppingCart" Relationship="Bec.TargetFramework.Data.fk_UserShoppingCartItem_UserShoppingCart" FromRole="ShoppingCartItems" ToRole="ShoppingCart" ed:Guid="0f01b691-f722-42de-a118-830c8b50370b" />
           <NavigationProperty Name="InvoiceLineItem" Relationship="Bec.TargetFramework.Data.fk_ShoppingCartItem_InvoiceLineItem" FromRole="ShoppingCartItems" ToRole="InvoiceLineItem" ed:Guid="034439ae-1a86-4870-8372-e319d58f13e5" />
@@ -21649,9 +21652,9 @@
           <Property Name="InvoiceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f32dbb34-e84a-4cd9-ae4e-87fb9e8926e4" />
           <NavigationProperty Name="TransactionOrderItems" Relationship="Bec.TargetFramework.Data.fk_OrderItem_Order" FromRole="TransactionOrder" ToRole="TransactionOrderItems" ed:Guid="bdc6d253-6c8e-4cda-a6ac-36e37756c207" />
           <NavigationProperty Name="Invoice" Relationship="Bec.TargetFramework.Data.fk_TransactionOrder_Invoice" FromRole="TransactionOrders" ToRole="Invoice" ed:Guid="9f928369-e436-4633-8c56-f48a2dd74016" />
-          <NavigationProperty Name="LedgerAccountTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="TransactionOrder" ToRole="LedgerAccountTransactions" ed:Guid="c4c2bfcd-6665-45e4-a654-3866cf6510d5" />
           <NavigationProperty Name="TransactionOrderProcessLogs" Relationship="Bec.TargetFramework.Data.fk_TransactionOrderProcessLog_TransactionOrder" FromRole="TransactionOrder" ToRole="TransactionOrderProcessLogs" ed:Guid="76c34c33-054c-4502-9bb7-b9ca86240de7" />
           <NavigationProperty Name="GlobalPaymentMethod" Relationship="Bec.TargetFramework.Data.fk_TransactionOrder_GlobalPaymentMethod" FromRole="TransactionOrders" ToRole="GlobalPaymentMethod" ed:Guid="00baeaae-1f85-40cf-9326-5b4590da62d7" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="TransactionOrder" ToRole="OrganisationLedgerTransactions" ed:Guid="48fabeb6-9835-4a87-ac2e-6445b2c13b1b" />
         </EntityType>
         <EntityType Name="Plan" ed:Guid="1097361e-ac43-4078-9fad-5c4dc5508461">
           <Key>
@@ -22604,18 +22607,6 @@
           <Property Name="IsCredit" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="505bf521-0089-4243-a1b9-7b03140b8ef6" />
           <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountBalance_LedgerAccount" FromRole="LedgerAccountBalances" ToRole="OrganisationLedgerAccount" ed:Guid="fb656828-58c8-46b6-8899-4a8788702415" />
         </EntityType>
-        <EntityType Name="LedgerAccountTransaction" ed:Guid="5c60ced7-0fe5-41c4-aab5-4cabe41f9d33">
-          <Key>
-            <PropertyRef Name="LedgerAccountID" />
-            <PropertyRef Name="TransactionOrderID" />
-            <PropertyRef Name="BalanceOn" />
-          </Key>
-          <Property Name="LedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="53539420-619f-4a4d-8ad2-825058d95713" />
-          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="cf9a3aba-a19c-4974-9fe9-58e53b661b64" />
-          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9a3a93d4-b2a9-4a27-911a-8e47f9468a81" />
-          <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="LedgerAccountTransactions" ToRole="TransactionOrder" ed:Guid="43ac0489-5723-41e5-93fc-1795a511d851" />
-          <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="LedgerAccountTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="c0f7d373-608c-4dc0-8402-6e28c520b0aa" />
-        </EntityType>
         <EntityType Name="DefaultOrganisationGroupTemplate" ed:Guid="5500fdc5-93dc-41b4-a2dd-fea55fc14010">
           <Key>
             <PropertyRef Name="DefaultOrganisationGroupTemplateID" />
@@ -22709,9 +22700,9 @@
           <Property Name="IsPrimaryAccount" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="157e9081-07d7-4e5c-b19e-b9eafb305042" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="86e22ad2-134c-4642-b8c7-fcaf6dbdfa6f" />
           <NavigationProperty Name="UserAccountLedgerAccounts" Relationship="Bec.TargetFramework.Data.fk_UserAccountLedgerAccount_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="UserAccountLedgerAccounts" ed:Guid="dcbb5133-4fb8-42f3-b22f-966fd8228ea6" />
-          <NavigationProperty Name="LedgerAccountTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="LedgerAccountTransactions" ed:Guid="bd4124db-d54c-4d6f-a209-af58e3623578" />
           <NavigationProperty Name="LedgerAccountBalances" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountBalance_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="LedgerAccountBalances" ed:Guid="54b8d556-1d4c-4ea2-9ff2-9578ce3130be" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_LedgerAccount_Organisation" FromRole="OrganisationLedgerAccounts" ToRole="Organisation" ed:Guid="387b242c-d6a9-4734-b3fa-15407286adb9" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="OrganisationLedgerTransactions" ed:Guid="7d6bb89e-9746-429d-af93-47c6064b6ee2" />
         </EntityType>
         <EntityType Name="ModuleProductTemplate" ed:Guid="0e776981-3485-4625-bd9d-ec6c615e301f">
           <Key>
@@ -23898,7 +23889,7 @@
           <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9c674697-bbb9-46b4-ac1a-52b441fea239" />
           <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="4a463ce3-1f72-4661-b3d8-fed4a2784cb6" />
           <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="129a7b98-9035-403b-921c-ad9ecda3cce9" />
-          <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="b03b60e1-f49e-4b6d-99da-6191fc85a355" />
+          <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="b03b60e1-f49e-4b6d-99da-6191fc85a355" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="d5005b78-baf4-4bed-9c07-b805328c6360" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="5b7ae40f-bcc8-4a1a-974d-d812d9bd05f4" />
           <Property Name="ReasonID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1e7d34d5-5937-405e-aa13-03949b01a1cb" />
@@ -28641,6 +28632,19 @@
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
         </EntityType>
+        <EntityType Name="OrganisationLedgerTransaction" ed:Guid="82cd0056-63fd-44f2-91c2-2e1885483081">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="388eb158-b2b7-4b37-ae51-376905ff5e55" />
+          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d5e8fe6-1fa9-4e8f-99c8-0bab4d5a71b0" />
+          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="73fb6834-3dcc-488e-92b3-783ede0d8d2b" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="df27171f-14db-4ba2-8d93-4aa45fe6bd67" />
+          <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="53dffa99-7ff5-47ff-a470-f3eea9b2db8f" />
+          <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="OrganisationLedgerTransactions" ToRole="TransactionOrder" ed:Guid="808b9fc0-ddef-49ae-81e3-cb77591e44cd" />
+        </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
           <Property Name="ClaimName" Type="String" ed:ValidateRequired="False" ed:Guid="f6b1a92d-95a2-4d2d-9619-09eedd1608ce" />
@@ -30890,18 +30894,6 @@
             </Principal>
             <Dependent Role="DefaultOrganisationGroupRoleTemplates">
               <PropertyRef Name="DefaultOrganisationRoleTemplateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LedgerAccountTransaction_TransactionOrder" ed:Guid="fb03e59a-31ad-4bb2-8a11-9bf2cc7ae92e">
-          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.TransactionOrder" Multiplicity="1" />
-          <End Role="LedgerAccountTransactions" Type="Bec.TargetFramework.Data.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TransactionOrder">
-              <PropertyRef Name="TransactionOrderID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransactions">
-              <PropertyRef Name="TransactionOrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -34823,18 +34815,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_LedgerAccountTransaction_LedgerAccount" ed:Guid="bb1e146c-503e-4560-8102-97938937efae">
-          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.OrganisationLedgerAccount" Multiplicity="1" />
-          <End Role="LedgerAccountTransactions" Type="Bec.TargetFramework.Data.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganisationLedgerAccount">
-              <PropertyRef Name="OrganisationLedgerAccountID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransactions">
-              <PropertyRef Name="LedgerAccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ShoppingCart_GlobalPaymentMethod" ed:Guid="f79a4815-59c1-4180-a477-08c76aa62cd0">
           <End Role="GlobalPaymentMethod" Type="Bec.TargetFramework.Data.GlobalPaymentMethod" Multiplicity="1" />
           <End Role="ShoppingCarts" Type="Bec.TargetFramework.Data.ShoppingCart" Multiplicity="*" />
@@ -36309,6 +36289,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LedgerAccountTransaction_LedgerAccount" ed:Guid="c9ba03ce-b873-422d-b98c-f61bed52ff2e">
+          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.OrganisationLedgerAccount" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationLedgerAccount">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LedgerAccountTransaction_TransactionOrder" ed:Guid="25e298d2-9f93-4e69-9f8d-515581d926a8">
+          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.TransactionOrder" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionOrder">
+              <PropertyRef Name="TransactionOrderID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="TransactionOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -36950,6 +36954,7 @@
                 <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
                 <ScalarProperty Name="InvoiceLineItemID" ColumnName="InvoiceLineItemID" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="CustomerPrice" ColumnName="CustomerPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -37873,15 +37878,6 @@
                 <ScalarProperty Name="BalanceCollectedClosing" ColumnName="BalanceCollectedClosing" />
                 <ScalarProperty Name="IsDebit" ColumnName="IsDebit" />
                 <ScalarProperty Name="IsCredit" ColumnName="IsCredit" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LedgerAccountTransactions">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.LedgerAccountTransaction">
-              <MappingFragment StoreEntitySet="LedgerAccountTransactions">
-                <ScalarProperty Name="LedgerAccountID" ColumnName="LedgerAccountID" />
-                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
-                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42986,6 +42982,16 @@
                 <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
                 <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrganisationLedgerTransactions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.OrganisationLedgerTransaction">
+              <MappingFragment StoreEntitySet="OrganisationLedgerTransactions">
+                <ScalarProperty Name="OrganisationLedgerAccountID" ColumnName="OrganisationLedgerAccountID" />
+                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
+                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

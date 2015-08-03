@@ -253,25 +253,26 @@ namespace BodgeIt
 
             //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationBankAccounts?$select=OrganisationBankAccountID&$expand=OrganisationBankAccountStatus($select=StatusChangedBy,StatusChangedOn,Notes,WasActive;$expand=StatusTypeValue($select=Name,Description))"), HttpMethod.Get, "user", null);
 
-            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new
-            {
-                x.OrganisationBankAccountID,
-                x.BankAccountNumber,
-                x.SortCode,
-                x.Created,
-                a = x.OrganisationBankAccountStatus.Select(status => new
-                {
-                    status.StatusChangedBy,
-                    status.StatusChangedOn,
-                    status.Notes,
-                    status.WasActive,
-                    status.StatusTypeValue.Name
-                })
-            });
-
-            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationBankAccounts?" + select), HttpMethod.Get, "user", null);
-
+            //var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new
+            //{
+            //    x.OrganisationBankAccountID,
+            //    x.BankAccountNumber,
+            //    x.SortCode,
+            //    x.Created,
+            //    a = x.OrganisationBankAccountStatus.Select(status => new
+            //    {
+            //        status.StatusChangedBy,
+            //        status.StatusChangedOn,
+            //        status.Notes,
+            //        status.WasActive,
+            //        status.StatusTypeValue.Name
+            //    })
+            //});
             //var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID);
+
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationBankAccounts?" + select), HttpMethod.Get, "user", null);
+
+            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationLedgerTransactions?&$select=Balance,BalanceOn&$expand=TransactionOrder($expand=Invoice($select=InvoiceReference))&$filter=(((BalanceOn ge 2014-08-02) and (BalanceOn le 2015-08-03)) and (OrganisationLedgerAccount/OrganisationID eq 2b96ba92-3796-11e5-8c84-00155d0a1473))"), HttpMethod.Get, "user", null);
             
             var s = await r.Content.ReadAsStringAsync();
             JObject j = JObject.Parse(s);

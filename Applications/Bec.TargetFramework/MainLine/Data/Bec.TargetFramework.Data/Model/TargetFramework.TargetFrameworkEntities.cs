@@ -523,11 +523,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<LedgerAccountBalance> LedgerAccountBalances { get; set; }
     
         /// <summary>
-        /// There are no comments for LedgerAccountTransaction in the schema.
-        /// </summary>
-        public virtual DbSet<LedgerAccountTransaction> LedgerAccountTransactions { get; set; }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationGroupTemplate in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationGroupTemplate> DefaultOrganisationGroupTemplates { get; set; }
@@ -1981,6 +1976,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VOrganisationBankAccountsWithStatus in the schema.
         /// </summary>
         public virtual DbSet<VOrganisationBankAccountsWithStatus> VOrganisationBankAccountsWithStatus { get; set; }
+    
+        /// <summary>
+        /// There are no comments for OrganisationLedgerTransaction in the schema.
+        /// </summary>
+        public virtual DbSet<OrganisationLedgerTransaction> OrganisationLedgerTransactions { get; set; }
 
         #region Methods
 

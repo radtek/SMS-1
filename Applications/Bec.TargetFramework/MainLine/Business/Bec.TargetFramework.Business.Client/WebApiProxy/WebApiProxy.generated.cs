@@ -617,15 +617,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface IProductLogicClient : IClientBase	{	
 
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Task<ProductDTO> GetProductAsync(Guid productId,Int32 versionNumber);
+		Task<ProductDTO> GetTopUpProductAsync();
 
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
+		ProductDTO GetTopUpProduct();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
@@ -648,15 +644,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity);
+		Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
 
 		/// <param name="cartID"></param>
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity);
+		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
 
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
@@ -2782,24 +2780,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		public virtual Task<ProductDTO> GetProductAsync(Guid productId,Int32 versionNumber)
+		public virtual Task<ProductDTO> GetTopUpProductAsync()
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user);
+			return GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
-		public virtual ProductDTO GetProduct(Guid productId,Int32 versionNumber)
+		public virtual ProductDTO GetTopUpProduct()
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user)).Result;
+			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user)).Result;
 		}
 
 		#endregion
@@ -2860,11 +2854,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		public virtual Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity)
+		public virtual Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity, null, _user);
+			return PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user);
 		}
 
 		/// <summary>
@@ -2874,10 +2869,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
-		public virtual void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity)
+		/// <param name="customerPrice"></param>
+		public virtual void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user)).Wait();
 		}
 
 		/// <summary>
