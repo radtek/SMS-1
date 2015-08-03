@@ -24,7 +24,8 @@
                             <div class="well">
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Name:</dt><dd><p id="ddaCompanyName"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddaCompanyName"></p></dd>
                                     <dt>Address:</dt>
                                     <dd><p id="ddaCompanyAddress1"></p></dd>
                                     <dd><p id="ddaCompanyAddress2"></p></dd>
@@ -32,8 +33,10 @@
                                     <dd><p id="ddaCompanyCounty"></p></dd>
                                     <dd><p id="ddaCompanyPostCode"></p></dd>
                                     <dd><p id="ddaAdditional"></p></dd>
-                                    <dt>Regulator:</dt><dd><p id="ddaRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt><dd><p id="dduRegulatorNumber"></p></dd>
+                                    <dt>Regulator:</dt>
+                                    <dd><p id="ddaRegulator"></p></dd>
+                                    <dt>Regulator Number:</dt>
+                                    <dd><p id="dduRegulatorNumber"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -42,20 +45,28 @@
                             <div class="well">
                                 <h5>System Administrator</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Name:</dt><dd><p id="ddaSystemAdminName"></p></dd>
-                                    <dt>Email:</dt><dd><p id="ddaSystemAdminEmail"></p></dd>
-                                    <dt>Telephone:</dt><dd><p id="ddaSystemAdminTel"></p></dd>
+                                    <dt>Name:</dt>
+                                    <dd><p id="ddaSystemAdminName"></p></dd>
+                                    <dt>Email:</dt>
+                                    <dd><p id="ddaSystemAdminEmail"></p></dd>
+                                    <dt>Telephone:</dt>
+                                    <dd><p id="ddaSystemAdminTel"></p></dd>
                                 </dl>
                                 <h5>Verified Details</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Verified On:</dt><dd><p id="ddaCompanyVerifiedOn"></p></dd>
-                                    <dt>Verified By:</dt><dd><p id="ddaCompanyVerifiedBy"></p></dd>
-                                    <dt>Telephone:</dt><dd><p id="ddaCompanyVerifiedTelephone"></p></dd>
+                                    <dt>Verified On:</dt>
+                                    <dd><p id="ddaCompanyVerifiedOn"></p></dd>
+                                    <dt>Verified By:</dt>
+                                    <dd><p id="ddaCompanyVerifiedBy"></p></dd>
+                                    <dt>Telephone:</dt>
+                                    <dd><p id="ddaCompanyVerifiedTelephone"></p></dd>
                                 </dl>
                                 <h5>Other Details</h5>
                                 <dl class="dl-horizontal">
-                                    <dt>Created On:</dt><dd><p id="ddaCompanyCreatedOn"></p></dd>
-                                    <dt>Created By:</dt><dd><p id="ddaCompanyCreatedBy"></p></dd>
+                                    <dt>Created On:</dt>
+                                    <dd><p id="ddaCompanyCreatedOn"></p></dd>
+                                    <dt>Created By:</dt>
+                                    <dd><p id="ddaCompanyCreatedBy"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -67,109 +78,109 @@
     </div>
 </div>
 
-@section pagespecific {
+@section Scripts {
     <script type="text/javascript">
 
-    //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var uGrid = new gridItem(
-        {
-            gridElementId: 'activeGrid',
-            url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
-            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-            defaultSort: { field: "Name", dir: "asc" },
-            change: activeChange,
-            //jumpToId: '@TempData["AddTempCompanyId"]',
-            panels: ['activePanel'],
-            columns: [
-                    {
-                        field: "OrganisationID",
-                        hidden: true,
-                    },
-                    {
-                        field: "Name",
-                        title: "Company Name"
-                    },
-                    {
-                        field: "Line1",
-                        title: "Address 1"
-                    },
-                    {
-                        field: "PostalCode",
-                        title: "Post Code"
-                    },
-                    {
-                        field: "OrganisationAdminLastName",
-                        title: "System Administrator",
-                        template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var uGrid = new gridItem(
+            {
+                gridElementId: 'activeGrid',
+                url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
+                schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+                defaultSort: { field: "Name", dir: "asc" },
+                change: activeChange,
+                //jumpToId: '@TempData["AddTempCompanyId"]',
+                panels: ['activePanel'],
+                columns: [
+                        {
+                            field: "OrganisationID",
+                            hidden: true,
+                        },
+                        {
+                            field: "Name",
+                            title: "Company Name"
+                        },
+                        {
+                            field: "Line1",
+                            title: "Address 1"
+                        },
+                        {
+                            field: "PostalCode",
+                            title: "Post Code"
+                        },
+                        {
+                            field: "OrganisationAdminLastName",
+                            title: "System Administrator",
+                            template: function (dataItem) {
+                                return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
+                            }
+                        },
+                        {
+                            field: "OrganisationAdminTelephone",
+                            title: "Telephone Number"
+                        },
+                        {
+                            field: "OrganisationAdminEmail",
+                            title: "Email"
+                        },
+                        {
+                            field: "CreatedOn",
+                            title: "Created On",
+                            template: function (dataItem) {
+                                return dateString(dataItem.CreatedOn);
+                            }
+                        },
+                        {
+                            field: "CreatedBy",
+                            title: "Created By"
                         }
-                    },
-                    {
-                        field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
-                    },
-                    {
-                        field: "OrganisationAdminEmail",
-                        title: "Email"
-                    },
-                    {
-                        field: "CreatedOn",
-                        title: "Created On",
-                        template: function (dataItem) {
-                            return dateString(dataItem.CreatedOn);
-                        }
-                    },
-                    {
-                        field: "CreatedBy",
-                        title: "Created By"
-                    }
-            ]
+                ]
+            });
+
+        //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
+        var tabs = new tabItem("myTab1",
+            {
+                s1: {
+                    grids: [uGrid]
+                }
+            });
+
+        $(document).ready(function () {
+            //set up tabs
+            tabs.makeTab();
+            tabs.showTab(@TempData["tabIndex"]);
+
+            //findModalLinks();
         });
 
-    //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
-    var tabs = new tabItem("myTab1",
-        {
-            s1: {
-                grids: [uGrid]
-            }
-        });
+        //data binding for the panes beneath each grid
+        function activeChange(dataItem) {
+            $("p#ddaCompanyName").text(dataItem.Name || "");
+            $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+            $("p#ddaCompanyCounty").text(dataItem.County || "");
+            $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
+            $("p#ddaCompanyTownCity").text(dataItem.Town || "");
+            $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
+            $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
+            $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
+            $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+            $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+            $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
 
-    $(document).ready(function () {
-        //set up tabs
-        tabs.makeTab();
-        tabs.showTab(@TempData["tabIndex"]);
+            var regulatorName = dataItem.Regulator || "";
+            if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+            $("p#ddaRegulator").text(regulatorName);
+            $("p#dduRegulatorNumber").text(dataItem.RegulatorNumber);
 
-        //findModalLinks();
-    });
+            $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
+            $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
+            $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
+            $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
 
-    //data binding for the panes beneath each grid
-    function activeChange(dataItem) {
-        $("p#ddaCompanyName").text(dataItem.Name || "");
-        $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-        $("p#ddaCompanyCounty").text(dataItem.County || "");
-        $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
-        $("p#ddaCompanyTownCity").text(dataItem.Town || "");
-        $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
-        $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
-        $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
-        $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-        $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-        $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
-
-        var regulatorName = dataItem.Regulator || "";
-        if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-        $("p#ddaRegulator").text(regulatorName);
-        $("p#dduRegulatorNumber").text(dataItem.RegulatorNumber);
-
-        $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
-        $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
-        $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
-        $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
-
-        //update reject & generate links
-        $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-    }
+            //update reject & generate links
+            $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+            $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        }
 
     </script>
 }

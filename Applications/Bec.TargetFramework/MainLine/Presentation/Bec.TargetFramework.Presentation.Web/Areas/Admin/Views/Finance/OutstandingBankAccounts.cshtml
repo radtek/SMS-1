@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        
+
                         <a id="markPotentialButton" class="btn btn-primary btn-sm" data-modallink="true">Mark Potential Fraud</a>
                         <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true">Mark Safe</a>
 
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-@section pagespecific {
+@section Scripts {
     <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
     <script type="text/javascript">
 
@@ -113,7 +113,7 @@
 
             $("#markPotentialButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.PotentialFraud" + "&title=" + encodeURIComponent("Confirm Potential Fraud") + "&message=" + encodeURIComponent("Are you sure that you wish to confirm this account as Potential Fraud?") + "&includeNotes=true");
             $("#markSafeButton").data('href', '@Url.Action("ViewStatus", "Finance", new { area = "Admin" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.Safe" + "&title=" + encodeURIComponent("Mark Safe") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account Safe?") + "&includeNotes=true");
-               
+
             showHistory('#history', dataItem);
         }
 

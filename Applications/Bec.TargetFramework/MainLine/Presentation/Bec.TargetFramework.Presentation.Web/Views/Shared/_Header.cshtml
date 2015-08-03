@@ -1,9 +1,10 @@
-﻿    <!-- HEADER -->
+﻿@using Bec.TargetFramework.Security
+<!-- HEADER -->
 <header id="header">
     <div id="logo-group">
         <span id="logo"><img src="~/Content/img/SMS Master Screen.png" /></span>
 
-        @{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, Request.IsAuthenticated); }
+        @{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, ClaimsHelper.UserHasClaim("View", "Notification")); }
 
     </div>
 

@@ -1,5 +1,4 @@
 ﻿--Run Operation script first
--- Run ExternalNotification and ExternalBatchNotification first
 
 --0001 Notification
 DO $$
@@ -86,7 +85,156 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  E'\\357\\273\\277<?xml version="1.0" encoding="utf-8" standalone="yes"?>\\015\\012<StiSerializer version="1.02" type="Net" application="StiReport">\\015\\012  <CacheAllData>True</CacheAllData>\\015\\012  <Dictionary Ref="1" type="Dictionary" isKey="true">\\015\\012    <BusinessObjects isList="true" count="2">\\015\\012      <ForgotPasswordDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">\\015\\012        <Alias>ForgotPasswordDTO</Alias>\\015\\012        <BusinessObjects isList="true" count="0" />\\015\\012        <Category />\\015\\012        <Columns isList="true" count="1">\\015\\012          <value>Url,System.String</value>\\015\\012        </Columns>\\015\\012        <Dictionary isRef="1" />\\015\\012        <Guid>922ef5bd22564fa6af64ad87fcdb8f1b</Guid>\\015\\012        <Name>ForgotPasswordDTO</Name>\\015\\012      </ForgotPasswordDTO>\\015\\012      <NotificationSettingDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">\\015\\012        <Alias>NotificationSettingDTO</Alias>\\015\\012        <BusinessObjects isList="true" count="0" />\\015\\012        <Category />\\015\\012        <Columns isList="true" count="11">\\015\\012          <value>ExportFormat,System.Nullable`1[System.Int32]</value>\\015\\012          <value>LoginRoute,System.String</value>\\015\\012          <value>NotificationConstructID,System.Guid</value>\\015\\012          <value>NotificationConstructVersionNumber,System.Int32</value>\\015\\012          <value>NotificationFromEmailAddress,System.String</value>\\015\\012          <value>NotificiationSentFromParentID,System.Guid</value>\\015\\012          <value>ServerLogoImageFileNameWithExtension,System.String</value>\\015\\012          <value>ServerNotificationImageContentURLFolder,System.String</value>\\015\\012          <value>ServerURL,System.String</value>\\015\\012          <value>Subject,System.String</value>\\015\\012          <value>Title,System.String</value>\\015\\012        </Columns>\\015\\012        <Dictionary isRef="1" />\\015\\012        <Guid>40876b7425c04da492dd1fdbb0f3a9f0</Guid>\\015\\012        <Name>NotificationSettingDTO</Name>\\015\\012      </NotificationSettingDTO>\\015\\012    </BusinessObjects>\\015\\012    <Databases isList="true" count="0" />\\015\\012    <DataSources isList="true" count="0" />\\015\\012    <Relations isList="true" count="0" />\\015\\012    <Report isRef="0" />\\015\\012    <Variables isList="true" count="1">\\015\\012      <value>General</value>\\015\\012    </Variables>\\015\\012  </Dictionary>\\015\\012  <EngineVersion>EngineV2</EngineVersion>\\015\\012  <GlobalizationStrings isList="true" count="0" />\\015\\012  <MetaTags isList="true" count="0" />\\015\\012  <Pages isList="true" count="1">\\015\\012    <Page1 Ref="4" type="Page" isKey="true">\\015\\012      <Border>None;Black;2;Solid;False;4;Black</Border>\\015\\012      <Brush>Transparent</Brush>\\015\\012      <Components isList="true" count="1">\\015\\012        <Text Ref="5" type="Text" isKey="true">\\015\\012          <AllowHtmlTags>True</AllowHtmlTags>\\015\\012          <AutoWidth>True</AutoWidth>\\015\\012          <Brush>Transparent</Brush>\\015\\012          <CanGrow>True</CanGrow>\\015\\012          <CanShrink>True</CanShrink>\\015\\012          <ClientRectangle>0,0,19,4.4</ClientRectangle>\\015\\012          <Conditions isList="true" count="0" />\\015\\012          <Font>Calibri,11.25,Regular,Point,False,0</Font>\\015\\012          <GrowToHeight>True</GrowToHeight>\\015\\012          <Margins>0,0,0,0</Margins>\\015\\012          <Name>Text</Name>\\015\\012          <Page isRef="4" />\\015\\012          <Parent isRef="4" />\\015\\012          <Text>&lt;p&gt;\\015\\012You are receiving this email because you, or someone else, requested to reset the password for your account.\\015\\012&lt;/p&gt;\\015\\012&lt;p&gt;\\015\\012Please go to {ForgotPasswordDTO.Url} to proceed.\\015\\012&lt;/p&gt;</Text>\\015\\012          <TextBrush>Black</TextBrush>\\015\\012          <TextQuality>Wysiwyg</TextQuality>\\015\\012          <Type>Expression</Type>\\015\\012        </Text>\\015\\012      </Components>\\015\\012      <Conditions isList="true" count="0" />\\015\\012      <Guid>1b83758dda4046518274d0b090f93e62</Guid>\\015\\012      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>\\015\\012      <Margins>1,1,1,1</Margins>\\015\\012      <Name>Page1</Name>\\015\\012      <PageHeight>29.7</PageHeight>\\015\\012      <PageWidth>21</PageWidth>\\015\\012      <Report isRef="0" />\\015\\012      <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">\\015\\012        <Font>Arial,100</Font>\\015\\012        <TextBrush>[50:0:0:0]</TextBrush>\\015\\012      </Watermark>\\015\\012    </Page1>\\015\\012  </Pages>\\015\\012  <PrinterSettings Ref="7" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />\\015\\012  <ReferencedAssemblies isList="true" count="8">\\015\\012    <value>System.Dll</value>\\015\\012    <value>System.Drawing.Dll</value>\\015\\012    <value>System.Windows.Forms.Dll</value>\\015\\012    <value>System.Data.Dll</value>\\015\\012    <value>System.Xml.Dll</value>\\015\\012    <value>Stimulsoft.Controls.Dll</value>\\015\\012    <value>Stimulsoft.Base.Dll</value>\\015\\012    <value>Stimulsoft.Report.Dll</value>\\015\\012  </ReferencedAssemblies>\\015\\012  <ReportAlias>Report</ReportAlias>\\015\\012  <ReportChanged>5/29/2015 9:24:49 AM</ReportChanged>\\015\\012  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>\\015\\012  <ReportFile>C:\\134Reports\\134forgot password.mrt</ReportFile>\\015\\012  <ReportGuid>7c7bed1ff65d427d98e11102c302639d</ReportGuid>\\015\\012  <ReportName>Report</ReportName>\\015\\012  <ReportUnit>Centimeters</ReportUnit>\\015\\012  <ReportVersion>2014.3.0</ReportVersion>\\015\\012  <Script>using System;\\015\\012using System.Drawing;\\015\\012using System.Windows.Forms;\\015\\012using System.Data;\\015\\012using Stimulsoft.Controls;\\015\\012using Stimulsoft.Base.Drawing;\\015\\012using Stimulsoft.Report;\\015\\012using Stimulsoft.Report.Dialogs;\\015\\012using Stimulsoft.Report.Components;\\015\\012\\015\\012namespace Reports\\015\\012{\\015\\012    public class Report : Stimulsoft.Report.StiReport\\015\\012    {\\015\\012        public Report()        {\\015\\012            this.InitializeComponent();\\015\\012        }\\015\\012\\015\\012        #region StiReport Designer generated code - do not modify\\015\\012\\011\\011#endregion StiReport Designer generated code - do not modify\\015\\012    }\\015\\012}\\015\\012</Script>\\015\\012  <ScriptLanguage>CSharp</ScriptLanguage>\\015\\012  <Styles isList="true" count="0" />\\015\\012</StiSerializer>',
+  E'<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <CacheAllData>True</CacheAllData>
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="10">
+          <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>NotificationConstructID,System.Guid</value>
+          <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificiationSentFromParentID,System.Guid</value>
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+          <value>LoginRoute,System.String</value>
+          <value>Subject,System.String</value>
+          <value>Title,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+      <BankAccountMarkedAsFraudSuspiciousDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>BankAccountMarkedAsFraudSuspiciousDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="6">
+          <value>AccountNumber,System.String</value>
+          <value>DetailsUrl,System.String</value>
+          <value>FirstName,System.String</value>
+          <value>LastName,System.String</value>
+          <value>Salutation,System.String</value>
+          <value>SortCode,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>6a7538f7c0b042a494d9c1c8fbfd6830</Guid>
+        <Name>BankAccountMarkedAsFraudSuspiciousDTO</Name>
+      </BankAccountMarkedAsFraudSuspiciousDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>General</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <Text2 Ref="5" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0,19,0.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>Dear {BankAccountMarkedAsFraudSuspiciousDTO.Salutation} {BankAccountMarkedAsFraudSuspiciousDTO.FirstName} {BankAccountMarkedAsFraudSuspiciousDTO.LastName}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text2>
+        <Text3 Ref="6" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.6,19,2.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,8</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>The following bank account was Marked as Fraud Suspicious:
+
+Account Number: {BankAccountMarkedAsFraudSuspiciousDTO.AccountNumber}
+Sort Code: {BankAccountMarkedAsFraudSuspiciousDTO.SortCode}
+
+You can review it by using this link:
+{BankAccountMarkedAsFraudSuspiciousDTO.DetailsUrl}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text3>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
+      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="7" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="8" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>8/3/2015 8:25:00 AM</ReportChanged>
+  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
+  <ReportFile>C:\Stash\Scm\Bf\Main\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
+  <ReportGuid>4074dea2de024075ad06df3a03dd69a5</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2014.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>',
   true,
   false,
   CURRENT_DATE,
@@ -145,10 +293,10 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'ForgotPasswordDTO',
-  'Bec.TargetFramework.Entities.ForgotPasswordDTO, Bec.TargetFramework.Entities',
-  'ForgotPasswordDTO',
-  'Bec.TargetFramework.Entities',
+  'BankAccountMarkedAsFraudSuspiciousDTO',
+  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsFraudSuspiciousDTO, Bec.TargetFramework.Entities',
+  'BankAccountMarkedAsFraudSuspiciousDTO',
+  'Bec.TargetFramework.Entities.DTO.Notification',
   'Bec.TargetFramework.Entities',
   true,
   true,
@@ -169,16 +317,15 @@ INSERT INTO
 )
 VALUES (
   NcResID,
-  'ForgotPassword Notification',
-  'ForgotPassword Resource',
+  'BankAccountMarkedAsFraudSuspicious Notification',
+  'BankAccountMarkedAsFraudSuspicious Resource',
   true,
   false,
   null
 );
 
 -- Operations for Notification View/Edit/Send/Configure/MarkAsRead/MarkAsUnRead/Edit MUST EXIST FIRST
-
--- For
+-- OrganisationTypeId = 31 - Professional
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -374,9 +521,6 @@ INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
   (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),31,UserUserTypeID);
-
-
--- add claims to role so that
 
 -- Add to DOT for specific org type
 
