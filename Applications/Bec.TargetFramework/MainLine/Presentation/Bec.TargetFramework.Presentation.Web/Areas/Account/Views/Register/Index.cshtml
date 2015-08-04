@@ -79,10 +79,10 @@
                     return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
                 }, 'Your password must contain 1 number, 1 uppercase character and 1 symbol');
 
-            $.validator.addMethod("nospace",
+            $.validator.addMethod("lettersanddigits",
                 function (value, element) {
-                    return value.indexOf(" ") < 0;
-                }, 'Spaces are not allowed');
+                    return /^[a-z0-9]+$/i.test(value);
+                }, 'Your username must contain only letters and digits');
 
             // Validation
             $("#login-form").validate({
@@ -93,7 +93,7 @@
                     },
                     NewUsername: {
                         required: true,
-                        nospace: true,
+                        lettersanddigits: true,
                         remote: {
                             url: '@Url.Action("UsernameAvailable", "Register", new { Area = "Account" })',
                             data: {

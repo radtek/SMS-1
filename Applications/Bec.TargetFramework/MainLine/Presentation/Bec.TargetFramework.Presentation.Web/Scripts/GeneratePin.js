@@ -8,7 +8,7 @@ $("#generatePin-form").validate({
     ignore: '.skip',
     // Rules for form validation
     rules: {
-        ContactedTelephoneNumber: {
+        notes: {
             required: true
         }
     },
