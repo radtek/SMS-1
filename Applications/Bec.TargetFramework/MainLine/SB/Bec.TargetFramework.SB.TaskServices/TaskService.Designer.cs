@@ -35,7 +35,7 @@
             // 
             this.eventLog.EnableRaisingEvents = true;
             this.eventLog.Log = "Application";
-            this.eventLog.Source = "Bec.TargetFramework.SB.NotificationService";
+            this.eventLog.Source = "Bec.TargetFramework.SB.TaskService";
             // 
             // TaskService
             // 

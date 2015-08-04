@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.SB.TaskServices
                 else
                     Serilog.Log.Logger.Error(ex, ex.Message, null);
 
-                OnStop();
+                Stop();
             }
         }
 
