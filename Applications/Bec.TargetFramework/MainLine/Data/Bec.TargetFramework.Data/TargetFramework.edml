@@ -9200,7 +9200,7 @@
           <Key>
             <PropertyRef Name="TransactionOrderPaymentID" />
           </Key>
-          <Property Name="TransactionOrderPaymentID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="TransactionOrderPaymentID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="IsPaymentSuccessful" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="PaymentDate" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" />
           <Property Name="ResponseData" Type="json" />

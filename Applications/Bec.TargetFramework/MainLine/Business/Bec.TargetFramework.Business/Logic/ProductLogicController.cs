@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
-                var p = await scope.DbContext.Products.SingleAsync(x => x.ProductDetails.First().Name == "Credit Top Up");
+                var p = await scope.DbContext.Products.SingleAsync(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up");
                 return p.ToDto();
             }
         }

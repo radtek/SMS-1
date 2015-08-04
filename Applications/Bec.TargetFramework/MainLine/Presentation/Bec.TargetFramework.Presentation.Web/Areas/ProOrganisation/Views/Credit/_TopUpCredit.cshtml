@@ -26,137 +26,175 @@
                 <h4 class="modal-title" id="addUserLabel">Top Up Credit</h4>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })" method="POST" id="payment-form" class="smart-form">
-                    @Html.ValidationBootstrap()
-                    @Html.AntiForgeryToken()
-                    <div class="row">
-                        <div class="col-md-12">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })" method="POST" id="payment-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
                             <fieldset>
-                                <section>
-                                    <label class="label">Card Number</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.CardNumber, new { tabindex = "1", maxlength = 16 })
-                                    </label>
-                                </section>
+
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                        <section>
+                                            <label class="label">Payment Amount</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                <input name="amount" id="amount" />
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-12">
+                                        <section>
+                                            <label class="label">Card Number</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CardNumber, new { tabindex = "1", maxlength = 16 })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Expiry Month</label>
+                                            <label class="select">
+                                                @Html.DropDownListFor(m => m.CardExpiryMonth, months, new { tabindex = "2" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Expiry Year</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength = "2" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">CVV</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "4", maxlength = "3" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Card Type</label>
+                                            <label class="select">
+                                                @Html.DropDownList("cardType", Html.EnumList<PaymentCardTypeIDEnum>(), new { tabindex = "5" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Payment Method</label>
+                                            <label class="select ">
+                                                @Html.DropDownList("methodType", Html.EnumList<PaymentMethodTypeIDEnum>(), new { tabindex = "6" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <input id="CompanyName" type="hidden" />
+                                <div class="row">
+                                    <div class="col col-md-12">
+                                        <div class="row">
+                                            <section class="col col-4">
+                                                <label class="label">Lookup Postcode</label>
+                                                <label class="input">
+                                                    <input id="postcodelookup" type="text" tabindex="1" maxlength="10" />
+                                                </label>
+                                            </section>
+
+                                            <section class="col">
+                                                <label class="label">&nbsp;</label>
+                                                <button id="findaddressbutton" type="button" class="btn btn-default btn-sm" tabindex="2">Find Address</button>
+                                            </section>
+                                        </div>
+
+                                        <section>
+                                            <label class="select">
+                                                <select id="addressresults" tabindex="3"></select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+
+
+                                        <div class="row">
+                                            <section class="col" id="noMatch">
+                                                <em style="color:#d56161">No matches found, please enter address below</em>
+                                            </section>
+                                        </div>
+
+                                        <div class="row" id="manAddRow">
+                                            <section class="col">
+                                                <input type="checkbox" id="manualAddress" />
+                                                <label for="manualAddress" tabindex="4">Edit Address Details</label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">Cardholder Address</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "5", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "6", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "7", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    @Html.TextBoxFor(m => m.County, new { id = "County", @readonly = "readonly", placeholder = "County", tabindex = "8", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "9", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
                             </fieldset>
-                        </div>
+                        </form>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <section>
-                                <label class="label">Expiry Month</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    @Html.DropDownListFor(m => m.CardExpiryMonth, months, new { tabindex = "2" })
-                                </label>
-                            </section>
-                        </div>
-                        <div class="col-md-4">
-                            <section>
-                                <label class="label">Expiry Year</label>
-                                <label class="input ">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength="2" })
-                                </label>
-                            </section>
-                        </div>
-                        <div class="col-md-4">
-                            <section>
-                                <label class="label">CVV</label>
-                                <label class="input ">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "4", maxlength="3" })
-                                </label>
-                            </section>
-                        </div>
-                    </div>
-                    <input id="CompanyName" type="hidden" />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <fieldset>
-                                <div class="row">
-                                    <section class="col col-4">
-                                        <label class="label">Lookup Postcode</label>
-                                        <label class="input">
-                                            <input id="postcodelookup" type="text" tabindex="1" maxlength="10" />
-                                        </label>
-                                    </section>
-
-                                    <section class="col">
-                                        <label class="label">&nbsp;</label>
-                                        <button id="findaddressbutton" type="button" class="btn btn-default btn-sm" tabindex="2">Find Address</button>
-                                    </section>
-                                </div>
-
-                                <section>
-                                    <label class="select">
-                                        <select id="addressresults" tabindex="3"></select>
-                                        <i></i>
-                                    </label>
-                                </section>
-
-
-                                <div class="row">
-                                    <section class="col" id="noMatch">
-                                        <em style="color:#d56161">No matches found, please enter address below</em>
-                                    </section>
-                                </div>
-
-                                <div class="row" id="manAddRow">
-                                    <section class="col">
-                                        <input type="checkbox" id="manualAddress" />
-                                        <label for="manualAddress" tabindex="4">Edit Address Details</label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="label">Cardholder Address</label>
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "5", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "6", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "7", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.County, new { id = "County", @readonly = "readonly", placeholder = "Country", tabindex = "8", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "9", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div
-                            </fieldset>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="cancelPay" class="btn btn-default" data-dismiss="modal">
@@ -182,31 +220,31 @@
         // Rules for form validation
         rules: {
             CardNumber: {
-                required: true
-            },
-            CardExpiryMonth: {
-                required: true
+                required: true,
+                minlength: 16
             },
             CardExpiryYear: {
-                required: true
+                required: true,
+                minlength: 2
             },
             CVVNumber: {
-                required: true
+                required: true,
+                minlength: 3
             },
             Line1: {
-                required: true
-            },
-            Line2: {
                 required: true
             },
             Town: {
                 required: true
             },
-            County: {
-                required: true
-            },
             PostalCode: {
                 required: true
+            },
+            amount: {
+                required: true,
+                digits: true,
+                min: 1,
+                max: 500
             }
         },
 

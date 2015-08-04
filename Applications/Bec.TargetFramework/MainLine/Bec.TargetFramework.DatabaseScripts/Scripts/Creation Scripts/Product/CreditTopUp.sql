@@ -9,6 +9,10 @@ Declare TPlanID uuid;
 Declare TPlanVersion integer;
 Declare TPTID uuid;
 Declare LoopRow Record;
+Declare TProductBusTaskTemplateID uuid;
+Declare TBusTaskID uuid;
+Declare TBusTaskHandlerID uuid;
+Declare TBusTaskHandlerVersionNumber integer;
 Begin
 
 -- declare variables
@@ -49,6 +53,7 @@ VALUES (
   false
 );
 
+--product detail template
 INSERT INTO
   public."ProductDetailTemplate"
 (
@@ -90,6 +95,19 @@ VALUES (
   false
 );
 
+TBusTaskID := E'b43f6a43-edc1-11e4-8341-00155d0a1426';
 
+--product bus task template
+
+insert into public."ProductBusTaskTemplate"(
+  "ProductTemplateID",
+  "ProductVersionID",
+  "BusTaskID"
+)
+values(
+  TProductID,
+  TProductVersion,
+  TBusTaskID
+);
 
 END $$;

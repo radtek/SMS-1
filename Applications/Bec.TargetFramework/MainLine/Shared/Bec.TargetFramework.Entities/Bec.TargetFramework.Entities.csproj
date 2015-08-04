@@ -878,8 +878,9 @@
       <DependentUpon>OrganisationLedgerAccountDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\OrganisationAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.cs" />
     <Compile Include="Boo\OrganisationLedgerTransactionDTO.Generated.cs">
-      <DependentUpon>OrganisationAccountDTO.cs</DependentUpon>
+      <DependentUpon>OrganisationLedgerTransactionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
     <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />
