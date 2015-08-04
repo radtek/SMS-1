@@ -37,7 +37,7 @@
                 gridElementId: 'notificationsGrid',
                 url: '@Url.Action("LoadNotifications", "InternalNotifications", new { area = "Admin" })',
                 schema: { data: "data", total: "total", model: { id: "NotificationID" } },
-                defaultSort: { field: "Name", dir: "asc" },
+                defaultSort: { field: "NotificationSubject", dir: "asc" },
                 change: notificationsChange,
                 panels: ['notificationsPanel'],
                 columns: [
@@ -46,8 +46,8 @@
                             hidden: true,
                         },
                         {
-                            field: "Name",
-                            title: "Name"
+                            field: "NotificationSubject",
+                            title: "Notification Subject"
                         },
                         {
                             field: "DateSent",

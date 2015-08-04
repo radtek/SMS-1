@@ -9703,6 +9703,7 @@
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="NotificationSubject" Type="varchar" MaxLength="200" />
           <Property Name="UserID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="vOrganisationClaim">
@@ -28540,6 +28541,7 @@
           <Property Name="NotificationConstructID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="71eafd7b-5659-4996-81a2-7f10a0dcbbb8" />
           <Property Name="NotificationConstructVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="38b25970-c0eb-4faf-8c55-f74a6b438a32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="4d94e24e-b8c5-4f58-8386-827835e3db61" />
+          <Property Name="NotificationSubject" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="91b7914b-c32f-4100-a3fc-9db316486741" />
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5a66ea90-3de6-4ff9-a6cf-886f1b58ecac" />
         </EntityType>
         <EntityType Name="VOrganisationClaim" ed:Guid="04553be2-cc4a-4937-8d00-c8b2d7825322">
@@ -42893,6 +42895,7 @@
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NotificationSubject" ColumnName="NotificationSubject" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

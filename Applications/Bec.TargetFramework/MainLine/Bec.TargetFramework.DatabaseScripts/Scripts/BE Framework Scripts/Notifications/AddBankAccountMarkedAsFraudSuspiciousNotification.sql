@@ -110,22 +110,20 @@ VALUES (
         <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <BankAccountMarkedAsFraudSuspiciousDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>BankAccountMarkedAsFraudSuspiciousDTO</Alias>
+      <BankAccountMarkedAsFraudSuspiciousNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="6">
+        <Columns isList="true" count="4">
           <value>AccountNumber,System.String</value>
           <value>DetailsUrl,System.String</value>
-          <value>FirstName,System.String</value>
-          <value>LastName,System.String</value>
-          <value>Salutation,System.String</value>
+          <value>OrganisationId,System.Guid</value>
           <value>SortCode,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>6a7538f7c0b042a494d9c1c8fbfd6830</Guid>
-        <Name>BankAccountMarkedAsFraudSuspiciousDTO</Name>
-      </BankAccountMarkedAsFraudSuspiciousDTO>
+        <Guid>7d18777ff026488f86a650fbca5fe284</Guid>
+        <Name>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Name>
+      </BankAccountMarkedAsFraudSuspiciousNotificationDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
@@ -142,23 +140,10 @@ VALUES (
     <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="2">
-        <Text2 Ref="5" type="Text" isKey="true">
+      <Components isList="true" count="1">
+        <Text3 Ref="5" type="Text" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0,19,0.4</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Arial,8</Font>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text2</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>Dear {BankAccountMarkedAsFraudSuspiciousDTO.Salutation} {BankAccountMarkedAsFraudSuspiciousDTO.FirstName} {BankAccountMarkedAsFraudSuspiciousDTO.LastName}</Text>
-          <TextBrush>Black</TextBrush>
-          <Type>Expression</Type>
-        </Text2>
-        <Text3 Ref="6" type="Text" isKey="true">
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0,0.6,19,2.4</ClientRectangle>
+          <ClientRectangle>0,0,19,2.4</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Arial,8</Font>
           <Margins>0,0,0,0</Margins>
@@ -167,11 +152,11 @@ VALUES (
           <Parent isRef="4" />
           <Text>The following bank account was Marked as Fraud Suspicious:
 
-Account Number: {BankAccountMarkedAsFraudSuspiciousDTO.AccountNumber}
-Sort Code: {BankAccountMarkedAsFraudSuspiciousDTO.SortCode}
+Account Number: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}
+Sort Code: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}
 
 You can review it by using this link:
-{BankAccountMarkedAsFraudSuspiciousDTO.DetailsUrl}</Text>
+{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Text>
           <TextBrush>Black</TextBrush>
           <Type>Expression</Type>
         </Text3>
@@ -184,13 +169,13 @@ You can review it by using this link:
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="7" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="8" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="7" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -202,10 +187,10 @@ You can review it by using this link:
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/3/2015 8:25:00 AM</ReportChanged>
+  <ReportChanged>8/3/2015 2:54:51 PM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\Stash\Scm\Bf\Main\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>4074dea2de024075ad06df3a03dd69a5</ReportGuid>
+  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
+  <ReportGuid>38a2fdc9e366452bbaab602f4f0a8ee4</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
@@ -293,9 +278,9 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'BankAccountMarkedAsFraudSuspiciousDTO',
-  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsFraudSuspiciousDTO, Bec.TargetFramework.Entities',
-  'BankAccountMarkedAsFraudSuspiciousDTO',
+  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
+  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsFraudSuspiciousNotificationDTO, Bec.TargetFramework.Entities',
+  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
   'Bec.TargetFramework.Entities.DTO.Notification',
   'Bec.TargetFramework.Entities',
   true,

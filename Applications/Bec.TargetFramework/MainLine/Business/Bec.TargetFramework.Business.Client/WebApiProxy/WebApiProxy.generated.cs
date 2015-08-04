@@ -340,15 +340,25 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName);
+		Task<List<VNotificationInternalUnreadDTO>> GetLatestInternalAsync(Guid userId,Int32 count);
 
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName);
+		List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId,Int32 count);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -2058,26 +2068,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName)
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetLatestInternalAsync(Guid userId,Int32 count)
 		{
-			constructName = constructName.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user);
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetLatestInternal?userId=" + userId + "&count=" + count, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName)
+		/// <param name="userId"></param>
+		/// <param name="count"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId,Int32 count)
 		{
-			constructName = constructName.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetLatestInternal?userId=" + userId + "&count=" + count, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user)).Result;
 		}
 
 		/// <summary>

@@ -16,7 +16,7 @@
                             <i class="fa fa-bell fa-fw fa-2x"></i>
                         </em>
                         <span>
-                            @notification.Name
+                            @notification.NotificationSubject
                             - @Html.ActionLink("See details", "Index", "InternalNotifications", new { }, new { @class = "display-normal" })
                             <br>
                             <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>

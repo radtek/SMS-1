@@ -16,19 +16,6 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogicController : LogicBase
     {
-        public NotificationLogicController()
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="notifcationConstructID"></param>
-        /// <param name="notificationConstructVersion"></param>
-        /// <param name="parentID"></param>
-        /// <param name="isRead"></param>
-        /// <param name="timeSpan"></param>
-        /// <returns></returns>
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
         {
@@ -209,17 +196,40 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName)
+        public List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId, int count)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                return scope.DbContext.VNotificationInternalUnreads.Where(x => x.UserID == accountID).ToDtos();
+                var undreadNotifications = scope.DbContext.VNotificationInternalUnreads
+                    .Where(x => x.UserID == userId)
+                    .OrderByDescending(x => x.DateSent)
+                    .Take(count);
+
+                return undreadNotifications.ToDtos();
+            }
+        }
+
+        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var undreadNotifications = scope.DbContext.VNotificationInternalUnreads
+                    .Where(x => x.UserID == userId);
+                if (notificationConstruct != NotificationConstructEnum.All)
+                {
+                    var notificationConstructName = notificationConstruct.GetStringValue();
+                    undreadNotifications = undreadNotifications
+                        .Where(n => n.Name == notificationConstructName)
+                        .OrderByDescending(x => x.DateSent);
+                }
+
+                return undreadNotifications.ToDtos();
             }
         }
 
         public NotificationResultDTO GetTcAndCsText(Guid accountID)
         {
-            var unreadDTO = GetUnreadNotifications(accountID, "TcPublic").FirstOrDefault();
+            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic).FirstOrDefault();
             Ensure.That(unreadDTO).IsNotNull();
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
             string val = ReportHelper.GetReportTextItem(construct, null, "TextContent");

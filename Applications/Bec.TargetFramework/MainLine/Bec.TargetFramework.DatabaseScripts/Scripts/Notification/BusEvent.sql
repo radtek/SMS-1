@@ -189,3 +189,51 @@ VALUES (
   false,
   null
 );
+
+-- BankAccountMarkedAsFraudSuspicious
+INSERT INTO
+  public."BusEvent"
+(
+  "BusEventID",
+  "BusEventName",
+  "BusEventDescription",
+  "BusEventTypeID"
+)
+VALUES (
+  'A97F6BA0-6734-4472-9B73-932AA0A81637',
+  'BankAccountMarkedAsFraudSuspicious',
+  '',
+  '707d82de-3ddd-11e4-95c4-a77fdf4021b5'
+);
+
+INSERT INTO
+  public."BusEventMessageSubscriber"
+(
+  "BusEventMessageSubscriberID",
+  "Name",
+  "ObjectName",
+  "ObjectAssembly"
+)
+VALUES (
+  '1DAA0BBD-4364-46D7-8A2C-15991526D0DD',
+  'BankAccountMarkedAsFraudSuspicious',
+  'Bec.TargetFramework.SB.Messages.Events.BankAccountMarkedAsFraudSuspiciousEvent',
+  'Bec.TargetFramework.SB.Messages'
+);
+
+INSERT INTO
+  public."BusEventBusEventMessageSubscriber"
+(
+  "BusEventID",
+  "BusEventMessageSubscriberID",
+  "IsActive",
+  "IsDeleted",
+  "BusEventMessageSubscriberFilter"
+)
+VALUES (
+  'A97F6BA0-6734-4472-9B73-932AA0A81637',
+  '1DAA0BBD-4364-46D7-8A2C-15991526D0DD',
+  true,
+  false,
+  null
+);

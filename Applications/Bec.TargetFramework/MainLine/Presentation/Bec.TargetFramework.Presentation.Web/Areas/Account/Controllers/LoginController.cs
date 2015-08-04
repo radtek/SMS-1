@@ -120,7 +120,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
             if (orgID == null) throw new Exception("User not associated with any organisation");
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, "TcPublic")).Count > 0;
+            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, NotificationConstructEnum.TcPublic)).Count > 0;
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID.Value, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
         }

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VNotificationInternalUnreadDTO() {
         }
 
-        public VNotificationInternalUnreadDTO(global::System.Guid notificationID, global::System.Guid notificationRecipientID, global::System.DateTime dateSent, string notificationData, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string name, global::System.Guid userID) {
+        public VNotificationInternalUnreadDTO(global::System.Guid notificationID, global::System.Guid notificationRecipientID, global::System.DateTime dateSent, string notificationData, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, string name, string notificationSubject, global::System.Guid userID) {
 
           this.NotificationID = notificationID;
           this.NotificationRecipientID = notificationRecipientID;
@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Entities
           this.NotificationConstructID = notificationConstructID;
           this.NotificationConstructVersionNumber = notificationConstructVersionNumber;
           this.Name = name;
+          this.NotificationSubject = notificationSubject;
           this.UserID = userID;
         }
 
@@ -58,6 +59,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public string NotificationSubject { get; set; }
 
         [DataMember]
         public global::System.Guid UserID { get; set; }
