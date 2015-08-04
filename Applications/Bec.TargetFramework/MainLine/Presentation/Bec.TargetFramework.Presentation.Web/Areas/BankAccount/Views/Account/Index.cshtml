@@ -23,7 +23,7 @@
                     <!-- well -->
                     <div class="well">
 
-                        <a id="markFraudButton" class="btn btn-primary btn-sm" data-modallink="true">Mark as Fraud Suspicious</a>
+                        <a id="markFraudSuspiciousButton" class="btn btn-primary btn-sm" data-modallink="true">Mark as Fraud Suspicious</a>
                         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
                         {
                             <a id="confirmPotentialButton" class="btn btn-primary btn-sm" data-modallink="true">Confirm Potential Fraud</a>
@@ -125,7 +125,7 @@
             $("p#ddCreated").text(dateString(dataItem.Created));
             $("p#ddStatus").text(dataItem.Description || "");
 
-            $("#markFraudButton").data('href', '@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.FraudSuspicion" + "&title=" + encodeURIComponent("Mark as Fraud Suspicious") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account as Fraud Suspicious?"));
+            $("#markFraudSuspiciousButton").data('href', '@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.FraudSuspicion" + "&title=" + encodeURIComponent("Mark as Fraud Suspicious") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account as Fraud Suspicious?"));
             @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
             {
                 <text>
@@ -137,7 +137,7 @@
             </text>
             }
 
-            $("#markFraudButton").attr("disabled", dataItem.Status != "Safe");
+            $("#markFraudSuspiciousButton").attr("disabled", dataItem.Status != "Safe");
             @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
             {
                 <text>

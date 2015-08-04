@@ -511,17 +511,34 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                PublishMarkAsFraudSuspiciousEvent(currentOrgID);
-
                 var ba = scope.DbContext.OrganisationBankAccounts.Single(x => x.OrganisationBankAccountID == baID);
                 var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), status.GetStringValue());
 
                 await AddStatus(currentOrgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, notes, ba.IsActive);
                 await scope.SaveAsync();
+                await AdditionalOperationForStatusChange(currentOrgID, status);
             }
         }
 
-        private async void PublishMarkAsFraudSuspiciousEvent(Guid organisationId)
+        private async Task AdditionalOperationForStatusChange(Guid organisationId, BankAccountStatusEnum status)
+        {
+            switch (status)
+            {
+                case BankAccountStatusEnum.PendingValidation:
+                    break;
+                case BankAccountStatusEnum.Safe:
+                    break;
+                case BankAccountStatusEnum.FraudSuspicion:
+                    await PublishBankAccountMarkedAsFraudSuspiciousNotification(organisationId);
+                    break;
+                case BankAccountStatusEnum.PotentialFraud:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async Task PublishBankAccountMarkedAsFraudSuspiciousNotification(Guid organisationId)
         {
             IEnumerable<Guid> userAccountOrganisationIds;
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))

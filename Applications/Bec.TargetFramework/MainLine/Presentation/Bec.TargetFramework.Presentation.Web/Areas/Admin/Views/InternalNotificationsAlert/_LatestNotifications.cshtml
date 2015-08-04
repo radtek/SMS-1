@@ -8,18 +8,34 @@
     <!-- notification content -->
     <div class="ajax-notifications custom-scroll">
         <ul class="notification-body">
-            @foreach (var notification in Model)
+            @if (Model.Any())
+            {
+                foreach (var notification in Model)
+                {
+                    <li>
+                        <span class="padding-10 ">
+                            <em class="badge padding-5 no-border-radius bg-color-primary pull-left margin-right-5">
+                                <i class="fa fa-bell fa-fw fa-2x"></i>
+                            </em>
+                            <span>
+                                @notification.NotificationSubject
+                                - @Html.ActionLink("See details", "Index", "InternalNotifications", new { }, new { @class = "display-normal" })
+                                <br>
+                                <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>
+                            </span>
+                        </span>
+                    </li>
+                }
+            }
+            else
             {
                 <li>
                     <span class="padding-10 ">
-                        <em class="badge padding-5 no-border-radius bg-color-green pull-left margin-right-5">
-                            <i class="fa fa-bell fa-fw fa-2x"></i>
+                        <em class="badge padding-5 no-border-radius bg-color-transparent pull-left margin-right-5">
+                            <i class="fa fa-smile-o fa-fw fa-2x color-primary"></i>
                         </em>
                         <span>
-                            @notification.NotificationSubject
-                            - @Html.ActionLink("See details", "Index", "InternalNotifications", new { }, new { @class = "display-normal" })
-                            <br>
-                            <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>
+                            There are no notifications
                         </span>
                     </span>
                 </li>

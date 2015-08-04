@@ -9,6 +9,15 @@
  * Rename the stylesheet to whatever your liking so it will stay
  * unique to you with each update of SmartAdmin.
  */
+.color-primary {
+  color: #bad64d;
+}
+.bg-color-primary {
+  background-color: #bad64d;
+}
+.bg-color-transparent {
+  background: transparent !important;
+}
 .padding-top-0 {
   padding-top: 0 !important;
 }
@@ -60,13 +69,6 @@
 .margin-right-15 {
   margin-right: 15px !important;
 }
-/*.smart-form {
-    .input {
-        input {
-            padding: 4px 10px !important;
-        }
-    }
-}*/
 /* SmartForm Bootstrap Validation */
 #extr-page h4.paragraph-header {
   width: auto;
@@ -87,3 +89,7 @@
 #extr-page .smart-form div + fieldset {
   padding-top: 15px;
 }
+#header #logo-group .ajax-dropdown {
+  width: 430px;
+}
+/*# sourceMappingURL=your_style.css.map */
