@@ -52,7 +52,9 @@
                         {
                             field: "DateSent",
                             title: "Date Sent",
-                            template: function (dataItem) { return dateString(dataItem.DateSent); }
+                            template: function (dataItem) {
+                                return moment(dataItem.DateSent).format('DD/MM/YYYY');
+                            }
                         }
                 ]
             });

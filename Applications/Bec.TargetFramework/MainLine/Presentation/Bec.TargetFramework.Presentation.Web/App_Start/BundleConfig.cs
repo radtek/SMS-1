@@ -23,6 +23,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
                 "~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
+                "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.min.js"
                 ));
 

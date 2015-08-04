@@ -10,6 +10,7 @@ using NServiceBus;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 {
@@ -22,7 +23,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious);
+                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue());
 
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountMarkedAsFraudSuspiciousNotificationDTO", handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto);
