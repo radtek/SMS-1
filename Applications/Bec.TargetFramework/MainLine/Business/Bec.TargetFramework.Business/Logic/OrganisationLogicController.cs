@@ -438,7 +438,7 @@ namespace Bec.TargetFramework.Business.Logic
                     address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
                     address.Name = String.Empty;
                     address.ParentID = txID;
-                    scope.DbContext.Addresses.Add(address); // TODO: erm, this doesn't appear to work
+                    scope.DbContext.Addresses.Add(address);
                 }
 
                 SmsTransaction tx = new SmsTransaction
@@ -448,8 +448,7 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID,
-                    CreatedOn = DateTime.Now
+                    TenureTypeID = dto.TenureTypeID
                 };
                 scope.DbContext.SmsTransactions.Add(tx);
                 await scope.SaveAsync();
