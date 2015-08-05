@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public IUserLogicClient UserLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
+        public IOrganisationLogicClient orgClient { get; set; }
         public RegisterController()
         {
         }
@@ -83,7 +84,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);
-            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient);
+            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 

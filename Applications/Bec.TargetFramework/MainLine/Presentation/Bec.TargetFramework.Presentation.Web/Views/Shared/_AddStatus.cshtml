@@ -8,25 +8,22 @@
                 <br />
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive })" method="POST" id="confirmStatus-form" class="smart-form">
+                        <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive, killDuplicates = ViewBag.killDuplicates })" method="POST" id="confirmStatus-form" class="smart-form">
                             <label class="label">@ViewBag.message</label>
-                            @if (ViewBag.includeNotes != null && ViewBag.includeNotes)
-                            {
-                                <div class="row">
-                                    <section class="col">
-                                        <label class="label">Notes</label>
-                                    </section>
-                                </div>
+                            <div class="row">
+                                <section class="col">
+                                    <label class="label">Reason</label>
+                                </section>
+                            </div>
 
-                                <div class="row">
-                                    <section class="col col-8">
-                                        <label class="textarea">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            <textarea id="notes" rows="5"></textarea>
-                                        </label>
-                                    </section>
-                                </div>
-                            }
+                            <div class="row">
+                                <section class="col col-8">
+                                    <label class="textarea">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        <textarea name="notes" rows="5"></textarea>
+                                    </label>
+                                </section>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -46,7 +43,28 @@
 <script type="text/javascript">
     // submit from when Save button clicked
     $("#okButton").click(function () {
-        $("#okButton").prop('disabled', true);
         $("#confirmStatus-form").submit();
     });
+
+    $("#confirmStatus-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+            "notes": {
+                required: true
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#okButton").prop('disabled', true);
+        form.submit();
+    }
 </script>

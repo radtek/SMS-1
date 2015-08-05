@@ -9774,8 +9774,7 @@
         </EntityType>
         <EntityType Name="vOrganisationBankAccountsWithStatus">
           <Key>
-            <PropertyRef Name="OrganisationID" />
-            <PropertyRef Name="BankAccountNumber" />
+            <PropertyRef Name="OrganisationBankAccountID" />
           </Key>
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="2000" />
@@ -28616,8 +28615,7 @@
         </EntityType>
         <EntityType Name="VOrganisationBankAccountsWithStatus" ed:Guid="f5cb78e9-2d06-4de6-83a6-15a97a169799">
           <Key>
-            <PropertyRef Name="OrganisationID" />
-            <PropertyRef Name="BankAccountNumber" />
+            <PropertyRef Name="OrganisationBankAccountID" />
           </Key>
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b6d358b3-b4e5-4704-b957-e43e3286dae7" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="True" ed:Guid="50d53710-111d-458c-852a-96e49ff4dd77" />

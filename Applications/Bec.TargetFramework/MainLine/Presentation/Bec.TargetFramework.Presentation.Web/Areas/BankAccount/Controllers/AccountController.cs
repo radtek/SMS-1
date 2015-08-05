@@ -22,9 +22,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index(bool? showmessage)
+        public ActionResult Index()
         {
-            ViewBag.showmessage = showmessage;
             return View();
         }
 
@@ -48,16 +47,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             TempData["OrganisationBankAccountID"] = await orgClient.AddBankAccountAsync(orgID, dto);
-            return RedirectToAction("Index", new { showmessage = true });
+            TempData["ShowMessage"] = true;
+            return RedirectToAction("Index");
         }
 
-        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? includeNotes)
+        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status)
         {
             ViewBag.OrganisationBankAccountID = baID;
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
-            ViewBag.includeNotes = includeNotes;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Account";
             ViewBag.area = "BankAccount";
@@ -68,7 +67,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes);
+            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes, false);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
@@ -91,6 +90,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID });
+            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
+            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+
+            if (accounts.Any())
+                return Json("This account number and sort code have already been entered", JsonRequestBehavior.AllowGet);
+            else
+                return Json("true", JsonRequestBehavior.AllowGet);
         }
     }
 }

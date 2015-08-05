@@ -559,15 +559,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
 
 		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -580,14 +582,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="active"></param>
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -2604,12 +2598,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user);
 		}
 
 		/// <summary>
@@ -2619,11 +2614,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
-		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		/// <param name="killDuplicates"></param>
+		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -2649,27 +2645,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user)).Result;
 		}
 
 		#endregion

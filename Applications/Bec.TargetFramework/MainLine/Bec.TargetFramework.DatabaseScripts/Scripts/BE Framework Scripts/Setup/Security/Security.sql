@@ -89,6 +89,12 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Finance Administrator' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Finance Administrator' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'BankAccount' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Configure' limit 1), TRUE);
 
@@ -100,6 +106,7 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
   (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
 
+/*these come from support role
 --bec admin
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
@@ -113,6 +120,7 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
   (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'ProUsers' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+*/
 
 --configure validated accounts (import)
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
