@@ -476,6 +476,15 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.IsActive && x.Status == s.Name).ToDtos();
                 PopulateBankAccountHistory(ret);
+                foreach (var account in ret)
+                {
+                    account.Duplicates = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => 
+                        x.OrganisationID != account.OrganisationID &&
+                        x.BankAccountNumber == account.BankAccountNumber &&
+                        x.SortCode == x.SortCode)
+                        .ToDtos();
+                    PopulateBankAccountHistory(account.Duplicates);
+                }
                 return ret;
             }
         }
@@ -511,7 +520,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AddBankAccountStatusAsync(Guid currentOrgID, Guid baID, BankAccountStatusEnum status, string notes)
+        public async Task AddBankAccountStatusAsync(Guid currentOrgID, Guid baID, BankAccountStatusEnum status, string notes, bool killDuplicates)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -519,6 +528,16 @@ namespace Bec.TargetFramework.Business.Logic
                 var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), status.GetStringValue());
 
                 await AddStatus(currentOrgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, notes, ba.IsActive);
+
+                if (killDuplicates)
+                {
+                    s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PotentialFraud.GetStringValue());
+                    foreach (var dupe in scope.DbContext.OrganisationBankAccounts.Where(x => x.BankAccountNumber == ba.BankAccountNumber && x.SortCode == ba.SortCode && x.OrganisationBankAccountID != baID))
+                    {
+                        await AddStatus(currentOrgID, dupe.OrganisationBankAccountID, dupe.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "Pre-existing duplicate", dupe.IsActive);
+                    }
+                }
+
                 await scope.SaveAsync();
             }
         }

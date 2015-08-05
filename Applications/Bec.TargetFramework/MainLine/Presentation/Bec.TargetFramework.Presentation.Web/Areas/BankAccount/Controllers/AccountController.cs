@@ -68,7 +68,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes);
+            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes, false);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
@@ -95,8 +95,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 
         public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode)
         {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID });
-            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
+            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
             var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
 
             if (accounts.Any())

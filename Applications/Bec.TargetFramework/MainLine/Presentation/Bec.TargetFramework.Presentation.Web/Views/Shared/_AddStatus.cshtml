@@ -8,7 +8,7 @@
                 <br />
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive })" method="POST" id="confirmStatus-form" class="smart-form">
+                        <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive, killDuplicates = ViewBag.killDuplicates })" method="POST" id="confirmStatus-form" class="smart-form">
                             <label class="label">@ViewBag.message</label>
                             @if (ViewBag.includeNotes != null && ViewBag.includeNotes)
                             {

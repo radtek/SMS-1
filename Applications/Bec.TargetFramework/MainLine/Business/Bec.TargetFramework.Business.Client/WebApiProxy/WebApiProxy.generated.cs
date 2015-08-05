@@ -559,15 +559,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
 
 		/// <param name="currentOrgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -2598,12 +2600,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user);
 		}
 
 		/// <summary>
@@ -2613,11 +2616,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="baID"></param>
 		/// <param name="status"></param>
 		/// <param name="notes"></param>
-		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		/// <param name="killDuplicates"></param>
+		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
 		{
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user)).Wait();
 		}
 
 		/// <summary>

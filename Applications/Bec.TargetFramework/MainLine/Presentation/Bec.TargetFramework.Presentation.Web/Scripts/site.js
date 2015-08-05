@@ -295,7 +295,24 @@ function showHistory(selector, dataItem){
     $(selector).empty();
     for (var i = 0; i < dataItem.History.length; i++) {
         var h = dataItem.History[i];
-        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusTypeValue.Name + ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>' + ' by ' + h.StatusChangedBy + '</div>';
+        var active = ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>';
+        var notes = h.Notes == '' ? '' : ': <span style="font-size:0.7em;">"' + h.Notes + '"</span>';
+        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusTypeValue.Name + active + ' by ' + h.StatusChangedBy + notes + '</div>';
         $(selector).append(item);
+    }
+}
+
+function showDuplicates(selector, dataItem) {
+    $(selector).empty();
+    if (dataItem.Duplicates.length == 0) {
+        $(selector).append("<div>None</div>");
+    }
+    else {
+        for (var i = 0; i < dataItem.Duplicates.length; i++) {
+            var d = dataItem.Duplicates[i];
+            var active = ' <span style="font-size:0.7em;">(' + (d.IsActive ? 'Active' : 'Inactive') + ')</span>';
+            var item = '<div>' + d.Name + ': ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
+            $(selector).append(item);
+        }
     }
 }
