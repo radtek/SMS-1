@@ -28,9 +28,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })" method="POST" id="payment-form" class="smart-form">
+                        <form id="payment-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
+                            <input type="hidden" name="txID" id="txID" />
                             <fieldset>
 
                                 <div class="row">
@@ -258,6 +259,28 @@
 
     function validateSubmit(form) {
         $("#submitPay").prop('disabled', true);
-        form.submit();
+        var formData = $("#payment-form").serializeArray();
+        ajaxWrapper({
+            url: '@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })',
+            type: "POST",
+            data: formData
+        }).done(function (res) {
+            if (res.result == true)
+                hideCurrentModal();
+            else {
+                $('#txID').val(res.txID);
+                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitPay").prop('disabled', false);
+                    }
+                }, true);
+            }
+        }).fail(function (e) {
+            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
+                messageButton: function () {
+                    $("#submitPay").prop('disabled', false);
+                }
+            }, true);
+        });
     }
 </script>

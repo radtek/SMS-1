@@ -55,20 +55,38 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return PartialView("_TopUpCredit");
         }
 
-        public async Task<ActionResult> TopUpCredit(PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO details, int amount)
+        public async Task<ActionResult> TopUpCredit(Guid? txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO details, int amount)
         {
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            if (txID == null)
+            {
+                var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                var prod = await prodClient.GetTopUpProductAsync();
+                var cart = await cartClient.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
+                await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
+                var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID);
+                var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
+                txID = transactionOrder.TransactionOrderID;
+            }
 
-            var prod = await prodClient.GetTopUpProductAsync();
-            var cart = await cartClient.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
-            await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
-            var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID);
-            var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            details.TransactionOrderID = transactionOrder.TransactionOrderID;
+            details.TransactionOrderID = txID.Value;
             details.PaymentChargeType = PaymentChargeTypeEnum.Sale;
             var paymentDto = paymentClient.ProcessPaymentTransaction(details);
 
-            return RedirectToAction("Index");
+            if (paymentDto.IsPaymentSuccessful)
+            {
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Payment Unsuccessful",
+                    message = paymentDto.ErrorMessage,
+                    txID = txID.Value
+                }, JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }
