@@ -106,6 +106,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiProxy.Core", "Externa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bec.TargetFramework.WindowsService", "Shared\Bec.TargetFramework.WindowsService\Bec.TargetFramework.WindowsService.csproj", "{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mehdime.Entity", "External\Mehdime.Entity\Mehdime.Entity.csproj", "{4830BAFD-4163-473E-B00F-65F274AC165F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -470,6 +472,16 @@ Global
 		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76}.Release|x86.ActiveCfg = Release|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4830BAFD-4163-473E-B00F-65F274AC165F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -511,5 +523,6 @@ Global
 		{4E5B8C2F-9008-4A17-ABD1-A92E046C6A1E} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 		{94508206-8537-4088-923B-E7FCB0539903} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 		{1900F9F1-33D3-494B-B2B4-447F3D6AFD76} = {9BD72299-11FB-427E-A607-94738F69CB50}
+		{4830BAFD-4163-473E-B00F-65F274AC165F} = {61DD8810-FF1B-45FB-BD83-8ADD3A7E8976}
 	EndGlobalSection
 EndGlobal

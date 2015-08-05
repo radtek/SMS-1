@@ -361,6 +361,10 @@
       <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
       <Name>BrockAllen.MembershipReboot</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\External\Mehdime.Entity\Mehdime.Entity.csproj">
+      <Project>{4830bafd-4163-473e-b00f-65f274ac165f}</Project>
+      <Name>Mehdime.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\External\WebApiProxy-master\WebApiProxy.Server\WebApiProxy.Server.csproj">
       <Project>{4e5b8c2f-9008-4a17-abd1-a92e046c6a1e}</Project>
       <Name>WebApiProxy.Server</Name>

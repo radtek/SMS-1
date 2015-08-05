@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task CreateAndSaveAudit(WebUserObject wuo, string requestData)
         {
             var dto = new ContactDTO();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 //Generate an audit
                 UserAccountAudit audit = new UserAccountAudit()
@@ -32,8 +32,8 @@ namespace Bec.TargetFramework.Business.Logic
                     Data = requestData
                 };
 
-                scope.DbContext.UserAccountAudits.Add(audit);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountAudits.Add(audit);
+                await scope.SaveChangesAsync();
             }
         }
     }

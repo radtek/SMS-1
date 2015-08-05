@@ -10,17 +10,18 @@ using EnsureThat;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Data;
+using Mehdime.Entity;
 //using Fabrik.Common;
 
 namespace Bec.TargetFramework.Business.Product.Processor
 {
     public static class CartPricingProcessor
     {
-        public static CartPricingDTO CalculateCartPrice(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid cartID, Guid? organisationId = null)
+        public static CartPricingDTO CalculateCartPrice(IDbContextReadOnlyScope scope, Guid cartID, Guid? organisationId = null)
         {
             Ensure.That(cartID).IsNot(Guid.Empty);
 
-            var cart = scope.DbContext.ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
+            var cart = scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
 
             CartPricingDTO cartPrice = new CartPricingDTO
             {

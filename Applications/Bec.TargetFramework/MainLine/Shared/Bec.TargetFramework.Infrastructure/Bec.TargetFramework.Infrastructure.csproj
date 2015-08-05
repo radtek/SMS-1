@@ -142,7 +142,12 @@
     <Compile Include="WCF\Faults\ValidationFault.cs" />
     <Compile Include="WCF\NetTcpBindingConfiguration.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\External\Mehdime.Entity\Mehdime.Entity.csproj">
+      <Project>{4830bafd-4163-473e-b00f-65f274ac165f}</Project>
+      <Name>Mehdime.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

@@ -3,13 +3,14 @@ using Bec.TargetFramework.Business.Product.Interfaces;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
+using Mehdime.Entity;
 using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Business.Product.Steps
 {
     class CartDiscountPricingStep : ICartPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCart cart, CartPricingDTO pricingDto)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCart cart, CartPricingDTO pricingDto)
         {
             pricingDto.DiscountInformationDtos = new List<InformationDTO>();
             if (cart.OrganisationID.HasValue)

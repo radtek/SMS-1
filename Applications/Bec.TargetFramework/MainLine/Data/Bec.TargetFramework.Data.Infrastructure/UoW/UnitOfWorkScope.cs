@@ -18,7 +18,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
     /// activated by a previous function in the call chain.
     /// </summary>
     /// <typeparam name="TDbContext">The type of the DbContext</typeparam>
-    public class UnitOfWorkScope<TDbContext> : Disposable, IUnitOfWork
+    public class NotUnitOfWorkScope<TDbContext> : Disposable, IUnitOfWork
         where TDbContext : DbContext, new()
     {
         /// <summary>
@@ -123,7 +123,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
         private readonly bool m_UseTransaction = false;
         private DbContextTransaction m_ContextTransaction;
 
-        public UnitOfWorkScope(UnitOfWorkScopePurpose purpose, ILogger logger = null, bool useTransaction = false) :
+        public NotUnitOfWorkScope(UnitOfWorkScopePurpose purpose, ILogger logger = null, bool useTransaction = false) :
             this(new TDbContext(), purpose, logger, useTransaction)
         {
         }
@@ -132,7 +132,7 @@ namespace Bec.TargetFramework.Data.Infrastructure
         /// Ctor
         /// </summary>
         /// <param name="purpose">Will this unit of work scope be used for reading or writing?</param>
-        public UnitOfWorkScope(TDbContext context, UnitOfWorkScopePurpose purpose, ILogger logger = null, bool useTransaction = false)
+        public NotUnitOfWorkScope(TDbContext context, UnitOfWorkScopePurpose purpose, ILogger logger = null, bool useTransaction = false)
         {
             this.purpose = purpose;
             m_Logger = logger;

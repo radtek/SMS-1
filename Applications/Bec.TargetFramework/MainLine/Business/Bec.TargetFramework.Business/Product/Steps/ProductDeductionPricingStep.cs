@@ -10,12 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product
 {
     class ProductDeductionPricingStep : IProductPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             itemPrice.DeductionInformationDtos = new List<InformationDTO>();
 
