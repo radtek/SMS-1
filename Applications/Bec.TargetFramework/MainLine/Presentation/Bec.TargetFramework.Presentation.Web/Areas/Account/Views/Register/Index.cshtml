@@ -84,6 +84,11 @@
                     return /^[a-z0-9]+$/i.test(value);
                 }, 'Your username must contain only letters and digits');
 
+            $.validator.addMethod("nospace",
+                function (value, element) {
+                    return value.indexOf(" ") < 0;
+                }, 'Spaces are not allowed');
+
             // Validation
             $("#login-form").validate({
                 // Rules for form validation
@@ -110,7 +115,8 @@
                     NewPassword: {
                         required: true,
                         minlength: 10,
-                        pwcheck: true
+                        pwcheck: true,
+                        nospace: true
                     },
                     ConfirmNewPassword: {
                         equalTo: '#NewPassword'

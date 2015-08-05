@@ -36,7 +36,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
-            ViewBag.includeNotes = true;
             ViewBag.killDuplicates = killDuplicates;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Finance";

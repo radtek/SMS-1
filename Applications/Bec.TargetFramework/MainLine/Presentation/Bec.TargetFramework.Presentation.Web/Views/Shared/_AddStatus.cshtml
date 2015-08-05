@@ -10,23 +10,20 @@
                     <div class="col-12">
                         <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive, killDuplicates = ViewBag.killDuplicates })" method="POST" id="confirmStatus-form" class="smart-form">
                             <label class="label">@ViewBag.message</label>
-                            @if (ViewBag.includeNotes != null && ViewBag.includeNotes)
-                            {
-                                <div class="row">
-                                    <section class="col">
-                                        <label class="label">Notes</label>
-                                    </section>
-                                </div>
+                            <div class="row">
+                                <section class="col">
+                                    <label class="label">Reason</label>
+                                </section>
+                            </div>
 
-                                <div class="row">
-                                    <section class="col col-8">
-                                        <label class="textarea">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            <textarea name="notes" rows="5"></textarea>
-                                        </label>
-                                    </section>
-                                </div>
-                            }
+                            <div class="row">
+                                <section class="col col-8">
+                                    <label class="textarea">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        <textarea name="notes" rows="5"></textarea>
+                                    </label>
+                                </section>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -54,7 +51,7 @@
         // Rules for form validation
         rules: {
             "notes": {
-                @((ViewBag.includeNotes != null && ViewBag.includeNotes) ? "required: true" : "required: false")
+                required: true
             }
         },
 

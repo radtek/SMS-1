@@ -51,13 +51,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? includeNotes)
+        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status)
         {
             ViewBag.OrganisationBankAccountID = baID;
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
-            ViewBag.includeNotes = includeNotes;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Account";
             ViewBag.area = "BankAccount";

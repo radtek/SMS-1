@@ -83,7 +83,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
+                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username.Trim(), EncodePassword(model.Password.Trim()));
 
                 if (!loginValidationResult.valid)
                 {
