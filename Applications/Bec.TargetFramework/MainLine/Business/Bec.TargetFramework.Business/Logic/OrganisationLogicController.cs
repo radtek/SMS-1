@@ -480,7 +480,7 @@ namespace Bec.TargetFramework.Business.Logic
                     account.Duplicates = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x =>
                         x.OrganisationID != account.OrganisationID &&
                         x.BankAccountNumber == account.BankAccountNumber &&
-                        x.SortCode == x.SortCode)
+                        x.SortCode == account.SortCode)
                         .ToDtos();
                     PopulateBankAccountHistory(account.Duplicates);
                 }
