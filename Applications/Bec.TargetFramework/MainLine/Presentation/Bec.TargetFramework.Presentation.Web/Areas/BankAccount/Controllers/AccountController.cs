@@ -84,10 +84,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             return PartialView("_AddStatus");
         }
         [HttpPost]
-        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive)
+        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive);
+            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive, notes);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }

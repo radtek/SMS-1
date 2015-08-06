@@ -574,14 +574,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active);
+		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
+		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -2630,11 +2632,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active)
+		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user);
 		}
 
 		/// <summary>
@@ -2643,10 +2647,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
-		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active)
+		/// <param name="notes"></param>
+		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion

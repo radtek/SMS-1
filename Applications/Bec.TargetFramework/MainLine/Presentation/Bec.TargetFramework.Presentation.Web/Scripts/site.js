@@ -297,7 +297,7 @@ function showHistory(selector, dataItem){
         var h = dataItem.History[i];
         var active = ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>';
         var notes = h.Notes == '' ? '' : ': <span style="font-size:0.7em;">"' + h.Notes + '"</span>';
-        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusTypeValue.Name + active + ' by ' + h.StatusChangedBy + notes + '</div>';
+        var item = '<div>' + dateString(h.StatusChangedOn) + ' ' + h.StatusTypeValue.Name + active + ' by ' + h.StatusChangedBy + notes + '</div>';
         $(selector).append(item);
     }
 }
