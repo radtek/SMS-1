@@ -2,7 +2,9 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
+using System;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
@@ -22,6 +24,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var jsonData = new { total = model.Count(), data = model };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetNotification(Guid notificationId)
+        {
+            var notificationHtml = Encoding.UTF8.GetString(NotificationLogicClient.GetNotificationContent(notificationId));
+            return Json(new { data = notificationHtml }, JsonRequestBehavior.AllowGet);
         }
     }
 }

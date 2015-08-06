@@ -20,6 +20,7 @@
                     <!-- well -->
                     <div class="well">
                         <h5>Notification details</h5>
+                        <div id="notificationContent" style="overflow: scroll; width:100%;"></div>
                     </div>
                 </div>
             </div>
@@ -65,7 +66,13 @@
 
         //data binding for the panes beneath each grid
         function notificationsChange(dataItem) {
-
+            $.ajax({
+                url: '@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })',
+                method: 'GET',
+                data: { notificationId: dataItem.NotificationID }
+            }).done(function (result) {
+                $('#notificationContent').html(result.data);
+            });
         }
 
     </script>

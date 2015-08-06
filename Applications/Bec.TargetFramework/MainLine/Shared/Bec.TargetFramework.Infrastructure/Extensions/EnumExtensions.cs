@@ -38,11 +38,11 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
                 typeof(StringValueAttribute), false) as StringValueAttribute[];
 
             // Return the first if there was a match.
-            return attribs.Length > 0 ? Guid.Parse( attribs[0].StringValue) : Guid.Empty;
+            return attribs.Length > 0 ? Guid.Parse(attribs[0].StringValue) : Guid.Empty;
         }
 
         public static T? GetEnumValue<T>(string attribValue)
-            where T: struct
+            where T : struct
         {
             var type = typeof(T);
             foreach (var fieldInfo in type.GetFields())
@@ -61,17 +61,10 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
 
     public class StringValueAttribute : Attribute
     {
-
-        #region Properties
-
         /// <summary>
         /// Holds the stringvalue for a value in an enum.
         /// </summary>
         public string StringValue { get; protected set; }
-
-        #endregion
-
-        #region Constructor
 
         /// <summary>
         /// Constructor used to init a StringValue Attribute
@@ -81,9 +74,5 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
         {
             this.StringValue = value;
         }
-
-        #endregion
-
     }
-
 }

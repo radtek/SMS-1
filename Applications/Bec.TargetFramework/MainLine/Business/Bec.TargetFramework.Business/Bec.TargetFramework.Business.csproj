@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Bec.TargetFramework.Data.Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Bec.TargetFramework.Data.Attributes.dll</HintPath>
@@ -189,6 +193,7 @@
     <Compile Include="Extensions\LogicHelper.cs" />
     <Compile Include="Extensions\TransactionHelper.cs" />
     <Compile Include="Extensions\DeductionHelper.cs" />
+    <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
     <Compile Include="Logic\PaymentLogicController.cs" />
     <Compile Include="Logic\ProductLogicController.cs" />
@@ -265,6 +270,10 @@
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
       <Name>Bec.TargetFramework.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Reporting\Bec.TargetFramework.Infrastructure.Reporting.csproj">
+      <Project>{54f6805e-1116-44ca-9af0-e773e8e0f13e}</Project>
+      <Name>Bec.TargetFramework.Infrastructure.Reporting</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
       <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>

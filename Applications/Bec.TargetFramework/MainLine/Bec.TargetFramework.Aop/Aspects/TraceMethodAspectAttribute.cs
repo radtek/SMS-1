@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Bec.TargetFramework.Infrastructure.Log;
+using PostSharp.Aspects;
+using PostSharp.Extensibility;
+using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Aop.Aspects
 {
-    using Bec.TargetFramework.Infrastructure.Log;
-
-    using PostSharp.Aspects;
-    using PostSharp.Extensibility;
-
     [Serializable]
     public class TraceMethodAspectAttribute : MethodInterceptionAspect
     {

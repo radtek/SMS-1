@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Log;
+using PostSharp.Aspects;
+using PostSharp.Extensibility;
+using System;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Helpers;
 
 namespace Bec.TargetFramework.Aop.Aspects
 {
-    using System.Diagnostics;
-    using System.Reflection;
-
-    using Bec.TargetFramework.Infrastructure.Log;
-
-    using PostSharp.Aspects;
-    using PostSharp.Extensibility;
-
     [Serializable]
     public sealed class TraceAttribute : OnMethodBoundaryAspect
     {

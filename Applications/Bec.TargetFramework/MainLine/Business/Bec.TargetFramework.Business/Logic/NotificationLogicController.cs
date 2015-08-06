@@ -5,6 +5,8 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Reporting.Generators;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogicController : LogicBase
     {
+        public StandaloneReportGenerator StandaloneReportGenerator { get; set; }
+
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
         {
@@ -114,28 +118,21 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(organisationNotificationConstructID).IsNot(Guid.Empty);
 
             NotificationConstructDTO dto = null;
-
-            string cacheKey = organisationNotificationConstructID.ToString() + "_" + versionNumber;
-
-            // using (var cacheClient = this.CacheProvider.CreateCacheClient(Logger))
-            //{
-            // dto = cacheClient.Get<NotificationConstructDTO>(cacheKey);
-
-            if (dto == null)
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
-                using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-                {
-                    // load org construct include module and notification constructs direct
-                    var construct = scope.DbContext.NotificationConstructs.Include("NotificationConstructParameters").Include("NotificationConstructData").Include("NotificationConstructTargets")
-                        .Single(n => n.NotificationConstructID.Equals(organisationNotificationConstructID)
-                       && n.IsActive.Equals(true) && n.IsDeleted.Equals(false) && n.NotificationConstructVersionNumber.Equals(versionNumber));
+                // load org construct include module and notification constructs direct
+                var construct = scope.DbContext.NotificationConstructs
+                    .Include("NotificationConstructParameters")
+                    .Include("NotificationConstructData")
+                    .Include("NotificationConstructTargets")
+                    .Single(n => 
+                        n.NotificationConstructID.Equals(organisationNotificationConstructID) && 
+                        n.IsActive.Equals(true) && 
+                        n.IsDeleted.Equals(false) && 
+                        n.NotificationConstructVersionNumber.Equals(versionNumber));
 
-                    dto = NotificationConstructConverter.ToDtoWithRelated(construct, 2);
-                }
-
-                //        cacheClient.Add<NotificationConstructDTO>(cacheKey, dto, DateTime.Now.AddDays(1));
+                dto = construct.ToDtoWithRelated(2);
             }
-            // }
 
             return dto;
         }
@@ -226,13 +223,42 @@ namespace Bec.TargetFramework.Business.Logic
                 return undreadNotifications.ToDtos();
             }
         }
+        
+        public byte[] GetNotificationContent(Guid notificationId)
+        {
+            var notificationDto = GetNotification(notificationId);
+            Ensure.That(notificationDto).IsNotNull();
+            var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
+            var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
+            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData);
+
+            return reportByteArray;
+        }
+
+        private NotificationDTO GetNotification(Guid notificationId)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                NotificationDTO notificationDto = null;
+                var notification = scope.DbContext.Notifications
+                    .Include("NotificationConstruct")
+                    .Where(x => x.NotificationID == notificationId)
+                    .FirstOrDefault(x => x.NotificationID == notificationId);
+
+                if (notification != null)
+                {
+                    notificationDto = notification.ToDto();
+                }
+                return notificationDto;
+            }
+        }
 
         public NotificationResultDTO GetTcAndCsText(Guid accountID)
         {
             var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic).FirstOrDefault();
             Ensure.That(unreadDTO).IsNotNull();
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
-            string val = ReportHelper.GetReportTextItem(construct, null, "TextContent");
+            string val = StandaloneReportGenerator.GetReportTextItem(construct, null, "TextContent");
             return new NotificationResultDTO
             {
                 NotificationID = unreadDTO.NotificationID,
@@ -247,9 +273,10 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return ReportHelper.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+                return StandaloneReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
             }
         }
+        
 
         public async Task MarkAcceptedAsync(Guid notificationID)
         {

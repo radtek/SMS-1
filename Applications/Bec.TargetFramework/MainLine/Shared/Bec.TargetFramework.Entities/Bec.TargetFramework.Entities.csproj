@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\StringValueAttribute.cs" />
     <Compile Include="Boo\AccountDTO.cs" />
     <Compile Include="Boo\AccountDTO.Generated.cs">
       <DependentUpon>AccountDTO.cs</DependentUpon>
@@ -1868,6 +1869,8 @@
     <Compile Include="DTO\Notification\NotificationRenderObject.cs" />
     <Compile Include="DTO\Notification\NotificationSettingDTO.cs" />
     <Compile Include="DTO\Notification\NotificationDictionaryDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationBankAccountAddStatusDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationBankAccountStateChangeDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxRequestDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxResultDTO.cs" />
     <Compile Include="DTO\Payment\OrderRequestDTO.cs" />
@@ -1928,11 +1931,11 @@
     <Compile Include="Enums\FirmUserEnum.cs" />
     <Compile Include="Enums\NotificationEnums.cs" />
     <Compile Include="Enums\OrganisationEnums.cs" />
-    <Compile Include="Enums\RegulatorEnum.cs" />
     <Compile Include="Enums\StatusTypesEnum.cs" />
     <Compile Include="Enums\TFEnums.cs" />
     <Compile Include="Enums\TFEventEnum.cs" />
     <Compile Include="Enums\WorkflowEnums.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\RegexExpressions.cs" />
     <Compile Include="Injections\IgnoreProps.cs" />
     <Compile Include="Injections\CaseInsensitiveInjection.cs" />

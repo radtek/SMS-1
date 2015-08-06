@@ -360,6 +360,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
 
+		/// <param name="notificationId"></param>
+		/// <returns></returns>
+		Task<Byte[]> GetNotificationContentAsync(Guid notificationId);
+
+		/// <param name="notificationId"></param>
+		/// <returns></returns>
+		Byte[] GetNotificationContent(Guid notificationId);
+
 		/// <param name="accountID"></param>
 		/// <returns></returns>
 		Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID);
@@ -565,19 +573,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
 
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
 		/// <returns></returns>
-		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
 		/// <returns></returns>
-		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes);
+		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -2114,6 +2114,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="notificationId"></param>
+		/// <returns></returns>
+		public virtual Task<Byte[]> GetNotificationContentAsync(Guid notificationId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationId"></param>
+		public virtual Byte[] GetNotificationContent(Guid notificationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="accountID"></param>
 		/// <returns></returns>
 		public virtual Task<NotificationResultDTO> GetTcAndCsTextAsync(Guid accountID)
@@ -2633,30 +2654,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
 		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
-			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user);
+			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
-		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes)
+		public virtual void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
-			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes, null, _user)).Wait();
+			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
 		}
 
 		/// <summary>

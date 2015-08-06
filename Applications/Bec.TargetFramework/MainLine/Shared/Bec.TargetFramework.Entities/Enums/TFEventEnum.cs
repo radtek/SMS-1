@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Extensions;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities.Enums
 {

@@ -1,40 +1,23 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 using EnsureThat;
-//Bec.TargetFramework.Entities
+using Stimulsoft.Report;
+using Stimulsoft.Report.Components;
+using Stimulsoft.Report.Export;
 
-namespace Bec.TargetFramework.SB.NotificationServices.Report
+namespace Bec.TargetFramework.Infrastructure.Reporting.Generators
 {
-    using System.ComponentModel;
-    using System.Drawing.Imaging;
-    using System.IO;
-    using System.Reflection;
-    using System.Xml;
-
-    using Bec.TargetFramework.Entities;
-
-    using Stimulsoft.Report;
-    using Stimulsoft.Report.Export;
-    using Bec.TargetFramework.Data;
-    using Bec.TargetFramework.Entities.Enums;
-
     public sealed class StandaloneReportGenerator
     {
         private NotificationConstructDTO m_NotificationDTO;
         private List<NotificationRenderObjectDTO> m_BusinessObjects;
         private NotificationDictionaryDTO m_NotificationDictionary;
-
-        private void PopulateBusinessObjectsInReport(StiReport report,
-            NotificationConstructDTO constructDto, NotificationDictionaryDTO dictionary)
-        {
-            m_NotificationDTO = constructDto;
-            this.ProcessNotificationBusinessObjects(report);
-        }
 
         private void InitialiseData(NotificationConstructDTO constructDto, NotificationDictionaryDTO dictionary)
         {
@@ -51,7 +34,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
 
             this.ProcessNotificationBusinessObjects(report);
 
-            Stimulsoft.Report.Components.StiText item = report.GetComponentByName(id) as Stimulsoft.Report.Components.StiText;
+            StiText item = report.GetComponentByName(id) as StiText;
 
             return item.Text.Value;
         }
@@ -69,14 +52,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
 
             return LoadAndExportReport();
         }
-
-        //[EnsureArgumentAspect]
-        //public byte[] GenerateReportMrt(NotificationConstructDTO constructDto, NotificationDictionaryDTO dictionary)
-        //{
-        //    InitialiseData(constructDto, dictionary);
-
-        //    return LoadAndRenderReport();
-        //}
 
         public byte[] GenerateReport(NotificationSettingDTO dto, NotificationConstructDTO constructDto, NotificationDictionaryDTO dictionary)
         {
@@ -99,17 +74,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
 
             return report;
         }
-
-        //private byte[] LoadAndRenderReport()
-        //{
-        //    StiReport report = LoadAndCompileReport();
-
-        //    byte[] data = report.SaveToByteArray();
-
-        //    this.ProcessNotificationBusinessObjects(report);
-
-        //    return data;
-        //}
 
         private byte[] LoadAndExportReport(int? exportFormatOverride = null)
         {
@@ -161,7 +125,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Report
             Ensure.That(data).IsNotNull();
 
             return data;
-
         }
 
         private StiExportSettings GeneratePdfSettings()

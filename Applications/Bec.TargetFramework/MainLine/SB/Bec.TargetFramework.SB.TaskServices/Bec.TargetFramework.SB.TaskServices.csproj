@@ -333,6 +333,10 @@
       <Project>{37066c39-df25-497a-bda4-438dfb32fd78}</Project>
       <Name>Bec.TargetFramework.Infrastructure.CouchBaseCache</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Reporting\Bec.TargetFramework.Infrastructure.Reporting.csproj">
+      <Project>{54F6805E-1116-44CA-9AF0-E773E8E0F13E}</Project>
+      <Name>Bec.TargetFramework.Infrastructure.Reporting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Infrastructure.Serilog\Bec.TargetFramework.Infrastructure.Serilog.csproj">
       <Project>{47e8b5c9-9cb2-41dc-bf30-219e9682425d}</Project>
       <Name>Bec.TargetFramework.Infrastructure.Serilog</Name>

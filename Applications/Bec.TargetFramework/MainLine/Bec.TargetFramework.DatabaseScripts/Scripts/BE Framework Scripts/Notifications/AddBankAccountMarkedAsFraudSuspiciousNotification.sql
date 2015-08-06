@@ -114,14 +114,16 @@ VALUES (
         <Alias>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="4">
+        <Columns isList="true" count="6">
           <value>AccountNumber,System.String</value>
           <value>DetailsUrl,System.String</value>
-          <value>OrganisationId,System.Guid</value>
+          <value>MarkedBy,System.String</value>
+          <value>Reason,System.String</value>
           <value>SortCode,System.String</value>
+          <value>UserAccountOrganisationIds,System.Collections.Generic.IEnumerable`1[System.Guid]</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>7d18777ff026488f86a650fbca5fe284</Guid>
+        <Guid>52a0e19226cf4087a42d060c394e8503</Guid>
         <Name>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Name>
       </BankAccountMarkedAsFraudSuspiciousNotificationDTO>
     </BusinessObjects>
@@ -141,25 +143,26 @@ VALUES (
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="1">
-        <Text3 Ref="5" type="Text" isKey="true">
+        <TextContent Ref="5" type="Text" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0,19,2.4</ClientRectangle>
+          <ClientRectangle>0,0,19,3.2</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Arial,8</Font>
           <Margins>0,0,0,0</Margins>
-          <Name>Text3</Name>
+          <Name>TextContent</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Text>The following bank account was Marked as Fraud Suspicious:
 
 Account Number: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}
 Sort Code: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}
-
+Marked By: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.MarkedBy}
+Reason: {BankAccountMarkedAsFraudSuspiciousNotificationDTO.Reason}
 You can review it by using this link:
 {BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Text>
           <TextBrush>Black</TextBrush>
           <Type>Expression</Type>
-        </Text3>
+        </TextContent>
       </Components>
       <Conditions isList="true" count="0" />
       <Guid>1b83758dda4046518274d0b090f93e62</Guid>
@@ -187,10 +190,10 @@ You can review it by using this link:
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/3/2015 2:54:51 PM</ReportChanged>
+  <ReportChanged>8/5/2015 3:05:25 PM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
   <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>38a2fdc9e366452bbaab602f4f0a8ee4</ReportGuid>
+  <ReportGuid>33373b229a8b4273b69e4187b9ba473e</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
