@@ -13,7 +13,7 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public Guid BankAccountID { get; set; }
         [DataMember]
-        public Guid ChangedByID { get; set; }
+        public Guid ChangedByUserAccountOrganisationID { get; set; }
         [DataMember]
         public BankAccountStatusEnum BankAccountStatus { get; set; }
         [DataMember]
@@ -21,4 +21,4 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string DetailsUrl { get; set; }
     }
-}
+} 

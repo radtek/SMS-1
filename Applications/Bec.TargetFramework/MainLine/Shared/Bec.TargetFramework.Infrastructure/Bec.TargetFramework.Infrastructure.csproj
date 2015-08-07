@@ -150,7 +150,6 @@
     <Compile Include="Log\NullLogger.cs" />
     <Compile Include="Log\TargetFrameworkLogDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\StandaloneReportGenerator.cs" />
     <Compile Include="Settings\CommonSettings.cs" />
     <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Settings\SettingsLogicBase.cs" />

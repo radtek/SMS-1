@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index(bool? showmessage)
+        public ActionResult Index(Guid selectedBankAccountId, bool? showmessage)
         {
             ViewBag.showmessage = showmessage;
             return View();
@@ -82,8 +82,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 BankAccountID = baID,
                 BankAccountStatus = status,
                 Notes = notes,
-                ChangedByID = currentUser.UserID,
-                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount" })
+                ChangedByUserAccountOrganisationID = currentUser.UaoID,
+                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount" }, Request.Url.Scheme)
             };
 
             await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);

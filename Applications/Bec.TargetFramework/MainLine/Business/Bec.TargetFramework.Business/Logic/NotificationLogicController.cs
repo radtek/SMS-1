@@ -230,7 +230,7 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(notificationDto).IsNotNull();
             var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
             var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
-            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData);
+            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
 
             return reportByteArray;
         }

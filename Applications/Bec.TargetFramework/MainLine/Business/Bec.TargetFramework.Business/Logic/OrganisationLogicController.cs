@@ -579,12 +579,13 @@ namespace Bec.TargetFramework.Business.Logic
                 throw new InvalidOperationException(string.Format("There are no user accounts associated to that organisation: {0}", bankAccount.OrganisationID));
             }
 
+            var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
             var notificationDto = new BankAccountMarkedAsFraudSuspiciousNotificationDTO
             {
                 UserAccountOrganisationIds = userAccountOrganisationIds,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,
-                MarkedBy = UserNameService.UserName,
+                MarkedBy = markedBy.FullName,
                 Reason = bankAccountStatusChangeRequest.Notes,
                 DetailsUrl = bankAccountStatusChangeRequest.DetailsUrl,
             };

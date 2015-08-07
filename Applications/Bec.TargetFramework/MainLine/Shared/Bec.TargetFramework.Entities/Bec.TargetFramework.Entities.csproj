@@ -111,7 +111,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\StringValueAttribute.cs" />
     <Compile Include="Boo\AccountDTO.cs" />
     <Compile Include="Boo\AccountDTO.Generated.cs">
       <DependentUpon>AccountDTO.cs</DependentUpon>
@@ -1935,7 +1934,6 @@
     <Compile Include="Enums\TFEnums.cs" />
     <Compile Include="Enums\TFEventEnum.cs" />
     <Compile Include="Enums\WorkflowEnums.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\RegexExpressions.cs" />
     <Compile Include="Injections\IgnoreProps.cs" />
     <Compile Include="Injections\CaseInsensitiveInjection.cs" />
@@ -1945,7 +1943,6 @@
     <Compile Include="Settings\ExperianIDCheckSettings.cs" />
     <Compile Include="Settings\PaymentSettings.cs" />
     <Compile Include="Enums\PaymentTransactionType.cs" />
-    <Compile Include="Settings\WorkflowSettings.cs" />
     <Compile Include="Validators\BaseValidator.cs" />
     <Compile Include="WebUserHelper.cs" />
   </ItemGroup>
