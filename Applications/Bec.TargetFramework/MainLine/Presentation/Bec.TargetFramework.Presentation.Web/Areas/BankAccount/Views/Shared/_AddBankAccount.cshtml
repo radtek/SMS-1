@@ -18,20 +18,23 @@
                             <fieldset>
                                 <section>
                                     <label class="label">Account Number</label>
+                                    
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.BankAccountNumber, new { tabindex = "1", maxlength = 8 })
+                                        @Html.TextBoxFor(m => m.BankAccountNumber, new { tabindex = "1", maxlength = 8, onchange="dupeCheck()", id="ac" })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Sort Code</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.SortCode, new { tabindex = "2", maxlength = 6 })
+                                        @Html.TextBoxFor(m => m.SortCode, new { tabindex = "2", maxlength = 6, onchange = "dupeCheck()", id="sc" })
                                     </label>
                                 </section>
-
+                                <input type="hidden" name="combined" id="combined" />
                             </fieldset>
+
+                            
                         </form>
                     </div>
                 </div>
@@ -49,26 +52,17 @@
 </div>
 
 <script type="text/javascript">
+
+    function dupeCheck() {
+        //just used for jquery validation remote check cache
+        $('#combined').val($('#ac').val() + ":" + $('#sc').val());
+        $("#addBankAccount-form").validate().element('#combined');
+    }
+
     // submit from when Save button clicked
     $("#submitAddBankAccount").click(function () {
         $("#addBankAccount-form").submit();
     });
-
-    var check = {
-        url: '@Url.Action("CheckBankAccount", "Account", new { Area = "BankAccount" })',
-        data: {
-            accountNumber: function () {
-                return $('#BankAccountNumber').val();
-            },
-            sortCode: function () {
-                return $('#SortCode').val();
-            }
-        },
-        dataType: 'json',
-        error: function (xhr, status, error) {
-            checkRedirect(xhr.responseJSON);
-        }
-    }
 
     $("#addBankAccount-form").validate({
         ignore: '.skip',
@@ -77,14 +71,29 @@
             BankAccountNumber: {
                 required: true,
                 digits: true,
-                minlength: 8,
-                remote: check
+                minlength: 8
             },
             SortCode: {
                 required: true,
                 digits: true,
-                minlength: 6,
-                remote: check
+                minlength: 6
+            },
+            combined: {
+                remote: {
+                    url: '@Url.Action("CheckBankAccount", "Account", new { Area = "BankAccount" })',
+                    data: {
+                        accountNumber: function () {
+                            return $('#ac').val();
+                        },
+                        sortCode: function () {
+                            return $('#sc').val();
+                        }
+                    },
+                    dataType: 'json',
+                    error: function (xhr, status, error) {
+                        checkRedirect(xhr.responseJSON);
+                    }
+                }
             }
         },
 
