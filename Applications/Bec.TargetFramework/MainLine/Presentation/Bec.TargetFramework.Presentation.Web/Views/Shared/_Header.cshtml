@@ -5,7 +5,7 @@
         <span id="logo"><img src="~/Content/img/SMS Master Screen.png" /></span>
 
         @*TODO: ZM Handle claims*@
-        @{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, true); }
+        @*@{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, true); }*@
         @*@{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, ClaimsHelper.UserHasClaim("View", "Notification")); }*@
 
     </div>
