@@ -41,7 +41,7 @@
                     <div class="well">
                         <h5>Account History</h5>
                         <div id="history"></div>
-                        <h5>Duplicate Accounts</h5>
+                        <h5 id="dupeHeading">Duplicate Accounts&nbsp;</h5>
                         <div id="duplicates"></div>
                     </div>
                 </div>
@@ -99,6 +99,7 @@
                             }
                         },
                         {
+                            field: "Duplicates.length",
                             title: "Alert",
                             template: function (dataItem) {
                                 return dataItem.Duplicates.length > 0 ? "<i class='fa fa-exclamation-triangle fa-lg' style='color:red;'></i>" : "";
@@ -128,7 +129,7 @@
             $("#markSafeKillDupesButton").attr("disabled", dataItem.Duplicates.length == 0);
 
             showHistory('#history', dataItem);
-            showDuplicates('#duplicates', dataItem);
+            showDuplicates('#duplicates', '#dupeHeading', dataItem);
         }
 
     </script>

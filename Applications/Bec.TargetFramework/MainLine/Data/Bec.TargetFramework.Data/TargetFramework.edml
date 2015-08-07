@@ -9760,7 +9760,7 @@
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="TenureTypeID" Type="int" Nullable="false" />
-          <Property Name="OrganisationID" Type="uuid" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" />
           <Property Name="RowVersion" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
@@ -17757,7 +17757,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_SmsTransaction_Organisation">
-          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
           <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Organisation">
@@ -28596,7 +28596,7 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="f121e4c0-be43-4937-a961-3c38b5c64aed" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="21c91836-186e-43ea-8abb-6f268825c41b" />
           <Property Name="TenureTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="61d17b39-cc39-47fc-ae55-dabfb144e9be" />
-          <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="e9fce6a6-d752-49ec-9baf-ba057f31aba4" />
           <Property Name="RowVersion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
@@ -36246,7 +36246,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_SmsTransaction_Organisation" ed:Guid="a8e0593e-1274-4d29-9742-d81cf2e2fc92">
-          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
           <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Organisation">

@@ -102,7 +102,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> OrganisationID
+        public virtual global::System.Guid OrganisationID
         {
             get;
             set;
