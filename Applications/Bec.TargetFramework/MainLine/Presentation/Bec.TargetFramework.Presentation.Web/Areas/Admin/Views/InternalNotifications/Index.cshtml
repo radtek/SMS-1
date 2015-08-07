@@ -19,6 +19,10 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
+                        <a id="notificationDetailsButton" class="btn btn-primary btn-sm" style="display: none;" data-modallink="true">
+                            <i class="fa fa-bell margin-right-5"></i>Full Screen
+                        </a>
+                        
                         <h5>Notification details</h5>
                         <div id="notificationContent"></div>
                     </div>
@@ -32,48 +36,51 @@
 @section Scripts {
     <script type="text/javascript">
 
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var notificationsGrid = new gridItem(
-            {
-                gridElementId: 'notificationsGrid',
-                url: '@Url.Action("LoadNotifications", "InternalNotifications", new { area = "Admin" })',
-                schema: { data: "data", total: "total", model: { id: "NotificationID" } },
-                defaultSort: { field: "NotificationSubject", dir: "asc" },
-                change: notificationsChange,
-                panels: ['notificationsPanel'],
-                columns: [
-                        {
-                            field: "NotificationID",
-                            hidden: true,
-                        },
-                        {
-                            field: "NotificationSubject",
-                            title: "Notification Subject"
-                        },
-                        {
-                            field: "DateSent",
-                            title: "Date Sent",
-                            template: function (dataItem) {
-                                return moment(dataItem.DateSent).format('DD/MM/YYYY');
-                            }
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var notificationsGrid = new gridItem(
+        {
+            gridElementId: 'notificationsGrid',
+            url: '@Url.Action("LoadNotifications", "InternalNotifications", new { area = "Admin" })',
+            schema: { data: "data", total: "total", model: { id: "NotificationID" } },
+            defaultSort: { field: "NotificationSubject", dir: "asc" },
+            change: notificationsChange,
+            panels: ['notificationsPanel'],
+            columns: [
+                    {
+                        field: "NotificationID",
+                        hidden: true,
+                    },
+                    {
+                        field: "NotificationSubject",
+                        title: "Notification Subject"
+                    },
+                    {
+                        field: "DateSent",
+                        title: "Date Sent",
+                        template: function (dataItem) {
+                            return moment(dataItem.DateSent).format('DD/MM/YYYY');
                         }
-                ]
-            });
-
-        $(document).ready(function () {
-            notificationsGrid.makeGrid();
+                    }
+            ]
         });
 
-        //data binding for the panes beneath each grid
-        function notificationsChange(dataItem) {
-            $.ajax({
-                url: '@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })',
-                method: 'GET',
-                data: { notificationId: dataItem.NotificationID }
-            }).done(function (result) {
-                $('#notificationContent').html(result.data);
-            });
-        }
+    $(document).ready(function () {
+        notificationsGrid.makeGrid();
+    });
+
+    //data binding for the panes beneath each grid
+    function notificationsChange(dataItem) {
+        var notificationDetailsBtn = $("#notificationDetailsButton");
+        $.ajax({
+            url: '@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })',
+            method: 'GET',
+            data: { notificationId: dataItem.NotificationID }
+        }).done(function (result) {
+            $('#notificationContent').html(result.data);
+            notificationDetailsBtn.attr('href', '@Url.Action("Details", "InternalNotifications", new { area = "Admin" })' + "?notificationId=" + dataItem.NotificationID);
+            notificationDetailsBtn.show();
+        });
+    }
 
     </script>
 }

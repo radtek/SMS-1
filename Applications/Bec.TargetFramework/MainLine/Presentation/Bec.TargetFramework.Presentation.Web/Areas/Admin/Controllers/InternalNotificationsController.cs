@@ -17,6 +17,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult Details(Guid notificationId)
+        {
+            var notificationHtml = Encoding.UTF8.GetString(NotificationLogicClient.GetNotificationContent(notificationId));
+
+            return View((object)notificationHtml);
+        }
+
         public JsonResult LoadNotifications()
         {
             var userId = WebUserHelper.GetWebUserObject(HttpContext).UserID;

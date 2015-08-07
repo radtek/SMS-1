@@ -56,7 +56,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 BankAccountStatus = status,
                 Notes = notes,
                 ChangedByUserAccountOrganisationID = currentUser.UaoID,
-                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount" }, Request.Url.Scheme)
+                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };
 
             await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);

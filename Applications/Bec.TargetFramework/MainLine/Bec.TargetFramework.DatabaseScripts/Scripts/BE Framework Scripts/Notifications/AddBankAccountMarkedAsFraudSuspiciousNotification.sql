@@ -313,7 +313,7 @@ VALUES (
           <Name>Text10</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}
+          <Text>&lt;p&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}&lt;/p&gt;
 </Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
@@ -325,7 +325,7 @@ VALUES (
       <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
-      <PageHeight>16</PageHeight>
+      <PageHeight>10</PageHeight>
       <PageWidth>15</PageWidth>
       <Report isRef="0" />
       <Watermark Ref="16" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
@@ -346,10 +346,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/6/2015 4:28:47 PM</ReportChanged>
+  <ReportChanged>8/7/2015 9:22:55 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
   <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>21c1f1356b2a41a08187b69698975bf3</ReportGuid>
+  <ReportGuid>25d66a676f2142efbd5e1f9c6ffc6b97</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>

@@ -3,15 +3,8 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
-using Bec.TargetFramework.Presentation.Web.Helpers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
@@ -22,9 +15,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index(Guid selectedBankAccountId, bool? showmessage)
+        public ActionResult Index(Guid? selectedBankAccountId, bool? showmessage)
         {
             ViewBag.showmessage = showmessage;
+            TempData["OrganisationBankAccountID"] = selectedBankAccountId;
             return View();
         }
 
@@ -83,7 +77,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 BankAccountStatus = status,
                 Notes = notes,
                 ChangedByUserAccountOrganisationID = currentUser.UaoID,
-                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount" }, Request.Url.Scheme)
+                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };
 
             await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);

@@ -19,7 +19,7 @@
                             </em>
                             <span>
                                 @notification.NotificationSubject
-                                - @Html.ActionLink("See details", "Index", "InternalNotifications", new { }, new { @class = "display-normal" })
+                                - @Html.ActionLink("See details", "Details", "InternalNotifications", new { notificationId = notification.NotificationID }, new { @class = "display-normal" })
                                 <br>
                                 <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>
                             </span>
