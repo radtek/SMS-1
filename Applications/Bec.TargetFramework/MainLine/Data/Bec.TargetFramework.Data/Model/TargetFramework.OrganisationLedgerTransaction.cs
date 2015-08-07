@@ -58,9 +58,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for Balance in the schema.
+        /// There are no comments for Amount in the schema.
         /// </summary>
-        public virtual decimal Balance
+        public virtual decimal Amount
         {
             get;
             set;

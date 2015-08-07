@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationLedgerAccountID = source.OrganisationLedgerAccountID;
             target.TransactionOrderID = source.TransactionOrderID;
             target.BalanceOn = source.BalanceOn;
-            target.Balance = source.Balance;
+            target.Amount = source.Amount;
 
             // Navigation Properties
             if (level > 0) {
@@ -57,7 +57,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationLedgerAccountID = source.OrganisationLedgerAccountID;
             target.TransactionOrderID = source.TransactionOrderID;
             target.BalanceOn = source.BalanceOn;
-            target.Balance = source.Balance;
+            target.Amount = source.Amount;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -1981,6 +1981,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationLedgerTransaction in the schema.
         /// </summary>
         public virtual DbSet<OrganisationLedgerTransaction> OrganisationLedgerTransactions { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VOrganisationLedgerTransactionBalance in the schema.
+        /// </summary>
+        public virtual DbSet<VOrganisationLedgerTransactionBalance> VOrganisationLedgerTransactionBalances { get; set; }
 
         #region Methods
 

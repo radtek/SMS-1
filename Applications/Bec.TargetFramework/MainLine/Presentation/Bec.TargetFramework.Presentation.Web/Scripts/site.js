@@ -237,11 +237,15 @@ var gridItem = function (options) {
         this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
 
         $('#' + this.options.searchButtonId).click(function () {
-            self.grid.dataSource.page(1);
-            self.grid.dataSource.read();
+            self.refreshGrid();
         });
 
     };
+
+    this.refreshGrid = function () {
+        self.grid.dataSource.read();
+        self.grid.dataSource.page(1);
+    }
 
     this.dataBound = function (e) {
         saveGridSort(self.grid, self.options.gridElementId);

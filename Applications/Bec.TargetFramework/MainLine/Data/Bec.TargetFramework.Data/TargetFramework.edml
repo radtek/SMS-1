@@ -404,6 +404,7 @@
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus" store:Type="Tables" Schema="public" Table="OrganisationBankAccountStatus" />
           <EntitySet Name="vOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.Store.vOrganisationBankAccountsWithStatus" store:Type="Views" Schema="public" Table="vOrganisationBankAccountsWithStatus" />
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" store:Type="Tables" Schema="public" Table="OrganisationLedgerTransaction" />
+          <EntitySet Name="vOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.Store.vOrganisationLedgerTransactionBalance" store:Type="Views" Schema="public" Table="vOrganisationLedgerTransactionBalance" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -4553,6 +4554,7 @@
           <Property Name="AccountingTypeID" Type="int" Nullable="false" />
           <Property Name="IsPrimaryAccount" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ModuleProductTemplate">
           <Key>
@@ -9798,7 +9800,21 @@
           <Property Name="OrganisationLedgerAccountID" Type="uuid" Nullable="false" />
           <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
           <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
-          <Property Name="Balance" Type="numeric" Nullable="false" Scale="8" />
+          <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
+        </EntityType>
+        <EntityType Name="vOrganisationLedgerTransactionBalance">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="uuid" Nullable="false" />
+          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
+          <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
+          <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
+          <Property Name="InvoiceReference" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Balance" Type="numeric" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18231,6 +18247,7 @@
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.OrganisationBankAccountStatus" />
           <EntitySet Name="VOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.VOrganisationBankAccountsWithStatus" />
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.OrganisationLedgerTransaction" />
+          <EntitySet Name="VOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -22698,6 +22715,7 @@
           <Property Name="AccountingTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="0f9cb0c0-7344-4d86-b963-0a2fd1f4ebc6" />
           <Property Name="IsPrimaryAccount" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="157e9081-07d7-4e5c-b19e-b9eafb305042" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="86e22ad2-134c-4642-b8c7-fcaf6dbdfa6f" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="360b4a51-176f-4271-afaf-622168dcf8d9" />
           <NavigationProperty Name="UserAccountLedgerAccounts" Relationship="Bec.TargetFramework.Data.fk_UserAccountLedgerAccount_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="UserAccountLedgerAccounts" ed:Guid="dcbb5133-4fb8-42f3-b22f-966fd8228ea6" />
           <NavigationProperty Name="LedgerAccountBalances" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountBalance_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="LedgerAccountBalances" ed:Guid="54b8d556-1d4c-4ea2-9ff2-9578ce3130be" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_LedgerAccount_Organisation" FromRole="OrganisationLedgerAccounts" ToRole="Organisation" ed:Guid="387b242c-d6a9-4734-b3fa-15407286adb9" />
@@ -28639,9 +28657,23 @@
           <Property Name="OrganisationLedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="388eb158-b2b7-4b37-ae51-376905ff5e55" />
           <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d5e8fe6-1fa9-4e8f-99c8-0bab4d5a71b0" />
           <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="73fb6834-3dcc-488e-92b3-783ede0d8d2b" />
-          <Property Name="Balance" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="df27171f-14db-4ba2-8d93-4aa45fe6bd67" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="74caf72f-9175-4762-96e0-0f552fbcf791" />
           <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="53dffa99-7ff5-47ff-a470-f3eea9b2db8f" />
           <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="OrganisationLedgerTransactions" ToRole="TransactionOrder" ed:Guid="808b9fc0-ddef-49ae-81e3-cb77591e44cd" />
+        </EntityType>
+        <EntityType Name="VOrganisationLedgerTransactionBalance" ed:Guid="e3954e24-1e87-459f-b64a-5a4bdd20af58">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a0cfb4d4-2aa1-4659-87e7-3abd24e5272a" />
+          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1bffe46d-dfc5-487a-aa2f-09b4cec515a9" />
+          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="d7adb884-1084-4e11-8648-493fac111b81" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="20d9809f-aad2-43ae-93d7-7f6b9a000fcd" />
+          <Property Name="InvoiceReference" Type="String" Nullable="false" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="True" ed:Guid="f5c0ef1b-db1b-42eb-84b6-20e5522c7cfc" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" ed:ValidateRequired="True" ed:Guid="d470b3ec-e350-473b-8749-df50b9f0ba5a" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37961,6 +37993,7 @@
                 <ScalarProperty Name="ClosedOn" ColumnName="ClosedOn" />
                 <ScalarProperty Name="AccountingTypeID" ColumnName="AccountingTypeID" />
                 <ScalarProperty Name="IsPrimaryAccount" ColumnName="IsPrimaryAccount" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42989,7 +43022,19 @@
                 <ScalarProperty Name="OrganisationLedgerAccountID" ColumnName="OrganisationLedgerAccountID" />
                 <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
                 <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VOrganisationLedgerTransactionBalances">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance">
+              <MappingFragment StoreEntitySet="vOrganisationLedgerTransactionBalances">
+                <ScalarProperty Name="OrganisationLedgerAccountID" ColumnName="OrganisationLedgerAccountID" />
+                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
+                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
                 <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

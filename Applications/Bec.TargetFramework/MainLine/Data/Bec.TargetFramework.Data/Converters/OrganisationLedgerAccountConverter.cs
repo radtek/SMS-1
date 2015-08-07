@@ -48,6 +48,7 @@ namespace Bec.TargetFramework.Entities
             target.AccountingTypeID = source.AccountingTypeID;
             target.IsPrimaryAccount = source.IsPrimaryAccount;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
@@ -90,6 +91,7 @@ namespace Bec.TargetFramework.Entities
             target.AccountingTypeID = source.AccountingTypeID;
             target.IsPrimaryAccount = source.IsPrimaryAccount;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -142,8 +142,15 @@ namespace Bec.TargetFramework.SB.Client.Clients
 
 		protected async Task<Tret> PostAsync<Tbody, Tret>(string requestUri, Tbody value, string user)
         {
-            var response = await SendAsync(requestUri, HttpMethod.Post, user, value);
-            return await HandleResponse<Tret>(response);
+            try
+            {
+                var response = await SendAsync(requestUri, HttpMethod.Post, user, value);
+                return await HandleResponse<Tret>(response);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
 		protected async Task PostAsync<Tbody>(string requestUri, Tbody value, string user)

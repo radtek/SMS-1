@@ -1631,6 +1631,10 @@
     <Compile Include="Boo\VOrganisationFinancialStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationFinancialStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.cs" />
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.Generated.cs">
+      <DependentUpon>VOrganisationLedgerTransactionBalanceDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VOrganisationPaymentMethodStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationPaymentMethodStatusDTO.cs</DependentUpon>
     </Compile>
@@ -1848,6 +1852,7 @@
     <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
+    <Compile Include="DTO\CreditTopUpEventDTO.cs" />
     <Compile Include="DTO\Event\EventPayload.cs" />
     <Compile Include="DTO\FirmDetailsUserDTO.cs" />
     <Compile Include="DTO\FirmPreferenceDTO.cs" />

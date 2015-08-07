@@ -8,6 +8,7 @@ using Bec.TargetFramework.Entities.Settings;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.SB.Client.Interfaces;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace Bec.TargetFramework.Business.Logic
     public class PaymentLogicController : LogicBase
     {
         public TFSettingsLogicController Settings { get; set; }
+        public ProductLogicController ProductLogic { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
 
         public PaymentLogicController()
         {
@@ -290,12 +293,39 @@ namespace Bec.TargetFramework.Business.Logic
 
                     scope.DbContext.TransactionOrderPaymentErrors.Add(transOrderPaymentError);
 
-                    TransactionHelper.CreateTransactionOrderProcessLog(scope, transactionOrderDto.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
+                    TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
                 }
                 else
                 {
                     // no errors add payment successful log entry
-                    TransactionHelper.CreateTransactionOrderProcessLog(scope, transactionOrderDto.TransactionOrderID, TransactionOrderStatusEnum.Successful, transactionOrderPayment.TransactionOrderPaymentID);
+                    TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Successful, transactionOrderPayment.TransactionOrderPaymentID);
+
+                    //process credit type product events
+                    var txOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID);
+                    var creditProd = ProductLogic.GetTopUpProduct();
+                    foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
+                    {
+                        //or just:
+                        //orgClient.AddCredit(transactionOrder.TransactionOrderID, cartItem.CustomerPrice.Value);
+
+                        var tempDto = new CreditTopUpEventDTO
+                        {
+                            TransactionOrderID = request.TransactionOrderID,
+                            Amount = cartItem.CustomerPrice.Value
+                        };
+
+                        var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+                        {
+                            EventName = "CreditTopUpEvent",
+                            EventSource = AppDomain.CurrentDomain.FriendlyName,
+                            EventReference = "",
+                            PayloadAsJson = JsonHelper.SerializeData(new object[] { tempDto })
+                        };
+
+                        //calling the async version of this currently breaks our ThreadStatic DbContext UoW scope
+                        EventPublishClient.PublishEvent(dto);
+                        
+                    }
                 }
 
                 await scope.SaveAsync();

@@ -6,7 +6,6 @@ using Bec.TargetFramework.Infrastructure;
 using EnsureThat;
 using System;
 using System.Linq;
-using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -18,12 +17,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
         }
 
-        public async Task<ProductDTO> GetTopUpProduct()
+        public ProductDTO GetTopUpProduct()
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
             {
-                var p = await scope.DbContext.Products.SingleAsync(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up");
-                return p.ToDto();
+                return scope.DbContext.Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDto();
             }
         }
 

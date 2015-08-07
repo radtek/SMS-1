@@ -150,12 +150,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId);
 
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID);
+		Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference);
 
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID);
+		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -582,6 +584,34 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="active"></param>
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
+
+		/// <param name="transactionOrderID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		Task AddCreditAsync(Guid transactionOrderID,Decimal amount);
+
+		/// <param name="transactionOrderID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		void AddCredit(Guid transactionOrderID,Decimal amount);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<Guid> GetCreditAccountAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Guid GetCreditAccount(Guid orgID);
+
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date);
+
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -1579,21 +1609,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		public virtual Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID)
+		public virtual Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference)
 		{
+			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID, null, _user);
+			return PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="cartID"></param>
-		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID)
+		/// <param name="reference"></param>
+		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference)
 		{
+			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2645,6 +2679,73 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public virtual Task AddCreditAsync(Guid transactionOrderID,Decimal amount)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddCredit?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="amount"></param>
+		public virtual void AddCredit(Guid transactionOrderID,Decimal amount)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCredit?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> GetCreditAccountAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual Guid GetCreditAccount(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		public virtual Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		public virtual Decimal GetBalanceAsAt(Guid accountID,DateTime date)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user)).Result;
 		}
 
 		#endregion

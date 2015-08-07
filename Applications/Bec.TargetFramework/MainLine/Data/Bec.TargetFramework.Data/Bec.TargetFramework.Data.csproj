@@ -439,6 +439,7 @@
     <Compile Include="Converters\VOrganisationConverter.cs" />
     <Compile Include="Converters\VOrganisationDetailConverter.cs" />
     <Compile Include="Converters\VOrganisationFinancialStatusConverter.cs" />
+    <Compile Include="Converters\VOrganisationLedgerTransactionBalanceConverter.cs" />
     <Compile Include="Converters\VOrganisationPaymentMethodStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationUserTypeConverter.cs" />
@@ -826,6 +827,7 @@
     <Compile Include="Model\TargetFramework.VOrganisationComplianceOfficer.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationDetail.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationFinancialStatus.cs" />
+    <Compile Include="Model\TargetFramework.VOrganisationLedgerTransactionBalance.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationPaymentMethodStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationUserType.cs" />

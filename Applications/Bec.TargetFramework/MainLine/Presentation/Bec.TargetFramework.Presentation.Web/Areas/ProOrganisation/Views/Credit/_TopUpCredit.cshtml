@@ -266,7 +266,8 @@
             data: formData
         }).done(function (res) {
             if (res.result == true)
-                hideCurrentModal();
+                //hideCurrentModal();
+                window.location = '@Url.Action("Index", "Credit", new { area = "ProOrganisation" })';
             else {
                 $('#txID').val(res.txID);
                 handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {

@@ -388,6 +388,7 @@
         <File Name="TargetFramework.OrganisationBankAccountStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationBankAccountsWithStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationLedgerTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VOrganisationLedgerTransactionBalance.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1155,6 +1156,8 @@
         <File Name="VOrganisationBankAccountsWithStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="OrganisationLedgerTransactionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="OrganisationLedgerTransactionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VOrganisationLedgerTransactionBalanceDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VOrganisationLedgerTransactionBalanceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1540,6 +1543,7 @@
         <File Name="OrganisationBankAccountStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationBankAccountsWithStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationLedgerTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VOrganisationLedgerTransactionBalanceConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1763,6 +1767,51 @@
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="ID" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="Tenant" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="Username" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="Email" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="Created" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastUpdated" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="PasswordChanged" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="RequiresPasswordReset" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobileCode" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobileCodeSent" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobilePhoneNumber" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="AccountTwoFactorAuthMode" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="CurrentTwoFactorAuthStatus" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsAccountVerified" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsLoginAllowed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsAccountClosed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="AccountClosed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastLogin" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastFailedLogin" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="FailedLoginCount" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="VerificationKey" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="VerificationPurpose" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="VerificationKeySent" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="HashedPassword" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastFailedPasswordReset" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="FailedPasswordResetCount" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobilePhoneNumberChanged" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="VerificationStorage" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsActive" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsTemporaryAccount" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="ModifiedOn" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="ModifiedBy" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsApproved" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsEmployee" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="FailedForgotUsernameAttempts" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="FailedForgotPasswordAttempts" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsForgotUsernameRequestAllowed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="IsForgotPasswordRequestAllowed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastForgotUsernameFailedAttempt" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastForgotPasswordFailedAttempt" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="RowVersion" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="UserAccounts_pkey" Table="public.UserAccounts" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -2035,6 +2084,41 @@
       <Exclude Name="NextStatusEnd" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Reason" Table="public.vOrganisationStatus" Type="Column" />
       <Exclude Name="Notes" Table="public.vOrganisationStatus" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Name" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationVerified" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Regulator" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorOther" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line1" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line2" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Town" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="County" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PostalCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminUserID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Reason" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Notes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedNotes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="PlanSubscriptionID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="PlanSubscriptionVersionNumber" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="HasInfinitePeriods" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
@@ -2156,6 +2240,76 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="Created" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="AccountClosed" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="Email" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="FailedLoginCount" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="FailedPasswordResetCount" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="ID" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="IsAccountClosed" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="IsAccountVerified" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="IsActive" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastLogin" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastFailedPasswordReset" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastUpdated" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="ID" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Username" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Email" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Created" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="DaysSinceCreation" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="HoursSinceCreation" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Between7and14DaysNotLoggedIn" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Between14and21DaysNotLoggedIn" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Between0and7DaysNotLoggedIn" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="GreaterThan21DaysNotLoggedIn" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="NotLoggedIn" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="COLPRemindersNotReadEver" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="COLPRegistrationsNotReadEver" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="COLPRemindersNotReadBetween7and14Days" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="COLPRemindersNotReadBetween14and21Days" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="COLPRemindersNotReadBetween0and7Days" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="ID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsTemporaryAccount" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationBranchID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Name" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsBranch" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsHeadOffice" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsUserOrganisation" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsPaymentProvider" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationTypeID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="OrganisationTypeName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="UserTypeName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="VATNumber" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsVATRegistered" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="BirthDate" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="EmailAddress1" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="FirstName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="LastName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="MiddleName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Username" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Email" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="ContactID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="AddressID" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="BuildingName" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="City" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="CountryCode" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="County" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Line1" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Line2" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Line3" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="PostalCode" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Town" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsPrimaryAddress" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="PinCode" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="PinCreated" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Salutation" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Telephone" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="IsLoginAllowed" Table="public.vUserAccountOrganisation" Type="Column" />
+      <Exclude Name="Created" Table="public.vUserAccountOrganisation" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
@@ -2189,6 +2343,18 @@
       <Exclude Name="CompanyPinCode" Table="public.Organisation" Type="Column" />
       <Exclude Name="CompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="PinAttempts" Table="public.Organisation" Type="Column" />
+      <Exclude Name="Created" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastUpdated" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="PasswordChanged" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobileCodeSent" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="AccountClosed" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastLogin" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastFailedLogin" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="VerificationKeySent" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastFailedPasswordReset" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="MobilePhoneNumberChanged" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastForgotUsernameFailedAttempt" Table="public.UserAccounts" Type="Column" />
+      <Exclude Name="LastForgotPasswordFailedAttempt" Table="public.UserAccounts" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
@@ -2214,10 +2380,18 @@
       <Exclude Name="OrganisationBankAccountID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="OrganisationBankAccountId" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.vOrganisationStatus" Type="Column" />
+      <Exclude Name="OrganisationAdminCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="OrganisationBankAccountID" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="OrganisationBankAccountId" Table="public.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="Created" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="AccountClosed" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastLogin" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastFailedPasswordReset" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="LastUpdated" Table="public.vTemporaryUsersNotLoggedIn" Type="Column" />
+      <Exclude Name="Created" Table="public.vUserAccountNotLoggedIn" Type="Column" />
+      <Exclude Name="Created" Table="public.vUserAccountOrganisation" Type="Column" />
       <Exclude Name="UserID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />
       <Exclude Name="OrganisationID" Table="public.vUserAccountOrganisationUserTypeOrganisationType" Type="Column" />

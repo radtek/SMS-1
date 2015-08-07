@@ -10,6 +10,13 @@
         <input type="date" id="to" />
         <button onclick="applyFilter()">Filter</button>
 
+        <div class="pull-right">
+            <span>Opening Balance: </span>
+            <span id="openingBal"></span>
+            <span>&nbsp;Closing Balance: </span>
+            <span id="closingBal" style="margin-right:8px;"></span>
+        </div>
+
         <div class="col-sm-12">
 
             <div class="row">
@@ -23,7 +30,7 @@
             <div class="row hidden" id="rPanel">
                 <div class="col-sm-6">
                     <!-- well -->
-                    <div class="well">                       
+                    <div class="well">
 
                         <h5>Selected Transaction</h5>
                         <dl class="dl-horizontal">
@@ -52,7 +59,10 @@
             {
                 gridElementId: 'statementGrid',
                 url: '@Url.Action("GetStatement", "Credit", new { area = "ProOrganisation" })',
-                schema: { data: "list", total: "total", model: { id: "TransactionOrderID" } },
+                schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
                 defaultSort: { field: "BalanceOn", dir: "asc" },
                 panels: ['rPanel'],
                 change: txChange,
@@ -61,17 +71,25 @@
                 },
                 columns: [
                         {
-                            field: "Reference",
-                            title: "Reference"
+                            field: "InvoiceReference",
+                            title: "Reference",
+                            sortable: false
+                        },
+                        {
+                            field: "Amount",
+                            title: "Amount",
+                            sortable: false
                         },
                         {
                             field: "Balance",
-                            title: "Amount"
+                            title: "Balance",
+                            sortable: false
                         },
                         {
                             field: "BalanceOn",
                             title: "Date",
-                            template: function (dataItem) { return dateString(dataItem.StatusChangedOn); }
+                            sortable: false,
+                            template: function (dataItem) { return dateString(dataItem.BalanceOn); }
                         }
                 ]
             });
@@ -80,15 +98,28 @@
             findModalLinks();
 
             var now = new Date();
-            //year-1 doesn't work
-            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10));
+
+            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10)); //I wonder what happens about leap years
             $('#to').val(now.toJSON().slice(0, 10));
 
             statementGrid.makeGrid();
+            updateBalances();
         });
 
-        function applyFilter(){
-            statementGrid.grid.dataSource.read();
+        function applyFilter() {
+            statementGrid.refreshGrid();
+            updateBalances();
+        }
+
+        function updateBalances() {
+            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=true&date=' + $('#from').val() })
+                .done(function (res) {
+                    $('#openingBal').text(res);
+                });
+            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + $('#to').val() })
+                .done(function (res) {
+                    $('#closingBal').text(res);
+                });
         }
 
         //data binding for the panes beneath each grid

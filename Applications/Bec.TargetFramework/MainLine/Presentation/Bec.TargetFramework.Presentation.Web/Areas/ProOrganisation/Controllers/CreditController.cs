@@ -24,29 +24,42 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public ITransactionOrderLogicClient txClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
         public IPaymentLogicClient paymentClient { get; set; }
+        public IOrganisationLogicClient orgClient { get; set; }
 
         public ActionResult Index()
         {
             return View();
         }
 
+        public async Task<decimal> GetBalanceAsAt(DateTime date, bool startOfDay)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            Guid creditAccountID = await orgClient.GetCreditAccountAsync(orgID);
+            
+            date = startOfDay ? date.Date : date.Date.AddDays(1);
+            return await orgClient.GetBalanceAsAtAsync(creditAccountID, date);
+        }
+
         public async Task<ActionResult> GetStatement(DateTime from, DateTime to)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            Guid creditAccountID = await orgClient.GetCreditAccountAsync(orgID);
+            to = to.Date.AddDays(1); //less than tomorrow
 
-            var select = ODataHelper.Select<OrganisationLedgerTransactionDTO>(x => new
+            var select = ODataHelper.Select<VOrganisationLedgerTransactionBalanceDTO>(x => new
             {
-                x.TransactionOrder.Invoice.InvoiceReference,
+                x.InvoiceReference,
+                x.Amount,
                 x.Balance,
                 x.BalanceOn
             }, false);
 
-            var filter = ODataHelper.Filter<OrganisationLedgerTransactionDTO>(x =>
+            var filter = ODataHelper.Filter<VOrganisationLedgerTransactionBalanceDTO>(x =>
                 x.BalanceOn >= from &&
-                x.BalanceOn <= to &&
-                x.OrganisationLedgerAccount.OrganisationID == orgID);
+                x.BalanceOn < to &&
+                x.OrganisationLedgerAccountID == creditAccountID);
 
-            JObject res = await queryClient.QueryAsync("OrganisationLedgerTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
@@ -63,7 +76,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 var prod = await prodClient.GetTopUpProductAsync();
                 var cart = await cartClient.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
                 await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
-                var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID);
+                var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Credit Top Up");
                 var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
                 txID = transactionOrder.TransactionOrderID;
             }

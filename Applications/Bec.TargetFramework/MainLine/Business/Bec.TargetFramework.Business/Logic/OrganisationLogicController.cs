@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
         public UserLogicController UserLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public NotificationLogicController NotificationLogic { get; set; }
+        public ClassificationDataLogicController ClassificationLogic { get; set; }
 
         public OrganisationLogicController()
         {
@@ -590,6 +591,48 @@ namespace Bec.TargetFramework.Business.Logic
                         item.Name.ToLower() == companyName.Trim().ToLower());
 
                 return query;
+            }
+        }
+
+        public async Task AddCredit(Guid transactionOrderID, decimal amount)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            {
+                var transactionOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == transactionOrderID);
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                var account = scope.DbContext.OrganisationLedgerAccounts.Single(x => 
+                    x.OrganisationID == transactionOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID &&
+                    x.LedgerAccountTypeID == creditType);
+                account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
+                {
+                    TransactionOrderID = transactionOrderID,
+                    BalanceOn = DateTime.Now,
+                    Amount = amount
+                });
+                account.Balance += amount; //using rowversion for concurrency
+                account.UpdatedOn = DateTime.Now;
+                await scope.SaveAsync();
+            }
+        }
+
+        public async Task<Guid> GetCreditAccount(Guid orgID)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                return scope.DbContext.OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType).OrganisationLedgerAccountID;
+            }
+        }
+
+        public async Task<decimal> GetBalanceAsAt(Guid accountID, DateTime date)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var record = scope.DbContext.VOrganisationLedgerTransactionBalances.Where(x => x.OrganisationLedgerAccountID == accountID && x.BalanceOn < date).OrderByDescending(x => x.BalanceOn).FirstOrDefault();
+                if (record == null)
+                    return 0;
+                else
+                    return record.Balance;
             }
         }
     }
