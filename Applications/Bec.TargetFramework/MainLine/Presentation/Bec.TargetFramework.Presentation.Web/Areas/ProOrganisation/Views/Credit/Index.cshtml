@@ -132,7 +132,7 @@
         function txChange(dataItem) {
             $("p#ddReference").text(dataItem.InvoiceReference || "");
             $("p#ddAmount").text(dataItem.Balance || "");
-            $("p#ddDate").text(dataItem.BalanceOn || "");
+            $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
         }
 
     </script>
