@@ -895,7 +895,7 @@
     <Content Include="Content\css\your_style.css.map">
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
-    <None Include="Areas\Admin\Views\InternalNotifications\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\InternalNotifications\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
