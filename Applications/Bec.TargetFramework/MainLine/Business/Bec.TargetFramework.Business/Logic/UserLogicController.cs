@@ -47,77 +47,6 @@ namespace Bec.TargetFramework.Business.Logic
             return result;
         }
 
-        //public List<UserDetailDTO> GetAllUserDetailDTO()
-        //{
-        //    var dtoList = new List<UserDetailDTO>();
-
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-        //    {
-        //        //scope.DbContext.VUsers.ToList().ForEach(item =>
-        //        //{
-        //        //    var dto = new UserDetailDTO();
-
-        //        //    dto.InjectFrom(item);
-
-        //        //    dtoList.Add(dto);
-        //        //});
-        //    }
-
-        //    return dtoList;
-        //}
-
-        //public List<vUserManagementDTO> GetAllUserManagementDTO(SortingPagingDto pagingDto,UserManagementCritieraDTO dto)
-        //{
-        //    var dtoList = new List<vUserManagementDTO>();
-
-        //    //if (dto != null)
-        //    //{
-        //    //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-        //    //    {
-        //    //        if (!string.IsNullOrEmpty(dto.SearchQuery))
-        //    //        {
-        //    //            if (dto.SearchQueryTargetProperties == null)
-        //    //            {
-        //    //                dto.SearchQueryTargetProperties = new List<PropertyInfo>();
-
-        //    //                dto.RowObject.GetType().GetProperties().Where(item => item.PropertyType.Equals(typeof(string)))
-        //    //                    .ToList().ForEach(pi => dto.SearchQueryTargetProperties.Add(pi));
-
-        //    //            }
-        //    //        }
-        //    //        var predicate = LinqHelpers.BuildPredicate<VUserManagement,
-        //    //           UserManagementCritieraDTO>(dto);
-
-        //    //        scope.DbContext.VUserManagements.AsExpandable().Where(predicate)
-        //    //       .OrderBy(item => item.Username).Skip(pagingDto.PageSize * pagingDto.PageNumber).Take(pagingDto.PageSize).ToList().ForEach(item =>
-        //    //       {
-        //    //           var udto = new vUserManagementDTO();
-        //    //           udto.InjectFrom(item);
-        //    //           dtoList.Add(udto);
-        //    //       });
-
-        //    //    }
-        //    //}
-
-        //    return dtoList;
-        //}
-
-        //public vUserManagementDTO GerUserManagementDTO(Guid userId)
-        //{
-        //    Ensure.That(userId).IsNot(Guid.Empty);
-
-        //    var dto = new vUserManagementDTO();
-
-        //    //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-        //    //{
-        //    //    var userDetail = scope.GetGenericRepository<VUserManagement, Guid>().Find(item => item.UserID.Equals(userId));
-
-        //    //    dto.InjectFrom<NullableInjection>(userDetail);
-        //    //}
-
-        //    return dto;
-        //}
-
         public async Task<ContactDTO> AddUserAsync(ContactDTO dto)
         {
             Ensure.That(dto).IsNotNull();
@@ -204,17 +133,6 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveAsync();
             }
         }
-
-        //public string ResetPasswordAndSetVerificationKey(Guid userId)
-        //{
-        //    return UaService.ResetPasswordAndReturnVerificationKey(userId);
-        //}
-
-        //public async Task ResetPassword(string email)
-        //{
-        //    var account = UaService.GetByEmail(email);
-        //    await UaService.ResetPasswordAsync(email);
-        //}
 
         [EnsureArgumentAspect]
         public bool IsUserExist(string userName)
@@ -630,7 +548,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                var uaoEntry = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID.Value == personalOrgTypeID && s.UserID.Value == userID);
+                var uaoEntry = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID == personalOrgTypeID && s.UserID == userID);
                 return scope.DbContext.UserAccountOrganisations.Single(s => s.UserAccountOrganisationID == uaoEntry.UserAccountOrganisationID).ToDto();
             }
         }

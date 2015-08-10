@@ -30,23 +30,16 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
-            target.NotificationID = source.NotificationID;
-            target.NotificationStatusID = source.NotificationStatusID;
             target.NotificationConstructID = source.NotificationConstructID;
             target.NotificationConstructVersionNumber = source.NotificationConstructVersionNumber;
             target.NotificationDeliveryMethodID = source.NotificationDeliveryMethodID;
             target.NotificationExportFormatID = source.NotificationExportFormatID;
             target.DateSent = source.DateSent;
             target.IsSent = source.IsSent;
-            target.IsActive = source.IsActive;
-            target.IsDeleted = source.IsDeleted;
-            target.IsAccepted = source.IsAccepted;
-            target.AcceptedDate = source.AcceptedDate;
+            target.DateRead = source.DateRead;
             target.IsRead = source.IsRead;
             target.CreatedOn = source.CreatedOn;
             target.ErrorOccured = source.ErrorOccured;
-            target.SentOn = source.SentOn;
-            target.NotificationVerificationCode = source.NotificationVerificationCode;
             target.NotificationRecipientID = source.NotificationRecipientID;
             target.NotificationRecipientLogID = source.NotificationRecipientLogID;
             target.OrganisationID = source.OrganisationID;
@@ -70,23 +63,16 @@ namespace Bec.TargetFramework.Entities
 
             // Properties
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
-            target.NotificationID = source.NotificationID;
-            target.NotificationStatusID = source.NotificationStatusID;
             target.NotificationConstructID = source.NotificationConstructID;
             target.NotificationConstructVersionNumber = source.NotificationConstructVersionNumber;
             target.NotificationDeliveryMethodID = source.NotificationDeliveryMethodID;
             target.NotificationExportFormatID = source.NotificationExportFormatID;
             target.DateSent = source.DateSent;
             target.IsSent = source.IsSent;
-            target.IsActive = source.IsActive;
-            target.IsDeleted = source.IsDeleted;
-            target.IsAccepted = source.IsAccepted;
-            target.AcceptedDate = source.AcceptedDate;
+            target.DateRead = source.DateRead;
             target.IsRead = source.IsRead;
             target.CreatedOn = source.CreatedOn;
             target.ErrorOccured = source.ErrorOccured;
-            target.SentOn = source.SentOn;
-            target.NotificationVerificationCode = source.NotificationVerificationCode;
             target.NotificationRecipientID = source.NotificationRecipientID;
             target.NotificationRecipientLogID = source.NotificationRecipientLogID;
             target.OrganisationID = source.OrganisationID;

@@ -16,21 +16,21 @@ namespace Bec.TargetFramework.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.Data.LedgerAccountTransaction in the schema.
+    /// There are no comments for Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance in the schema.
     /// </summary>
     [System.Serializable]
-    public partial class LedgerAccountTransaction    {
+    public partial class VOrganisationLedgerTransactionBalance    {
 
-        public LedgerAccountTransaction()
+        public VOrganisationLedgerTransactionBalance()
         {
         }
 
         #region Properties
     
         /// <summary>
-        /// There are no comments for LedgerAccountID in the schema.
+        /// There are no comments for OrganisationLedgerAccountID in the schema.
         /// </summary>
-        public virtual global::System.Guid LedgerAccountID
+        public virtual global::System.Guid OrganisationLedgerAccountID
         {
             get;
             set;
@@ -56,28 +56,36 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
-
-        #endregion
-
-        #region Navigation Properties
     
         /// <summary>
-        /// There are no comments for TransactionOrder in the schema.
+        /// There are no comments for Amount in the schema.
         /// </summary>
-        public virtual TransactionOrder TransactionOrder
+        public virtual decimal Amount
         {
             get;
             set;
         }
+
     
         /// <summary>
-        /// There are no comments for OrganisationLedgerAccount in the schema.
+        /// There are no comments for InvoiceReference in the schema.
         /// </summary>
-        public virtual OrganisationLedgerAccount OrganisationLedgerAccount
+        public virtual string InvoiceReference
         {
             get;
             set;
         }
+
+    
+        /// <summary>
+        /// There are no comments for Balance in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<decimal> Balance
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

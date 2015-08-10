@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Extensions;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities.Enums
 {
-
     public enum NotificationConstructEnum : int
     {
+        [StringValue("All")]
+        All = 0,
         [StringValue("ConveyancyEmployeeNextSteps")]
         ConveyancyEmployeeNextSteps = 1,
         [StringValue("ColpRegistration")]
@@ -28,5 +24,9 @@ namespace Bec.TargetFramework.Entities.Enums
         ForgotUsername = 8,
         [StringValue("OnlinePaymentReceipt")]
         OnlinePaymentReceipt = 9,
+        [StringValue("TcPublic")]
+        TcPublic = 10,
+        [StringValue("BankAccountMarkedAsFraudSuspicious")]
+        BankAccountMarkedAsFraudSuspicious = 11
     }
 }

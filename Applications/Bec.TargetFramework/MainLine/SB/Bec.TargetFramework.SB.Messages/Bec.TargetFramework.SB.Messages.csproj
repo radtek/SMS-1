@@ -92,6 +92,7 @@
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="EndpointConfig.cs" />
     <Compile Include="Events\AddNewUserEvent.cs" />
+    <Compile Include="Events\BankAccountMarkedAsFraudSuspiciousEvent.cs" />
     <Compile Include="Events\ForgotPasswordEvent.cs" />
     <Compile Include="Events\ProcessSearchEvent.cs" />
     <Compile Include="Events\UsernameReminderEvent.cs" />

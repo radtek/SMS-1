@@ -46,8 +46,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes, bool? killDuplicates)
         {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes, killDuplicates ?? false);
+            var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
+            var orgID = currentUser.OrganisationID;
+
+            var bankAccountStateChangeDto = new OrganisationBankAccountStateChangeDTO
+            {
+                OrganisationID = orgID,
+                BankAccountID = baID,
+                BankAccountStatus = status,
+                Notes = notes,
+                KillDuplicates = killDuplicates ?? false,
+                ChangedByUserAccountOrganisationID = currentUser.UaoID,
+                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
+            };
+
+            await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("OutstandingBankAccounts");
         }

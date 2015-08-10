@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for RegulatorID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> RegulatorID
+        public virtual int RegulatorID
         {
             get;
             set;

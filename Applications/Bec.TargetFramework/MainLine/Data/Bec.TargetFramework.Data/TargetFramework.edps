@@ -96,7 +96,6 @@
         <File Name="TargetFramework.CountryCode.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DefaultOrganisationGroupRoleTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.LedgerAccountBalance.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.LedgerAccountTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DefaultOrganisationGroupTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DiscountTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationLedgerAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -291,7 +290,6 @@
         <File Name="TargetFramework.VDefaultEmailAddress.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VNotificationConstruct.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VTemporaryUsersNotLoggedIn.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.VUserWorkflowInstanceStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VProductDiscount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.DiscountRelatedProductTemplate.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationDiscount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -347,7 +345,6 @@
         <File Name="TargetFramework.VInvoiceWithCurrentTransactionOrderStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VPlanSubscriptionStatusWithBillingAndPaymentMethodStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VUserRoleRegulatorDetail.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.VOrganisationComplianceOfficer.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VDefaultOrganisationUserTypeOrganisationType.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ActorClaimRoleMapping.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.Actor.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
@@ -382,12 +379,13 @@
         <File Name="TargetFramework.Organisation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationWithStatusAndAdmin.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VNotificationInternalUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
-        <File Name="TargetFramework.VOrganisationClaim.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.PasswordResetRequest.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.EventStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationBankAccountStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationBankAccountsWithStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VNotificationViewOnlyUao.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VOrganisationLedgerTransactionBalance.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -571,8 +569,6 @@
         <File Name="DefaultOrganisationGroupRoleTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="LedgerAccountBalanceDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="LedgerAccountBalanceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="LedgerAccountTransactionDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="LedgerAccountTransactionDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationGroupTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationGroupTemplateDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DiscountTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -961,8 +957,6 @@
         <File Name="VNotificationConstructDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VTemporaryUsersNotLoggedInDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VTemporaryUsersNotLoggedInDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="VUserWorkflowInstanceStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="VUserWorkflowInstanceStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VProductDiscountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VProductDiscountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DiscountRelatedProductTemplateDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1073,8 +1067,6 @@
         <File Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VUserRoleRegulatorDetailDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VUserRoleRegulatorDetailDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="VOrganisationComplianceOfficerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="VOrganisationComplianceOfficerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VDefaultOrganisationUserTypeOrganisationTypeDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VDefaultOrganisationUserTypeOrganisationTypeDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ActorClaimRoleMappingDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1143,8 +1135,6 @@
         <File Name="VOrganisationWithStatusAndAdminDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VNotificationInternalUnreadDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VNotificationInternalUnreadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
-        <File Name="VOrganisationClaimDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
-        <File Name="VOrganisationClaimDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="PasswordResetRequestDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="PasswordResetRequestDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="EventStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1155,6 +1145,10 @@
         <File Name="OrganisationBankAccountStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VNotificationViewOnlyUaoDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VNotificationViewOnlyUaoDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VOrganisationLedgerTransactionBalanceDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VOrganisationLedgerTransactionBalanceDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1248,7 +1242,6 @@
         <File Name="CountryCodeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DefaultOrganisationGroupRoleTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="LedgerAccountBalanceConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="LedgerAccountTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DefaultOrganisationGroupTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DiscountTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationLedgerAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1443,7 +1436,6 @@
         <File Name="VDefaultEmailAddressConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VNotificationConstructConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VTemporaryUsersNotLoggedInConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="VUserWorkflowInstanceStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VProductDiscountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="DiscountRelatedProductTemplateConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationDiscountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1499,7 +1491,6 @@
         <File Name="VInvoiceWithCurrentTransactionOrderStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VUserRoleRegulatorDetailConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="VOrganisationComplianceOfficerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VDefaultOrganisationUserTypeOrganisationTypeConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ActorClaimRoleMappingConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ActorConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1534,12 +1525,13 @@
         <File Name="OrganisationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationWithStatusAndAdminConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VNotificationInternalUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
-        <File Name="VOrganisationClaimConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="PasswordResetRequestConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="EventStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationBankAccountStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationBankAccountsWithStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VNotificationViewOnlyUaoConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VOrganisationLedgerTransactionBalanceConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1704,5 +1696,72 @@
         </AttributeType>
       </AttributeAssembly>
     </AttributeAssemblies>
+    <UpdateFromDatabaseExcludes>
+      <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimName" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubType" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="ClaimSubName" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
+      <Exclude Name="name" Table="public.vClassification" Type="Column" />
+      <Exclude Name="ClassificationTypeCategoryID" Table="public.vClassification" Type="Column" />
+      <Exclude Name="categoryname" Table="public.vClassification" Type="Column" />
+      <Exclude Name="ParentID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountAmount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="Description" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountPercentage" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountPeriod" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountQuantity" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountStatusID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountTypeID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountVersionNumber" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DisocuntPeriodUnitID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="InvoiceName" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsPercentage" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsRecurring" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="MaxRedemptions" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="Name" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="ValidTill" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountStatus" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountType" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="DiscountApplyIn" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="PeriodUnit" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsSingleProductDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsCheckoutDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsSingleProductQuantityDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="SingleProductQuantityDiscountDivisor" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsSingleProductQuantityDiscountPercentageBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsSingleProductQuantityDiscountAdditionalQuantityBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="SingleProductQuantityDiscountAdditionalQuantity" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsMultipleProductCombinationDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsMultipleProductCombinationDiscountPercentageBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="IsMultipleProductCombinationDiscountCheapestFreeBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductAttributeDescription" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="IsProductAttributeRequired" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductAttributeDisplayOrder" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="Cost" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="Quantity" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="IsPreSelected" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductVariantAttributeValueID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
+      <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
+      <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
+    </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

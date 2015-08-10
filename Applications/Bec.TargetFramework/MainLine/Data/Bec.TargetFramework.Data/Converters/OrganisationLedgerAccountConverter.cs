@@ -48,11 +48,11 @@ namespace Bec.TargetFramework.Entities
             target.AccountingTypeID = source.AccountingTypeID;
             target.IsPrimaryAccount = source.IsPrimaryAccount;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
               target.UserAccountLedgerAccounts = source.UserAccountLedgerAccounts.ToDtosWithRelated(level - 1);
-              target.LedgerAccountTransactions = source.LedgerAccountTransactions.ToDtosWithRelated(level - 1);
               target.LedgerAccountBalances = source.LedgerAccountBalances.ToDtosWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
             }
@@ -90,6 +90,7 @@ namespace Bec.TargetFramework.Entities
             target.AccountingTypeID = source.AccountingTypeID;
             target.IsPrimaryAccount = source.IsPrimaryAccount;
             target.IsDeleted = source.IsDeleted;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);

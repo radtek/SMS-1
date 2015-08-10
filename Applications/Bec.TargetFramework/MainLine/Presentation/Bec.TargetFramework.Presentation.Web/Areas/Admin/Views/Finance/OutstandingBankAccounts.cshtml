@@ -51,7 +51,7 @@
     </div>
 </div>
 
-@section pagespecific {
+@section Scripts {
     <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
     <script type="text/javascript">
 
@@ -127,7 +127,7 @@
                
             $("#markSafeButton").attr("disabled", dataItem.Duplicates.length > 0);
             $("#markSafeKillDupesButton").attr("disabled", dataItem.Duplicates.length == 0);
-
+               
             showHistory('#history', dataItem);
             showDuplicates('#duplicates', '#dupeHeading', dataItem);
         }

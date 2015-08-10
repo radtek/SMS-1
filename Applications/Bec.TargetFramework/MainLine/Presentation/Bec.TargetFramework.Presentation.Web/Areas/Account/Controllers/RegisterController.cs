@@ -27,10 +27,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
-        public RegisterController()
-        {
-        }
-
         public async Task<ActionResult> Index()
         {
             var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(HttpContext.User.Identity.Name);

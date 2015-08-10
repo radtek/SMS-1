@@ -16,21 +16,21 @@ namespace Bec.TargetFramework.Data
 {
 
     /// <summary>
-    /// There are no comments for Bec.TargetFramework.Data.VOrganisationComplianceOfficer in the schema.
+    /// There are no comments for Bec.TargetFramework.Data.VNotificationViewOnlyUao in the schema.
     /// </summary>
     [System.Serializable]
-    public partial class VOrganisationComplianceOfficer    {
+    public partial class VNotificationViewOnlyUao    {
 
-        public VOrganisationComplianceOfficer()
+        public VNotificationViewOnlyUao()
         {
         }
 
         #region Properties
     
         /// <summary>
-        /// There are no comments for OrganisationID in the schema.
+        /// There are no comments for UserAccountOrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Guid OrganisationID
+        public virtual global::System.Guid UserAccountOrganisationID
         {
             get;
             set;
@@ -38,9 +38,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for COEmail in the schema.
+        /// There are no comments for ResourceTypeID in the schema.
         /// </summary>
-        public virtual string COEmail
+        public virtual global::System.Nullable<int> ResourceTypeID
         {
             get;
             set;
@@ -48,9 +48,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for COFirstName in the schema.
+        /// There are no comments for NotificationID in the schema.
         /// </summary>
-        public virtual string COFirstName
+        public virtual global::System.Guid NotificationID
         {
             get;
             set;
@@ -58,9 +58,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for COLastName in the schema.
+        /// There are no comments for NotificationData in the schema.
         /// </summary>
-        public virtual string COLastName
+        public virtual string NotificationData
         {
             get;
             set;
@@ -68,9 +68,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for CompanyName in the schema.
+        /// There are no comments for NotificationConstructID in the schema.
         /// </summary>
-        public virtual string CompanyName
+        public virtual global::System.Guid NotificationConstructID
         {
             get;
             set;
@@ -78,9 +78,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for TradingName in the schema.
+        /// There are no comments for NotificationConstructVersionNumber in the schema.
         /// </summary>
-        public virtual string TradingName
+        public virtual int NotificationConstructVersionNumber
         {
             get;
             set;
@@ -88,9 +88,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for BranchName in the schema.
+        /// There are no comments for DateSent in the schema.
         /// </summary>
-        public virtual string BranchName
+        public virtual global::System.DateTime DateSent
         {
             get;
             set;
@@ -98,9 +98,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for BranchRegulatorID in the schema.
+        /// There are no comments for Name in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> BranchRegulatorID
+        public virtual string Name
         {
             get;
             set;
@@ -108,9 +108,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for BranchRegulator in the schema.
+        /// There are no comments for NotificationSubject in the schema.
         /// </summary>
-        public virtual string BranchRegulator
+        public virtual string NotificationSubject
         {
             get;
             set;
@@ -118,29 +118,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for BranchRegulatorNumber in the schema.
+        /// There are no comments for IsInternal in the schema.
         /// </summary>
-        public virtual string BranchRegulatorNumber
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for IsActive in the schema.
-        /// </summary>
-        public virtual bool IsActive
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for IsDeleted in the schema.
-        /// </summary>
-        public virtual bool IsDeleted
+        public virtual bool IsInternal
         {
             get;
             set;

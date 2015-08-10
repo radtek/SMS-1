@@ -79,7 +79,6 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.TransactionOrderItems = source.TransactionOrderItems.ToDtosWithRelated(level - 1);
               target.Invoice = source.Invoice.ToDtoWithRelated(level - 1);
-              target.LedgerAccountTransactions = source.LedgerAccountTransactions.ToDtosWithRelated(level - 1);
               target.TransactionOrderProcessLogs = source.TransactionOrderProcessLogs.ToDtosWithRelated(level - 1);
               target.GlobalPaymentMethod = source.GlobalPaymentMethod.ToDtoWithRelated(level - 1);
             }

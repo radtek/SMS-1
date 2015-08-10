@@ -768,9 +768,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for OrganisationBankAccountId in the schema.
+        /// There are no comments for OrganisationBankAccountID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> OrganisationBankAccountId
+        public virtual global::System.Nullable<System.Guid> OrganisationBankAccountID
         {
             get;
             set;

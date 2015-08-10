@@ -1,0 +1,47 @@
+﻿@model List<Bec.TargetFramework.Entities.VNotificationViewOnlyUaoDTO>
+<span id="activity" class="activity-dropdown"> <i class="fa fa-bell"></i> <b class="badge">@Model.Count</b> </span>
+
+<!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
+<div class="ajax-dropdown">
+    <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+    <h4>Notifications</h4>
+    <!-- notification content -->
+    <div class="ajax-notifications custom-scroll">
+        <ul class="notification-body">
+            @if (Model.Any())
+            {
+                foreach (var notification in Model)
+                {
+                    <li>
+                        <span class="padding-10 ">
+                            <em class="badge padding-5 no-border-radius bg-color-primary pull-left margin-right-5">
+                                <i class="fa fa-bell fa-fw fa-2x"></i>
+                            </em>
+                            <span>
+                                @notification.NotificationSubject
+                                - @Html.ActionLink("See details", "Details", "InternalNotifications", new { notificationId = notification.NotificationID }, new { @class = "display-normal" })
+                                <br>
+                                <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>
+                            </span>
+                        </span>
+                    </li>
+                }
+            }
+            else
+            {
+                <li>
+                    <span class="padding-10 ">
+                        <em class="badge padding-5 no-border-radius bg-color-transparent pull-left margin-right-5">
+                            <i class="fa fa-smile-o fa-fw fa-2x color-primary"></i>
+                        </em>
+                        <span>
+                            There are no notifications
+                        </span>
+                    </span>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- end footer -->
+</div>
+<!-- END AJAX-DROPDOWN -->

@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for UserID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> UserID
+        public virtual global::System.Guid UserID
         {
             get;
             set;
@@ -50,7 +50,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for UserTypeID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> UserTypeID
+        public virtual global::System.Guid UserTypeID
         {
             get;
             set;
@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> OrganisationID
+        public virtual global::System.Guid OrganisationID
         {
             get;
             set;
@@ -80,7 +80,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for OrganisationTypeID in the schema.
         /// </summary>
-        public virtual global::System.Nullable<int> OrganisationTypeID
+        public virtual int OrganisationTypeID
         {
             get;
             set;

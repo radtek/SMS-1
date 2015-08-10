@@ -183,7 +183,6 @@
     <Compile Include="Converters\InvoiceLineItemConverter.cs" />
     <Compile Include="Converters\InvoiceProcessLogConverter.cs" />
     <Compile Include="Converters\LedgerAccountBalanceConverter.cs" />
-    <Compile Include="Converters\LedgerAccountTransactionConverter.cs" />
     <Compile Include="Converters\LegalOrganisationDetailConverter.cs" />
     <Compile Include="Converters\LinkedAccountClaimConverter.cs" />
     <Compile Include="Converters\LinkedAccountConverter.cs" />
@@ -431,14 +430,14 @@
     <Compile Include="Converters\VNotificationConstructGroupConverter.cs" />
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
     <Compile Include="Converters\VNotificationRecipientStatusConverter.cs" />
+    <Compile Include="Converters\VNotificationViewOnlyUaoConverter.cs" />
     <Compile Include="Converters\VNotificationWithUAOVerificationCodeConverter.cs" />
     <Compile Include="Converters\VOrganisationBankAccountsWithStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationCheckoutDiscountConverter.cs" />
-    <Compile Include="Converters\VOrganisationClaimConverter.cs" />
-    <Compile Include="Converters\VOrganisationComplianceOfficerConverter.cs" />
     <Compile Include="Converters\VOrganisationConverter.cs" />
     <Compile Include="Converters\VOrganisationDetailConverter.cs" />
     <Compile Include="Converters\VOrganisationFinancialStatusConverter.cs" />
+    <Compile Include="Converters\VOrganisationLedgerTransactionBalanceConverter.cs" />
     <Compile Include="Converters\VOrganisationPaymentMethodStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationUserTypeConverter.cs" />
@@ -460,7 +459,6 @@
     <Compile Include="Converters\VUserAccountOrganisationUserTypeOrganisationTypeConverter.cs" />
     <Compile Include="Converters\VUserRoleRegulatorDetailConverter.cs" />
     <Compile Include="Converters\VUserStatusConverter.cs" />
-    <Compile Include="Converters\VUserWorkflowInstanceStatusConverter.cs" />
     <Compile Include="Model\TargetFramework.Account.cs" />
     <Compile Include="Model\TargetFramework.Actor.cs" />
     <Compile Include="Model\TargetFramework.ActorClaimRoleMapping.cs" />
@@ -567,7 +565,6 @@
     <Compile Include="Model\TargetFramework.InvoiceLineItem.cs" />
     <Compile Include="Model\TargetFramework.InvoiceProcessLog.cs" />
     <Compile Include="Model\TargetFramework.LedgerAccountBalance.cs" />
-    <Compile Include="Model\TargetFramework.LedgerAccountTransaction.cs" />
     <Compile Include="Model\TargetFramework.LegalOrganisationDetail.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccount.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccountClaim.cs" />
@@ -818,14 +815,14 @@
     <Compile Include="Model\TargetFramework.VNotificationConstructGroup.cs" />
     <Compile Include="Model\TargetFramework.VNotificationInternalUnread.cs" />
     <Compile Include="Model\TargetFramework.VNotificationRecipientStatus.cs" />
+    <Compile Include="Model\TargetFramework.VNotificationViewOnlyUao.cs" />
     <Compile Include="Model\TargetFramework.VNotificationWithUAOVerificationCode.cs" />
     <Compile Include="Model\TargetFramework.VOrganisation.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationBankAccountsWithStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationCheckoutDiscount.cs" />
-    <Compile Include="Model\TargetFramework.VOrganisationClaim.cs" />
-    <Compile Include="Model\TargetFramework.VOrganisationComplianceOfficer.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationDetail.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationFinancialStatus.cs" />
+    <Compile Include="Model\TargetFramework.VOrganisationLedgerTransactionBalance.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationPaymentMethodStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationStatus.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationUserType.cs" />
@@ -847,7 +844,6 @@
     <Compile Include="Model\TargetFramework.VUserAccountOrganisationUserTypeOrganisationType.cs" />
     <Compile Include="Model\TargetFramework.VUserRoleRegulatorDetail.cs" />
     <Compile Include="Model\TargetFramework.VUserStatus.cs" />
-    <Compile Include="Model\TargetFramework.VUserWorkflowInstanceStatus.cs" />
     <Compile Include="Objects\UserClaimDTO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

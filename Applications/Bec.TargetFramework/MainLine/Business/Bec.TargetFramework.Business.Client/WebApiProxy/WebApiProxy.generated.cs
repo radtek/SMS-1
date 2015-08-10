@@ -340,15 +340,43 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName);
+		Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count);
 
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName);
+		List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
+
+		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId);
+
+		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -561,15 +589,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
+		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
-		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates);
+		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -2054,26 +2077,91 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid accountID,String constructName)
+		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count)
 		{
-			constructName = constructName.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user);
+			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="accountID"></param>
-		/// <param name="constructName"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID,String constructName)
+		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="count"></param>
+		public virtual List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count)
 		{
-			constructName = constructName.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?accountID=" + accountID + "&constructName=" + constructName, _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		public virtual List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		public virtual Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
+		public virtual Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
 		/// <summary>
@@ -2598,32 +2686,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
-		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
+		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
-			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user);
+            return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
-		/// <param name="killDuplicates"></param>
-		public virtual void AddBankAccountStatus(Guid currentOrgID,Guid baID,BankAccountStatusEnum status,String notes,Boolean killDuplicates)
+		public virtual void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
-			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddBankAccountStatusAsync?currentOrgID=" + currentOrgID + "&baID=" + baID + "&status=" + status + "&notes=" + notes + "&killDuplicates=" + killDuplicates, null, _user)).Wait();
+			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
 		}
 
 		/// <summary>

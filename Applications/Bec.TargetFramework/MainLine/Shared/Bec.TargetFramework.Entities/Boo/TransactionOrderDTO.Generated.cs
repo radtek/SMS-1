@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public TransactionOrderDTO() {
         }
 
-        public TransactionOrderDTO(global::System.Guid transactionOrderID, string currencyCode, decimal currencyRateToGBP, decimal orderSubTotalInclTaxAndDeduct, decimal orderSubTotalExclTaxAndDeduct, global::System.Nullable<decimal> orderSubTotalDiscountsInclTaxAndDeduct, global::System.Nullable<decimal> orderSubTotalDiscountsExclTaxAndDeduct, global::System.Nullable<decimal> paymentMethodAdditionalFeesInclTaxAndDeduct, global::System.Nullable<decimal> paymentMethodAdditionalFeesExclTaxAndDeduct, decimal orderTaxTotal, decimal orderDiscountTotal, string vatNumber, decimal orderTotal, global::System.Nullable<decimal> refundedAmount, global::System.Nullable<System.DateTime> paymentDate, bool isActive, bool isDeleted, global::System.Guid parentID, global::System.DateTime createdOn, string createdBy, string authorizationTransactionID, string authorizationTransactionCode, string authorizationTransactionResult, string captureTransactionID, string transactionOrderReference, global::System.Guid globalPaymentMethodID, global::System.Nullable<decimal> orderDeductionTotal, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<System.Guid> parentTransactionOrderID, bool isHierachicalTransactionOrder, string captureTransactionResult, string subscriptionTransactionID, global::System.DateTime currencyRateDate, decimal currencyRate, global::System.Nullable<decimal> currencyRateToUSD, string countryCode, int transactionTypeID, int paymentMethodTypeID, int transactionGatewayTypeID, global::System.Guid invoiceID, List<TransactionOrderItemDTO> transactionOrderItems, InvoiceDTO invoice, List<LedgerAccountTransactionDTO> ledgerAccountTransactions, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, GlobalPaymentMethodDTO globalPaymentMethod) {
+        public TransactionOrderDTO(global::System.Guid transactionOrderID, string currencyCode, decimal currencyRateToGBP, decimal orderSubTotalInclTaxAndDeduct, decimal orderSubTotalExclTaxAndDeduct, global::System.Nullable<decimal> orderSubTotalDiscountsInclTaxAndDeduct, global::System.Nullable<decimal> orderSubTotalDiscountsExclTaxAndDeduct, global::System.Nullable<decimal> paymentMethodAdditionalFeesInclTaxAndDeduct, global::System.Nullable<decimal> paymentMethodAdditionalFeesExclTaxAndDeduct, decimal orderTaxTotal, decimal orderDiscountTotal, string vatNumber, decimal orderTotal, global::System.Nullable<decimal> refundedAmount, global::System.Nullable<System.DateTime> paymentDate, bool isActive, bool isDeleted, global::System.Guid parentID, global::System.DateTime createdOn, string createdBy, string authorizationTransactionID, string authorizationTransactionCode, string authorizationTransactionResult, string captureTransactionID, string transactionOrderReference, global::System.Guid globalPaymentMethodID, global::System.Nullable<decimal> orderDeductionTotal, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<System.Guid> parentTransactionOrderID, bool isHierachicalTransactionOrder, string captureTransactionResult, string subscriptionTransactionID, global::System.DateTime currencyRateDate, decimal currencyRate, global::System.Nullable<decimal> currencyRateToUSD, string countryCode, int transactionTypeID, int paymentMethodTypeID, int transactionGatewayTypeID, global::System.Guid invoiceID, List<TransactionOrderItemDTO> transactionOrderItems, InvoiceDTO invoice, List<TransactionOrderProcessLogDTO> transactionOrderProcessLogs, GlobalPaymentMethodDTO globalPaymentMethod) {
 
           this.TransactionOrderID = transactionOrderID;
           this.CurrencyCode = currencyCode;
@@ -71,7 +71,6 @@ namespace Bec.TargetFramework.Entities
           this.InvoiceID = invoiceID;
           this.TransactionOrderItems = transactionOrderItems;
           this.Invoice = invoice;
-          this.LedgerAccountTransactions = ledgerAccountTransactions;
           this.TransactionOrderProcessLogs = transactionOrderProcessLogs;
           this.GlobalPaymentMethod = globalPaymentMethod;
         }
@@ -224,9 +223,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public InvoiceDTO Invoice { get; set; }
-
-        [DataMember]
-        public List<LedgerAccountTransactionDTO> LedgerAccountTransactions { get; set; }
 
         [DataMember]
         public List<TransactionOrderProcessLogDTO> TransactionOrderProcessLogs { get; set; }

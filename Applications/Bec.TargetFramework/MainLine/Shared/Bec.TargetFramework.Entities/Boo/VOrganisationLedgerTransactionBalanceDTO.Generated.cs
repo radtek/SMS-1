@@ -15,20 +15,21 @@ namespace Bec.TargetFramework.Entities
 
     [DataContractAttribute(IsReference=true)]
     [System.Serializable]
-    public partial class LedgerAccountTransactionDTO
+    public partial class VOrganisationLedgerTransactionBalanceDTO
     {
         #region Constructors
   
-        public LedgerAccountTransactionDTO() {
+        public VOrganisationLedgerTransactionBalanceDTO() {
         }
 
-        public LedgerAccountTransactionDTO(global::System.Guid ledgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, TransactionOrderDTO transactionOrder, OrganisationLedgerAccountDTO organisationLedgerAccount) {
+        public VOrganisationLedgerTransactionBalanceDTO(global::System.Guid organisationLedgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, decimal amount, string invoiceReference, global::System.Nullable<decimal> balance) {
 
-          this.LedgerAccountID = ledgerAccountID;
+          this.OrganisationLedgerAccountID = organisationLedgerAccountID;
           this.TransactionOrderID = transactionOrderID;
           this.BalanceOn = balanceOn;
-          this.TransactionOrder = transactionOrder;
-          this.OrganisationLedgerAccount = organisationLedgerAccount;
+          this.Amount = amount;
+          this.InvoiceReference = invoiceReference;
+          this.Balance = balance;
         }
 
         #endregion
@@ -36,7 +37,7 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public global::System.Guid LedgerAccountID { get; set; }
+        public global::System.Guid OrganisationLedgerAccountID { get; set; }
 
         [DataMember]
         public global::System.Guid TransactionOrderID { get; set; }
@@ -44,15 +45,14 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public global::System.DateTime BalanceOn { get; set; }
 
-        #endregion
-
-        #region Navigation Properties
+        [DataMember]
+        public decimal Amount { get; set; }
 
         [DataMember]
-        public TransactionOrderDTO TransactionOrder { get; set; }
+        public string InvoiceReference { get; set; }
 
         [DataMember]
-        public OrganisationLedgerAccountDTO OrganisationLedgerAccount { get; set; }
+        public global::System.Nullable<decimal> Balance { get; set; }
 
         #endregion
     }
