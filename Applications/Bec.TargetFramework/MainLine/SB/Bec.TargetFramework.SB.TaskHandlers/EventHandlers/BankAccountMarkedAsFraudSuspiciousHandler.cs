@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Handlers.Base;
 using Bec.TargetFramework.SB.Infrastructure;
@@ -9,8 +10,7 @@ using Bec.TargetFramework.SB.Messages.Events;
 using NServiceBus;
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
-using Bec.TargetFramework.Infrastructure.Extensions;
+using System.Collections.Generic;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 {
@@ -28,19 +28,18 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountMarkedAsFraudSuspiciousNotificationDTO", handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto);
 
-                var recipients = handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.UserAccountOrganisationIds
-                    .Select(userAccountOrganisationId => new NotificationRecipientDTO 
-                    {
-                        UserAccountOrganisationID = userAccountOrganisationId
-                    })
-                    .ToList();
-
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
-                    recipients,
+                    new List<NotificationRecipientDTO> 
+                    {
+                        new NotificationRecipientDTO 
+                        {
+                            OrganisationID = handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationId
+                        }
+                    },
                     new NotificationDictionaryDTO 
-                    { 
+                    {
                         NotificationDictionary = dictionary 
                     });
 

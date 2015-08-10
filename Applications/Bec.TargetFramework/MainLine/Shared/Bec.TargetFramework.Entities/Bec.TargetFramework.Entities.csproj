@@ -1600,11 +1600,16 @@
     <Compile Include="Boo\VNotificationConstructGroupDTO.Generated.cs">
       <DependentUpon>VNotificationConstructGroupDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VNotificationInternalDTO.cs" />
     <Compile Include="Boo\VNotificationInternalUnreadDTO.Generated.cs">
       <DependentUpon>VNotificationInternalUnreadDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationRecipientStatusDTO.Generated.cs">
       <DependentUpon>VNotificationRecipientStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationViewOnlyUaoDTO.cs" />
+    <Compile Include="Boo\VNotificationViewOnlyUaoDTO.Generated.cs">
+      <DependentUpon>VNotificationViewOnlyUaoDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationWithUAOVerificationCodeDTO.Generated.cs">
       <DependentUpon>VNotificationWithUAOVerificationCodeDTO.cs</DependentUpon>

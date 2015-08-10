@@ -404,6 +404,7 @@
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsTransaction" store:Type="Tables" Schema="sms" Table="SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus" store:Type="Tables" Schema="public" Table="OrganisationBankAccountStatus" />
           <EntitySet Name="vOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.Store.vOrganisationBankAccountsWithStatus" store:Type="Views" Schema="public" Table="vOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="vNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.Store.vNotificationViewOnlyUao" store:Type="Views" Schema="public" Table="vNotificationViewOnlyUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -6085,7 +6086,7 @@
           </Key>
           <Property Name="NotificationID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="FromParentID" Type="uuid" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="ParentID" Type="uuid" />
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
@@ -9698,7 +9699,7 @@
           </Key>
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
           <Property Name="NotificationRecipientID" Type="uuid" Nullable="false" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="NotificationData" Type="json" Nullable="false" />
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
@@ -9799,6 +9800,25 @@
           <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Notes" Type="text" />
+        </EntityType>
+        <EntityType Name="vNotificationViewOnlyUao">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="DateSent" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsInternal" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="ResourceTypeID" Type="int" />
+          <Property Name="NotificationID" Type="uuid" Nullable="false" />
+          <Property Name="NotificationData" Type="json" Nullable="false" />
+          <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
+          <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="NotificationSubject" Type="varchar" MaxLength="200" />
+          <Property Name="IsInternal" Type="boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18231,6 +18251,7 @@
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.OrganisationBankAccountStatus" />
           <EntitySet Name="VOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.VOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="VNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.VNotificationViewOnlyUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -28642,6 +28663,25 @@
           <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="da596a9a-9315-4e1a-b165-5bacad2348cd" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
+        </EntityType>
+        <EntityType Name="VNotificationViewOnlyUao" ed:Guid="5b9a11d7-f908-408b-a3fb-8ba6e7463336">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="DateSent" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsInternal" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f385d227-f6ad-4ca5-a280-e1f0d50bec02" />
+          <Property Name="ResourceTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="913f7bd3-08eb-4c41-acc0-b8059e96c396" />
+          <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="adbd2d42-2fc7-41c1-a4cb-d04de16949ca" />
+          <Property Name="NotificationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="3d5b3878-a3ae-4aad-9476-9e8f90729213" />
+          <Property Name="NotificationConstructID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2f27b3f-1440-49e9-a786-edf109657d65" />
+          <Property Name="NotificationConstructVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="b90e2d90-0954-4500-b910-ee7cb806826c" />
+          <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="10ef93c1-96eb-4beb-9a4a-985a60b6d9be" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9af8f5f8-dae8-4962-bb08-309731429a40" />
+          <Property Name="NotificationSubject" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4f748143-1c74-434a-9ee5-db38cbfc1a90" />
+          <Property Name="IsInternal" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a52ffaad-0f18-4a6a-b35c-ca9dcaecfe1b" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -42989,6 +43029,22 @@
                 <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
                 <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VNotificationViewOnlyUaos">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VNotificationViewOnlyUao">
+              <MappingFragment StoreEntitySet="vNotificationViewOnlyUaos">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="ResourceTypeID" ColumnName="ResourceTypeID" />
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NotificationSubject" ColumnName="NotificationSubject" />
+                <ScalarProperty Name="IsInternal" ColumnName="IsInternal" />
+                <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
+                <ScalarProperty Name="NotificationConstructID" ColumnName="NotificationConstructID" />
+                <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

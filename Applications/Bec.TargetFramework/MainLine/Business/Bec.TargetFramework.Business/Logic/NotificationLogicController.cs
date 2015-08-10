@@ -193,17 +193,57 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId, int count)
+        public List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId, int count)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                var undreadNotifications = scope.DbContext.VNotificationInternalUnreads
-                    .Where(x => x.UserID == userId)
+                var notifications = scope.DbContext.VNotificationViewOnlyUaos
+                    .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
                     .OrderByDescending(x => x.DateSent)
                     .Take(count);
 
-                return undreadNotifications.ToDtos();
+                return notifications.ToDtos();
             }
+        }
+
+        public List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var notifications = scope.DbContext.VNotificationViewOnlyUaos
+                    .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .OrderByDescending(x => x.DateSent);
+
+                return notifications.ToDtos();
+            }
+        }
+
+        public byte[] GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId)
+        {
+            VNotificationViewOnlyUaoDTO notificationDto;
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                var notification = scope.DbContext.VNotificationViewOnlyUaos
+                    .FirstOrDefault(
+                        x =>
+                            x.NotificationID == notificationId &&
+                            x.UserAccountOrganisationID == userAccountOrganisationId);
+
+                if (notification == null)
+                {
+                    throw new InvalidOperationException(string.Format("The notification {0} was not found for this user.", notificationId));
+                }
+
+                notificationDto = notification.ToDto();
+            }
+
+            Ensure.That(notificationDto).IsNotNull();
+
+            var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
+            var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
+            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
+
+            return reportByteArray;
         }
 
         public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)
@@ -221,35 +261,6 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 return undreadNotifications.ToDtos();
-            }
-        }
-        
-        public byte[] GetNotificationContent(Guid notificationId)
-        {
-            var notificationDto = GetNotification(notificationId);
-            Ensure.That(notificationDto).IsNotNull();
-            var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
-            var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
-            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
-
-            return reportByteArray;
-        }
-
-        private NotificationDTO GetNotification(Guid notificationId)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                NotificationDTO notificationDto = null;
-                var notification = scope.DbContext.Notifications
-                    .Include("NotificationConstruct")
-                    .Where(x => x.NotificationID == notificationId)
-                    .FirstOrDefault(x => x.NotificationID == notificationId);
-
-                if (notification != null)
-                {
-                    notificationDto = notification.ToDto();
-                }
-                return notificationDto;
             }
         }
 
@@ -277,7 +288,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
         
-
         public async Task MarkAcceptedAsync(Guid notificationID)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))

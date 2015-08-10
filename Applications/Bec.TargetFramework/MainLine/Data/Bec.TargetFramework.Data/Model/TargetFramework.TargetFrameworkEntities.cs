@@ -1981,6 +1981,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VOrganisationBankAccountsWithStatus in the schema.
         /// </summary>
         public virtual DbSet<VOrganisationBankAccountsWithStatus> VOrganisationBankAccountsWithStatus { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VNotificationViewOnlyUao in the schema.
+        /// </summary>
+        public virtual DbSet<VNotificationViewOnlyUao> VNotificationViewOnlyUaos { get; set; }
 
         #region Methods
 

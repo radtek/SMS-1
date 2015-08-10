@@ -431,6 +431,7 @@
     <Compile Include="Converters\VNotificationConstructGroupConverter.cs" />
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
     <Compile Include="Converters\VNotificationRecipientStatusConverter.cs" />
+    <Compile Include="Converters\VNotificationViewOnlyUaoConverter.cs" />
     <Compile Include="Converters\VNotificationWithUAOVerificationCodeConverter.cs" />
     <Compile Include="Converters\VOrganisationBankAccountsWithStatusConverter.cs" />
     <Compile Include="Converters\VOrganisationCheckoutDiscountConverter.cs" />
@@ -818,6 +819,7 @@
     <Compile Include="Model\TargetFramework.VNotificationConstructGroup.cs" />
     <Compile Include="Model\TargetFramework.VNotificationInternalUnread.cs" />
     <Compile Include="Model\TargetFramework.VNotificationRecipientStatus.cs" />
+    <Compile Include="Model\TargetFramework.VNotificationViewOnlyUao.cs" />
     <Compile Include="Model\TargetFramework.VNotificationWithUAOVerificationCode.cs" />
     <Compile Include="Model\TargetFramework.VOrganisation.cs" />
     <Compile Include="Model\TargetFramework.VOrganisationBankAccountsWithStatus.cs" />

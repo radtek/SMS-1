@@ -340,15 +340,23 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
-		/// <param name="userId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetLatestInternalAsync(Guid userId,Int32 count);
+		Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count);
 
-		/// <param name="userId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId,Int32 count);
+		List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId);
 
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
@@ -361,12 +369,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
 
 		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
-		Task<Byte[]> GetNotificationContentAsync(Guid notificationId);
+		Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId);
 
 		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
-		Byte[] GetNotificationContent(Guid notificationId);
+		Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -2068,24 +2078,45 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetLatestInternalAsync(Guid userId,Int32 count)
+		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetLatestInternal?userId=" + userId + "&count=" + count, _user);
+			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetLatestInternal(Guid userId,Int32 count)
+		public virtual List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetLatestInternal?userId=" + userId + "&count=" + count, _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		public virtual List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetInternal?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
 		/// <summary>
@@ -2115,21 +2146,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="notificationId"></param>
+		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
-		public virtual Task<Byte[]> GetNotificationContentAsync(Guid notificationId)
+		public virtual Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId, _user);
+			return GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="notificationId"></param>
-		public virtual Byte[] GetNotificationContent(Guid notificationId)
+		/// <param name="userAccountOrganisationId"></param>
+		public virtual Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId, _user)).Result;
+			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
 		/// <summary>

@@ -582,7 +582,7 @@ namespace Bec.TargetFramework.Business.Logic
             var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
             var notificationDto = new BankAccountMarkedAsFraudSuspiciousNotificationDTO
             {
-                UserAccountOrganisationIds = userAccountOrganisationIds,
+                OrganisationId = bankAccount.OrganisationID ?? bankAccountStatusChangeRequest.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,
                 MarkedBy = markedBy.FullName,

@@ -388,6 +388,7 @@
         <File Name="TargetFramework.SmsTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.OrganisationBankAccountStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VOrganisationBankAccountsWithStatus.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VNotificationViewOnlyUao.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1155,6 +1156,8 @@
         <File Name="OrganisationBankAccountStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VOrganisationBankAccountsWithStatusDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VNotificationViewOnlyUaoDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VNotificationViewOnlyUaoDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1540,6 +1543,7 @@
         <File Name="SmsTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="OrganisationBankAccountStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VOrganisationBankAccountsWithStatusConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VNotificationViewOnlyUaoConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -2143,6 +2147,7 @@
       <Exclude Name="IsSent" Table="public.vNotificationRecipientStatus" Type="Column" />
       <Exclude Name="DateSent" Table="public.vNotificationRecipientStatus" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
+      <Exclude Name="DateSent" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="AcceptedDate" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="UserTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />

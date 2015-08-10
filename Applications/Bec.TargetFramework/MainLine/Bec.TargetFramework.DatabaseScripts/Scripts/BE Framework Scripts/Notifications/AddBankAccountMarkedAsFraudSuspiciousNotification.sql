@@ -458,15 +458,17 @@ INSERT INTO
   "ResourceDescription",
   "IsActive",
   "IsDeleted",
-  "ParentID"
+  "ParentID",
+  "ResourceTypeID"
 )
 VALUES (
   NcResID,
-  'BankAccountMarkedAsFraudSuspicious Notification',
-  'BankAccountMarkedAsFraudSuspicious Resource',
+  'BankAccountMarkedAsFraudSuspicious',
+  'BankAccountMarkedAsFraudSuspicious Notification Resource',
   true,
   false,
-  null
+  null,
+  123 -- Notification
 );
 
 -- Operations for Notification View/Edit/Send/Configure/MarkAsRead/MarkAsUnRead/Edit MUST EXIST FIRST
