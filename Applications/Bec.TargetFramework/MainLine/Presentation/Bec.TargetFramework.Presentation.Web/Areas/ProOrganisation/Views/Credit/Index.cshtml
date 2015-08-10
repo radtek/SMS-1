@@ -6,21 +6,27 @@
         <h2 class="row-seperator-header inline-heading">View Credit</h2>
         <a data-href="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Top Up Credit</a>
         <br />
-        <input type="date" id="from" />
-        <input type="date" id="to" />
-        <button onclick="applyFilter()">Filter</button>
 
-        <div class="pull-right">
-            <span>Opening Balance: </span>
-            <span id="openingBal"></span>
-            <span>&nbsp;Closing Balance: </span>
-            <span id="closingBal" style="margin-right:8px;"></span>
-        </div>
+        
 
         <div class="col-sm-12">
 
             <div class="row">
                 <div class="col-sm-12">
+                    <input type="date" id="from" />
+                    <input type="date" id="to" />
+                    <button onclick="applyFilter()">Filter</button>
+
+                    <div class="pull-right">
+                        <span>Opening Balance: </span>
+                        <span id="openingBal"></span>
+                        <span>&nbsp;Closing Balance: </span>
+                        <span id="closingBal" style="margin-right:8px;"></span>
+                    </div>
+
+                    <br />
+                    <br />
+
                     <div class="well">
                         <div id="statementGrid"></div>
                     </div>
@@ -124,7 +130,7 @@
 
         //data binding for the panes beneath each grid
         function txChange(dataItem) {
-            $("p#ddReference").text(dataItem.Reference || "");
+            $("p#ddReference").text(dataItem.InvoiceReference || "");
             $("p#ddAmount").text(dataItem.Balance || "");
             $("p#ddDate").text(dataItem.BalanceOn || "");
         }

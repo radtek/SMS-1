@@ -27,7 +27,7 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public TFSettingsLogicController Settings { get; set; }
         public ProductLogicController ProductLogic { get; set; }
-        public IEventPublishLogicClient EventPublishClient { get; set; }
+        public OrganisationLogicController orgLogic { get; set; }
 
         public PaymentLogicController()
         {
@@ -305,26 +305,7 @@ namespace Bec.TargetFramework.Business.Logic
                     var creditProd = ProductLogic.GetTopUpProduct();
                     foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
                     {
-                        //or just:
-                        //orgClient.AddCredit(transactionOrder.TransactionOrderID, cartItem.CustomerPrice.Value);
-
-                        var tempDto = new CreditTopUpEventDTO
-                        {
-                            TransactionOrderID = request.TransactionOrderID,
-                            Amount = cartItem.CustomerPrice.Value
-                        };
-
-                        var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-                        {
-                            EventName = "CreditTopUpEvent",
-                            EventSource = AppDomain.CurrentDomain.FriendlyName,
-                            EventReference = "",
-                            PayloadAsJson = JsonHelper.SerializeData(new object[] { tempDto })
-                        };
-
-                        //calling the async version of this currently breaks our ThreadStatic DbContext UoW scope
-                        EventPublishClient.PublishEvent(dto);
-                        
+                        await orgLogic.AddCreditAsync(request.TransactionOrderID, cartItem.CustomerPrice.Value);
                     }
                 }
 

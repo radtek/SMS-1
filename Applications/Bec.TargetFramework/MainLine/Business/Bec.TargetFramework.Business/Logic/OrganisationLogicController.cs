@@ -594,7 +594,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AddCredit(Guid transactionOrderID, decimal amount)
+        public async Task AddCreditAsync(Guid transactionOrderID, decimal amount)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {

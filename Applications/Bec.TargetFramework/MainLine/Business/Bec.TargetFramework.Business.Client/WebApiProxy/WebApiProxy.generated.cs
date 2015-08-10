@@ -2690,7 +2690,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task AddCreditAsync(Guid transactionOrderID,Decimal amount)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddCredit?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user);
 		}
 
 		/// <summary>
@@ -2701,7 +2701,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void AddCredit(Guid transactionOrderID,Decimal amount)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCredit?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user)).Wait();
 		}
 
 		/// <summary>
