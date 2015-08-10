@@ -79,7 +79,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username, EncodePassword(model.Password));
+                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username.Trim(), EncodePassword(model.Password.Trim()));
 
                 if (!loginValidationResult.valid)
                 {
@@ -111,12 +111,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(ua.ID);
 
             //take the first org for now, in time we may allow user to switch between associated orgs.
-            var org = orgs.First(x => x.OrganisationID.HasValue);
+            var org = orgs.First();
 
-            orgID = org.OrganisationID.Value;
+            orgID = org.OrganisationID;
             uaoID = org.UserAccountOrganisationID;
-            foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID.Value))
-                additionalClaims.Add(new Claim(item.Type, item.Value));
+                foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID))
+                    additionalClaims.Add(new Claim(item.Type, item.Value));
 
             if (orgID == null) throw new Exception("User not associated with any organisation");
             string orgName = olc.GetOrganisationDTO(orgID).Name;
@@ -133,7 +133,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(userId);
             foreach (var org in orgs)
             {
-                foreach (var item in await ulc.GetUserClaimsAsync(userId, org.OrganisationID.Value))
+                foreach (var item in await ulc.GetUserClaimsAsync(userId, org.OrganisationID))
                     claims.Add(new Claim(item.Type, item.Value));
             }
             return claims;

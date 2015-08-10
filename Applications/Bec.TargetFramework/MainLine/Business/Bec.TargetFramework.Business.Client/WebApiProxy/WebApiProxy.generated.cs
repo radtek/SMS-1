@@ -583,6 +583,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
 
+		/// <param name="currentOrgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="status"></param>
+		/// <param name="notes"></param>
+		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
 		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
@@ -592,22 +597,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active);
+		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID);
+		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -2691,7 +2690,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
+            return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
 		}
 
 		/// <summary>
@@ -2709,11 +2708,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
+		/// <param name="notes"></param>
 		/// <returns></returns>
-		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active)
+		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user);
 		}
 
 		/// <summary>
@@ -2722,31 +2723,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
 		/// <param name="active"></param>
-		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active)
+		/// <param name="notes"></param>
+		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes)
 		{
+			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<List<OrganisationRoleDTO>> GetAvailableRolesAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<OrganisationRoleDTO>>("api/OrganisationLogic/GetAvailableRoles?orgID=" + orgID, _user)).Result;
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion

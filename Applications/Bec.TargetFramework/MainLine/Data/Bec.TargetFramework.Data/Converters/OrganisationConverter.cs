@@ -49,9 +49,12 @@ namespace Bec.TargetFramework.Entities
             target.ParentOrganisationID = source.ParentOrganisationID;
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
+            target.CompanyPinCode = source.CompanyPinCode;
+            target.CompanyPinCreated = source.CompanyPinCreated;
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
+            target.PinAttempts = source.PinAttempts;
             target.RowVersion = source.RowVersion;
 
             // Navigation Properties
@@ -130,9 +133,12 @@ namespace Bec.TargetFramework.Entities
             target.ParentOrganisationID = source.ParentOrganisationID;
             target.IsPaymentProvider = source.IsPaymentProvider;
             target.PrimaryContactID = source.PrimaryContactID;
+            target.CompanyPinCode = source.CompanyPinCode;
+            target.CompanyPinCreated = source.CompanyPinCreated;
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
             target.ReturnUrl = source.ReturnUrl;
+            target.PinAttempts = source.PinAttempts;
             target.RowVersion = source.RowVersion;
 
             // User-defined partial method

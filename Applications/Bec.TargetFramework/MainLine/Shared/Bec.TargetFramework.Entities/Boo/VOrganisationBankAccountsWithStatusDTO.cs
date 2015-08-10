@@ -8,5 +8,8 @@ namespace Bec.TargetFramework.Entities
     {
         [DataMember]
         public List<OrganisationBankAccountStatusDTO> History { get; set; }
+
+        [DataMember]
+        public List<VOrganisationBankAccountsWithStatusDTO> Duplicates { get; set; }
     }
 }

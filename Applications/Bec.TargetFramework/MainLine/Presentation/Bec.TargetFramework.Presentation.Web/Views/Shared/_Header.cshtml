@@ -1,5 +1,4 @@
-﻿@using Bec.TargetFramework.Security
-@{
+﻿@{
     var currentUser = Bec.TargetFramework.Entities.WebUserHelper.GetWebUserObject(Context);
     var showNotifications =
         Request.IsAuthenticated &&
@@ -11,18 +10,20 @@
 <header id="header">
     <div id="logo-group">
         <span id="logo"><img src="~/Content/img/SMS Master Screen.png" /></span>
-        
         @{Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, showNotifications);}
-        @*@{ Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, ClaimsHelper.UserHasClaim("View", "Notification")); }*@
-
     </div>
+    @if (Request.IsAuthenticated)
+    {
+        <div style="margin-top: 2px;">
+            <h5>@Bec.TargetFramework.Entities.WebUserHelper.GetWebUserObject(Context).OrganisationName</h5>
+        </div>
+    }
+    <!-- projects dropdown -->
 
     <section id="top-right">
-
         <div class="pull-right">
             @Html.Partial("_TopRight")
         </div>
-
     </section>
 </header>
 <!-- END HEADER -->

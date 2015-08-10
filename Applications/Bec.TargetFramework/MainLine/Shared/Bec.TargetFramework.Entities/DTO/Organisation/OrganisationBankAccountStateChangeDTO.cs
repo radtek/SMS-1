@@ -19,6 +19,8 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string Notes { get; set; }
         [DataMember]
+        public bool KillDuplicates { get; set; }
+        [DataMember]
         public string DetailsUrl { get; set; }
     }
 } 

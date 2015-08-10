@@ -42,21 +42,21 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-        {
+                    {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                uao.UserAccount.IsLoginAllowed = false;
-                uao.PinCode = null;
+                        uao.UserAccount.IsLoginAllowed = false;
+                        uao.PinCode = null;
 
-                if (uao.Organisation != null)
-                {
-                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                        if (uao.Organisation != null)
+                        {
+                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
                     if (status != null && status.StatusTypeValueID == verifiedStatus.StatusTypeValueID)
-                        await ExpireOrganisationAsync(uao.OrganisationID);
-                }
+                                await ExpireOrganisationAsync(uao.OrganisationID);
+                        }
                 await scope.SaveAsync();
             }
         }
@@ -237,11 +237,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             string eventName = "TestEvent";
             switch (userType)
-            {
+        {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
-            }
+            }            
 
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
@@ -436,7 +436,7 @@ namespace Bec.TargetFramework.Business.Logic
                     address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
                     address.Name = String.Empty;
                     address.ParentID = txID;
-                    scope.DbContext.Addresses.Add(address); // TODO: erm, this doesn't appear to work
+                    scope.DbContext.Addresses.Add(address);
                 }
 
                 SmsTransaction tx = new SmsTransaction
@@ -446,8 +446,7 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID,
-                    CreatedOn = DateTime.Now
+                    TenureTypeID = dto.TenureTypeID
                 };
                 scope.DbContext.SmsTransactions.Add(tx);
                 await scope.SaveAsync();
@@ -460,13 +459,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                //TODO: tidy this up when OData sub-queries work
                 var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
-                foreach (var item in ret)
-                {
-                    item.History = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderBy(x => x.StatusChangedOn).ToDtos();
-                    foreach (var h in item.History) h.StatusName = scope.DbContext.VStatusTypes.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).Name;
-                }
+                PopulateBankAccountHistory(ret);
                 return ret;
             }
         }
@@ -475,16 +469,32 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
-                //TODO: tidy this up when OData sub-queries work
-                var safeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.Safe.GetStringValue());
+                var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
 
-                var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.IsActive && x.Status != safeStatus.Name).ToDtos();
-                foreach (var item in ret)
+                var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.IsActive && x.Status == s.Name).ToDtos();
+                PopulateBankAccountHistory(ret);
+                foreach (var account in ret)
                 {
-                    item.History = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderBy(x => x.StatusChangedOn).ToDtos();
-                    foreach (var h in item.History) h.StatusName = scope.DbContext.VStatusTypes.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).Name;
+                    account.Duplicates = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x =>
+                        x.OrganisationID != account.OrganisationID &&
+                        x.BankAccountNumber == account.BankAccountNumber &&
+                        x.SortCode == account.SortCode)
+                        .ToDtos();
+                    PopulateBankAccountHistory(account.Duplicates);
                 }
                 return ret;
+            }
+        }
+
+        private void PopulateBankAccountHistory(List<VOrganisationBankAccountsWithStatusDTO> accounts)
+        {
+            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            {
+                foreach (var item in accounts)
+                {
+                    item.History = scope.DbContext.OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderByDescending(x => x.StatusChangedOn).ToDtos();
+                    foreach (var h in item.History) h.StatusTypeValue = scope.DbContext.StatusTypeValues.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).ToDto();
+                }
             }
         }
 
@@ -493,7 +503,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var bankAccountStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
-
+                
                 var bankAccount = accountDTO.ToEntity();
                 bankAccount.OrganisationBankAccountID = Guid.NewGuid();
                 bankAccount.OrganisationID = orgID;
@@ -540,6 +550,27 @@ namespace Bec.TargetFramework.Business.Logic
                 };
 
                 await AddStatus(bankAccountAddStatus);
+
+                if (bankAccountStatusChangeRequest.KillDuplicates)
+                {
+                    statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PotentialFraud.GetStringValue());
+                    foreach (var dupe in scope.DbContext.OrganisationBankAccounts.Where(x => x.BankAccountNumber == bankAccount.BankAccountNumber && x.SortCode == bankAccount.SortCode && x.OrganisationBankAccountID != bankAccountStatusChangeRequest.BankAccountID))
+                    {
+                        var dupeBankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
+                        {
+                            OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                            BankAccountID = dupe.OrganisationBankAccountID,
+                            BankAccountOrganisationID = dupe.OrganisationID,
+                            StatusTypeID = statusType.StatusTypeID,
+                            StatusTypeVersionNumber = statusType.StatusTypeVersionNumber,
+                            StatusTypeValueID = statusType.StatusTypeValueID,
+                            Notes = "Pre-existing duplicate",
+                            WasActive = dupe.IsActive
+                        };
+                        await AddStatus(dupeBankAccountAddStatus);
+                    }
+                }
+
                 await scope.SaveAsync();
                 await AdditionalOperationForStatusChange(bankAccount, bankAccountStatusChangeRequest);
             }
@@ -602,8 +633,8 @@ namespace Bec.TargetFramework.Business.Logic
             await EventPublishClient.PublishEventAsync(dto);
         }
 
-        public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active)
-        {
+        public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active, string notes)
+                {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var bankAccount = scope.DbContext.OrganisationBankAccounts
@@ -630,7 +661,7 @@ namespace Bec.TargetFramework.Business.Logic
                 await AddStatus(bankAccountAddStatus);
                 await scope.SaveAsync();
             }
-        }
+                }
 
         private async Task AddStatus(OrganisationBankAccountAddStatusDTO bankAccountAddStatus)
         {
@@ -652,14 +683,6 @@ namespace Bec.TargetFramework.Business.Logic
                     WasActive = bankAccountAddStatus.WasActive
                 });
                 await scope.SaveAsync();
-            }
-        }
-
-        public List<OrganisationRoleDTO> GetAvailableRoles(Guid orgID)
-        {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
-            {
-                return scope.DbContext.OrganisationRoles.Where(x => x.OrganisationID == orgID).ToDtos();
             }
         }
 

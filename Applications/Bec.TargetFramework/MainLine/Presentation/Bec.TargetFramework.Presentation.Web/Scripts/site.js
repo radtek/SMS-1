@@ -295,7 +295,26 @@ function showHistory(selector, dataItem){
     $(selector).empty();
     for (var i = 0; i < dataItem.History.length; i++) {
         var h = dataItem.History[i];
-        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusName + ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>' + ' by ' + h.StatusChangedBy + '</div>';
+        var active = ' (' + (h.WasActive ? 'Active' : 'Inactive') + ')';
+        var notes = h.Notes == '' ? '' : ': "' + h.Notes + '"';
+        var item = '<div>' + dateString(h.StatusChangedOn) + ' ' + h.StatusTypeValue.Name + active + ' by ' + h.StatusChangedBy + notes + '</div>';
         $(selector).append(item);
+    }
+}
+
+function showDuplicates(selector, headingSelector, dataItem) {
+    $(selector).empty();
+    $(headingSelector).children().remove();
+    if (dataItem.Duplicates.length == 0) {
+        $(selector).append("<div>None</div>");
+    }
+    else {
+        $(headingSelector).append("<i class='fa fa-exclamation-triangle' style='color:red;'></i>");
+        for (var i = 0; i < dataItem.Duplicates.length; i++) {
+            var d = dataItem.Duplicates[i];
+            var active = ' (' + (d.IsActive ? 'Active' : 'Inactive') + ')';
+            var item = '<div>' + d.Name + ': ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
+            $(selector).append(item);
+        }
     }
 }

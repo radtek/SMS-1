@@ -548,7 +548,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
             {
-                var uaoEntry = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID.Value == personalOrgTypeID && s.UserID.Value == userID);
+                var uaoEntry = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID == personalOrgTypeID && s.UserID == userID);
                 return scope.DbContext.UserAccountOrganisations.Single(s => s.UserAccountOrganisationID == uaoEntry.UserAccountOrganisationID).ToDto();
             }
         }

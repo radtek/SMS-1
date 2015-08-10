@@ -127,7 +127,7 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Information("[UserAccountService.Update] called for account: {0}", account.ID);
 
-            account.LastUpdated = UtcNow;
+            account.LastUpdated = DateTime.Now;
 
             // Don't use Task.Factory! It will fail the unit tests
             //Task.Factory.StartNew(() =>
@@ -223,7 +223,7 @@ namespace BrockAllen.MembershipReboot
             var result = false;
             if (Configuration.forgottenUsernameLockoutFailedAttempts <= account.FailedForgotUsernameAttempts)
             {
-                result = account.LastForgotUsernameFailedAttempt >= UtcNow.Subtract(Configuration.forgottenUsernameLockoutDuration);
+                result = account.LastForgotUsernameFailedAttempt >= DateTime.Now.Subtract(Configuration.forgottenUsernameLockoutDuration);
             }
             if (result)
             {
@@ -239,7 +239,7 @@ namespace BrockAllen.MembershipReboot
             var result = false;
             if (Configuration.forgottenPasswordLockoutFailedAttempts <= account.FailedForgotPasswordAttempts)
             {
-                result = account.LastForgotPasswordFailedAttempt >= UtcNow.Subtract(Configuration.forgottenPasswordLockoutDuration);
+                result = account.LastForgotPasswordFailedAttempt >= DateTime.Now.Subtract(Configuration.forgottenPasswordLockoutDuration);
             }
             if (result)
             {
@@ -273,7 +273,7 @@ namespace BrockAllen.MembershipReboot
                 {
                     if (failed)
                     {
-                        account.LastForgotUsernameFailedAttempt = UtcNow;
+                        account.LastForgotUsernameFailedAttempt = DateTime.Now;
                         if (account.FailedForgotUsernameAttempts <= 0)
                             account.FailedForgotUsernameAttempts = 1;
                         else
@@ -288,7 +288,7 @@ namespace BrockAllen.MembershipReboot
                 {
                     if (failed)
                     {
-                        account.LastForgotPasswordFailedAttempt = UtcNow;
+                        account.LastForgotPasswordFailedAttempt = DateTime.Now;
                         if (account.FailedForgotPasswordAttempts <= 0)
                             account.FailedForgotPasswordAttempts = 1;
                         else
@@ -312,7 +312,7 @@ namespace BrockAllen.MembershipReboot
             var result = false;
             if (Configuration.forgottenUsernameLockoutFailedAttempts <= account.FailedForgotUsernameAttempts)
             {
-                result = account.LastForgotUsernameFailedAttempt >= UtcNow.Subtract(Configuration.forgottenUsernameLockoutDuration);
+                result = account.LastForgotUsernameFailedAttempt >= DateTime.Now.Subtract(Configuration.forgottenUsernameLockoutDuration);
             }
             if (result)
             {
@@ -331,7 +331,7 @@ namespace BrockAllen.MembershipReboot
             var result = false;
             if (Configuration.forgottenPasswordLockoutFailedAttempts <= account.FailedForgotPasswordAttempts)
             {
-                result = account.LastForgotPasswordFailedAttempt >= UtcNow.Subtract(Configuration.forgottenPasswordLockoutDuration);
+                result = account.LastForgotPasswordFailedAttempt >= DateTime.Now.Subtract(Configuration.forgottenPasswordLockoutDuration);
             }
             if (result)
             {
@@ -569,7 +569,7 @@ namespace BrockAllen.MembershipReboot
             account.Tenant = tenant;
             account.Username = username;
             account.Email = email;
-            account.Created = UtcNow;
+            account.Created = DateTime.Now;
             account.LastUpdated = account.Created;
             account.HashedPassword = password != null ?
                 Configuration.Crypto.HashPassword(password, this.Configuration.PasswordHashingIterationCount) : null;
@@ -1087,7 +1087,7 @@ namespace BrockAllen.MembershipReboot
             var result = false;
             if (Configuration.AccountLockoutFailedLoginAttempts <= account.FailedLoginCount + 1)
             {
-                result = account.LastFailedLogin >= UtcNow.Subtract(Configuration.AccountLockoutDuration);
+                result = account.LastFailedLogin >= DateTime.Now.Subtract(Configuration.AccountLockoutDuration);
                 
                 // This fixes a bug where after a 30min lock out has expired, we need to ensure we can do another 6 attempts.
                 if (!result)
@@ -1104,13 +1104,13 @@ namespace BrockAllen.MembershipReboot
 
         protected virtual void RecordSuccessfulLogin(UserAccount account)
         {
-            account.LastLogin = UtcNow;
+            account.LastLogin = DateTime.Now;
             account.FailedLoginCount = 0;
         }
 
         protected virtual void RecordInvalidLoginAttempt(UserAccount account)
         {
-            account.LastFailedLogin = UtcNow;
+            account.LastFailedLogin = DateTime.Now;
             if (account.FailedLoginCount <= 0)
             {
                 account.FailedLoginCount = 1;
@@ -1168,7 +1168,7 @@ namespace BrockAllen.MembershipReboot
 
             ClearMobileAuthCode(account);
 
-            account.LastLogin = UtcNow;
+            account.LastLogin = DateTime.Now;
             account.CurrentTwoFactorAuthStatus = (int)TwoFactorAuthMode.None;
 
             this.AddEvent(new SuccessfulTwoFactorAuthCodeLoginEvent<TAccount> { Account = account });
@@ -1240,7 +1240,7 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Verbose("[UserAccountService.Authenticate] cert: {0}", certificate.Thumbprint);
 
-            if (!(certificate.NotBefore < UtcNow && UtcNow < certificate.NotAfter))
+            if (!(certificate.NotBefore < DateTime.Now && DateTime.Now < certificate.NotAfter))
             {
                 Tracing.Error("[UserAccountService.Authenticate] failed -- invalid certificate dates");
                 this.AddEvent(new InvalidCertificateEvent<TAccount> { Account = account, Certificate = certificate });
@@ -1257,7 +1257,7 @@ namespace BrockAllen.MembershipReboot
 
             Tracing.Verbose("[UserAccountService.Authenticate] success");
 
-            account.LastLogin = UtcNow;
+            account.LastLogin = DateTime.Now;
             account.CurrentTwoFactorAuthStatus = (int)TwoFactorAuthMode.None;
 
             this.AddEvent(new SuccessfulCertificateLoginEvent<TAccount> { Account = account, UserCertificate = match, Certificate = certificate });
@@ -1563,7 +1563,7 @@ namespace BrockAllen.MembershipReboot
             }
 
             if (account.FailedPasswordResetCount >= Configuration.AccountLockoutFailedLoginAttempts &&
-                account.LastFailedPasswordReset >= UtcNow.Subtract(Configuration.AccountLockoutDuration))
+                account.LastFailedPasswordReset >= DateTime.Now.Subtract(Configuration.AccountLockoutDuration))
             {
                 account.FailedPasswordResetCount++;
 
@@ -1590,7 +1590,7 @@ namespace BrockAllen.MembershipReboot
 
             if (failed)
             {
-                account.LastFailedPasswordReset = UtcNow;
+                account.LastFailedPasswordReset = DateTime.Now;
                 if (account.FailedPasswordResetCount <= 0)
                 {
                     account.FailedPasswordResetCount = 1;
@@ -1831,7 +1831,7 @@ namespace BrockAllen.MembershipReboot
             ClearMobileAuthCode(account);
 
             account.MobilePhoneNumber = null;
-            account.MobilePhoneNumberChanged = UtcNow;
+            account.MobilePhoneNumberChanged = DateTime.Now;
 
             this.AddEvent(new MobilePhoneRemovedEvent<TAccount> { Account = account });
 
@@ -1909,7 +1909,7 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.ConfirmMobilePhoneNumberFromCode] success");
 
             account.MobilePhoneNumber = account.VerificationStorage;
-            account.MobilePhoneNumberChanged = UtcNow;
+            account.MobilePhoneNumberChanged = DateTime.Now;
 
             ClearVerificationKey(account);
             ClearMobileAuthCode(account);
@@ -1959,7 +1959,7 @@ namespace BrockAllen.MembershipReboot
                 return false;
             }
 
-            var now = UtcNow;
+            var now = DateTime.Now;
             var last = account.PasswordChanged.Value;
             var result = last.AddDays(Configuration.PasswordResetFrequency) <= now;
 
@@ -1974,7 +1974,7 @@ namespace BrockAllen.MembershipReboot
 
             account.VerificationKey = this.Configuration.Crypto.Hash(key);
             account.VerificationPurpose = (int)purpose;
-            account.VerificationKeySent = UtcNow;
+            account.VerificationKeySent = DateTime.Now;
             account.VerificationStorage = state;
 
             return key;
@@ -2024,7 +2024,7 @@ namespace BrockAllen.MembershipReboot
                 return true;
             }
 
-            if (account.VerificationKeySent < UtcNow.AddMinutes(-MembershipRebootConstants.UserAccount.VerificationKeyStaleDurationMinutes))
+            if (account.VerificationKeySent < DateTime.Now.AddMinutes(-MembershipRebootConstants.UserAccount.VerificationKeyStaleDurationMinutes))
             {
                 return true;
             }
@@ -2055,7 +2055,7 @@ namespace BrockAllen.MembershipReboot
             Tracing.Verbose("[UserAccountService.SetPassword] setting new password hash");
 
             account.HashedPassword = Configuration.Crypto.HashPassword(password, this.Configuration.PasswordHashingIterationCount);
-            account.PasswordChanged = UtcNow;
+            account.PasswordChanged = DateTime.Now;
             account.RequiresPasswordReset = false;
 
             this.AddEvent(new PasswordChangedEvent<UserAccount> { Account = account, NewPassword = password });
@@ -2107,7 +2107,7 @@ namespace BrockAllen.MembershipReboot
 
             string code = this.Configuration.Crypto.GenerateNumericCode(MembershipRebootConstants.UserAccount.MobileCodeLength);
             account.MobileCode = this.Configuration.Crypto.HashPassword(code, this.Configuration.PasswordHashingIterationCount);
-            account.MobileCodeSent = UtcNow;
+            account.MobileCodeSent = DateTime.Now;
 
             return code;
         }
@@ -2170,7 +2170,7 @@ namespace BrockAllen.MembershipReboot
                 return true;
             }
 
-            if (account.MobileCodeSent < UtcNow.AddMinutes(-duration))
+            if (account.MobileCodeSent < DateTime.Now.AddMinutes(-duration))
             {
                 return true;
             }
@@ -2362,7 +2362,7 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.CloseAccount] success");
 
                 account.IsAccountClosed = true;
-                account.AccountClosed = UtcNow;
+                account.AccountClosed = DateTime.Now;
 
                 this.AddEvent(new AccountClosedEvent<TAccount> { Account = account });
             }
@@ -2503,7 +2503,7 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.AddOrUpdateLinkedAccount] linked account added");
             }
 
-            linked.LastLogin = UtcNow;
+            linked.LastLogin = DateTime.Now;
 
             claims = claims ?? Enumerable.Empty<Claim>();
 
@@ -2693,7 +2693,7 @@ namespace BrockAllen.MembershipReboot
 
             var item = NewTwoFactorAuthToken();
             item.Token = this.Configuration.Crypto.Hash(value);
-            item.Issued = UtcNow;
+            item.Issued = DateTime.Now;
             account.TwoFactorAuthTokens.Add(item);
 
             this.AddEvent(new TwoFactorAuthenticationTokenCreatedEvent<TAccount> { Account = account, Token = value });
@@ -2719,7 +2719,7 @@ namespace BrockAllen.MembershipReboot
 
             token = this.Configuration.Crypto.Hash(token);
 
-            var expiration = UtcNow.AddDays(-MembershipRebootConstants.UserAccount.TwoFactorAuthTokenDurationDays);
+            var expiration = DateTime.Now.AddDays(-MembershipRebootConstants.UserAccount.TwoFactorAuthTokenDurationDays);
             var removequery =
                 from t in account.TwoFactorAuthTokens
                 where
@@ -2761,14 +2761,6 @@ namespace BrockAllen.MembershipReboot
             }
 
             Tracing.Verbose("[UserAccountService.RemoveTwoFactorAuthTokens] tokens removed: {0}", tokens.Length);
-        }
-
-        protected virtual DateTime UtcNow
-        {
-            get
-            {
-                return DateTime.UtcNow;
-            }
         }
 
         static readonly string[] UglyBase64 = { "+", "/", "=" };

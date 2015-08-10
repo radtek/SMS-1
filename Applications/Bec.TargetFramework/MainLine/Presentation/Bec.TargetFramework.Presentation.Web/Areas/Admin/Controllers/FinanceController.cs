@@ -30,13 +30,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status)
+        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? killDuplicates)
         {
             ViewBag.OrganisationBankAccountID = baID;
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
-            ViewBag.includeNotes = true;
+            ViewBag.killDuplicates = killDuplicates;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Finance";
             ViewBag.area = "Admin";
@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
+        public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes, bool? killDuplicates)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             var orgID = currentUser.OrganisationID;
@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 BankAccountID = baID,
                 BankAccountStatus = status,
                 Notes = notes,
+                KillDuplicates = killDuplicates ?? false,
                 ChangedByUserAccountOrganisationID = currentUser.UaoID,
                 DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };

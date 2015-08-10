@@ -1,4 +1,5 @@
-﻿using Devart.Data.PostgreSql;
+﻿using BodgeIt.TestDTOs;
+using Devart.Data.PostgreSql;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -95,7 +96,7 @@ namespace BodgeIt
                 using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
                 {
                     con.Open();
-                    runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\";");
+                    runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\"; delete from \"Address\";");
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security Categories.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Status.sql")));
@@ -250,8 +251,28 @@ namespace BodgeIt
             //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$select=Reference&$count=true"), HttpMethod.Get, "user", null);
             //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/SmsTransactions?$count=true"), HttpMethod.Get, "user", null);
 
-            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/Organisations?$select=OrganisationID&$top=1&$expand=OrganisationStatus($top=1;$orderby=StatusChangedBy;$select=StatusChangedBy)"), HttpMethod.Get, "user", null);
-            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationStatus?$select=OrganisationID,StatusChangedBy&$orderby=StatusChangedBy"), HttpMethod.Get, "user", null);
+            //var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationBankAccounts?$select=OrganisationBankAccountID&$expand=OrganisationBankAccountStatus($select=StatusChangedBy,StatusChangedOn,Notes,WasActive;$expand=StatusTypeValue($select=Name,Description))"), HttpMethod.Get, "user", null);
+
+            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new
+            {
+                x.OrganisationBankAccountID,
+                x.BankAccountNumber,
+                x.SortCode,
+                x.Created,
+                a = x.OrganisationBankAccountStatus.Select(status => new
+                {
+                    status.StatusChangedBy,
+                    status.StatusChangedOn,
+                    status.Notes,
+                    status.WasActive,
+                    status.StatusTypeValue.Name
+                })
+            });
+
+            var r = await SendAsync<object>(client, string.Format("api/QueryLogic/Get/OrganisationBankAccounts?" + select), HttpMethod.Get, "user", null);
+
+            //var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID);
+            
             var s = await r.Content.ReadAsStringAsync();
             JObject j = JObject.Parse(s);
             MessageBox.Show(r.StatusCode + Environment.NewLine + j.ToString());

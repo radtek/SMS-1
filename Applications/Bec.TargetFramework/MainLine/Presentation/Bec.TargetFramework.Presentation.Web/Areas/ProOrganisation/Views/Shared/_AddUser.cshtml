@@ -56,11 +56,11 @@
 
                                 <section>
                                     <label class="label">Roles</label>
-                                    
+                                    <input type="hidden" name="rolecheck" id="rolecheck" />
                                     @foreach (OrganisationRoleDTO role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" />
+                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" class="role-checkbox" onclick="countRoles()" />
                                             <i></i>
                                             <label for="role-@role.OrganisationRoleID">@role.RoleName</label>
                                         </label>
@@ -86,6 +86,15 @@
 </div>
 
 <script type="text/javascript">
+
+    function countRoles() {
+        var c =0;
+        $('.role-checkbox').each(function (i, item) {
+            if ($(item).prop('checked')) c++;
+        });
+        $('#rolecheck').val(c);
+    }
+
     // submit from when Save button clicked
     $("#submitAddUser").click(function () {
         $("#addUser-form").submit();
@@ -104,7 +113,14 @@
             EmailAddress1: {
                 required: true,
                 email: true
+            },
+            rolecheck: {
+                required:true,
+                min:1
             }
+        },
+        messages: {
+            rolecheck: 'Please select one or more roles'
         },
 
         // Do not change code below

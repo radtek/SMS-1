@@ -60,20 +60,14 @@
 
                                 <section>
                                     <label class="label">Roles</label>
+                                    <input type="hidden" name="rolecheck" id="rolecheck" />
                                     @foreach (var role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            @if (role.Value.Item2)
-                                            {
-                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" checked="checked" />
-                                            }
-                                            else
-                                            {
-                                                <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected" />
-                                            }
-                                            <input name="Model.UserAccountOrganisationRoles[@role.Value.Item1].OrganisationRoleID" type="hidden" value="@role.Key.OrganisationRoleID" />
+                                            <input type="checkbox" name="Model.UserAccountOrganisationRoles[@role.Item1].Selected" id="Model.UserAccountOrganisationRoles[@role.Item1].Selected" @role.Item2 @role.Item3 class="role-checkbox" onclick="countRoles()" />
+                                            <input name="Model.UserAccountOrganisationRoles[@role.Item1].OrganisationRoleID" type="hidden" value="@role.Item4" />
                                             <i></i>
-                                            <label for="Model.UserAccountOrganisationRoles[@role.Value.Item1].Selected">@role.Key.RoleName</label>
+                                            <label for="Model.UserAccountOrganisationRoles[@role.Item1].Selected">@role.Item5</label>
                                         </label>
                                     }
 
@@ -97,6 +91,15 @@
 </div>
 
 <script type="text/javascript">
+
+    function countRoles() {
+        var c = 0;
+        $('.role-checkbox').each(function (i, item) {
+            if ($(item).prop('checked')) c++;
+        });
+        $('#rolecheck').val(c);
+    }
+
     // submit from when Save button clicked
     $("#submitEditUser").click(function () {
         $("#editUser-form").submit();
@@ -115,7 +118,14 @@
             EmailAddress1: {
                 required: true,
                 email: true
+            },
+            rolecheck: {
+                required: true,
+                min: 1
             }
+        },
+        messages: {
+            rolecheck: 'Please select one or more roles'
         },
 
         // Do not change code below

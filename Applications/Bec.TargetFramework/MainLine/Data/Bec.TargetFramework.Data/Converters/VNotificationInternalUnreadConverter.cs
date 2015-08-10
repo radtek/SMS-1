@@ -36,7 +36,6 @@ namespace Bec.TargetFramework.Entities
             target.NotificationConstructID = source.NotificationConstructID;
             target.NotificationConstructVersionNumber = source.NotificationConstructVersionNumber;
             target.Name = source.Name;
-            target.NotificationSubject = source.NotificationSubject;
             target.UserID = source.UserID;
 
             // User-defined partial method
@@ -60,7 +59,6 @@ namespace Bec.TargetFramework.Entities
             target.NotificationConstructID = source.NotificationConstructID;
             target.NotificationConstructVersionNumber = source.NotificationConstructVersionNumber;
             target.Name = source.Name;
-            target.NotificationSubject = source.NotificationSubject;
             target.UserID = source.UserID;
 
             // User-defined partial method

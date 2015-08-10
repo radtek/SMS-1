@@ -68,7 +68,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
                 else
                     Serilog.Log.Logger.Error(ex, ex.Message, null);
 
-                OnStop();
+                Stop();
             }
         }
 

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationLedgerAccountDTO() {
         }
 
-        public OrganisationLedgerAccountDTO(global::System.Guid organisationLedgerAccountID, int ledgerAccountTypeID, global::System.Nullable<int> ledgerAccountCategoryID, string name, string description, global::System.Nullable<System.Guid> parentID, global::System.DateTime createdOn, string createdBy, decimal balance, global::System.Nullable<System.DateTime> updatedOn, bool handlesCredit, bool handlesDebit, global::System.Nullable<System.DateTime> openedOn, global::System.Nullable<System.DateTime> closedOn, global::System.Guid organisationID, bool isActive, int accountingTypeID, bool isPrimaryAccount, bool isDeleted, List<UserAccountLedgerAccountDTO> userAccountLedgerAccounts, List<LedgerAccountTransactionDTO> ledgerAccountTransactions, List<LedgerAccountBalanceDTO> ledgerAccountBalances, OrganisationDTO organisation) {
+        public OrganisationLedgerAccountDTO(global::System.Guid organisationLedgerAccountID, int ledgerAccountTypeID, global::System.Nullable<int> ledgerAccountCategoryID, string name, string description, global::System.Nullable<System.Guid> parentID, global::System.DateTime createdOn, string createdBy, decimal balance, global::System.Nullable<System.DateTime> updatedOn, bool handlesCredit, bool handlesDebit, global::System.Nullable<System.DateTime> openedOn, global::System.Nullable<System.DateTime> closedOn, global::System.Guid organisationID, bool isActive, int accountingTypeID, bool isPrimaryAccount, bool isDeleted, global::System.Nullable<long> rowVersion, List<UserAccountLedgerAccountDTO> userAccountLedgerAccounts, List<LedgerAccountBalanceDTO> ledgerAccountBalances, OrganisationDTO organisation) {
 
           this.OrganisationLedgerAccountID = organisationLedgerAccountID;
           this.LedgerAccountTypeID = ledgerAccountTypeID;
@@ -43,8 +43,8 @@ namespace Bec.TargetFramework.Entities
           this.AccountingTypeID = accountingTypeID;
           this.IsPrimaryAccount = isPrimaryAccount;
           this.IsDeleted = isDeleted;
+          this.RowVersion = rowVersion;
           this.UserAccountLedgerAccounts = userAccountLedgerAccounts;
-          this.LedgerAccountTransactions = ledgerAccountTransactions;
           this.LedgerAccountBalances = ledgerAccountBalances;
           this.Organisation = organisation;
         }
@@ -110,15 +110,15 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public bool IsDeleted { get; set; }
 
+        [DataMember]
+        public global::System.Nullable<long> RowVersion { get; set; }
+
         #endregion
 
         #region Navigation Properties
 
         [DataMember]
         public List<UserAccountLedgerAccountDTO> UserAccountLedgerAccounts { get; set; }
-
-        [DataMember]
-        public List<LedgerAccountTransactionDTO> LedgerAccountTransactions { get; set; }
 
         [DataMember]
         public List<LedgerAccountBalanceDTO> LedgerAccountBalances { get; set; }

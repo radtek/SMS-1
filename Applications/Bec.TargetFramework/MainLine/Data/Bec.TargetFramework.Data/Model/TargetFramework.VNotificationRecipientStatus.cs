@@ -38,26 +38,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for NotificationID in the schema.
-        /// </summary>
-        public virtual global::System.Guid NotificationID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for NotificationStatusID in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<int> NotificationStatusID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for NotificationConstructID in the schema.
         /// </summary>
         public virtual global::System.Guid NotificationConstructID
@@ -100,7 +80,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for DateSent in the schema.
         /// </summary>
-        public virtual global::System.DateTime DateSent
+        public virtual global::System.Nullable<System.DateTime> DateSent
         {
             get;
             set;
@@ -110,7 +90,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for IsSent in the schema.
         /// </summary>
-        public virtual bool IsSent
+        public virtual global::System.Nullable<bool> IsSent
         {
             get;
             set;
@@ -118,39 +98,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for IsActive in the schema.
+        /// There are no comments for DateRead in the schema.
         /// </summary>
-        public virtual bool IsActive
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for IsDeleted in the schema.
-        /// </summary>
-        public virtual bool IsDeleted
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for IsAccepted in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<bool> IsAccepted
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for AcceptedDate in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> AcceptedDate
+        public virtual global::System.Nullable<System.DateTime> DateRead
         {
             get;
             set;
@@ -181,26 +131,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ErrorOccured in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> ErrorOccured
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for SentOn in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> SentOn
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for NotificationVerificationCode in the schema.
-        /// </summary>
-        public virtual string NotificationVerificationCode
         {
             get;
             set;

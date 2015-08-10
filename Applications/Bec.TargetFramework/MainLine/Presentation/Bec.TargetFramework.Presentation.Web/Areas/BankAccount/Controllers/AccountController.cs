@@ -3,7 +3,9 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,9 +17,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index(Guid? selectedBankAccountId, bool? showmessage)
+        public ActionResult Index(Guid? selectedBankAccountId)
         {
-            ViewBag.showmessage = showmessage;
             TempData["OrganisationBankAccountID"] = selectedBankAccountId;
             return View();
         }
@@ -25,12 +26,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> GetBankAccounts()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            //var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID, x.BankAccountNumber, x.SortCode, x.Created });
-            //var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID);
-
-            //JObject res = await queryClient.QueryAsync("OrganisationBankAccounts", Request.QueryString + select + filter);
-            //return Content(res.ToString(Formatting.None), "application/json");
-
             var list = await orgClient.GetOrganisationBankAccountsAsync(orgID);
             
             var jsonData = new { total = list.Count, list };
@@ -48,16 +43,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             TempData["OrganisationBankAccountID"] = await orgClient.AddBankAccountAsync(orgID, dto);
-            return RedirectToAction("Index", new { showmessage = true });
+            TempData["ShowMessage"] = true;
+            return RedirectToAction("Index");
         }
 
-        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status, bool? includeNotes)
+        public ActionResult ViewStatus(Guid baID, string title, string message, BankAccountStatusEnum status)
         {
             ViewBag.OrganisationBankAccountID = baID;
             ViewBag.title = title;
             ViewBag.message = message;
             ViewBag.status = status;
-            ViewBag.includeNotes = includeNotes;
             ViewBag.action = "AddStatus";
             ViewBag.controller = "Account";
             ViewBag.area = "BankAccount";
@@ -76,6 +71,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 BankAccountID = baID,
                 BankAccountStatus = status,
                 Notes = notes,
+                KillDuplicates = false,
                 ChangedByUserAccountOrganisationID = currentUser.UaoID,
                 DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };
@@ -97,12 +93,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             return PartialView("_AddStatus");
         }
         [HttpPost]
-        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive)
+        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive);
+            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive, notes);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID });
+            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
+            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+
+            if (accounts.Any())
+                return Json("This account number and sort code have already been entered", JsonRequestBehavior.AllowGet);
+            else
+                return Json("true", JsonRequestBehavior.AllowGet);
         }
     }
 }

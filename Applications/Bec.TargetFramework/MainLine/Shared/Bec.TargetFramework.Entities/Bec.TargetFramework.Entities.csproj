@@ -583,9 +583,6 @@
     </Compile>
     <Compile Include="Boo\LedgerAccountDTO.cs" />
     <Compile Include="Boo\LedgerAccountTransactionDTO.cs" />
-    <Compile Include="Boo\LedgerAccountTransactionDTO.Generated.cs">
-      <DependentUpon>LedgerAccountTransactionDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\LegalOrganisationDetailDTO.cs" />
     <Compile Include="Boo\LegalOrganisationDetailDTO.Generated.cs">
       <DependentUpon>LegalOrganisationDetailDTO.cs</DependentUpon>
@@ -1621,12 +1618,6 @@
     <Compile Include="Boo\VOrganisationCheckoutDiscountDTO.Generated.cs">
       <DependentUpon>VOrganisationCheckoutDiscountDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\VOrganisationClaimDTO.Generated.cs">
-      <DependentUpon>VOrganisationClaimDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VOrganisationComplianceOfficerDTO.Generated.cs">
-      <DependentUpon>VOrganisationComplianceOfficerDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VOrganisationDetailDTO.Generated.cs">
       <DependentUpon>VOrganisationDetailDTO.cs</DependentUpon>
     </Compile>
@@ -1635,6 +1626,10 @@
     </Compile>
     <Compile Include="Boo\VOrganisationFinancialStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationFinancialStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.cs" />
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.Generated.cs">
+      <DependentUpon>VOrganisationLedgerTransactionBalanceDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VOrganisationPaymentMethodStatusDTO.Generated.cs">
       <DependentUpon>VOrganisationPaymentMethodStatusDTO.cs</DependentUpon>
@@ -1699,9 +1694,6 @@
     </Compile>
     <Compile Include="Boo\VUserStatusDTO.Generated.cs">
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VUserWorkflowInstanceStatusDTO.Generated.cs">
-      <DependentUpon>VUserWorkflowInstanceStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />

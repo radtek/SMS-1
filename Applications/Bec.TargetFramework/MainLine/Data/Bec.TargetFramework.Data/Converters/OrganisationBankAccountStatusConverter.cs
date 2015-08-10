@@ -41,8 +41,8 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.OrganisationBankAccount = source.OrganisationBankAccount.ToDtoWithRelated(level - 1);
-              target.StatusType = source.StatusType.ToDtoWithRelated(level - 1);
               target.StatusTypeValue = source.StatusTypeValue.ToDtoWithRelated(level - 1);
+              target.StatusType = source.StatusType.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

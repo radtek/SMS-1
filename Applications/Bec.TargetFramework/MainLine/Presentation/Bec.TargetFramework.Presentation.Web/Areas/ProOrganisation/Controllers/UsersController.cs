@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             }, true);
 
             var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+                !x.UserAccount.IsDeleted &&
                 x.OrganisationID == orgID &&
                 x.UserAccount.IsTemporaryAccount == temporary &&
                 x.UserAccount.IsLoginAllowed == loginAllowed);
@@ -73,7 +74,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> ViewAddUser()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            ViewBag.roles = await orgClient.GetAvailableRolesAsync(orgID);
+            var select = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName });
+            var filter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID);
+            ViewBag.roles = await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", select + filter);
             return PartialView("_AddUser");
         }
 
@@ -146,6 +149,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
         public async Task<ActionResult> ViewEditUser(Guid uaoID)
         {
+            ViewBag.uaoID = uaoID;
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
@@ -156,17 +160,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.Contact.FirstName,
                 x.Contact.LastName
             }, true);
-
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-
             var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", Request.QueryString + select + filter);
 
-            ViewBag.uaoID = uaoID;
-            
-            var allRoles = await orgClient.GetAvailableRolesAsync(orgID);
+            var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
+            var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID);
+            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter)).ToList();
+
             var userRoles = userClient.GetRoles(uaoID);
-            int i = 0;
-            ViewBag.Roles = allRoles.ToDictionary(k => k, v => Tuple.Create(i++, userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID)));
+
+            var r = new List<Tuple<int, string, string, Guid, string>>();
+            for (int i = 0; i < allRoles.Count; i++)
+            {
+                var v = allRoles[i];
+                bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
+                bool disabled = check && v.RoleName == "Organisation Administrator" && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "disabled" : "", v.OrganisationRoleID, v.RoleName));
+            }
+            ViewBag.Roles = r;
 
             return PartialView("_EditUser", Edit.MakeModel(res.First()));
         }

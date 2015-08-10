@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VUserAccountOrganisationUserTypeOrganisationTypeDTO() {
         }
 
-        public VUserAccountOrganisationUserTypeOrganisationTypeDTO(global::System.Guid userAccountOrganisationID, global::System.Nullable<System.Guid> userID, global::System.Nullable<System.Guid> userTypeID, string userType, global::System.Nullable<System.Guid> organisationID, global::System.Nullable<int> organisationTypeID, string organisationType) {
+        public VUserAccountOrganisationUserTypeOrganisationTypeDTO(global::System.Guid userAccountOrganisationID, global::System.Guid userID, global::System.Guid userTypeID, string userType, global::System.Guid organisationID, int organisationTypeID, string organisationType) {
 
           this.UserAccountOrganisationID = userAccountOrganisationID;
           this.UserID = userID;
@@ -41,19 +41,19 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid UserAccountOrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> UserID { get; set; }
+        public global::System.Guid UserID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> UserTypeID { get; set; }
+        public global::System.Guid UserTypeID { get; set; }
 
         [DataMember]
         public string UserType { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> OrganisationID { get; set; }
+        public global::System.Guid OrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<int> OrganisationTypeID { get; set; }
+        public int OrganisationTypeID { get; set; }
 
         [DataMember]
         public string OrganisationType { get; set; }

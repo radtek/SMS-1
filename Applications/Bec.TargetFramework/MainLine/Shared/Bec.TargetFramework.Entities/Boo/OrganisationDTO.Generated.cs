@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationDTO() {
         }
 
-        public OrganisationDTO(global::System.Guid organisationID, int organisationTypeID, global::System.Nullable<int> organisationSubTypeID, global::System.Nullable<int> organisationCategoryID, bool isBranch, bool isHeadOffice, bool isActive, bool isDeleted, bool isUserOrganisation, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<int> organisationSubCategoryID, global::System.Guid defaultOrganisationID, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> parentOrganisationID, global::System.Nullable<bool> isPaymentProvider, global::System.Nullable<System.Guid> primaryContactID, global::System.Nullable<bool> isCompanyVerified, global::System.Nullable<bool> isCompanyPinCreated, string returnUrl, global::System.Nullable<long> rowVersion, ContactDTO contact, DefaultOrganisationDTO defaultOrganisation, OrganisationTypeDTO organisationType, List<AttachmentDetailDTO> attachmentDetails, List<DiscountDTO> discounts, List<InvoiceDTO> invoices, List<OrganisationInsuranceDetailDTO> organisationInsuranceDetails, List<NotificationConstructTemplateDTO> notificationConstructTemplates, List<OrganisationDetailDTO> organisationDetails, List<OrganisationLedgerAccountDTO> organisationLedgerAccounts, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationBankAccountDTO> organisationBankAccounts, List<OrganisationAccountingPeriodDTO> organisationAccountingPeriods, List<OrganisationArtefactDTO> organisationArtefacts, List<OrganisationDiscountDTO> organisationDiscounts, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationStatusDTO> organisationStatus, List<OrganisationTradingNameDTO> organisationTradingNames, List<OrganisationRoleDTO> organisationRoles, List<OrganisationSettingDTO> organisationSettings, List<OrganisationStructureDTO> organisationStructures, List<OrganisationProductPurchaseDTO> organisationProductPurchases, List<OrganisationPlanSubscriptionDTO> organisationPlanSubscriptions, List<OrganisationShoppingCartBlueprintDTO> organisationShoppingCartBlueprints, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<OrganisationTeamDTO> organisationTeams, List<OrganisationUserTypeDTO> organisationUserTypes, List<PlanSubscriptionDTO> planSubscriptions, List<ShoppingCartDTO> shoppingCarts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationUnitDTO> organisationUnits, List<OrganisationUnitStructureDTO> organisationUnitStructures, List<AccountDTO> accounts_ContactOrganisationID, List<AccountDTO> accounts_ParentOrganisationID, List<OrganisationGroupDTO> organisationGroups, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<SmsTransactionDTO> smsTransactions) {
+        public OrganisationDTO(global::System.Guid organisationID, int organisationTypeID, global::System.Nullable<int> organisationSubTypeID, global::System.Nullable<int> organisationCategoryID, bool isBranch, bool isHeadOffice, bool isActive, bool isDeleted, bool isUserOrganisation, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<int> organisationSubCategoryID, global::System.Guid defaultOrganisationID, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> parentOrganisationID, global::System.Nullable<bool> isPaymentProvider, global::System.Nullable<System.Guid> primaryContactID, string companyPinCode, global::System.Nullable<System.DateTime> companyPinCreated, global::System.Nullable<bool> isCompanyVerified, global::System.Nullable<bool> isCompanyPinCreated, string returnUrl, short pinAttempts, global::System.Nullable<long> rowVersion, ContactDTO contact, DefaultOrganisationDTO defaultOrganisation, OrganisationTypeDTO organisationType, List<AttachmentDetailDTO> attachmentDetails, List<DiscountDTO> discounts, List<InvoiceDTO> invoices, List<OrganisationInsuranceDetailDTO> organisationInsuranceDetails, List<NotificationConstructTemplateDTO> notificationConstructTemplates, List<OrganisationDetailDTO> organisationDetails, List<OrganisationLedgerAccountDTO> organisationLedgerAccounts, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationBankAccountDTO> organisationBankAccounts, List<OrganisationAccountingPeriodDTO> organisationAccountingPeriods, List<OrganisationArtefactDTO> organisationArtefacts, List<OrganisationDiscountDTO> organisationDiscounts, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationStatusDTO> organisationStatus, List<OrganisationTradingNameDTO> organisationTradingNames, List<OrganisationRoleDTO> organisationRoles, List<OrganisationSettingDTO> organisationSettings, List<OrganisationStructureDTO> organisationStructures, List<OrganisationProductPurchaseDTO> organisationProductPurchases, List<OrganisationPlanSubscriptionDTO> organisationPlanSubscriptions, List<OrganisationShoppingCartBlueprintDTO> organisationShoppingCartBlueprints, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<OrganisationTeamDTO> organisationTeams, List<OrganisationUserTypeDTO> organisationUserTypes, List<PlanSubscriptionDTO> planSubscriptions, List<ShoppingCartDTO> shoppingCarts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationUnitDTO> organisationUnits, List<OrganisationUnitStructureDTO> organisationUnitStructures, List<AccountDTO> accounts_ContactOrganisationID, List<AccountDTO> accounts_ParentOrganisationID, List<OrganisationGroupDTO> organisationGroups, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<SmsTransactionDTO> smsTransactions) {
 
           this.OrganisationID = organisationID;
           this.OrganisationTypeID = organisationTypeID;
@@ -44,9 +44,12 @@ namespace Bec.TargetFramework.Entities
           this.ParentOrganisationID = parentOrganisationID;
           this.IsPaymentProvider = isPaymentProvider;
           this.PrimaryContactID = primaryContactID;
+          this.CompanyPinCode = companyPinCode;
+          this.CompanyPinCreated = companyPinCreated;
           this.IsCompanyVerified = isCompanyVerified;
           this.IsCompanyPinCreated = isCompanyPinCreated;
           this.ReturnUrl = returnUrl;
+          this.PinAttempts = pinAttempts;
           this.RowVersion = rowVersion;
           this.Contact = contact;
           this.DefaultOrganisation = defaultOrganisation;
@@ -153,6 +156,12 @@ namespace Bec.TargetFramework.Entities
         public global::System.Nullable<System.Guid> PrimaryContactID { get; set; }
 
         [DataMember]
+        public string CompanyPinCode { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> CompanyPinCreated { get; set; }
+
+        [DataMember]
         public global::System.Nullable<bool> IsCompanyVerified { get; set; }
 
         [DataMember]
@@ -160,6 +169,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string ReturnUrl { get; set; }
+
+        [DataMember]
+        public short PinAttempts { get; set; }
 
         [DataMember]
         public global::System.Nullable<long> RowVersion { get; set; }

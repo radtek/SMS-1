@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -59,28 +60,50 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
         public static string Select<T>(Expression<Func<T, object>> expression, bool includeRowVersions = false)
         {
             Result r = new Result();
-            var nx = expression.Body as NewExpression;
+            makeNewExpression(expression.Body as NewExpression, r);
+            return r.ToODataString(includeRowVersions);
+        }
+
+        private static void makeNewExpression(NewExpression nx, Result r)
+        {
             foreach (var x in nx.Arguments)
             {
-                MemberExpression mx = x as MemberExpression;
-                MemberExpression m = mx.Expression as MemberExpression;
-                Stack<string> s = new Stack<string>();
-                while (m != null)
+                MethodCallExpression sel = x as MethodCallExpression;
+                if (sel != null)
+                    subSelect(sel, r);
+                else
                 {
-                    s.Push(m.Member.Name);
-                    m = m.Expression as MemberExpression;
-                }
+                    MemberExpression mx = x as MemberExpression;
+                    MemberExpression m = mx.Expression as MemberExpression;
 
-                Result level = r;
-                while (s.Count > 0)
-                {
-                    string ex = s.Pop();
-                    if (!level.Expand.ContainsKey(ex)) level.Expand.Add(ex, new Result());
-                    level = level.Expand[ex];
+                    Stack<string> s = new Stack<string>();
+                    while (m != null)
+                    {
+                        s.Push(m.Member.Name);
+                        m = m.Expression as MemberExpression;
+                    }
+
+                    Result level = r;
+                    while (s.Count > 0)
+                    {
+                        string ex = s.Pop();
+                        if (!level.Expand.ContainsKey(ex)) level.Expand.Add(ex, new Result());
+                        level = level.Expand[ex];
+                    }
+                    level.Select.Add(mx.Member.Name);
                 }
-                level.Select.Add(mx.Member.Name);
             }
-            return r.ToODataString(includeRowVersions);
+        }
+
+        private static void subSelect(MethodCallExpression sel, Result r)
+        {
+            MemberExpression prop = sel.Arguments[0] as MemberExpression;
+            LambdaExpression temp = sel.Arguments[1] as LambdaExpression;
+
+            if (!r.Expand.ContainsKey(prop.Member.Name)) r.Expand.Add(prop.Member.Name, new Result());
+            r = r.Expand[prop.Member.Name];
+
+            makeNewExpression(temp.Body as NewExpression, r);
         }
 
         //create an expression to use with Expression.And etc
@@ -169,7 +192,9 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             else if (ex is UnaryExpression)
             {
                 var ux = ex as UnaryExpression;
-                return pre(ux.Operand);
+                var ret = pre(ux.Operand);
+                if (ux.NodeType == ExpressionType.Not) ret += " eq false";
+                return ret;
             }
             return "";
         }
@@ -199,7 +224,7 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 case ExpressionType.GreaterThan: return "gt";
                 case ExpressionType.GreaterThanOrEqual: return "ge";
                 case ExpressionType.Increment: return "add";
-                case ExpressionType.IsFalse: return "eg false";
+                case ExpressionType.IsFalse: return "eq false";
                 case ExpressionType.IsTrue: return "eq true";
                 case ExpressionType.LessThan: return "lt";
                 case ExpressionType.LessThanOrEqual: return "le";
@@ -237,6 +262,17 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                 if (m.Name == "Ceiling") return "ceiling";
             }
             return null;
+        }
+
+        internal static JArray SortArray(JArray jArray, string property, bool desc)
+        {
+            JArray ret = new JArray();
+            var ordered = desc ?
+                jArray.OrderByDescending(x => x[property]) :
+                jArray.OrderBy(x => x[property]);
+
+            foreach (var item in ordered) ret.Add(item);
+            return ret;
         }
     }
 }
