@@ -1708,27 +1708,6 @@
       <Exclude Name="name" Table="public.vClassification" Type="Column" />
       <Exclude Name="ClassificationTypeCategoryID" Table="public.vClassification" Type="Column" />
       <Exclude Name="categoryname" Table="public.vClassification" Type="Column" />
-      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyRecordCreated" Table="public.vCompany" Type="Column" />
-      <Exclude Name="IsCompanyVerified" Table="public.vCompany" Type="Column" />
-      <Exclude Name="IsCompanyPinCreated" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyPinCode" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyPinCreated" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminTitle" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminFirstName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminLastName" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminTel" Table="public.vCompany" Type="Column" />
-      <Exclude Name="SystemAdminEmail" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyRegulator" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyOtherRegulator" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyAddress1" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyAddress2" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyTownCity" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyCounty" Table="public.vCompany" Type="Column" />
-      <Exclude Name="CompanyPostCode" Table="public.vCompany" Type="Column" />
-      <Exclude Name="AdditionalAddressInformation" Table="public.vCompany" Type="Column" />
-      <Exclude Name="ReturnUrl" Table="public.vCompany" Type="Column" />
       <Exclude Name="ParentID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="OrganisationID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="CreatedOn" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
@@ -1780,7 +1759,6 @@
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
-      <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />

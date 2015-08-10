@@ -9536,8 +9536,6 @@
           <Property Name="CompanyRecordCreated" Type="timestamptz" />
           <Property Name="IsCompanyVerified" Type="boolean" />
           <Property Name="IsCompanyPinCreated" Type="boolean" />
-          <Property Name="CompanyPinCode" Type="varchar" MaxLength="40" />
-          <Property Name="CompanyPinCreated" Type="timestamptz" />
           <Property Name="SystemAdminTitle" Type="varchar" MaxLength="100" />
           <Property Name="SystemAdminFirstName" Type="varchar" MaxLength="100" />
           <Property Name="SystemAdminLastName" Type="varchar" MaxLength="100" />
@@ -9577,12 +9575,9 @@
           <Property Name="ParentOrganisationID" Type="uuid" />
           <Property Name="IsPaymentProvider" Type="boolean" DefaultValue="false" />
           <Property Name="PrimaryContactID" Type="uuid" />
-          <Property Name="CompanyPinCode" Type="varchar" MaxLength="40" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="CompanyPinCreated" Type="timestamptz" />
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
           <Property Name="IsCompanyPinCreated" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="PinAttempts" Type="smallint" Nullable="false" DefaultValue="0" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
@@ -28265,8 +28260,6 @@
           <Property Name="CompanyRecordCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="8b3bf5ad-7812-43d8-89cc-042eb67c23ab" />
           <Property Name="IsCompanyVerified" Type="Boolean" ed:ValidateRequired="False" ed:Guid="15be422a-1e5a-4b2d-ae27-402877117a5f" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" ed:ValidateRequired="False" ed:Guid="080b148b-7c06-4cd2-91be-be558118031b" />
-          <Property Name="CompanyPinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="c4b61f1a-86d2-4c97-9527-edd230905559" />
-          <Property Name="CompanyPinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="cf98a23b-c758-4297-a170-65cf44fc0dd4" />
           <Property Name="SystemAdminTitle" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="c24544e7-8c2b-403c-b610-e89b61e84302" />
           <Property Name="SystemAdminFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="83543573-b162-4882-9535-280939431101" />
           <Property Name="SystemAdminLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="786de377-202d-4690-baff-56679b629ce9" />
@@ -28306,12 +28299,9 @@
           <Property Name="ParentOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="8fafbf2d-2d12-4227-9d5c-5efb1a95339b" />
           <Property Name="IsPaymentProvider" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="3614292d-1308-47a6-bc0c-81c8f74dcb6f" />
           <Property Name="PrimaryContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4693df9a-d22d-4f9c-bc60-460e907ed840" />
-          <Property Name="CompanyPinCode" Type="String" DefaultValue="''" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="0e33ba90-f9d9-48e8-a3cf-963def018c3e" />
-          <Property Name="CompanyPinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b63e293c-b6be-41e2-8554-33ed0dfc1ed6" />
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="af838f7a-3334-4df8-8eee-d1e5899012c4" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
-          <Property Name="PinAttempts" Type="Int16" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="e1bdb9ca-8fc5-4e5b-9e22-0fb63d928bbf" />
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
@@ -42609,8 +42599,6 @@
                 <ScalarProperty Name="CompanyRecordCreated" ColumnName="CompanyRecordCreated" />
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
-                <ScalarProperty Name="CompanyPinCode" ColumnName="CompanyPinCode" />
-                <ScalarProperty Name="CompanyPinCreated" ColumnName="CompanyPinCreated" />
                 <ScalarProperty Name="SystemAdminTitle" ColumnName="SystemAdminTitle" />
                 <ScalarProperty Name="SystemAdminFirstName" ColumnName="SystemAdminFirstName" />
                 <ScalarProperty Name="SystemAdminLastName" ColumnName="SystemAdminLastName" />
@@ -42655,9 +42643,6 @@
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
-                <ScalarProperty Name="CompanyPinCode" ColumnName="CompanyPinCode" />
-                <ScalarProperty Name="CompanyPinCreated" ColumnName="CompanyPinCreated" />
-                <ScalarProperty Name="PinAttempts" ColumnName="PinAttempts" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

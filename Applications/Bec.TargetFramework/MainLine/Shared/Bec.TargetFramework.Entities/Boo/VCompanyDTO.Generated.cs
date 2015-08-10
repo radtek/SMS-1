@@ -22,15 +22,13 @@ namespace Bec.TargetFramework.Entities
         public VCompanyDTO() {
         }
 
-        public VCompanyDTO(global::System.Guid companyId, string companyName, global::System.Nullable<System.DateTime> companyRecordCreated, global::System.Nullable<bool> isCompanyVerified, global::System.Nullable<bool> isCompanyPinCreated, string companyPinCode, global::System.Nullable<System.DateTime> companyPinCreated, string systemAdminTitle, string systemAdminFirstName, string systemAdminLastName, string systemAdminTel, string systemAdminEmail, string companyRegulator, string companyOtherRegulator, string companyAddress1, string companyAddress2, string companyTownCity, string companyCounty, string companyPostCode, string additionalAddressInformation, string returnUrl) {
+        public VCompanyDTO(global::System.Guid companyId, string companyName, global::System.Nullable<System.DateTime> companyRecordCreated, global::System.Nullable<bool> isCompanyVerified, global::System.Nullable<bool> isCompanyPinCreated, string systemAdminTitle, string systemAdminFirstName, string systemAdminLastName, string systemAdminTel, string systemAdminEmail, string companyRegulator, string companyOtherRegulator, string companyAddress1, string companyAddress2, string companyTownCity, string companyCounty, string companyPostCode, string additionalAddressInformation, string returnUrl) {
 
           this.CompanyId = companyId;
           this.CompanyName = companyName;
           this.CompanyRecordCreated = companyRecordCreated;
           this.IsCompanyVerified = isCompanyVerified;
           this.IsCompanyPinCreated = isCompanyPinCreated;
-          this.CompanyPinCode = companyPinCode;
-          this.CompanyPinCreated = companyPinCreated;
           this.SystemAdminTitle = systemAdminTitle;
           this.SystemAdminFirstName = systemAdminFirstName;
           this.SystemAdminLastName = systemAdminLastName;
@@ -65,12 +63,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<bool> IsCompanyPinCreated { get; set; }
-
-        [DataMember]
-        public string CompanyPinCode { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<System.DateTime> CompanyPinCreated { get; set; }
 
         [DataMember]
         public string SystemAdminTitle { get; set; }
