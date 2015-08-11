@@ -2893,6 +2893,10 @@
             <End Role="TransactionOrder" EntitySet="TransactionOrders" />
             <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
+          <AssociationSet Name="OrganisationLedgerTransaction_fk" Association="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9801,6 +9805,7 @@
           <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
           <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
           <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
+          <Property Name="CreatedBy" Type="uuid" />
         </EntityType>
         <EntityType Name="vOrganisationLedgerTransactionBalance">
           <Key>
@@ -9815,6 +9820,7 @@
           <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
           <Property Name="InvoiceReference" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Balance" Type="numeric" Nullable="false" />
+          <Property Name="CreatedByName" Type="varchar" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -17836,6 +17842,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="OrganisationLedgerTransaction_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -20672,6 +20690,10 @@
             <End Role="TransactionOrder" EntitySet="TransactionOrders" />
             <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
+          <AssociationSet Name="OrganisationLedgerTransaction_fkSet" Association="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21026,6 +21048,7 @@
           <NavigationProperty Name="Invoices" Relationship="Bec.TargetFramework.Data.fk_Invoice_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Invoices" ed:Guid="5cf5bab8-8cde-4ba7-8e5b-b053e919f774" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_Contact" FromRole="UserAccountOrganisations" ToRole="Contact" ed:Guid="0da83991-c941-46d2-9815-251c4ebc37b3" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_Organisation" FromRole="UserAccountOrganisations" ToRole="Organisation" ed:Guid="928d9191-f38a-436b-b21d-b7dd584c1058" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationLedgerTransactions" ed:Guid="9081b431-50ac-4326-bb17-cf1c527fa475" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -28658,8 +28681,10 @@
           <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d5e8fe6-1fa9-4e8f-99c8-0bab4d5a71b0" />
           <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="73fb6834-3dcc-488e-92b3-783ede0d8d2b" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="74caf72f-9175-4762-96e0-0f552fbcf791" />
+          <Property Name="CreatedBy" Type="Guid" ed:ValidateRequired="False" ed:Guid="a2c198c1-0da5-4cd7-a8d0-10b1aa63dbe8" />
           <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="53dffa99-7ff5-47ff-a470-f3eea9b2db8f" />
           <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="OrganisationLedgerTransactions" ToRole="TransactionOrder" ed:Guid="808b9fc0-ddef-49ae-81e3-cb77591e44cd" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="OrganisationLedgerTransactions" ToRole="UserAccountOrganisation" ed:Guid="c8b39f1e-0a4f-4102-96c8-0f737d2dd660" />
         </EntityType>
         <EntityType Name="VOrganisationLedgerTransactionBalance" ed:Guid="e3954e24-1e87-459f-b64a-5a4bdd20af58">
           <Key>
@@ -28674,6 +28699,7 @@
           <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="20d9809f-aad2-43ae-93d7-7f6b9a000fcd" />
           <Property Name="InvoiceReference" Type="String" Nullable="false" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="True" ed:Guid="f5c0ef1b-db1b-42eb-84b6-20e5522c7cfc" />
           <Property Name="Balance" Type="Decimal" Nullable="false" ed:ValidateRequired="True" ed:Guid="d470b3ec-e350-473b-8749-df50b9f0ba5a" />
+          <Property Name="CreatedByName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="78613a94-290b-4b24-8b87-96126f142e3e" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -36343,6 +36369,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="OrganisationLedgerTransaction_fk" ed:Guid="daf9662b-3d74-4266-a069-0b14174cee29">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43023,6 +43061,7 @@
                 <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
                 <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43035,6 +43074,7 @@
                 <ScalarProperty Name="Balance" ColumnName="Balance" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
+                <ScalarProperty Name="CreatedByName" ColumnName="CreatedByName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

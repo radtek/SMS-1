@@ -88,7 +88,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 x.InvoiceReference,
                 x.Amount,
                 x.Balance,
-                x.BalanceOn
+                x.BalanceOn,
+                x.CreatedByName
             }, false);
 
             var filter = ODataHelper.Expression<VOrganisationLedgerTransactionBalanceDTO>(x =>
@@ -123,7 +124,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
             var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Amendment");
             var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            await orgClient.AddCreditAsync(orgID, transactionOrder.TransactionOrderID, amount);
+            await orgClient.AddCreditAsync(orgID, transactionOrder.TransactionOrderID, uaoID, amount);
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }

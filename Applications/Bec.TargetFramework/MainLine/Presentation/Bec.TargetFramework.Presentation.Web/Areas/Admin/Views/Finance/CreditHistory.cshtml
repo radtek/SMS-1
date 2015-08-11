@@ -44,6 +44,8 @@
                             <dd><p id="ddAmount"></p></dd>
                             <dt>Date:</dt>
                             <dd><p id="ddDate"></p></dd>
+                            <dt>Created By:</dt>
+                            <dd><p id="ddCreatedBy"></p></dd>
                         </dl>
                     </div>
                 </div>
@@ -95,6 +97,10 @@
                         title: "Date",
                         sortable: false,
                         template: function (dataItem) { return dateString(dataItem.BalanceOn); }
+                    },
+                    {
+                        field: "CreatedByName",
+                        title: "Created By"
                     }
             ]
         });
@@ -143,8 +149,9 @@
         //data binding for the panes beneath each grid
         function txChange(dataItem) {
             $("p#ddReference").text(dataItem.InvoiceReference || "");
-            $("p#ddAmount").text(dataItem.Balance || "");
+            $("p#ddAmount").text(dataItem.Amount || "");
             $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
+            $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
         }
 
     </script>

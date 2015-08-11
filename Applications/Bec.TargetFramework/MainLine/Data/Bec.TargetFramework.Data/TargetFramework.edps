@@ -2377,6 +2377,7 @@
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="CreatedOn" Table="public.vOrganisationDetail" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="OrganisationBankAccountID" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="OrganisationBankAccountId" Table="public.vOrganisationPaymentMethodStatus" Type="Column" />
       <Exclude Name="StatusChangedOn" Table="public.vOrganisationStatus" Type="Column" />

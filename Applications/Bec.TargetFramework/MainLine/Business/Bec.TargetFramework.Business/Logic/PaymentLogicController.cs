@@ -305,7 +305,11 @@ namespace Bec.TargetFramework.Business.Logic
                     var creditProd = ProductLogic.GetTopUpProduct();
                     foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
                     {
-                        await orgLogic.AddCreditAsync(txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID, request.TransactionOrderID, cartItem.CustomerPrice.Value);
+                        await orgLogic.AddCreditAsync(
+                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
+                            request.TransactionOrderID,
+                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
+                            cartItem.CustomerPrice.Value);
                     }
                 }
 

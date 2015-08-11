@@ -33,11 +33,13 @@ namespace Bec.TargetFramework.Entities
             target.TransactionOrderID = source.TransactionOrderID;
             target.BalanceOn = source.BalanceOn;
             target.Amount = source.Amount;
+            target.CreatedBy = source.CreatedBy;
 
             // Navigation Properties
             if (level > 0) {
               target.OrganisationLedgerAccount = source.OrganisationLedgerAccount.ToDtoWithRelated(level - 1);
               target.TransactionOrder = source.TransactionOrder.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -58,6 +60,7 @@ namespace Bec.TargetFramework.Entities
             target.TransactionOrderID = source.TransactionOrderID;
             target.BalanceOn = source.BalanceOn;
             target.Amount = source.Amount;
+            target.CreatedBy = source.CreatedBy;
 
             // User-defined partial method
             OnEntityCreating(source, target);

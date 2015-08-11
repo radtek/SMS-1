@@ -594,7 +594,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, decimal amount)
+        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
@@ -607,7 +607,8 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     TransactionOrderID = transactionOrderID,
                     BalanceOn = DateTime.Now,
-                    Amount = amount
+                    Amount = amount,
+                    CreatedBy = uaoID
                 });
                 account.Balance += amount; //using rowversion for concurrency
                 account.UpdatedOn = DateTime.Now;

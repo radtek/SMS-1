@@ -66,6 +66,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CreatedBy in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> CreatedBy
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -84,6 +94,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for TransactionOrder in the schema.
         /// </summary>
         public virtual TransactionOrder TransactionOrder
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation
         {
             get;
             set;

@@ -86,6 +86,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CreatedByName in the schema.
+        /// </summary>
+        public virtual string CreatedByName
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

@@ -51,7 +51,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.InvoiceReference,
                 x.Amount,
                 x.Balance,
-                x.BalanceOn
+                x.BalanceOn,
+                x.CreatedByName
             }, false);
 
             var filter = ODataHelper.Filter<VOrganisationLedgerTransactionBalanceDTO>(x =>
