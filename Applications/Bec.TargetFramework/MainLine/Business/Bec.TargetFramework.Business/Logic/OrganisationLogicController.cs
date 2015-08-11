@@ -594,14 +594,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AddCreditAsync(Guid transactionOrderID, decimal amount)
+        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, decimal amount)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var transactionOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == transactionOrderID);
                 var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
                 var account = scope.DbContext.OrganisationLedgerAccounts.Single(x => 
-                    x.OrganisationID == transactionOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID &&
+                    x.OrganisationID == orgID &&
                     x.LedgerAccountTypeID == creditType);
                 account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
                 {

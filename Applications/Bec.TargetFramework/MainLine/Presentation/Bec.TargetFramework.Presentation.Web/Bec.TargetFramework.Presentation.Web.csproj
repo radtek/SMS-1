@@ -895,6 +895,7 @@
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

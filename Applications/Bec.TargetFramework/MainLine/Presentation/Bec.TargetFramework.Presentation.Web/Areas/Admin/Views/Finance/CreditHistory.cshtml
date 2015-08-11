@@ -4,6 +4,8 @@
     <div class="row">
 
         <h2 class="row-seperator-header inline-heading">Credit History</h2>
+        <a data-href="#" id="amendCreditButton" class="btn btn-primary btn-sm inline-heading" data-modallink="true" disabled>Amend Credit</a>
+        <br />
 
         <div class="col-sm-12">
 
@@ -62,49 +64,49 @@
         {
             gridElementId: 'statementGrid',
             url: '@Url.Action("GetStatement", "Finance", new { area = "Admin" })',
-                schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "BalanceOn", dir: "asc" },
-                panels: ['rPanel'],
-                change: txChange,
-                extraParameters: function () {
-                    return "&from=" + $('#from').val() + "&to=" + $('#to').val() + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
-                },
-                columns: [
-                        {
-                            field: "InvoiceReference",
-                            title: "Reference",
-                            sortable: false
-                        },
-                        {
-                            field: "Amount",
-                            title: "Amount",
-                            sortable: false
-                        },
-                        {
-                            field: "Balance",
-                            title: "Balance",
-                            sortable: false
-                        },
-                        {
-                            field: "BalanceOn",
-                            title: "Date",
-                            sortable: false,
-                            template: function (dataItem) { return dateString(dataItem.BalanceOn); }
-                        }
-                ]
-            });
-
-        var bestPictures = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            identify: function(datum){
-                return datum.OrganisationID;
+            schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
+            type: 'odata-v4',
+            serverSorting: true,
+            serverPaging: true,
+            defaultSort: { field: "BalanceOn", dir: "asc" },
+            panels: ['rPanel'],
+            change: txChange,
+            extraParameters: function () {
+                return "&from=" + $('#from').val() + "&to=" + $('#to').val() + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
             },
-            remote: {
-                url: '@Url.Action("SearchCompany", "Finance", new { Area = "Admin" })' + '?search=%QUERY',
+            columns: [
+                    {
+                        field: "InvoiceReference",
+                        title: "Reference",
+                        sortable: false
+                    },
+                    {
+                        field: "Amount",
+                        title: "Amount",
+                        sortable: false
+                    },
+                    {
+                        field: "Balance",
+                        title: "Balance",
+                        sortable: false
+                    },
+                    {
+                        field: "BalanceOn",
+                        title: "Date",
+                        sortable: false,
+                        template: function (dataItem) { return dateString(dataItem.BalanceOn); }
+                    }
+            ]
+        });
+
+    var bestPictures = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: function (datum) {
+            return datum.OrganisationID;
+        },
+        remote: {
+            url: '@Url.Action("SearchCompany", "Finance", new { Area = "Admin" })' + '?search=%QUERY',
                 wildcard: '%QUERY',
                 transform: function (response) {
                     return response.Items;
@@ -128,6 +130,9 @@
                 display: 'Name'
             }).on("typeahead:selected typeahead:autocompleted", function (e, datum) {
                 $('#orgID').val(datum.OrganisationID);
+                $("#amendCreditButton").attr('disabled', false);
+                $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new { area = "Admin" })' + "?orgId=" + datum.OrganisationID);
+                applyFilter();
             });
         });
 

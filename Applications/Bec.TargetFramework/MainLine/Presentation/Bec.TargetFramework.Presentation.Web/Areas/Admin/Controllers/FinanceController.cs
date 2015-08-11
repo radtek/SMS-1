@@ -21,6 +21,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     {
         public IQueryLogicClient queryClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
+        public IShoppingCartLogicClient cartClient { get; set; }
+        public IInvoiceLogicClient invoiceClient { get; set; }
+        public ITransactionOrderLogicClient txClient { get; set; }
+        public IProductLogicClient prodClient { get; set; }
         
         public ActionResult OutstandingBankAccounts()
         {
@@ -95,13 +99,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             if (creditsOnly.HasValue)
             {
                 if (creditsOnly.Value)
-                    filter = Expression.And(filter, ODataHelper.Expression<VOrganisationLedgerTransactionBalanceDTO>(x => x.Balance > 0));
+                    filter = Expression.And(filter, ODataHelper.Expression<VOrganisationLedgerTransactionBalanceDTO>(x => x.Amount > 0));
                 else
-                    filter = Expression.And(filter, ODataHelper.Expression<VOrganisationLedgerTransactionBalanceDTO>(x => x.Balance < 0));
+                    filter = Expression.And(filter, ODataHelper.Expression<VOrganisationLedgerTransactionBalanceDTO>(x => x.Amount < 0));
             }
 
             JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", ODataHelper.RemoveParameters(Request) + select + ODataHelper.Filter(filter));
             return Content(res.ToString(Formatting.None), "application/json");
+        }
+
+        public ActionResult ViewAmendCredit(Guid orgID)
+        {
+            ViewBag.orgID = orgID;
+            return PartialView("_AmendCredit");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AmendCredit(Guid orgID, decimal amount)
+        { 
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var prod = await prodClient.GetTopUpProductAsync();
+            var cart = await cartClient.CreateShoppingCartAsync(uaoID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "UK");
+            await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
+            var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Amendment");
+            var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
+            await orgClient.AddCreditAsync(orgID, transactionOrder.TransactionOrderID, amount);
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -585,15 +585,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active);
 
+		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		Task AddCreditAsync(Guid transactionOrderID,Decimal amount);
+		Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Decimal amount);
 
+		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		void AddCredit(Guid transactionOrderID,Decimal amount);
+		void AddCredit(Guid orgID,Guid transactionOrderID,Decimal amount);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -2684,24 +2686,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public virtual Task AddCreditAsync(Guid transactionOrderID,Decimal amount)
+		public virtual Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Decimal amount)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="amount"></param>
-		public virtual void AddCredit(Guid transactionOrderID,Decimal amount)
+		public virtual void AddCredit(Guid orgID,Guid transactionOrderID,Decimal amount)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&amount=" + amount, null, _user)).Wait();
 		}
 
 		/// <summary>
