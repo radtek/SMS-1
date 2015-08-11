@@ -862,6 +862,7 @@
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
@@ -893,6 +894,7 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -203,13 +203,25 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
         {
             if (obj == null) return "null";
             if (t.Name == "String")
-                return string.Format("'{0}'", obj.ToString());
+                return string.Format("'{0}'", escape(obj.ToString()));
             else if (t.Name == "Boolean")
                 return obj.ToString().ToLower();
             else if (t.Name == "DateTime")
                 return ((DateTime)obj).ToUniversalTime().ToString("O");
             else
                 return obj.ToString();
+        }
+
+        private static string escape(string s)
+        {
+            return s
+                .Replace("%", "%25")
+                .Replace("'", "''")
+                .Replace("+", "%2B")
+                .Replace("/", "%2F")
+                .Replace("?", "%3F")
+                .Replace("#", "%22")
+                .Replace("&", "%26");
         }
 
         //return valid OData operators
