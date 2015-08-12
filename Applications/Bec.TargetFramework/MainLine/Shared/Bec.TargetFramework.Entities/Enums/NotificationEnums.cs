@@ -27,6 +27,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("TcPublic")]
         TcPublic = 10,
         [StringValue("BankAccountMarkedAsFraudSuspicious")]
-        BankAccountMarkedAsFraudSuspicious = 11
+        BankAccountMarkedAsFraudSuspicious = 11,
+        [StringValue("BankAccountMarkedAsSafe")]
+        BankAccountMarkedAsSafe = 12
     }
 }

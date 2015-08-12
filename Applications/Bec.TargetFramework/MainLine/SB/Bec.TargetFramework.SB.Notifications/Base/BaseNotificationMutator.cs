@@ -1,45 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Infrastructure.Caching;
-using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
 
 namespace Bec.TargetFramework.SB.Notifications.Base
 {
     public abstract class BaseNotificationMutator : IBaseNotificationMutator
     {
-        private ILogger m_Logger;
+        public IContainer IocContainer { get; set; }
 
-        private NotificationDictionaryDTO m_NotificationDictionary;
+        public NotificationDictionaryDTO NotificationDictionary { get; set; }
 
-
-
-        public Autofac.IContainer IocContainer { get; set; }
-
-        public NotificationDictionaryDTO NotificationDictionary
-        {
-            get { return m_NotificationDictionary; }
-            set { m_NotificationDictionary = value; }
-        }
-
-        public void InitialiseBase(Entities.NotificationDictionaryDTO dictionaryDto)
+        public void InitialiseBase(NotificationDictionaryDTO dictionaryDto)
         {
             Ensure.That(dictionaryDto).IsNotNull();
             Ensure.That(dictionaryDto.NotificationDictionary).IsNotNull();
 
             NotificationDictionary = dictionaryDto;
-
-            m_Logger = IocContainer.Resolve<ILogger>();
         }
 
-        public abstract void InitialiseMutator();
+        public virtual void InitialiseMutator()
+        {
+            // Available for initialisation process
+        }
 
-        public abstract NotificationDictionaryDTO MutateNotification();
+        public virtual NotificationDictionaryDTO MutateNotification()
+        {
+            return NotificationDictionary;
+        }
 
         public T GetDTO<T>()
             where T : class
@@ -51,6 +38,5 @@ namespace Bec.TargetFramework.SB.Notifications.Base
         {
             this.NotificationDictionary.NotificationDictionary[typeof(T).Name] = item;
         }
-        
     }
 }
