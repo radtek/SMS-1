@@ -11,10 +11,10 @@ using BrockAllen.MembershipReboot;
 
 namespace Bec.TargetFramework.Entities
 {
-    public class WebUserHelper
+    public static class WebUserHelper
     {
         public const string m_WEBUSEROBJECTSESSIONKEY = "wjdjwqd8u8wqhdjw9ejdwe8fejw9f9w";
-        public static WebUserObject GetWebUserObject(HttpContextBase context)
+        public static WebUserObject GetWebUserObject(this HttpContextBase context)
         {
             WebUserObject userObject = null;
 
@@ -57,6 +57,18 @@ namespace Bec.TargetFramework.Entities
             context.Session[m_WEBUSEROBJECTSESSIONKEY] = user;
 
             return user;
+        }
+
+        public static string GetOrganisationName(this HttpContextBase context)
+        {
+            var obj = GetWebUserObject(context);
+            return obj == null ? "" : obj.OrganisationName;
+        }
+
+        public static string GetUserName(this HttpContextBase context)
+        {
+            var obj = GetWebUserObject(context);
+            return obj == null ? "" : obj.UserName;
         }
     }
 

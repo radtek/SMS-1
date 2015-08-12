@@ -1,5 +1,6 @@
-﻿@{
-    var currentUser = Bec.TargetFramework.Entities.WebUserHelper.GetWebUserObject(Context);
+﻿@using Bec.TargetFramework.Entities
+@{
+    var currentUser = Context.GetWebUserObject();
     var showNotifications =
         Request.IsAuthenticated &&
         currentUser != null &&
@@ -15,7 +16,7 @@
     @if (Request.IsAuthenticated)
     {
         <div style="margin-top: 2px;">
-            <h5>@Bec.TargetFramework.Entities.WebUserHelper.GetWebUserObject(Context).OrganisationName</h5>
+            <h5>@Context.GetOrganisationName()</h5>
         </div>
     }
     <!-- projects dropdown -->
