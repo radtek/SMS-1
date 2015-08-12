@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ShoppingCartItemDTO() {
         }
 
-        public ShoppingCartItemDTO(global::System.Guid shoppingCartItemID, bool isDeleted, bool isActive, global::System.Guid productID, int quantity, int productVersionID, global::System.Guid shoppingCartID, global::System.Nullable<System.Guid> invoiceLineItemID, global::System.Nullable<System.Guid> accountID, ProductDTO product, ShoppingCartDTO shoppingCart, InvoiceLineItemDTO invoiceLineItem, List<ShoppingCartItemProductAttributeDTO> shoppingCartItemProductAttributes, List<ShoppingCartItemProductSpecificationDTO> shoppingCartItemProductSpecifications, AccountDTO account) {
+        public ShoppingCartItemDTO(global::System.Guid shoppingCartItemID, bool isDeleted, bool isActive, global::System.Guid productID, int quantity, int productVersionID, global::System.Guid shoppingCartID, global::System.Nullable<System.Guid> invoiceLineItemID, global::System.Nullable<System.Guid> accountID, global::System.Nullable<decimal> customerPrice, ProductDTO product, ShoppingCartDTO shoppingCart, InvoiceLineItemDTO invoiceLineItem, List<ShoppingCartItemProductAttributeDTO> shoppingCartItemProductAttributes, List<ShoppingCartItemProductSpecificationDTO> shoppingCartItemProductSpecifications, AccountDTO account) {
 
           this.ShoppingCartItemID = shoppingCartItemID;
           this.IsDeleted = isDeleted;
@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Entities
           this.ShoppingCartID = shoppingCartID;
           this.InvoiceLineItemID = invoiceLineItemID;
           this.AccountID = accountID;
+          this.CustomerPrice = customerPrice;
           this.Product = product;
           this.ShoppingCart = shoppingCart;
           this.InvoiceLineItem = invoiceLineItem;
@@ -71,6 +72,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> AccountID { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<decimal> CustomerPrice { get; set; }
 
         #endregion
 

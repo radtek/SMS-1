@@ -115,8 +115,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             orgID = org.OrganisationID;
             uaoID = org.UserAccountOrganisationID;
-                foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, org.OrganisationID))
-                    additionalClaims.Add(new Claim(item.Type, item.Value));
+            foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, orgID))
+                additionalClaims.Add(new Claim(item.Type, item.Value));
 
             if (orgID == null) throw new Exception("User not associated with any organisation");
             string orgName = olc.GetOrganisationDTO(orgID).Name;

@@ -51,7 +51,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var userAccountOrganisationId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var notificationByteArray = NotificationLogicClient.GetNotificationContent(notificationId, userAccountOrganisationId);
             var notificationHtml = Encoding.UTF8.GetString(notificationByteArray);
-            
+
             return notificationHtml;
         }
     }

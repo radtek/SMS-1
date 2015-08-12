@@ -150,12 +150,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId);
 
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID);
+		Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference);
 
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID);
+		InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference);
 
 		/// <param name="invoiceID"></param>
 		/// <returns></returns>
@@ -358,16 +360,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId);
 
-		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct);
-
-		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
-
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -377,6 +369,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
 		Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct);
+
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -583,11 +585,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
 
-		/// <param name="currentOrgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="status"></param>
-		/// <param name="notes"></param>
-		/// <param name="killDuplicates"></param>
 		/// <returns></returns>
 		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
@@ -607,6 +604,38 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
+
+		/// <param name="orgID"></param>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount);
+
+		/// <param name="orgID"></param>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<Guid> GetCreditAccountAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Guid GetCreditAccount(Guid orgID);
+
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date);
+
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -636,15 +665,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface IProductLogicClient : IClientBase	{	
 
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Task<ProductDTO> GetProductAsync(Guid productId,Int32 versionNumber);
+		Task<ProductDTO> GetTopUpProductAsync();
 
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		ProductDTO GetProduct(Guid productId,Int32 versionNumber);
+		ProductDTO GetTopUpProduct();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
@@ -667,15 +692,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity);
+		Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
 
 		/// <param name="cartID"></param>
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity);
+		void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice);
 
 		/// <param name="cartID"></param>
 		/// <param name="itemID"></param>
@@ -1606,21 +1633,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="cartID"></param>
+		/// <param name="reference"></param>
 		/// <returns></returns>
-		public virtual Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID)
+		public virtual Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID,String reference)
 		{
+			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID, null, _user);
+			return PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="cartID"></param>
-		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID)
+		/// <param name="reference"></param>
+		public virtual InvoiceDTO CreateAndSaveInvoiceFromShoppingCart(Guid cartID,String reference)
 		{
+			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, InvoiceDTO>("api/InvoiceLogic/CreateAndSaveInvoiceFromShoppingCartAsync?cartID=" + cartID + "&reference=" + reference, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2121,29 +2152,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -2162,6 +2170,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		/// <returns></returns>
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="notificationConstruct"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user)).Result;
 		}
 
 		/// <summary>
@@ -2690,7 +2721,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
 		{
 			string _user = getHttpContextUser();
-            return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
+			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
 		}
 
 		/// <summary>
@@ -2729,6 +2760,77 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public virtual Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="transactionOrderID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="amount"></param>
+		public virtual void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> GetCreditAccountAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual Guid GetCreditAccount(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		public virtual Task<Decimal> GetBalanceAsAtAsync(Guid accountID,DateTime date)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="accountID"></param>
+		/// <param name="date"></param>
+		public virtual Decimal GetBalanceAsAt(Guid accountID,DateTime date)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user)).Result;
 		}
 
 		#endregion
@@ -2839,24 +2941,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		public virtual Task<ProductDTO> GetProductAsync(Guid productId,Int32 versionNumber)
+		public virtual Task<ProductDTO> GetTopUpProductAsync()
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user);
+			return GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="productId"></param>
-		/// <param name="versionNumber"></param>
-		public virtual ProductDTO GetProduct(Guid productId,Int32 versionNumber)
+		public virtual ProductDTO GetTopUpProduct()
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetProduct?productId=" + productId + "&versionNumber=" + versionNumber, _user)).Result;
+			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user)).Result;
 		}
 
 		#endregion
@@ -2917,11 +3015,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
+		/// <param name="customerPrice"></param>
 		/// <returns></returns>
-		public virtual Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity)
+		public virtual Task AddProductToShoppingCartAsync(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity, null, _user);
+			return PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user);
 		}
 
 		/// <summary>
@@ -2931,10 +3030,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="productID"></param>
 		/// <param name="versionNumber"></param>
 		/// <param name="quantity"></param>
-		public virtual void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity)
+		/// <param name="customerPrice"></param>
+		public virtual void AddProductToShoppingCart(Guid cartID,Guid productID,Int32 versionNumber,Int32 quantity,Nullable<Decimal> customerPrice)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/ShoppingCartLogic/AddProductToShoppingCartAsync?cartID=" + cartID + "&productID=" + productID + "&versionNumber=" + versionNumber + "&quantity=" + quantity + "&customerPrice=" + customerPrice, null, _user)).Wait();
 		}
 
 		/// <summary>

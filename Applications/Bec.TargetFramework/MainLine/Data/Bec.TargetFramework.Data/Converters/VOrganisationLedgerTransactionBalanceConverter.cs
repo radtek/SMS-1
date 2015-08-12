@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Entities
             target.Amount = source.Amount;
             target.InvoiceReference = source.InvoiceReference;
             target.Balance = source.Balance;
+            target.CreatedByName = source.CreatedByName;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -56,6 +57,7 @@ namespace Bec.TargetFramework.Entities
             target.Amount = source.Amount;
             target.InvoiceReference = source.InvoiceReference;
             target.Balance = source.Balance;
+            target.CreatedByName = source.CreatedByName;
 
             // User-defined partial method
             OnEntityCreating(source, target);

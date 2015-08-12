@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountLedgerAccounts = source.UserAccountLedgerAccounts.ToDtosWithRelated(level - 1);
               target.LedgerAccountBalances = source.LedgerAccountBalances.ToDtosWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+              target.OrganisationLedgerTransactions = source.OrganisationLedgerTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

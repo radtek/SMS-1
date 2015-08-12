@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationLedgerTransactionBalanceDTO() {
         }
 
-        public VOrganisationLedgerTransactionBalanceDTO(global::System.Guid organisationLedgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, decimal amount, string invoiceReference, global::System.Nullable<decimal> balance) {
+        public VOrganisationLedgerTransactionBalanceDTO(global::System.Guid organisationLedgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, decimal amount, string invoiceReference, decimal balance, string createdByName) {
 
           this.OrganisationLedgerAccountID = organisationLedgerAccountID;
           this.TransactionOrderID = transactionOrderID;
@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Entities
           this.Amount = amount;
           this.InvoiceReference = invoiceReference;
           this.Balance = balance;
+          this.CreatedByName = createdByName;
         }
 
         #endregion
@@ -52,7 +53,10 @@ namespace Bec.TargetFramework.Entities
         public string InvoiceReference { get; set; }
 
         [DataMember]
-        public global::System.Nullable<decimal> Balance { get; set; }
+        public decimal Balance { get; set; }
+
+        [DataMember]
+        public string CreatedByName { get; set; }
 
         #endregion
     }

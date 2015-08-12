@@ -306,6 +306,7 @@
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
+    <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
@@ -863,6 +864,7 @@
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
@@ -896,6 +898,10 @@
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Views\InternalNotifications\Details.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
+    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
