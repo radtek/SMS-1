@@ -135,8 +135,8 @@
         //data binding for the panes beneath each grid
         function txChange(dataItem) {
             $("p#ddReference").text(dataItem.InvoiceReference || "");
-            $("p#ddAmount").text(dataItem.Balance || "");
-            $("p#ddDate").text(dateString(dataItem.Amount) || "");
+            $("p#ddAmount").text(dataItem.Amount || "");
+            $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
             $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
         }
 
