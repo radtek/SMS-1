@@ -117,7 +117,7 @@
           <Name>Text3</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Marked By:&lt;/b&gt;</Text>
+          <Text>&lt;b&gt;Changed By:&lt;/b&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
