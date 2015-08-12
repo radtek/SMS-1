@@ -811,12 +811,10 @@
     <Compile Include="Boo\OperationDTO.Generated.cs">
       <DependentUpon>OperationDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\OrganisationAccountDTO.cs" />
     <Compile Include="Boo\OrganisationAccountingPeriodDTO.cs" />
     <Compile Include="Boo\OrganisationAccountingPeriodDTO.Generated.cs">
       <DependentUpon>OrganisationAccountingPeriodDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\OrganisationAccountTransactionDTO.cs" />
     <Compile Include="Boo\OrganisationArchiveDTO.cs" />
     <Compile Include="Boo\OrganisationArtefactDTO.cs" />
     <Compile Include="Boo\OrganisationArtefactDTO.Generated.cs">
@@ -878,6 +876,11 @@
     <Compile Include="Boo\OrganisationLedgerAccountDTO.cs" />
     <Compile Include="Boo\OrganisationLedgerAccountDTO.Generated.cs">
       <DependentUpon>OrganisationLedgerAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.Generated.cs">
+      <DependentUpon>OrganisationLedgerTransactionDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
     <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />
@@ -1845,6 +1848,7 @@
     <Compile Include="DTO\AddCompanyDTO.cs" />
     <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
     <Compile Include="DTO\AjaxRequestError.cs" />
+    <Compile Include="DTO\CreditTopUpEventDTO.cs" />
     <Compile Include="DTO\Event\EventPayload.cs" />
     <Compile Include="DTO\FirmDetailsUserDTO.cs" />
     <Compile Include="DTO\FirmPreferenceDTO.cs" />

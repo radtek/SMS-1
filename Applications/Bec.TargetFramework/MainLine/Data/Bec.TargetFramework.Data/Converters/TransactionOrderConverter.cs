@@ -81,6 +81,7 @@ namespace Bec.TargetFramework.Entities
               target.Invoice = source.Invoice.ToDtoWithRelated(level - 1);
               target.TransactionOrderProcessLogs = source.TransactionOrderProcessLogs.ToDtosWithRelated(level - 1);
               target.GlobalPaymentMethod = source.GlobalPaymentMethod.ToDtoWithRelated(level - 1);
+              target.OrganisationLedgerTransactions = source.OrganisationLedgerTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

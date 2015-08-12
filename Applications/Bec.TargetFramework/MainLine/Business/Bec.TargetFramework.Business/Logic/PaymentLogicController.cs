@@ -8,6 +8,7 @@ using Bec.TargetFramework.Entities.Settings;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.SB.Client.Interfaces;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace Bec.TargetFramework.Business.Logic
     public class PaymentLogicController : LogicBase
     {
         public TFSettingsLogicController Settings { get; set; }
+        public ProductLogicController ProductLogic { get; set; }
+        public OrganisationLogicController orgLogic { get; set; }
 
         public PaymentLogicController()
         {
@@ -156,7 +159,7 @@ namespace Bec.TargetFramework.Business.Logic
                     b.Country = request.CountryCode;
                     b.Address1 = request.Line1;
                     b.Address2 = request.Line2;
-                    b.City = request.City;
+                    b.City = request.Town;
                     b.Email = request.Email;
                     b.State = request.County;
 
@@ -290,12 +293,24 @@ namespace Bec.TargetFramework.Business.Logic
 
                     scope.DbContext.TransactionOrderPaymentErrors.Add(transOrderPaymentError);
 
-                    TransactionHelper.CreateTransactionOrderProcessLog(scope, transactionOrderDto.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
+                    TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
                 }
                 else
                 {
                     // no errors add payment successful log entry
-                    TransactionHelper.CreateTransactionOrderProcessLog(scope, transactionOrderDto.TransactionOrderID, TransactionOrderStatusEnum.Successful, transactionOrderPayment.TransactionOrderPaymentID);
+                    TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Successful, transactionOrderPayment.TransactionOrderPaymentID);
+
+                    //process credit type product events
+                    var txOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID);
+                    var creditProd = ProductLogic.GetTopUpProduct();
+                    foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
+                    {
+                        await orgLogic.AddCreditAsync(
+                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
+                            request.TransactionOrderID,
+                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
+                            cartItem.CustomerPrice.Value);
+                    }
                 }
 
                 await scope.SaveAsync();

@@ -54,7 +54,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        public async Task AddProductToShoppingCartAsync(Guid cartID, Guid productID, int versionNumber, int quantity)
+        public async Task AddProductToShoppingCartAsync(Guid cartID, Guid productID, int versionNumber, int quantity, decimal? customerPrice = null)
         {
             Ensure.That(cartID).IsNot(Guid.Empty);
             Ensure.That(productID).IsNot(Guid.Empty);
@@ -70,7 +70,8 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     ShoppingCartItemID = Guid.NewGuid(),
                     Product = product,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    CustomerPrice = customerPrice
                 };
                 cart.ShoppingCartItems.Add(newItem);
                 await scope.SaveAsync();

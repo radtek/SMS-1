@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("UserAccountOrganisations", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
@@ -174,10 +174,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var v = allRoles[i];
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                bool disabled = check && v.RoleName == "Organisation Administrator" && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
-                r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "disabled" : "", v.OrganisationRoleID, v.RoleName));
+                //reinstate once multiple admins are allowed:
+                bool disabled = v.RoleName == "Organisation Administrator";// && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleName));
             }
             ViewBag.Roles = r;
+            ViewBag.SelectedRoleCount = r.Count(x => x.Item2 == "checked");
 
             return PartialView("_EditUser", Edit.MakeModel(res.First()));
         }

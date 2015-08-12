@@ -1963,14 +1963,19 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VOrganisationBankAccountsWithStatus> VOrganisationBankAccountsWithStatus { get; set; }
     
         /// <summary>
-        /// There are no comments for VNotificationViewOnlyUao in the schema.
+        /// There are no comments for OrganisationLedgerTransaction in the schema.
         /// </summary>
-        public virtual DbSet<VNotificationViewOnlyUao> VNotificationViewOnlyUaos { get; set; }
+        public virtual DbSet<OrganisationLedgerTransaction> OrganisationLedgerTransactions { get; set; }
     
         /// <summary>
         /// There are no comments for VOrganisationLedgerTransactionBalance in the schema.
         /// </summary>
         public virtual DbSet<VOrganisationLedgerTransactionBalance> VOrganisationLedgerTransactionBalances { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VNotificationViewOnlyUao in the schema.
+        /// </summary>
+        public virtual DbSet<VNotificationViewOnlyUao> VNotificationViewOnlyUaos { get; set; }
 
         #region Methods
 

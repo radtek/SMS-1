@@ -80,7 +80,17 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for Balance in the schema.
         /// </summary>
-        public virtual global::System.Nullable<decimal> Balance
+        public virtual decimal Balance
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedByName in the schema.
+        /// </summary>
+        public virtual string CreatedByName
         {
             get;
             set;

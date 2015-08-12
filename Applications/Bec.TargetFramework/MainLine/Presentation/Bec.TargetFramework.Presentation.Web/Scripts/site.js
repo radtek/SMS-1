@@ -12,8 +12,11 @@ function ajaxWrapper(options) {
 
 function getGridDataFromUrl(gridOptions) {
     return function (options) {
+        var extra = '';
+        if (gridOptions.extraParameters) extra = gridOptions.extraParameters();
+        if (gridOptions.url.indexOf('?') < 0) extra = '?' + extra;
         var ajaxOptions = {
-            url: gridOptions.url,
+            url: gridOptions.url + extra,
             data: dataMap(options.data, gridOptions),
             cache: false
         };
@@ -234,11 +237,15 @@ var gridItem = function (options) {
         this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
 
         $('#' + this.options.searchButtonId).click(function () {
-            self.grid.dataSource.page(1);
-            self.grid.dataSource.read();
+            self.refreshGrid();
         });
 
     };
+
+    this.refreshGrid = function () {
+        self.grid.dataSource.read();
+        self.grid.dataSource.page(1);
+    }
 
     this.dataBound = function (e) {
         saveGridSort(self.grid, self.options.gridElementId);
