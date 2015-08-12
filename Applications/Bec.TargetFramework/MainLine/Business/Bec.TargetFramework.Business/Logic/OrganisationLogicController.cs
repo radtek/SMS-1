@@ -583,35 +583,21 @@ namespace Bec.TargetFramework.Business.Logic
                 case BankAccountStatusEnum.PendingValidation:
                     break;
                 case BankAccountStatusEnum.Safe:
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsSafeNotificationDTO>("BankAccountMarkedAsSafe", bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.FraudSuspicion:
-                    await PublishBankAccountMarkedAsFraudSuspiciousNotification(bankAccount, bankAccountStatusChangeRequest);
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>("BankAccountMarkedAsFraudSuspicious", bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.PotentialFraud:
-                    break;
-                default:
                     break;
             }
         }
 
-        private async Task PublishBankAccountMarkedAsFraudSuspiciousNotification(OrganisationBankAccount bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+        private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, OrganisationBankAccount bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+            where TNotification : BankAccountStateChangeNotificationDTO, new()
         {
-            IEnumerable<Guid> userAccountOrganisationIds;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
-            {
-                userAccountOrganisationIds = scope.DbContext.UserAccountOrganisations
-                    .Where(item => item.OrganisationID == bankAccount.OrganisationID && item.IsActive && !item.IsDeleted)
-                    .Select(a => a.UserAccountOrganisationID)
-                    .ToList();
-            }
-            Ensure.That(userAccountOrganisationIds).IsNotNull();
-            if (!userAccountOrganisationIds.Any())
-            {
-                throw new InvalidOperationException(string.Format("There are no user accounts associated to that organisation: {0}", bankAccount.OrganisationID));
-            }
-
             var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
-            var notificationDto = new BankAccountMarkedAsFraudSuspiciousNotificationDTO
+            var notificationDto = new TNotification
             {
                 OrganisationId = bankAccount.OrganisationID ?? bankAccountStatusChangeRequest.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
@@ -624,7 +610,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var dto = new EventPayloadDTO
             {
-                EventName = "BankAccountMarkedAsFraudSuspicious",
+                EventName = eventName,
                 EventSource = AppDomain.CurrentDomain.FriendlyName,
                 EventReference = "0003",
                 PayloadAsJson = payLoad
