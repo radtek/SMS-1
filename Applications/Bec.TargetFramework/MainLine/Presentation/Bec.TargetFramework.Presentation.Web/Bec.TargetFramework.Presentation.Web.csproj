@@ -902,7 +902,6 @@
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
