@@ -19,7 +19,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 
         public ActionResult Index(Guid? selectedBankAccountId)
         {
-            TempData["OrganisationBankAccountID"] = selectedBankAccountId;
+            //don't overwrite what already might be in TempData...
+            if (selectedBankAccountId.HasValue) TempData["OrganisationBankAccountID"] = selectedBankAccountId;
             return View();
         }
 
