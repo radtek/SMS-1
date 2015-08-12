@@ -146,9 +146,9 @@ VALUES (
         <TextContent Ref="5" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0,13.2,0.4</ClientRectangle>
+          <ClientRectangle>0,0,13.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,11</Font>
           <Margins>0,0,0,0</Margins>
           <Name>TextContent</Name>
           <Page isRef="4" />
@@ -163,8 +163,9 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,1,3.6,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>ebcb4cd1ff9248ecb0d71fac524e64c2</Guid>
+          <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
           <Name>Text1</Name>
           <Page isRef="4" />
@@ -179,8 +180,9 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,1.6,3.6,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>33e0aa711397490c80cb73e979bf78e2</Guid>
+          <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
           <Name>Text2</Name>
           <Page isRef="4" />
@@ -195,8 +197,9 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,2.2,3.6,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>6c399a13d2c84d6693f2b15a61d189d8</Guid>
+          <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
           <Name>Text3</Name>
           <Page isRef="4" />
@@ -211,8 +214,9 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,2.8,3.6,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>f529bd40df864983ac80b72c57474403</Guid>
+          <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
           <Name>Text4</Name>
           <Page isRef="4" />
@@ -227,8 +231,9 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,3.4,3.6,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>5a73b08d29294c05a09a905e156e3560</Guid>
+          <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
           <Name>Text5</Name>
           <Page isRef="4" />
@@ -241,9 +246,9 @@ VALUES (
         <Text6 Ref="11" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1,11,0.4</ClientRectangle>
+          <ClientRectangle>4,1,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>d666cef6f51441dda0b39d364072a5a3</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text6</Name>
@@ -257,9 +262,9 @@ VALUES (
         <Text7 Ref="12" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1.6,11,0.4</ClientRectangle>
+          <ClientRectangle>4,1.6,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>a43d44a16c9f455fb005c85e01288a46</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text7</Name>
@@ -273,9 +278,9 @@ VALUES (
         <Text8 Ref="13" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.2,11,0.4</ClientRectangle>
+          <ClientRectangle>4,2.2,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>f5dc17c70f1a40e8a4d0080105b86861</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text8</Name>
@@ -289,9 +294,9 @@ VALUES (
         <Text9 Ref="14" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.8,11,0.4</ClientRectangle>
+          <ClientRectangle>4,2.8,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11</Font>
+          <Font>Open Sans,10</Font>
           <Guid>48927f2ae58c41d6abd74782fb99cb39</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text9</Name>
@@ -305,9 +310,9 @@ VALUES (
         <Text10 Ref="15" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,3.4,11,0.4</ClientRectangle>
+          <ClientRectangle>4,3.4,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Arial,11,Underline</Font>
+          <Font>Open Sans,10,Underline</Font>
           <Guid>229a1094c32f475bb527a9678a572f42</Guid>
           <Hyperlink>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Hyperlink>
           <Margins>0,0,0,0</Margins>
@@ -347,10 +352,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/7/2015 10:35:39 AM</ReportChanged>
+  <ReportChanged>8/12/2015 11:32:19 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
   <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>9da7dbe08eb343bdb55b018dc791a800</ReportGuid>
+  <ReportGuid>96718cf053f64b829c574c928491aa57</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
