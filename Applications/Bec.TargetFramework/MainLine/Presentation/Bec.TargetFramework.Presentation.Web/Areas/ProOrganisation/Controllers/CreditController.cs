@@ -105,9 +105,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                     paymentDto.ProcessorApprovalCode,
                     paymentDto.ProcessorResponseCode,
                     paymentDto.ResponseData,
-                    paymentDto.TransactionResult,
-                    string.Join(" -- ", paymentDto.TransactionOrderPaymentErrors.Select(x => string.Join(", ", x.ErrorCode, x.ErrorDetail, x.ErrorMessage, x.IsCardIssuerError, x.IsMerchantError, x.IsProcessorError))),
-                    string.Join(" -- ", paymentDto.TransactionOrderProcessLogs.Select(x => string.Join(", ", x.StatusTypeValueID, x.IsPaid, x.IsTransactionOrderProcessed)))
+                    paymentDto.TransactionResult
                     ),
                     txID = txID.Value
                 }, JsonRequestBehavior.AllowGet);

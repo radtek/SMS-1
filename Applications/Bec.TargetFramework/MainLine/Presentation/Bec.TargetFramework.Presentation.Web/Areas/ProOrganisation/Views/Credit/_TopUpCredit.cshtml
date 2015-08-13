@@ -277,6 +277,7 @@
                 }, true);
             }
         }).fail(function (e) {
+            console.log(e);
             handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
                 messageButton: function () {
                     $("#submitPay").prop('disabled', false);
