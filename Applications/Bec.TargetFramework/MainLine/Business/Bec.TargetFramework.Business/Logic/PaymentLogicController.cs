@@ -283,16 +283,15 @@ namespace Bec.TargetFramework.Business.Logic
                 responseDto.TransactionOrderPaymentID = orderPaymentID;
 
                 // deal with error
-                if (!responseDto.IsPaymentSuccessful && responseDto.TransactionOrderPaymentErrors != null
-                    && responseDto.TransactionOrderPaymentErrors.Count > 0)
+                if (!responseDto.IsPaymentSuccessful)
                 {
-                    var transOrderPaymentError =
-                        TransactionOrderPaymentErrorConverter.ToEntity(responseDto.TransactionOrderPaymentErrors.First());
-                    transOrderPaymentError.TransactionOrderPaymentID = transactionOrderPayment.TransactionOrderPaymentID;
-                    transOrderPaymentError.TransactionOrderPaymentErrorID = Guid.NewGuid();
-
-                    scope.DbContext.TransactionOrderPaymentErrors.Add(transOrderPaymentError);
-
+                    if (responseDto.TransactionOrderPaymentErrors != null && responseDto.TransactionOrderPaymentErrors.Count > 0)
+                    {
+                        var transOrderPaymentError = TransactionOrderPaymentErrorConverter.ToEntity(responseDto.TransactionOrderPaymentErrors.First());
+                        transOrderPaymentError.TransactionOrderPaymentID = transactionOrderPayment.TransactionOrderPaymentID;
+                        transOrderPaymentError.TransactionOrderPaymentErrorID = Guid.NewGuid();
+                        scope.DbContext.TransactionOrderPaymentErrors.Add(transOrderPaymentError);
+                    }
                     TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
                 }
                 else
