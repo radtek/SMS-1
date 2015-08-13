@@ -33,14 +33,14 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'BankAccountMarkedAsFraudSuspicious',
-  'Bank Account Marked as Fraud Suspicious Notification',
+  'BankAccountMarkedAsSafe',
+  'Bank Account Marked as Safe Notification',
   4989, -- HTML
   4993, -- System
-  'Bank Account Marked as Fraud Suspicious' ,
+  'Bank Account Marked as Safe' ,
   'Test',
   '0001',
-  'Bec.TargetFramework.SB.Notifications.Mutators.BankAccountMarkedAsFraudSuspiciousMutator, Bec.TargetFramework.SB.Notifications',
+  'Bec.TargetFramework.SB.Notifications.Mutators.BankAccountMarkedAsSafeMutator, Bec.TargetFramework.SB.Notifications',
   false
 );
 
@@ -110,22 +110,22 @@ VALUES (
         <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <BankAccountMarkedAsFraudSuspiciousNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Alias>
+      <BankAccountMarkedAsSafeNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>BankAccountMarkedAsSafeNotificationDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
         <Columns isList="true" count="6">
           <value>AccountNumber,System.String</value>
           <value>DetailsUrl,System.String</value>
           <value>MarkedBy,System.String</value>
+          <value>OrganisationId,System.Guid</value>
           <value>Reason,System.String</value>
           <value>SortCode,System.String</value>
-          <value>UserAccountOrganisationIds,System.Collections.Generic.IEnumerable`1[System.Guid]</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>52a0e19226cf4087a42d060c394e8503</Guid>
-        <Name>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Name>
-      </BankAccountMarkedAsFraudSuspiciousNotificationDTO>
+        <Guid>44f8d67b23c44cc0be50ebaa3a9ba35c</Guid>
+        <Name>BankAccountMarkedAsSafeNotificationDTO</Name>
+      </BankAccountMarkedAsSafeNotificationDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
@@ -153,7 +153,7 @@ VALUES (
           <Name>TextContent</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;h2&gt;The following bank account was Marked as Fraud Suspicious&lt;/h2&gt;</Text>
+          <Text>&lt;h2&gt;The following bank account was Marked as Safe&lt;/h2&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
@@ -246,15 +246,15 @@ VALUES (
         <Text6 Ref="11" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1,11,0.6</ClientRectangle>
+          <ClientRectangle>4,1,11,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Open Sans,9.75</Font>
           <Guid>d666cef6f51441dda0b39d364072a5a3</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text6</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}</Text>
+          <Text>{BankAccountMarkedAsSafeNotificationDTO.AccountNumber}</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
@@ -262,59 +262,59 @@ VALUES (
         <Text7 Ref="12" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1.6,11,0.6</ClientRectangle>
+          <ClientRectangle>4,1.6,11,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Open Sans,9.75</Font>
           <Guid>a43d44a16c9f455fb005c85e01288a46</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text7</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}</Text>
+          <Text>{BankAccountMarkedAsSafeNotificationDTO.SortCode}</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text7>
         <Text8 Ref="13" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.2,11,0.6</ClientRectangle>
+          <ClientRectangle>4,2.2,11,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Open Sans,9.75</Font>
           <Guid>f5dc17c70f1a40e8a4d0080105b86861</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text8</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.MarkedBy}</Text>
+          <Text>{BankAccountMarkedAsSafeNotificationDTO.MarkedBy}</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text8>
         <Text9 Ref="14" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.8,11,0.6</ClientRectangle>
+          <ClientRectangle>4,2.8,11,0.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Open Sans,9.75</Font>
           <Guid>48927f2ae58c41d6abd74782fb99cb39</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text9</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.Reason}</Text>
+          <Text>{BankAccountMarkedAsSafeNotificationDTO.Reason}</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text9>
         <Text10 Ref="15" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>4,3.4,11,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10,Underline</Font>
+          <Font>Open Sans,9.75,Underline</Font>
           <Guid>229a1094c32f475bb527a9678a572f42</Guid>
-          <Hyperlink>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Hyperlink>
+          <Hyperlink>{BankAccountMarkedAsSafeNotificationDTO.DetailsUrl}</Hyperlink>
           <Margins>0,0,0,0</Margins>
           <Name>Text10</Name>
           <Page isRef="4" />
@@ -352,10 +352,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/12/2015 11:32:19 AM</ReportChanged>
+  <ReportChanged>8/12/2015 10:37:13 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>96718cf053f64b829c574c928491aa57</ReportGuid>
+  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsSafe.mrt</ReportFile>
+  <ReportGuid>60fcad6c53354277a1cfe512997daf1a</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
@@ -443,9 +443,9 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
-  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsFraudSuspiciousNotificationDTO, Bec.TargetFramework.Entities',
-  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
+  'BankAccountMarkedAsSafeNotificationDTO',
+  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsSafeNotificationDTO, Bec.TargetFramework.Entities',
+  'BankAccountMarkedAsSafeNotificationDTO',
   'Bec.TargetFramework.Entities.DTO.Notification',
   'Bec.TargetFramework.Entities',
   true,
@@ -468,8 +468,8 @@ INSERT INTO
 )
 VALUES (
   NcResID,
-  'BankAccountMarkedAsFraudSuspicious',
-  'BankAccountMarkedAsFraudSuspicious Notification Resource',
+  'BankAccountMarkedAsSafe',
+  'BankAccountMarkedAsSafe Notification Resource',
   true,
   false,
   null,

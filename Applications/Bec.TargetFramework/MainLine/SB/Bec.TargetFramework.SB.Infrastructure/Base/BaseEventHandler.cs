@@ -26,10 +26,6 @@ namespace Bec.TargetFramework.SB.Handlers.Base
         public IBusLogicClient m_BusLogic { get; set; }
         public ILifetimeScope m_LifetimeScope { get; set; }
 
-        public BaseEventHandler()
-        {
-        }
-
         public virtual void Handle(T message)
         {
             if (!HasMessageAlreadyBeenProcessed())
@@ -37,10 +33,6 @@ namespace Bec.TargetFramework.SB.Handlers.Base
                 try
                 {
                     HandleMessage(message);
-                }
-                catch (System.Exception)
-                {
-                    throw;
                 }
                 finally
                 {

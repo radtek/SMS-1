@@ -2,7 +2,7 @@
 
 namespace Bec.TargetFramework.SB.Notifications.Mutators
 {
-    public sealed class AddCompanyAdministratorTempDetailsMutator : BaseNotificationMutator
+    public sealed class BankAccountMarkedAsSafeMutator : BaseNotificationMutator
     {
     }
 }
