@@ -76,7 +76,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName });
             var filter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID);
-            ViewBag.roles = await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", select + filter);
+            var orderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", select + filter + orderby)).ToList();
+
+            //remove once multiple admins are allowed:
+            var r = new List<Tuple<OrganisationRoleDTO, string>>();
+            for (int i = 0; i < allRoles.Count; i++)
+            {
+                var v = allRoles[i];
+                bool disabled = v.RoleName == "Organisation Administrator";
+                if (disabled) v.RoleName += " (unavailable)";
+                r.Add(Tuple.Create(v, disabled ? "onclick=ignore(event)" : "onclick=countRoles()"));
+            }
+            ViewBag.roles = r;
             return PartialView("_AddUser");
         }
 
@@ -165,7 +177,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
             var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID);
-            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter)).ToList();
+            var rorderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
+            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter + rorderby)).ToList();
 
             var userRoles = userClient.GetRoles(uaoID);
 
@@ -176,6 +189,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
                 //reinstate once multiple admins are allowed:
                 bool disabled = v.RoleName == "Organisation Administrator";// && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                if (disabled)
+                {
+                    if(check)
+                        v.RoleName += " (locked)";
+                    else
+                        v.RoleName += " (unavailable)";
+                }
                 r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleName));
             }
             ViewBag.Roles = r;

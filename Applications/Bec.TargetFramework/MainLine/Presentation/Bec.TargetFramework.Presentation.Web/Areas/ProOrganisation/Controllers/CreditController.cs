@@ -96,19 +96,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 {
                     result = false,
                     title = "Payment Unsuccessful",
-                    message = string.Join(Environment.NewLine,
-                    paymentDto.ErrorMessage,
-                    paymentDto.ApprovalCode,
-                    paymentDto.AVSResponseCode,
-                    paymentDto.CardBrand,
-                    paymentDto.CommercialServiceProvider,
-                    paymentDto.ProcessorApprovalCode,
-                    paymentDto.ProcessorResponseCode,
-                    paymentDto.ResponseData,
-                    paymentDto.TransactionResult,
-                    paymentDto.TransactionOrderPaymentErrors == null ? "" : string.Join(" -- ", paymentDto.TransactionOrderPaymentErrors.Select(x => string.Join(", ", x.ErrorCode, x.ErrorDetail, x.ErrorMessage, x.IsCardIssuerError, x.IsMerchantError, x.IsProcessorError))),
-                    paymentDto.TransactionOrderProcessLogs == null ? "" : string.Join(" -- ", paymentDto.TransactionOrderProcessLogs.Select(x => string.Join(", ", x.StatusTypeValueID, x.IsPaid, x.IsTransactionOrderProcessed)))
-                    ),
+                    message = paymentDto.ErrorMessage,
                     txID = txID.Value
                 }, JsonRequestBehavior.AllowGet);
 

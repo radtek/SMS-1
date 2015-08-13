@@ -20,35 +20,37 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             Expand = new Dictionary<string, Result>();
         }
 
-        public string ToODataString(bool includeRowVersions)
+        public string ToODataString(string key, bool includeRowVersions)
         {
-            return ts(true, includeRowVersions);
+            return ts(key, true, includeRowVersions);
         }
 
         //build the select query
-        private string ts(bool root, bool includeRowVersions)
+        private string ts(string key, bool root, bool includeRowVersions)
         {
             var sb = new StringBuilder();
             if (root) sb.Append("&");
-            sb.Append("$select=");
+            sb.Append("$" + key + "=");
             IEnumerable<string> list = Select;
             if (includeRowVersions) list = list.Concat(new List<string> { "RowVersion" });
             sb.Append(string.Join(",", list));
 
             if (Expand.Any())
             {
+                if (key == "orderby") throw new Exception("orderby doesn't support navigation properties yet.");
                 sb.Append(root ? "&" : ";");
                 sb.Append("$expand=");
-            }
-            bool first = true;
-            foreach (var x in Expand)
-            {
-                if (!first) sb.Append(",");
-                first = false;
-                sb.Append(x.Key);
-                sb.Append("(");
-                sb.Append(x.Value.ts(false, includeRowVersions));
-                sb.Append(")");
+
+                bool first = true;
+                foreach (var x in Expand)
+                {
+                    if (!first) sb.Append(",");
+                    first = false;
+                    sb.Append(x.Key);
+                    sb.Append("(");
+                    sb.Append(x.Value.ts(key, false, includeRowVersions));
+                    sb.Append(")");
+                }
             }
             return sb.ToString();
         }
@@ -61,7 +63,14 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
         {
             Result r = new Result();
             makeNewExpression(expression.Body as NewExpression, r);
-            return r.ToODataString(includeRowVersions);
+            return r.ToODataString("select", includeRowVersions);
+        }
+
+        public static string OrderBy<T>(Expression<Func<T, object>> expression)
+        {
+            Result r = new Result();
+            makeNewExpression(expression.Body as NewExpression, r);
+            return r.ToODataString("orderby", false);
         }
 
         private static void makeNewExpression(NewExpression nx, Result r)

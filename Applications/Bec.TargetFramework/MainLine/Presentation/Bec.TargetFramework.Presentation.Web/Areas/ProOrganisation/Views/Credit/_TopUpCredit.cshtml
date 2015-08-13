@@ -73,7 +73,7 @@
                                             <label class="label">Expiry Year</label>
                                             <label class="input ">
                                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength = "4" })
+                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength = "2", placeholder = "YY" })
                                             </label>
                                         </section>
                                     </div>
@@ -222,14 +222,17 @@
         rules: {
             CardNumber: {
                 required: true,
+                digits: true,
                 minlength: 16
             },
             CardExpiryYear: {
                 required: true,
+                digits: true,
                 minlength: 2
             },
             CVVNumber: {
                 required: true,
+                digits: true,
                 minlength: 3
             },
             Line1: {
