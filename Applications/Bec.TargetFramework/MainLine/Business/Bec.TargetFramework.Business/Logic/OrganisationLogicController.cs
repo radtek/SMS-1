@@ -533,10 +533,14 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
-                var bankAccount = scope.DbContext.OrganisationBankAccounts
-                    .Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID);
-                var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), 
-                    bankAccountStatusChangeRequest.BankAccountStatus.GetStringValue());
+                var bankAccount = scope.DbContext.VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
+
+                var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
+                if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;
+                if(!CheckStatusChange(bankAccountStatusChangeRequest, currentStatus))
+                    throw new Exception(string.Format("Cannot change Bank Account status from {0} to {1}, please go back and try again.", currentStatus, bankAccountStatusChangeRequest.BankAccountStatus));
+
+                var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), bankAccountStatusChangeRequest.BankAccountStatus.GetStringValue());
 
                 var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                 {
@@ -577,7 +581,24 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task AdditionalOperationForStatusChange(OrganisationBankAccount bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+        private static bool CheckStatusChange(OrganisationBankAccountStateChangeDTO change, BankAccountStatusEnum currentStatus)
+        { 
+            switch (currentStatus)
+            {
+                case BankAccountStatusEnum.Safe:
+                    if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;   
+                    break;
+                case BankAccountStatusEnum.FraudSuspicion:
+                case BankAccountStatusEnum.PendingValidation:
+                    if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;                        
+                    break;
+            }
+            return false;
+        }
+
+        private async Task AdditionalOperationForStatusChange(VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
         {
             switch (bankAccountStatusChangeRequest.BankAccountStatus)
             {
@@ -594,13 +615,13 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, OrganisationBankAccount bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+        private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
             where TNotification : BankAccountStateChangeNotificationDTO, new()
-        {
+            {
             var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
             var notificationDto = new TNotification
             {
-                OrganisationId = bankAccount.OrganisationID ?? bankAccountStatusChangeRequest.OrganisationID,
+                OrganisationId = bankAccount.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,
                 MarkedBy = markedBy.FullName,
