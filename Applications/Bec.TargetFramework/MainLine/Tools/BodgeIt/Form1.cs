@@ -105,13 +105,12 @@ namespace BodgeIt
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Status.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Template.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Create Default Organisation.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));   
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));                 
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "ProductInitial.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "CreditTopUp.sql")));
