@@ -306,6 +306,7 @@
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
+    <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
@@ -903,6 +904,7 @@
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Areas\BankAccount\Views\Check\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
