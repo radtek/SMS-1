@@ -662,7 +662,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusTypeID = accountStatus.StatusTypeID,
                     StatusTypeVersionNumber = accountStatus.StatusTypeVersionNumber,
                     StatusTypeValueID = accountStatus.StatusTypeValueID,
-                    Notes = string.Empty,
+                    Notes = notes,
                     WasActive = bankAccount.IsActive
                 };
 

@@ -320,7 +320,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
         for (var i = 0; i < dataItem.Duplicates.length; i++) {
             var d = dataItem.Duplicates[i];
             var active = ' (' + (d.IsActive ? 'Active' : 'Inactive') + ')';
-            var item = '<div>' + d.Name + ': ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
+            var item = '<div><strong>' + d.Name + ':</strong> ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
             $(selector).append(item);
         }
     }
