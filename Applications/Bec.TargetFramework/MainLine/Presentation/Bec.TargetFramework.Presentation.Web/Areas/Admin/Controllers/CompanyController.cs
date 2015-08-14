@@ -15,6 +15,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -24,6 +25,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public INotificationLogicClient NotificationClient { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
 
         public CompanyController()
         {
@@ -136,6 +138,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> ViewEmailLog(Guid orgId)
         {
             return PartialView("_EmailLog", await NotificationClient.GetEventStatusAsync("TestEvent", orgId.ToString()));
+        }
+
+        public async Task<ActionResult> ViewEditCompany(Guid orgID)
+        {
+            ViewBag.orgID = orgID;
+            var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
+            var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
+            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", Request.QueryString + select + filter);
+            return PartialView("_EditCompany", Edit.MakeModel(res.First()));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditCompany(Guid orgID)
+        {
+            var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
+            var data = Edit.fromD(Request.Form);
+            await queryClient.UpdateGraphAsync("Organisations", data, filter);
+            return RedirectToAction("Qualified");
         }
     }
 }

@@ -57,6 +57,13 @@
                                         @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3" })
                                     </label>
                                 </section>
+                                <section>
+                                    <label class="checkbox ">
+                                        @Html.CheckBoxFor(m => m.Model.UserAccount.IsActive, new { tabindex = "4", id="activeCheck" })
+                                        <i></i>
+                                        <label for="activeCheck">Enable Login</label>
+                                    </label>
+                                </section>
 
                                 <section>
                                     <label class="label">Roles</label>
@@ -82,7 +89,7 @@
                 <button type="button" id="cancelEditUser" class="btn btn-default" data-dismiss="modal">
                     Cancel
                 </button>
-                <button type="button" id="submitEditUser" class="btn btn-primary" tabindex="4">
+                <button type="button" id="submitEditUser" class="btn btn-primary" tabindex="5">
                     Save
                 </button>
             </div>

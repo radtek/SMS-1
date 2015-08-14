@@ -170,7 +170,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.UserAccount.Email,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
-                x.Contact.LastName
+                x.Contact.LastName,
+                x.UserAccount.IsActive
             }, true);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", Request.QueryString + select + filter);
@@ -216,13 +217,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             foreach (var r in toRemove) array.Remove(r);
 
             await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
-
-            //var roles = Edit.ReadFormValues(Request, "role-", s => Guid.Parse(s), v => v == "on")
-            //    .Where(x => x.Value)
-            //    .Select(x => x.Key).ToArray();
-
-            ////TODO: consider rowversion check, or making this part of UpdateGraph
-            //await userClient.SetRolesAsync(uaoID, roles);
 
             return RedirectToAction("Registered");
         }

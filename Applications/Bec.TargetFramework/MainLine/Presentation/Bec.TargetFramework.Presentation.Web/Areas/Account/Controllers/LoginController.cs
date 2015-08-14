@@ -75,35 +75,37 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(LoginDTO model)
         {
-            var a = Request.ContentType;
+            var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
+            TempData["version"] = Settings.OctoVersion;
 
             if (ModelState.IsValid)
             {
                 var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username.Trim(), EncodePassword(model.Password.Trim()));
+                var msg = loginValidationResult.validationMessage;
 
-                if (!loginValidationResult.valid)
-                {
-                    var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
-                    TempData["version"] = Settings.OctoVersion;
-                    ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", loginValidationResult.validationMessage, commonSettings.SupportTelephoneNumber));
-                }
-                else
+                if (loginValidationResult.valid)
                 {
                     var ua = new BrockAllen.MembershipReboot.UserAccount();
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
-                    await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+                    if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
+                    {
 
-                    if (ua.IsTemporaryAccount)
-                        return RedirectToAction("Index", "Register", new { area = "Account" });
+                        if (ua.IsTemporaryAccount)
+                            return RedirectToAction("Index", "Register", new { area = "Account" });
+                        else
+                            return RedirectToAction("Index", "Home", new { area = "" });
+                    }
                     else
-                        return RedirectToAction("Index", "Home", new { area = "" });
+                        msg = "Invalid Username or Password";
                 }
+
+                ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", msg, commonSettings.SupportTelephoneNumber));
             }
 
             return View(model);
         }
 
-        internal static async Task login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc, IOrganisationLogicClient olc)
+        internal static async Task<bool> login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc, IOrganisationLogicClient olc)
         {
             Guid orgID;
             Guid uaoID;
@@ -115,6 +117,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             orgID = org.OrganisationID;
             uaoID = org.UserAccountOrganisationID;
+
+            var o = await olc.GetOrganisationDTOAsync(orgID);
+            if (!o.IsActive) return false;
+
             foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, orgID))
                 additionalClaims.Add(new Claim(item.Type, item.Value));
 
@@ -125,6 +131,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, NotificationConstructEnum.TcPublic)).Count > 0;
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
+
+            return true;
         }
 
         private static async Task<List<Claim>> GenerateUserClaims(Guid userId, IUserLogicClient ulc)
