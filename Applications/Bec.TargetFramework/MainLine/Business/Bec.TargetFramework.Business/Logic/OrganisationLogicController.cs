@@ -447,7 +447,8 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID
+                    TenureTypeID = dto.TenureTypeID,
+                    CreatedOn = DateTime.Now
                 };
                 scope.DbContext.SmsTransactions.Add(tx);
                 await scope.SaveAsync();
