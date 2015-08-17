@@ -117,7 +117,12 @@ namespace Bec.TargetFramework.Business.Logic
                             if (prop.Name == "RowVersion")
                                 dbc.Entry(obj).Property("RowVersion").OriginalValue = (Int64)prop.Value;
                             else
-                                p.SetValue(obj, Convert.ChangeType(prop.Value, p.PropertyType));
+                            {
+                                object val = prop.Value;
+                                if (p.PropertyType == typeof(bool)) 
+                                    val = val.ToString().Contains("true");
+                                p.SetValue(obj, Convert.ChangeType(val, p.PropertyType));
+                            }
                         }
                     }
                 }

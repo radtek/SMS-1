@@ -447,7 +447,8 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID
+                    TenureTypeID = dto.TenureTypeID,
+                    CreatedOn = DateTime.Now
                 };
                 scope.DbContext.SmsTransactions.Add(tx);
                 await scope.SaveAsync();
@@ -662,7 +663,7 @@ namespace Bec.TargetFramework.Business.Logic
                     StatusTypeID = accountStatus.StatusTypeID,
                     StatusTypeVersionNumber = accountStatus.StatusTypeVersionNumber,
                     StatusTypeValueID = accountStatus.StatusTypeValueID,
-                    Notes = string.Empty,
+                    Notes = notes,
                     WasActive = bankAccount.IsActive
                 };
 

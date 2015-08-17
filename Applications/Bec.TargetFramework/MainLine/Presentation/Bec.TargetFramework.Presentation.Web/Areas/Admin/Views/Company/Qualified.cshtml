@@ -22,6 +22,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
+                                <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true">Edit Company</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -150,7 +151,7 @@
         tabs.makeTab();
         tabs.showTab(@TempData["tabIndex"]);
 
-        //findModalLinks();
+        findModalLinks();
     });
 
     //data binding for the panes beneath each grid
@@ -180,6 +181,8 @@
         //update reject & generate links
         $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
         $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+
+        $("#editButton").data('href', '@Url.Action("ViewEditCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
     }
 
     </script>
