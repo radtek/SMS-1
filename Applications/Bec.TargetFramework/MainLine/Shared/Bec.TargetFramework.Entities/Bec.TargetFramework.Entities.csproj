@@ -1861,6 +1861,7 @@
     <Compile Include="DTO\LoginDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
+    <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />
@@ -1875,6 +1876,7 @@
     <Compile Include="DTO\Organisation\OrganisationBankAccountStateChangeDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxRequestDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxResultDTO.cs" />
+    <Compile Include="DTO\Payment\CreditAdjustmentDTO.cs" />
     <Compile Include="DTO\Payment\OrderRequestDTO.cs" />
     <Compile Include="DTO\Payment\OrderResponseDTO.cs" />
     <Compile Include="DTO\Payment\PaymentTransactionRequestDTO.cs" />

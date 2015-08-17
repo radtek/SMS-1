@@ -19,6 +19,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Bec.TargetFramework.Entities.DTO.Notification;
+using Bec.TargetFramework.SB.Entities;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -27,11 +29,11 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public TFSettingsLogicController Settings { get; set; }
         public ProductLogicController ProductLogic { get; set; }
-        public OrganisationLogicController orgLogic { get; set; }
-
-        public PaymentLogicController()
-        {
-        }
+        public ShoppingCartLogicController ShoppingCartLogic { get; set; }
+        public InvoiceLogicController InvoiceLogic { get; set; }
+        public TransactionOrderLogicController TransactionOrderLogic { get; set; }
+        public OrganisationLogicController OrganisationLogic { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
 
         private CreditCardTxTypeType ConvertChargeType(PaymentChargeTypeEnum enumValue)
         {
@@ -304,7 +306,7 @@ namespace Bec.TargetFramework.Business.Logic
                     var creditProd = ProductLogic.GetTopUpProduct();
                     foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
                     {
-                        await orgLogic.AddCreditAsync(
+                        await OrganisationLogic.AddCreditAsync(
                             txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
                             request.TransactionOrderID,
                             txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
@@ -316,6 +318,42 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             return responseDto;
+        }
+
+        public async Task AmendCredit(CreditAdjustmentDTO creditAdjustmentDto)
+        {
+            var prod = ProductLogic.GetTopUpProduct();
+            var cart = await ShoppingCartLogic.CreateShoppingCartAsync(creditAdjustmentDto.UserAccountOrganisationId, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "UK");
+            await ShoppingCartLogic.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, creditAdjustmentDto.Amount);
+            var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Amend");
+            var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
+            await OrganisationLogic.AddCreditAsync(creditAdjustmentDto.OrganisationId, transactionOrder.TransactionOrderID, creditAdjustmentDto.UserAccountOrganisationId, creditAdjustmentDto.Amount);
+            var organisationLedgerAccount = OrganisationLogic.GetCreditAccount(creditAdjustmentDto.OrganisationId);
+            await PublishCreditAdjustmentNotification(creditAdjustmentDto, organisationLedgerAccount, transactionOrder);
+        }
+
+        private async Task PublishCreditAdjustmentNotification(CreditAdjustmentDTO creditAdjustmentDto, OrganisationLedgerAccountDTO organisationLedgerAccountDto,
+            TransactionOrderDTO transactionOrderDto)
+        {
+            var notificationDto = new CreditAdjustmentNotificationDTO
+            {
+                OrganisationId = creditAdjustmentDto.OrganisationId,
+                Reason = creditAdjustmentDto.Reason,
+                DetailsUrl = string.Format(creditAdjustmentDto.DetailsUrlFormat, transactionOrderDto.TransactionOrderID),
+                ModifiedOn = DateTime.Now.ToString("g"),
+                NewBalance = organisationLedgerAccountDto.Balance.ToString("N")
+            };
+
+            string payLoad = JsonHelper.SerializeData(new object[] {notificationDto});
+            var dto = new EventPayloadDTO
+            {
+                EventName = NotificationConstructEnum.CreditAdjustment.GetStringValue(),
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0003",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(dto);
         }
 
         private string DetermineErrorCodeFromApprovalCode(string approvalCode)

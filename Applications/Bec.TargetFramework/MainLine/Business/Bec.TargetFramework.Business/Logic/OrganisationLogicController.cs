@@ -43,21 +43,21 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-                    {
+        {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                        uao.UserAccount.IsLoginAllowed = false;
-                        uao.PinCode = null;
+                uao.UserAccount.IsLoginAllowed = false;
+                uao.PinCode = null;
 
-                        if (uao.Organisation != null)
-                        {
-                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                if (uao.Organisation != null)
+                {
+                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
                     if (status != null && status.StatusTypeValueID == verifiedStatus.StatusTypeValueID)
-                                await ExpireOrganisationAsync(uao.OrganisationID);
-                        }
+                        await ExpireOrganisationAsync(uao.OrganisationID);
+                }
                 await scope.SaveAsync();
             }
         }
@@ -238,11 +238,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             string eventName = "TestEvent";
             switch (userType)
-        {
+            {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
-            }            
+            }
 
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
@@ -504,7 +504,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var bankAccountStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
-                
+
                 var bankAccount = accountDTO.ToEntity();
                 bankAccount.OrganisationBankAccountID = Guid.NewGuid();
                 bankAccount.OrganisationID = orgID;
@@ -537,7 +537,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
                 if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;
-                if(!CheckStatusChange(bankAccountStatusChangeRequest, currentStatus))
+                if (!CheckStatusChange(bankAccountStatusChangeRequest, currentStatus))
                     throw new Exception(string.Format("Cannot change Bank Account status from {0} to {1}, please go back and try again.", currentStatus, bankAccountStatusChangeRequest.BankAccountStatus));
 
                 var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), bankAccountStatusChangeRequest.BankAccountStatus.GetStringValue());
@@ -582,17 +582,17 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         private static bool CheckStatusChange(OrganisationBankAccountStateChangeDTO change, BankAccountStatusEnum currentStatus)
-        { 
+        {
             switch (currentStatus)
             {
                 case BankAccountStatusEnum.Safe:
                     if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;   
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
                     break;
                 case BankAccountStatusEnum.FraudSuspicion:
                 case BankAccountStatusEnum.PendingValidation:
                     if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;                        
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
                     break;
             }
             return false;
@@ -605,10 +605,10 @@ namespace Bec.TargetFramework.Business.Logic
                 case BankAccountStatusEnum.PendingValidation:
                     break;
                 case BankAccountStatusEnum.Safe:
-                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsSafeNotificationDTO>("BankAccountMarkedAsSafe", bankAccount, bankAccountStatusChangeRequest);
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsSafeNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsSafe.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.FraudSuspicion:
-                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>("BankAccountMarkedAsFraudSuspicious", bankAccount, bankAccountStatusChangeRequest);
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.PotentialFraud:
                     break;
@@ -617,7 +617,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
             where TNotification : BankAccountStateChangeNotificationDTO, new()
-            {
+        {
             var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
             var notificationDto = new TNotification
             {
@@ -642,7 +642,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active, string notes)
-                {
+        {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 var bankAccount = scope.DbContext.OrganisationBankAccounts
@@ -669,7 +669,7 @@ namespace Bec.TargetFramework.Business.Logic
                 await AddStatus(bankAccountAddStatus);
                 await scope.SaveAsync();
             }
-                }
+        }
 
         private async Task AddStatus(OrganisationBankAccountAddStatusDTO bankAccountAddStatus)
         {
@@ -714,7 +714,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var transactionOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == transactionOrderID);
                 var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                var account = scope.DbContext.OrganisationLedgerAccounts.Single(x => 
+                var account = scope.DbContext.OrganisationLedgerAccounts.Single(x =>
                     x.OrganisationID == orgID &&
                     x.LedgerAccountTypeID == creditType);
                 account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
@@ -729,13 +729,18 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveAsync();
             }
         }
+        
+        public Guid GetCreditAccountId(Guid orgID)
+        {
+            return GetCreditAccount(orgID).OrganisationLedgerAccountID;
+        }
 
-        public async Task<Guid> GetCreditAccount(Guid orgID)
+        public OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId)
         {
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                return scope.DbContext.OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType).OrganisationLedgerAccountID;
+                return scope.DbContext.OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgId && x.LedgerAccountTypeID == creditType).ToDto();
             }
         }
 

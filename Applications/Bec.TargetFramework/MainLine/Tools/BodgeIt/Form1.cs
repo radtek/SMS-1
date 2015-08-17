@@ -111,6 +111,7 @@ namespace BodgeIt
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));                 
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "ProductInitial.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "CreditTopUp.sql")));
@@ -127,7 +128,7 @@ namespace BodgeIt
                 }
             }
         }
-
+        
         private void runScript(PgSqlConnection connection, string text)
         {
             var c = connection.CreateCommand();

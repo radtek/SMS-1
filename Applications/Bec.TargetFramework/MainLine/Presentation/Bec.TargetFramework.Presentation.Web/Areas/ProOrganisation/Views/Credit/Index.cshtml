@@ -1,5 +1,4 @@
-﻿@using Bec.TargetFramework.Entities.Enums
-<!-- MAIN CONTENT -->
+﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
 
@@ -69,9 +68,10 @@
                 type: 'odata-v4',
                 serverSorting: true,
                 serverPaging: true,
-                defaultSort: { field: "BalanceOn", dir: "asc" },
+                defaultSort: { field: "BalanceOn", dir: "desc" },
                 panels: ['rPanel'],
                 change: txChange,
+                jumpToId: '@ViewBag.TransactionOrderId',
                 extraParameters: function () {
                     return "&from=" + $('#from').val() + "&to=" + $('#to').val();
                 },
@@ -123,9 +123,9 @@
 
         function updateBalances() {
             ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=true&date=' + $('#from').val() })
-                .done(function (res) {
-                    $('#openingBal').text(res);
-                });
+            .done(function (res) {
+                $('#openingBal').text(res);
+            });
             ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + $('#to').val() })
                 .done(function (res) {
                     $('#closingBal').text(res);

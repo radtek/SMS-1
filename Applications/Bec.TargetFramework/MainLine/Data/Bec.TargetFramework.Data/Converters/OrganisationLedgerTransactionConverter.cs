@@ -34,6 +34,7 @@ namespace Bec.TargetFramework.Entities
             target.BalanceOn = source.BalanceOn;
             target.Amount = source.Amount;
             target.CreatedBy = source.CreatedBy;
+            target.Notes = source.Notes;
 
             // Navigation Properties
             if (level > 0) {
@@ -61,6 +62,7 @@ namespace Bec.TargetFramework.Entities
             target.BalanceOn = source.BalanceOn;
             target.Amount = source.Amount;
             target.CreatedBy = source.CreatedBy;
+            target.Notes = source.Notes;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -22,13 +22,14 @@ namespace Bec.TargetFramework.Entities
         public OrganisationLedgerTransactionDTO() {
         }
 
-        public OrganisationLedgerTransactionDTO(global::System.Guid organisationLedgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, decimal amount, global::System.Nullable<System.Guid> createdBy, OrganisationLedgerAccountDTO organisationLedgerAccount, TransactionOrderDTO transactionOrder, UserAccountOrganisationDTO userAccountOrganisation) {
+        public OrganisationLedgerTransactionDTO(global::System.Guid organisationLedgerAccountID, global::System.Guid transactionOrderID, global::System.DateTime balanceOn, decimal amount, global::System.Nullable<System.Guid> createdBy, string notes, OrganisationLedgerAccountDTO organisationLedgerAccount, TransactionOrderDTO transactionOrder, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.OrganisationLedgerAccountID = organisationLedgerAccountID;
           this.TransactionOrderID = transactionOrderID;
           this.BalanceOn = balanceOn;
           this.Amount = amount;
           this.CreatedBy = createdBy;
+          this.Notes = notes;
           this.OrganisationLedgerAccount = organisationLedgerAccount;
           this.TransactionOrder = transactionOrder;
           this.UserAccountOrganisation = userAccountOrganisation;
@@ -52,6 +53,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> CreatedBy { get; set; }
+
+        [DataMember]
+        public string Notes { get; set; }
 
         #endregion
 
