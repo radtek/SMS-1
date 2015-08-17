@@ -7,10 +7,7 @@ using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
@@ -61,8 +58,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.BalanceOn >= from &&
                 x.BalanceOn < to &&
                 x.OrganisationLedgerAccountID == creditAccountID);
-
-            //var orderby = ODataHelper.OrderByDescending<VOrganisationLedgerTransactionBalanceDTO>(x => new { x.BalanceOn });
 
             var query = ODataHelper.RemoveParameters(Request) + select + filter;
             JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", query);
