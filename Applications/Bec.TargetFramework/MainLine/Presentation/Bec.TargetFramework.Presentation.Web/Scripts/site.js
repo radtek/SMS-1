@@ -325,3 +325,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
         }
     }
 }
+
+function formatCurrency(val) {
+    return '£' + val.toFixed(2);
+}

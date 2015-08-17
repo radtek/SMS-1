@@ -56,7 +56,6 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
     <script type="text/javascript">
 
         var shownMessage = false;
@@ -84,12 +83,14 @@
                         {
                             field: "Amount",
                             title: "Amount",
-                            sortable: false
+                            sortable: false,
+                            template: function (dataItem) { return formatCurrency(dataItem.Amount); }
                         },
                         {
                             field: "Balance",
                             title: "Balance",
-                            sortable: false
+                            sortable: false,
+                            template: function (dataItem) { return formatCurrency(dataItem.Balance); }
                         },
                         {
                             field: "BalanceOn",
@@ -124,18 +125,18 @@
         function updateBalances() {
             ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=true&date=' + $('#from').val() })
                 .done(function (res) {
-                    $('#openingBal').text(res);
+                    $('#openingBal').text(formatCurrency(parseFloat(res)));
                 });
             ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + $('#to').val() })
                 .done(function (res) {
-                    $('#closingBal').text(res);
+                    $('#closingBal').text(formatCurrency(parseFloat(res)));
                 });
         }
 
         //data binding for the panes beneath each grid
         function txChange(dataItem) {
             $("p#ddReference").text(dataItem.InvoiceReference || "");
-            $("p#ddAmount").text(dataItem.Amount || "");
+            $("p#ddAmount").text(formatCurrency(dataItem.Amount));
             $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
             $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
         }
