@@ -335,11 +335,13 @@ namespace Bec.TargetFramework.Business.Logic
         private async Task PublishCreditAdjustmentNotification(CreditAdjustmentDTO creditAdjustmentDto, OrganisationLedgerAccountDTO organisationLedgerAccountDto,
             TransactionOrderDTO transactionOrderDto)
         {
+            var organisation = OrganisationLogic.GetOrganisationDTO(creditAdjustmentDto.OrganisationId);
             var notificationDto = new CreditAdjustmentNotificationDTO
             {
                 OrganisationId = creditAdjustmentDto.OrganisationId,
                 Reason = creditAdjustmentDto.Reason,
                 DetailsUrl = string.Format(creditAdjustmentDto.DetailsUrlFormat, transactionOrderDto.TransactionOrderID),
+                ModifiedBy = organisation.Name,
                 ModifiedOn = DateTime.Now.ToString("g"),
                 NewBalance = organisationLedgerAccountDto.Balance.ToString("N")
             };
