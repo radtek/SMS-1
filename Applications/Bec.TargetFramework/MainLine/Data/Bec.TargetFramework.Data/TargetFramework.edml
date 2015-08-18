@@ -9742,6 +9742,7 @@
           <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
           <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
           <Property Name="CreatedBy" Type="uuid" />
+          <Property Name="Notes" Type="text" />
         </EntityType>
         <EntityType Name="vOrganisationLedgerTransactionBalance">
           <Key>
@@ -28573,6 +28574,7 @@
           <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="73fb6834-3dcc-488e-92b3-783ede0d8d2b" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="74caf72f-9175-4762-96e0-0f552fbcf791" />
           <Property Name="CreatedBy" Type="Guid" ed:ValidateRequired="False" ed:Guid="a2c198c1-0da5-4cd7-a8d0-10b1aa63dbe8" />
+          <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="4e48826b-0f50-4b1d-9842-7f5aec320319" />
           <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="53dffa99-7ff5-47ff-a470-f3eea9b2db8f" />
           <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="OrganisationLedgerTransactions" ToRole="TransactionOrder" ed:Guid="808b9fc0-ddef-49ae-81e3-cb77591e44cd" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="OrganisationLedgerTransactions" ToRole="UserAccountOrganisation" ed:Guid="c8b39f1e-0a4f-4102-96c8-0f737d2dd660" />
@@ -42909,6 +42911,7 @@
                 <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

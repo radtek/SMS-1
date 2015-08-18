@@ -621,11 +621,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		Task<Guid> GetCreditAccountAsync(Guid orgID);
+		Task<Guid> GetCreditAccountIdAsync(Guid orgID);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		Guid GetCreditAccount(Guid orgID);
+		Guid GetCreditAccountId(Guid orgID);
+
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		Task<OrganisationLedgerAccountDTO> GetCreditAccountAsync(Guid orgId);
+
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId);
 
 		/// <param name="accountID"></param>
 		/// <param name="date"></param>
@@ -661,6 +669,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
+
+		/// <returns></returns>
+		Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto);
+
+		/// <returns></returns>
+		void AmendCredit(CreditAdjustmentDTO creditAdjustmentDto);
 	}
 
 	public partial interface IProductLogicClient : IClientBase	{	
@@ -2794,20 +2808,41 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> GetCreditAccountAsync(Guid orgID)
+		public virtual Task<Guid> GetCreditAccountIdAsync(Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user);
+			return GetAsync<Guid>("api/OrganisationLogic/GetCreditAccountId?orgID=" + orgID, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual Guid GetCreditAccount(Guid orgID)
+		public virtual Guid GetCreditAccountId(Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Guid>("api/OrganisationLogic/GetCreditAccount?orgID=" + orgID, _user)).Result;
+			return Task.Run(() => GetAsync<Guid>("api/OrganisationLogic/GetCreditAccountId?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
+		public virtual Task<OrganisationLedgerAccountDTO> GetCreditAccountAsync(Guid orgId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<OrganisationLedgerAccountDTO>("api/OrganisationLogic/GetCreditAccount?orgId=" + orgId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgId"></param>
+		public virtual OrganisationLedgerAccountDTO GetCreditAccount(Guid orgId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<OrganisationLedgerAccountDTO>("api/OrganisationLogic/GetCreditAccount?orgId=" + orgId, _user)).Result;
 		}
 
 		/// <summary>
@@ -2914,6 +2949,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/PaymentLogic/ProcessPaymentTransaction", request, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<CreditAdjustmentDTO>("api/PaymentLogic/AmendCredit", creditAdjustmentDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AmendCredit(CreditAdjustmentDTO creditAdjustmentDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<CreditAdjustmentDTO>("api/PaymentLogic/AmendCredit", creditAdjustmentDto, _user)).Wait();
 		}
 
 		#endregion

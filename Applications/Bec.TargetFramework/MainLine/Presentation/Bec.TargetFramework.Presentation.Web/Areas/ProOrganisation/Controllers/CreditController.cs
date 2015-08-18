@@ -7,10 +7,7 @@ using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
@@ -26,15 +23,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IPaymentLogicClient paymentClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? transactionOrderId)
         {
+            ViewBag.TransactionOrderId = transactionOrderId;
             return View();
         }
 
         public async Task<decimal> GetBalanceAsAt(DateTime date, bool startOfDay)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            Guid creditAccountID = await orgClient.GetCreditAccountAsync(orgID);
+            Guid creditAccountID = await orgClient.GetCreditAccountIdAsync(orgID);
             
             date = startOfDay ? date.Date : date.Date.AddDays(1);
             return await orgClient.GetBalanceAsAtAsync(creditAccountID, date);
@@ -43,11 +41,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> GetStatement(DateTime from, DateTime to)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            Guid creditAccountID = await orgClient.GetCreditAccountAsync(orgID);
+            Guid creditAccountID = await orgClient.GetCreditAccountIdAsync(orgID);
             to = to.Date.AddDays(1); //less than tomorrow
 
             var select = ODataHelper.Select<VOrganisationLedgerTransactionBalanceDTO>(x => new
             {
+                x.TransactionOrderID,
                 x.InvoiceReference,
                 x.Amount,
                 x.Balance,
@@ -60,7 +59,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.BalanceOn < to &&
                 x.OrganisationLedgerAccountID == creditAccountID);
 
-            JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", ODataHelper.RemoveParameters(Request) + select + filter);
+            var query = ODataHelper.RemoveParameters(Request) + select + filter;
+            JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", query);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

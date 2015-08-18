@@ -29,6 +29,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("BankAccountMarkedAsFraudSuspicious")]
         BankAccountMarkedAsFraudSuspicious = 11,
         [StringValue("BankAccountMarkedAsSafe")]
-        BankAccountMarkedAsSafe = 12
+        BankAccountMarkedAsSafe = 12,
+        [StringValue("CreditAdjustment")]
+        CreditAdjustment = 13,
     }
 }

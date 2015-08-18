@@ -1,18 +1,15 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.CouchBaseCache;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers;
 using BrockAllen.MembershipReboot;
 using BrockAllen.MembershipReboot.WebHost;
-using NServiceBus;
 using Serilog.Extras.Web;
 using System.Configuration;
-using System.Linq;
 using System.Reflection;
 
 namespace BEC.TargetFramework.Presentation.Web.IOC

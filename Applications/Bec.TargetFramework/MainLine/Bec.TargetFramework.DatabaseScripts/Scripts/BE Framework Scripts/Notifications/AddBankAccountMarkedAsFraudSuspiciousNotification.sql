@@ -153,15 +153,15 @@ VALUES (
           <Name>TextContent</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;h2&gt;The following bank account was Marked as Fraud Suspicious&lt;/h2&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;h2&gt;&lt;line-height="1.5"&gt;The following bank account was Marked as Fraud Suspicious&lt;/line-height&gt;&lt;/h2&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </TextContent>
         <Text1 Ref="6" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,1,3.6,0.4</ClientRectangle>
+          <ClientRectangle>0.4,1,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>ebcb4cd1ff9248ecb0d71fac524e64c2</Guid>
@@ -170,15 +170,15 @@ VALUES (
           <Name>Text1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Account Number:&lt;/b&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Account Number:&lt;/line-height&gt;&lt;/b&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text1>
         <Text2 Ref="7" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,1.6,3.6,0.4</ClientRectangle>
+          <ClientRectangle>0.4,1.8,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>33e0aa711397490c80cb73e979bf78e2</Guid>
@@ -187,15 +187,15 @@ VALUES (
           <Name>Text2</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Sort Code:&lt;/b&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Sort Code:&lt;/line-height&gt;&lt;/b&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text2>
         <Text3 Ref="8" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,2.2,3.6,0.4</ClientRectangle>
+          <ClientRectangle>0.4,2.6,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>6c399a13d2c84d6693f2b15a61d189d8</Guid>
@@ -204,15 +204,15 @@ VALUES (
           <Name>Text3</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Changed By:&lt;/b&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Changed By:&lt;/line-height&gt;&lt;/b&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text3>
         <Text4 Ref="9" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,2.8,3.6,0.4</ClientRectangle>
+          <ClientRectangle>0.4,3.4,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>f529bd40df864983ac80b72c57474403</Guid>
@@ -221,15 +221,15 @@ VALUES (
           <Name>Text4</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Reason:&lt;/b&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Reason:&lt;/line-height&gt;&lt;/b&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text4>
         <Text5 Ref="10" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,3.4,3.6,0.4</ClientRectangle>
+          <ClientRectangle>0.4,4.2,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>5a73b08d29294c05a09a905e156e3560</Guid>
@@ -238,15 +238,15 @@ VALUES (
           <Name>Text5</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;b&gt;Link to Details:&lt;/b&gt;</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Link to Details:&lt;/line-height&gt;&lt;/b&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text5>
         <Text6 Ref="11" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1,11,0.6</ClientRectangle>
+          <ClientRectangle>4.6,1,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>d666cef6f51441dda0b39d364072a5a3</Guid>
@@ -254,15 +254,15 @@ VALUES (
           <Name>Text6</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}&lt;/line-height&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text6>
         <Text7 Ref="12" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,1.6,11,0.6</ClientRectangle>
+          <ClientRectangle>4.6,1.8,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>a43d44a16c9f455fb005c85e01288a46</Guid>
@@ -270,15 +270,15 @@ VALUES (
           <Name>Text7</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}&lt;/line-height&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text7>
         <Text8 Ref="13" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.2,11,0.6</ClientRectangle>
+          <ClientRectangle>4.6,2.6,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>f5dc17c70f1a40e8a4d0080105b86861</Guid>
@@ -286,15 +286,15 @@ VALUES (
           <Name>Text8</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.MarkedBy}</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.MarkedBy}&lt;/line-height&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text8>
         <Text9 Ref="14" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,2.8,11,0.6</ClientRectangle>
+          <ClientRectangle>4.6,3.4,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10</Font>
           <Guid>48927f2ae58c41d6abd74782fb99cb39</Guid>
@@ -302,15 +302,15 @@ VALUES (
           <Name>Text9</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.Reason}</Text>
-          <TextBrush>Black</TextBrush>
+          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.Reason}&lt;/line-height&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
-          <Type>DataColumn</Type>
+          <Type>Expression</Type>
         </Text9>
         <Text10 Ref="15" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
-          <ClientRectangle>4,3.4,11,0.6</ClientRectangle>
+          <ClientRectangle>4.6,4.2,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Open Sans,10,Underline</Font>
           <Guid>229a1094c32f475bb527a9678a572f42</Guid>
@@ -319,11 +319,12 @@ VALUES (
           <Name>Text10</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>Click Here
+          <Text>&lt;line-height="1.5"&gt;Click Here&lt;/line-height&gt;
 </Text>
-          <TextBrush>Black</TextBrush>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
         </Text10>
       </Components>
       <Conditions isList="true" count="0" />
@@ -352,10 +353,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/12/2015 11:32:19 AM</ReportChanged>
+  <ReportChanged>8/18/2015 8:47:06 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>96718cf053f64b829c574c928491aa57</ReportGuid>
+  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\1BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
+  <ReportGuid>4141d7da97534e5b849f273c14c7fe69</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>

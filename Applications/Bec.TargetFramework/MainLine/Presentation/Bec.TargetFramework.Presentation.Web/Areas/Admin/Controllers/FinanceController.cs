@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public IInvoiceLogicClient invoiceClient { get; set; }
         public ITransactionOrderLogicClient txClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
+        public IPaymentLogicClient PaymentLogicClient { get; set; }
         
         public ActionResult OutstandingBankAccounts()
         {
@@ -93,7 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             if (!orgID.HasValue) return null;
 
-            Guid creditAccountID = await orgClient.GetCreditAccountAsync(orgID.Value);
+            Guid creditAccountID = await orgClient.GetCreditAccountIdAsync(orgID.Value);
             to = to.Date.AddDays(1); //less than tomorrow
 
             var select = ODataHelper.Select<VOrganisationLedgerTransactionBalanceDTO>(x => new
@@ -129,15 +130,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AmendCredit(Guid orgID, decimal amount)
+        public async Task<ActionResult> AmendCredit(Guid orgID, decimal amount, string reason)
         { 
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var prod = await prodClient.GetTopUpProductAsync();
-            var cart = await cartClient.CreateShoppingCartAsync(uaoID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "UK");
-            await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
-            var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Amendment");
-            var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            await orgClient.AddCreditAsync(orgID, transactionOrder.TransactionOrderID, uaoID, amount);
+            var creditAdjustment = new CreditAdjustmentDTO
+            {
+                OrganisationId = orgID,
+                UserAccountOrganisationId = uaoID,
+                Amount = amount,
+                Reason = reason,
+                DetailsUrlFormat = Url.Action("Index", "Credit", new { area = "ProOrganisation" }, Request.Url.Scheme) + "?transactionOrderId={0}"
+            };
+            await PaymentLogicClient.AmendCreditAsync(creditAdjustment);
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }

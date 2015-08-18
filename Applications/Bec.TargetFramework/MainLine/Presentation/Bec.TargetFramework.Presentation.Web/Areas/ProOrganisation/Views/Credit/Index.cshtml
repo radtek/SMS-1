@@ -1,5 +1,4 @@
-﻿@using Bec.TargetFramework.Entities.Enums
-<!-- MAIN CONTENT -->
+﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
 
@@ -68,9 +67,10 @@
                 type: 'odata-v4',
                 serverSorting: true,
                 serverPaging: true,
-                defaultSort: { field: "BalanceOn", dir: "asc" },
+                defaultSort: { field: "BalanceOn", dir: "desc" },
                 panels: ['rPanel'],
                 change: txChange,
+                jumpToId: '@ViewBag.TransactionOrderId',
                 extraParameters: function () {
                     return "&from=" + $('#from').val() + "&to=" + $('#to').val();
                 },
