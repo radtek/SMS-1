@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Entities.Enums;
-using ServiceStack.Text;
+﻿using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Settings;
+using Fabrik.Common;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Bec.TargetFramework.Entities
 {
-
-    using Fabrik.Common;
-    using Bec.TargetFramework.Infrastructure.Settings;
-
     [Serializable]
     [DataContract]
     public class NotificationContainerDTO
@@ -24,7 +18,7 @@ namespace Bec.TargetFramework.Entities
         public bool DataSentAsJson { get; set; }
         [DataMember]
         public string DataAsJson { get; set; }
-         [DataMember]
+        [DataMember]
         public string NotificationConstructName { get; set; }
 
         public NotificationContainerDTO()
@@ -58,17 +52,17 @@ namespace Bec.TargetFramework.Entities
                 ExportFormat = notificationConstruct.DefaultNotificationExportFormatID ?? (int)NotificationExportFormatIDEnum.HTML5,
                 LoginRoute = commonSettings.LoginActionRoute,
                 NotificationFromEmailAddress = commonSettings.NotificationFromEmailAddress,
-                Subject = notificationConstruct.NotificationSubject                
+                Subject = notificationConstruct.NotificationSubject
             };
 
-            data.NotificationDictionary.TryAdd("NotificationSettingDTO",NotificationSetting);
+            data.NotificationDictionary.TryAdd("NotificationSettingDTO", NotificationSetting);
 
             DataAsJson = JsonHelper.SerializeData(data);
         }
 
         [DataMember]
         public List<NotificationRecipientDTO> Recipients { get; set; }
-      
+
 
     }
 }

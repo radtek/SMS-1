@@ -222,6 +222,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for RowVersion in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> RowVersion
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -231,15 +241,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserAccountLedgerAccounts in the schema.
         /// </summary>
         public virtual ICollection<UserAccountLedgerAccount> UserAccountLedgerAccounts
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for LedgerAccountTransactions in the schema.
-        /// </summary>
-        public virtual ICollection<LedgerAccountTransaction> LedgerAccountTransactions
         {
             get;
             set;
@@ -258,6 +259,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Organisation in the schema.
         /// </summary>
         public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for OrganisationLedgerTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<OrganisationLedgerTransaction> OrganisationLedgerTransactions
         {
             get;
             set;

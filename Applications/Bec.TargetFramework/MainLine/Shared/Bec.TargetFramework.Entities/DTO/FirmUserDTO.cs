@@ -1,16 +1,8 @@
-﻿using Bec.TargetFramework.Entities.Helpers;
-using Bec.TargetFramework.Entities.Validators;
+﻿using Bec.TargetFramework.Entities.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Infrastructure.Extensions;
-
 
 namespace Bec.TargetFramework.Entities
 {
@@ -18,12 +10,10 @@ namespace Bec.TargetFramework.Entities
     [Serializable]
     public class FirmUserDTO
     {
-
         public FirmUserDTO()
         {
             Roles = Enum.GetValues(typeof(FirmUserRoleEnum)).OfType<object>().Select(o => o.ToString()).ToList();
         }
-
 
         [DataMember]
         public Guid? UserID { get; set; }

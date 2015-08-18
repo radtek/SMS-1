@@ -6,6 +6,7 @@ using Bec.TargetFramework.Infrastructure;
 using EnsureThat;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
 {
@@ -16,30 +17,36 @@ namespace Bec.TargetFramework.Business.Logic
         {
         }
 
-        public ProductDTO GetProduct(Guid productId, int versionNumber)
+        public ProductDTO GetTopUpProduct()
         {
-            Ensure.That(productId).IsNot(Guid.Empty);
-
-            ProductDTO dto = null;
-
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                // get product
-                var product = scope.DbContexts.Get<TargetFrameworkEntities>()
-                                   .Products
-                                   .Include("ComponentTiers")
-                                   .Include("ProductDetails")
-                                   .Single(item =>
-                                                  item.IsActive.Equals(true) && item.IsDeleted.Equals(false) && item.ProductVersionID.Equals(versionNumber) && item.ProductID.Equals(productId));
-
-                dto = ProductConverter.ToDto(product);
-
-                dto.ProductDetails = ProductDetailConverter.ToDtos(product.ProductDetails);
-                dto.ComponentTiers = ComponentTierConverter.ToDtos(product.ComponentTiers);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDto();
             }
-
-            return dto;
         }
+
+        //public ProductDTO GetProduct(Guid productId, int versionNumber)
+        //{
+        //    Ensure.That(productId).IsNot(Guid.Empty);
+
+            //using (var scope = DbContextScopeFactory.CreateReadOnly())
+            //{
+            //    // get product
+            //    var product = scope.DbContexts.Get<TargetFrameworkEntities>()
+            //                       .Products
+            //                       .Include("ComponentTiers")
+            //                       .Include("ProductDetails")
+            //                       .Single(item =>
+            //                                      item.IsActive.Equals(true) && item.IsDeleted.Equals(false) && item.ProductVersionID.Equals(versionNumber) && item.ProductID.Equals(productId));
+
+        //        dto = ProductConverter.ToDto(product);
+
+        //        dto.ProductDetails = ProductDetailConverter.ToDtos(product.ProductDetails);
+        //        dto.ComponentTiers = ComponentTierConverter.ToDtos(product.ComponentTiers);
+        //    }
+
+        //    return dto;
+        //}
 
         //public ProductDTO GetProductWithSpecsAttributesAndDeductions(Guid productID, int versionNumber, bool includeDiscountsAndDeductions = false)
         //{

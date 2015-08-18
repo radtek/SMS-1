@@ -12,8 +12,11 @@ function ajaxWrapper(options) {
 
 function getGridDataFromUrl(gridOptions) {
     return function (options) {
+        var extra = '';
+        if (gridOptions.extraParameters) extra = gridOptions.extraParameters();
+        if (gridOptions.url.indexOf('?') < 0) extra = '?' + extra;
         var ajaxOptions = {
-            url: gridOptions.url,
+            url: gridOptions.url + extra,
             data: dataMap(options.data, gridOptions),
             cache: false
         };
@@ -234,11 +237,15 @@ var gridItem = function (options) {
         this.grid = $("#" + this.options.gridElementId).kendoGrid(o).data("kendoGrid");
 
         $('#' + this.options.searchButtonId).click(function () {
-            self.grid.dataSource.page(1);
-            self.grid.dataSource.read();
+            self.refreshGrid();
         });
 
     };
+
+    this.refreshGrid = function () {
+        self.grid.dataSource.read();
+        self.grid.dataSource.page(1);
+    }
 
     this.dataBound = function (e) {
         saveGridSort(self.grid, self.options.gridElementId);
@@ -295,24 +302,30 @@ function showHistory(selector, dataItem){
     $(selector).empty();
     for (var i = 0; i < dataItem.History.length; i++) {
         var h = dataItem.History[i];
-        var active = ' <span style="font-size:0.7em;">(' + (h.WasActive ? 'Active' : 'Inactive') + ')</span>';
-        var notes = h.Notes == '' ? '' : ': <span style="font-size:0.7em;">"' + h.Notes + '"</span>';
-        var item = '<div>' + dateString(h.StatusChangedOn) + ': ' + h.StatusTypeValue.Name + active + ' by ' + h.StatusChangedBy + notes + '</div>';
+        var active = ' (' + (h.WasActive ? 'Active' : 'Inactive') + ')';
+        var notes = h.Notes == '' ? '' : ': "' + h.Notes + '"';
+        var item = '<div>' + dateString(h.StatusChangedOn) + ' <strong>' + h.StatusTypeValue.Name + '</strong>' + active + ' by ' + h.StatusChangedBy + notes + '</div>';
         $(selector).append(item);
     }
 }
 
-function showDuplicates(selector, dataItem) {
+function showDuplicates(selector, headingSelector, dataItem) {
     $(selector).empty();
+    $(headingSelector).children().remove();
     if (dataItem.Duplicates.length == 0) {
         $(selector).append("<div>None</div>");
     }
     else {
+        $(headingSelector).append("<i class='fa fa-exclamation-triangle' style='color:red;'></i>");
         for (var i = 0; i < dataItem.Duplicates.length; i++) {
             var d = dataItem.Duplicates[i];
-            var active = ' <span style="font-size:0.7em;">(' + (d.IsActive ? 'Active' : 'Inactive') + ')</span>';
-            var item = '<div>' + d.Name + ': ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
+            var active = ' (' + (d.IsActive ? 'Active' : 'Inactive') + ')';
+            var item = '<div><strong>' + d.Name + ':</strong> ' + d.Status + active + ' created ' + dateString(d.Created) + '</div>';
             $(selector).append(item);
         }
     }
+}
+
+function formatCurrency(val) {
+    return '£' + val.toFixed(2);
 }

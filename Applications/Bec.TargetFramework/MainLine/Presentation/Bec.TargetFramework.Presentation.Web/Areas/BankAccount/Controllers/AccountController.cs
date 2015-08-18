@@ -4,14 +4,9 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
@@ -22,8 +17,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? selectedBankAccountId)
         {
+            //don't overwrite what already might be in TempData...
+            if (selectedBankAccountId.HasValue) TempData["OrganisationBankAccountID"] = selectedBankAccountId;
             return View();
         }
 
@@ -66,8 +63,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         [HttpPost]
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.AddBankAccountStatusAsync(orgID, baID, status, notes, false);
+            var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
+            var orgID = currentUser.OrganisationID;
+
+            var bankAccountStateChangeDto = new OrganisationBankAccountStateChangeDTO
+            {
+                OrganisationID = orgID,
+                BankAccountID = baID,
+                BankAccountStatus = status,
+                Notes = notes,
+                KillDuplicates = false,
+                ChangedByUserAccountOrganisationID = currentUser.UaoID,
+                DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
+            };
+
+            await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
@@ -84,10 +94,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             return PartialView("_AddStatus");
         }
         [HttpPost]
-        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive)
+        public async Task<ActionResult> ToggleActive(Guid baID, bool isactive, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive);
+            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive, notes);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }

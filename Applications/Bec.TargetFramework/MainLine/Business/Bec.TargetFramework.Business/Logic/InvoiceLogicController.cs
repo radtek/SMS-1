@@ -52,7 +52,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         [EnsureArgumentAspect]
-        public async Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID)
+        public async Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID, string reference)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -87,7 +87,7 @@ namespace Bec.TargetFramework.Business.Logic
                     TaxTotalValue = cartPriceDto.CartTotalTax,
                     DeductionTotal = cartPriceDto.CartTotalDeductions,
                     DeductionTotalPercentage = cartPriceDto.CartTotalDeductionsPercentage,
-                    InvoiceReference = "",
+                    InvoiceReference = reference,
                     IsClosed = false,
                     IsFrozenPendingPayment = true,
                     IsActive = true,

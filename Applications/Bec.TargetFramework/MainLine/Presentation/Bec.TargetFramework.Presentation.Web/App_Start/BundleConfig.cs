@@ -23,7 +23,9 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
                 "~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
-                "~/Scripts/app.min.js"));
+                "~/Scripts/plugin/moment/moment.min.js",
+                "~/Scripts/app.min.js"
+                ));
 
             bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(
                 "~/Scripts/plugin/moment/moment.min.js",
@@ -72,6 +74,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/vectormap/jquery-jvectormap-1.2.2.min.js",
                 "~/Scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
                 ));
+
             BundleTable.EnableOptimizations = true;
         }
     }

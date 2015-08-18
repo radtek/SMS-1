@@ -2,18 +2,18 @@
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.Security;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,10 +26,7 @@ namespace Bec.TargetFramework.Business.Logic
         public UserLogicController UserLogic { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public NotificationLogicController NotificationLogic { get; set; }
-
-        public OrganisationLogicController()
-        {
-        }
+        public ClassificationDataLogicController ClassificationLogic { get; set; }
 
         public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
@@ -112,6 +109,8 @@ namespace Bec.TargetFramework.Business.Logic
                 return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Where(item => item.StatusTypeValueID == status.StatusTypeValueID).ToDtos();
             }
         }
+
+
 
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
@@ -448,7 +447,8 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     Reference = dto.Reference,
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID
+                    TenureTypeID = dto.TenureTypeID,
+                    CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
                 await scope.SaveChangesAsync();
@@ -480,7 +480,7 @@ namespace Bec.TargetFramework.Business.Logic
                     account.Duplicates = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x => 
                         x.OrganisationID != account.OrganisationID &&
                         x.BankAccountNumber == account.BankAccountNumber &&
-                        x.SortCode == x.SortCode)
+                        x.SortCode == account.SortCode)
                         .ToDtos();
                     PopulateBankAccountHistory(account.Duplicates);
                 }
@@ -504,76 +504,192 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
-                
-                var account = accountDTO.ToEntity();
-                account.OrganisationBankAccountID = Guid.NewGuid();
-                account.OrganisationID = orgID;
-                account.IsActive = true;
-                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Add(account);
+                var bankAccountStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
 
-                await AddStatus(orgID, account.OrganisationBankAccountID, orgID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "", true);
+                var bankAccount = accountDTO.ToEntity();
+                bankAccount.OrganisationBankAccountID = Guid.NewGuid();
+                bankAccount.OrganisationID = orgID;
+                bankAccount.IsActive = true;
+                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Add(bankAccount);
 
+                var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
+                {
+                    OrganisationID = orgID,
+                    BankAccountID = bankAccount.OrganisationBankAccountID,
+                    BankAccountOrganisationID = orgID,
+                    StatusTypeID = bankAccountStatus.StatusTypeID,
+                    StatusTypeVersionNumber = bankAccountStatus.StatusTypeVersionNumber,
+                    StatusTypeValueID = bankAccountStatus.StatusTypeValueID,
+                    Notes = string.Empty,
+                    WasActive = true
+                };
+
+                await AddStatus(bankAccountAddStatus);
                 await scope.SaveChangesAsync();
-                return account.OrganisationBankAccountID;
+                return bankAccount.OrganisationBankAccountID;
             }
         }
 
-        public async Task AddBankAccountStatusAsync(Guid currentOrgID, Guid baID, BankAccountStatusEnum status, string notes, bool killDuplicates)
+        public async Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var ba = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Single(x => x.OrganisationBankAccountID == baID);
-                var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), status.GetStringValue());
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
 
-                await AddStatus(currentOrgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, notes, ba.IsActive);
+                var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
+                if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;
+                if(!CheckStatusChange(bankAccountStatusChangeRequest, currentStatus))
+                    throw new Exception(string.Format("Cannot change Bank Account status from {0} to {1}, please go back and try again.", currentStatus, bankAccountStatusChangeRequest.BankAccountStatus));
 
-                if (killDuplicates)
+                var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), bankAccountStatusChangeRequest.BankAccountStatus.GetStringValue());
+
+                var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                 {
-                    s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PotentialFraud.GetStringValue());
-                    foreach (var dupe in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Where(x => x.BankAccountNumber == ba.BankAccountNumber && x.SortCode == ba.SortCode && x.OrganisationBankAccountID != baID))
+                    OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                    BankAccountID = bankAccountStatusChangeRequest.BankAccountID,
+                    BankAccountOrganisationID = bankAccount.OrganisationID,
+                    StatusTypeID = statusType.StatusTypeID,
+                    StatusTypeVersionNumber = statusType.StatusTypeVersionNumber,
+                    StatusTypeValueID = statusType.StatusTypeValueID,
+                    Notes = bankAccountStatusChangeRequest.Notes,
+                    WasActive = bankAccount.IsActive
+                };
+
+                await AddStatus(bankAccountAddStatus);
+
+                if (bankAccountStatusChangeRequest.KillDuplicates)
+                {
+                    statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PotentialFraud.GetStringValue());
+                    foreach (var dupe in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Where(x => x.BankAccountNumber == bankAccount.BankAccountNumber && x.SortCode == bankAccount.SortCode && x.OrganisationBankAccountID != bankAccountStatusChangeRequest.BankAccountID))
+                {
+                        var dupeBankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                     {
-                        await AddStatus(currentOrgID, dupe.OrganisationBankAccountID, dupe.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "Pre-existing duplicate", dupe.IsActive);
+                            OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                            BankAccountID = dupe.OrganisationBankAccountID,
+                            BankAccountOrganisationID = dupe.OrganisationID,
+                            StatusTypeID = statusType.StatusTypeID,
+                            StatusTypeVersionNumber = statusType.StatusTypeVersionNumber,
+                            StatusTypeValueID = statusType.StatusTypeValueID,
+                            Notes = "Pre-existing duplicate",
+                            WasActive = dupe.IsActive
+                        };
+                        await AddStatus(dupeBankAccountAddStatus);
                     }
                 }
 
                 await scope.SaveChangesAsync();
+                await AdditionalOperationForStatusChange(bankAccount, bankAccountStatusChangeRequest);
             }
         }
 
-        public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active)
-                {
-            using (var scope = DbContextScopeFactory.Create())
+        private static bool CheckStatusChange(OrganisationBankAccountStateChangeDTO change, BankAccountStatusEnum currentStatus)
+        { 
+            switch (currentStatus)
             {
-                var ba = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts.Single(x => x.OrganisationBankAccountID == baID);
-                var s = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == baID).OrderByDescending(x => x.StatusChangedOn).First();
+                case BankAccountStatusEnum.Safe:
+                    if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;   
+                    break;
+                case BankAccountStatusEnum.FraudSuspicion:
+                case BankAccountStatusEnum.PendingValidation:
+                    if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;                        
+                    break;
+            }
+            return false;
+        }
 
-                ba.IsActive = active;
-                await AddStatus(orgID, baID, ba.OrganisationID, s.StatusTypeID, s.StatusTypeVersionNumber, s.StatusTypeValueID, "", ba.IsActive);
+        private async Task AdditionalOperationForStatusChange(VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+        {
+            switch (bankAccountStatusChangeRequest.BankAccountStatus)
+            {
+                case BankAccountStatusEnum.PendingValidation:
+                    break;
+                case BankAccountStatusEnum.Safe:
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsSafeNotificationDTO>("BankAccountMarkedAsSafe", bankAccount, bankAccountStatusChangeRequest);
+                    break;
+                case BankAccountStatusEnum.FraudSuspicion:
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>("BankAccountMarkedAsFraudSuspicious", bankAccount, bankAccountStatusChangeRequest);
+                    break;
+                case BankAccountStatusEnum.PotentialFraud:
+                    break;
+            }
+        }
+
+        private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+            where TNotification : BankAccountStateChangeNotificationDTO, new()
+                {
+            var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
+            var notificationDto = new TNotification
+            {
+                OrganisationId = bankAccount.OrganisationID,
+                AccountNumber = bankAccount.BankAccountNumber,
+                SortCode = bankAccount.SortCode,
+                MarkedBy = markedBy.FullName,
+                Reason = bankAccountStatusChangeRequest.Notes,
+                DetailsUrl = bankAccountStatusChangeRequest.DetailsUrl,
+            };
+            string payLoad = JsonHelper.SerializeData(new object[] { notificationDto });
+
+            var dto = new EventPayloadDTO
+            {
+                EventName = eventName,
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0003",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(dto);
+        }
+
+        public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active, string notes)
+                {
+                    using (var scope = DbContextScopeFactory.Create())
+            {
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts
+                    .Single(x => x.OrganisationBankAccountID == baID);
+                var accountStatus = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus
+                    .Where(x => x.OrganisationBankAccountID == baID)
+                    .OrderByDescending(x => x.StatusChangedOn)
+                    .First();
+
+                bankAccount.IsActive = active;
+
+                var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
+                {
+                    OrganisationID = orgID,
+                    BankAccountID = baID,
+                    BankAccountOrganisationID = bankAccount.OrganisationID,
+                    StatusTypeID = accountStatus.StatusTypeID,
+                    StatusTypeVersionNumber = accountStatus.StatusTypeVersionNumber,
+                    StatusTypeValueID = accountStatus.StatusTypeValueID,
+                    Notes = notes,
+                    WasActive = bankAccount.IsActive
+                };
+
+                await AddStatus(bankAccountAddStatus);
                 await scope.SaveChangesAsync();
             }
                 }
 
-        private async Task AddStatus(Guid currentOrgID, Guid baID, Guid? baOrgID, Guid statusTypeID, int statusTypeVersionNumber, Guid statusTypeValueID, string notes, bool wasActive)
+        private async Task AddStatus(OrganisationBankAccountAddStatusDTO bankAccountAddStatus)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                string updatedBy;
-                if (baOrgID != currentOrgID)
-                    updatedBy = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Single(x => x.OrganisationID == currentOrgID).Name;
-                else
-                    updatedBy = UserNameService.UserName;
+                string updatedBy = bankAccountAddStatus.BankAccountOrganisationID != bankAccountAddStatus.OrganisationID
+                    ? scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Single(x => x.OrganisationID == bankAccountAddStatus.OrganisationID).Name
+                    : UserNameService.UserName;
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus.Add(new OrganisationBankAccountStatus
                 {
-                    OrganisationBankAccountID = baID,
-                    StatusTypeID = statusTypeID,
-                    StatusTypeVersionNumber = statusTypeVersionNumber,
-                    StatusTypeValueID = statusTypeValueID,
+                    OrganisationBankAccountID = bankAccountAddStatus.BankAccountID,
+                    StatusTypeID = bankAccountAddStatus.StatusTypeID,
+                    StatusTypeVersionNumber = bankAccountAddStatus.StatusTypeVersionNumber,
+                    StatusTypeValueID = bankAccountAddStatus.StatusTypeValueID,
                     StatusChangedOn = DateTime.Now,
                     StatusChangedBy = updatedBy,
-                    Notes = notes,
-                    WasActive = wasActive
+                    Notes = bankAccountAddStatus.Notes,
+                    WasActive = bankAccountAddStatus.WasActive
                 });
                 await scope.SaveChangesAsync();
             }
@@ -590,6 +706,49 @@ namespace Bec.TargetFramework.Business.Logic
                         item.Name.ToLower() == companyName.Trim().ToLower());
 
                 return query;
+            }
+        }
+
+        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var transactionOrder = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(x => x.TransactionOrderID == transactionOrderID);
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                var account = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => 
+                    x.OrganisationID == orgID &&
+                    x.LedgerAccountTypeID == creditType);
+                account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
+                {
+                    TransactionOrderID = transactionOrderID,
+                    BalanceOn = DateTime.Now,
+                    Amount = amount,
+                    CreatedBy = uaoID
+                });
+                account.Balance += amount; //using rowversion for concurrency
+                account.UpdatedOn = DateTime.Now;
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Guid> GetCreditAccount(Guid orgID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                return scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType).OrganisationLedgerAccountID;
+            }
+        }
+
+        public async Task<decimal> GetBalanceAsAt(Guid accountID, DateTime date)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var record = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationLedgerTransactionBalances.Where(x => x.OrganisationLedgerAccountID == accountID && x.BalanceOn < date).OrderByDescending(x => x.BalanceOn).FirstOrDefault();
+                if (record == null)
+                    return 0;
+                else
+                    return record.Balance;
             }
         }
     }

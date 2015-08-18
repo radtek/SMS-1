@@ -52,11 +52,13 @@ namespace Bec.TargetFramework.Infrastructure.Helpers
 
         public static string SerializeDataUnformattedWithCamelCase<T>(T content)
         {
-            return JsonConvert.SerializeObject(content, Formatting.None, 
-                new JsonSerializerSettings { 
+            return JsonConvert.SerializeObject(content, Formatting.None,
+                new JsonSerializerSettings
+                {
                     Formatting = Formatting.None,
-                    StringEscapeHandling = StringEscapeHandling.EscapeNonAscii, 
-                    ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                    StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
         }
 
     }

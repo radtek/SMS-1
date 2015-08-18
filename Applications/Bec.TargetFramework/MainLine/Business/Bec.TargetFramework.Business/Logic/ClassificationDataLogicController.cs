@@ -48,7 +48,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         // load all vclassification
                         cachedList = scope.DbContexts.Get<TargetFrameworkEntities>().VClassifications.ToDtos();
-                        cacheClient.Add<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
+                        cacheClient.Set<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
                     }
                 }
 
@@ -95,7 +95,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         // load all vclassification
                         cachedList = scope.DbContexts.Get<TargetFrameworkEntities>().VClassifications.ToDtos();
-                        cacheClient.Add<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
+                        cacheClient.Set<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
                     }
                 }
 

@@ -1,0 +1,157 @@
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+
+        <h2 class="row-seperator-header inline-heading">Credit History</h2>
+        <a data-href="#" id="amendCreditButton" class="btn btn-primary btn-sm inline-heading" data-modallink="true" disabled>Amend Credit</a>
+        <br />
+
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="text" id="orgSearch" class="typeahead" style="width:250px;" placeholder="Enter Firm Name" />
+                    <input type="hidden" id="orgID" />
+                    <input type="date" id="from" />
+                    <input type="date" id="to" />
+                    <select id="creditsOnly">
+                        <option value="">All</option>
+                        <option value="true">Credits</option>
+                        <option value="false">Debits</option>
+                    </select>
+                    <button onclick="applyFilter()">Filter</button>
+
+                    <br />
+                    <br />
+
+                    <div class="well">
+                        <div id="statementGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="rPanel">
+                <div class="col-sm-6">
+                    <!-- well -->
+                    <div class="well">
+
+                        <h5>Selected Transaction</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Reference:</dt>
+                            <dd><p id="ddReference"></p></dd>
+                            <dt>Amount:</dt>
+                            <dd><p id="ddAmount"></p></dd>
+                            <dt>Date:</dt>
+                            <dd><p id="ddDate"></p></dd>
+                            <dt>Created By:</dt>
+                            <dd><p id="ddCreatedBy"></p></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/typeahead.bundle.min.js"></script>
+    <script type="text/javascript">
+
+    var shownMessage = false;
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var statementGrid = new gridItem(
+        {
+            gridElementId: 'statementGrid',
+            url: '@Url.Action("GetStatement", "Finance", new { area = "Admin" })',
+            schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
+            type: 'odata-v4',
+            serverSorting: true,
+            serverPaging: true,
+            defaultSort: { field: "BalanceOn", dir: "asc" },
+            panels: ['rPanel'],
+            change: txChange,
+            extraParameters: function () {
+                return "&from=" + $('#from').val() + "&to=" + $('#to').val() + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
+            },
+            columns: [
+                    {
+                        field: "InvoiceReference",
+                        title: "Reference",
+                        sortable: false
+                    },
+                    {
+                        field: "Amount",
+                        title: "Amount",
+                        sortable: false
+                    },
+                    {
+                        field: "Balance",
+                        title: "Balance",
+                        sortable: false
+                    },
+                    {
+                        field: "BalanceOn",
+                        title: "Date",
+                        sortable: false,
+                        template: function (dataItem) { return dateString(dataItem.BalanceOn); }
+                    },
+                    {
+                        field: "CreatedByName",
+                        title: "Created By"
+                    }
+            ]
+        });
+
+    var bestPictures = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: function (datum) {
+            return datum.OrganisationID;
+        },
+        remote: {
+            url: '@Url.Action("SearchCompany", "Finance", new { Area = "Admin" })' + '?search=%QUERY',
+                wildcard: '%QUERY',
+                transform: function (response) {
+                    return response.Items;
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            findModalLinks();
+
+            var now = new Date();
+
+            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10)); //I wonder what happens about leap years
+            $('#to').val(now.toJSON().slice(0, 10));
+
+            statementGrid.makeGrid();
+
+            $('#orgSearch').typeahead(null, {
+                display: 'value',
+                source: bestPictures,
+                display: 'Name'
+            }).on("typeahead:selected typeahead:autocompleted", function (e, datum) {
+                $('#orgID').val(datum.OrganisationID);
+                $("#amendCreditButton").attr('disabled', false);
+                $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new { area = "Admin" })' + "?orgId=" + datum.OrganisationID);
+                applyFilter();
+            });
+        });
+
+        function applyFilter() {
+            statementGrid.refreshGrid();
+        }
+
+        //data binding for the panes beneath each grid
+        function txChange(dataItem) {
+            $("p#ddReference").text(dataItem.InvoiceReference || "");
+            $("p#ddAmount").text(dataItem.Amount || "");
+            $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
+            $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
+        }
+
+    </script>
+}

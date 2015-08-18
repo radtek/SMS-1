@@ -121,18 +121,18 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for StatusType in the schema.
+        /// There are no comments for StatusTypeValue in the schema.
         /// </summary>
-        public virtual StatusType StatusType
+        public virtual StatusTypeValue StatusTypeValue
         {
             get;
             set;
         }
     
         /// <summary>
-        /// There are no comments for StatusTypeValue in the schema.
+        /// There are no comments for StatusType in the schema.
         /// </summary>
-        public virtual StatusTypeValue StatusTypeValue
+        public virtual StatusType StatusType
         {
             get;
             set;

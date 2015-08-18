@@ -78,26 +78,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for CompanyPinCode in the schema.
-        /// </summary>
-        public virtual string CompanyPinCode
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for CompanyPinCreated in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.DateTime> CompanyPinCreated
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for SystemAdminTitle in the schema.
         /// </summary>
         public virtual string SystemAdminTitle

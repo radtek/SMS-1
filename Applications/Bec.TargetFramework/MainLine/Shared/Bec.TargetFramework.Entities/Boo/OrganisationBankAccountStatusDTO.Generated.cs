@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationBankAccountStatusDTO() {
         }
 
-        public OrganisationBankAccountStatusDTO(global::System.Guid organisationBankAccountID, string statusChangedBy, global::System.DateTime statusChangedOn, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, string notes, bool wasActive, OrganisationBankAccountDTO organisationBankAccount, StatusTypeDTO statusType, StatusTypeValueDTO statusTypeValue) {
+        public OrganisationBankAccountStatusDTO(global::System.Guid organisationBankAccountID, string statusChangedBy, global::System.DateTime statusChangedOn, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, string notes, bool wasActive, OrganisationBankAccountDTO organisationBankAccount, StatusTypeValueDTO statusTypeValue, StatusTypeDTO statusType) {
 
           this.OrganisationBankAccountID = organisationBankAccountID;
           this.StatusChangedBy = statusChangedBy;
@@ -33,8 +33,8 @@ namespace Bec.TargetFramework.Entities
           this.Notes = notes;
           this.WasActive = wasActive;
           this.OrganisationBankAccount = organisationBankAccount;
-          this.StatusType = statusType;
           this.StatusTypeValue = statusTypeValue;
+          this.StatusType = statusType;
         }
 
         #endregion
@@ -73,10 +73,10 @@ namespace Bec.TargetFramework.Entities
         public OrganisationBankAccountDTO OrganisationBankAccount { get; set; }
 
         [DataMember]
-        public StatusTypeDTO StatusType { get; set; }
+        public StatusTypeValueDTO StatusTypeValue { get; set; }
 
         [DataMember]
-        public StatusTypeValueDTO StatusTypeValue { get; set; }
+        public StatusTypeDTO StatusType { get; set; }
 
         #endregion
     }

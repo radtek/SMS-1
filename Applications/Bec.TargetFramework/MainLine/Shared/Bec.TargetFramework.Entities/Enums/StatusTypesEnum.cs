@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Extensions;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities.Enums
 {
     public enum InvoiceStatusEnum : int
     {
         [StringValue("Active")]
-        Active=1,
-       [StringValue("Processing")]
-         Processing=2,
-       [StringValue("Cancelled")]
-         Cancelled=3,
-       [StringValue("Payment Scheduled")]
-         PaymentScheduled=4,
-       [StringValue("Paid")]
-         Paid=5,
-       [StringValue("Unpaid")]
-         Unpaid=6,
-       [StringValue("Payment Due")]
-         PaymentDue=7
+        Active = 1,
+        [StringValue("Processing")]
+        Processing = 2,
+        [StringValue("Cancelled")]
+        Cancelled = 3,
+        [StringValue("Payment Scheduled")]
+        PaymentScheduled = 4,
+        [StringValue("Paid")]
+        Paid = 5,
+        [StringValue("Unpaid")]
+        Unpaid = 6,
+        [StringValue("Payment Due")]
+        PaymentDue = 7
     }
 
     public enum PlanSubscriptionStatusEnum : int
@@ -74,7 +69,7 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Approved")]
         Approved = 2,
         [StringValue("Rejected")]
-        Rejected = 3       
+        Rejected = 3
     }
 
     public enum UserStatusEnum : int
@@ -84,7 +79,7 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Approved")]
         Approved = 2,
         [StringValue("Rejected")]
-        Rejected = 3 
+        Rejected = 3
     }
 
     public enum OrganisationStatusEnum : int
@@ -189,40 +184,40 @@ namespace Bec.TargetFramework.Entities.Enums
 
     public enum StatusTypeEnum : int
     {
-       [StringValue("Invoice Process Log Status")]
-       InvoiceProcessLog=1,
-       [StringValue("PlanSubscriptionProcessLog Status")]
-       PlanSubscriptionProcessLog = 2,
-       [StringValue("PlanSubscriptionBillingProcessLog Status")]
-       PlanSubscriptionBillingProcessLog = 3,
-       [StringValue("Branch Status")]
-       Branch = 4,
-       [StringValue("User Organisation Status")]
-       UserOrganisation  = 5,
-       [StringValue("TransactionOrderProcessLog Status")]
-       TransactionOrderProcessLog = 6,
-       [StringValue("OrganisationPaymentMethod Status")]
-       OrganisationPaymentMethod = 7,
-       [StringValue("Organisation Status")]
-       Organisation = 7,
-       [StringValue("OrganisationFinancial Status")]
-       OrganisationFinancial = 8,
-       [StringValue("ProductPurchase Status")]
-       ProductPurchase = 10,
-       [StringValue("Service Interface Process Log Status")]
-       ServiceInterfaceProcessLog = 11,
-       [StringValue("Bus Task Schedule Process Log Status")]
-       BusTaskScheduleProcessLogStatus = 12,
-       [StringValue("Product Purchase Bus Task Process Log Status")]
-       ProductPurchaseBusTaskProcessLogStatus = 13,
-       [StringValue("Bus Message Process Log Status")]
-       BusMessageProcessLogStatus = 14,
-       [StringValue("Professional Organisation Status")]
-       ProfessionalOrganisation = 15,
-       [StringValue("Bank Account Status")]
-       BankAccount = 16,
+        [StringValue("Invoice Process Log Status")]
+        InvoiceProcessLog = 1,
+        [StringValue("PlanSubscriptionProcessLog Status")]
+        PlanSubscriptionProcessLog = 2,
+        [StringValue("PlanSubscriptionBillingProcessLog Status")]
+        PlanSubscriptionBillingProcessLog = 3,
+        [StringValue("Branch Status")]
+        Branch = 4,
+        [StringValue("User Organisation Status")]
+        UserOrganisation = 5,
+        [StringValue("TransactionOrderProcessLog Status")]
+        TransactionOrderProcessLog = 6,
+        [StringValue("OrganisationPaymentMethod Status")]
+        OrganisationPaymentMethod = 7,
+        [StringValue("Organisation Status")]
+        Organisation = 7,
+        [StringValue("OrganisationFinancial Status")]
+        OrganisationFinancial = 8,
+        [StringValue("ProductPurchase Status")]
+        ProductPurchase = 10,
+        [StringValue("Service Interface Process Log Status")]
+        ServiceInterfaceProcessLog = 11,
+        [StringValue("Bus Task Schedule Process Log Status")]
+        BusTaskScheduleProcessLogStatus = 12,
+        [StringValue("Product Purchase Bus Task Process Log Status")]
+        ProductPurchaseBusTaskProcessLogStatus = 13,
+        [StringValue("Bus Message Process Log Status")]
+        BusMessageProcessLogStatus = 14,
+        [StringValue("Professional Organisation Status")]
+        ProfessionalOrganisation = 15,
+        [StringValue("Bank Account Status")]
+        BankAccount = 16,
     }
 
-    
-    
+
+
 }

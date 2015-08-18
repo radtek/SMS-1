@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Guid addressID, int price, string reference, bool isActive, bool isDeleted, int tenureTypeID, global::System.Nullable<System.Guid> organisationID, global::System.DateTime createdOn, long rowVersion, AddressDTO address, OrganisationDTO organisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Guid addressID, int price, string reference, bool isActive, bool isDeleted, int tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, AddressDTO address, OrganisationDTO organisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Entities
         public int TenureTypeID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> OrganisationID { get; set; }
+        public global::System.Guid OrganisationID { get; set; }
 
         [DataMember]
         public global::System.DateTime CreatedOn { get; set; }

@@ -103,7 +103,7 @@ namespace Bec.TargetFramework.Entities
             target.PlanSubscriptionStatusCreatedOn = source.PlanSubscriptionStatusCreatedOn;
             target.PlanSubscriptionStatusDetail = source.PlanSubscriptionStatusDetail;
             target.Name = source.Name;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.IsDirectDebit = source.IsDirectDebit;
             target.IsBACS = source.IsBACS;
             target.OrganisationDirectDebitMandateID = source.OrganisationDirectDebitMandateID;
@@ -224,7 +224,7 @@ namespace Bec.TargetFramework.Entities
             target.PlanSubscriptionStatusCreatedOn = source.PlanSubscriptionStatusCreatedOn;
             target.PlanSubscriptionStatusDetail = source.PlanSubscriptionStatusDetail;
             target.Name = source.Name;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.IsDirectDebit = source.IsDirectDebit;
             target.IsBACS = source.IsBACS;
             target.OrganisationDirectDebitMandateID = source.OrganisationDirectDebitMandateID;

@@ -1,0 +1,291 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model OrderRequestDTO
+@{
+    List<SelectListItem> months = new List<SelectListItem>
+    {
+        new SelectListItem{Text = "1",Value = "1"},
+        new SelectListItem{Text = "2",Value = "2"},
+        new SelectListItem{Text = "3",Value = "3"},
+        new SelectListItem{Text = "4",Value = "4"},
+        new SelectListItem{Text = "5",Value = "5"},
+        new SelectListItem{Text = "6",Value = "6"},
+        new SelectListItem{Text = "7",Value = "7"},
+        new SelectListItem{Text = "8",Value = "8"},
+        new SelectListItem{Text = "9",Value = "9"},
+        new SelectListItem{Text = "10",Value = "10"},
+        new SelectListItem{Text = "11",Value = "11"},
+        new SelectListItem{Text = "12",Value = "12"},
+    };
+}
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addUserLabel">Top Up Credit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form id="payment-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="txID" id="txID" />
+                            <fieldset>
+
+                                <div class="row">
+                                    <div class="col col-md-6">
+                                        <section>
+                                            <label class="label">Payment Amount £</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                <input name="amount" id="amount" tabindex="1" />
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-12">
+                                        <section>
+                                            <label class="label">Card Number</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CardNumber, new { tabindex = "2", maxlength = 16 })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Expiry Month</label>
+                                            <label class="select">
+                                                @Html.DropDownListFor(m => m.CardExpiryMonth, months, new { tabindex = "3" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Expiry Year</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength = "2", placeholder = "YY" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">CVV</label>
+                                            <label class="input ">
+                                                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "4", maxlength = "5" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Card Type</label>
+                                            <label class="select">
+                                                @Html.DropDownList("cardType", Html.EnumList<PaymentCardTypeIDEnum>(), new { tabindex = "6" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <section>
+                                            <label class="label">Payment Method</label>
+                                            <label class="select ">
+                                                @Html.DropDownList("methodType", Html.EnumList<PaymentMethodTypeIDEnum>(), new { tabindex = "7" })
+                                                <i></i>
+                                            </label>
+                                        </section>
+                                    </div>
+                                </div>
+
+                                <input id="CompanyName" type="hidden" />
+                                <div class="row">
+                                    <div class="col col-md-12">
+                                        <div class="row">
+                                            <section class="col col-4">
+                                                <label class="label">Lookup Postcode</label>
+                                                <label class="input">
+                                                    <input id="postcodelookup" type="text" tabindex="8" maxlength="10" />
+                                                </label>
+                                            </section>
+
+                                            <section class="col">
+                                                <label class="label">&nbsp;</label>
+                                                <button id="findaddressbutton" type="button" class="btn btn-default btn-sm" tabindex="9">Find Address</button>
+                                            </section>
+                                        </div>
+
+                                        <section>
+                                            <label class="select">
+                                                <select id="addressresults" tabindex="10"></select>
+                                                <i></i>
+                                            </label>
+                                        </section>
+
+
+                                        <div class="row">
+                                            <section class="col" id="noMatch">
+                                                <em style="color:#d56161">No matches found, please enter address below</em>
+                                            </section>
+                                        </div>
+
+                                        <div class="row" id="manAddRow">
+                                            <section class="col">
+                                                <input type="checkbox" id="manualAddress" tabindex="11" />
+                                                <label for="manualAddress">Edit Address Details</label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="label">Cardholder Address</label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.Line1, new { id = "Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "12", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    @Html.TextBoxFor(m => m.Line2, new { id = "Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "13", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.Town, new { id = "Town", @readonly = "readonly", placeholder = "Town", tabindex = "14", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    @Html.TextBoxFor(m => m.County, new { id = "County", @readonly = "readonly", placeholder = "County", tabindex = "15", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                                    @Html.TextBoxFor(m => m.PostalCode, new { id = "PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "16", maxlength = 50 })
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelPay" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitPay" class="btn btn-primary" tabindex="17">
+                    Pay Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/FindAddress.js"></script>
+<script type="text/javascript">
+    // submit from when Save button clicked
+    $("#submitPay").click(function () {
+        $("#payment-form").submit();
+    });
+
+    $("#payment-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+            CardNumber: {
+                required: true,
+                digits: true,
+                minlength: 16
+            },
+            CardExpiryYear: {
+                required: true,
+                digits: true,
+                minlength: 2
+            },
+            CVVNumber: {
+                required: true,
+                digits: true,
+                minlength: 3
+            },
+            Line1: {
+                required: true
+            },
+            Town: {
+                required: true
+            },
+            PostalCode: {
+                required: true
+            },
+            amount: {
+                required: true,
+                digits: true,
+                min: 1,
+                max: 500
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#submitPay").prop('disabled', true);
+        var formData = $("#payment-form").serializeArray();
+        ajaxWrapper({
+            url: '@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })',
+            type: "POST",
+            data: formData
+        }).done(function (res) {
+            if (res.result == true)
+                //hideCurrentModal();
+                window.location = '@Url.Action("Index", "Credit", new { area = "ProOrganisation" })';
+            else {
+                $('#txID').val(res.txID);
+                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitPay").prop('disabled', false);
+                    }
+                }, true);
+            }
+        }).fail(function (e) {
+            console.log(e);
+            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
+                messageButton: function () {
+                    $("#submitPay").prop('disabled', false);
+                }
+            }, true);
+        });
+    }
+</script>

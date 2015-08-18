@@ -4,6 +4,8 @@ DO $$
 Declare DoTemplateID uuid;
 Declare DoVersionNumber integer;
 Declare OrganisationTypeID integer;
+Declare s1id uuid;
+Declare s2id uuid;
 Begin
 
 --check org type exists
@@ -151,5 +153,10 @@ select (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = E
 where not exists (select * from public."StatusTypeValueTemplate" where
 "StatusTypeValueTemplateID" = (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'TransactionOrderProcessLog Status')
 and "StatusTypeTemplateVersionNumber" = 1 and "Name" = 'TransactionOrderProcessLog Status');
+
+s1id := (select "StatusTypeTemplateID" from public."StatusTypeTemplate" where "Name" = 'Invoice Process Log Status');
+s2id := (select "StatusTypeTemplateID" from public."StatusTypeTemplate" where "Name" = 'TransactionOrderProcessLog Status');
+perform "fn_PromoteStatusTypeTemplate"(s1id,1);
+perform "fn_PromoteStatusTypeTemplate"(s2id,1);
 
 END $$;

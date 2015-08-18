@@ -26,5 +26,15 @@ namespace Bec.TargetFramework.Presentation.Web
         {
             return (value ?? string.Empty).Replace("-", string.Empty);
         }
+
+        public static string ToSingularPluralAware(this string value, int count)
+        {
+            var result = value;
+            if (count > 1)
+            {
+                result += "s";
+            }
+            return result;
+        }
     }
 }

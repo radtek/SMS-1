@@ -29,7 +29,12 @@ namespace Bec.TargetFramework.Business.Product
                 itemPrice.ProductPrice = infoDto.ValueComponent;
             }
             else
-                itemPrice.ProductPrice = detail.Price;
+            {
+                if (detail.CustomerEntersPrice)
+                    itemPrice.ProductPrice = cartItem.CustomerPrice.Value;
+                else
+                    itemPrice.ProductPrice = detail.Price;
+            }
         }
     }
 }

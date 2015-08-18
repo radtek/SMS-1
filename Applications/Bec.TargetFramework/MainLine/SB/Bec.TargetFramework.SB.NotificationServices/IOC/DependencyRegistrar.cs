@@ -4,21 +4,12 @@ using Bec.TargetFramework.Infrastructure.CouchBaseCache;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
-using Bec.TargetFramework.SB.NotificationServices.Report;
 using System.Configuration;
 
 namespace Bec.TargetFramework.SB.NotificationServices.IOC
 {
-    
-
-    /// <summary>
-    /// IOC Configuration - Loads on Startup of Web Application
-    /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        /// <summary>
-        /// Starts the IOC Container
-        /// </summary>
         public virtual void Register(ContainerBuilder builder)
         {
             builder.Register(c => new SerilogLogger(true, false, "TaskService")).As<ILogger>().SingleInstance();
@@ -36,8 +27,8 @@ namespace Bec.TargetFramework.SB.NotificationServices.IOC
             builder.RegisterProxyClients("Bec.TargetFramework.SB.Client",
                 ConfigurationManager.AppSettings["SBServiceBaseURL"]);
 
-            builder.Register(c => new StandaloneReportGenerator()).As<StandaloneReportGenerator>();
-
+            // project dependencies
+            new TargetFramework.Infrastructure.Reporting.IOC.DependencyRegistrar().Register(builder);
         }
     }
 }

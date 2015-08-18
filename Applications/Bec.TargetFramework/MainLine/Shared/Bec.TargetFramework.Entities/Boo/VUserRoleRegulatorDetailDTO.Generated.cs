@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VUserRoleRegulatorDetailDTO() {
         }
 
-        public VUserRoleRegulatorDetailDTO(global::System.Guid iD, string email, string lastName, string firstName, global::System.Nullable<int> regulatorID, string regulator, string regulatorNumber, string userRole, string tradingName, string companyName, bool isActive, bool isDeleted) {
+        public VUserRoleRegulatorDetailDTO(global::System.Guid iD, string email, string lastName, string firstName, int regulatorID, string regulator, string regulatorNumber, string userRole, string tradingName, string companyName, bool isActive, bool isDeleted) {
 
           this.ID = iD;
           this.Email = email;
@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Entities
         public string FirstName { get; set; }
 
         [DataMember]
-        public global::System.Nullable<int> RegulatorID { get; set; }
+        public int RegulatorID { get; set; }
 
         [DataMember]
         public string Regulator { get; set; }

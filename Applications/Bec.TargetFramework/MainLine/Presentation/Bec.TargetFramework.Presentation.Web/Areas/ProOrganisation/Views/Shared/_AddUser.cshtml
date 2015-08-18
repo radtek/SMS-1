@@ -47,7 +47,7 @@
                                     </label>
                                 </section>
                                 <section>
-                                    <label class="label">Email address</label>
+                                    <label class="label">Email Address</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.EmailAddress1, new { tabindex = "4" })
@@ -56,13 +56,13 @@
 
                                 <section>
                                     <label class="label">Roles</label>
-                                    
-                                    @foreach (OrganisationRoleDTO role in ViewBag.Roles)
+                                    <input type="hidden" name="rolecheck" id="rolecheck" />
+                                    @foreach (Tuple<OrganisationRoleDTO, string> role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" />
+                                            <input type="checkbox" id="role-@role.Item1.OrganisationRoleID" name="role-@role.Item1.OrganisationRoleID" class="role-checkbox" @role.Item2 />
                                             <i></i>
-                                            <label for="role-@role.OrganisationRoleID">@role.RoleName</label>
+                                            <label for="role-@role.Item1.OrganisationRoleID">@role.Item1.RoleName</label>
                                         </label>
                                     }
                                     
@@ -86,6 +86,19 @@
 </div>
 
 <script type="text/javascript">
+
+    function ignore(e) {
+        if (e) e.preventDefault();
+    }
+
+    function countRoles() {
+        var c =0;
+        $('.role-checkbox').each(function (i, item) {
+            if ($(item).prop('checked')) c++;
+        });
+        $('#rolecheck').val(c);
+    }
+
     // submit from when Save button clicked
     $("#submitAddUser").click(function () {
         $("#addUser-form").submit();
@@ -104,7 +117,14 @@
             EmailAddress1: {
                 required: true,
                 email: true
+            },
+            rolecheck: {
+                required:true,
+                min:1
             }
+        },
+        messages: {
+            rolecheck: 'Please select one or more roles'
         },
 
         // Do not change code below

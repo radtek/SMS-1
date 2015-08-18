@@ -22,6 +22,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
+                                <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true">Edit Company</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -78,109 +79,111 @@
     </div>
 </div>
 
-@section pagespecific {
+@section Scripts {
     <script type="text/javascript">
 
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var uGrid = new gridItem(
-            {
-                gridElementId: 'activeGrid',
-                url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
-                schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
-                defaultSort: { field: "Name", dir: "asc" },
-                change: activeChange,
-                //jumpToId: '@TempData["AddTempCompanyId"]',
-                panels: ['activePanel'],
-                columns: [
-                        {
-                            field: "OrganisationID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Name",
-                            title: "Company Name"
-                        },
-                        {
-                            field: "Line1",
-                            title: "Address 1"
-                        },
-                        {
-                            field: "PostalCode",
-                            title: "Post Code"
-                        },
-                        {
-                            field: "OrganisationAdminLastName",
-                            title: "System Administrator",
-                            template: function (dataItem) {
-                                return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
-                            }
-                        },
-                        {
-                            field: "OrganisationAdminTelephone",
-                            title: "Telephone Number"
-                        },
-                        {
-                            field: "OrganisationAdminEmail",
-                            title: "Email"
-                        },
-                        {
-                            field: "CreatedOn",
-                            title: "Created On",
-                            template: function (dataItem) {
-                                return dateString(dataItem.CreatedOn);
-                            }
-                        },
-                        {
-                            field: "CreatedBy",
-                            title: "Created By"
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var uGrid = new gridItem(
+        {
+            gridElementId: 'activeGrid',
+            url: '@Url.Action("LoadCompanies", "Company", new {area = "Admin", orgStatus = Bec.TargetFramework.Entities.Enums.ProfessionalOrganisationStatusEnum.Active})',
+            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+            defaultSort: { field: "Name", dir: "asc" },
+            change: activeChange,
+            //jumpToId: '@TempData["AddTempCompanyId"]',
+            panels: ['activePanel'],
+            columns: [
+                    {
+                        field: "OrganisationID",
+                        hidden: true,
+                    },
+                    {
+                        field: "Name",
+                        title: "Company Name"
+                    },
+                    {
+                        field: "Line1",
+                        title: "Address 1"
+                    },
+                    {
+                        field: "PostalCode",
+                        title: "Post Code"
+                    },
+                    {
+                        field: "OrganisationAdminLastName",
+                        title: "System Administrator",
+                        template: function (dataItem) {
+                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
                         }
-                ]
-            });
-
-        //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
-        var tabs = new tabItem("myTab1",
-            {
-                s1: {
-                    grids: [uGrid]
-                }
-            });
-
-        $(document).ready(function () {
-            //set up tabs
-            tabs.makeTab();
-            tabs.showTab(@TempData["tabIndex"]);
-
-            //findModalLinks();
+                    },
+                    {
+                        field: "OrganisationAdminTelephone",
+                        title: "Telephone Number"
+                    },
+                    {
+                        field: "OrganisationAdminEmail",
+                        title: "Email"
+                    },
+                    {
+                        field: "CreatedOn",
+                        title: "Created On",
+                        template: function (dataItem) {
+                            return dateString(dataItem.CreatedOn);
+                        }
+                    },
+                    {
+                        field: "CreatedBy",
+                        title: "Created By"
+                    }
+            ]
         });
 
-        //data binding for the panes beneath each grid
-        function activeChange(dataItem) {
-            $("p#ddaCompanyName").text(dataItem.Name || "");
-            $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
-            $("p#ddaCompanyCounty").text(dataItem.County || "");
-            $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
-            $("p#ddaCompanyTownCity").text(dataItem.Town || "");
-            $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
-            $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
-            $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
-            $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-            $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-            $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
+    var tabs = new tabItem("myTab1",
+        {
+            s1: {
+                grids: [uGrid]
+            }
+        });
 
-            var regulatorName = dataItem.Regulator || "";
-            if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
-            $("p#ddaRegulator").text(regulatorName);
+    $(document).ready(function () {
+        //set up tabs
+        tabs.makeTab();
+        tabs.showTab(@TempData["tabIndex"]);
+
+        findModalLinks();
+    });
+
+    //data binding for the panes beneath each grid
+    function activeChange(dataItem) {
+        $("p#ddaCompanyName").text(dataItem.Name || "");
+        $("p#ddaCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+        $("p#ddaCompanyCounty").text(dataItem.County || "");
+        $("p#ddaCompanyPostCode").text(dataItem.PostalCode || "");
+        $("p#ddaCompanyTownCity").text(dataItem.Town || "");
+        $("p#ddaCompanyAddress2").text(dataItem.Line2 || "");
+        $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
+        $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
+        $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+        $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+        $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+
+        var regulatorName = dataItem.Regulator || "";
+        if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+        $("p#ddaRegulator").text(regulatorName);
             $("p#ddaRegulatorNumber").text(dataItem.RegulatorNumber);
 
-            $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
-            $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
-            $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
-            $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
+        $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
+        $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
+        $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
+        $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
 
-            //update reject & generate links
-            $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-            $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
-        }
+        //update reject & generate links
+        $("#rejectButton").data('href', '@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+        $("#pinButton").data('href', '@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+
+        $("#editButton").data('href', '@Url.Action("ViewEditCompany", "Company", new { area = "Admin" })' + "?orgId=" + dataItem.OrganisationID);
+    }
 
     </script>
 }

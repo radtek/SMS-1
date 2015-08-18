@@ -5,6 +5,8 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Reporting.Generators;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -16,19 +18,8 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogicController : LogicBase
     {
-        public NotificationLogicController()
-        {
-        }
+        public StandaloneReportGenerator StandaloneReportGenerator { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="notifcationConstructID"></param>
-        /// <param name="notificationConstructVersion"></param>
-        /// <param name="parentID"></param>
-        /// <param name="isRead"></param>
-        /// <param name="timeSpan"></param>
-        /// <returns></returns>
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
         {
@@ -127,28 +118,21 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(organisationNotificationConstructID).IsNot(Guid.Empty);
 
             NotificationConstructDTO dto = null;
-
-            string cacheKey = organisationNotificationConstructID.ToString() + "_" + versionNumber;
-
-            // using (var cacheClient = this.CacheProvider.CreateCacheClient(Logger))
-            //{
-            // dto = cacheClient.Get<NotificationConstructDTO>(cacheKey);
-
-            if (dto == null)
-            {
-                using (var scope = DbContextScopeFactory.CreateReadOnly())
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
                 {
                     // load org construct include module and notification constructs direct
-                    var construct = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Include("NotificationConstructParameters").Include("NotificationConstructData").Include("NotificationConstructTargets")
-                        .Single(n => n.NotificationConstructID.Equals(organisationNotificationConstructID)
-                       && n.IsActive.Equals(true) && n.IsDeleted.Equals(false) && n.NotificationConstructVersionNumber.Equals(versionNumber));
+                    var construct = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
+                    .Include("NotificationConstructParameters")
+                    .Include("NotificationConstructData")
+                    .Include("NotificationConstructTargets")
+                    .Single(n => 
+                        n.NotificationConstructID.Equals(organisationNotificationConstructID) && 
+                        n.IsActive.Equals(true) && 
+                        n.IsDeleted.Equals(false) && 
+                        n.NotificationConstructVersionNumber.Equals(versionNumber));
 
-                    dto = NotificationConstructConverter.ToDtoWithRelated(construct, 2);
-                }
-
-                //        cacheClient.Add<NotificationConstructDTO>(cacheKey, dto, DateTime.Now.AddDays(1));
+                dto = construct.ToDtoWithRelated(2);
             }
-            // }
 
             return dto;
         }
@@ -209,20 +193,83 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid accountID, string constructName)
+        public List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId, int count)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads.Where(x => x.UserID == accountID).ToDtos();
+                var notifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
+                    .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .OrderByDescending(x => x.DateSent)
+                    .Take(count);
+
+                return notifications.ToDtos();
+            }
+        }
+
+        public List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var notifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
+                    .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .OrderByDescending(x => x.DateSent);
+
+                return notifications.ToDtos();
+            }
+        }
+
+        public byte[] GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId)
+        {
+            VNotificationViewOnlyUaoDTO notificationDto; 
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var notification = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
+                    .FirstOrDefault(
+                        x =>
+                            x.NotificationID == notificationId &&
+                            x.UserAccountOrganisationID == userAccountOrganisationId);
+
+                if (notification == null)
+                {
+                    throw new InvalidOperationException(string.Format("The notification {0} was not found for this user.", notificationId));
+                }
+
+                notificationDto = notification.ToDto();
+            }
+
+            Ensure.That(notificationDto).IsNotNull();
+
+            var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
+            var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
+            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
+
+            return reportByteArray;
+        }
+
+        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var undreadNotifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads
+                    .Where(x => x.UserID == userId);
+                if (notificationConstruct != NotificationConstructEnum.All)
+                {
+                    var notificationConstructName = notificationConstruct.GetStringValue();
+                    undreadNotifications = undreadNotifications
+                        .Where(n => n.Name == notificationConstructName)
+                        .OrderByDescending(x => x.DateSent);
+                }
+
+                return undreadNotifications.ToDtos();
             }
         }
 
         public NotificationResultDTO GetTcAndCsText(Guid accountID)
         {
-            var unreadDTO = GetUnreadNotifications(accountID, "TcPublic").FirstOrDefault();
+            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic).FirstOrDefault();
             Ensure.That(unreadDTO).IsNotNull();
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
-            string val = ReportHelper.GetReportTextItem(construct, null, "TextContent");
+            string val = StandaloneReportGenerator.GetReportTextItem(construct, null, "TextContent");
             return new NotificationResultDTO
             {
                 NotificationID = unreadDTO.NotificationID,
@@ -237,7 +284,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return ReportHelper.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+                return StandaloneReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
             }
         }
 

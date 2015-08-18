@@ -1,70 +1,36 @@
-﻿using System;
+﻿using Autofac;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.IOC;
+using Bec.TargetFramework.Infrastructure.Log;
+using Bec.TargetFramework.Infrastructure.Reporting.Generators;
+using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.SB.Handlers.Base;
+using Bec.TargetFramework.SB.Messages.Events;
+using Bec.TargetFramework.SB.Notifications.Base;
+using EnsureThat;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.SB.Handlers.Base;
-using Bec.TargetFramework.SB.Notifications.Base;
-using Bec.TargetFramework.Security;
-using BrockAllen.MembershipReboot;
-using EnsureThat;
-using ServiceStack.Text;
-using Bec.TargetFramework.Business.Client.Interfaces;
+using System.Net.Mail;
+using System.ServiceModel;
 
 namespace Bec.TargetFramework.SB.NotificationServices.Handler
 {
-    using System.IO;
-    using System.Net.Mail;
-    using System.ServiceModel;
-
-    using Autofac;
-
-    using Bec.TargetFramework.Entities;
-    using Bec.TargetFramework.Infrastructure.Log;
-    using Bec.TargetFramework.SB.Interfaces;
-    using Bec.TargetFramework.SB.Messages.Commands;
-    using Bec.TargetFramework.SB.NotificationServices.Report;
-
-    using NServiceBus;
-  
-    using Bec.TargetFramework.Infrastructure;
-    using Bec.TargetFramework.Entities.Enums;
-    using Bec.TargetFramework.Infrastructure.Helpers;
-    using Bec.TargetFramework.SB.Entities;
-    using Bec.TargetFramework.SB.Messages.Events;
-    using Bec.TargetFramework.Infrastructure.Settings;
-    using Bec.TargetFramework.Infrastructure.IOC;
-    using Bec.TargetFramework.SB.Client.Interfaces;
-
     public class NotificationEventHandler : ConcurrentBaseHandler<NotificationEvent>
     {
-        private IClassificationDataLogicClient m_ClassificationLogic;
         private INotificationLogicClient m_NotificationLogic;
         private IUserLogicClient m_UserLogic;
 
-        public NotificationEventHandler(ILogger logger, INotificationLogicClient notifLogic, IBusLogicClient busLogic, IEventPublishLogicClient eventClient, IClassificationDataLogicClient dataLogic, IUserLogicClient uLogic)
+        public NotificationEventHandler(ILogger logger, INotificationLogicClient notifLogic, IBusLogicClient busLogic, IEventPublishLogicClient eventClient, IUserLogicClient uLogic)
             : base(logger, busLogic, eventClient)
         {
-            m_ClassificationLogic = dataLogic;
             m_NotificationLogic = notifLogic;
             m_UserLogic = uLogic;
-        }
-
-        public override void Dispose()
-        {
-
-        }
-
-
-        private bool IsDeliveryMethodEmail(int deliveryMethod)
-        {
-            int emailDeliveryMethod = m_ClassificationLogic.GetClassificationDataForTypeName(
-                    "NotificationDeliveryMethodID",
-                    "Email");
-
-            return (deliveryMethod == emailDeliveryMethod);
         }
 
         private void EnsureNotificationContainerValidation()
@@ -94,8 +60,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
         private byte[] GetReportData()
         {
-            var exportMethodList = m_ClassificationLogic.GetRootClassificationDataForTypeName("NotificationExportFormatID");
-
             var reportGenerator = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<StandaloneReportGenerator>();
 
             // add settings to json
@@ -107,7 +71,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                 // create mutator and execute
                 Type mutatorType = Type.GetType(m_NotificationConstructDto.NotificationConstructMutatorObjectType, false);
 
-                EnsureThat.Ensure.That(mutatorType).IsNotNull();
+                Ensure.That(mutatorType).IsNotNull();
 
                 BaseNotificationMutator mutator = Activator.CreateInstance(mutatorType) as BaseNotificationMutator;
 
