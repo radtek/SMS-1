@@ -1,10 +1,4 @@
-﻿using Bec.TargetFramework.Infrastructure.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Bec.TargetFramework.Entities.Enums
 {
     public enum OrganisationTypeEnum : int

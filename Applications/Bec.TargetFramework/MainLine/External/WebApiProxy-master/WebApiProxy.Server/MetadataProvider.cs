@@ -93,7 +93,8 @@ namespace WebApiProxy.Server
 
         private string makeParams(System.Collections.ObjectModel.Collection<ApiParameterDescription> collection)
         {
-            string r = string.Join("&", collection.Where(p => p.ParameterDescriptor != null && p.Source == ApiParameterSource.FromUri && !p.ParameterDescriptor.ParameterType.IsArray).Select(p => p.Name + "={" + p.Name + "}"));
+            string r = string.Join("&", collection.Where(p => p.ParameterDescriptor != null && p.Source == ApiParameterSource.FromUri && !p.ParameterDescriptor.ParameterType.IsArray)
+                .Select(p => p.Name + "={" + p.Name + (p.ParameterDescriptor.ParameterType == typeof(DateTime) ? ".ToString(\"O\")" : "") + "}"));
             if (r.Length > 0)
                 return "?" + r;
             else

@@ -34,8 +34,6 @@ namespace Bec.TargetFramework.Entities
             target.CompanyRecordCreated = source.CompanyRecordCreated;
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
-            target.CompanyPinCode = source.CompanyPinCode;
-            target.CompanyPinCreated = source.CompanyPinCreated;
             target.SystemAdminTitle = source.SystemAdminTitle;
             target.SystemAdminFirstName = source.SystemAdminFirstName;
             target.SystemAdminLastName = source.SystemAdminLastName;
@@ -70,8 +68,6 @@ namespace Bec.TargetFramework.Entities
             target.CompanyRecordCreated = source.CompanyRecordCreated;
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.IsCompanyPinCreated = source.IsCompanyPinCreated;
-            target.CompanyPinCode = source.CompanyPinCode;
-            target.CompanyPinCreated = source.CompanyPinCreated;
             target.SystemAdminTitle = source.SystemAdminTitle;
             target.SystemAdminFirstName = source.SystemAdminFirstName;
             target.SystemAdminLastName = source.SystemAdminLastName;

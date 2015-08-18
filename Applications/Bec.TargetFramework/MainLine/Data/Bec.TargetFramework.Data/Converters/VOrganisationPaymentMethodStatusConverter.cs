@@ -31,7 +31,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.OrganisationID = source.OrganisationID;
             target.GlobalPaymentMethodID = source.GlobalPaymentMethodID;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.IsDirectDebit = source.IsDirectDebit;
@@ -60,7 +60,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.OrganisationID = source.OrganisationID;
             target.GlobalPaymentMethodID = source.GlobalPaymentMethodID;
-            target.OrganisationBankAccountId = source.OrganisationBankAccountId;
+            target.OrganisationBankAccountID = source.OrganisationBankAccountID;
             target.IsActive = source.IsActive;
             target.IsDeleted = source.IsDeleted;
             target.IsDirectDebit = source.IsDirectDebit;

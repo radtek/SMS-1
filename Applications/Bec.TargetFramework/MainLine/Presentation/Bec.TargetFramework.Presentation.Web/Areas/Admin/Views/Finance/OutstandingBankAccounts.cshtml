@@ -41,7 +41,7 @@
                     <div class="well">
                         <h5>Account History</h5>
                         <div id="history"></div>
-                        <h5>Duplicate Accounts</h5>
+                        <h5 id="dupeHeading">Duplicate Accounts&nbsp;</h5>
                         <div id="duplicates"></div>
                     </div>
                 </div>
@@ -51,8 +51,7 @@
     </div>
 </div>
 
-@section pagespecific {
-    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
+@section Scripts {
     <script type="text/javascript">
 
         //set up grid options for the three grids. most are passed straight on to kendo grid.
@@ -99,9 +98,10 @@
                             }
                         },
                         {
+                            field: "Duplicates.length",
                             title: "Alert",
                             template: function (dataItem) {
-                                return dataItem.Duplicates.length > 0 ? "<i class='fa fa-exclamation-triangle fa-lg' style='color:red;'></i>" : "";
+                                return dataItem.Duplicates.length > 0 ? "<i class='fa fa-exclamation-triangle fa-lg' style='color:red;'></i> Duplicate accounts exist" : "";
                             }
                         }
                 ]
@@ -126,9 +126,9 @@
                
             $("#markSafeButton").attr("disabled", dataItem.Duplicates.length > 0);
             $("#markSafeKillDupesButton").attr("disabled", dataItem.Duplicates.length == 0);
-
+               
             showHistory('#history', dataItem);
-            showDuplicates('#duplicates', dataItem);
+            showDuplicates('#duplicates', '#dupeHeading', dataItem);
         }
 
     </script>

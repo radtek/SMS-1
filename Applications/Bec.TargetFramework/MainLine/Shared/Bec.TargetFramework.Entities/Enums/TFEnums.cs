@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Infrastructure.Extensions;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Entities.Enums
 {
@@ -102,7 +97,9 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Organisation")]
         Organisation = 120,
         [StringValue("Workflow")]
-        Workflow = 122
+        Workflow = 122,
+        [StringValue("Notification")]
+        Notification = 123
     }
     public enum RoleTypeIDEnum : int
     {

@@ -523,11 +523,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<LedgerAccountBalance> LedgerAccountBalances { get; set; }
     
         /// <summary>
-        /// There are no comments for LedgerAccountTransaction in the schema.
-        /// </summary>
-        public virtual DbSet<LedgerAccountTransaction> LedgerAccountTransactions { get; set; }
-    
-        /// <summary>
         /// There are no comments for DefaultOrganisationGroupTemplate in the schema.
         /// </summary>
         public virtual DbSet<DefaultOrganisationGroupTemplate> DefaultOrganisationGroupTemplates { get; set; }
@@ -1498,11 +1493,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VTemporaryUsersNotLoggedIn> VTemporaryUsersNotLoggedIns { get; set; }
     
         /// <summary>
-        /// There are no comments for VUserWorkflowInstanceStatus in the schema.
-        /// </summary>
-        public virtual DbSet<VUserWorkflowInstanceStatus> VUserWorkflowInstanceStatus { get; set; }
-    
-        /// <summary>
         /// There are no comments for VProductDiscount in the schema.
         /// </summary>
         public virtual DbSet<VProductDiscount> VProductDiscounts { get; set; }
@@ -1778,11 +1768,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VUserRoleRegulatorDetail> VUserRoleRegulatorDetails { get; set; }
     
         /// <summary>
-        /// There are no comments for VOrganisationComplianceOfficer in the schema.
-        /// </summary>
-        public virtual DbSet<VOrganisationComplianceOfficer> VOrganisationComplianceOfficers { get; set; }
-    
-        /// <summary>
         /// There are no comments for VDefaultOrganisationUserTypeOrganisationType in the schema.
         /// </summary>
         public virtual DbSet<VDefaultOrganisationUserTypeOrganisationType> VDefaultOrganisationUserTypeOrganisationTypes { get; set; }
@@ -1953,11 +1938,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VNotificationInternalUnread> VNotificationInternalUnreads { get; set; }
     
         /// <summary>
-        /// There are no comments for VOrganisationClaim in the schema.
-        /// </summary>
-        public virtual DbSet<VOrganisationClaim> VOrganisationClaims { get; set; }
-    
-        /// <summary>
         /// There are no comments for PasswordResetRequest in the schema.
         /// </summary>
         public virtual DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
@@ -1981,6 +1961,21 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VOrganisationBankAccountsWithStatus in the schema.
         /// </summary>
         public virtual DbSet<VOrganisationBankAccountsWithStatus> VOrganisationBankAccountsWithStatus { get; set; }
+    
+        /// <summary>
+        /// There are no comments for OrganisationLedgerTransaction in the schema.
+        /// </summary>
+        public virtual DbSet<OrganisationLedgerTransaction> OrganisationLedgerTransactions { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VOrganisationLedgerTransactionBalance in the schema.
+        /// </summary>
+        public virtual DbSet<VOrganisationLedgerTransactionBalance> VOrganisationLedgerTransactionBalances { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VNotificationViewOnlyUao in the schema.
+        /// </summary>
+        public virtual DbSet<VNotificationViewOnlyUao> VNotificationViewOnlyUaos { get; set; }
 
         #region Methods
 

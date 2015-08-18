@@ -118,6 +118,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CustomerPrice in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<decimal> CustomerPrice
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

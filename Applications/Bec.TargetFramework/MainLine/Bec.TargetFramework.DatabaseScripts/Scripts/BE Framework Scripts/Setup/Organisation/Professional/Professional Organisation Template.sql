@@ -260,4 +260,28 @@ VALUES (
   (select "DefaultOrganisationUserTargetTemplateID" from "DefaultOrganisationUserTargetTemplate" where "DefaultOrganisationTemplateID" = DoTemplateID
   	and "DefaultOrganisationTemplateVersionNumber" = DoVersionNumber limit 1)
 );
+
+INSERT INTO
+  public."DefaultOrganisationLedgerTemplate"
+(
+  "DefaultOrganisationTemplateID",
+  "DefaultOrganisationTemplateVersionNumber",
+  "LedgerAccountTypeID",
+  "LedgerAccountName",
+  "HandlesCredit",
+  "HandlesDebit",
+  "IsActive",
+  "IsDeleted"
+)
+VALUES (
+  DoTemplateID,
+  DoVersionNumber,
+  (select "ClassificationTypeID" from "ClassificationType" where "Name" = 'Credit Account' and "ClassificationTypeCategoryID" = 8500 limit 1),
+  'Credit Account',
+  true,
+  false,
+  true,
+  false
+);
+
 END $$;

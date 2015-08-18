@@ -89,6 +89,8 @@
     <Compile Include="Base\IBaseNotificationMutator.cs" />
     <Compile Include="Mutators\AddNewUserTempDetailsMutator.cs" />
     <Compile Include="Mutators\AddCompanyAdministratorTempDetailsMutator.cs" />
+    <Compile Include="Mutators\BankAccountMarkedAsSafeMutator.cs" />
+    <Compile Include="Mutators\BankAccountMarkedAsFraudSuspiciousMutator.cs" />
     <Compile Include="Mutators\ForgotPasswordMutator.cs" />
     <Compile Include="Mutators\UsernameReminderMutator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

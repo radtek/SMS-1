@@ -98,7 +98,6 @@
           <EntitySet Name="CountryCodes" EntityType="Bec.TargetFramework.Data.Store.CountryCode" store:Type="Tables" Schema="public" Table="CountryCode" />
           <EntitySet Name="DefaultOrganisationGroupRoleTemplates" EntityType="Bec.TargetFramework.Data.Store.DefaultOrganisationGroupRoleTemplate" store:Type="Tables" Schema="public" Table="DefaultOrganisationGroupRoleTemplate" />
           <EntitySet Name="LedgerAccountBalances" EntityType="Bec.TargetFramework.Data.Store.LedgerAccountBalance" store:Type="Tables" Schema="public" Table="LedgerAccountBalance" />
-          <EntitySet Name="LedgerAccountTransactions" EntityType="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" store:Type="Tables" Schema="public" Table="LedgerAccountTransaction" />
           <EntitySet Name="DefaultOrganisationGroupTemplates" EntityType="Bec.TargetFramework.Data.Store.DefaultOrganisationGroupTemplate" store:Type="Tables" Schema="public" Table="DefaultOrganisationGroupTemplate" />
           <EntitySet Name="DiscountTemplates" EntityType="Bec.TargetFramework.Data.Store.DiscountTemplate" store:Type="Tables" Schema="public" Table="DiscountTemplate" />
           <EntitySet Name="OrganisationLedgerAccounts" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" store:Type="Tables" Schema="public" Table="OrganisationLedgerAccount" />
@@ -297,7 +296,6 @@
           <EntitySet Name="vDefaultEmailAddresses" EntityType="Bec.TargetFramework.Data.Store.vDefaultEmailAddress" store:Type="Views" Schema="public" Table="vDefaultEmailAddress" />
           <EntitySet Name="vNotificationConstructs" EntityType="Bec.TargetFramework.Data.Store.vNotificationConstruct" store:Type="Views" Schema="public" Table="vNotificationConstruct" />
           <EntitySet Name="vTemporaryUsersNotLoggedIns" EntityType="Bec.TargetFramework.Data.Store.vTemporaryUsersNotLoggedIn" store:Type="Views" Schema="public" Table="vTemporaryUsersNotLoggedIn" />
-          <EntitySet Name="vUserWorkflowInstanceStatus" EntityType="Bec.TargetFramework.Data.Store.vUserWorkflowInstanceStatus" store:Type="Views" Schema="public" Table="vUserWorkflowInstanceStatus" />
           <EntitySet Name="vProductDiscounts" EntityType="Bec.TargetFramework.Data.Store.vProductDiscount" store:Type="Views" Schema="public" Table="vProductDiscount" />
           <EntitySet Name="DiscountRelatedProductTemplates" EntityType="Bec.TargetFramework.Data.Store.DiscountRelatedProductTemplate" store:Type="Tables" Schema="public" Table="DiscountRelatedProductTemplate" />
           <EntitySet Name="OrganisationDiscounts" EntityType="Bec.TargetFramework.Data.Store.OrganisationDiscount" store:Type="Tables" Schema="public" Table="OrganisationDiscount" />
@@ -363,7 +361,6 @@
           <EntitySet Name="vInvoiceWithCurrentTransactionOrderStatus" EntityType="Bec.TargetFramework.Data.Store.vInvoiceWithCurrentTransactionOrderStatus" store:Type="Views" Schema="public" Table="vInvoiceWithCurrentTransactionOrderStatus" />
           <EntitySet Name="vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" EntityType="Bec.TargetFramework.Data.Store.vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" store:Type="Views" Schema="public" Table="vPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" />
           <EntitySet Name="vUserRoleRegulatorDetails" EntityType="Bec.TargetFramework.Data.Store.vUserRoleRegulatorDetail" store:Type="Views" Schema="public" Table="vUserRoleRegulatorDetail" />
-          <EntitySet Name="vOrganisationComplianceOfficers" EntityType="Bec.TargetFramework.Data.Store.vOrganisationComplianceOfficer" store:Type="Views" Schema="public" Table="vOrganisationComplianceOfficer" />
           <EntitySet Name="vDefaultOrganisationUserTypeOrganisationTypes" EntityType="Bec.TargetFramework.Data.Store.vDefaultOrganisationUserTypeOrganisationType" store:Type="Views" Schema="public" Table="vDefaultOrganisationUserTypeOrganisationType" />
           <EntitySet Name="ActorClaimRoleMappings" EntityType="Bec.TargetFramework.Data.Store.ActorClaimRoleMapping" store:Type="Tables" Schema="public" Table="ActorClaimRoleMapping" />
           <EntitySet Name="Actors" EntityType="Bec.TargetFramework.Data.Store.Actor" store:Type="Tables" Schema="public" Table="Actor" />
@@ -398,12 +395,14 @@
           <EntitySet Name="Organisations" EntityType="Bec.TargetFramework.Data.Store.Organisation" store:Type="Tables" Schema="public" Table="Organisation" />
           <EntitySet Name="vOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.Store.vOrganisationWithStatusAndAdmin" store:Type="Views" Schema="public" Table="vOrganisationWithStatusAndAdmin" />
           <EntitySet Name="vNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.Store.vNotificationInternalUnread" store:Type="Views" Schema="public" Table="vNotificationInternalUnread" />
-          <EntitySet Name="vOrganisationClaims" EntityType="Bec.TargetFramework.Data.Store.vOrganisationClaim" store:Type="Views" Schema="public" Table="vOrganisationClaim" />
           <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.Store.PasswordResetRequest" store:Type="Tables" Schema="public" Table="PasswordResetRequest" />
           <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.Store.EventStatus" store:Type="Tables" Schema="public" Table="EventStatus" />
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsTransaction" store:Type="Tables" Schema="sms" Table="SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus" store:Type="Tables" Schema="public" Table="OrganisationBankAccountStatus" />
           <EntitySet Name="vOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.Store.vOrganisationBankAccountsWithStatus" store:Type="Views" Schema="public" Table="vOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" store:Type="Tables" Schema="public" Table="OrganisationLedgerTransaction" />
+          <EntitySet Name="vOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.Store.vOrganisationLedgerTransactionBalance" store:Type="Views" Schema="public" Table="vOrganisationLedgerTransactionBalance" />
+          <EntitySet Name="vNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.Store.vNotificationViewOnlyUao" store:Type="Views" Schema="public" Table="vNotificationViewOnlyUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -1095,10 +1094,6 @@
           <AssociationSet Name="FK_DefaultonGroupDefault_DefaultOrganisationRoleT" Association="Bec.TargetFramework.Data.Store.FK_DefaultonGroupDefault_DefaultOrganisationRoleT">
             <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
             <End Role="DefaultOrganisationGroupRoleTemplate" EntitySet="DefaultOrganisationGroupRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrder" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_TransactionOrder">
-            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
-            <End Role="LedgerAccountTransaction" EntitySet="LedgerAccountTransactions" />
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationGroup_DefaultOrganisationT" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationGroup_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
@@ -2412,10 +2407,6 @@
             <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
             <End Role="UserAccountLedgerAccount" EntitySet="UserAccountLedgerAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccount" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_LedgerAccount">
-            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
-            <End Role="LedgerAccountTransaction" EntitySet="LedgerAccountTransactions" />
-          </AssociationSet>
           <AssociationSet Name="fk_ShoppingCart_GlobalPaymentMethod" Association="Bec.TargetFramework.Data.Store.fk_ShoppingCart_GlobalPaymentMethod">
             <End Role="GlobalPaymentMethod" EntitySet="GlobalPaymentMethods" />
             <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
@@ -2891,6 +2882,18 @@
           <AssociationSet Name="OrganisationBankAccountStatus_fk1" Association="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus_fk1">
             <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
             <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccount" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_LedgerAccount">
+            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrder" Association="Bec.TargetFramework.Data.Store.fk_LedgerAccountTransaction_TransactionOrder">
+            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="OrganisationLedgerTransaction_fk" Association="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -3546,6 +3549,7 @@
           <Property Name="ShoppingCartID" Type="uuid" Nullable="false" />
           <Property Name="InvoiceLineItemID" Type="uuid" />
           <Property Name="AccountID" Type="uuid" />
+          <Property Name="CustomerPrice" Type="numeric" Scale="8" />
         </EntityType>
         <EntityType Name="ProductDeduction">
           <Key>
@@ -4470,16 +4474,6 @@
           <Property Name="IsDebit" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="IsCredit" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
-        <EntityType Name="LedgerAccountTransaction">
-          <Key>
-            <PropertyRef Name="LedgerAccountID" />
-            <PropertyRef Name="TransactionOrderID" />
-            <PropertyRef Name="BalanceOn" />
-          </Key>
-          <Property Name="LedgerAccountID" Type="uuid" Nullable="false" />
-          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
-          <Property Name="BalanceOn" Type="timestamp" Nullable="false" />
-        </EntityType>
         <EntityType Name="DefaultOrganisationGroupTemplate">
           <Key>
             <PropertyRef Name="DefaultOrganisationGroupTemplateID" />
@@ -4562,6 +4556,7 @@
           <Property Name="AccountingTypeID" Type="int" Nullable="false" />
           <Property Name="IsPrimaryAccount" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ModuleProductTemplate">
           <Key>
@@ -5540,7 +5535,7 @@
           <Property Name="StatusTypeID" Type="uuid" Nullable="false" />
           <Property Name="StatusTypeVersionNumber" Type="int" Nullable="false" />
           <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
-          <Property Name="StatusChangedOn" Type="timestamp" Nullable="false" />
+          <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="ParentID" Type="uuid" />
           <Property Name="ReasonID" Type="int" />
@@ -5924,7 +5919,7 @@
           <Property Name="ParentID" Type="uuid" />
           <Property Name="IsAccepted" Type="boolean" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
-          <Property Name="AcceptedDate" Type="date" />
+          <Property Name="AcceptedDate" Type="timestamptz" />
         </EntityType>
         <EntityType Name="UserAccountOrganisationStructure">
           <Documentation>
@@ -6075,7 +6070,7 @@
           <Property Name="NotificationDataFileName" Type="varchar" MaxLength="300" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
-          <Property Name="CreatedOn" Type="date" devart:DefaultValue="('now'::text)::date" />
+          <Property Name="CreatedOn" Type="date" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="UsesBusinessObjects" Type="boolean" DefaultValue="true" />
           <Property Name="UsesDataSources" Type="boolean" DefaultValue="false" />
         </EntityType>
@@ -6085,7 +6080,7 @@
           </Key>
           <Property Name="NotificationID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="FromParentID" Type="uuid" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="ParentID" Type="uuid" />
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
@@ -6569,29 +6564,29 @@
           <Property Name="Tenant" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Username" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
-          <Property Name="Created" Type="timestamp" Nullable="false" />
-          <Property Name="LastUpdated" Type="timestamp" Nullable="false" />
-          <Property Name="PasswordChanged" Type="timestamp" />
+          <Property Name="Created" Type="timestamptz" Nullable="false" />
+          <Property Name="LastUpdated" Type="timestamptz" Nullable="false" />
+          <Property Name="PasswordChanged" Type="timestamptz" />
           <Property Name="RequiresPasswordReset" Type="boolean" Nullable="false" />
           <Property Name="MobileCode" Type="varchar" MaxLength="100" />
-          <Property Name="MobileCodeSent" Type="timestamp" />
+          <Property Name="MobileCodeSent" Type="timestamptz" />
           <Property Name="MobilePhoneNumber" Type="varchar" MaxLength="20" />
           <Property Name="AccountTwoFactorAuthMode" Type="int" Nullable="false" />
           <Property Name="CurrentTwoFactorAuthStatus" Type="int" Nullable="false" />
           <Property Name="IsAccountVerified" Type="boolean" Nullable="false" />
           <Property Name="IsLoginAllowed" Type="boolean" Nullable="false" />
           <Property Name="IsAccountClosed" Type="boolean" Nullable="false" />
-          <Property Name="AccountClosed" Type="timestamp" />
-          <Property Name="LastLogin" Type="timestamp" />
-          <Property Name="LastFailedLogin" Type="timestamp" />
+          <Property Name="AccountClosed" Type="timestamptz" />
+          <Property Name="LastLogin" Type="timestamptz" />
+          <Property Name="LastFailedLogin" Type="timestamptz" />
           <Property Name="FailedLoginCount" Type="int" Nullable="false" />
           <Property Name="VerificationKey" Type="varchar" MaxLength="100" />
           <Property Name="VerificationPurpose" Type="int" />
-          <Property Name="VerificationKeySent" Type="timestamp" />
+          <Property Name="VerificationKeySent" Type="timestamptz" />
           <Property Name="HashedPassword" Type="varchar" MaxLength="200" />
-          <Property Name="LastFailedPasswordReset" Type="timestamp" />
+          <Property Name="LastFailedPasswordReset" Type="timestamptz" />
           <Property Name="FailedPasswordResetCount" Type="int" Nullable="false" DefaultValue="0" />
-          <Property Name="MobilePhoneNumberChanged" Type="timestamp" />
+          <Property Name="MobilePhoneNumberChanged" Type="timestamptz" />
           <Property Name="VerificationStorage" Type="varchar" MaxLength="100" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
@@ -6606,8 +6601,8 @@
           <Property Name="FailedForgotPasswordAttempts" Type="int" Nullable="false" DefaultValue="0" />
           <Property Name="IsForgotUsernameRequestAllowed" Type="boolean" Nullable="false" />
           <Property Name="IsForgotPasswordRequestAllowed" Type="boolean" Nullable="false" />
-          <Property Name="LastForgotUsernameFailedAttempt" Type="timestamp" />
-          <Property Name="LastForgotPasswordFailedAttempt" Type="timestamp" />
+          <Property Name="LastForgotUsernameFailedAttempt" Type="timestamptz" />
+          <Property Name="LastForgotPasswordFailedAttempt" Type="timestamptz" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="UserClaims">
@@ -7594,7 +7589,7 @@
           <Property Name="StatusTypeTemplateVersionNumber" Type="int" Nullable="false" />
           <Property Name="StatusTypeValueID" Type="uuid" Nullable="false" />
           <Property Name="StatusValueName" Type="varchar" MaxLength="200" />
-          <Property Name="StatusChangedOn" Type="timestamp" Nullable="false" />
+          <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="StatusOrder" Type="int" />
           <Property Name="IsStart" Type="boolean" />
@@ -7717,8 +7712,8 @@
             <PropertyRef Name="IsActive" />
             <PropertyRef Name="LastUpdated" />
           </Key>
-          <Property Name="Created" Type="timestamp" Nullable="false" />
-          <Property Name="AccountClosed" Type="timestamp" />
+          <Property Name="Created" Type="timestamptz" Nullable="false" />
+          <Property Name="AccountClosed" Type="timestamptz" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="FailedLoginCount" Type="int" Nullable="false" />
           <Property Name="FailedPasswordResetCount" Type="int" Nullable="false" />
@@ -7726,22 +7721,9 @@
           <Property Name="IsAccountClosed" Type="boolean" Nullable="false" />
           <Property Name="IsAccountVerified" Type="boolean" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" />
-          <Property Name="LastLogin" Type="timestamp" />
-          <Property Name="LastFailedPasswordReset" Type="timestamp" />
-          <Property Name="LastUpdated" Type="timestamp" Nullable="false" />
-        </EntityType>
-        <EntityType Name="vUserWorkflowInstanceStatus">
-          <Key>
-            <PropertyRef Name="WorkflowInstanceStatusID" />
-          </Key>
-          <Property Name="ParentID" Type="uuid" Nullable="false" />
-          <Property Name="UserID" Type="uuid" />
-          <Property Name="UserAccountOrganisationID" Type="uuid" />
-          <Property Name="WorkflowID" Type="uuid" Nullable="false" />
-          <Property Name="WorkflowInstanceID" Type="uuid" Nullable="false" />
-          <Property Name="WorkflowInstanceStatusID" Type="int" Nullable="false" />
-          <Property Name="instancestatus" Type="varchar" MaxLength="100" />
-          <Property Name="workflowtype" Type="varchar" MaxLength="100" />
+          <Property Name="LastLogin" Type="timestamptz" />
+          <Property Name="LastFailedPasswordReset" Type="timestamptz" />
+          <Property Name="LastUpdated" Type="timestamptz" Nullable="false" />
         </EntityType>
         <EntityType Name="vProductDiscount">
           <Key>
@@ -8695,7 +8677,7 @@
           </Key>
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="GlobalPaymentMethodID" Type="uuid" Nullable="false" />
-          <Property Name="OrganisationBankAccountId" Type="int" />
+          <Property Name="OrganisationBankAccountID" Type="uuid" />
           <Property Name="IsActive" Type="boolean" Nullable="false" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" />
           <Property Name="IsDirectDebit" Type="boolean" Nullable="false" />
@@ -8895,7 +8877,7 @@
           <Property Name="PlanSubscriptionStatusCreatedOn" Type="timestamp" />
           <Property Name="PlanSubscriptionStatusDetail" Type="varchar" MaxLength="2000" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="OrganisationBankAccountId" Type="int" />
+          <Property Name="OrganisationBankAccountID" Type="uuid" />
           <Property Name="IsDirectDebit" Type="boolean" Nullable="false" />
           <Property Name="IsBACS" Type="boolean" Nullable="false" />
           <Property Name="OrganisationDirectDebitMandateID" Type="uuid" />
@@ -8936,29 +8918,12 @@
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
-          <Property Name="RegulatorID" Type="int" />
+          <Property Name="RegulatorID" Type="int" Nullable="false" />
           <Property Name="Regulator" Type="varchar" MaxLength="100" />
           <Property Name="RegulatorNumber" Type="varchar" MaxLength="50" />
           <Property Name="UserRole" Type="varchar" MaxLength="200" />
           <Property Name="TradingName" Type="varchar" MaxLength="200" />
           <Property Name="CompanyName" Type="varchar" MaxLength="2000" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="vOrganisationComplianceOfficer">
-          <Key>
-            <PropertyRef Name="OrganisationID" />
-          </Key>
-          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="COEmail" Type="varchar" MaxLength="100" />
-          <Property Name="COFirstName" Type="varchar" MaxLength="200" />
-          <Property Name="COLastName" Type="varchar" MaxLength="200" />
-          <Property Name="CompanyName" Type="varchar" MaxLength="2000" />
-          <Property Name="TradingName" Type="varchar" MaxLength="200" />
-          <Property Name="BranchName" Type="varchar" MaxLength="2000" />
-          <Property Name="BranchRegulatorID" Type="int" />
-          <Property Name="BranchRegulator" Type="varchar" MaxLength="100" />
-          <Property Name="BranchRegulatorNumber" Type="varchar" MaxLength="50" />
           <Property Name="IsActive" Type="boolean" Nullable="false" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" />
         </EntityType>
@@ -9011,11 +8976,11 @@
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="UserID" Type="uuid" />
-          <Property Name="UserTypeID" Type="uuid" />
+          <Property Name="UserID" Type="uuid" Nullable="false" />
+          <Property Name="UserTypeID" Type="uuid" Nullable="false" />
           <Property Name="UserType" Type="varchar" MaxLength="200" />
-          <Property Name="OrganisationID" Type="uuid" />
-          <Property Name="OrganisationTypeID" Type="int" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="NotificationConstructGroup">
@@ -9133,12 +9098,12 @@
           <Property Name="NotificationConstructName" Type="varchar" MaxLength="300" />
           <Property Name="NotificationConstructSubject" Type="varchar" MaxLength="200" />
           <Property Name="NotificationConstructTitle" Type="varchar" MaxLength="300" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="IsSent" Type="boolean" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" />
           <Property Name="IsAccepted" Type="boolean" />
-          <Property Name="AcceptedDate" Type="date" />
+          <Property Name="AcceptedDate" Type="timestamptz" />
           <Property Name="UserTypeID" Type="uuid" Nullable="false" />
           <Property Name="OrganisationTypeID" Type="int" Nullable="false" />
           <Property Name="IsRead" Type="boolean" />
@@ -9152,23 +9117,16 @@
             <PropertyRef Name="NotificationRecipientLogID" />
           </Key>
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="NotificationID" Type="uuid" Nullable="false" />
-          <Property Name="NotificationStatusID" Type="int" />
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
           <Property Name="NotificationDeliveryMethodID" Type="int" />
           <Property Name="NotificationExportFormatID" Type="int" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
-          <Property Name="IsSent" Type="boolean" Nullable="false" />
-          <Property Name="IsActive" Type="boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="boolean" Nullable="false" />
-          <Property Name="IsAccepted" Type="boolean" />
-          <Property Name="AcceptedDate" Type="date" />
+          <Property Name="DateSent" Type="timestamp" />
+          <Property Name="IsSent" Type="boolean" />
+          <Property Name="DateRead" Type="timestamp" />
           <Property Name="IsRead" Type="boolean" />
           <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
           <Property Name="ErrorOccured" Type="boolean" />
-          <Property Name="SentOn" Type="timestamp" />
-          <Property Name="NotificationVerificationCode" Type="json" />
           <Property Name="NotificationRecipientID" Type="uuid" Nullable="false" />
           <Property Name="NotificationRecipientLogID" Type="uuid" Nullable="false" />
           <Property Name="OrganisationID" Type="uuid" />
@@ -9209,7 +9167,7 @@
           <Key>
             <PropertyRef Name="TransactionOrderPaymentID" />
           </Key>
-          <Property Name="TransactionOrderPaymentID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" />
+          <Property Name="TransactionOrderPaymentID" Type="uuid" Nullable="false" devart:DefaultValue="" />
           <Property Name="IsPaymentSuccessful" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="PaymentDate" Type="timestamp" Nullable="false" devart:DefaultValue="('now'::text)::date" />
           <Property Name="ResponseData" Type="json" />
@@ -9272,7 +9230,7 @@
           <Property Name="Salutation" Type="varchar" MaxLength="100" />
           <Property Name="Telephone" Type="varchar" MaxLength="50" />
           <Property Name="IsLoginAllowed" Type="boolean" Nullable="false" />
-          <Property Name="Created" Type="timestamp" Nullable="false" />
+          <Property Name="Created" Type="timestamptz" Nullable="false" />
         </EntityType>
         <EntityType Name="vOrganisationDetail">
           <Key>
@@ -9287,7 +9245,7 @@
           <Property Name="IsActive" Type="boolean" Nullable="false" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" />
           <Property Name="IsUserOrganisation" Type="boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="timestamp" Nullable="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="date" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
@@ -9451,7 +9409,7 @@
           <Property Name="Username" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="IsTemporaryAccount" Type="boolean" Nullable="false" />
-          <Property Name="Created" Type="timestamp" Nullable="false" />
+          <Property Name="Created" Type="timestamptz" Nullable="false" />
           <Property Name="DaysSinceCreation" Type="double precision" />
           <Property Name="HoursSinceCreation" Type="double precision" />
           <Property Name="Between7and14DaysNotLoggedIn" Type="boolean" />
@@ -9589,11 +9547,9 @@
           </Key>
           <Property Name="CompanyId" Type="uuid" Nullable="false" />
           <Property Name="CompanyName" Type="varchar" MaxLength="2000" />
-          <Property Name="CompanyRecordCreated" Type="timestamp" />
+          <Property Name="CompanyRecordCreated" Type="timestamptz" />
           <Property Name="IsCompanyVerified" Type="boolean" />
           <Property Name="IsCompanyPinCreated" Type="boolean" />
-          <Property Name="CompanyPinCode" Type="varchar" MaxLength="40" />
-          <Property Name="CompanyPinCreated" Type="timestamp" />
           <Property Name="SystemAdminTitle" Type="varchar" MaxLength="100" />
           <Property Name="SystemAdminFirstName" Type="varchar" MaxLength="100" />
           <Property Name="SystemAdminLastName" Type="varchar" MaxLength="100" />
@@ -9634,7 +9590,6 @@
           <Property Name="IsPaymentProvider" Type="boolean" DefaultValue="false" />
           <Property Name="PrimaryContactID" Type="uuid" />
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
-          <Property Name="IsCompanyPinCreated" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
         </EntityType>
@@ -9679,7 +9634,7 @@
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Reason" Type="varchar" MaxLength="100" />
           <Property Name="Notes" Type="text" />
-          <Property Name="OrganisationAdminCreated" Type="timestamp" />
+          <Property Name="OrganisationAdminCreated" Type="timestamptz" />
           <Property Name="VerifiedOn" Type="timestamptz" />
           <Property Name="VerifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="VerifiedNotes" Type="text" />
@@ -9698,34 +9653,12 @@
           </Key>
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
           <Property Name="NotificationRecipientID" Type="uuid" Nullable="false" />
-          <Property Name="DateSent" Type="date" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="NotificationData" Type="json" Nullable="false" />
           <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
           <Property Name="UserID" Type="uuid" Nullable="false" />
-        </EntityType>
-        <EntityType Name="vOrganisationClaim">
-          <Key>
-            <PropertyRef Name="OrganisationID" />
-            <PropertyRef Name="OrganisationRoleID" />
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="OrganisationRoleID" Type="uuid" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="300" />
-          <Property Name="RoleDescription" Type="varchar" MaxLength="2000" />
-          <Property Name="ClaimType" Type="text" />
-          <Property Name="ClaimID" Type="uuid" />
-          <Property Name="ClaimName" Type="varchar" MaxLength="150" />
-          <Property Name="ClaimDescription" Type="varchar" MaxLength="500" />
-          <Property Name="ClaimSubType" Type="text" />
-          <Property Name="ClaimSubID" Type="uuid" />
-          <Property Name="ClaimSubName" Type="varchar" />
-          <Property Name="ClaimSubDescription" Type="varchar" />
-          <Property Name="ParentID" Type="uuid" />
-          <Property Name="RoleSource" Type="text" />
-          <Property Name="ClaimTypeName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PasswordResetRequest">
           <Key>
@@ -9760,7 +9693,7 @@
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="TenureTypeID" Type="int" Nullable="false" />
-          <Property Name="OrganisationID" Type="uuid" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" />
           <Property Name="RowVersion" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
@@ -9797,6 +9730,52 @@
           <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Notes" Type="text" />
+        </EntityType>
+        <EntityType Name="OrganisationLedgerTransaction">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="uuid" Nullable="false" />
+          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
+          <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
+          <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
+          <Property Name="CreatedBy" Type="uuid" />
+        </EntityType>
+        <EntityType Name="vOrganisationLedgerTransactionBalance">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="uuid" Nullable="false" />
+          <Property Name="TransactionOrderID" Type="uuid" Nullable="false" />
+          <Property Name="BalanceOn" Type="timestamptz" Nullable="false" />
+          <Property Name="Amount" Type="numeric" Nullable="false" Scale="8" />
+          <Property Name="InvoiceReference" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Balance" Type="numeric" Nullable="false" />
+          <Property Name="CreatedByName" Type="varchar" />
+        </EntityType>
+        <EntityType Name="vNotificationViewOnlyUao">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="DateSent" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsInternal" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="ResourceTypeID" Type="int" />
+          <Property Name="NotificationID" Type="uuid" Nullable="false" />
+          <Property Name="NotificationData" Type="json" Nullable="false" />
+          <Property Name="NotificationConstructID" Type="uuid" Nullable="false" />
+          <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
+          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="NotificationSubject" Type="varchar" MaxLength="200" />
+          <Property Name="IsInternal" Type="boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -12097,18 +12076,6 @@
             </Principal>
             <Dependent Role="DefaultOrganisationGroupRoleTemplate">
               <PropertyRef Name="DefaultOrganisationRoleTemplateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LedgerAccountTransaction_TransactionOrder">
-          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.Store.TransactionOrder" Multiplicity="1" />
-          <End Role="LedgerAccountTransaction" Type="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TransactionOrder">
-              <PropertyRef Name="TransactionOrderID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransaction">
-              <PropertyRef Name="TransactionOrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -16332,18 +16299,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_LedgerAccountTransaction_LedgerAccount">
-          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" Multiplicity="1" />
-          <End Role="LedgerAccountTransaction" Type="Bec.TargetFramework.Data.Store.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganisationLedgerAccount">
-              <PropertyRef Name="OrganisationLedgerAccountID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransaction">
-              <PropertyRef Name="LedgerAccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ShoppingCart_GlobalPaymentMethod">
           <End Role="GlobalPaymentMethod" Type="Bec.TargetFramework.Data.Store.GlobalPaymentMethod" Multiplicity="1" />
           <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.Store.ShoppingCart" Multiplicity="*" />
@@ -17757,7 +17712,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_SmsTransaction_Organisation">
-          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
           <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Organisation">
@@ -17815,6 +17770,42 @@
             </Principal>
             <Dependent Role="OrganisationBankAccountStatus">
               <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LedgerAccountTransaction_LedgerAccount">
+          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerAccount" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganisationLedgerAccount">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LedgerAccountTransaction_TransactionOrder">
+          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.Store.TransactionOrder" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionOrder">
+              <PropertyRef Name="TransactionOrderID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="TransactionOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganisationLedgerTransaction_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="OrganisationLedgerTransaction" Type="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransaction">
+              <PropertyRef Name="CreatedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -17937,7 +17928,6 @@
           <EntitySet Name="CountryCodes" EntityType="Bec.TargetFramework.Data.CountryCode" />
           <EntitySet Name="DefaultOrganisationGroupRoleTemplates" EntityType="Bec.TargetFramework.Data.DefaultOrganisationGroupRoleTemplate" />
           <EntitySet Name="LedgerAccountBalances" EntityType="Bec.TargetFramework.Data.LedgerAccountBalance" />
-          <EntitySet Name="LedgerAccountTransactions" EntityType="Bec.TargetFramework.Data.LedgerAccountTransaction" />
           <EntitySet Name="DefaultOrganisationGroupTemplates" EntityType="Bec.TargetFramework.Data.DefaultOrganisationGroupTemplate" />
           <EntitySet Name="DiscountTemplates" EntityType="Bec.TargetFramework.Data.DiscountTemplate" />
           <EntitySet Name="OrganisationLedgerAccounts" EntityType="Bec.TargetFramework.Data.OrganisationLedgerAccount" />
@@ -18132,7 +18122,6 @@
           <EntitySet Name="VDefaultEmailAddresses" EntityType="Bec.TargetFramework.Data.VDefaultEmailAddress" />
           <EntitySet Name="VNotificationConstructs" EntityType="Bec.TargetFramework.Data.VNotificationConstruct" />
           <EntitySet Name="VTemporaryUsersNotLoggedIns" EntityType="Bec.TargetFramework.Data.VTemporaryUsersNotLoggedIn" />
-          <EntitySet Name="VUserWorkflowInstanceStatus" EntityType="Bec.TargetFramework.Data.VUserWorkflowInstanceStatus" />
           <EntitySet Name="VProductDiscounts" EntityType="Bec.TargetFramework.Data.VProductDiscount" />
           <EntitySet Name="DiscountRelatedProductTemplates" EntityType="Bec.TargetFramework.Data.DiscountRelatedProductTemplate" />
           <EntitySet Name="OrganisationDiscounts" EntityType="Bec.TargetFramework.Data.OrganisationDiscount" />
@@ -18188,7 +18177,6 @@
           <EntitySet Name="VInvoiceWithCurrentTransactionOrderStatus" EntityType="Bec.TargetFramework.Data.VInvoiceWithCurrentTransactionOrderStatus" />
           <EntitySet Name="VPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" EntityType="Bec.TargetFramework.Data.VPlanSubscriptionStatusWithBillingAndPaymentMethodStatus" />
           <EntitySet Name="VUserRoleRegulatorDetails" EntityType="Bec.TargetFramework.Data.VUserRoleRegulatorDetail" />
-          <EntitySet Name="VOrganisationComplianceOfficers" EntityType="Bec.TargetFramework.Data.VOrganisationComplianceOfficer" />
           <EntitySet Name="VDefaultOrganisationUserTypeOrganisationTypes" EntityType="Bec.TargetFramework.Data.VDefaultOrganisationUserTypeOrganisationType" />
           <EntitySet Name="ActorClaimRoleMappings" EntityType="Bec.TargetFramework.Data.ActorClaimRoleMapping" />
           <EntitySet Name="Actors" EntityType="Bec.TargetFramework.Data.Actor" />
@@ -18223,12 +18211,14 @@
           <EntitySet Name="Organisations" EntityType="Bec.TargetFramework.Data.Organisation" />
           <EntitySet Name="VOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.VOrganisationWithStatusAndAdmin" />
           <EntitySet Name="VNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.VNotificationInternalUnread" />
-          <EntitySet Name="VOrganisationClaims" EntityType="Bec.TargetFramework.Data.VOrganisationClaim" />
           <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.PasswordResetRequest" />
           <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.EventStatus" />
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.OrganisationBankAccountStatus" />
           <EntitySet Name="VOrganisationBankAccountsWithStatus" EntityType="Bec.TargetFramework.Data.VOrganisationBankAccountsWithStatus" />
+          <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.OrganisationLedgerTransaction" />
+          <EntitySet Name="VOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance" />
+          <EntitySet Name="VNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.VNotificationViewOnlyUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -18904,10 +18894,6 @@
           <AssociationSet Name="FK_DefaultonGroupDefault_DefaultOrganisationRoleTSet" Association="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRoleT">
             <End Role="DefaultOrganisationRoleTemplate" EntitySet="DefaultOrganisationRoleTemplates" />
             <End Role="DefaultOrganisationGroupRoleTemplates" EntitySet="DefaultOrganisationGroupRoleTemplates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrderSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder">
-            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
-            <End Role="LedgerAccountTransactions" EntitySet="LedgerAccountTransactions" />
           </AssociationSet>
           <AssociationSet Name="fk_DefaultOrganisationGroup_DefaultOrganisationTSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationGroup_DefaultOrganisationT">
             <End Role="DefaultOrganisationTemplate" EntitySet="DefaultOrganisationTemplates" />
@@ -20173,10 +20159,6 @@
             <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
             <End Role="UserAccountLedgerAccounts" EntitySet="UserAccountLedgerAccounts" />
           </AssociationSet>
-          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccountSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount">
-            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
-            <End Role="LedgerAccountTransactions" EntitySet="LedgerAccountTransactions" />
-          </AssociationSet>
           <AssociationSet Name="fk_ShoppingCart_GlobalPaymentMethodSet" Association="Bec.TargetFramework.Data.fk_ShoppingCart_GlobalPaymentMethod">
             <End Role="GlobalPaymentMethod" EntitySet="GlobalPaymentMethods" />
             <End Role="ShoppingCarts" EntitySet="ShoppingCarts" />
@@ -20645,13 +20627,25 @@
             <End Role="OrganisationBankAccount" EntitySet="OrganisationBankAccounts" />
             <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
           </AssociationSet>
+          <AssociationSet Name="OrganisationBankAccountStatus_fk1Set" Association="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1">
+            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
+            <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
+          </AssociationSet>
           <AssociationSet Name="OrganisationBankAccountStatus_fkSet" Association="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk">
             <End Role="StatusType" EntitySet="StatusTypes" />
             <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
           </AssociationSet>
-          <AssociationSet Name="OrganisationBankAccountStatus_fk1Set" Association="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1">
-            <End Role="StatusTypeValue" EntitySet="StatusTypeValues" />
-            <End Role="OrganisationBankAccountStatus" EntitySet="OrganisationBankAccountStatus" />
+          <AssociationSet Name="fk_LedgerAccountTransaction_LedgerAccountSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount">
+            <End Role="OrganisationLedgerAccount" EntitySet="OrganisationLedgerAccounts" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LedgerAccountTransaction_TransactionOrderSet" Association="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder">
+            <End Role="TransactionOrder" EntitySet="TransactionOrders" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="OrganisationLedgerTransaction_fkSet" Association="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -20766,7 +20760,7 @@
           <NavigationProperty Name="ProductPurchaseProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ProductPurchaseProcessLog_StatusType" FromRole="StatusType" ToRole="ProductPurchaseProcessLogs" ed:Guid="f59f249d-6b21-4421-9250-1052eab377a1" />
           <NavigationProperty Name="ServiceInterfaceProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ServiceInterfaceProcessLog_StatusType" FromRole="StatusType" ToRole="ServiceInterfaceProcessLogs" ed:Guid="b5a60c23-8740-4211-861e-6687716fb93a" />
           <NavigationProperty Name="ProductPurchaseBusTaskProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ProductPurchaseProductTask_StatusType" FromRole="StatusType" ToRole="ProductPurchaseBusTaskProcessLogs" ed:Guid="268c3289-cee6-4ca0-8115-7978181fbb59" />
-          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk" FromRole="StatusType" ToRole="OrganisationBankAccountStatus" ed:Guid="9ac16f5d-19d0-4ee4-8632-750daa44feb2" />
+          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk" FromRole="StatusType" ToRole="OrganisationBankAccountStatus" ed:Guid="37bc3896-00b4-4ca1-9005-c56bbea512f9" />
         </EntityType>
         <EntityType Name="ArtefactProductTemplate" ed:Guid="49a54906-35b1-4f0d-8318-17f90bf035fe">
           <Key>
@@ -21007,6 +21001,7 @@
           <NavigationProperty Name="Invoices" Relationship="Bec.TargetFramework.Data.fk_Invoice_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Invoices" ed:Guid="5cf5bab8-8cde-4ba7-8e5b-b053e919f774" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_Contact" FromRole="UserAccountOrganisations" ToRole="Contact" ed:Guid="0da83991-c941-46d2-9815-251c4ebc37b3" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_Organisation" FromRole="UserAccountOrganisations" ToRole="Organisation" ed:Guid="928d9191-f38a-436b-b21d-b7dd584c1058" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationLedgerTransactions" ed:Guid="9081b431-50ac-4326-bb17-cf1c527fa475" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -21484,6 +21479,7 @@
           <Property Name="ShoppingCartID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7ed9bbd0-6432-4d20-a459-e6d0da2ac3ad" />
           <Property Name="InvoiceLineItemID" Type="Guid" ed:ValidateRequired="False" ed:Guid="97418c93-b9b9-44fa-825f-b446daea96a1" />
           <Property Name="AccountID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6fb0705b-df56-4567-b758-1329901d086f" />
+          <Property Name="CustomerPrice" Type="Decimal" Scale="8" ed:ValidateRequired="False" ed:Guid="aa5a5bbb-f15c-4166-8a6f-620df5f28131" />
           <NavigationProperty Name="Product" Relationship="Bec.TargetFramework.Data.fk_UserShoppingCartItem_Product" FromRole="ShoppingCartItems" ToRole="Product" ed:Guid="8b820a62-d366-423a-b477-ea44934135fa" />
           <NavigationProperty Name="ShoppingCart" Relationship="Bec.TargetFramework.Data.fk_UserShoppingCartItem_UserShoppingCart" FromRole="ShoppingCartItems" ToRole="ShoppingCart" ed:Guid="0f01b691-f722-42de-a118-830c8b50370b" />
           <NavigationProperty Name="InvoiceLineItem" Relationship="Bec.TargetFramework.Data.fk_ShoppingCartItem_InvoiceLineItem" FromRole="ShoppingCartItems" ToRole="InvoiceLineItem" ed:Guid="034439ae-1a86-4870-8372-e319d58f13e5" />
@@ -21648,9 +21644,9 @@
           <Property Name="InvoiceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f32dbb34-e84a-4cd9-ae4e-87fb9e8926e4" />
           <NavigationProperty Name="TransactionOrderItems" Relationship="Bec.TargetFramework.Data.fk_OrderItem_Order" FromRole="TransactionOrder" ToRole="TransactionOrderItems" ed:Guid="bdc6d253-6c8e-4cda-a6ac-36e37756c207" />
           <NavigationProperty Name="Invoice" Relationship="Bec.TargetFramework.Data.fk_TransactionOrder_Invoice" FromRole="TransactionOrders" ToRole="Invoice" ed:Guid="9f928369-e436-4633-8c56-f48a2dd74016" />
-          <NavigationProperty Name="LedgerAccountTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="TransactionOrder" ToRole="LedgerAccountTransactions" ed:Guid="c4c2bfcd-6665-45e4-a654-3866cf6510d5" />
           <NavigationProperty Name="TransactionOrderProcessLogs" Relationship="Bec.TargetFramework.Data.fk_TransactionOrderProcessLog_TransactionOrder" FromRole="TransactionOrder" ToRole="TransactionOrderProcessLogs" ed:Guid="76c34c33-054c-4502-9bb7-b9ca86240de7" />
           <NavigationProperty Name="GlobalPaymentMethod" Relationship="Bec.TargetFramework.Data.fk_TransactionOrder_GlobalPaymentMethod" FromRole="TransactionOrders" ToRole="GlobalPaymentMethod" ed:Guid="00baeaae-1f85-40cf-9326-5b4590da62d7" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="TransactionOrder" ToRole="OrganisationLedgerTransactions" ed:Guid="48fabeb6-9835-4a87-ac2e-6445b2c13b1b" />
         </EntityType>
         <EntityType Name="Plan" ed:Guid="1097361e-ac43-4078-9fad-5c4dc5508461">
           <Key>
@@ -22603,18 +22599,6 @@
           <Property Name="IsCredit" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="505bf521-0089-4243-a1b9-7b03140b8ef6" />
           <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountBalance_LedgerAccount" FromRole="LedgerAccountBalances" ToRole="OrganisationLedgerAccount" ed:Guid="fb656828-58c8-46b6-8899-4a8788702415" />
         </EntityType>
-        <EntityType Name="LedgerAccountTransaction" ed:Guid="5c60ced7-0fe5-41c4-aab5-4cabe41f9d33">
-          <Key>
-            <PropertyRef Name="LedgerAccountID" />
-            <PropertyRef Name="TransactionOrderID" />
-            <PropertyRef Name="BalanceOn" />
-          </Key>
-          <Property Name="LedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="53539420-619f-4a4d-8ad2-825058d95713" />
-          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="cf9a3aba-a19c-4974-9fe9-58e53b661b64" />
-          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9a3a93d4-b2a9-4a27-911a-8e47f9468a81" />
-          <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="LedgerAccountTransactions" ToRole="TransactionOrder" ed:Guid="43ac0489-5723-41e5-93fc-1795a511d851" />
-          <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="LedgerAccountTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="c0f7d373-608c-4dc0-8402-6e28c520b0aa" />
-        </EntityType>
         <EntityType Name="DefaultOrganisationGroupTemplate" ed:Guid="5500fdc5-93dc-41b4-a2dd-fea55fc14010">
           <Key>
             <PropertyRef Name="DefaultOrganisationGroupTemplateID" />
@@ -22707,10 +22691,11 @@
           <Property Name="AccountingTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="0f9cb0c0-7344-4d86-b963-0a2fd1f4ebc6" />
           <Property Name="IsPrimaryAccount" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="157e9081-07d7-4e5c-b19e-b9eafb305042" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="86e22ad2-134c-4642-b8c7-fcaf6dbdfa6f" />
+          <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="360b4a51-176f-4271-afaf-622168dcf8d9" />
           <NavigationProperty Name="UserAccountLedgerAccounts" Relationship="Bec.TargetFramework.Data.fk_UserAccountLedgerAccount_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="UserAccountLedgerAccounts" ed:Guid="dcbb5133-4fb8-42f3-b22f-966fd8228ea6" />
-          <NavigationProperty Name="LedgerAccountTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="LedgerAccountTransactions" ed:Guid="bd4124db-d54c-4d6f-a209-af58e3623578" />
           <NavigationProperty Name="LedgerAccountBalances" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountBalance_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="LedgerAccountBalances" ed:Guid="54b8d556-1d4c-4ea2-9ff2-9578ce3130be" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_LedgerAccount_Organisation" FromRole="OrganisationLedgerAccounts" ToRole="Organisation" ed:Guid="387b242c-d6a9-4734-b3fa-15407286adb9" />
+          <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerAccount" ToRole="OrganisationLedgerTransactions" ed:Guid="7d6bb89e-9746-429d-af93-47c6064b6ee2" />
         </EntityType>
         <EntityType Name="ModuleProductTemplate" ed:Guid="0e776981-3485-4625-bd9d-ec6c615e301f">
           <Key>
@@ -23897,7 +23882,7 @@
           <Property Name="StatusTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9c674697-bbb9-46b4-ac1a-52b441fea239" />
           <Property Name="StatusTypeVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="4a463ce3-1f72-4661-b3d8-fed4a2784cb6" />
           <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="129a7b98-9035-403b-921c-ad9ecda3cce9" />
-          <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="b03b60e1-f49e-4b6d-99da-6191fc85a355" />
+          <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="b03b60e1-f49e-4b6d-99da-6191fc85a355" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="d5005b78-baf4-4bed-9c07-b805328c6360" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="5b7ae40f-bcc8-4a1a-974d-d812d9bd05f4" />
           <Property Name="ReasonID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1e7d34d5-5937-405e-aa13-03949b01a1cb" />
@@ -24050,7 +24035,7 @@
           <NavigationProperty Name="ProductPurchaseProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ProductPurchaseProcessLog_StatusTypeValue" FromRole="StatusTypeValue" ToRole="ProductPurchaseProcessLogs" ed:Guid="e77e4e55-3bb9-4f75-a8c0-e3450e597687" />
           <NavigationProperty Name="ServiceInterfaceProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ServiceInterfaceProcessLog_StatusTypeValue" FromRole="StatusTypeValue" ToRole="ServiceInterfaceProcessLogs" ed:Guid="e869dbdf-81f3-486c-8bab-e6fd61ac79fc" />
           <NavigationProperty Name="ProductPurchaseBusTaskProcessLogs" Relationship="Bec.TargetFramework.Data.fk_ProductPurchaseProductTask_StatusTypeValue" FromRole="StatusTypeValue" ToRole="ProductPurchaseBusTaskProcessLogs" ed:Guid="868326fd-95da-4f87-8001-65b4d1507da8" />
-          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1" FromRole="StatusTypeValue" ToRole="OrganisationBankAccountStatus" ed:Guid="27f61827-0344-40e8-9016-5f01ca823cfb" />
+          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1" FromRole="StatusTypeValue" ToRole="OrganisationBankAccountStatus" ed:Guid="41a9b1c5-a715-4bb0-bd86-9e2f853d1ddc" />
         </EntityType>
         <EntityType Name="ModuleSubscriptionTemplate" ed:Guid="dbaf1d28-f763-4a82-9d0e-5fe698997f73">
           <Key>
@@ -24549,7 +24534,7 @@
           <Property Name="NotificationDataFileName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="da275496-99f5-4eba-b1ea-47f9f7b25d15" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="d84ac91d-29d5-4fe7-96a3-c5bf8f84c605" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="1908f00a-5dd6-4d7d-adfb-1ec0f4321032" />
-          <Property Name="CreatedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="d7c15038-5ee9-4746-aa03-5344213abcce" />
+          <Property Name="CreatedOn" Type="DateTime" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="False" ed:Guid="d7c15038-5ee9-4746-aa03-5344213abcce" />
           <Property Name="UsesBusinessObjects" Type="Boolean" DefaultValue="true" ed:ValidateRequired="False" ed:Guid="dca81299-57df-4f4e-bb11-ff29e09183dd" />
           <Property Name="UsesDataSources" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="e2372a0c-297d-4a55-8568-3fe6c69e862f" />
           <NavigationProperty Name="NotificationConstruct" Relationship="Bec.TargetFramework.Data.fk_NotificationConstructData_NotificationConstructTempl" FromRole="NotificationConstructData" ToRole="NotificationConstruct" ed:Guid="98c6d90d-18d5-4ee0-a0b8-f75be8f0ffd4" />
@@ -26451,19 +26436,6 @@
           <Property Name="LastFailedPasswordReset" Type="DateTime" ed:ValidateRequired="False" ed:Guid="59deba1d-ef7f-4f09-881e-21bf55edddf1" />
           <Property Name="LastUpdated" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9d8a46f7-9658-4362-9ec1-650d55805475" />
         </EntityType>
-        <EntityType Name="VUserWorkflowInstanceStatus" ed:Guid="7a95abc1-fa04-490f-a035-131a288fa7f7">
-          <Key>
-            <PropertyRef Name="WorkflowInstanceStatusID" />
-          </Key>
-          <Property Name="ParentID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="863674d9-0fc6-49f2-a7ff-f7e7c7e16c57" />
-          <Property Name="UserID" Type="Guid" ed:ValidateRequired="False" ed:Guid="67820763-d5d2-45a1-aa41-a7612696bbbb" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="1aaf0bbb-bd92-4704-8bf4-bcdae5c8fff6" />
-          <Property Name="WorkflowID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5c70a62e-dcf1-405a-8e42-a9915767f0fc" />
-          <Property Name="WorkflowInstanceID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e41d3471-2283-4f76-95a6-ef4e4f05985e" />
-          <Property Name="WorkflowInstanceStatusID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="6cfab041-ff6a-4f0b-98f0-eacae056a99c" />
-          <Property Name="Instancestatus" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="36489307-d2dd-493d-a3b4-b788f87a6a0e" />
-          <Property Name="Workflowtype" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="65186cee-f66a-42d8-8f1b-97d637981b60" />
-        </EntityType>
         <EntityType Name="VProductDiscount" ed:Guid="5b98b84b-b89c-4ad7-96ae-2c6c33619376">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -27013,7 +26985,7 @@
           <Property Name="IsDirectDebtAccount" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6a7b9c81-1494-4123-b83a-53869918153b" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccount_Organisation" FromRole="OrganisationBankAccounts" ToRole="Organisation" ed:Guid="c2c8ee4f-c97a-44a7-bfd1-102c4841b751" />
           <NavigationProperty Name="OrganisationPaymentMethods" Relationship="Bec.TargetFramework.Data.OrganisationPaymentMethod_fk" FromRole="OrganisationBankAccount" ToRole="OrganisationPaymentMethods" ed:Guid="74f86d36-6724-4982-b004-f3e054860600" />
-          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccount" ToRole="OrganisationBankAccountStatus" ed:Guid="a8986d4d-ca4c-434a-ac59-d4d3b3c17253" />
+          <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccount" ToRole="OrganisationBankAccountStatus" ed:Guid="cabddf83-0668-41d1-b7c1-c96c6b2c9141" />
         </EntityType>
         <EntityType Name="OrganisationInsuranceDetail" ed:Guid="83a83c67-411e-4754-b929-b10060609f00">
           <Key>
@@ -27437,7 +27409,7 @@
           </Key>
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d742cad1-5840-4db5-9a3e-e50d8b97aa34" />
           <Property Name="GlobalPaymentMethodID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d023ec98-700c-44aa-bd05-dd5dfcfc0687" />
-          <Property Name="OrganisationBankAccountId" Type="Int32" ed:ValidateRequired="False" ed:Guid="dbbe6aea-b029-480a-a194-1efda00aceb7" />
+          <Property Name="OrganisationBankAccountID" Type="Guid" ed:ValidateRequired="False" ed:Guid="f1a3c67e-37f4-4229-8cf1-f89948a24e4e" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="c29b1750-0949-427d-bcc1-387c313ea428" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="8b1cb2d5-a038-4c89-8b78-47ff5a4e5f53" />
           <Property Name="IsDirectDebit" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="1a7e469e-12ee-4bac-838d-c934f91a6943" />
@@ -27637,7 +27609,7 @@
           <Property Name="PlanSubscriptionStatusCreatedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="83b599b4-3db6-422b-9d95-924fc370259c" />
           <Property Name="PlanSubscriptionStatusDetail" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="9250f174-8919-4b9a-850a-b1199d880662" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="162ce853-772e-434b-983a-d5d4a6373a88" />
-          <Property Name="OrganisationBankAccountId" Type="Int32" ed:ValidateRequired="False" ed:Guid="2d96a802-7c54-4907-8890-48882d1d9571" />
+          <Property Name="OrganisationBankAccountID" Type="Guid" ed:ValidateRequired="False" ed:Guid="db2f327c-0eef-4710-aad3-69091e034bfd" />
           <Property Name="IsDirectDebit" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="b2377d00-a900-428c-b876-d028f7d809cd" />
           <Property Name="IsBACS" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="50973cdc-f126-4f38-ad71-e788ce7bcb1e" />
           <Property Name="OrganisationDirectDebitMandateID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d49b5a33-d221-4bbd-96bb-86731f146f2a" />
@@ -27678,7 +27650,7 @@
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="84ed9247-4bd2-4e66-a1ff-5890c85f8c28" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="9bb4c541-650a-48eb-b421-d127d322dbf6" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="bb6494c4-8205-4107-883d-00a475e90442" />
-          <Property Name="RegulatorID" Type="Int32" ed:ValidateRequired="False" ed:Guid="87e82138-6da7-4d20-8fe3-54822d537549" />
+          <Property Name="RegulatorID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="87e82138-6da7-4d20-8fe3-54822d537549" />
           <Property Name="Regulator" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="41e19838-9270-4c02-bb29-951c1d4c01f5" />
           <Property Name="RegulatorNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="69e5e1a8-7a6a-4156-a54c-c02cd37fdfbd" />
           <Property Name="UserRole" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="ebf0612a-b2a4-4294-9d7f-149b08755c8f" />
@@ -27686,23 +27658,6 @@
           <Property Name="CompanyName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="56d3957b-e349-4513-9743-aa23262b8a42" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="37e1e28b-51a3-40a1-944d-788195f07540" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="2c07a77e-e027-4fe6-b8e7-ed53aa1166a9" />
-        </EntityType>
-        <EntityType Name="VOrganisationComplianceOfficer" ed:Guid="5f53d9f7-9f68-46bf-b500-7b38376bbe8f">
-          <Key>
-            <PropertyRef Name="OrganisationID" />
-          </Key>
-          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7dbc96d9-ff16-4cbb-a519-065808316512" />
-          <Property Name="COEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="39be18c9-f3b3-4b1b-982f-a4091cbb9cf9" />
-          <Property Name="COFirstName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="266abad2-94f8-483b-b6e5-55a8382365c5" />
-          <Property Name="COLastName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="c37cc610-eae4-4de4-a743-9b00e567796c" />
-          <Property Name="CompanyName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="50f8540a-ea0d-4466-af8d-6e649c3ff7fe" />
-          <Property Name="TradingName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e7013e95-bd00-468a-9ded-02e3a7643a43" />
-          <Property Name="BranchName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="80a2626c-401e-404a-85bf-6cca7409d5a0" />
-          <Property Name="BranchRegulatorID" Type="Int32" ed:ValidateRequired="False" ed:Guid="68aca6ba-ec34-4146-a8a2-58d95126a707" />
-          <Property Name="BranchRegulator" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="2a176ed5-5be7-4ea6-9972-d59ca3699124" />
-          <Property Name="BranchRegulatorNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="1a0a96fe-2e83-4cc5-86b0-beb7a85c7151" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="30cc48b2-ca4c-4dee-8845-15f256ed4958" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="2d75e3a2-6902-493c-8257-ffb17435bf99" />
         </EntityType>
         <EntityType Name="VDefaultOrganisationUserTypeOrganisationType" ed:Guid="8a84df98-b634-4952-b535-bff61e1f04eb">
           <Key>
@@ -27760,11 +27715,11 @@
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a6d1fbb6-f434-4a48-a155-e0f3d81d10b0" />
-          <Property Name="UserID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b5c17b75-8be3-463c-b7e6-14e2f7c98e54" />
-          <Property Name="UserTypeID" Type="Guid" ed:ValidateRequired="False" ed:Guid="dd641c00-3523-42d3-951c-90069c3cd430" />
+          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b5c17b75-8be3-463c-b7e6-14e2f7c98e54" />
+          <Property Name="UserTypeID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="dd641c00-3523-42d3-951c-90069c3cd430" />
           <Property Name="UserType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="200b772c-97fb-414a-9072-5ed98ef9d726" />
-          <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="842a14fc-980a-4a24-a141-484829434c56" />
-          <Property Name="OrganisationTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="582d94d2-a798-46d2-93dc-36884ac5987c" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="842a14fc-980a-4a24-a141-484829434c56" />
+          <Property Name="OrganisationTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="582d94d2-a798-46d2-93dc-36884ac5987c" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="eda3fb32-2bf5-405f-bdfe-ff969da3ecda" />
         </EntityType>
         <EntityType Name="NotificationConstructGroup" ed:Guid="f81ba866-5ce4-4a52-8137-8a0d62007d5a">
@@ -27913,23 +27868,16 @@
             <PropertyRef Name="NotificationRecipientLogID" />
           </Key>
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7aae98d4-b1d3-44c3-a6c4-ad80822590a3" />
-          <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="66648f37-525e-4a92-824a-631e149914f7" />
-          <Property Name="NotificationStatusID" Type="Int32" ed:ValidateRequired="False" ed:Guid="2bca4e52-efb7-4e8a-aaad-8c5704f72cf8" />
           <Property Name="NotificationConstructID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="29d84676-bd4c-407c-82cd-f832599b5b74" />
           <Property Name="NotificationConstructVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="6cccc697-8a29-428c-a490-6576a04f82bc" />
           <Property Name="NotificationDeliveryMethodID" Type="Int32" ed:ValidateRequired="False" ed:Guid="f66f253b-87c5-4814-a6a5-ac72388598fa" />
           <Property Name="NotificationExportFormatID" Type="Int32" ed:ValidateRequired="False" ed:Guid="acf71416-353d-413f-9b27-2e7b23f8ce80" />
-          <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="685f5ba6-54a3-41db-97ce-8d50cb60e1c3" />
-          <Property Name="IsSent" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="678dac35-bdd1-4808-84c3-1e8458bc3916" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="dc8ab9bc-c7f5-4a32-886d-a495d79b52d9" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="f04b1306-6c44-40cd-a257-5d853df131de" />
-          <Property Name="IsAccepted" Type="Boolean" ed:ValidateRequired="False" ed:Guid="7222b6c9-b7c8-4713-842e-c912a8f4021c" />
-          <Property Name="AcceptedDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="94e89477-fbb0-4d0f-be0e-bd658c312e2d" />
+          <Property Name="DateSent" Type="DateTime" ed:ValidateRequired="False" ed:Guid="685f5ba6-54a3-41db-97ce-8d50cb60e1c3" />
+          <Property Name="IsSent" Type="Boolean" ed:ValidateRequired="False" ed:Guid="678dac35-bdd1-4808-84c3-1e8458bc3916" />
+          <Property Name="DateRead" Type="DateTime" ed:ValidateRequired="False" ed:Guid="d1893c83-b155-46d9-bbfd-626d5ede29cd" />
           <Property Name="IsRead" Type="Boolean" ed:ValidateRequired="False" ed:Guid="09b9ec1c-050f-4401-b593-12b52116346a" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="263a96f2-5b57-4911-9796-61178082852b" />
           <Property Name="ErrorOccured" Type="Boolean" ed:ValidateRequired="False" ed:Guid="07f64ad2-3aed-4bf4-a588-8d79a3b84a94" />
-          <Property Name="SentOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="08dba8af-4c18-48ac-90e7-6df7df30d709" />
-          <Property Name="NotificationVerificationCode" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="29659329-2d24-4219-8733-df3b6a0fa200" />
           <Property Name="NotificationRecipientID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e0cf32e0-e704-43a9-a7df-e03041c59986" />
           <Property Name="NotificationRecipientLogID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d7b06ee1-8b03-431a-a49a-9c78ced3d8c9" />
           <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b0b9917d-7469-49ee-b0fb-5ed60113469e" />
@@ -28390,8 +28338,6 @@
           <Property Name="CompanyRecordCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="8b3bf5ad-7812-43d8-89cc-042eb67c23ab" />
           <Property Name="IsCompanyVerified" Type="Boolean" ed:ValidateRequired="False" ed:Guid="15be422a-1e5a-4b2d-ae27-402877117a5f" />
           <Property Name="IsCompanyPinCreated" Type="Boolean" ed:ValidateRequired="False" ed:Guid="080b148b-7c06-4cd2-91be-be558118031b" />
-          <Property Name="CompanyPinCode" Type="String" MaxLength="40" Unicode="true" ed:ValidateMaxLength="40" ed:ValidateRequired="False" ed:Guid="c4b61f1a-86d2-4c97-9527-edd230905559" />
-          <Property Name="CompanyPinCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="cf98a23b-c758-4297-a170-65cf44fc0dd4" />
           <Property Name="SystemAdminTitle" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="c24544e7-8c2b-403c-b610-e89b61e84302" />
           <Property Name="SystemAdminFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="83543573-b162-4882-9535-280939431101" />
           <Property Name="SystemAdminLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="786de377-202d-4690-baff-56679b629ce9" />
@@ -28432,7 +28378,6 @@
           <Property Name="IsPaymentProvider" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="3614292d-1308-47a6-bc0c-81c8f74dcb6f" />
           <Property Name="PrimaryContactID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4693df9a-d22d-4f9c-bc60-460e907ed840" />
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
-          <Property Name="IsCompanyPinCreated" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="af838f7a-3334-4df8-8eee-d1e5899012c4" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
@@ -28541,28 +28486,6 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="4d94e24e-b8c5-4f58-8386-827835e3db61" />
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5a66ea90-3de6-4ff9-a6cf-886f1b58ecac" />
         </EntityType>
-        <EntityType Name="VOrganisationClaim" ed:Guid="04553be2-cc4a-4937-8d00-c8b2d7825322">
-          <Key>
-            <PropertyRef Name="OrganisationID" />
-            <PropertyRef Name="OrganisationRoleID" />
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="cb867d0b-8fcc-4f1a-a180-ed68a437b35c" />
-          <Property Name="OrganisationRoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5a28ec68-4bd5-4a51-b269-7f8bd055ff2c" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="cafca6ee-cea5-4c95-8271-3181ac73fdd2" />
-          <Property Name="RoleDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="6571dd25-da7c-4284-902a-f1f90d989459" />
-          <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="0b1cb9f0-d0e0-4653-aac1-44a461083e39" />
-          <Property Name="ClaimID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3a9330ea-579d-4463-a2b4-7824fb95b47a" />
-          <Property Name="ClaimName" Type="String" MaxLength="150" Unicode="true" ed:ValidateMaxLength="150" ed:ValidateRequired="False" ed:Guid="5ef0da0d-d166-4cb8-a69c-d3d4f0d18f46" />
-          <Property Name="ClaimDescription" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="26eb3ae5-0fbd-4f98-a759-ec2eb6ee4eaf" />
-          <Property Name="ClaimSubType" Type="String" ed:ValidateRequired="False" ed:Guid="1a81ce0f-5032-488d-8162-8003de783e33" />
-          <Property Name="ClaimSubID" Type="Guid" ed:ValidateRequired="False" ed:Guid="95b8b582-b76d-4f79-8476-01ec8589924d" />
-          <Property Name="ClaimSubName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="226652d5-a0de-4109-b2d1-8d8f7f287cc9" />
-          <Property Name="ClaimSubDescription" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="c6708ebe-08de-4897-879a-e7279916af40" />
-          <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="0098f2d9-6e7e-47ae-a41a-c13b7a47e4ff" />
-          <Property Name="RoleSource" Type="String" ed:ValidateRequired="False" ed:Guid="ac51ee09-a5d1-4d82-81e5-2e038fba7bf0" />
-          <Property Name="ClaimTypeName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="df543ef2-3ba8-4e87-bccd-bf735735b46c" />
-        </EntityType>
         <EntityType Name="PasswordResetRequest" ed:Guid="abce9466-0525-4cc0-a496-857108aea8de">
           <Key>
             <PropertyRef Name="RequestID" />
@@ -28596,7 +28519,7 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="f121e4c0-be43-4937-a961-3c38b5c64aed" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="21c91836-186e-43ea-8abb-6f268825c41b" />
           <Property Name="TenureTypeID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="61d17b39-cc39-47fc-ae55-dabfb144e9be" />
-          <Property Name="OrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="e9fce6a6-d752-49ec-9baf-ba057f31aba4" />
           <Property Name="RowVersion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
@@ -28618,9 +28541,9 @@
           <Property Name="StatusTypeValueID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d8a5db5f-b767-48a4-b69e-43163638bdaa" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="7c3473f9-5d78-401f-9e72-1e7fba96223d" />
           <Property Name="WasActive" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="c0a2b8d1-0ad1-4a86-b20c-f79acefceacc" />
-          <NavigationProperty Name="OrganisationBankAccount" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccountStatus" ToRole="OrganisationBankAccount" ed:Guid="b70e910a-a125-4ddc-9aed-72d3818e8acc" />
-          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk" FromRole="OrganisationBankAccountStatus" ToRole="StatusType" ed:Guid="84560dba-a15f-4bc8-9808-1d38fcae8603" />
-          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1" FromRole="OrganisationBankAccountStatus" ToRole="StatusTypeValue" ed:Guid="c09eb3f0-f1f3-4557-801b-ba2a05d08be9" />
+          <NavigationProperty Name="OrganisationBankAccount" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccountStatus" ToRole="OrganisationBankAccount" ed:Guid="f2410f6f-1765-4733-8eaf-73b97efd08ba" />
+          <NavigationProperty Name="StatusTypeValue" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk1" FromRole="OrganisationBankAccountStatus" ToRole="StatusTypeValue" ed:Guid="43115f07-07b3-4a8a-a7f7-93e84d29c7cc" />
+          <NavigationProperty Name="StatusType" Relationship="Bec.TargetFramework.Data.OrganisationBankAccountStatus_fk" FromRole="OrganisationBankAccountStatus" ToRole="StatusType" ed:Guid="bbe94d34-4908-4d89-965f-cf339201a07e" />
         </EntityType>
         <EntityType Name="VOrganisationBankAccountsWithStatus" ed:Guid="f5cb78e9-2d06-4de6-83a6-15a97a169799">
           <Key>
@@ -28638,6 +28561,55 @@
           <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="da596a9a-9315-4e1a-b165-5bacad2348cd" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
+        </EntityType>
+        <EntityType Name="OrganisationLedgerTransaction" ed:Guid="82cd0056-63fd-44f2-91c2-2e1885483081">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="388eb158-b2b7-4b37-ae51-376905ff5e55" />
+          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d5e8fe6-1fa9-4e8f-99c8-0bab4d5a71b0" />
+          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="73fb6834-3dcc-488e-92b3-783ede0d8d2b" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="74caf72f-9175-4762-96e0-0f552fbcf791" />
+          <Property Name="CreatedBy" Type="Guid" ed:ValidateRequired="False" ed:Guid="a2c198c1-0da5-4cd7-a8d0-10b1aa63dbe8" />
+          <NavigationProperty Name="OrganisationLedgerAccount" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_LedgerAccount" FromRole="OrganisationLedgerTransactions" ToRole="OrganisationLedgerAccount" ed:Guid="53dffa99-7ff5-47ff-a470-f3eea9b2db8f" />
+          <NavigationProperty Name="TransactionOrder" Relationship="Bec.TargetFramework.Data.fk_LedgerAccountTransaction_TransactionOrder" FromRole="OrganisationLedgerTransactions" ToRole="TransactionOrder" ed:Guid="808b9fc0-ddef-49ae-81e3-cb77591e44cd" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="OrganisationLedgerTransactions" ToRole="UserAccountOrganisation" ed:Guid="c8b39f1e-0a4f-4102-96c8-0f737d2dd660" />
+        </EntityType>
+        <EntityType Name="VOrganisationLedgerTransactionBalance" ed:Guid="e3954e24-1e87-459f-b64a-5a4bdd20af58">
+          <Key>
+            <PropertyRef Name="OrganisationLedgerAccountID" />
+            <PropertyRef Name="TransactionOrderID" />
+            <PropertyRef Name="BalanceOn" />
+            <PropertyRef Name="Balance" />
+          </Key>
+          <Property Name="OrganisationLedgerAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a0cfb4d4-2aa1-4659-87e7-3abd24e5272a" />
+          <Property Name="TransactionOrderID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1bffe46d-dfc5-487a-aa2f-09b4cec515a9" />
+          <Property Name="BalanceOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="d7adb884-1084-4e11-8648-493fac111b81" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="8" ed:ValidateRequired="True" ed:Guid="20d9809f-aad2-43ae-93d7-7f6b9a000fcd" />
+          <Property Name="InvoiceReference" Type="String" Nullable="false" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="True" ed:Guid="f5c0ef1b-db1b-42eb-84b6-20e5522c7cfc" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" ed:ValidateRequired="True" ed:Guid="d470b3ec-e350-473b-8749-df50b9f0ba5a" />
+          <Property Name="CreatedByName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="78613a94-290b-4b24-8b87-96126f142e3e" />
+        </EntityType>
+        <EntityType Name="VNotificationViewOnlyUao" ed:Guid="5b9a11d7-f908-408b-a3fb-8ba6e7463336">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="NotificationID" />
+            <PropertyRef Name="DateSent" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsInternal" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f385d227-f6ad-4ca5-a280-e1f0d50bec02" />
+          <Property Name="ResourceTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="913f7bd3-08eb-4c41-acc0-b8059e96c396" />
+          <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="adbd2d42-2fc7-41c1-a4cb-d04de16949ca" />
+          <Property Name="NotificationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="3d5b3878-a3ae-4aad-9476-9e8f90729213" />
+          <Property Name="NotificationConstructID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2f27b3f-1440-49e9-a786-edf109657d65" />
+          <Property Name="NotificationConstructVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="b90e2d90-0954-4500-b910-ee7cb806826c" />
+          <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="10ef93c1-96eb-4beb-9a4a-985a60b6d9be" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9af8f5f8-dae8-4962-bb08-309731429a40" />
+          <Property Name="NotificationSubject" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4f748143-1c74-434a-9ee5-db38cbfc1a90" />
+          <Property Name="IsInternal" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a52ffaad-0f18-4a6a-b35c-ca9dcaecfe1b" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -30888,18 +30860,6 @@
             </Principal>
             <Dependent Role="DefaultOrganisationGroupRoleTemplates">
               <PropertyRef Name="DefaultOrganisationRoleTemplateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LedgerAccountTransaction_TransactionOrder" ed:Guid="fb03e59a-31ad-4bb2-8a11-9bf2cc7ae92e">
-          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.TransactionOrder" Multiplicity="1" />
-          <End Role="LedgerAccountTransactions" Type="Bec.TargetFramework.Data.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TransactionOrder">
-              <PropertyRef Name="TransactionOrderID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransactions">
-              <PropertyRef Name="TransactionOrderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -34821,18 +34781,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_LedgerAccountTransaction_LedgerAccount" ed:Guid="bb1e146c-503e-4560-8102-97938937efae">
-          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.OrganisationLedgerAccount" Multiplicity="1" />
-          <End Role="LedgerAccountTransactions" Type="Bec.TargetFramework.Data.LedgerAccountTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrganisationLedgerAccount">
-              <PropertyRef Name="OrganisationLedgerAccountID" />
-            </Principal>
-            <Dependent Role="LedgerAccountTransactions">
-              <PropertyRef Name="LedgerAccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ShoppingCart_GlobalPaymentMethod" ed:Guid="f79a4815-59c1-4180-a477-08c76aa62cd0">
           <End Role="GlobalPaymentMethod" Type="Bec.TargetFramework.Data.GlobalPaymentMethod" Multiplicity="1" />
           <End Role="ShoppingCarts" Type="Bec.TargetFramework.Data.ShoppingCart" Multiplicity="*" />
@@ -36246,7 +36194,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_SmsTransaction_Organisation" ed:Guid="a8e0593e-1274-4d29-9742-d81cf2e2fc92">
-          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
           <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Organisation">
@@ -36269,7 +36217,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_OrganisationBankAccountStatus_OrganisationBankAccount" ed:Guid="dd093c09-fab4-4ef5-afc5-f46a12222f4b">
+        <Association Name="fk_OrganisationBankAccountStatus_OrganisationBankAccount" ed:Guid="d159166d-5064-48ae-aada-2bd91c4e8355">
           <End Role="OrganisationBankAccount" Type="Bec.TargetFramework.Data.OrganisationBankAccount" Multiplicity="1" />
           <End Role="OrganisationBankAccountStatus" Type="Bec.TargetFramework.Data.OrganisationBankAccountStatus" Multiplicity="*" />
           <ReferentialConstraint>
@@ -36281,7 +36229,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="OrganisationBankAccountStatus_fk" ed:Guid="dd302cd0-648b-4685-834a-4e604d567ca6">
+        <Association Name="OrganisationBankAccountStatus_fk1" ed:Guid="6e44111b-4a8e-43ef-80c2-5dd840f089c2">
+          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.StatusTypeValue" Multiplicity="1" />
+          <End Role="OrganisationBankAccountStatus" Type="Bec.TargetFramework.Data.OrganisationBankAccountStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypeValue">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Principal>
+            <Dependent Role="OrganisationBankAccountStatus">
+              <PropertyRef Name="StatusTypeValueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganisationBankAccountStatus_fk" ed:Guid="1e10ba58-0e9b-4e4e-a5ce-d1fe4b3180f9">
           <End Role="StatusType" Type="Bec.TargetFramework.Data.StatusType" Multiplicity="1" />
           <End Role="OrganisationBankAccountStatus" Type="Bec.TargetFramework.Data.OrganisationBankAccountStatus" Multiplicity="*" />
           <ReferentialConstraint>
@@ -36295,15 +36255,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="OrganisationBankAccountStatus_fk1" ed:Guid="034baed5-1a1d-4f7c-b647-167697b09ffb">
-          <End Role="StatusTypeValue" Type="Bec.TargetFramework.Data.StatusTypeValue" Multiplicity="1" />
-          <End Role="OrganisationBankAccountStatus" Type="Bec.TargetFramework.Data.OrganisationBankAccountStatus" Multiplicity="*" />
+        <Association Name="fk_LedgerAccountTransaction_LedgerAccount" ed:Guid="c9ba03ce-b873-422d-b98c-f61bed52ff2e">
+          <End Role="OrganisationLedgerAccount" Type="Bec.TargetFramework.Data.OrganisationLedgerAccount" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="StatusTypeValue">
-              <PropertyRef Name="StatusTypeValueID" />
+            <Principal Role="OrganisationLedgerAccount">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
             </Principal>
-            <Dependent Role="OrganisationBankAccountStatus">
-              <PropertyRef Name="StatusTypeValueID" />
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="OrganisationLedgerAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LedgerAccountTransaction_TransactionOrder" ed:Guid="25e298d2-9f93-4e69-9f8d-515581d926a8">
+          <End Role="TransactionOrder" Type="Bec.TargetFramework.Data.TransactionOrder" Multiplicity="1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionOrder">
+              <PropertyRef Name="TransactionOrderID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="TransactionOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrganisationLedgerTransaction_fk" ed:Guid="daf9662b-3d74-4266-a069-0b14174cee29">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="OrganisationLedgerTransactions" Type="Bec.TargetFramework.Data.OrganisationLedgerTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="OrganisationLedgerTransactions">
+              <PropertyRef Name="CreatedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -36948,6 +36932,7 @@
                 <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
                 <ScalarProperty Name="InvoiceLineItemID" ColumnName="InvoiceLineItemID" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="CustomerPrice" ColumnName="CustomerPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -37874,15 +37859,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LedgerAccountTransactions">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.LedgerAccountTransaction">
-              <MappingFragment StoreEntitySet="LedgerAccountTransactions">
-                <ScalarProperty Name="LedgerAccountID" ColumnName="LedgerAccountID" />
-                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
-                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DefaultOrganisationGroupTemplates">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.DefaultOrganisationGroupTemplate">
               <MappingFragment StoreEntitySet="DefaultOrganisationGroupTemplates">
@@ -37965,6 +37941,7 @@
                 <ScalarProperty Name="ClosedOn" ColumnName="ClosedOn" />
                 <ScalarProperty Name="AccountingTypeID" ColumnName="AccountingTypeID" />
                 <ScalarProperty Name="IsPrimaryAccount" ColumnName="IsPrimaryAccount" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -41081,20 +41058,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VUserWorkflowInstanceStatus">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VUserWorkflowInstanceStatus">
-              <MappingFragment StoreEntitySet="vUserWorkflowInstanceStatus">
-                <ScalarProperty Name="WorkflowID" ColumnName="WorkflowID" />
-                <ScalarProperty Name="WorkflowInstanceID" ColumnName="WorkflowInstanceID" />
-                <ScalarProperty Name="WorkflowInstanceStatusID" ColumnName="WorkflowInstanceStatusID" />
-                <ScalarProperty Name="Instancestatus" ColumnName="instancestatus" />
-                <ScalarProperty Name="Workflowtype" ColumnName="workflowtype" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VProductDiscounts">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VProductDiscount">
               <MappingFragment StoreEntitySet="vProductDiscounts">
@@ -41907,7 +41870,6 @@
               <MappingFragment StoreEntitySet="vOrganisationPaymentMethodStatus">
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="GlobalPaymentMethodID" ColumnName="GlobalPaymentMethodID" />
-                <ScalarProperty Name="OrganisationBankAccountId" ColumnName="OrganisationBankAccountId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsDirectDebit" ColumnName="IsDirectDebit" />
@@ -41919,6 +41881,7 @@
                 <ScalarProperty Name="StatusTypeValueID" ColumnName="StatusTypeValueID" />
                 <ScalarProperty Name="PaymentMethodStatus" ColumnName="PaymentMethodStatus" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+                <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42079,7 +42042,6 @@
                 <ScalarProperty Name="PlanSubscriptionStatusCreatedOn" ColumnName="PlanSubscriptionStatusCreatedOn" />
                 <ScalarProperty Name="PlanSubscriptionStatusDetail" ColumnName="PlanSubscriptionStatusDetail" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OrganisationBankAccountId" ColumnName="OrganisationBankAccountId" />
                 <ScalarProperty Name="IsDirectDebit" ColumnName="IsDirectDebit" />
                 <ScalarProperty Name="IsBACS" ColumnName="IsBACS" />
                 <ScalarProperty Name="OrganisationDirectDebitMandateID" ColumnName="OrganisationDirectDebitMandateID" />
@@ -42111,6 +42073,7 @@
                 <ScalarProperty Name="InvoiceNotificationConstructVersionNumber" ColumnName="InvoiceNotificationConstructVersionNumber" />
                 <ScalarProperty Name="EstimatedProcessingPeriod" ColumnName="EstimatedProcessingPeriod" />
                 <ScalarProperty Name="EstimatedProcessingPeriodUnitID" ColumnName="EstimatedProcessingPeriodUnitID" />
+                <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42127,24 +42090,6 @@
                 <ScalarProperty Name="UserRole" ColumnName="UserRole" />
                 <ScalarProperty Name="TradingName" ColumnName="TradingName" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VOrganisationComplianceOfficers">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VOrganisationComplianceOfficer">
-              <MappingFragment StoreEntitySet="vOrganisationComplianceOfficers">
-                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
-                <ScalarProperty Name="COEmail" ColumnName="COEmail" />
-                <ScalarProperty Name="COFirstName" ColumnName="COFirstName" />
-                <ScalarProperty Name="COLastName" ColumnName="COLastName" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
-                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
-                <ScalarProperty Name="BranchRegulatorID" ColumnName="BranchRegulatorID" />
-                <ScalarProperty Name="BranchRegulator" ColumnName="BranchRegulator" />
-                <ScalarProperty Name="BranchRegulatorNumber" ColumnName="BranchRegulatorNumber" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
@@ -42336,23 +42281,15 @@
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VNotificationRecipientStatus">
               <MappingFragment StoreEntitySet="vNotificationRecipientStatus">
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
-                <ScalarProperty Name="NotificationStatusID" ColumnName="NotificationStatusID" />
                 <ScalarProperty Name="NotificationConstructID" ColumnName="NotificationConstructID" />
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
                 <ScalarProperty Name="NotificationDeliveryMethodID" ColumnName="NotificationDeliveryMethodID" />
                 <ScalarProperty Name="NotificationExportFormatID" ColumnName="NotificationExportFormatID" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
-                <ScalarProperty Name="AcceptedDate" ColumnName="AcceptedDate" />
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="ErrorOccured" ColumnName="ErrorOccured" />
-                <ScalarProperty Name="SentOn" ColumnName="SentOn" />
-                <ScalarProperty Name="NotificationVerificationCode" ColumnName="NotificationVerificationCode" />
                 <ScalarProperty Name="NotificationRecipientID" ColumnName="NotificationRecipientID" />
                 <ScalarProperty Name="NotificationRecipientLogID" ColumnName="NotificationRecipientLogID" />
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
@@ -42360,6 +42297,7 @@
                 <ScalarProperty Name="RecipientToParent" ColumnName="RecipientToParent" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="FromParentID" ColumnName="FromParentID" />
+                <ScalarProperty Name="DateRead" ColumnName="DateRead" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42790,8 +42728,6 @@
                 <ScalarProperty Name="CompanyRecordCreated" ColumnName="CompanyRecordCreated" />
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
                 <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
-                <ScalarProperty Name="CompanyPinCode" ColumnName="CompanyPinCode" />
-                <ScalarProperty Name="CompanyPinCreated" ColumnName="CompanyPinCreated" />
                 <ScalarProperty Name="SystemAdminTitle" ColumnName="SystemAdminTitle" />
                 <ScalarProperty Name="SystemAdminFirstName" ColumnName="SystemAdminFirstName" />
                 <ScalarProperty Name="SystemAdminLastName" ColumnName="SystemAdminLastName" />
@@ -42833,7 +42769,6 @@
                 <ScalarProperty Name="IsPaymentProvider" ColumnName="IsPaymentProvider" />
                 <ScalarProperty Name="PrimaryContactID" ColumnName="PrimaryContactID" />
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
-                <ScalarProperty Name="IsCompanyPinCreated" ColumnName="IsCompanyPinCreated" />
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
@@ -42891,27 +42826,6 @@
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VOrganisationClaims">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VOrganisationClaim">
-              <MappingFragment StoreEntitySet="vOrganisationClaims">
-                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
-                <ScalarProperty Name="OrganisationRoleID" ColumnName="OrganisationRoleID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimID" ColumnName="ClaimID" />
-                <ScalarProperty Name="ClaimName" ColumnName="ClaimName" />
-                <ScalarProperty Name="ClaimDescription" ColumnName="ClaimDescription" />
-                <ScalarProperty Name="ClaimSubType" ColumnName="ClaimSubType" />
-                <ScalarProperty Name="ClaimSubID" ColumnName="ClaimSubID" />
-                <ScalarProperty Name="ClaimSubName" ColumnName="ClaimSubName" />
-                <ScalarProperty Name="ClaimSubDescription" ColumnName="ClaimSubDescription" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="RoleSource" ColumnName="RoleSource" />
-                <ScalarProperty Name="ClaimTypeName" ColumnName="ClaimTypeName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42984,6 +42898,46 @@
                 <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
                 <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrganisationLedgerTransactions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.OrganisationLedgerTransaction">
+              <MappingFragment StoreEntitySet="OrganisationLedgerTransactions">
+                <ScalarProperty Name="OrganisationLedgerAccountID" ColumnName="OrganisationLedgerAccountID" />
+                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
+                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VOrganisationLedgerTransactionBalances">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance">
+              <MappingFragment StoreEntitySet="vOrganisationLedgerTransactionBalances">
+                <ScalarProperty Name="OrganisationLedgerAccountID" ColumnName="OrganisationLedgerAccountID" />
+                <ScalarProperty Name="TransactionOrderID" ColumnName="TransactionOrderID" />
+                <ScalarProperty Name="BalanceOn" ColumnName="BalanceOn" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="InvoiceReference" ColumnName="InvoiceReference" />
+                <ScalarProperty Name="CreatedByName" ColumnName="CreatedByName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VNotificationViewOnlyUaos">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VNotificationViewOnlyUao">
+              <MappingFragment StoreEntitySet="vNotificationViewOnlyUaos">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="ResourceTypeID" ColumnName="ResourceTypeID" />
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NotificationSubject" ColumnName="NotificationSubject" />
+                <ScalarProperty Name="IsInternal" ColumnName="IsInternal" />
+                <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
+                <ScalarProperty Name="NotificationConstructID" ColumnName="NotificationConstructID" />
+                <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

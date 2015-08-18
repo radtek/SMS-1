@@ -764,6 +764,13 @@ namespace BrockAllen.MembershipReboot
                 return result;
             }
 
+            if(!userAccount.IsActive)
+            {
+                result.valid = false;
+                result.validationMessage = "Invalid Username or Password";
+                return result;
+            }
+
             return Authenticate(userAccount, password, AuthenticationPurpose.SignIn);
         }
 

@@ -22,11 +22,11 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationPaymentMethodStatusDTO() {
         }
 
-        public VOrganisationPaymentMethodStatusDTO(global::System.Guid organisationID, global::System.Guid globalPaymentMethodID, global::System.Nullable<int> organisationBankAccountId, bool isActive, bool isDeleted, bool isDirectDebit, bool isBACS, global::System.Nullable<System.Guid> organisationDirectDebitMandateID, bool isPrimary, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, string paymentMethodStatus, string organisationName) {
+        public VOrganisationPaymentMethodStatusDTO(global::System.Guid organisationID, global::System.Guid globalPaymentMethodID, global::System.Nullable<System.Guid> organisationBankAccountID, bool isActive, bool isDeleted, bool isDirectDebit, bool isBACS, global::System.Nullable<System.Guid> organisationDirectDebitMandateID, bool isPrimary, global::System.Guid statusTypeID, int statusTypeVersionNumber, global::System.Guid statusTypeValueID, string paymentMethodStatus, string organisationName) {
 
           this.OrganisationID = organisationID;
           this.GlobalPaymentMethodID = globalPaymentMethodID;
-          this.OrganisationBankAccountId = organisationBankAccountId;
+          this.OrganisationBankAccountID = organisationBankAccountID;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
           this.IsDirectDebit = isDirectDebit;
@@ -51,7 +51,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid GlobalPaymentMethodID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<int> OrganisationBankAccountId { get; set; }
+        public global::System.Nullable<System.Guid> OrganisationBankAccountID { get; set; }
 
         [DataMember]
         public bool IsActive { get; set; }

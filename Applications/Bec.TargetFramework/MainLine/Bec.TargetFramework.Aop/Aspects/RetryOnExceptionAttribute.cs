@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Bec.TargetFramework.Infrastructure.Log;
+using PostSharp.Aspects;
+using PostSharp.Extensibility;
+using System;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Aop.Aspects
 {
-    using Bec.TargetFramework.Infrastructure.Log;
-
-    using PostSharp.Aspects;
-    using PostSharp.Extensibility;
-
     [Serializable]
     public class RetryOnExceptionAttribute : MethodInterceptionAspect
     {
@@ -42,7 +38,6 @@ namespace Bec.TargetFramework.Aop.Aspects
                     retriesCounter++;
                     if (retriesCounter > this.MaxRetries) throw;
 
-                    // 
                     var sb = new StringBuilder();
 
                     args.Arguments.ToList().ForEach(
@@ -55,9 +50,6 @@ namespace Bec.TargetFramework.Aop.Aspects
                     Logger().Error(ex);
                 }
             }
-
-                base.OnInvoke(args);
-
         }
     }
 }

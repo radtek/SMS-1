@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string Line2 { get; set; }
         [DataMember]
-        public string City { get; set; }
+        public string Town { get; set; }
         [DataMember]
         public string Email { get; set; }
         [DataMember]

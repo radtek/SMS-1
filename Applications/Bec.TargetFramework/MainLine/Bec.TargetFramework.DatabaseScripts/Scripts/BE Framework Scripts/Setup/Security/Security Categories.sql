@@ -42,3 +42,6 @@ values (uuid_generate_v1(), 'BankAccount', 'BankAccount', TRUE);
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'ValidatedAccount', 'ValidatedAccount', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'Credit', 'Credit', TRUE);
