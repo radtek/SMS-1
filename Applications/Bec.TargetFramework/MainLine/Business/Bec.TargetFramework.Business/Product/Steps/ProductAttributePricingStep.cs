@@ -10,12 +10,13 @@ using EnsureThat;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product
 {
     class ProductAttributePricingStep : IProductPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             Ensure.That(cartItem).IsNotNull();
 

@@ -8,6 +8,7 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using BrockAllen.MembershipReboot;
 using BrockAllen.MembershipReboot.WebHost;
+using Mehdime.Entity;
 using NServiceBus;
 using System.Configuration;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
             builder.RegisterApiControllers(assembly).AsSelf().AsImplementedInterfaces().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerRequest();
 
             builder.RegisterType<UserNameService>().InstancePerRequest();
+
+            builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>();
 
             // project dependencies
             new Business.IOC.DependencyRegistrar().Register(builder);

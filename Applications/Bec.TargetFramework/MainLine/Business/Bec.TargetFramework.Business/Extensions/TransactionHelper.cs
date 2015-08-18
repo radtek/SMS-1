@@ -11,12 +11,13 @@ using System.Linq;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using System.Text;
 using System.Threading.Tasks;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business
 {
     public static class TransactionHelper
     {
-        public static void CreateTransactionOrderProcessLog(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid transactionOrderID, TransactionOrderStatusEnum transStatusEnumValue,Guid? orderPaymentID = null)
+        public static void CreateTransactionOrderProcessLog(IDbContextReadOnlyScope scope, Guid transactionOrderID, TransactionOrderStatusEnum transStatusEnumValue, Guid? orderPaymentID = null)
         {
             // set status to processing
             var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(), transStatusEnumValue.GetStringValue());
@@ -37,7 +38,7 @@ namespace Bec.TargetFramework.Business
             if (orderPaymentID.HasValue) 
                 log.TransactionOrderPaymentID = orderPaymentID;
 
-            scope.DbContext.TransactionOrderProcessLogs.Add(log);
+            scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderProcessLogs.Add(log);
         }
 
         [EnsureArgumentAspect]

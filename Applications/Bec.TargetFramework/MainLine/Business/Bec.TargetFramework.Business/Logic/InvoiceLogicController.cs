@@ -21,42 +21,42 @@ namespace Bec.TargetFramework.Business.Logic
 
         public bool DoesInvoiceExistForShoppingCart(Guid shoppingCartId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Invoices.Any(s => s.ShoppingCartID.HasValue && s.ShoppingCartID.Value.Equals(shoppingCartId));
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Any(s => s.ShoppingCartID.HasValue && s.ShoppingCartID.Value.Equals(shoppingCartId));
             }
         }
 
         public VOrganisationDetailDTO GetPaymentProviderOrganisationDetail()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.VOrganisationDetails.Single(s => s.IsPaymentProvider.HasValue && s.IsPaymentProvider.Value.Equals(true)).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationDetails.Single(s => s.IsPaymentProvider.HasValue && s.IsPaymentProvider.Value.Equals(true)).ToDto();
             }
         }
 
         public VInvoiceWithCurrentTransactionOrderStatusDTO GetInvoiceWithCurrentTransactionOrderStatus(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.VInvoiceWithCurrentTransactionOrderStatus.Single(s => s.InvoiceID.Equals(invoiceID)).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VInvoiceWithCurrentTransactionOrderStatus.Single(s => s.InvoiceID.Equals(invoiceID)).ToDto();
             }
         }
 
         public InvoiceDTO GetInvoiceForShoppingCart(Guid shoppingCartId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Invoices.Single(s => s.ShoppingCartID == shoppingCartId).ToDtoWithRelated(1);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Single(s => s.ShoppingCartID == shoppingCartId).ToDtoWithRelated(1);
             }
         }
 
         [EnsureArgumentAspect]
         public async Task<InvoiceDTO> CreateAndSaveInvoiceFromShoppingCartAsync(Guid cartID, string reference)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var cart = scope.DbContext.ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
+                var cart = scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
                 var cartPriceDto = CartPricingProcessor.CalculateCartPrice(scope, cartID);
 
                 var invoiceID = Guid.NewGuid();
@@ -103,7 +103,7 @@ namespace Bec.TargetFramework.Business.Logic
                 else if (cart.UserAccountOrganisationID.HasValue)
                     invoice.UserAccountOrganisationID = cart.UserAccountOrganisationID;
 
-                scope.DbContext.Invoices.Add(invoice);
+                scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Add(invoice);
 
                 // create process log entry
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoice.InvoiceID, InvoiceStatusEnum.Processing, InvoiceAccountingStatusIDEnum.Pending);
@@ -111,10 +111,10 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var item in cart.ShoppingCartItems)
                 {
                     var lineItem = InvoiceHelper.CreateLineItemFromShoppingCartItem(invoice, item, cartPriceDto.Items.Single(x => x.ShoppingCartItemID == item.ShoppingCartItemID));
-                    scope.DbContext.InvoiceLineItems.Add(lineItem);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Add(lineItem);
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
 
                 return invoice.ToDtoWithRelated(1);
             }
@@ -124,40 +124,40 @@ namespace Bec.TargetFramework.Business.Logic
         [EnsureArgumentAspect]
         public async Task DeleteInvoiceAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var invoice = scope.DbContext.Invoices.Include("InvoiceLineItems").Single(s => s.InvoiceID.Equals(invoiceID));
+                var invoice = scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Include("InvoiceLineItems").Single(s => s.InvoiceID.Equals(invoiceID));
 
                 Ensure.That(invoice).IsNotNull();
 
                 if (invoice.InvoiceLineItems.Any())
-                    scope.DbContext.InvoiceLineItems.RemoveRange(invoice.InvoiceLineItems);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.RemoveRange(invoice.InvoiceLineItems);
 
-                scope.DbContext.Invoices.Remove(invoice);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Remove(invoice);
+                await scope.SaveChangesAsync();
             }
         }
 
         [EnsureArgumentAspect]
         public async Task FreezeInvoiceAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var invoice = scope.DbContext.Invoices.Single(s => s.InvoiceID.Equals(invoiceID));
+                var invoice = scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Single(s => s.InvoiceID.Equals(invoiceID));
                 invoice.IsFrozenPendingPayment = true;
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         [EnsureArgumentAspect]
         public async Task CloseInvoiceAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var invoice = scope.DbContext.Invoices.Single(s => s.InvoiceID.Equals(invoiceID));
+                var invoice = scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Single(s => s.InvoiceID.Equals(invoiceID));
 
                 invoice.IsClosed = true;
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -169,7 +169,7 @@ namespace Bec.TargetFramework.Business.Logic
         //           true))
         //    {
         //        var invoice =
-        //            scope.DbContext.Invoices.Include("InvoiceLineItems").Single(s => s.InvoiceID.Equals(dto.InvoiceID));
+        //            scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Include("InvoiceLineItems").Single(s => s.InvoiceID.Equals(dto.InvoiceID));
 
         //        var invoiceDto = InvoiceConverter.ToDto(invoice);
 
@@ -184,11 +184,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         //        //InvoiceHelper.CalculateInvoice(m_ShoppingCartLogic,invoiceDto);
 
-        //        scope.DbContext.InvoiceLineItems.Add(InvoiceLineItemConverter.ToEntity(dto));
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Add(InvoiceLineItemConverter.ToEntity(dto));
 
         //        //TBD recalculate invoice
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
         //[EnsureArgumentAspect]
@@ -199,31 +199,31 @@ namespace Bec.TargetFramework.Business.Logic
         //           true))
         //    {
         //        var invoiceLineItem =
-        //            scope.DbContext.InvoiceLineItems.Single(
+        //            scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Single(
         //                s => s.InvoiceID.Equals(dto.InvoiceID) && s.InvoiceLineItemID.Equals(dto.InvoiceLineItemID));
 
         //        Ensure.That(invoiceLineItem).IsNotNull();
 
-        //        scope.DbContext.InvoiceLineItems.Remove(invoiceLineItem);
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceLineItems.Remove(invoiceLineItem);
 
         //        //TBD recalculate invoice
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
         [EnsureArgumentAspect]
         public async Task MarkInvoiceWithAccountingStatusAsync(Guid invoiceID, InvoiceAccountingStatusIDEnum value)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var latestProcessLog = scope.DbContext.InvoiceProcessLogs.Where(s => s.InvoiceID.Equals(invoiceID)).OrderByDescending(s => s.CreatedOn).Single();
+                var latestProcessLog = scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceProcessLogs.Where(s => s.InvoiceID.Equals(invoiceID)).OrderByDescending(s => s.CreatedOn).Single();
 
                 Ensure.That(latestProcessLog).IsNotNull();
 
                 latestProcessLog.InvoiceAccountingStatusID = value.GetIntValue();
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -232,71 +232,71 @@ namespace Bec.TargetFramework.Business.Logic
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsPaidAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Paid, InvoiceAccountingStatusIDEnum.Paid);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsUnpaidAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Unpaid, InvoiceAccountingStatusIDEnum.Paid_Late);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsCancelledAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Cancelled, InvoiceAccountingStatusIDEnum.Invoice_Withdrawn);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsProcessingAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Processing, InvoiceAccountingStatusIDEnum.Pending);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsPaymentDueAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.PaymentDue, InvoiceAccountingStatusIDEnum.Pending);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsActiveAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.Active, InvoiceAccountingStatusIDEnum.Pending);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
         [EnsureArgumentAspect]
         public async Task MarkInvoiceAsPaymentScheduledAsync(Guid invoiceID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 InvoiceHelper.CreateInvoiceProcessLog(scope, invoiceID, InvoiceStatusEnum.PaymentScheduled, InvoiceAccountingStatusIDEnum.Pending);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 

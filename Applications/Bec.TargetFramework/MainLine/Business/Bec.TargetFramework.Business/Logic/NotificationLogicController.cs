@@ -23,12 +23,12 @@ namespace Bec.TargetFramework.Business.Logic
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var sentAfter = DateTime.Now.Subtract(sentInLast);
 
                 var notificationStatusQuery =
-                    scope.DbContext.VNotificationRecipientStatus.Where(
+                    scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationRecipientStatus.Where(
                         s => s.IsSent.Equals(true) && s.IsRead.HasValue && s.IsRead.Value.Equals(isRead)
                              && s.NotificationConstructID.Equals(notifcationConstructID)
                              && s.NotificationConstructVersionNumber.Equals(notificationConstructVersion));
@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Business.Logic
             // must be recipients
             Ensure.That(dto.NotificationRecipients).IsNotNull();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var notification = NotificationConverter.ToEntity(dto);
 
@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Business.Logic
                     recipient.NotificationID = notification.NotificationID;
                     recipient.NotificationRecipientID = Guid.NewGuid();
 
-                    scope.DbContext.NotificationRecipients.Add(recipient);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients.Add(recipient);
 
                     // process recipients
                     if (item.NotificationRecipientLogs != null)
@@ -83,7 +83,7 @@ namespace Bec.TargetFramework.Business.Logic
                             log.CreatedOn = DateTime.Now;
                             log.NotificationRecipientLogID = Guid.NewGuid();
 
-                            scope.DbContext.NotificationRecipientLogs.Add(log);
+                            scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipientLogs.Add(log);
                         }
                     }
                     recpList.Add(recipient);
@@ -91,9 +91,9 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
 
-                scope.DbContext.Notifications.Add(notification);
+                scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -101,11 +101,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             List<VNotificationConstructGroupDTO> data = new List<VNotificationConstructGroupDTO>();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var notificationGroupEnumValue = enumValue.GetStringValue();
 
-                data.AddRange(VNotificationConstructGroupConverter.ToDtos(scope.DbContext.VNotificationConstructGroups.Where(s => s.GroupName.Equals(notificationGroupEnumValue)
+                data.AddRange(VNotificationConstructGroupConverter.ToDtos(scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationConstructGroups.Where(s => s.GroupName.Equals(notificationGroupEnumValue)
                     && s.OrganisationTypeID.HasValue && s.OrganisationTypeID.Value.Equals(organisationTypeID)
                     && s.UserTypeID.HasValue && s.UserTypeID.Value.Equals(userTypeID))));
             }
@@ -118,10 +118,10 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(organisationNotificationConstructID).IsNot(Guid.Empty);
 
             NotificationConstructDTO dto = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-            {
-                // load org construct include module and notification constructs direct
-                var construct = scope.DbContext.NotificationConstructs
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+                {
+                    // load org construct include module and notification constructs direct
+                    var construct = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
                     .Include("NotificationConstructParameters")
                     .Include("NotificationConstructData")
                     .Include("NotificationConstructTargets")
@@ -142,9 +142,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             string enumValue = groupEnumValue.GetStringValue();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.VNotificationWithUAOVerificationCodes.Where(s =>
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationWithUAOVerificationCodes.Where(s =>
                     s.IsActive && !s.IsDeleted && (!string.IsNullOrEmpty(s.GroupName) && s.GroupName.Equals(enumValue))
                     && s.UserAccountOrganisationID.Equals(userAccountOrganisationID)
                     && s.UserTypeID.Equals(userTypeID)
@@ -157,10 +157,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             Ensure.That(name).IsNotNullOrEmpty();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // load org construct include module and notification constructs direct
-                return scope.DbContext.NotificationConstructs.Where(n => n.Name.Equals(name) && n.IsActive && !n.IsDeleted)
+                return scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Where(n => n.Name.Equals(name) && n.IsActive && !n.IsDeleted)
                     .OrderByDescending(s => s.NotificationConstructVersionNumber)
                     .First()
                     .ToDto();
@@ -171,10 +171,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             Ensure.That(organisationNotificationConstructID).IsNot(Guid.Empty);
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // load org construct include module and notification constructs direct
-                return scope.DbContext.VNotificationConstructs
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationConstructs
                     .Single(n => n.NotificationConstructID.Equals(organisationNotificationConstructID) && n.IsActive && !n.IsDeleted && n.NotificationConstructVersionNumber == versionNumber)
                     .ToDto();
             }
@@ -182,22 +182,22 @@ namespace Bec.TargetFramework.Business.Logic
 
         public VDefaultEmailAddressDTO RecipientAddressDetail(Guid? organisationID, Guid? userAccountOrganisationID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // load org construct include module and notification constructs direct
                 // deterimne users or organisations
                 if (organisationID.HasValue)
-                    return scope.DbContext.VDefaultEmailAddresses.Single(s => s.OrganisationID == organisationID.Value).ToDto();
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.OrganisationID == organisationID.Value).ToDto();
                else
-                    return scope.DbContext.VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value).ToDto();
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value).ToDto();
             }
         }
 
         public List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId, int count)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var notifications = scope.DbContext.VNotificationViewOnlyUaos
+                var notifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
                     .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
                     .OrderByDescending(x => x.DateSent)
                     .Take(count);
@@ -208,9 +208,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var notifications = scope.DbContext.VNotificationViewOnlyUaos
+                var notifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
                     .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
                     .OrderByDescending(x => x.DateSent);
 
@@ -220,10 +220,10 @@ namespace Bec.TargetFramework.Business.Logic
 
         public byte[] GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId)
         {
-            VNotificationViewOnlyUaoDTO notificationDto;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            VNotificationViewOnlyUaoDTO notificationDto; 
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var notification = scope.DbContext.VNotificationViewOnlyUaos
+                var notification = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
                     .FirstOrDefault(
                         x =>
                             x.NotificationID == notificationId &&
@@ -248,9 +248,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var undreadNotifications = scope.DbContext.VNotificationInternalUnreads
+                var undreadNotifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads
                     .Where(x => x.UserID == userId);
                 if (notificationConstruct != NotificationConstructEnum.All)
                 {
@@ -281,48 +281,48 @@ namespace Bec.TargetFramework.Business.Logic
 
         public byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
                 return StandaloneReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
             }
         }
-        
+
         public async Task MarkAcceptedAsync(Guid notificationID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var nu in scope.DbContext.VNotificationInternalUnreads.Where(x => x.NotificationID == notificationID))
+                foreach (var nu in scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads.Where(x => x.NotificationID == notificationID))
                 {
-                    var nr = scope.DbContext.NotificationRecipients.Single(x => x.NotificationRecipientID == nu.NotificationRecipientID);
+                    var nr = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients.Single(x => x.NotificationRecipientID == nu.NotificationRecipientID);
                     nr.IsAccepted = true;
                     nr.AcceptedDate = DateTime.Now;
                 }
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         public async Task UpdateEventStatusAsync(Guid eventStatusID, string status, string recipients, string subject, string body)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var es = scope.DbContext.EventStatus.SingleOrDefault(x => x.EventStatusID == eventStatusID);
+                var es = scope.DbContexts.Get<TargetFrameworkEntities>().EventStatus.SingleOrDefault(x => x.EventStatusID == eventStatusID);
                 if (es != null)
                 {
                     es.Status = status;
                     es.Recipients = recipients;
                     es.Subject = subject;
                     es.Body = body;
-                    await scope.SaveAsync();
+                    await scope.SaveChangesAsync();
                 }
             }
         }
 
         public List<EventStatusDTO> GetEventStatus(string eventName, string eventReference)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.EventStatus.Where(x => x.EventName == eventName && x.EventReference == eventReference).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().EventStatus.Where(x => x.EventName == eventName && x.EventReference == eventReference).ToDtos();
             }
         }
     }

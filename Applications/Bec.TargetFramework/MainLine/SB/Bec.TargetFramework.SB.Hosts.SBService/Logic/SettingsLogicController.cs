@@ -19,9 +19,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
         protected override IEnumerable<ISettingDTO> getDtos()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Settings.ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkCoreEntities>().Settings.ToDtos();
             }
         }
     }

@@ -9,11 +9,12 @@ using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Business.Logic;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product.Interfaces
 {
     public interface ICartPricingStep
     {
-        void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCart cart, CartPricingDTO pricingDto);
+        void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCart cart, CartPricingDTO pricingDto);
     }
 }

@@ -5,6 +5,7 @@ using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
+using Mehdime.Entity;
 //using Fabrik.Common;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Bec.TargetFramework.Business.Product
 {
     class ProductSpecPricingStep : IProductPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             Ensure.That(cartItem).IsNotNull();
 

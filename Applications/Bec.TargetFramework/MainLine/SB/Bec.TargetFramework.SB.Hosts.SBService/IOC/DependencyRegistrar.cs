@@ -5,6 +5,7 @@ using Bec.TargetFramework.Infrastructure.CouchBaseCache;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
+using Mehdime.Entity;
 using System.Configuration;
 using System.Reflection;
 
@@ -38,6 +39,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.IOC
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+
+            builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>();
         }
     }
 }

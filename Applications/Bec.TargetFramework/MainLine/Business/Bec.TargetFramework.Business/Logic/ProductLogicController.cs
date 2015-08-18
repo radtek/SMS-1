@@ -19,9 +19,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public ProductDTO GetTopUpProduct()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDto();
             }
         }
 
@@ -29,17 +29,15 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    Ensure.That(productId).IsNot(Guid.Empty);
 
-        //    ProductDTO dto = null;
-
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
-        //    {
-        //        // get product
-        //        var product = scope.DbContext
-        //                           .Products
-        //                           .Include("ComponentTiers")
-        //                           .Include("ProductDetails")
-        //                           .Single(item =>
-        //                                          item.IsActive.Equals(true) && item.IsDeleted.Equals(false) && item.ProductVersionID.Equals(versionNumber) && item.ProductID.Equals(productId));
+            //using (var scope = DbContextScopeFactory.CreateReadOnly())
+            //{
+            //    // get product
+            //    var product = scope.DbContexts.Get<TargetFrameworkEntities>()
+            //                       .Products
+            //                       .Include("ComponentTiers")
+            //                       .Include("ProductDetails")
+            //                       .Single(item =>
+            //                                      item.IsActive.Equals(true) && item.IsDeleted.Equals(false) && item.ProductVersionID.Equals(versionNumber) && item.ProductID.Equals(productId));
 
         //        dto = ProductConverter.ToDto(product);
 
@@ -63,9 +61,9 @@ namespace Bec.TargetFramework.Business.Logic
         //    product.ProductDTOSpecOptions = new List<VProductSpecificationOptionDTO>();
         //    product.ProductDTODiscounts = new List<VProductDiscountDTO>();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
-        //        scope.DbContext
+        //        scope.DbContexts.Get<TargetFrameworkEntities>()
         //             .VProductAttributes
         //             .Where(item => item.ProductID.Equals(productID) && item.ProductVersionID.Equals(versionNumber))
         //             .ToList()
@@ -74,7 +72,7 @@ namespace Bec.TargetFramework.Business.Logic
         //                 product.ProductDTOAttributes.Add(VProductAttributeConverter.ToDto(item));
         //             });
 
-        //        scope.DbContext
+        //        scope.DbContexts.Get<TargetFrameworkEntities>()
         //             .VProductSpecifications
         //             .Where(item => item.ProductID.Equals(productID) && item.ProductVersionID.Equals(versionNumber))
         //             .ToList()
@@ -83,7 +81,7 @@ namespace Bec.TargetFramework.Business.Logic
         //                 product.ProductDTOSpecs.Add(VProductSpecificationConverter.ToDto(item));
         //             });
 
-        //        scope.DbContext
+        //        scope.DbContexts.Get<TargetFrameworkEntities>()
         //             .VProductSpecificationOptions
         //             .Where(item => item.ProductID.Equals(productID) && item.ProductVersionID.Equals(versionNumber))
         //             .ToList()
@@ -95,7 +93,7 @@ namespace Bec.TargetFramework.Business.Logic
         //        if (includeDiscountsAndDeductions)
         //        {
         //            // load discounts still in scope
-        //            scope.DbContext
+        //            scope.DbContexts.Get<TargetFrameworkEntities>()
         //                  .VProductDiscounts
         //                  .Where(item => item.ProductID.Equals(productID) && item.ProductVersionID.Equals(versionNumber))
         //                  .ToList()
@@ -103,7 +101,7 @@ namespace Bec.TargetFramework.Business.Logic
         //                  {
         //                      var vProductDiscountDto = VProductDiscountConverter.ToDto(item);
         //                      // get tiers
-        //                      var discountTiers = scope.DbContext.Discounts.Include("ComponentTiers")
+        //                      var discountTiers = scope.DbContexts.Get<TargetFrameworkEntities>().Discounts.Include("ComponentTiers")
         //                          .Where(
         //                              s =>
         //                                  s.DiscountID.Equals(item.DiscountID) &&
@@ -119,7 +117,7 @@ namespace Bec.TargetFramework.Business.Logic
         //                      product.ProductDTODiscounts.Add(vProductDiscountDto);
         //                  });
 
-        //            scope.DbContext
+        //            scope.DbContexts.Get<TargetFrameworkEntities>()
         //             .VProductDeductions
         //             .Where(item => item.ProductID.Equals(productID) && item.ProductVersionID.Equals(versionNumber))
         //             .ToList()
@@ -127,7 +125,7 @@ namespace Bec.TargetFramework.Business.Logic
         //             {
         //                 var vProductDeductionDto = VProductDeductionConverter.ToDto(item);
         //                 // get tiers
-        //                 var deductionTiers = scope.DbContext.Deductions.Include("ComponentTiers")
+        //                 var deductionTiers = scope.DbContexts.Get<TargetFrameworkEntities>().Deductions.Include("ComponentTiers")
         //                     .Where(
         //                         s =>
         //                             s.DeductionID.Equals(item.DeductionID) &&
@@ -152,19 +150,19 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    List<VProductSpecificationOptionDTO> list = new List<VProductSpecificationOptionDTO>();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
         //        IQueryable<VProductSpecificationOption> items = null;
 
         //        if (specs != null && specs.Count > 0)
         //        {
-        //            scope.DbContext
+        //            scope.DbContexts.Get<TargetFrameworkEntities>()
         //                 .VProductSpecificationOptions
         //                 .Where(item => specs.Any(it => it.ProductSpecificationAttributeOptionID.Equals(item.ProductSpecificationAttributeOptionID)));
         //        }
         //        else
         //        {
-        //            items = scope.DbContext
+        //            items = scope.DbContexts.Get<TargetFrameworkEntities>()
         //                         .VProductSpecificationOptions
         //                         .Where(item =>
         //                                       item.ProductID.Equals(productID) && item.ProductVersionID.Equals(item.ProductVersionID) && item.DefaultQuantity > 0 && item.DefaultValue > 0);
@@ -185,19 +183,19 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    List<VProductAttributeDTO> list = new List<VProductAttributeDTO>();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
         //        IQueryable<VProductAttribute> items = null;
 
         //        if (attributes != null && attributes.Count > 0)
         //        {
-        //            items = scope.DbContext
+        //            items = scope.DbContexts.Get<TargetFrameworkEntities>()
         //                         .VProductAttributes
         //                         .Where(item => attributes.Any(it => it.ProductVariantAttributeValueID.Equals(item.ProductVariantAttributeValueID)));
         //        }
         //        else
         //        {
-        //            items = scope.DbContext
+        //            items = scope.DbContexts.Get<TargetFrameworkEntities>()
         //                         .VProductAttributes
         //                         .Where(item =>
         //                                       item.ProductID.Equals(productID) && item.ProductVersionID.Equals(item.ProductVersionID));

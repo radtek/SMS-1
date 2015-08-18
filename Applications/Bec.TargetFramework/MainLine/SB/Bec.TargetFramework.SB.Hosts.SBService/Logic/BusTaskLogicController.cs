@@ -23,9 +23,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
         public List<VBusTaskScheduleDTO> AllBusTaskSchedules()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return VBusTaskScheduleConverter.ToDtos(scope.DbContext.VBusTaskSchedules);
+                return VBusTaskScheduleConverter.ToDtos(scope.DbContexts.Get<TargetFrameworkCoreEntities>().VBusTaskSchedules);
             }
         }
 
@@ -36,9 +36,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             List<VBusTaskScheduleDTO> dtoList = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var data = scope.DbContext.VBusTaskSchedules.Where(s =>
+                var data = scope.DbContexts.Get<TargetFrameworkCoreEntities>().VBusTaskSchedules.Where(s =>
                     s.ApplicationEnvironmentName != null &&
                     s.ApplicationEnvironmentName.Equals(env) &&
                     s.ApplicationName != null &&
@@ -58,7 +58,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
         private async Task CreateBusTaskScheduleProcessLog(VBusTaskScheduleDTO taskSchedule, ProcessLogDTO logDto, Guid? parentId, BusTaskStatusEnum statusEnumValue)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 Ensure.That(taskSchedule).IsNotNull();
 
@@ -90,8 +90,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                     log.IsComplete = logDto.IsComplete;
                 }
 
-                scope.DbContext.BusTaskScheduleProcessLogs.Add(log);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusTaskScheduleProcessLogs.Add(log);
+                await scope.SaveChangesAsync();
             }
         }
     }

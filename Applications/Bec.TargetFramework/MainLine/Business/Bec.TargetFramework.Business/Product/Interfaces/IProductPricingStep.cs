@@ -3,6 +3,7 @@ using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
+using Mehdime.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace Bec.TargetFramework.Business.Product.Interfaces
 {
     public interface IProductPricingStep
     {
-        void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice);
+        void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice);
     }
 }

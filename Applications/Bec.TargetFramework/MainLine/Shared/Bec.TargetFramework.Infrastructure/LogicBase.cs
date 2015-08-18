@@ -1,5 +1,6 @@
 ﻿using Bec.TargetFramework.Infrastructure.Caching;
 using Bec.TargetFramework.Infrastructure.Log;
+using Mehdime.Entity;
 using System.Web.Http;
 
 namespace Bec.TargetFramework.Infrastructure
@@ -10,6 +11,7 @@ namespace Bec.TargetFramework.Infrastructure
         public ICacheProvider CacheProvider { get; set; }
 
         public UserNameService UserNameService { get; set; }
+        public IDbContextScopeFactory DbContextScopeFactory { get; set; }
         
         protected override void Initialize(System.Web.Http.Controllers.HttpControllerContext controllerContext)
         {

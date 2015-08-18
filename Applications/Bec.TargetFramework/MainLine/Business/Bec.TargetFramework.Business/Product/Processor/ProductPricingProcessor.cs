@@ -9,13 +9,14 @@ using EnsureThat;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
+using Mehdime.Entity;
 //using Fabrik.Common;
 
 namespace Bec.TargetFramework.Business.Product.Processor
 {
     public static class ProductPricingProcessor
     {
-        public static CartItemPricingDTO CalculateProductPrice(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem)
+        public static CartItemPricingDTO CalculateProductPrice(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem)
         {
             Ensure.That(cartItem).IsNotNull();
 

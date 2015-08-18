@@ -10,12 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product
 {
     class ProductDiscountPricingStep : IProductPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             decimal valueDiscounts = 0;
             decimal percentDiscounts = 0;

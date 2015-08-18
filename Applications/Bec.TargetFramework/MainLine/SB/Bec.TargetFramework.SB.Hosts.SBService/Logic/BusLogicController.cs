@@ -27,17 +27,17 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             List<BusEventMessageSubscriberDTO> list = new List<BusEventMessageSubscriberDTO>();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var fieldQuery =
-                    scope.DbContext.BusEvents.Include("BusEventBusEventMessageSubscribers").SingleOrDefault(s => s.BusEventID.Equals(BusEventId));
+                    scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusEvents.Include("BusEventBusEventMessageSubscribers").SingleOrDefault(s => s.BusEventID.Equals(BusEventId));
 
                 Ensure.That(fieldQuery);
 
                 fieldQuery.BusEventBusEventMessageSubscribers.ToList().ForEach(item =>
                 {
                     var subscriber =
-                        scope.DbContext.BusEventMessageSubscribers.Single(
+                        scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusEventMessageSubscribers.Single(
                             s => s.BusEventMessageSubscriberID.Equals(item.BusEventMessageSubscriberID));
 
                     list.Add(BusEventMessageSubscriberConverter.ToDto(subscriber));
@@ -53,10 +53,10 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             BusEventDTO dto = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var fieldQuery =
-                    scope.DbContext.BusEvents.SingleOrDefault(s => s.BusEventName.Equals(eventName));
+                    scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusEvents.SingleOrDefault(s => s.BusEventName.Equals(eventName));
 
                 Ensure.That(fieldQuery);
 
@@ -79,9 +79,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             try
             {
-                using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, false))
+                using (var scope = DbContextScopeFactory.CreateReadOnly())
                 {
-                    var messages = scope.DbContext.BusMessages.AsNoTracking().Where(s => s.MessageId.Equals(messageDto.MessageId)).ToList();
+                    var messages = scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessages.AsNoTracking().Where(s => s.MessageId.Equals(messageDto.MessageId)).ToList();
 
                     if (messages.Count > 0)
                         messageExists = true;
@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                     if (messageDto.ProcessingMachine == null)
                         messageDto.ProcessingMachine = messageDto.WinIdName;
 
-                    using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+                    using (var scope = DbContextScopeFactory.Create())
                     {
                         if (!isScheduledTask)
                             messageDto.BusMessageTypeID = LogicHelper.GetClassificationDataForTypeName(scope, "BusMessageTypeID", "Atomic");
@@ -101,16 +101,16 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
                         messageDto.BusMessageID = Guid.NewGuid();
 
-                        scope.DbContext.BusMessages.Add(BusMessageConverter.ToEntity(messageDto));
+                        scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessages.Add(BusMessageConverter.ToEntity(messageDto));
 
-                        await scope.SaveAsync();
+                        await scope.SaveChangesAsync();
                     }
 
                     if(messageDto.BusMessageContents != null)
                     { 
-                        using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+                        using (var scope = DbContextScopeFactory.Create())
                         {
-                            var busMessage = scope.DbContext.BusMessages.Single(s => s.MessageId.Equals(messageDto.MessageId));
+                            var busMessage = scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessages.Single(s => s.MessageId.Equals(messageDto.MessageId));
 
                             // save messageContent
                             var messageContent = new BusMessageContent
@@ -120,23 +120,23 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                                 BusMessageContentType = messageDto.BusMessageContents.First().BusMessageContentType,
                             };
 
-                            scope.DbContext.BusMessageContents.Add(messageContent);
+                            scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessageContents.Add(messageContent);
 
-                            await scope.SaveAsync();
+                            await scope.SaveChangesAsync();
                         }
                     }
                 }
 
                 // add status entry
-                using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+                using (var scope = DbContextScopeFactory.Create())
                 {
-                    var busMessage = scope.DbContext.BusMessages.Single(s => s.MessageId.Equals(messageDto.MessageId));
+                    var busMessage = scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessages.Single(s => s.MessageId.Equals(messageDto.MessageId));
 
                     bool hasError = (status == BusMessageStatusEnum.Failed);
 
                     await CreateProcessLog(busMessage.BusMessageID, null, hasError, handler, subscriber, null, null, status);
 
-                    await scope.SaveAsync();
+                    await scope.SaveChangesAsync();
                 }
 
             }
@@ -153,7 +153,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
         private async Task CreateProcessLog(Guid busMessageId, Guid? parentID, bool hasError, string busMessageHandler, string busMessageSubscriber, string processDetail, string processMessage, BusMessageStatusEnum serviceStatusEnumValue)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 // set status to processing
                 var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.BusMessageProcessLogStatus.GetStringValue(), serviceStatusEnumValue.GetStringValue());
@@ -178,8 +178,8 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                     HasError = hasError
                 };
 
-                scope.DbContext.BusMessageProcessLogs.Add(log);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessageProcessLogs.Add(log);
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -190,9 +190,9 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
 
             bool exists = false;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkCoreEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var messages = scope.DbContext.BusMessages.AsNoTracking().Where(s => s.MessageId.Equals(messageDto.MessageId)).ToList();
+                var messages = scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessages.AsNoTracking().Where(s => s.MessageId.Equals(messageDto.MessageId)).ToList();
 
                 if (messages.Count > 0)
                 {
@@ -202,7 +202,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService.Logic
                         BusMessageStatusEnum.Successful.GetStringValue());
                     var messageID = messages.First().BusMessageID;
                     // now check for received status
-                    exists = scope.DbContext.BusMessageProcessLogs.Any(s =>
+                    exists = scope.DbContexts.Get<TargetFrameworkCoreEntities>().BusMessageProcessLogs.Any(s =>
                         s.BusMessageID.Equals(messageID) &&
                         s.StatusTypeValueID == status.StatusTypeValueID &&
                         s.StatusTypeID == status.StatusTypeID &&
