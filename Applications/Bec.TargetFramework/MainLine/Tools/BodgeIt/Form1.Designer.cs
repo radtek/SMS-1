@@ -68,6 +68,7 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.addDefaultUsers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -166,6 +167,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.addDefaultUsers);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.label12);
@@ -184,7 +186,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Location = new System.Drawing.Point(12, 197);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(353, 222);
+            this.groupBox2.Size = new System.Drawing.Size(353, 271);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Add new user";
@@ -470,11 +472,22 @@
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
             // 
+            // addDefaultUsers
+            // 
+            this.addDefaultUsers.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.addDefaultUsers.Location = new System.Drawing.Point(213, 212);
+            this.addDefaultUsers.Name = "addDefaultUsers";
+            this.addDefaultUsers.Size = new System.Drawing.Size(130, 53);
+            this.addDefaultUsers.TabIndex = 18;
+            this.addDefaultUsers.Text = "Add Defaults (T1-T5, Ana, Elvis1, Elvis2, Fred)";
+            this.addDefaultUsers.UseVisualStyleBackColor = false;
+            this.addDefaultUsers.Click += new System.EventHandler(this.addDefaultUsers_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 429);
+            this.ClientSize = new System.Drawing.Size(789, 479);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox3);
@@ -543,6 +556,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonAutoAdmin;
+        private System.Windows.Forms.Button addDefaultUsers;
     }
 }
 

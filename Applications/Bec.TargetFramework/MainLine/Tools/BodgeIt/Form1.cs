@@ -241,7 +241,7 @@ namespace BodgeIt
 
                 //await SendAsync<Guid[]>(client, string.Format("api/UserLogic/SetRolesAsync?uaoID={0}", g), HttpMethod.Post, "user", roles);
             }
-            MessageBox.Show("Done");
+            MessageBox.Show("Users T1-T5 added successfully!");
         }
 
         private async void button7_Click(object sender, EventArgs e)
@@ -285,5 +285,21 @@ namespace BodgeIt
             MessageBox.Show(r.StatusCode + Environment.NewLine + j.ToString());
         }
 
+        private async void addDefaultUsers_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to add default organisation and users?", "WARNING", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                buttonAutoAdmin_Click(this, null);
+                int conIndex = (int)comboDB.SelectedValue;
+                using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+                {
+                    con.Open();
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultProOrganisationWithUsers.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultFred.sql")));
+                    con.Close();
+                }
+                MessageBox.Show("Ana, Elvis1, Elvis2 and Fred were added successfully! Wait for the rest.");
+            }
+        }
     }
 }
