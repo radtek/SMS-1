@@ -180,13 +180,11 @@
     <Compile Include="IOC\RepositoryDependencyResolverException.cs" />
     <Compile Include="IOC\RepositoryIocContainer.cs" />
     <Compile Include="IOC\SharpRepositoryIocContainer.cs" />
-    <Compile Include="UoW\IProvider.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\IRepositoryAggregates.cs" />
     <Compile Include="Repository\IRepositoryBase.cs" />
     <Compile Include="Repository\IRepositoryConventions.cs" />
     <Compile Include="Repository\IRepositoryQueryable.cs" />
-    <Compile Include="UoW\IUnitOfWork.cs" />
     <Compile Include="Repository\LinqCompoundKeyRepositoryBase.cs" />
     <Compile Include="Repository\LinqRepositoryBase.cs" />
     <Compile Include="Linq\LinqHelpers.cs" />
@@ -205,8 +203,6 @@
     <Compile Include="Repository\RepositoryConventions.cs" />
     <Compile Include="Repository\RepositoryFactory.cs" />
     <Compile Include="Repository\RepositoryPrimaryKeyAttribute.cs" />
-    <Compile Include="UoW\UnitOfWorkScope.cs" />
-    <Compile Include="UoW\UnitOfWorkScopePurpose.cs" />
     <Content Include="Samples\GettingStarted.cs" />
     <Content Include="Samples\HowToAbstractAwayTheGenericRepository.cs" />
     <Content Include="Samples\HowToBatch.cs" />

@@ -28,9 +28,9 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(userAccountOrganisationID).IsNot(Guid.Empty);
             Ensure.That(countryCode).IsNotNullOrEmpty();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var curr = scope.DbContext.VCountryAndCurrencies.Single(s => s.CountryCode.Equals(countryCode));
+                var curr = scope.DbContexts.Get<TargetFrameworkEntities>().VCountryAndCurrencies.Single(s => s.CountryCode.Equals(countryCode));
                 var cart = new ShoppingCart
                 {
                     ShoppingCartID = Guid.NewGuid(),
@@ -47,8 +47,8 @@ namespace Bec.TargetFramework.Business.Logic
                     CurrencyRateToUSD = curr.CurrencyRateToUSD,
                 };
 
-                scope.DbContext.ShoppingCarts.Add(cart);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Add(cart);
+                await scope.SaveChangesAsync();
                 return cart.ToDto();
             }
         }
@@ -61,10 +61,10 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(versionNumber).IsNot(0);
             Ensure.That(quantity).IsNot(0);
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var cart = scope.DbContext.ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
-                var product = scope.DbContext.Products.Single(x => x.ProductID == productID && x.ProductVersionID == versionNumber);
+                var cart = scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
+                var product = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == versionNumber);
 
                 var newItem = new ShoppingCartItem
                 {
@@ -74,7 +74,7 @@ namespace Bec.TargetFramework.Business.Logic
                     CustomerPrice = customerPrice
                 };
                 cart.ShoppingCartItems.Add(newItem);
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -82,12 +82,12 @@ namespace Bec.TargetFramework.Business.Logic
         {
             Ensure.That(cartID).IsNot(Guid.Empty);
             Ensure.That(itemID).IsNot(Guid.Empty);
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var cart = scope.DbContext.ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
+                var cart = scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
                 var cartItem = cart.ShoppingCartItems.Single(x => x.ShoppingCartItemID == itemID);
                 cart.ShoppingCartItems.Remove(cartItem);
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
     }

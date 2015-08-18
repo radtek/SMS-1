@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product
 {
     class ProductPricingStep : IProductPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCartItem cartItem, CartItemPricingDTO itemPrice)
         {
             var detail = cartItem.Product.ProductDetails.First();
             itemPrice.ProductCost = detail.ProductCost;

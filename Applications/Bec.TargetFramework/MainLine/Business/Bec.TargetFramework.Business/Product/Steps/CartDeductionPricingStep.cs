@@ -3,6 +3,7 @@ using Bec.TargetFramework.Business.Product.Interfaces;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
+using Mehdime.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace Bec.TargetFramework.Business.Product.Steps
 {
     class CartDeductionPricingStep : ICartPricingStep
     {
-        public void ApplyPricing(UnitOfWorkScope<TargetFrameworkEntities> scope, ShoppingCart cart, CartPricingDTO dto)
+        public void ApplyPricing(IDbContextReadOnlyScope scope, ShoppingCart cart, CartPricingDTO dto)
         {
             dto.DeductionInformationDtos = new List<InformationDTO>();
             dto.TaxInformationDtos = new List<InformationDTO>();

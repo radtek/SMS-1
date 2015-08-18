@@ -5,6 +5,7 @@ using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.SB.Infrastructure.Quartz.Module;
+using Mehdime.Entity;
 using System.Configuration;
 using System.Reflection;
 
@@ -40,6 +41,8 @@ namespace Bec.TargetFramework.SB.TaskServices.IOC
             // Quartz Setup
             builder.RegisterModule(new QuartzAutofacFactoryModule());
             builder.RegisterModule(new QuartzAutofacJobsModule(Assembly.Load("Bec.TargetFramework.SB.Infrastructure.Quartz"))); 
+
+            builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>();
 
             // project dependencies
             new TargetFramework.Infrastructure.Reporting.IOC.DependencyRegistrar().Register(builder);

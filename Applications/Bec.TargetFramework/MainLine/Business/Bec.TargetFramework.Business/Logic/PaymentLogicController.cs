@@ -47,17 +47,17 @@ namespace Bec.TargetFramework.Business.Logic
 
         private ErrorCodeDTO GetErrorCodeDto(ErrorCodeTypeIDEnum typeEnum, ErrorCodeCategoryIDEnum categoryEnum, string code)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, false))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 int categoryId = categoryEnum.GetIntValue();
                 int typeId = typeEnum.GetIntValue();
 
-                var errorCodes = scope.DbContext.ErrorCodes.Where(s => s.ErrorCodeCategoryID == categoryId && s.ErrorCodeTypeID == typeId && s.ErrorCode1 == code).ToList();
+                var errorCodes = scope.DbContexts.Get<TargetFrameworkEntities>().ErrorCodes.Where(s => s.ErrorCodeCategoryID == categoryId && s.ErrorCodeTypeID == typeId && s.ErrorCode1 == code).ToList();
 
                 if (errorCodes.Count > 0)
                     return errorCodes.First().ToDto();
                 else
-                    return scope.DbContext.ErrorCodes.Single(s => s.ErrorCode1.Equals("5999")).ToDto();
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().ErrorCodes.Single(s => s.ErrorCode1.Equals("5999")).ToDto();
             }
         }
 
@@ -65,12 +65,12 @@ namespace Bec.TargetFramework.Business.Logic
         {
             TransactionOrderPaymentDTO dto = null;
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // get successful status type
                 var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(), TransactionOrderStatusEnum.Successful.GetStringValue());
 
-                var logs = scope.DbContext.TransactionOrderProcessLogs.Where(s =>
+                var logs = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderProcessLogs.Where(s =>
                     s.TransactionOrderID == transactionOrderId &&
                     s.StatusTypeID == statusType.StatusTypeID &&
                     s.StatusTypeValueID == statusType.StatusTypeValueID).ToList();
@@ -78,7 +78,7 @@ namespace Bec.TargetFramework.Business.Logic
                 if (logs.Count > 0)
                 {
                     var paymentId = logs.First().TransactionOrderPaymentID;
-                    dto = scope.DbContext.TransactionOrderPayments.Single(s => s.TransactionOrderPaymentID.Equals(paymentId.Value)).ToDto();
+                    dto = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderPayments.Single(s => s.TransactionOrderPaymentID.Equals(paymentId.Value)).ToDto();
                 }
             }
 
@@ -87,12 +87,12 @@ namespace Bec.TargetFramework.Business.Logic
 
         public bool DoesASuccessfulOrderPaymentExistForTransactionOrder(Guid transactionOrderId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // get successful status type
                 var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.TransactionOrderProcessLog.GetStringValue(), TransactionOrderStatusEnum.Successful.GetStringValue());
 
-                return scope.DbContext.TransactionOrderProcessLogs.Any(s =>
+                return scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderProcessLogs.Any(s =>
                      s.TransactionOrderID.Equals(transactionOrderId) &&
                      s.StatusTypeID == statusType.StatusTypeID &&
                      s.StatusTypeValueID == statusType.StatusTypeValueID);
@@ -103,9 +103,9 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<TransactionOrderPaymentDTO> ProcessPaymentTransaction(OrderRequestDTO request)
         {
             TransactionOrderDTO transactionOrderDto;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                transactionOrderDto = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID).ToDto();
+                transactionOrderDto = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID).ToDto();
             }
             TransactionOrderPaymentDTO responseDto = new TransactionOrderPaymentDTO();
 
@@ -273,14 +273,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             // persist transaction order payment
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 // persist transactionorderpayment
                 var transactionOrderPayment = TransactionOrderPaymentConverter.ToEntity(responseDto);
                 transactionOrderPayment.TransactionOrderPaymentID = orderPaymentID;
 
                 // add payment
-                scope.DbContext.TransactionOrderPayments.Add(transactionOrderPayment);
+                scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderPayments.Add(transactionOrderPayment);
 
                 responseDto.TransactionOrderPaymentID = orderPaymentID;
 
@@ -292,9 +292,10 @@ namespace Bec.TargetFramework.Business.Logic
                         var transOrderPaymentError = TransactionOrderPaymentErrorConverter.ToEntity(responseDto.TransactionOrderPaymentErrors.First());
                         transOrderPaymentError.TransactionOrderPaymentID = transactionOrderPayment.TransactionOrderPaymentID;
                         transOrderPaymentError.TransactionOrderPaymentErrorID = Guid.NewGuid();
-                        scope.DbContext.TransactionOrderPaymentErrors.Add(transOrderPaymentError);
+
+                        scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderPaymentErrors.Add(transOrderPaymentError);
                     }
-                    TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
+                    TransactionHelper.CreateTransactionOrderProcessLog(scope, transactionOrderDto.TransactionOrderID, TransactionOrderStatusEnum.Failed, transactionOrderPayment.TransactionOrderPaymentID);
                 }
                 else
                 {
@@ -302,7 +303,7 @@ namespace Bec.TargetFramework.Business.Logic
                     TransactionHelper.CreateTransactionOrderProcessLog(scope, request.TransactionOrderID, TransactionOrderStatusEnum.Successful, transactionOrderPayment.TransactionOrderPaymentID);
 
                     //process credit type product events
-                    var txOrder = scope.DbContext.TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID);
+                    var txOrder = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID);
                     var creditProd = ProductLogic.GetTopUpProduct();
                     foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
                     {
@@ -314,7 +315,7 @@ namespace Bec.TargetFramework.Business.Logic
                     }
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
 
             return responseDto;

@@ -11,18 +11,19 @@ using System.Linq;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using System.Text;
 using System.Threading.Tasks;
+using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business
 {
     public static class InvoiceHelper
     {
-        public static int TotalNumberOfInvoicesForOrganisation(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid organisationID)
+        public static int TotalNumberOfInvoicesForOrganisation(IDbContextReadOnlyScope scope, Guid organisationID)
         {
-            return scope.DbContext.Invoices.Count(s => s.OrganisationID != null && s.OrganisationID.Value.Equals(organisationID));
+            return scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Count(s => s.OrganisationID != null && s.OrganisationID.Value.Equals(organisationID));
         }
 
         [EnsureArgumentAspect]
-        public static void CreateInvoiceProcessLog(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid invoiceID, InvoiceStatusEnum invoiceStatusEnumValue, InvoiceAccountingStatusIDEnum accountingStatusEnumValue)
+        public static void CreateInvoiceProcessLog(IDbContextReadOnlyScope scope, Guid invoiceID, InvoiceStatusEnum invoiceStatusEnumValue, InvoiceAccountingStatusIDEnum accountingStatusEnumValue)
         {
             // set status to processing
             var statusType = LogicHelper.GetStatusType(scope, StatusTypeEnum.InvoiceProcessLog.GetStringValue(), invoiceStatusEnumValue.GetStringValue());
@@ -42,7 +43,7 @@ namespace Bec.TargetFramework.Business
                 InvoiceAccountingStatusID = accountingStatusEnumValue.GetIntValue()
             };
 
-            scope.DbContext.InvoiceProcessLogs.Add(log);
+            scope.DbContexts.Get<TargetFrameworkEntities>().InvoiceProcessLogs.Add(log);
         }
 
         [EnsureArgumentAspect]

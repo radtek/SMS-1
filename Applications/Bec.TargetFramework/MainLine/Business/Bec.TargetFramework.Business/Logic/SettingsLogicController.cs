@@ -22,9 +22,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         protected override IEnumerable<ISettingDTO> getDtos()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Settings.ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Settings.ToDtos();
             }
         }
 
@@ -48,8 +48,8 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, null, true))
         //    {
-        //        scope.DbContext.Settings.Add(dto.ToEntity());
-        //        await scope.SaveAsync();
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().Settings.Add(dto.ToEntity());
+        //        await scope.SaveChangesAsync();
         //        // Reset the cache
         //        ResetCache();
         //    }
@@ -59,11 +59,11 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, null, true))
         //    {
-        //        var existing = scope.DbContext.Settings.Single(x => x.Id == dto.Id);
+        //        var existing = scope.DbContexts.Get<TargetFrameworkEntities>().Settings.Single(x => x.Id == dto.Id);
         //        var updated = dto.ToEntity();
 
-        //        scope.DbContext.Entry(existing).CurrentValues.SetValues(updated);
-        //        await scope.SaveAsync();
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().Entry(existing).CurrentValues.SetValues(updated);
+        //        await scope.SaveChangesAsync();
 
         //        // Reset the cache
         //        ResetCache();
@@ -74,10 +74,10 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, null, true))
         //    {
-        //        var existing = scope.DbContext.Settings.Single(x => x.Id == dto.Id);
-        //        scope.DbContext.Settings.Remove(existing);
+        //        var existing = scope.DbContexts.Get<TargetFrameworkEntities>().Settings.Single(x => x.Id == dto.Id);
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().Settings.Remove(existing);
 
-        //        await scope.SaveAsync();
+        //        await scope.SaveChangesAsync();
 
         //        // Reset the cache
         //        ResetCache();
@@ -124,7 +124,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         //            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, null, true))
         //            {
-        //                foreach (var dto in scope.DbContext.Settings.ToDtos())
+        //                foreach (var dto in scope.DbContexts.Get<TargetFrameworkEntities>().Settings.ToDtos())
         //                    settings.Add(dto.Name, dto);
         //            }
 

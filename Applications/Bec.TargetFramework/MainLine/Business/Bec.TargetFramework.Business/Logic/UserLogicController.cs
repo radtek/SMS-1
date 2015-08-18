@@ -12,6 +12,7 @@ using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
 using EnsureThat;
+using Mehdime.Entity;
 using Omu.ValueInjecter;
 using ServiceStack.Text;
 using System;
@@ -53,7 +54,7 @@ namespace Bec.TargetFramework.Business.Logic
             var userContact = new Contact();
             var userDetail = new UserAccountDetail();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, true, Guid.NewGuid());
 
@@ -62,7 +63,7 @@ namespace Bec.TargetFramework.Business.Logic
                 userContact.ContactID = Guid.NewGuid();
                 userContact.ParentID = userAccount.ID;
                 //SetAuditFields<Contact>(userContact, true);
-                scope.DbContext.Contacts.Add(userContact);
+                scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(userContact);
 
 
                 //create user account detail
@@ -71,9 +72,9 @@ namespace Bec.TargetFramework.Business.Logic
                 userDetail.UserDetailID = Guid.NewGuid();
                 userDetail.Salutation = dto.Salutation;
                 //SetAuditFields<UserAccountDetail>(userDetail, true);
-                scope.DbContext.UserAccountDetails.Add(userDetail);
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountDetails.Add(userDetail);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
 
                 return userContact.ToDto();
             }
@@ -101,9 +102,9 @@ namespace Bec.TargetFramework.Business.Logic
         /// <returns></returns>
         public bool HasPasswordExpired(Guid userID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccounts.Any(s =>
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Any(s =>
                     s.ID == userID &&
                     !string.IsNullOrEmpty(s.VerificationKey) &&
                     (!s.LastLogin.HasValue || (s.LastLogin.HasValue && s.PasswordChanged > s.LastLogin.Value)));
@@ -115,9 +116,9 @@ namespace Bec.TargetFramework.Business.Logic
             Ensure.That(userId).IsNot(Guid.Empty);
             var user = new Bec.TargetFramework.Data.UserAccount();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                user = scope.DbContext.UserAccounts.Single(x => x.ID == userId);
+                user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(x => x.ID == userId);
 
                 if (lockUser)
                 {
@@ -130,33 +131,33 @@ namespace Bec.TargetFramework.Business.Logic
                     user.FailedLoginCount = 0;
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         [EnsureArgumentAspect]
         public bool IsUserExist(string userName)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, false))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccounts.Where(x => x.Username.ToLower() == userName.ToLower()).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(x => x.Username.ToLower() == userName.ToLower()).Count() > 0;
             }
         }
 
         [EnsureArgumentAspect]
         public bool IsEmailExist(string email)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, false))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccounts.Where(u => u.Email.ToLower() == email.ToLower() && !u.IsAccountClosed && u.IsActive).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(u => u.Email.ToLower() == email.ToLower() && !u.IsAccountClosed && u.IsActive).Count() > 0;
             }
         }
 
         public IEnumerable<AddressDTO> GetUserAddresses(Guid contactID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Addresses.Where(item => item.ParentID == contactID && item.IsActive && !item.IsDeleted).OrderBy(item => item.Name).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Where(item => item.ParentID == contactID && item.IsActive && !item.IsDeleted).OrderBy(item => item.Name).ToDtos();
             }
         }
 
@@ -164,9 +165,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             var dtoList = new List<BrockAllen.MembershipReboot.UserAccount>();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                scope.DbContext.UserAccounts.ToList().ForEach(item =>
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.ToList().ForEach(item =>
                     {
                         BrockAllen.MembershipReboot.UserAccount ua = new BrockAllen.MembershipReboot.UserAccount();
                         ua.InjectFrom<NullableInjection>(item);
@@ -180,10 +181,10 @@ namespace Bec.TargetFramework.Business.Logic
         public BrockAllen.MembershipReboot.UserAccount GetUserAccount(Guid key)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 ua = new BrockAllen.MembershipReboot.UserAccount();
-                var uaDb = scope.DbContext.UserAccounts.Single(s => s.ID == key);
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(s => s.ID == key);
                 ua.InjectFrom<NullableInjection>(uaDb);
                 ua.PasswordResetSecrets = GetPasswordResetSecrets(key);
             }
@@ -194,9 +195,9 @@ namespace Bec.TargetFramework.Business.Logic
         public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByEmail(string email)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContext.UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToList();
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToList();
 
                 if (uaDb.Count > 0)
                 {
@@ -212,9 +213,9 @@ namespace Bec.TargetFramework.Business.Logic
         public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByEmailAndNotID(string email, Guid id)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContext.UserAccounts.Where(s => s.Email == email && s.ID != id).ToList();
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.ID != id).ToList();
 
                 if (uaDb.Count > 0)
                 {
@@ -229,9 +230,9 @@ namespace Bec.TargetFramework.Business.Logic
         public BrockAllen.MembershipReboot.UserAccount GetBAUserAccountByUsername(string username)
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, false))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContext.UserAccounts.SingleOrDefault(s => s.Username == username);
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == username);
 
                 if (uaDb != null)
                 {
@@ -243,7 +244,7 @@ namespace Bec.TargetFramework.Business.Logic
                     var uao = uaDb.UserAccountOrganisations.FirstOrDefault();
                     if (uao != null)
                     {
-                        var c = scope.DbContext.Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
+                        var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
                         if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
                     }
                         
@@ -254,28 +255,28 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<UserAccountDTO> GetUserAccountByEmail(string email, bool permanentAccountonly)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 if (permanentAccountonly)
-                    return scope.DbContext.UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted && s.IsTemporaryAccount == !permanentAccountonly).ToDtos();
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted && s.IsTemporaryAccount == !permanentAccountonly).ToDtos();
                 else
-                    return scope.DbContext.UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToDtos();
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.Email == email && s.IsActive && !s.IsDeleted).ToDtos();
             }
         }
         public UserAccountDTO GetUserAccountByUsername(string userName)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccounts.SingleOrDefault(s => s.Username == userName).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == userName).ToDto();
             }
         }
 
         public List<ContactDTO> GetUserContacts(Guid userId)
         {
             List<ContactDTO> ua = new List<ContactDTO>(); ;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                ua = ContactConverter.ToDtos(scope.DbContext.Contacts.Where(s => s.ParentID == userId));
+                ua = ContactConverter.ToDtos(scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(s => s.ParentID == userId));
 
             }
             return ua;
@@ -285,9 +286,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             BrockAllen.MembershipReboot.UserAccount ua = null;
             List<BrockAllen.MembershipReboot.UserAccount> accounts = new List<BrockAllen.MembershipReboot.UserAccount>();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContext.UserAccounts.Where(s => s.ID == key).ToList();
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(s => s.ID == key).ToList();
                 uaDb.ForEach(item =>
                 {
                     ua = new BrockAllen.MembershipReboot.UserAccount();
@@ -302,18 +303,18 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<UserAccountOrganisationDTO> GetUserAccountOrganisation(Guid accountID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccountOrganisations.Where(item => item.UserID == accountID && item.IsActive && !item.IsDeleted).ToDtosWithRelated(1);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(item => item.UserID == accountID && item.IsActive && !item.IsDeleted).ToDtosWithRelated(1);
             }
         }
 
         private List<BrockAllen.MembershipReboot.PasswordResetSecret> GetPasswordResetSecrets(Guid userAccountID)
         {
             List<BrockAllen.MembershipReboot.PasswordResetSecret> dtoList = new List<BrockAllen.MembershipReboot.PasswordResetSecret>();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                scope.DbContext.PasswordResetSecrets.Where(s =>
+                scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetSecrets.Where(s =>
                     s.UserAccountID == userAccountID &&
                     s.IsActive &&
                     !s.IsDeleted)
@@ -323,7 +324,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                         rs.InjectFrom<NullableInjection>(item);
                         //Get the question description as we will be only storing classificationtypeid in the passwordresetsecret
-                        rs.Question = scope.DbContext.ClassificationTypes.Single(x => x.ClassificationTypeID == item.QuestionID).Name;
+                        rs.Question = scope.DbContexts.Get<TargetFrameworkEntities>().ClassificationTypes.Single(x => x.ClassificationTypeID == item.QuestionID).Name;
 
                         dtoList.Add(rs);
                     });
@@ -338,13 +339,13 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task AddUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 Data.UserAccount ua = new Data.UserAccount();
 
                 ua.InjectFrom<NullableInjection>(user);
 
-                scope.DbContext.UserAccounts.Add(ua);
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Add(ua);
 
                 foreach (var it in user.PasswordResetSecrets)
                 {
@@ -352,38 +353,38 @@ namespace Bec.TargetFramework.Business.Logic
 
                     secret.InjectFrom(it);
                     secret.UserAccountID = user.ID;
-                    scope.DbContext.PasswordResetSecrets.Add(secret);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetSecrets.Add(secret);
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         public async Task RemoveUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var uaDb = scope.DbContext.UserAccounts.Single(s => s.ID == user.ID);
-                scope.DbContext.UserAccounts.Remove(uaDb);
-                await scope.SaveAsync();
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(s => s.ID == user.ID);
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Remove(uaDb);
+                await scope.SaveChangesAsync();
             }
         }
 
         public async Task UpdateUserAccountAsync(BrockAllen.MembershipReboot.UserAccount user)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var uaDb = scope.DbContext.UserAccounts.Single(s => s.ID.Equals(user.ID));
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(s => s.ID.Equals(user.ID));
 
                 uaDb.InjectFrom<NullableInjection>(new IgnoreProps("ID"), user);
 
-                var entry = scope.DbContext.Entry(uaDb);
+                var entry = scope.DbContexts.Get<TargetFrameworkEntities>().Entry(uaDb);
 
                 entry.State = System.Data.Entity.EntityState.Modified;
 
                 foreach (var it in user.PasswordResetSecrets)
                 {
-                    var secret = scope.DbContext.PasswordResetSecrets.SingleOrDefault(s => s.PasswordResetSecretID.Equals(it.PasswordResetSecretID));
+                    var secret = scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetSecrets.SingleOrDefault(s => s.PasswordResetSecretID.Equals(it.PasswordResetSecretID));
                     if (secret != null)
                     {
                         secret.InjectFrom(it);
@@ -394,19 +395,19 @@ namespace Bec.TargetFramework.Business.Logic
                         secret = new Bec.TargetFramework.Data.PasswordResetSecret();
                         secret.InjectFrom(it);
                         secret.UserAccountID = user.ID;
-                        scope.DbContext.PasswordResetSecrets.Add(secret);
+                        scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetSecrets.Add(secret);
                     }
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         public List<UserClaimDTO> GetUserClaims(Guid userId, Guid organisationID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var result = scope.DbContext.FnGetUserClaim(userId, organisationID);
+                var result = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetUserClaim(userId, organisationID);
 
                 if (result != null)
                 {
@@ -424,9 +425,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public ContactDTO GetUserAccountOrganisationPrimaryContact(Guid uaoID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var contact = scope.DbContext.Contacts.Where(item => item.IsPrimaryContact && item.ParentID == uaoID && item.IsActive && !item.IsDeleted).FirstOrDefault();
+                var contact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(item => item.IsPrimaryContact && item.ParentID == uaoID && item.IsActive && !item.IsDeleted).FirstOrDefault();
 
                 Ensure.That(contact).IsNotNull();
                 return contact.ToDto();
@@ -435,14 +436,14 @@ namespace Bec.TargetFramework.Business.Logic
 
         public VUserAccountOrganisationUserTypeOrganisationTypeDTO GetUserAccountOrganisationUserTypeOrganisationType(Guid accountID, bool personalOrg)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var uaoUTypeOType = new VUserAccountOrganisationUserTypeOrganisationType();
                 int orgType = (int)OrganisationTypeEnum.Personal;
                 if (personalOrg)
-                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID == accountID && item.OrganisationTypeID == orgType);
+                    uaoUTypeOType = scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID == accountID && item.OrganisationTypeID == orgType);
                 else
-                    uaoUTypeOType = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID == accountID && item.OrganisationTypeID != orgType);
+                    uaoUTypeOType = scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.SingleOrDefault(item => item.UserID == accountID && item.OrganisationTypeID != orgType);
                 return uaoUTypeOType.ToDto();
             }
         }
@@ -450,17 +451,17 @@ namespace Bec.TargetFramework.Business.Logic
         public List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> GetUserAccountOrganisationWithUserTypeAndOrgType(Guid accountID)
         {
             VUserAccountOrganisationUserTypeOrganisationTypeDTO uaoUserTypeOrganisationType = new VUserAccountOrganisationUserTypeOrganisationTypeDTO();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Where(s => s.UserID == accountID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.Where(s => s.UserID == accountID).ToDtos();
             }
         }
 
         public List<string> UserLoginSessions(Guid userId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID == userId)
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions.Where(item => !(item.UserHasLoggedOut ?? false) && item.UserAccountID == userId)
                    .Select(item => item.UserSessionID)
                    .ToList();
             }
@@ -468,9 +469,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task LogEveryoneElseOutAsync(Guid userId, string sessionId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var item in scope.DbContext.UserAccountLoginSessions.Where(item =>
+                foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions.Where(item =>
                     item.UserHasLoggedOut.Value != true &&
                     item.UserAccountID == userId &&
                     item.UserSessionID != sessionId))
@@ -478,13 +479,13 @@ namespace Bec.TargetFramework.Business.Logic
                     item.UserHasLoggedOut = true;
                 }
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         public async Task SaveUserAccountLoginSessionAsync(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var session = new UserAccountLoginSession
                  {
@@ -497,15 +498,15 @@ namespace Bec.TargetFramework.Business.Logic
                      UserHostAddress = userHostAddress
                  };
 
-                scope.DbContext.UserAccountLoginSessions.Add(session);
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions.Add(session);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
         public async Task SaveUserAccountLoginSessionDataAsync(Guid userId, string sessionId, Dictionary<string, string> requestData)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 // add session data
                 var sessionData = new UserAccountLoginSessionDatum
@@ -516,9 +517,9 @@ namespace Bec.TargetFramework.Business.Logic
                     UserSessionID = sessionId
                 };
 
-                scope.DbContext.UserAccountLoginSessionData.Add(sessionData);
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessionData.Add(sessionData);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -536,9 +537,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public bool DoesUserExist(Guid userID, bool isTemporary)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccounts.Any(s => s.ID == userID && s.IsTemporaryAccount == isTemporary);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Any(s => s.ID == userID && s.IsTemporaryAccount == isTemporary);
             }
         }
 
@@ -546,20 +547,20 @@ namespace Bec.TargetFramework.Business.Logic
         {
             int personalOrgTypeID = OrganisationTypeEnum.Personal.GetIntValue();
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaoEntry = scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID == personalOrgTypeID && s.UserID == userID);
-                return scope.DbContext.UserAccountOrganisations.Single(s => s.UserAccountOrganisationID == uaoEntry.UserAccountOrganisationID).ToDto();
+                var uaoEntry = scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.Single(s => s.OrganisationTypeID == personalOrgTypeID && s.UserID == userID);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(s => s.UserAccountOrganisationID == uaoEntry.UserAccountOrganisationID).ToDto();
             }
         }
 
         public Guid GetPersonalUserAccountOrganisation(Guid userId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 Guid userTypeGuid = UserTypeEnum.User.GetGuidValue();
 
-                return scope.DbContext.VUserAccountOrganisationUserTypeOrganisationTypes.Single(s =>
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisationUserTypeOrganisationTypes.Single(s =>
                     s.UserID == userId && s.UserTypeID == userTypeGuid && s.OrganisationType == "Personal").UserAccountOrganisationID;
             }
         }
@@ -577,21 +578,21 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task CreateContactAsync(ContactDTO contactDTO)
         {
             Ensure.That(contactDTO).IsNotNull();
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 Contact contact = contactDTO.ToEntity();
                 //SetAuditFields(contact, true);
-                scope.DbContext.Contacts.Add(contact);
-                await scope.SaveAsync();
+                scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
+                await scope.SaveChangesAsync();
             }
         }
 
         public bool ContactExists(Guid parentID)
         {
             Ensure.That(parentID).IsNot(Guid.Empty);
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.Contacts.Where(item => item.ParentID == parentID).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(item => item.ParentID == parentID).Count() > 0;
             }
         }
 
@@ -606,17 +607,17 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VUserAccountNotLoggedInDTO> GetUserAccountsNotLoggedIn()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.VUserAccountNotLoggedIns.ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountNotLoggedIns.ToDtos();
             }
         }
 
         public async Task SendUsernameReminderAsync(string email)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                foreach (var uao in scope.DbContext.UserAccountOrganisations.Where(x => x.UserAccount.Email == email && x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
+                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email == email && x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
                 {
                     var tempDto = new UsernameReminderDTO
                     {
@@ -647,22 +648,22 @@ namespace Bec.TargetFramework.Business.Logic
         {
             //check user exists
             Data.UserAccount user = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                user = scope.DbContext.UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
+                user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
             }
             if (user != null)
             {
                 var resetGuid = Guid.NewGuid();
-                using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+                using (var scope = DbContextScopeFactory.Create())
                 {
                     var pr = new PasswordResetRequest();
                     pr.RequestID = resetGuid;
                     pr.UserID = user.ID;
                     pr.CreatedDateTime = DateTime.Now;
                     pr.Expired = false;
-                    scope.DbContext.PasswordResetRequests.Add(pr);
-                    await scope.SaveAsync();
+                    scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.Add(pr);
+                    await scope.SaveChangesAsync();
                 }
                 var uao = GetUserAccountOrganisation(user.ID).First();
                 var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
@@ -693,11 +694,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var rr = GetResetRequest(scope, requestID);
                 if (rr != null) rr.Expired = true;
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
 
                 if (rr == null)
                     return Guid.Empty;
@@ -708,15 +709,15 @@ namespace Bec.TargetFramework.Business.Logic
 
         public bool IsPasswordResetRequestValid(Guid requestID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return GetResetRequest(scope, requestID) != null;
             }
         }
 
-        private PasswordResetRequest GetResetRequest(UnitOfWorkScope<TargetFrameworkEntities> scope, Guid requestID)
+        private PasswordResetRequest GetResetRequest(IDbContextReadOnlyScope scope, Guid requestID)
         {
-            var rr = scope.DbContext.PasswordResetRequests.SingleOrDefault(r => r.RequestID == requestID && !r.Expired);
+            var rr = scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.SingleOrDefault(r => r.RequestID == requestID && !r.Expired);
             if (rr != null && (DateTime.Now - rr.CreatedDateTime).TotalMinutes < 10)
                 return rr;
             else
@@ -726,9 +727,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task GeneratePinAsync(Guid uaoID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
 
                 if (!string.IsNullOrEmpty(uao.PinCode)) throw new Exception("Cannot generate pin; pin already exists. Please go back and try again.");
 
@@ -736,7 +737,7 @@ namespace Bec.TargetFramework.Business.Logic
                 uao.PinCreated = DateTime.Now;
                 uao.UserAccount.IsLoginAllowed = true;
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -764,25 +765,25 @@ namespace Bec.TargetFramework.Business.Logic
         private bool PinExists(string pin)
         {
             return false;
-            //using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            //using (var scope = DbContextScopeFactory.CreateReadOnly())
             //{
-            //    return scope.DbContext.Organisations.Any(o => o.CompanyPinCode == pin);
+            //    return scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Any(o => o.CompanyPinCode == pin);
             //}
         }
 
         public async Task<bool> IncrementInvalidPINAsync(Guid uaoID)
         {
             bool ret = false;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 uao.PinAttempts++;
                 if (uao.PinAttempts >= 3)
                 {
                     await OrganisationLogic.ExpireUserAccountOrganisationAsync(uaoID);
                     ret = true;
                 }
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
             return ret;
         }
@@ -791,11 +792,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             Guid[] roles;
             UserTypeEnum userType;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 //copy roles from temp user
-                roles = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
-                var oldUao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
+                roles = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
+                var oldUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
                 userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUao.UserTypeID.ToString()).Value;
             }
             var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
@@ -803,10 +804,10 @@ namespace Bec.TargetFramework.Business.Logic
             //has to be called outside of transaction.
             var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false, false, roles);
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var vStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                var uao = scope.DbContext.UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
                 var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
 
                 //progress status to 'active' if it's only 'verified'
@@ -816,7 +817,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //delete original temp user account
                 await LockUserTemporaryAccountAsync(uao.UserID);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
         }
 
@@ -824,11 +825,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             VUserAccountOrganisationDTO oldUaInfo;
             Guid[] roles = null;
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger, true))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                roles = scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoId).Select(x => x.OrganisationRoleID).ToArray();
-                oldUaInfo = scope.DbContext.VUserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId).ToDto();
-                var orgInfo = scope.DbContext.VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == oldUaInfo.OrganisationID); //will be null if org type != professional
+                roles = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoId).Select(x => x.OrganisationRoleID).ToArray();
+                oldUaInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId).ToDto();
+                var orgInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == oldUaInfo.OrganisationID); //will be null if org type != professional
                 if (orgInfo != null)
                 {                 //check status
                     var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
@@ -855,12 +856,12 @@ namespace Bec.TargetFramework.Business.Logic
             //add new user & email them
             var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, userType, randomUsername, randomPassword, true, true, false, roles);
 
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
                 //disable the old user
-                var user = scope.DbContext.UserAccounts.Single(x => x.ID == newUao.UserID);
+                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(x => x.ID == newUao.UserID);
                 user.IsLoginAllowed = true;
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
             }
 
             //disable old temps
@@ -873,9 +874,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
             }
         }
     }

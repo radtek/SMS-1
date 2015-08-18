@@ -21,25 +21,25 @@ namespace Bec.TargetFramework.Business.Logic
 
         public TransactionOrderDTO GetTransactionForInvoice(Guid invoiceId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.TransactionOrders.Single(s => s.InvoiceID.Equals(invoiceId)).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(s => s.InvoiceID.Equals(invoiceId)).ToDto();
             }
         }
 
         public bool DoesTransactionExistForInvoice(Guid invoiceId)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.TransactionOrders.Any(s => s.InvoiceID.Equals(invoiceId));
+                return scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Any(s => s.InvoiceID.Equals(invoiceId));
             }
         }
 
         public async Task<TransactionOrderDTO> CreateAndSaveTransactionOrderFromShoppingCartDTO(Guid invoiceID, TransactionTypeIDEnum typeEnumValue)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+            using (var scope = DbContextScopeFactory.Create())
             {
-                var invoice = scope.DbContext.Invoices.Single(x => x.InvoiceID == invoiceID);
+                var invoice = scope.DbContexts.Get<TargetFrameworkEntities>().Invoices.Single(x => x.InvoiceID == invoiceID);
                 var cartPrice = CartPricingProcessor.CalculateCartPrice(scope, invoice.ShoppingCartID.Value);
 
                 TransactionOrder order = new TransactionOrder();
@@ -91,7 +91,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 order.VatNumber = invoice.VatNumber;
 
-                scope.DbContext.TransactionOrders.Add(order);
+                scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Add(order);
 
                 // deal with all orderItems
                 foreach (var item in invoice.ShoppingCart.ShoppingCartItems)
@@ -102,13 +102,13 @@ namespace Bec.TargetFramework.Business.Logic
                     var invoiceLineItem = invoice.InvoiceLineItems.Single(s => s.ParentID == item.ShoppingCartItemID);
                     orderItem.InvoiceLineItemID = invoiceLineItem.InvoiceLineItemID;
 
-                    scope.DbContext.TransactionOrderItems.Add(orderItem);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderItems.Add(orderItem);
                 }
 
                 // create initial process status log entry
                 TransactionHelper.CreateTransactionOrderProcessLog(scope,order.TransactionOrderID,TransactionOrderStatusEnum.Active);
 
-                await scope.SaveAsync();
+                await scope.SaveChangesAsync();
                 return order.ToDtoWithRelated(1);
             }
         }
@@ -119,9 +119,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         //    var dtoList = new List<TransactionOrderDTO>();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
-        //        scope.DbContext.TransactionOrders.Include("TransactionOrderItems").Where(item => orderIds.Contains(item.TransactionOrderID)).ToList().ForEach(item =>
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Include("TransactionOrderItems").Where(item => orderIds.Contains(item.TransactionOrderID)).ToList().ForEach(item =>
         //        {
         //            var dto = new TransactionOrderDTO();
         //            dto.TransactionOrderItems = new List<TransactionOrderItemDTO>();
@@ -150,9 +150,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         //    TransactionOrderDTO dto = null;
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
-        //        var ti = scope.DbContext.TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(orderGuid));
+        //        var ti = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(orderGuid));
                
         //        dto = new TransactionOrderDTO();
         //        dto.TransactionOrderItems = new List<TransactionOrderItemDTO>();
@@ -178,7 +178,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger,true))
         //    {
-        //        var ti = scope.DbContext.TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(order.TransactionOrderID));
+        //        var ti = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(order.TransactionOrderID));
 
         //        ti.TransactionOrderItems.ToList().ForEach(item =>
         //        {
@@ -189,7 +189,7 @@ namespace Bec.TargetFramework.Business.Logic
         //        ti.IsDeleted = true;
         //        ti.IsActive = false;
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
@@ -197,9 +197,9 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    var dtoList = new List<TransactionOrderDTO>();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
-        //        IQueryable<TransactionOrder> query = scope.DbContext.TransactionOrders.Include("TransactionOrderItems");
+        //        IQueryable<TransactionOrder> query = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Include("TransactionOrderItems");
 
         //        if (parentID.HasValue)
         //        {
@@ -258,7 +258,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         //        to.TransactionOrderID = Guid.NewGuid();
 
-        //        scope.DbContext.TransactionOrders.Add(to);
+        //        scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Add(to);
 
         //        if (order.TransactionOrderItems != null)
         //        {
@@ -269,11 +269,11 @@ namespace Bec.TargetFramework.Business.Logic
         //                toi.OrderItemID = Guid.NewGuid();
         //                toi.OrderID = to.TransactionOrderID;
                              
-        //                scope.DbContext.TransactionOrderItems.Add(toi);
+        //                scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderItems.Add(toi);
         //            });
         //        }
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
@@ -281,9 +281,9 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    Ensure.That(order).IsNotNull();
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+        //    using (var scope = DbContextScopeFactory.Create())
         //    {
-        //        var ti = scope.DbContext.TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(order.TransactionOrderID));
+        //        var ti = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Include("TransactionOrderItems").Single(item => item.TransactionOrderID.Equals(order.TransactionOrderID));
 
         //        // update values
         //        ti.InjectFrom<NullableInjection>(new IgnoreProps(new string[] { "TransactionOrderID", "TransactionOrderItems" }), order);
@@ -331,7 +331,7 @@ namespace Bec.TargetFramework.Business.Logic
         //            }
         //        }
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
 
@@ -346,9 +346,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         //    TransactionOrderItemDTO dto = null;
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+        //    using (var scope = DbContextScopeFactory.CreateReadOnly())
         //    {
-        //        var ti = scope.DbContext.TransactionOrderItems.Single(item => item.OrderItemID.Equals(orderItemGuid));
+        //        var ti = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderItems.Single(item => item.OrderItemID.Equals(orderItemGuid));
 
         //        dto = new TransactionOrderItemDTO();
 
@@ -368,14 +368,14 @@ namespace Bec.TargetFramework.Business.Logic
         //{
         //    Ensure.That(orderItem);
 
-        //    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, this.Logger, true))
+        //    using (var scope = DbContextScopeFactory.Create())
         //    {
-        //        var ti = scope.DbContext.TransactionOrderItems.Single(item => item.OrderItemID.Equals(orderItem.OrderItemID));
+        //        var ti = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrderItems.Single(item => item.OrderItemID.Equals(orderItem.OrderItemID));
 
         //        ti.IsDeleted = true;
         //        ti.IsActive = false;
 
-        //        if (!scope.Save()) throw new Exception(scope.EntityErrors.Dump());;
+        //        if (!scope.SaveChanges()) throw new Exception(scope.EntityErrors.Dump());;
         //    }
         //}
     }

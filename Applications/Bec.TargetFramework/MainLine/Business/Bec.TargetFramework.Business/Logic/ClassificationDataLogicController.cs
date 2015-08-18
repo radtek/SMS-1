@@ -19,9 +19,9 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<CountryCodeDTO> GetCountries()
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.CountryCodes.ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().CountryCodes.ToDtos();
             }
         }
 
@@ -44,10 +44,10 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (cachedList == null)
                 {
-                    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+                    using (var scope = DbContextScopeFactory.CreateReadOnly())
                     {
                         // load all vclassification
-                        cachedList = scope.DbContext.VClassifications.ToDtos();
+                        cachedList = scope.DbContexts.Get<TargetFrameworkEntities>().VClassifications.ToDtos();
                         cacheClient.Set<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
                     }
                 }
@@ -70,9 +70,9 @@ namespace Bec.TargetFramework.Business.Logic
         /// <returns></returns>
         public List<ClassificationTypeDTO> GetSubClassificationDataForParentID(int classificationTypeID)
         {
-            using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContext.ClassificationTypes.Where(x => x.ClassificationTypeID == classificationTypeID).OrderBy(x => x.Name).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().ClassificationTypes.Where(x => x.ClassificationTypeID == classificationTypeID).OrderBy(x => x.Name).ToDtos();
             }
         }
 
@@ -91,10 +91,10 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (cachedList == null)
                 {
-                    using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, this.Logger))
+                    using (var scope = DbContextScopeFactory.CreateReadOnly())
                     {
                         // load all vclassification
-                        cachedList = scope.DbContext.VClassifications.ToDtos();
+                        cachedList = scope.DbContexts.Get<TargetFrameworkEntities>().VClassifications.ToDtos();
                         cacheClient.Set<List<VClassificationDTO>>(key, cachedList, DateTime.Now.AddHours(1));
                     }
                 }
