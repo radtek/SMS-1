@@ -57,13 +57,16 @@
                                         @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3" })
                                     </label>
                                 </section>
-                                <section>
-                                    <label class="checkbox ">
-                                        @Html.CheckBoxFor(m => m.Model.UserAccount.IsActive, new { tabindex = "4", id="activeCheck" })
-                                        <i></i>
-                                        <label for="activeCheck">Enable Login</label>
-                                    </label>
-                                </section>
+                                @if (Context.GetWebUserObject().UaoID != ViewBag.uaoID)
+                                {
+                                    <section>
+                                        <label class="checkbox ">
+                                            @Html.CheckBoxFor(m => m.Model.UserAccount.IsActive, new { tabindex = "4", id = "activeCheck" })
+                                            <i></i>
+                                            <label for="activeCheck">Enable Login</label>
+                                        </label>
+                                    </section>
+                                }
 
                                 <section>
                                     <label class="label">Roles</label>
@@ -100,7 +103,7 @@
 <script type="text/javascript">
 
     function ignore(e) {
-        if(e) e.preventDefault();
+        if (e) e.preventDefault();
     }
 
     function countRoles() {
