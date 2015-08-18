@@ -45,9 +45,6 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
-
-            // controller config
-            builder.RegisterType<InternalNotificationsAlertController>().InstancePerDependency();
         }
     }
 }
