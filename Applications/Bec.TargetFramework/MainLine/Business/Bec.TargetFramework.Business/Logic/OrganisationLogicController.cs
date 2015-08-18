@@ -15,7 +15,6 @@ using EnsureThat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Business.Logic
@@ -460,7 +459,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         public List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
         {
-            Logger.Trace("GetOrganisationBankAccounts user {0} thread {1}", UserNameService.UserName, Thread.CurrentThread.ManagedThreadId);
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading, Logger))
             {
                 var ret = scope.DbContext.VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
@@ -676,7 +674,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         private async Task AddStatus(OrganisationBankAccountAddStatusDTO bankAccountAddStatus)
         {
-            Logger.Trace("AddStatus user {0} thread {1}", UserNameService.UserName, Thread.CurrentThread.ManagedThreadId);
             using (var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Writing, Logger, true))
             {
                 string updatedBy = bankAccountAddStatus.BankAccountOrganisationID != bankAccountAddStatus.OrganisationID
