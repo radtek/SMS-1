@@ -1,5 +1,4 @@
-﻿@using Bec.TargetFramework.Entities.Enums
-<!-- MAIN CONTENT -->
+﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
 
@@ -7,32 +6,46 @@
         <a data-href="#" id="amendCreditButton" class="btn btn-primary btn-sm inline-heading" data-modallink="true" disabled>Amend Credit</a>
         <br />
 
-        <div class="col-sm-12">
-
+        <div class="col-sm-12 well">
+            <div class="row form-group">
+                <div class="col-sm-2">
+                    <input type="hidden" id="orgID" />
+                    <input type="text" id="orgSearch" class="form-control" placeholder="Enter Firm Name"/>
+                    <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input class="form-control" id="from" type="text" placeholder="From" data-mask="99/99/9999">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input class="form-control" id="to" type="text" placeholder="To" data-mask="99/99/9999">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                        <select id="creditsOnly" class="form-control">
+                            <option value="">All</option>
+                            <option value="true">Credits</option>
+                            <option value="false">Debits</option>
+                        </select>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-default" onclick="applyFilter()">Filter</button>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="text" id="orgSearch" class="typeahead" style="width:250px;" placeholder="Enter Firm Name" />
-                    <input type="hidden" id="orgID" />
-                    <input type="date" id="from" />
-                    <input type="date" id="to" />
-                    <select id="creditsOnly">
-                        <option value="">All</option>
-                        <option value="true">Credits</option>
-                        <option value="false">Debits</option>
-                    </select>
-                    <button onclick="applyFilter()">Filter</button>
-
-                    <br />
-                    <br />
-
-                    <div class="well">
+                    <div class="margin-top-10">
                         <div id="statementGrid"></div>
                     </div>
                 </div>
             </div>
 
             <div class="row hidden" id="rPanel">
-                <div class="col-sm-6">
+                <div class="col-sm-6  margin-top-10">
                     <!-- well -->
                     <div class="well">
 
@@ -62,87 +75,88 @@
     var shownMessage = false;
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     var statementGrid = new gridItem(
-        {
-            gridElementId: 'statementGrid',
-            url: '@Url.Action("GetStatement", "Finance", new { area = "Admin" })',
-            schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
-            type: 'odata-v4',
-            serverSorting: true,
-            serverPaging: true,
-            defaultSort: { field: "BalanceOn", dir: "asc" },
-            panels: ['rPanel'],
-            change: txChange,
-            extraParameters: function () {
-                return "&from=" + $('#from').val() + "&to=" + $('#to').val() + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
+    {
+        gridElementId: 'statementGrid',
+        url: '@Url.Action("GetStatement", "Finance", new {area = "Admin"})',
+        schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
+        type: 'odata-v4',
+        serverSorting: true,
+        serverPaging: true,
+        defaultSort: { field: "BalanceOn", dir: "asc" },
+        panels: ['rPanel'],
+        change: txChange,
+        onLoadFailed: function (data) {
+            console.log(data);
+            var title = "Invalid Request";
+            var message = "The request made is invalid. Make sure your search criteria are corect.";
+            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=" + title + "&message=" + message + "&button=Back" }, {}, true);
+        },
+        extraParameters: function () {
+            var selectedDateRange = getSelectedDateRange();
+            return "&from=" + selectedDateRange.from + "&to=" + selectedDateRange.to + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
+        },
+        columns: [
+            {
+                field: "InvoiceReference",
+                title: "Reference",
+                sortable: false
             },
-            columns: [
-                    {
-                        field: "InvoiceReference",
-                        title: "Reference",
-                        sortable: false
-                    },
-                    {
-                        field: "Amount",
-                        title: "Amount",
-                        sortable: false
-                    },
-                    {
-                        field: "Balance",
-                        title: "Balance",
-                        sortable: false
-                    },
-                    {
-                        field: "BalanceOn",
-                        title: "Date",
-                        template: function (dataItem) { return dateString(dataItem.BalanceOn); }
-                    },
-                    {
-                        field: "CreatedByName",
-                        title: "Created By",
-                        sortable: false
-                    }
-            ]
-        });
+            {
+                field: "Amount",
+                title: "Amount",
+                sortable: false
+            },
+            {
+                field: "Balance",
+                title: "Balance",
+                sortable: false
+            },
+            {
+                field: "BalanceOn",
+                title: "Date",
+                template: function (dataItem) { return dateString(dataItem.BalanceOn); }
+            },
+            {
+                field: "CreatedByName",
+                title: "Created By",
+                sortable: false
+            }
+        ]
+    });
 
-    var bestPictures = new Bloodhound({
+    var companies = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         identify: function (datum) {
             return datum.OrganisationID;
         },
         remote: {
-            url: '@Url.Action("SearchCompany", "Finance", new { Area = "Admin" })' + '?search=%QUERY',
+            url: '@Url.Action("SearchCompany", "Finance", new {Area = "Admin"})' + '?search=%QUERY',
                 wildcard: '%QUERY',
-                transform: function (response) {
+                transform: function(response) {
                     return response.Items;
                 }
             }
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             findModalLinks();
-
-            var now = new Date();
-
-            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10)); //I wonder what happens about leap years
-            $('#to').val(now.toJSON().slice(0, 10));
-
+            setupDateRangeInputs();
             statementGrid.makeGrid();
-
-            $('#orgSearch').typeahead(null, {
-                display: 'value',
-                source: bestPictures,
-                display: 'Name'
-            }).on("typeahead:selected typeahead:autocompleted", function (e, datum) {
-                $('#orgID').val(datum.OrganisationID);
-                $("#amendCreditButton").attr('disabled', false);
-                $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new { area = "Admin" })' + "?orgId=" + datum.OrganisationID);
-                applyFilter();
-            });
+            setupAutocomplete();
         });
 
         function applyFilter() {
             statementGrid.refreshGrid();
+        }
+
+        function getSelectedDateRange() {
+            var dateFrom = moment($('#from').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var dateTo = moment($('#to').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            return {
+                from: dateFrom,
+                to: dateTo
+            };
         }
 
         //data binding for the panes beneath each grid
@@ -151,6 +165,75 @@
             $("p#ddAmount").text(dataItem.Amount || "");
             $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
             $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
+        }
+
+        function setupAutocomplete() {
+            $('#orgSearch').typeahead({
+                minLength: 1,
+                highlight: true,
+                hint: false
+            }, {
+                display: 'value',
+                source: companies,
+                display: 'Name',
+                templates: {
+                    empty: [
+                        '<div class="empty-message">',
+                            'Unable to find any company that match the current query',
+                        '</div>'
+                    ].join('\n')
+                }
+            })
+            .on("typeahead:selected typeahead:autocompleted", function (e, datum) {
+                $('#orgID').val(datum.OrganisationID);
+                $("#amendCreditButton").attr('disabled', false);
+                $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})' + "?orgId=" + datum.OrganisationID);
+                applyFilter();
+            })
+            .on('typeahead:asyncrequest', function () {
+                $('#orgSearch').parent().siblings('.typeahead-spinner').show();
+            })
+            .on('typeahead:asynccancel typeahead:asyncreceive', function () {
+                $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
+            });
+        }
+
+        function setupDateRangeInputs() {
+            var dateTo = new Date();
+            var dateFrom = new Date(dateTo.getFullYear() - 1, dateTo.getMonth(), dateTo.getDate());
+
+            // Date Range Picker
+            $("#from").datepicker({
+                defaultDate: dateFrom,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                showButtonPanel: true,
+                prevText: "<i class=\"fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"fa fa-chevron-right\"></i>",
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            }).datepicker("setDate", dateFrom);
+
+            $("#to").datepicker({
+                defaultDate: dateTo,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                showButtonPanel: true,
+                maxDate: dateTo,
+                prevText: "<i class=\"fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"fa fa-chevron-right\"></i>",
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            }).datepicker("setDate", dateTo);
+
+            $("#from ~ .input-group-addon").click(function () {
+                $("#from").datepicker("show");
+            });
+            $("#to ~ .input-group-addon").click(function () {
+                $("#to").datepicker("show");
+            });
         }
 
     </script>
