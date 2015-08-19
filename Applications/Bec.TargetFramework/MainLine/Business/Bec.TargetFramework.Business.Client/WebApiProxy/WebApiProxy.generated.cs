@@ -556,12 +556,36 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
 		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="firstName"></param>
+		/// <param name="lastName"></param>
+		/// <param name="email"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsTransactionAsync(Guid orgID,SmsTransactionDTO dto);
+		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String firstName,String lastName,String email);
 
 		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="firstName"></param>
+		/// <param name="lastName"></param>
+		/// <param name="email"></param>
 		/// <returns></returns>
-		Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto);
+		Guid AddSmsClient(Guid orgID,Guid uaoID,String firstName,String lastName,String email);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="buyerUaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <returns></returns>
+		Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="buyerUaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <returns></returns>
+		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -609,15 +633,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="amount"></param>
+		/// <param name="rowVersion"></param>
 		/// <returns></returns>
-		Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount);
+		Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="amount"></param>
+		/// <param name="rowVersion"></param>
 		/// <returns></returns>
-		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount);
+		void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -670,6 +696,26 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		TransactionOrderPaymentDTO ProcessPaymentTransaction(OrderRequestDTO request);
 
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
+		/// <param name="reference"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		Task<Guid> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
+
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
+		/// <param name="reference"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		Guid PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
+
 		/// <returns></returns>
 		Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto);
 
@@ -684,6 +730,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		ProductDTO GetTopUpProduct();
+
+		/// <returns></returns>
+		Task<ProductDTO> GetBankAccountCheckProductAsync();
+
+		/// <returns></returns>
+		ProductDTO GetBankAccountCheckProduct();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
@@ -1169,12 +1221,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Boolean IsPasswordResetRequestValid(Guid requestID);
 
 		/// <param name="uaoID"></param>
+		/// <param name="blank"></param>
 		/// <returns></returns>
-		Task GeneratePinAsync(Guid uaoID);
+		Task GeneratePinAsync(Guid uaoID,Boolean blank);
 
 		/// <param name="uaoID"></param>
+		/// <param name="blank"></param>
 		/// <returns></returns>
-		void GeneratePin(Guid uaoID);
+		void GeneratePin(Guid uaoID,Boolean blank);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -2650,21 +2704,64 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="firstName"></param>
+		/// <param name="lastName"></param>
+		/// <param name="email"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsTransactionAsync(Guid orgID,SmsTransactionDTO dto)
+		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String firstName,String lastName,String email)
 		{
+			firstName = firstName.UrlEncode();
+			lastName = lastName.UrlEncode();
+			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID, dto, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual Guid AddSmsTransaction(Guid orgID,SmsTransactionDTO dto)
+		/// <param name="uaoID"></param>
+		/// <param name="firstName"></param>
+		/// <param name="lastName"></param>
+		/// <param name="email"></param>
+		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String firstName,String lastName,String email)
+		{
+			firstName = firstName.UrlEncode();
+			lastName = lastName.UrlEncode();
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="buyerUaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID, dto, _user)).Result;
+			return PostAsync<object, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="buyerUaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		public virtual Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2783,11 +2880,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="amount"></param>
+		/// <param name="rowVersion"></param>
 		/// <returns></returns>
-		public virtual Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount)
+		public virtual Task AddCreditAsync(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user);
 		}
 
 		/// <summary>
@@ -2797,10 +2895,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="transactionOrderID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="amount"></param>
-		public virtual void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount)
+		/// <param name="rowVersion"></param>
+		public virtual void AddCredit(Guid orgID,Guid transactionOrderID,Guid uaoID,Decimal amount,Nullable<Int64> rowVersion)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddCreditAsync?orgID=" + orgID + "&transactionOrderID=" + transactionOrderID + "&uaoID=" + uaoID + "&amount=" + amount + "&rowVersion=" + rowVersion, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -2954,6 +3053,41 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
+		/// <param name="reference"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
+		{
+			reference = reference.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object, Guid>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <param name="cardType"></param>
+		/// <param name="methodType"></param>
+		/// <param name="reference"></param>
+		/// <param name="amount"></param>
+		public virtual Guid PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
+		{
+			reference = reference.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Guid>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <returns></returns>
 		public virtual Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto)
 		{
@@ -3009,6 +3143,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetTopUpProduct", _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<ProductDTO> GetBankAccountCheckProductAsync()
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<ProductDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual ProductDTO GetBankAccountCheckProduct()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user)).Result;
 		}
 
 		#endregion
@@ -4334,21 +4487,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="blank"></param>
 		/// <returns></returns>
-		public virtual Task GeneratePinAsync(Guid uaoID)
+		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID, null, _user);
+			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual void GeneratePin(Guid uaoID)
+		/// <param name="blank"></param>
+		public virtual void GeneratePin(Guid uaoID,Boolean blank)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user)).Wait();
 		}
 
 		/// <summary>

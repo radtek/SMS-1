@@ -21,7 +21,15 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Credit Top Up").ToDtoWithRelated(1);
+            }
+        }
+
+        public ProductDTO GetBankAccountCheckProduct()
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Bank Account Check").ToDtoWithRelated(1);
             }
         }
 

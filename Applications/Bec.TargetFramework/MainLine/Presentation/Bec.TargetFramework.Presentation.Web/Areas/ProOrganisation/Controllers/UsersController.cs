@@ -152,7 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [HttpPost]
         public async Task<ActionResult> GeneratePin(Guid uaoId, Guid userId)
         {
-            await userClient.GeneratePinAsync(uaoId);
+            await userClient.GeneratePinAsync(uaoId, false);
 
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;

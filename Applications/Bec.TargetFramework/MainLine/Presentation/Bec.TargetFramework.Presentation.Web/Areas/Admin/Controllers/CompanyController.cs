@@ -96,7 +96,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
-            await UserLogicClient.GeneratePinAsync(uaoId);
+            await UserLogicClient.GeneratePinAsync(uaoId, false);
             
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);

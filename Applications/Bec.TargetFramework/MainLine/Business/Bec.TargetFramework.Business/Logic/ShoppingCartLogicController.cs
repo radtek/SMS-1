@@ -63,17 +63,17 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                var cart = scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCarts.Single(x => x.ShoppingCartID == cartID);
                 var product = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == versionNumber);
 
                 var newItem = new ShoppingCartItem
                 {
                     ShoppingCartItemID = Guid.NewGuid(),
+                    ShoppingCartID = cartID,
                     Product = product,
                     Quantity = quantity,
                     CustomerPrice = customerPrice
                 };
-                cart.ShoppingCartItems.Add(newItem);
+                scope.DbContexts.Get<TargetFrameworkEntities>().ShoppingCartItems.Add(newItem);
                 await scope.SaveChangesAsync();
             }
         }

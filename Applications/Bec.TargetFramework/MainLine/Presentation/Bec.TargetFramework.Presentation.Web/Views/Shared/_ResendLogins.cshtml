@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action(ViewBag.RedirectAction, ViewBag.RedirectController, new { area = ViewBag.RedirectArea, uaoId = ViewBag.uaoId })" method="POST" id="resendLogins-form" class="smart-form">
+                        <form action="@Url.Action(ViewBag.RedirectAction, ViewBag.RedirectController, new { area = ViewBag.RedirectArea, uaoId = ViewBag.uaoId, txID = ViewBag.txID })" method="POST" id="resendLogins-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>

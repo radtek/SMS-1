@@ -22,18 +22,15 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        <a id="purchaseButton" class="btn btn-primary btn-sm" data-modallink="true">Purchase Product</a>
+                        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true">Edit Transaction</a>
+                        <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
                         <h5>Selected Transaction</h5>
                         <dl class="dl-horizontal">
-                            <dt>Address:</dt>
-                            <dd><p id="ddAddress"></p></dd>
-                            <dt>Postcode:</dt>
-                            <dd><p id="ddPostcode"></p></dd>
-                            <dt>Internal Reference:</dt>
-                            <dd><p id="ddReference"></p></dd>
-                            <dt>Price:</dt>
-                            <dd><p id="ddPrice" data-a-sign="£"></p></dd>
-                            <dt>Created:</dt>
+                            <dt>Name:</dt>
+                            <dd><p id="ddName"></p></dd>
+                            <dt>Email:</dt>
+                            <dd><p id="ddEmail"></p></dd>
+                            <dt>CreatednOn:</dt>
                             <dd><p id="ddCreated"></p></dd>
                         </dl>
                     </div>
@@ -45,67 +42,62 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="~/Scripts/autoNumeric.js"></script>
     <script type="text/javascript">
 
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var txGrid = new gridItem(
-            {
-                gridElementId: 'txGrid',
-                url: '@Url.Action("GetSmsTransactions", "Buyer", new { area = "SmsTransaction" })',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "SmsTransactionID", dir: "asc" },
-                panels: ['rPanel'],
-                jumpToId: '@TempData["SmsTransactionID"]',
-                change: txChange,
-                searchElementId: 'gridSearchInput',
-                searchButtonId: 'gridSearchButton',
-                columns: [
-                        {
-                            field: "SmsTransactionID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Reference",
-                            title: "Reference"
-                        },
-                        {
-                            field: "CreatedOn",
-                            title: "Created",
-                            template: function (dataItem) { return dateString(dataItem.CreatedOn); }
-                        },
-                        {
-                            field: "Address.Line1",
-                            title: "Address Line 1"
-                        },
-                        {
-                            field: "Address.PostalCode",
-                            title: "Postcode"
+    //set up grid options for the three grids. most are passed straight on to kendo grid.
+    var txGrid = new gridItem(
+        {
+            gridElementId: 'txGrid',
+            url: '@Url.Action("GetSmsTransactions", "Buyer", new { area = "SmsTransaction" })',
+            schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
+            type: 'odata-v4',
+            serverSorting: true,
+            serverPaging: true,
+            defaultSort: { field: "SmsTransactionID", dir: "asc" },
+            panels: ['rPanel'],
+            jumpToId: '@TempData["SmsTransactionID"]',
+            change: txChange,
+            searchElementId: 'gridSearchInput',
+            searchButtonId: 'gridSearchButton',
+            columns: [
+                    {
+                        field: "SmsTransactionID",
+                        hidden: true,
+                    },
+                    {
+                        field: "UserAccountOrganisation.Contact.LastName",
+                        title: "Name",
+                        template: function (dataItem) {
+                            return dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName;
                         }
-                ]
-            });
-
-        $(document).ready(function () {
-            txGrid.makeGrid();
-
-            findModalLinks();
-
-            $("p#ddPrice").autoNumeric('init', { mDec: '0' });
+                    },
+                    {
+                        field: "UserAccountOrganisation.UserAccount.Email",
+                        title: "Email"
+                    },
+                    {
+                        field: "CreatedOn",
+                        title: "Created",
+                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                    }
+            ]
         });
 
-        //data binding for the panes beneath each grid
-        function txChange(dataItem) {
-            $("p#ddAddress").text(dataItem.Address.Line1 || "");
-            $("p#ddPostcode").text(dataItem.Address.PostalCode || "");
-            $("p#ddReference").text(dataItem.Reference || "");
-            $("p#ddPrice").autoNumeric('set', dataItem.Price);
-            $("p#ddCreated").text(dateString(dataItem.CreatedOn));
+    $(document).ready(function () {
+        txGrid.makeGrid();
 
-            $("#purchaseButton").data('href', '@Url.Action("ViewPurchase", "Buyer", new { area = "SmsTransaction" })' + "?smsTransactionId=" + dataItem.SmsTransactionID);
-        }
+        findModalLinks();
+    });
+
+    //data binding for the panes beneath each grid
+    function txChange(dataItem) {
+        $("p#ddName").text(dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName);
+        $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
+        $("p#ddCreated").text(dateString(dataItem.CreatedOn));
+
+        $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
+        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" + encodeURIComponent(dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName));
+    }
 
     </script>
 }

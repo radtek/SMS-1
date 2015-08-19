@@ -36,7 +36,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return RedirectToAction("Index", "Login", new { area = "Account" });
             }
             else
+            {
+                var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(uaDTO.ID)).Single();
+                ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
                 return View();
+            }
         }
 
         [HttpPost]
@@ -59,6 +63,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
+            ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
             if (model.Pin != userAccountOrg.PinCode)
             {
                 //increment invalid pin count.

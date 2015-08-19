@@ -305,13 +305,17 @@ namespace Bec.TargetFramework.Business.Logic
                     //process credit type product events
                     var txOrder = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(x => x.TransactionOrderID == request.TransactionOrderID);
                     var creditProd = ProductLogic.GetTopUpProduct();
-                    foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems.Where(x => x.ProductID == creditProd.ProductID))
+
+                    foreach (var cartItem in txOrder.Invoice.ShoppingCart.ShoppingCartItems)
                     {
-                        await OrganisationLogic.AddCreditAsync(
-                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
-                            request.TransactionOrderID,
-                            txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
-                            cartItem.CustomerPrice.Value);
+                        if (cartItem.ProductID == creditProd.ProductID)
+                        {
+                            await OrganisationLogic.AddCreditAsync(
+                                txOrder.Invoice.ShoppingCart.UserAccountOrganisation.OrganisationID,
+                                request.TransactionOrderID,
+                                txOrder.Invoice.ShoppingCart.UserAccountOrganisation.UserAccountOrganisationID,
+                                cartItem.CustomerPrice.Value);
+                        }
                     }
                 }
 
@@ -321,27 +325,32 @@ namespace Bec.TargetFramework.Business.Logic
             return responseDto;
         }
 
+        public async Task<Guid> PurchaseProduct(Guid uaoID, Guid productID, int productVersion, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, string reference, decimal? amount)
+        {
+            var cart = await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
+            await ShoppingCartLogic.AddProductToShoppingCartAsync(cart.ShoppingCartID, productID, productVersion, 1, amount);
+            var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, reference);
+            var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
+            return transactionOrder.TransactionOrderID;
+        }
+
         public async Task AmendCredit(CreditAdjustmentDTO creditAdjustmentDto)
         {
             var prod = ProductLogic.GetTopUpProduct();
-            var cart = await ShoppingCartLogic.CreateShoppingCartAsync(creditAdjustmentDto.UserAccountOrganisationId, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "UK");
-            await ShoppingCartLogic.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, creditAdjustmentDto.Amount);
-            var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Amend");
-            var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            await OrganisationLogic.AddCreditAsync(creditAdjustmentDto.OrganisationId, transactionOrder.TransactionOrderID, creditAdjustmentDto.UserAccountOrganisationId, creditAdjustmentDto.Amount);
+            var transactionOrderID = await PurchaseProduct(creditAdjustmentDto.UserAccountOrganisationId, prod.ProductID, prod.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Amend", creditAdjustmentDto.Amount);
+            await OrganisationLogic.AddCreditAsync(creditAdjustmentDto.OrganisationId, transactionOrderID, creditAdjustmentDto.UserAccountOrganisationId, creditAdjustmentDto.Amount);
             var organisationLedgerAccount = OrganisationLogic.GetCreditAccount(creditAdjustmentDto.OrganisationId);
-            await PublishCreditAdjustmentNotification(creditAdjustmentDto, organisationLedgerAccount, transactionOrder);
+            await PublishCreditAdjustmentNotification(creditAdjustmentDto, organisationLedgerAccount, transactionOrderID);
         }
 
-        private async Task PublishCreditAdjustmentNotification(CreditAdjustmentDTO creditAdjustmentDto, OrganisationLedgerAccountDTO organisationLedgerAccountDto,
-            TransactionOrderDTO transactionOrderDto)
+        private async Task PublishCreditAdjustmentNotification(CreditAdjustmentDTO creditAdjustmentDto, OrganisationLedgerAccountDTO organisationLedgerAccountDto, Guid transactionOrderID)
         {
             var organisation = OrganisationLogic.GetOrganisationDTO(creditAdjustmentDto.OrganisationId);
             var notificationDto = new CreditAdjustmentNotificationDTO
             {
                 OrganisationId = creditAdjustmentDto.OrganisationId,
                 Reason = creditAdjustmentDto.Reason,
-                DetailsUrl = string.Format(creditAdjustmentDto.DetailsUrlFormat, transactionOrderDto.TransactionOrderID),
+                DetailsUrl = string.Format(creditAdjustmentDto.DetailsUrlFormat, transactionOrderID),
                 ModifiedBy = organisation.Name,
                 ModifiedOn = DateTime.Now.ToString("g"),
                 NewBalance = organisationLedgerAccountDto.Balance.ToString("N")
