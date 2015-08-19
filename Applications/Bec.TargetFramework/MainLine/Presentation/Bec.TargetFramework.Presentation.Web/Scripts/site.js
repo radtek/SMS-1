@@ -20,11 +20,20 @@ function getGridDataFromUrl(gridOptions) {
             data: dataMap(options.data, gridOptions),
             cache: false
         };
-        ajaxWrapper(ajaxOptions).done(function (result) {
-            options.success(result);
-        });
+        ajaxWrapper(ajaxOptions)
+            .then(function (result) {
+                options.success(result);
+                if (gridOptions.onLoaded) {
+                    gridOptions.onLoaded(result);
+                }
+            }, function (data) {
+                options.error(data);
+                if (gridOptions.onLoadFailed) {
+                    gridOptions.onLoadFailed(data);
+                }
+            });
     };
-}
+};
 
 function dataMap(data, gridOptions) {
 
@@ -298,7 +307,7 @@ var gridItem = function (options) {
     };
 }
 
-function showHistory(selector, dataItem){
+function showHistory(selector, dataItem) {
     $(selector).empty();
     for (var i = 0; i < dataItem.History.length; i++) {
         var h = dataItem.History[i];

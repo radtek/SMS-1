@@ -6,25 +6,38 @@
         <a data-href="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Top Up Credit</a>
         <br />
 
-        <div class="col-sm-12">
+        <div class="col-sm-12 well">
 
             <div class="row">
-                <div class="col-sm-12">
-                    <input type="date" id="from" />
-                    <input type="date" id="to" />
-                    <button onclick="applyFilter()">Filter</button>
-
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input class="form-control" id="from" type="text" placeholder="From">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input class="form-control" id="to" type="text" placeholder="To">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-default" onclick="applyFilter()">
+                        Filter
+                    </button>
+                </div>
+                <div class="col-sm-6">
                     <div class="pull-right">
                         <span>Opening Balance: </span>
                         <span id="openingBal"></span>
                         <span>&nbsp;Closing Balance: </span>
-                        <span id="closingBal" style="margin-right:8px;"></span>
+                        <span id="closingBal" style="margin-right: 8px;"></span>
                     </div>
-
-                    <br />
-                    <br />
-
-                    <div class="well">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="margin-top-10">
                         <div id="statementGrid"></div>
                     </div>
                 </div>
@@ -71,8 +84,15 @@
                 panels: ['rPanel'],
                 change: txChange,
                 jumpToId: '@ViewBag.TransactionOrderId',
+                onLoadFailed: function (data) {
+                    console.log(data);
+                    var title = "Invalid Request";
+                    var message = "The request made is invalid. Make sure your search criteria are corect.";
+                    handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=" + title + "&message=" + message + "&button=Back" }, { }, true);
+                },
                 extraParameters: function () {
-                    return "&from=" + $('#from').val() + "&to=" + $('#to').val();
+                    var selectedDateRange = getSelectedDateRange();
+                    return "&from=" + selectedDateRange.from + "&to=" + selectedDateRange.to;
                 },
                 columns: [
                         {
@@ -107,12 +127,7 @@
 
         $(document).ready(function () {
             findModalLinks();
-
-            var now = new Date();
-
-            $('#from').val(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()).toJSON().slice(0, 10)); //I wonder what happens about leap years
-            $('#to').val(now.toJSON().slice(0, 10));
-
+            setupDateRangeInputs();
             statementGrid.makeGrid();
             updateBalances();
         });
@@ -123,11 +138,13 @@
         }
 
         function updateBalances() {
-            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=true&date=' + $('#from').val() })
+            var selectedDateRange = getSelectedDateRange();
+
+            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=true&date=' + selectedDateRange.from })
                 .done(function (res) {
                     $('#openingBal').text(formatCurrency(parseFloat(res)));
                 });
-            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + $('#to').val() })
+            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + selectedDateRange.to })
                 .done(function (res) {
                     $('#closingBal').text(formatCurrency(parseFloat(res)));
                 });
@@ -139,6 +156,53 @@
             $("p#ddAmount").text(formatCurrency(dataItem.Amount));
             $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
             $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
+        }
+
+        function getSelectedDateRange() {
+            var dateFrom = moment($('#from').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            var dateTo = moment($('#to').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
+            return {
+                from: dateFrom,
+                to: dateTo
+            };
+        }
+
+        function setupDateRangeInputs() {
+            var dateTo = new Date();
+            var dateFrom = new Date(dateTo.getFullYear() - 1, dateTo.getMonth(), dateTo.getDate());
+
+            // Date Range Picker
+            $("#from").datepicker({
+                defaultDate: dateFrom,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                showButtonPanel: true,
+                prevText: "<i class=\"fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"fa fa-chevron-right\"></i>",
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            }).datepicker("setDate", dateFrom);
+
+            $("#to").datepicker({
+                defaultDate: dateTo,
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                showButtonPanel: true,
+                maxDate: dateTo,
+                prevText: "<i class=\"fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"fa fa-chevron-right\"></i>",
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            }).datepicker("setDate", dateTo);
+
+            $("#from ~ .input-group-addon").click(function () {
+                $("#from").datepicker("show");
+            });
+            $("#to ~ .input-group-addon").click(function () {
+                $("#to").datepicker("show");
+            });
         }
 
     </script>
