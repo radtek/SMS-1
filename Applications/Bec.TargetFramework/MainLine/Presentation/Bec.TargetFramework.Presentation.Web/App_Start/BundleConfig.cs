@@ -24,7 +24,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
-                "~/Scripts/app.min.js"
+                "~/Scripts/app.min.js",
+                "~/Scripts/Bec/bec.jquery.validation.dategb.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(
