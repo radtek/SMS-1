@@ -491,6 +491,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task UpdateSmsTransactionUaoAsync(Guid oldID, Guid newID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.UserAccountOrganisationID == oldID))
+                    smsTx.UserAccountOrganisationID = newID;
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
         public List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())

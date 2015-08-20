@@ -1,6 +1,7 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,6 +15,7 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
+    [ClaimsRequired("Add", "SmsTransaction", Order = 1000)]
     public class BuyerController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
@@ -36,6 +38,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.UserAccount.Email,
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.CreatedOn
             });
 

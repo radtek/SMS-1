@@ -97,6 +97,10 @@
 
         $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
         $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" + encodeURIComponent(dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName));
+
+        $("#editButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+        $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+        
     }
 
     </script>

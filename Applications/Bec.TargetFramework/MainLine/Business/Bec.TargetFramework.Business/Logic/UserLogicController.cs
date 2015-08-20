@@ -817,6 +817,8 @@ namespace Bec.TargetFramework.Business.Logic
                 //delete original temp user account
                 await LockUserTemporaryAccountAsync(uao.UserID);
 
+                await OrganisationLogic.UpdateSmsTransactionUaoAsync(tempUaoId, newUaoDto.UserAccountOrganisationID);
+
                 await scope.SaveChangesAsync();
             }
         }
@@ -869,6 +871,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             await GeneratePinAsync(newUao.UserAccountOrganisationID, string.IsNullOrEmpty(oldUaInfo.PinCode));
 
+            await OrganisationLogic.UpdateSmsTransactionUaoAsync(uaoId, newUao.UserAccountOrganisationID);
             return newUao;
         }
 

@@ -587,6 +587,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion);
 
+		/// <param name="oldID"></param>
+		/// <param name="newID"></param>
+		/// <returns></returns>
+		Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID);
+
+		/// <param name="oldID"></param>
+		/// <param name="newID"></param>
+		/// <returns></returns>
+		void UpdateSmsTransactionUao(Guid oldID,Guid newID);
+
 		/// <param name="orgID"></param>
 		/// <returns></returns>
 		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID);
@@ -2762,6 +2772,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="oldID"></param>
+		/// <param name="newID"></param>
+		/// <returns></returns>
+		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="oldID"></param>
+		/// <param name="newID"></param>
+		public virtual void UpdateSmsTransactionUao(Guid oldID,Guid newID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user)).Wait();
 		}
 
 		/// <summary>

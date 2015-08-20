@@ -7,19 +7,26 @@ using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Presentation.Web.Base;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : ApplicationControllerBase
     {
         public IAddressLogicClient AddressClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
         public HomeController()
         {
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name }) });
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
+            var data = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+            return View(data);
         }
 
         public ActionResult Denied()

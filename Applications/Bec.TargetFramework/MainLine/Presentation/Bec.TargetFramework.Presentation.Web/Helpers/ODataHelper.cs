@@ -82,26 +82,30 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
                     subSelect(sel, r);
                 else
                 {
-                    MemberExpression mx = x as MemberExpression;
-                    MemberExpression m = mx.Expression as MemberExpression;
-
-                    Stack<string> s = new Stack<string>();
-                    while (m != null)
-                    {
-                        s.Push(m.Member.Name);
-                        m = m.Expression as MemberExpression;
-                    }
-
-                    Result level = r;
-                    while (s.Count > 0)
-                    {
-                        string ex = s.Pop();
-                        if (!level.Expand.ContainsKey(ex)) level.Expand.Add(ex, new Result());
-                        level = level.Expand[ex];
-                    }
+                    var mx = x as MemberExpression;
+                    var level = subExpand(r, mx.Expression as MemberExpression);
                     level.Select.Add(mx.Member.Name);
                 }
             }
+        }
+
+        private static Result subExpand(Result r, MemberExpression m)
+        {
+            Stack<string> s = new Stack<string>();
+            while (m != null)
+            {
+                s.Push(m.Member.Name);
+                m = m.Expression as MemberExpression;
+            }
+
+            Result level = r;
+            while (s.Count > 0)
+            {
+                string ex = s.Pop();
+                if (!level.Expand.ContainsKey(ex)) level.Expand.Add(ex, new Result());
+                level = level.Expand[ex];
+            }
+            return level;
         }
 
         private static void subSelect(MethodCallExpression sel, Result r)
@@ -109,10 +113,9 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             MemberExpression prop = sel.Arguments[0] as MemberExpression;
             LambdaExpression temp = sel.Arguments[1] as LambdaExpression;
 
-            if (!r.Expand.ContainsKey(prop.Member.Name)) r.Expand.Add(prop.Member.Name, new Result());
-            r = r.Expand[prop.Member.Name];
+            var level = subExpand(r, prop);
 
-            makeNewExpression(temp.Body as NewExpression, r);
+            makeNewExpression(temp.Body as NewExpression, level);
         }
 
         //create an expression to use with Expression.And etc
