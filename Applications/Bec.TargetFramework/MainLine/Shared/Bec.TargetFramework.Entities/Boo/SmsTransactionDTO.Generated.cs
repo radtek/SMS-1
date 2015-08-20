@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Guid addressID, int price, string reference, bool isActive, bool isDeleted, int tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, AddressDTO address, OrganisationDTO organisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -34,8 +34,10 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationID = organisationID;
           this.CreatedOn = createdOn;
           this.RowVersion = rowVersion;
+          this.UserAccountOrganisationID = userAccountOrganisationID;
           this.Address = address;
           this.Organisation = organisation;
+          this.UserAccountOrganisation = userAccountOrganisation;
         }
 
         #endregion
@@ -46,10 +48,10 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid SmsTransactionID { get; set; }
 
         [DataMember]
-        public global::System.Guid AddressID { get; set; }
+        public global::System.Nullable<System.Guid> AddressID { get; set; }
 
         [DataMember]
-        public int Price { get; set; }
+        public global::System.Nullable<int> Price { get; set; }
 
         [DataMember]
         public string Reference { get; set; }
@@ -61,7 +63,7 @@ namespace Bec.TargetFramework.Entities
         public bool IsDeleted { get; set; }
 
         [DataMember]
-        public int TenureTypeID { get; set; }
+        public global::System.Nullable<int> TenureTypeID { get; set; }
 
         [DataMember]
         public global::System.Guid OrganisationID { get; set; }
@@ -72,6 +74,9 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public long RowVersion { get; set; }
 
+        [DataMember]
+        public global::System.Nullable<System.Guid> UserAccountOrganisationID { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -81,6 +86,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }
 
         #endregion
     }

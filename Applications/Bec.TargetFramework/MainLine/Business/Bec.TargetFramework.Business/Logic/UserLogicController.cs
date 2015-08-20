@@ -725,7 +725,7 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        public async Task GeneratePinAsync(Guid uaoID)
+        public async Task GeneratePinAsync(Guid uaoID, bool blank)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -733,7 +733,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (!string.IsNullOrEmpty(uao.PinCode)) throw new Exception("Cannot generate pin; pin already exists. Please go back and try again.");
 
-                uao.PinCode = CreatePin(4);
+                uao.PinCode = blank ? null : CreatePin(4);
                 uao.PinCreated = DateTime.Now;
                 uao.UserAccount.IsLoginAllowed = true;
 
@@ -867,7 +867,7 @@ namespace Bec.TargetFramework.Business.Logic
             //disable old temps
             await LockUserTemporaryAccountAsync(oldUaInfo.ID);
 
-            await GeneratePinAsync(newUao.UserAccountOrganisationID);
+            await GeneratePinAsync(newUao.UserAccountOrganisationID, string.IsNullOrEmpty(oldUaInfo.PinCode));
 
             return newUao;
         }

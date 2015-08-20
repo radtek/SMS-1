@@ -27,6 +27,8 @@ namespace Bec.TargetFramework.Business.Logic
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public NotificationLogicController NotificationLogic { get; set; }
         public ClassificationDataLogicController ClassificationLogic { get; set; }
+        public ProductLogicController ProductLogic { get; set; }
+        public PaymentLogicController PaymentLogic { get; set; }
 
         public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
@@ -114,13 +116,13 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
-            DefaultOrganisation defaultOrganisation = null;
+            DefaultOrganisationDTO defaultOrganisation = null;
             Guid orgRoleID;
             // get status type for professional organisation
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // get professional default organisation template
-                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation"));
+                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation")).ToDto();
             }
             Ensure.That(defaultOrganisation).IsNotNull();
 
@@ -294,7 +296,7 @@ namespace Bec.TargetFramework.Business.Logic
             await EventPublishClient.PublishEventAsync(dto);
         }
 
-        private async Task<Guid?> AddOrganisationAsync(int organisationTypeID, DefaultOrganisation defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
+        private async Task<Guid?> AddOrganisationAsync(int organisationTypeID, DefaultOrganisationDTO defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             Guid? organisationID = null;
 
@@ -417,45 +419,77 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> AddSmsTransaction(Guid orgID, SmsTransactionDTO dto)
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string firstName, string lastName, string email)
         {
+            
+            //add becky personal org & user
+            DefaultOrganisationDTO defaultOrganisation;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                if (existing != null) return existing.UserAccountOrganisationID;
+                // get professional default organisation template
+                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
+            }
+            Ensure.That(defaultOrganisation).IsNotNull();
+
+            var companyDTO = new AddCompanyDTO
+            {
+                CompanyName = "Personal Organisation",
+                Line1 = "-",
+                RegulatorNumber = "-",
+                OrganisationAdminFirstName = firstName,
+                OrganisationAdminLastName = lastName,
+                OrganisationAdminEmail = email
+            };
+            var tempUsername = RandomPasswordGenerator.GenerateRandomName();
+            var tempPassword = RandomPasswordGenerator.Generate(10);
+            var contactDTO = new ContactDTO
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                EmailAddress1 = email
+            };
+            var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
+            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, true, true);
+            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true);
+            return buyerUaoDto.UserAccountOrganisationID;
+        }
+
+        public async Task<Guid> PurchaseProduct(Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)
+        {
+            decimal productPrice;
+            long rowVersion;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
+                var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
+                productPrice = prod.ProductDetails.First().Price;
+                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
+                rowVersion = crAccount.RowVersion.Value;
+            }
+
+            //creating cart has to be outside of a transaction.
+            var orderID = await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
+
             using (var scope = DbContextScopeFactory.Create())
             {
-                var txID = Guid.NewGuid();
-
-                var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
-                    x.Line1 == dto.Address.Line1 &&
-                    x.Line2 == dto.Address.Line2 &&
-                    x.Town == dto.Address.Town &&
-                    x.County == dto.Address.County &&
-                    x.PostalCode == dto.Address.PostalCode);
-
-                if (address == null)
-                {
-                    address = dto.Address.ToEntity();
-                    address.AddressID = Guid.NewGuid();
-                    address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
-                    address.Name = String.Empty;
-                    address.ParentID = txID;
-                    scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
-                }
-
                 SmsTransaction tx = new SmsTransaction
                 {
-                    SmsTransactionID = txID,
-                    Address = address,
-                    Price = dto.Price,
-                    Reference = dto.Reference,
+                    SmsTransactionID = Guid.NewGuid(),
                     OrganisationID = orgID,
-                    TenureTypeID = dto.TenureTypeID,
+                    UserAccountOrganisationID = buyerUaoID,
                     CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
+
+                await AddCreditAsync(orgID, orderID, uaoID, -productPrice, rowVersion);
+
                 await scope.SaveChangesAsync();
                 return tx.SmsTransactionID;
             }
         }
-
 
         public List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
         {
@@ -709,15 +743,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount)
+        public async Task AddCreditAsync(Guid orgID, Guid transactionOrderID, Guid uaoID, decimal amount, long? rowVersion = null)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var transactionOrder = scope.DbContexts.Get<TargetFrameworkEntities>().TransactionOrders.Single(x => x.TransactionOrderID == transactionOrderID);
                 var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
                 var account = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => 
                     x.OrganisationID == orgID &&
                     x.LedgerAccountTypeID == creditType);
+                if (rowVersion.HasValue && account.RowVersion != rowVersion) throw new Exception("The credit account has been updated by another user. Please go back and try again");
+
                 account.OrganisationLedgerTransactions.Add(new OrganisationLedgerTransaction
                 {
                     TransactionOrderID = transactionOrderID,

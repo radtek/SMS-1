@@ -64,8 +64,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewTopUpCredit()
+        public ActionResult ViewTopUpCredit(bool redirect)
         {
+            ViewBag.redirect = redirect;
             return PartialView("_TopUpCredit");
         }
 
@@ -75,11 +76,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
                 var prod = await prodClient.GetTopUpProductAsync();
-                var cart = await cartClient.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
-                await cartClient.AddProductToShoppingCartAsync(cart.ShoppingCartID, prod.ProductID, prod.ProductVersionID, 1, amount);
-                var invoice = await invoiceClient.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, "Credit Top Up");
-                var transactionOrder = await txClient.CreateAndSaveTransactionOrderFromShoppingCartDTOAsync(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-                txID = transactionOrder.TransactionOrderID;
+
+                txID = await paymentClient.PurchaseProductAsync(uaoID, prod.ProductID, prod.ProductVersionID, cardType, methodType, "Credit Top Up", amount);
             }
 
             details.TransactionOrderID = txID.Value;

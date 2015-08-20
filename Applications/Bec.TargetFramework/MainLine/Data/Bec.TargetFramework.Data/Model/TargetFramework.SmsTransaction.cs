@@ -42,7 +42,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for AddressID in the schema.
         /// </summary>
-        public virtual global::System.Guid AddressID
+        public virtual global::System.Nullable<System.Guid> AddressID
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for Price in the schema.
         /// </summary>
-        public virtual int Price
+        public virtual global::System.Nullable<int> Price
         {
             get;
             set;
@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for TenureTypeID in the schema.
         /// </summary>
-        public virtual int TenureTypeID
+        public virtual global::System.Nullable<int> TenureTypeID
         {
             get;
             set;
@@ -128,6 +128,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> UserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -146,6 +156,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for Organisation in the schema.
         /// </summary>
         public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation
         {
             get;
             set;

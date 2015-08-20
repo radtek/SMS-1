@@ -41,6 +41,14 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
  NULL, NULL, NULL, True, False, True);
 
 
+--user
+   insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'User' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+
   --employee view homepage
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (

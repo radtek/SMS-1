@@ -105,6 +105,8 @@ namespace BodgeIt
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Status.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Template.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Create Default Organisation.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Template.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Create Default Organisation.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
@@ -115,6 +117,7 @@ namespace BodgeIt
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));                 
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "ProductInitial.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "CreditTopUp.sql")));
+                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "Bank Account Check.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "PromoteProduct.sql")));
                     runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "T&CNotificationsNoCOLP.sql")));
                     con.Close();

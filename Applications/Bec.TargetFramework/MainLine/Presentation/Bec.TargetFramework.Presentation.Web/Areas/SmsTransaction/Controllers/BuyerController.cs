@@ -18,6 +18,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
+        public IProductLogicClient prodClient { get; set; }
+        public IUserLogicClient userClient { get; set; }
+
         public ActionResult Index()
         {
             return View();
@@ -27,7 +30,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.Reference, x.Price, x.CreatedOn, x.Address.Line1, x.Address.PostalCode, x.SmsTransactionID });
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            {
+                x.SmsTransactionID,
+                x.UserAccountOrganisation.Contact.FirstName,
+                x.UserAccountOrganisation.Contact.LastName,
+                x.UserAccountOrganisation.UserAccount.Email,
+                x.CreatedOn
+            });
 
             var where = ODataHelper.Expression<SmsTransactionDTO>(x => x.OrganisationID == orgID);
 
@@ -51,30 +61,89 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddSmsTransaction(SmsTransactionDTO dto)
+        public async Task<ActionResult> AddSmsTransaction(Guid? buyerUaoID, string firstName, string lastName, string email)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            TempData["SmsTransactionID"] = await orgClient.AddSmsTransactionAsync(orgID, dto);
-            return RedirectToAction("Index");
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            var prod = await prodClient.GetBankAccountCheckProductAsync();
+            var crAccount = await orgClient.GetCreditAccountAsync(orgID);
+            if (crAccount.Balance < prod.CurrentDetail.Price) return Json(new
+            {
+                result = false,
+                title = "Purchase Failed",
+                message = "The credit account has been updated by another user. Please go back and try again",
+                buyerUaoID = buyerUaoID
+            }, JsonRequestBehavior.AllowGet);
+
+            if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, firstName, lastName, email);
+            
+
+            try
+            {
+                TempData["SmsTransactionID"] = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID);
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Purchase Failed",
+                    message = ex.Message,
+                    buyerUaoID = buyerUaoID.Value
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
-        public ActionResult ViewPurchase(Guid smsTransactionID)
+        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID)
         {
-            ViewBag.SmsTransactionID = smsTransactionID;
-            return PartialView("_Purchase");
+            ViewBag.txID = txID;
+
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            {
+                x.SmsTransactionID,
+                x.UserAccountOrganisation.Contact.FirstName,
+                x.UserAccountOrganisation.Contact.LastName,
+                x.UserAccountOrganisation.UserAccount.Email
+            }, true);
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+
+            return PartialView("_EditSmsTransaction", Edit.MakeModel(res.First()));
         }
 
         [HttpPost]
-        public ActionResult Purchase(Guid smsTransactionID, string product)
+        public async Task<ActionResult> EditSmsTransaction(Guid txID)
         {
-            //todo: attempt purchase
-            var jsonData = new
-            {
-                result = false,
-                title = "Unable to purchase product",
-                message = "There is not enough credit to purchase this product. Please top-up the credit balance."
-            };
-            return Json(jsonData, JsonRequestBehavior.AllowGet);
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            var data = Edit.fromD(Request.Form);
+
+            await queryClient.UpdateGraphAsync("SmsTransactions", data, filter);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> ViewResendLogins(Guid txID, string label)
+        {
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.UserAccountOrganisationID });
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+
+            ViewBag.txID = txID;
+            ViewBag.uaoId = res.First().UserAccountOrganisationID;
+            ViewBag.label = label;
+            ViewBag.RedirectAction = "ResendLogins";
+            ViewBag.RedirectController = "Buyer";
+            ViewBag.RedirectArea = "SmsTransaction";
+            return PartialView("_ResendLogins");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ResendLogins(Guid uaoId, Guid txID)
+        {
+            var uao = await userClient.ResendLoginsAsync(uaoId);
+            TempData["SmsTransactionID"] = txID;
+            return RedirectToAction("Index");
         }
     }
 }

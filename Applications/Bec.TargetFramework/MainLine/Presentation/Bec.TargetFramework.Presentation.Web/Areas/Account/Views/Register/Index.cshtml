@@ -17,14 +17,17 @@
                     @if (ViewBag.PinExpired == null || !ViewBag.PinExpired)
                     {
                         <fieldset>
-                            <section>
-                                <strong>Welcome </strong>
-                                <label class="label">Please enter your PIN as provided by BE Consultancy</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-asterisk"></i>
-                                    @Html.TextBoxFor(m => m.Pin, new { maxlength = 20 })
-                                </label>
-                            </section>
+                            @if (ViewBag.PINRequired)
+                            {
+                                <section>
+                                    <strong>Welcome </strong>
+                                    <label class="label">Please enter your PIN as provided by BE Consultancy</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk"></i>
+                                        @Html.TextBoxFor(m => m.Pin, new { maxlength = 20 })
+                                    </label>
+                                </section>
+                            }
                             <section>
                                 <strong>Create Account</strong>
                                 <label class="label">Before we create your permanent account please take a moment to choose a unique username and password.</label>
