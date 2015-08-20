@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 result = false,
                 title = "Purchase Failed",
-                message = "Insufficient credit. Please top up amnd retry.",
+                message = "The credit account has been updated by another user. Please go back and try again",
                 buyerUaoID = buyerUaoID
             }, JsonRequestBehavior.AllowGet);
 

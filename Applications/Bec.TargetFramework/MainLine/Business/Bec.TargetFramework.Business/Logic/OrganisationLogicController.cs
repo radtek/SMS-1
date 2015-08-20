@@ -466,7 +466,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
                 var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
                 productPrice = prod.ProductDetails.First().Price;
-                if (crAccount.Balance < productPrice) throw new Exception("Insufficient Credit");
+                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
                 rowVersion = crAccount.RowVersion.Value;
             }
 

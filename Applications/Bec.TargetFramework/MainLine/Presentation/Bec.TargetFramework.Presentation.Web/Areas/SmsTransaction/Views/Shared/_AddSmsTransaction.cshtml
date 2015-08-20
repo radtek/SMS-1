@@ -66,6 +66,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-default pull-left" onclick="updateBalance()">Refresh</button>
+                <button type="button" class="btn btn-sm btn-default pull-left" onclick="topUp()">Top Up Credit</button>
                 <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal">
                     Cancel
                 </button>
@@ -117,6 +118,7 @@
                 window.location = '@Url.Action("Index", "Buyer", new { area = "SmsTransaction" })';
             else {
                 $('#buyerUaoID').val(res.buyerUaoID);
+                updateBalance();
                 handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                     messageButton: function () {
                         $("#submitAddTransaction").prop('disabled', false);
@@ -125,6 +127,7 @@
             }
         }).fail(function (e) {
             console.log(e);
+            updateBalance();
             handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
                 messageButton: function () {
                     $("#submitAddTransaction").prop('disabled', false);
@@ -138,6 +141,14 @@
             .done(function (res) {
                 $('#balance').text(new Date().toLocaleTimeString() + ": " + formatCurrency(parseFloat(res)));
             });
+    }
+
+    function topUp() {
+        handleModal({ url: '@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })' }, {
+            submitPay: function () {
+                updateBalance();
+            }
+        }, true);
     }
 
     updateBalance();

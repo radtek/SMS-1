@@ -73,7 +73,7 @@
                                             <label class="label">Expiry Year</label>
                                             <label class="input ">
                                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "3", maxlength = "2", placeholder = "YY" })
+                                                @Html.TextBoxFor(m => m.CardExpiryYear, new { tabindex = "4", maxlength = "2", placeholder = "YY" })
                                             </label>
                                         </section>
                                     </div>
@@ -82,7 +82,7 @@
                                             <label class="label">CVV</label>
                                             <label class="input ">
                                                 <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "4", maxlength = "5" })
+                                                @Html.TextBoxFor(m => m.CVVNumber, new { tabindex = "5", maxlength = "5" })
                                             </label>
                                         </section>
                                     </div>
@@ -268,9 +268,16 @@
             type: "POST",
             data: formData
         }).done(function (res) {
-            if (res.result == true)
-                //hideCurrentModal();
-                window.location = '@Url.Action("Index", "Credit", new { area = "ProOrganisation" })';
+            if (res.result == true) {
+                @if (ViewBag.redirect)
+                {
+                    <text>window.location = '@Url.Action("Index", "Credit", new { area = "ProOrganisation" })';</text>
+                }
+                else
+                {
+                    <text>hideCurrentModal();</text>
+                }
+            }
             else {
                 $('#txID').val(res.txID);
                 handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {

@@ -64,8 +64,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewTopUpCredit()
+        public ActionResult ViewTopUpCredit(bool redirect)
         {
+            ViewBag.redirect = redirect;
             return PartialView("_TopUpCredit");
         }
 
