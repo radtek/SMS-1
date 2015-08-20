@@ -906,6 +906,7 @@
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
+    <Content Include="Scripts\Bec\bec.daterange.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

@@ -110,7 +110,7 @@
   display: none;
 }
 .k-grid tbody:empty:before {
-  content: 'No data to display';
+  content: 'No items to display';
   display: table-cell;
   padding: 0.5em;
 }

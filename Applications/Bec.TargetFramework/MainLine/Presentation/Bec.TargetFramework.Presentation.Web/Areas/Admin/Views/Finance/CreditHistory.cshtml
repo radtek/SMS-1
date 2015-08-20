@@ -69,69 +69,70 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="~/Scripts/Bec/bec.daterange.js"></script>
     <script type="text/javascript" src="~/Scripts/typeahead.bundle.min.js"></script>
     <script type="text/javascript">
 
-    var shownMessage = false;
-    //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var statementGrid = new gridItem(
-    {
-        gridElementId: 'statementGrid',
-        url: '@Url.Action("GetStatement", "Finance", new {area = "Admin"})',
-        schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
-        type: 'odata-v4',
-        serverSorting: true,
-        serverPaging: true,
-        defaultSort: { field: "BalanceOn", dir: "asc" },
-        panels: ['rPanel'],
-        change: txChange,
-        onLoadFailed: function (data) {
-            console.log(data);
-            var title = "Invalid Request";
-            var message = "The request made is invalid. Make sure your search criteria are corect.";
-            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=" + title + "&message=" + message + "&button=Back" }, {}, true);
-        },
-        extraParameters: function () {
-            var selectedDateRange = getSelectedDateRange();
-            return "&from=" + selectedDateRange.from + "&to=" + selectedDateRange.to + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
-        },
-        columns: [
-            {
-                field: "InvoiceReference",
-                title: "Reference",
-                sortable: false
+        var shownMessage = false;
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var statementGrid = new gridItem(
+        {
+            gridElementId: 'statementGrid',
+            url: '@Url.Action("GetStatement", "Finance", new {area = "Admin"})',
+            schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
+            type: 'odata-v4',
+            serverSorting: true,
+            serverPaging: true,
+            defaultSort: { field: "BalanceOn", dir: "asc" },
+            panels: ['rPanel'],
+            change: txChange,
+            onLoadFailed: function(data) {
+                console.log(data);
+                var title = "Invalid Request";
+                var message = "The request made is invalid. Make sure your search criteria are corect.";
+                handleModal({ url: '@Url.Action("ViewMessage", "Home", new {Area = ""})' + "?title=" + title + "&message=" + message + "&button=Back" }, {}, true);
             },
-            {
-                field: "Amount",
-                title: "Amount",
-                sortable: false
+            extraParameters: function() {
+                var selectedDateRange = getSelectedDateRange();
+                return "&from=" + selectedDateRange.from + "&to=" + selectedDateRange.to + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
             },
-            {
-                field: "Balance",
-                title: "Balance",
-                sortable: false
-            },
-            {
-                field: "BalanceOn",
-                title: "Date",
-                template: function (dataItem) { return dateString(dataItem.BalanceOn); }
-            },
-            {
-                field: "CreatedByName",
-                title: "Created By",
-                sortable: false
-            }
-        ]
-    });
+            columns: [
+                {
+                    field: "InvoiceReference",
+                    title: "Reference",
+                    sortable: false
+                },
+                {
+                    field: "Amount",
+                    title: "Amount",
+                    sortable: false
+                },
+                {
+                    field: "Balance",
+                    title: "Balance",
+                    sortable: false
+                },
+                {
+                    field: "BalanceOn",
+                    title: "Date",
+                    template: function(dataItem) { return dateString(dataItem.BalanceOn); }
+                },
+                {
+                    field: "CreatedByName",
+                    title: "Created By",
+                    sortable: false
+                }
+            ]
+        });
 
-    var companies = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        identify: function (datum) {
-            return datum.OrganisationID;
-        },
-        remote: {
-            url: '@Url.Action("SearchCompany", "Finance", new {Area = "Admin"})' + '?search=%QUERY',
+        var companies = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            identify: function(datum) {
+                return datum.OrganisationID;
+            },
+            remote: {
+                url: '@Url.Action("SearchCompany", "Finance", new {Area = "Admin"})' + '?search=%QUERY',
                 wildcard: '%QUERY',
                 transform: function(response) {
                     return response.Items;
@@ -169,72 +170,42 @@
 
         function setupAutocomplete() {
             $('#orgSearch').typeahead({
-                minLength: 1,
-                highlight: true,
-                hint: false
-            }, {
-                display: 'value',
-                source: companies,
-                display: 'Name',
-                templates: {
-                    empty: [
-                        '<div class="empty-message">',
+                    minLength: 1,
+                    highlight: true,
+                    hint: false
+                }, {
+                    display: 'value',
+                    source: companies,
+                    display: 'Name',
+                    templates: {
+                        empty: [
+                            '<div class="empty-message">',
                             'Unable to find any company that match the current query',
-                        '</div>'
-                    ].join('\n')
-                }
-            })
-            .on("typeahead:selected typeahead:autocompleted", function (e, datum) {
-                $('#orgID').val(datum.OrganisationID);
-                $("#amendCreditButton").attr('disabled', false);
-                $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})' + "?orgId=" + datum.OrganisationID);
-                applyFilter();
-            })
-            .on('typeahead:asyncrequest', function () {
-                $('#orgSearch').parent().siblings('.typeahead-spinner').show();
-            })
-            .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-                $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
-            });
+                            '</div>'
+                        ].join('\n')
+                    }
+                })
+                .on("typeahead:selected typeahead:autocompleted", function(e, datum) {
+                    $('#orgID').val(datum.OrganisationID);
+                    $("#amendCreditButton").attr('disabled', false);
+                    $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})' + "?orgId=" + datum.OrganisationID);
+                    applyFilter();
+                })
+                .on('typeahead:asyncrequest', function() {
+                    $('#orgSearch').parent().siblings('.typeahead-spinner').show();
+                })
+                .on('typeahead:asynccancel typeahead:asyncreceive', function() {
+                    $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
+                });
         }
 
         function setupDateRangeInputs() {
-            var dateTo = new Date();
-            var dateFrom = new Date(dateTo.getFullYear() - 1, dateTo.getMonth(), dateTo.getDate());
-
-            // Date Range Picker
-            $("#from").datepicker({
-                defaultDate: dateFrom,
-                dateFormat: "dd/mm/yy",
-                changeMonth: true,
-                showButtonPanel: true,
-                prevText: "<i class=\"fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"fa fa-chevron-right\"></i>",
-                onClose: function (selectedDate) {
-                    $("#to").datepicker("option", "minDate", selectedDate);
-                }
-            }).datepicker("setDate", dateFrom);
-
-            $("#to").datepicker({
-                defaultDate: dateTo,
-                dateFormat: "dd/mm/yy",
-                changeMonth: true,
-                showButtonPanel: true,
-                maxDate: dateTo,
-                prevText: "<i class=\"fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"fa fa-chevron-right\"></i>",
-                onClose: function (selectedDate) {
-                    $("#from").datepicker("option", "maxDate", selectedDate);
-                }
-            }).datepicker("setDate", dateTo);
-
-            $("#from ~ .input-group-addon").click(function () {
-                $("#from").datepicker("show");
-            });
-            $("#to ~ .input-group-addon").click(function () {
-                $("#to").datepicker("show");
+            $.becDateRange({
+                dateFromInputSelector: "#from",
+                dateToInputSelector: "#to",
+                dateFromShowButtonSelector: "#from ~ .input-group-addon",
+                dateToShowButtonSelector: "#to ~ .input-group-addon"
             });
         }
-
     </script>
 }
