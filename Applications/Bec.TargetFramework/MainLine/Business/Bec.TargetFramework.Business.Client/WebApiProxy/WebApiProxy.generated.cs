@@ -567,19 +567,21 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String firstName,String lastName,String email);
+		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
 		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String firstName,String lastName,String email);
+		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -2750,17 +2752,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String firstName,String lastName,String email)
+		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
 		{
+			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user);
 		}
 
 		/// <summary>
@@ -2768,16 +2772,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="salutation"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String firstName,String lastName,String email)
+		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
 		{
+			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user)).Result;
 		}
 
 		/// <summary>

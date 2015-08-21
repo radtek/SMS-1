@@ -35,6 +35,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
                 x.SmsTransactionID,
+                x.Reference,
+                x.Address.Line1,
+                x.Address.PostalCode,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.UserAccount.Email,
@@ -65,6 +68,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
                 x.SmsTransactionID,
+                x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.UserAccount.Email

@@ -445,7 +445,7 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string firstName, string lastName, string email)
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
         {
             
             //add becky personal org & user
@@ -476,6 +476,7 @@ namespace Bec.TargetFramework.Business.Logic
             var tempPassword = RandomPasswordGenerator.Generate(10);
             var contactDTO = new ContactDTO
             {
+                Salutation = salutation,
                 FirstName = firstName,
                 LastName = lastName,
                 EmailAddress1 = email
@@ -530,6 +531,7 @@ namespace Bec.TargetFramework.Business.Logic
                     Address = address,
                     OrganisationID = orgID,
                     UserAccountOrganisationID = buyerUaoID,
+                    Reference = dto.Reference,
                     CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
