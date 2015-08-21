@@ -56,12 +56,24 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
   (select "ResourceID" from "Resource" where "ResourceName" = 'Home' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
 
---employee add transaction
-    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+--employee transactions
+insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
+
+insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'SmsTransaction' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1), TRUE);
 
 --employee view bank a/c
     insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
@@ -75,6 +87,13 @@ VALUES (E'b88849b0-3cc0-11e4-95f5-87c1916ab536', E'Organisation Employee', E'Org
  values (
   (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'Credit' limit 1),
+  (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
+
+  --employee view product menu
+      insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
+ values (
+  (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1),
+  (select "ResourceID" from "Resource" where "ResourceName" = 'Products' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'View' limit 1), TRUE);
 
 

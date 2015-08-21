@@ -309,6 +309,7 @@
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
+    <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
@@ -341,7 +342,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Shared\_AddSmsTransaction.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -910,6 +911,7 @@
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
+    <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

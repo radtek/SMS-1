@@ -15,10 +15,22 @@
                 <br />
                 <br />
             </div>
-            <div class="modal-footer" >
-                <button type="button" id="messageButton" class="btn btn-primary" data-dismiss="modal">
-                    @ViewBag.button
-                </button>
+            <div class="modal-footer">
+                @if (ViewBag.Buttons == null)
+                {
+                    <button type="button" id="messageButton" class="btn btn-primary" data-dismiss="modal">
+                        @ViewBag.button
+                    </button>
+                }
+                else
+                {
+                    foreach (Tuple<string,string> button in ViewBag.Buttons)
+                    {
+                        <button type="button" id="@button.Item1" class="btn btn-primary" data-dismiss="modal">
+                            @button.Item2
+                        </button>
+                    }
+                }
             </div>
         </div>
     </div>

@@ -3,8 +3,6 @@
     <div class="row">
 
         <h2 class="row-seperator-header inline-heading">View Transactions</h2>
-        <a data-href="@Url.Action("ViewAddSmsTransaction", "Buyer", new { area  = "SmsTransaction" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Transaction</a>
-        
         <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
         <input class="inline-heading pull-right" type="text" id="gridSearchInput" />
 
@@ -53,7 +51,7 @@
             type: 'odata-v4',
             serverSorting: true,
             serverPaging: true,
-            defaultSort: { field: "SmsTransactionID", dir: "asc" },
+            defaultSort: { field: "CreatedOn", dir: "desc" },
             panels: ['rPanel'],
             jumpToId: '@TempData["SmsTransactionID"]',
             change: txChange,
@@ -63,6 +61,18 @@
                     {
                         field: "SmsTransactionID",
                         hidden: true,
+                    },
+                    {
+                        field: "Reference",
+                        title: "Reference"
+                    },
+                    {
+                        field: "Address.Line1",
+                        title: "Address Line 1"
+                    },
+                    {
+                        field: "Address.PostalCode",
+                        title: "Postcode"
                     },
                     {
                         field: "UserAccountOrganisation.Contact.LastName",

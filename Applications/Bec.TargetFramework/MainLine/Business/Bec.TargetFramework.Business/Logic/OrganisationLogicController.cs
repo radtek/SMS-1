@@ -419,7 +419,33 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string firstName, string lastName, string email)
+        public bool CheckDuplicateUserSmsTransaction(Guid orgID, string email, SmsTransactionDTO dto)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                if (existingUser != null)
+                {
+                    var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
+                            x.Line1 == dto.Address.Line1 &&
+                            x.Line2 == dto.Address.Line2 &&
+                            x.Town == dto.Address.Town &&
+                            x.County == dto.Address.County &&
+                            x.PostalCode == dto.Address.PostalCode);
+                    if (address != null)
+                    {
+                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x =>
+                            x.OrganisationID == orgID &&
+                            x.UserAccountOrganisationID == existingUser.UserAccountOrganisationID &&
+                            x.AddressID == address.AddressID).FirstOrDefault();
+                        if (tx != null) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
         {
             
             //add becky personal org & user
@@ -427,7 +453,11 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
-                if (existing != null) return existing.UserAccountOrganisationID;
+                if (existing != null)
+                {
+                    if (existing.Organisation.OrganisationType.Name != "Personal") throw new Exception("The specified email belongs to a system user; this is not currently supported.");
+                    return existing.UserAccountOrganisationID;
+                }
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
             }
@@ -446,6 +476,7 @@ namespace Bec.TargetFramework.Business.Logic
             var tempPassword = RandomPasswordGenerator.Generate(10);
             var contactDTO = new ContactDTO
             {
+                Salutation = salutation,
                 FirstName = firstName,
                 LastName = lastName,
                 EmailAddress1 = email
@@ -456,7 +487,7 @@ namespace Bec.TargetFramework.Business.Logic
             return buyerUaoDto.UserAccountOrganisationID;
         }
 
-        public async Task<Guid> PurchaseProduct(Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)
+        public async Task<Guid> PurchaseProduct(SmsTransactionDTO dto, Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)
         {
             decimal productPrice;
             long rowVersion;
@@ -475,11 +506,32 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
+                var txID = Guid.NewGuid();
+
+                var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
+                    x.Line1 == dto.Address.Line1 &&
+                    x.Line2 == dto.Address.Line2 &&
+                    x.Town == dto.Address.Town &&
+                    x.County == dto.Address.County &&
+                    x.PostalCode == dto.Address.PostalCode);
+
+                if (address == null)
+                {
+                    address = dto.Address.ToEntity();
+                    address.AddressID = Guid.NewGuid();
+                    address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
+                    address.Name = String.Empty;
+                    address.ParentID = txID;
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
+                }
+
                 SmsTransaction tx = new SmsTransaction
                 {
-                    SmsTransactionID = Guid.NewGuid(),
+                    SmsTransactionID = txID,
+                    Address = address,
                     OrganisationID = orgID,
                     UserAccountOrganisationID = buyerUaoID,
+                    Reference = dto.Reference,
                     CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
