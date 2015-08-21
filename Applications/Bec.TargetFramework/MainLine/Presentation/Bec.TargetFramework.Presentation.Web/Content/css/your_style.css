@@ -109,4 +109,11 @@
   top: 7px;
   display: none;
 }
+.invalid {
+  border: 1px solid #ffbfbf;
+  background-color: #fff0f0;
+}
+em.invalid {
+  padding: 2px 6px;
+}
 /*# sourceMappingURL=your_style.css.map */
