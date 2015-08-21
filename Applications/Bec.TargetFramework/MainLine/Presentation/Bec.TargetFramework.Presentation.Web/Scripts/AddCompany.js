@@ -1,4 +1,20 @@
-﻿// submit from when Save button clicked
+﻿new findAddress({
+    postcodelookup: '#postcodelookup',
+    companyName: '#CompanyName',
+    line1: '#Line1',
+    line2: '#Line2',
+    town: '#Town',
+    county: '#County',
+    postcode: '#PostalCode',
+    additionalAddress: '#AdditionalAddressInformation',
+    manualAddress: '#manualAddress',
+    resList: '#addressresults',
+    manAddRow: '#manAddRow',
+    noMatch: '#noMatch',
+    findAddressButton: '#findaddressbutton'
+}).setup();
+
+// submit from when Save button clicked
 $("#formSubmit").click(function () {
     $("#addTempCompany-form").submit();
 });

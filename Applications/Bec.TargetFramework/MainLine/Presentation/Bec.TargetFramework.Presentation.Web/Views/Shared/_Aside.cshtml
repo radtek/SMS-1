@@ -90,6 +90,14 @@
                         <a href="@Url.Action("index", "Buyer", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
+                
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                {
+                    <li class="@Html.RouteIf("active", "Products", "index")">
+                        <a href="@Url.Action("index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Products</span></a>
+                    </li>
+                }
+
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
                 {
                     <li class="@Html.RouteIf("active", "InternalNotifications", "Index")">

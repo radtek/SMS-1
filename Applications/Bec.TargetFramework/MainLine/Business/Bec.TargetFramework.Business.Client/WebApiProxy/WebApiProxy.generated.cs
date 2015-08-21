@@ -556,6 +556,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void AddOrganisationStatus(Guid orgID,StatusTypeEnum enumType,ProfessionalOrganisationStatusEnum status,Nullable<Int32> reason,String notes);
 
 		/// <param name="orgID"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
+		Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto);
+
+		/// <param name="orgID"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
+		Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto);
+
+		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
@@ -577,7 +587,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="productID"></param>
 		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion);
+		Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -585,7 +595,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="productID"></param>
 		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion);
+		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
 
 		/// <param name="oldID"></param>
 		/// <param name="newID"></param>
@@ -2714,6 +2724,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> CheckDuplicateUserSmsTransactionAsync(Guid orgID,String email,SmsTransactionDTO dto)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<SmsTransactionDTO, Boolean>("api/OrganisationLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="email"></param>
+		public virtual Boolean CheckDuplicateUserSmsTransaction(Guid orgID,String email,SmsTransactionDTO dto)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SmsTransactionDTO, Boolean>("api/OrganisationLogic/CheckDuplicateUserSmsTransaction?orgID=" + orgID + "&email=" + email, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
@@ -2754,10 +2789,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="productID"></param>
 		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion)
+		public virtual Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user);
+			return PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, dto, _user);
 		}
 
 		/// <summary>
@@ -2768,10 +2803,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="buyerUaoID"></param>
 		/// <param name="productID"></param>
 		/// <param name="productVersion"></param>
-		public virtual Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion)
+		public virtual Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user)).Result;
+			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, dto, _user)).Result;
 		}
 
 		/// <summary>

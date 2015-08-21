@@ -58,47 +58,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewAddSmsTransaction()
-        {
-            return PartialView("_AddSmsTransaction");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddSmsTransaction(Guid? buyerUaoID, string firstName, string lastName, string email)
-        {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-
-            var prod = await prodClient.GetBankAccountCheckProductAsync();
-            var crAccount = await orgClient.GetCreditAccountAsync(orgID);
-            if (crAccount.Balance < prod.CurrentDetail.Price) return Json(new
-            {
-                result = false,
-                title = "Purchase Failed",
-                message = "Insufficient credit. Please top up and retry.",
-                buyerUaoID = buyerUaoID
-            }, JsonRequestBehavior.AllowGet);
-
-            if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, firstName, lastName, email);
-            
-
-            try
-            {
-                TempData["SmsTransactionID"] = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID);
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    result = false,
-                    title = "Purchase Failed",
-                    message = ex.Message,
-                    buyerUaoID = buyerUaoID.Value
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public async Task<ActionResult> ViewEditSmsTransaction(Guid txID)
         {
             ViewBag.txID = txID;

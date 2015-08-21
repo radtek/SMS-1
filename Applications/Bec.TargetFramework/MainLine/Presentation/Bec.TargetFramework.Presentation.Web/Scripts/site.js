@@ -338,3 +338,126 @@ function showDuplicates(selector, headingSelector, dataItem) {
 function formatCurrency(val) {
     return '£' + val.toFixed(2);
 }
+
+var findAddress = function (opts) {
+
+    this.postcodelookup = $(opts.postcodelookup);
+    this.companyName = $(opts.companyName);
+    this.line1 = $(opts.line1);
+    this.line2 = $(opts.line2);
+    this.town = $(opts.town);
+    this.county = $(opts.county);
+    this.postcode = $(opts.postcode);
+    this.additional = $(opts.additionalAddress)
+
+    this.manualAddress = $(opts.manualAddress);
+    this.resList = $(opts.resList);
+    this.manAddRow = $(opts.manAddRow);
+    this.noMatch = $(opts.noMatch);
+    this.findAddressButton = $(opts.findAddressButton);
+
+    var self = this;
+
+    this.setup = function () {
+        self.manAddRow.hide();
+        self.noMatch.hide();
+        self.resList.prop('disabled', true);
+
+        self.manualAddress.change(function () {
+            self.lockFields(!this.checked);
+        });
+
+        self.resList.change(function () {
+            var selOpt = self.resList.find(":selected");
+            var x = selOpt.attr('data-Opt');
+            if (x) {
+                if (x == "manual") {
+                    self.clearForm();
+                }
+            }
+            else {
+                self.manAddRow.show();
+                self.checkMan(false);
+                if (self.companyName.length > 0) self.companyName.val(selOpt.attr('data-Company')).valid();
+                if (self.line1.length > 0) self.line1.val(selOpt.attr('data-Line1')).valid();
+                if (self.line2.length > 0) self.line2.val(selOpt.attr('data-Line2')).valid();
+                if (self.town.length > 0) self.town.val(selOpt.attr('data-PostTown')).valid();
+                if (self.county.length > 0) self.county.val(selOpt.attr('data-County')).valid();
+                if (self.postcode.length > 0) self.postcode.val(selOpt.attr('data-Postcode')).valid();
+            }
+        });
+
+        self.findAddressButton.click(function () {
+            var pc = self.postcodelookup.val().trim();
+
+            if (pc == "") return;
+
+            self.findAddressButton.prop('disabled', true);
+
+            ajaxWrapper({
+                url: window.location.origin + '/Home/FindAddress',
+                data: { postcode: pc }
+            })
+            .always(function () {
+                self.resList.empty();
+                self.findAddressButton.prop('disabled', false);
+                self.checkMan(false);
+            })
+            .done(function (result) {
+                self.noMatch.hide();
+                self.resList.prop('disabled', false);
+                if (result && result.length > 0) {
+                    self.resList.append($("<option data-Opt='none'>Please select an address:</option>"));
+                    self.resList.append($("<option data-Opt='manual'>Address not listed, please enter manually</option>"));
+                    $.each(result, function (i, item) {
+                        var opt = $("<option>" + item.FullAddress + "</option>");
+                        opt.attr('data-Company', item.Company);
+                        opt.attr('data-Line1', item.Line1);
+                        opt.attr('data-Line2', item.Line2);
+                        opt.attr('data-PostTown', item.PostTown);
+                        opt.attr('data-County', item.County);
+                        opt.attr('data-Postcode', item.Postcode);
+                        self.resList.append(opt);
+                    });
+                }
+                else {
+                    self.lookupFailed();
+                }
+            })
+            .fail(function () {
+                self.lookupFailed();
+            });
+        });
+    }
+
+    this.clearForm = function () {
+        self.manAddRow.hide();
+        self.checkMan(true);
+        self.companyName.val('');
+        self.line1.val('');
+        self.line2.val('');
+        self.town.val('');
+        self.county.val('');
+        self.postcode.val('');
+    }
+
+    this.checkMan = function (check) {
+        self.manualAddress.prop('checked', check);
+        self.lockFields(!check);
+    }
+
+    this.lockFields = function (lock) {
+        self.line1.attr('readonly', lock);
+        self.line2.attr('readonly', lock);
+        self.town.attr('readonly', lock);
+        self.county.attr('readonly', lock);
+        self.postcode.attr('readonly', lock);
+        self.additional.attr('readonly', lock);
+    }
+
+    this.lookupFailed = function () {
+        self.noMatch.show();
+        self.resList.prop('disabled', true);
+        self.clearForm();
+    }
+}

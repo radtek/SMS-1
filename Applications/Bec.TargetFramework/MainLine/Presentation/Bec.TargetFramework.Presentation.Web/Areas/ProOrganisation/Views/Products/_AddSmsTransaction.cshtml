@@ -1,0 +1,292 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model SmsTransactionDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addTransactionLabel">Purchase Product</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form id="addTransaction-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            <input name="buyerUaoID" id="buyerUaoID" type="hidden" />
+                            <fieldset>
+                                <section>
+                                    <div class="row">
+                                        <div class="col col-sm-4">
+                                            <label class="label">Title</label>
+                                            <label class="select">
+                                                <select name="Salutation" tabindex="=1">
+                                                    <option>Mr</option>
+                                                    <option>Mrs</option>
+                                                    <option>Miss</option>
+                                                    <option>Ms</option>
+                                                    <option>Dr</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </div>
+                                        <div class="col col-sm-4">
+                                            <label class="label">First Name</label>
+                                            <label class="input">
+                                                <input name="firstName" tabindex="2" maxlength="100" />
+                                            </label>
+                                        </div>
+                                        <div class="col col-sm-4">
+                                            <label class="label">Last Name</label>
+                                            <label class="input">
+                                                <input name="lastName" tabindex="3" maxlength="100" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <label class="label">Email</label>
+                                    <label class="input">
+                                        <input name="Email" type="email" tabindex="4" maxlength="200" />
+                                    </label>
+                                </section>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">Lookup Postcode</label>
+                                        <label class="input">
+                                            <input id="sms_postcodelookup" type="text" tabindex="5" maxlength="10" />
+                                        </label>
+                                    </section>
+
+                                    <section class="col">
+                                        <label class="label">&nbsp;</label>
+                                        <button id="sms_findaddressbutton" type="button" class="btn btn-default btn-sm" tabindex="6">Find Address</button>
+                                    </section>
+                                </div>
+
+                                <section>
+                                    <label class="select">
+                                        <select id="sms_addressresults" tabindex="7"></select>
+                                        <i></i>
+                                    </label>
+                                </section>
+
+
+                                <div class="row">
+                                    <section class="col" id="sms_noMatch">
+                                        <em style="color:#d56161">No matches found, please enter address below</em>
+                                    </section>
+                                </div>
+
+                                <div class="row" id="sms_manAddRow">
+                                    <section class="col">
+                                        <input type="checkbox" id="sms_manualAddress" />
+                                        <label for="sms_manualAddress" tabindex="8">Edit Address Details</label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Transaction Address</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "9", maxlength = 50 })
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-6">
+                                        <label class="label">Additional Address Information</label>
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "10", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "12", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "13", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <section>
+                                    <label class="label">Product Price: <span id="price">£10.00</span></label>
+                                </section>
+
+                                <section>
+                                    <label class="label">Credit Balance as of <span id="balance"></span></label>
+                                </section>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default pull-left" onclick="updateBalance()" tabindex="18">Refresh</button>
+                <button type="button" class="btn btn-sm btn-default pull-left" onclick="topUp()" tabindex="17">Top Up Credit</button>
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="16">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" tabindex="15">
+                    Add Transaction
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    new findAddress({
+        postcodelookup: '#sms_postcodelookup',
+        line1: '#sms_Line1',
+        line2: '#sms_Line2',
+        town: '#sms_Town',
+        county: '#sms_County',
+        postcode: '#sms_PostalCode',
+        manualAddress: '#sms_manualAddress',
+        resList: '#sms_addressresults',
+        manAddRow: '#sms_manAddRow',
+        noMatch: '#sms_noMatch',
+        findAddressButton: '#sms_findaddressbutton'
+    }).setup();
+
+    // submit from when Save button clicked
+    $("#submitAddTransaction").click(function () {
+        $("#addTransaction-form").submit();
+    });
+
+    $("#addTransaction-form").validate({
+        ignore: '.skip',
+        // Rules for form validation
+        rules: {
+            "Name": {
+                required: true
+            },
+            "Email": {
+                required: true,
+                email: true
+            },
+            "Address.Line1": {
+                required: true
+            },
+            "Address.Town": {
+                required: true
+            },
+            "Address.PostalCode": {
+                required: true,
+                minlength: 5
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: validateSubmit
+    });
+
+    function validateSubmit(form) {
+        $("#submitAddTransaction").prop('disabled', true);
+        var formData = $("#addTransaction-form").serializeArray();
+        //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
+        handleModal(
+        {
+            url: '@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })',
+            data: formData,
+            method: 'POST'
+        },
+        {
+            cancel: function () {
+                $("#submitAddTransaction").prop('disabled', false);
+            },
+            save: function () {
+                doPost(formData);
+            }
+        },
+        true,
+        "save"); //default action if no duplicate results
+    }
+
+    function doPost(formData) {
+        ajaxWrapper({
+            url: '@Url.Action("AddSmsTransaction", "Products", new { area = "ProOrganisation" })',
+            type: "POST",
+            data: formData
+        }).done(function (res) {
+            if (res.result == true)
+                window.location = '@Url.Action("Index", "Buyer", new { area = "SmsTransaction" })';
+            else {
+                $('#buyerUaoID').val(res.buyerUaoID);
+                updateBalance();
+                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitAddTransaction").prop('disabled', false);
+                    }
+                }, true);
+            }
+        }).fail(function (e) {
+            console.log(e);
+            updateBalance();
+            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
+                messageButton: function () {
+                    $("#submitAddTransaction").prop('disabled', false);
+                }
+            }, true);
+        });
+    }
+
+    function updateBalance() {
+        ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + new Date().toJSON().slice(0, 10) })
+            .done(function (res) {
+                $('#balance').text(new Date().toLocaleTimeString() + ": " + formatCurrency(parseFloat(res)));
+            });
+    }
+
+    function topUp() {
+        handleModal({ url: '@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })' }, {
+            submitPay: function () {
+                updateBalance();
+            }
+        }, true);
+    }
+
+    updateBalance();
+</script>
