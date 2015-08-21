@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
@@ -218,7 +219,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public byte[] GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId)
+        public NotificationContentDTO GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId, NotificationExportFormatIDEnum notificationExportFormat)
         {
             VNotificationViewOnlyUaoDTO notificationDto; 
             using (var scope = DbContextScopeFactory.CreateReadOnly())
@@ -241,9 +242,14 @@ namespace Bec.TargetFramework.Business.Logic
 
             var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
             var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
-            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
+            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, notificationExportFormat);
 
-            return reportByteArray;
+            return new NotificationContentDTO
+            {
+                Content = reportByteArray,
+                NotificationSubject = notificationDto.NotificationSubject,
+                DateSent = notificationDto.DateSent
+            };
         }
 
         public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)

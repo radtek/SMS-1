@@ -1861,6 +1861,7 @@
     <Compile Include="DTO\LoginDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
+    <Compile Include="DTO\NotificationContentDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
