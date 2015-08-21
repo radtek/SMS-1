@@ -12,8 +12,7 @@
                 dateToShowButtonSelector: "",
                 dateFormat: "dd/mm/yy",
                 dateFrom: dateFrom,
-                dateTo: dateTo,
-                maxDateTo: dateTo
+                dateTo: dateTo
             }, options);
 
             // Date Range Picker
@@ -23,10 +22,7 @@
                 changeMonth: true,
                 showButtonPanel: true,
                 prevText: "<i class=\"fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"fa fa-chevron-right\"></i>",
-                onClose: function (selectedDate) {
-                    $(settings.dateToInputSelector).datepicker("option", "minDate", selectedDate);
-                }
+                nextText: "<i class=\"fa fa-chevron-right\"></i>"
             }).datepicker("setDate", settings.dateFrom);
 
             $(settings.dateToInputSelector).datepicker({
@@ -34,12 +30,8 @@
                 dateFormat: settings.dateFormat,
                 changeMonth: true,
                 showButtonPanel: true,
-                maxDate: dateTo,
                 prevText: "<i class=\"fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"fa fa-chevron-right\"></i>",
-                onClose: function (selectedDate) {
-                    $(settings.dateFromInputSelector).datepicker("option", "maxDate", selectedDate);
-                }
+                nextText: "<i class=\"fa fa-chevron-right\"></i>"
             }).datepicker("setDate", settings.dateTo);
 
             $(settings.dateFromShowButtonSelector).click(function () {
