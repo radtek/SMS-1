@@ -10,6 +10,9 @@
                     <a href="@Url.Action("Index", "InternalNotifications", new {area = "Admin"})" class="btn btn-primary btn-sm inline-heading">
                         <i class="fa fa-caret-left margin-right-5"></i>Notifications
                     </a>
+                    <a href="@Url.Action("ExportToPdf", "InternalNotifications", new {area = "Admin", notificationId = ViewBag.NotificationId })" class="btn btn-primary btn-sm inline-heading">
+                        <i class="fa fa-file-pdf-o margin-right-5"></i>PDF
+                    </a>
                 </div>
             </div>
             <div class="row">

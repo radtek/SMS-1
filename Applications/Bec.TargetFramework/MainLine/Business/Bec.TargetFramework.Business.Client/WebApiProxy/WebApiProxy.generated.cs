@@ -362,13 +362,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="notificationExportFormat"></param>
 		/// <returns></returns>
-		Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId);
+		Task<NotificationContentDTO> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
 
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="notificationExportFormat"></param>
 		/// <returns></returns>
-		Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId);
+		NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
 
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
@@ -2244,11 +2246,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
+		/// <param name="notificationExportFormat"></param>
 		/// <returns></returns>
-		public virtual Task<Byte[]> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId)
+		public virtual Task<NotificationContentDTO> GetNotificationContentAsync(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user);
+			return GetAsync<NotificationContentDTO>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId + "&notificationExportFormat=" + notificationExportFormat, _user);
 		}
 
 		/// <summary>
@@ -2256,10 +2259,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationId"></param>
 		/// <param name="userAccountOrganisationId"></param>
-		public virtual Byte[] GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId)
+		/// <param name="notificationExportFormat"></param>
+		public virtual NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
+			return Task.Run(() => GetAsync<NotificationContentDTO>("api/NotificationLogic/GetNotificationContent?notificationId=" + notificationId + "&userAccountOrganisationId=" + userAccountOrganisationId + "&notificationExportFormat=" + notificationExportFormat, _user)).Result;
 		}
 
 		/// <summary>

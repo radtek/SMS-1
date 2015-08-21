@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.DTO.Notification;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
@@ -218,7 +219,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public byte[] GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId)
+        public NotificationContentDTO GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId, NotificationExportFormatIDEnum notificationExportFormat)
         {
             VNotificationViewOnlyUaoDTO notificationDto; 
             using (var scope = DbContextScopeFactory.CreateReadOnly())
@@ -239,11 +240,33 @@ namespace Bec.TargetFramework.Business.Logic
 
             Ensure.That(notificationDto).IsNotNull();
 
-            var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
-            var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
-            var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, NotificationExportFormatIDEnum.HTML);
+            var notificationContentDto = GetNotificationContentFromCacheSetIfNotExists(notificationDto, notificationExportFormat);
+            return notificationContentDto;
+        }
 
-            return reportByteArray;
+        private NotificationContentDTO GetNotificationContentFromCacheSetIfNotExists(VNotificationViewOnlyUaoDTO notificationDto, NotificationExportFormatIDEnum notificationExportFormat)
+        {
+            NotificationContentDTO notificationContentDto;
+            string key = string.Format("NotificationContent-{0}-{1}", notificationDto.NotificationID, notificationExportFormat.GetStringValue());
+            using (var cacheClient = this.CacheProvider.CreateCacheClient(Logger))
+            {
+                notificationContentDto = cacheClient.Get<NotificationContentDTO>(key);
+                if (notificationContentDto == null)
+                {
+                    var construct = GetNotificationConstruct(notificationDto.NotificationConstructID, notificationDto.NotificationConstructVersionNumber);
+                    var notificationData = JsonHelper.DeserializeData<NotificationDictionaryDTO>(notificationDto.NotificationData);
+                    var reportByteArray = StandaloneReportGenerator.GenerateReport(construct, notificationData, notificationExportFormat);
+
+                    notificationContentDto = new NotificationContentDTO
+                    {
+                        Content = reportByteArray,
+                        NotificationSubject = notificationDto.NotificationSubject,
+                        DateSent = notificationDto.DateSent
+                    };
+                    cacheClient.Set(key, notificationContentDto, DateTime.MaxValue);
+                }
+            }
+            return notificationContentDto;
         }
 
         public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)

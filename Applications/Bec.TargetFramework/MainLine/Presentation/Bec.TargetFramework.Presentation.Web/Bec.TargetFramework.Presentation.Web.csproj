@@ -304,6 +304,7 @@
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
+    <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
