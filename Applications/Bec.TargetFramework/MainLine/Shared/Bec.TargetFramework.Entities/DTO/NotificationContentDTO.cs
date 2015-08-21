@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Bec.TargetFramework.Entities
 {
+    [Serializable]
     [DataContract]
     public class NotificationContentDTO
     {

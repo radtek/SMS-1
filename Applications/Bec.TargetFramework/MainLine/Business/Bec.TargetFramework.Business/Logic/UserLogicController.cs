@@ -31,10 +31,6 @@ namespace Bec.TargetFramework.Business.Logic
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public OrganisationLogicController OrganisationLogic { get; set; }
 
-        public UserLogicController()
-        {
-        }
-
         public UserLoginValidation AuthenticateUser(string username, string password)
         {
             BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);

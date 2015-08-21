@@ -1,15 +1,9 @@
-﻿
+﻿using Bec.TargetFramework.Infrastructure.Log;
 using ServiceStack.Caching;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bec.TargetFramework.Infrastructure.Caching
 {
-    using Bec.TargetFramework.Infrastructure.Log;
-
     public interface ICacheProvider : ICacheClient
     {
         ICacheClient CreateCacheClient(ILogger logger);
