@@ -26,7 +26,8 @@
       <build-trigger id="TRIGGER_2" type="buildDependencyTrigger">
         <parameters>
           <param name="afterSuccessfulBuildOnly" value="true" />
-          <param name="dependsOn" value="BeFramework_Develop" />
+          <param name="branchFilter" value="+:&lt;default&gt;" />
+          <param name="dependsOn" value="BeFramework_Release" />
         </parameters>
       </build-trigger>
     </build-triggers>
