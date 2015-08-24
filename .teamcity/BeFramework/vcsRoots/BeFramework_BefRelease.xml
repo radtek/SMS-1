@@ -4,7 +4,7 @@
   <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
   <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
   <param name="authMethod" value="PASSWORD" />
-  <param name="branch" value="refs/heads/release/ValidationAndSaveAddCompany" />
+  <param name="branch" value="refs/heads/release/R1" />
   <param name="ignoreKnownHosts" value="true" />
   <param name="secure:password" value="zxx5a11b03c3e63e8adb2ea7d02ce188352" />
   <param name="submoduleCheckout" value="CHECKOUT" />
