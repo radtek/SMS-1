@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="848d1e19-a809-4a38-9141-40f6feb0744b" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
-  <name>Octopus Deploy</name>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="66a5c750-097e-4913-bb46-6486f0a2cadc" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Octopus Deploy Release</name>
   <description />
   <settings>
     <options>
@@ -8,7 +8,7 @@
     </options>
     <parameters />
     <build-runners>
-      <runner id="RUNNER_2" name="" type="octopus.create.release">
+      <runner id="RUNNER_10" name="" type="octopus.create.release">
         <parameters>
           <param name="octopus_deployto" value="DEV" />
           <param name="octopus_host" value="http://localhost:8098/" />
@@ -24,7 +24,7 @@
     <vcs-settings />
     <requirements />
     <build-triggers>
-      <build-trigger id="TRIGGER_1" type="buildDependencyTrigger">
+      <build-trigger id="TRIGGER_2" type="buildDependencyTrigger">
         <parameters>
           <param name="afterSuccessfulBuildOnly" value="true" />
           <param name="dependsOn" value="BeFramework_Develop" />
