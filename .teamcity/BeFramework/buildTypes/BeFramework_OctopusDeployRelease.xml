@@ -13,10 +13,10 @@
           <param name="octopus_deployto" value="DEV" />
           <param name="octopus_host" value="http://localhost:8098/" />
           <param name="octopus_project_name" value="BE Framework" />
-          <param name="octopus_releasenumber" value="R1.%build.counter%" />
+          <param name="octopus_releasenumber" value="1.1.%build.counter%" />
           <param name="octopus_version" value="2.0+" />
           <param name="octopus_waitfordeployments" value="true" />
-          <param name="secure:octopus_apikey" value="zxxd3cfa41c347f8a485539217b195d55e6dc3eace8dfbf619ac9e5394085586a09" />
+          <param name="secure:octopus_apikey" value="zxx290c63155b6d8227f56b748a2a17f3edb75ed862dabc1c82" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
