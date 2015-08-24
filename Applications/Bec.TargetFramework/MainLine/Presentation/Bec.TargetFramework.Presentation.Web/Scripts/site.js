@@ -61,6 +61,7 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
         else {
             var tempDiv = $(result); //tempDiv includes all elements & script
             $('body').append(tempDiv);
+            handleHelp();
             var mdiv = tempDiv.filter('.modal');
             modalStack.push(mdiv);
 
@@ -108,6 +109,7 @@ function findModalLinks() {
             }).done(function (result) {
                 var tempDiv = $(result); //tempDiv include all elements & script
                 $('body').append(tempDiv);
+                handleHelp();
                 var mdiv = tempDiv.filter('.modal');
                 modalStack.push(mdiv);
 
@@ -122,6 +124,16 @@ function findModalLinks() {
                 $(e.target).prop('disabled', false);
             });
         }
+    });
+}
+
+function handleHelp() {
+    $('.help-vert').on('click', function () {
+        var div = $(this).parent();
+        if (div.hasClass('help-show'))
+            div.removeClass('help-show');
+        else
+            div.addClass('help-show');
     });
 }
 

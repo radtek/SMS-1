@@ -110,3 +110,66 @@ button.inline-heading {
 .tt-suggestion p {
   margin: 0;
 }
+
+.help-vert{
+    transform: rotate(90deg);
+    cursor: pointer;
+}
+
+.help{
+    z-index: -1;
+    position: absolute;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+}
+
+.help-container {
+    left:250px;
+    top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    background: #7Dc5ad;
+    -webkit-border-radius: 0 5px 5px 0;
+    -moz-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.help-inner {
+    left: -250px;
+    top: 0px;
+    background: white;
+    width: 250px;
+    padding: 10px;
+    height: 400px;
+    text-align: left;
+    -webkit-border-radius: 0 0 5px 0;
+    -moz-border-radius: 0 0 5px 0;
+    border-radius: 0 0 5px 0;
+    overflow-y:auto;
+}
+
+@media(min-width:768px) {
+    .help-lg.help-show {
+        left: 850px;
+    }
+    .help-lg {
+        left: 600px;
+    }
+    .help-sm.help-show {
+        left: 850px;
+    }
+    .help-sm {
+        left: 600px;
+    }
+}
+
+@media(min-width:992px) {
+    .help-lg.help-show {
+        left: 1150px;
+    }
+    .help-lg {
+        left: 900px;
+    }
+}
