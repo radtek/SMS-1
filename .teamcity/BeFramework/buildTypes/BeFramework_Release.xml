@@ -10,7 +10,7 @@
           <param name="build-file-path" value="Applications/Bec.TargetFramework/MainLine/Bec.TargetFramework.UI.Web.sln" />
           <param name="msbuild.prop.Configuration" value="Release" />
           <param name="msbuild_version" value="12.0" />
-          <param name="octopus_octopack_package_version" value="1.0.%build.counter%" />
+          <param name="octopus_octopack_package_version" value="1.1.%build.counter%" />
           <param name="octopus_run_octopack" value="true" />
           <param name="run-platform" value="x86" />
           <param name="targets" value="Clean;Build" />
