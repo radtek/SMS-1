@@ -4,7 +4,7 @@
   <description />
   <settings>
     <options>
-      <option name="buildNumberPattern" value="1.%build.counter%" />
+      <option name="buildNumberPattern" value="R1 1.%build.counter%" />
     </options>
     <parameters />
     <build-runners>
