@@ -16,7 +16,7 @@
           <param name="octopus_releasenumber" value="1.1.%build.counter%" />
           <param name="octopus_version" value="2.0+" />
           <param name="octopus_waitfordeployments" value="true" />
-          <param name="secure:octopus_apikey" value="zxx290c63155b6d8227f56b748a2a17f3edb75ed862dabc1c82" />
+          <param name="secure:octopus_apikey" value="zxxe24de76353ee801cc0d552b83c01cd884ef651d430c23bc3d0f072ea74c05ae4" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
