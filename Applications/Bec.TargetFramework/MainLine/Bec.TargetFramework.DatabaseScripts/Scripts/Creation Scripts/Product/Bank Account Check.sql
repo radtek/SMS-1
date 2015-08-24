@@ -81,7 +81,7 @@ VALUES (
   '',
   true,
   false,
-  10,
+  0,
   0,
   false,
   false,

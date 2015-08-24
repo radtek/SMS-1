@@ -20,14 +20,14 @@
                 -->
 
             <ul>
-                @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
                 {
-                <li class="@Html.RouteIf("active", "home", "index")">
-                    <a href="@Url.Action("index", "home", new { Area = "" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
-                </li>
+                    <li class="@Html.RouteIf("active", "home", "index")">
+                        <a href="@Url.Action("index", "home", new { Area = "" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Personal Home Page</span></a>
+                    </li>
                 }
-                @if(Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
-                { 
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                {
                     <li class="@Html.RouteIf("open", "Company")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
                         <ul>
@@ -54,14 +54,15 @@
                         </ul>
                     </li>
                 }
-                
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
-                { 
-                    <li class="@Html.RouteIf("active", "Account", "index")">
-                        <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Bank Accounts</span></a>
-                    </li>
-                }
-                
+
+                @*
+                    @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                    {
+                        <li class="@Html.RouteIf("active", "Account", "index")">
+                            <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Bank Accounts</span></a>
+                        </li>
+                    }
+                *@
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("open", "Finance")">
@@ -76,21 +77,21 @@
                         </ul>
                     </li>
                 }
-                
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Credit"))
-                {
-                    <li class="@Html.RouteIf("active", "Credit", "Index")">
-                        <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">Credit Account</span></a>
-                    </li>
-                }
-
+                @*
+                    @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Credit"))
+                    {
+                        <li class="@Html.RouteIf("active", "Credit", "Index")">
+                            <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">Credit Account</span></a>
+                        </li>
+                    }
+                *@
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "SmsTransaction", "index")">
                         <a href="@Url.Action("index", "Buyer", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
-                
+
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
                 {
                     <li class="@Html.RouteIf("active", "Products", "index")">
@@ -111,5 +112,5 @@
         </span>
 
     </aside>
-    <!-- END NAVIGATION -->
+                        <!-- END NAVIGATION -->
 }
