@@ -80,7 +80,7 @@
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Credit"))
                 {
                     <li class="@Html.RouteIf("active", "Credit", "Index")">
-                        <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">Credit</span></a>
+                        <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">Credit Account</span></a>
                     </li>
                 }
 
