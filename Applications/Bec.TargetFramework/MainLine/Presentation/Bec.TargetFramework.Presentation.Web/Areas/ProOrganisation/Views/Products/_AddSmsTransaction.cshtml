@@ -43,13 +43,13 @@
                                     <section class="col col-sm-4">
                                         <label class="label">First Name</label>
                                         <label class="input">
-                                            <input name="firstName" tabindex="2" maxlength="100" />
+                                            <input name="FirstName" tabindex="2" maxlength="100" />
                                         </label>
                                     </section>
                                     <section class="col col-sm-4">
                                         <label class="label">Last Name</label>
                                         <label class="input">
-                                            <input name="lastName" tabindex="3" maxlength="100" />
+                                            <input name="LastName" tabindex="3" maxlength="100" />
                                         </label>
                                     </section>
                                 </div>
@@ -215,7 +215,10 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            "Name": {
+            "FirstName": {
+                required: true
+            },
+            "LastName": {
                 required: true
             },
             "Email": {

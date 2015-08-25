@@ -35,7 +35,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransactionID,
                 x.Reference,
                 x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
                 x.Address.PostalCode,
+                x.Address.AdditionalAddressInformation,
+                x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.UserAccount.Email,
@@ -62,19 +67,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> ViewEditSmsTransaction(Guid txID)
         {
             ViewBag.txID = txID;
-
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
                 x.SmsTransactionID,
                 x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
-                x.UserAccountOrganisation.UserAccount.Email
+                x.UserAccountOrganisation.UserAccount.Email,
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount
             }, true);
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
             var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+            var model = res.First();
+            ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
 
-            return PartialView("_EditSmsTransaction", Edit.MakeModel(res.First()));
+            return PartialView("_EditSmsTransaction", Edit.MakeModel(model));
         }
 
         [HttpPost]
