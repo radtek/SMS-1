@@ -313,6 +313,7 @@
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsController.cs" />
@@ -889,7 +890,7 @@
     <Content Include="Areas\ProOrganisation\Views\Shared\_GenerateUserPin.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\web.config" />
     <Content Include="Areas\SmsTransaction\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Index.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.cshtml" />
     <Content Include="Areas\BankAccount\Views\web.config" />
@@ -912,6 +913,7 @@
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1868,8 +1870,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
@@ -2088,7 +2088,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32203</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32203/</IISUrl>
+          <IISUrl>http://localhost:32204/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

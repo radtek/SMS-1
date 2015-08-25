@@ -1,117 +1,95 @@
-﻿<!-- MAIN CONTENT -->
+﻿@using Bec.TargetFramework.Entities
+@{
+    int i = 0;
+}
+@model IEnumerable<SmsTransactionDTO>
+<!-- MAIN CONTENT -->
 <div id="content">
-    <div class="row">
-
-        <h2 class="row-seperator-header inline-heading">View Transactions</h2>
-        <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
-        <input class="inline-heading pull-right" type="text" id="gridSearchInput" />
-
-        <div class="col-sm-12">
-
+    @foreach (var tx in Model)
+    {
+        <div class="well">
             <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <div id="txGrid"></div>
-                    </div>
+                <div class="col col-6">
+                    <h5>@tx.Organisation.OrganisationDetails.First().Name</h5>
+                    <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.OrganisationID })">
+                        <section>
+                            <label class="input">
+                                <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
+                            </label>
+                        </section>
+                        <section>
+                            <label class="input">
+                                <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
+                            </label>
+                        </section>
+                        <section>
+                            <label class="Button">
+                                <input type="submit" value="Check" id="submitButton" />
+                            </label>
+                        </section>
+                    </form>
+                    <div id="result-@i"></div>
                 </div>
             </div>
-
-            <div class="row hidden" id="rPanel">
-                <div class="col-sm-6">
-                    <!-- well -->
-                    <div class="well">
-                        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true">Edit Transaction</a>
-                        <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
-                        <h5>Selected Transaction</h5>
-                        <dl class="dl-horizontal">
-                            <dt>Name:</dt>
-                            <dd><p id="ddName"></p></dd>
-                            <dt>Email:</dt>
-                            <dd><p id="ddEmail"></p></dd>
-                            <dt>CreatednOn:</dt>
-                            <dd><p id="ddCreated"></p></dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
+
+    }
 </div>
 
 @section Scripts {
     <script type="text/javascript">
+        var opts = {
+            ignore: '.skip',
+            // Rules for form validation
+            rules: {
+                accountNumber: {
+                    required: true,
+                    digits: true,
+                    minlength: 8
+                },
+                sortCode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6
+                }
+            },
 
-    //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var txGrid = new gridItem(
+            submitHandler: validateSubmit
+        };
+
+        @for (int j = 0; j < i; j++)
         {
-            gridElementId: 'txGrid',
-            url: '@Url.Action("GetSmsTransactions", "Buyer", new { area = "SmsTransaction" })',
-            schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
-            type: 'odata-v4',
-            serverSorting: true,
-            serverPaging: true,
-            defaultSort: { field: "CreatedOn", dir: "desc" },
-            panels: ['rPanel'],
-            jumpToId: '@TempData["SmsTransactionID"]',
-            change: txChange,
-            searchElementId: 'gridSearchInput',
-            searchButtonId: 'gridSearchButton',
-            columns: [
-                    {
-                        field: "SmsTransactionID",
-                        hidden: true,
-                    },
-                    {
-                        field: "Reference",
-                        title: "Reference"
-                    },
-                    {
-                        field: "Address.Line1",
-                        title: "Address Line 1"
-                    },
-                    {
-                        field: "Address.PostalCode",
-                        title: "Postcode"
-                    },
-                    {
-                        field: "UserAccountOrganisation.Contact.LastName",
-                        title: "Name",
-                        template: function (dataItem) {
-                            return dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName;
-                        }
-                    },
-                    {
-                        field: "UserAccountOrganisation.UserAccount.Email",
-                        title: "Email"
-                    },
-                    {
-                        field: "CreatedOn",
-                        title: "Created",
-                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
-                    }
-            ]
-        });
+            <text>$("#check-Form-</text>@j<text>").validate(opts);</text>
+        }
 
-    $(document).ready(function () {
-        txGrid.makeGrid();
+        function validateSubmit(form) {
+            $("#submitButton").prop('disabled', true);
 
-        findModalLinks();
-    });
+            var resDiv = $('#result-' + $(form).data("index"));
+            resDiv.empty();
+            resDiv.append("Please wait...");
 
-    //data binding for the panes beneath each grid
-    function txChange(dataItem) {
-        $("p#ddName").text(dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName);
-        $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
-        $("p#ddCreated").text(dateString(dataItem.CreatedOn));
+            var formData = $(form).serializeArray();
+            ajaxWrapper({
+                url: $(form).data("url"),
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                $("#submitButton").prop('disabled', false);
+                resDiv.empty();
+                if (res.result == true)
+                    resDiv.append("Match");
+                else {
+                    resDiv.append("No Match");
+                }
+            }).fail(function (e) {
+                $("#submitButton").prop('disabled', false);
+                resDiv.empty();
 
-        $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
-        $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Buyer", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" + encodeURIComponent(dataItem.UserAccountOrganisation.Contact.FirstName + " " + dataItem.UserAccountOrganisation.Contact.LastName));
-
-        $("#editButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-        $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-        
-    }
+                console.log(e);
+                resDiv.append("Error");
+            });
+        }
 
     </script>
 }

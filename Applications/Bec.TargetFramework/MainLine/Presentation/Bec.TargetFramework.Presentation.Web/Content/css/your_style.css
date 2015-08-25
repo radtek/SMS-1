@@ -109,17 +109,22 @@
   top: 7px;
   display: none;
 }
-.search-form input.invalid {
+.search-form input.invalid,
+.smart-form input.invalid {
   border: 1px solid #a90329;
   background-color: #fff0f0;
 }
-.search-form em.invalid {
+.search-form em.invalid,
+.smart-form em.invalid {
   display: block;
-  margin-top: 6px;
+  margin-top: 0;
   padding: 0 1px;
   font-style: normal;
   font-size: 11px;
   line-height: 15px;
   color: #d56161;
+}
+.smart-form fieldset + fieldset {
+  border-top: none !important;
 }
 /*# sourceMappingURL=your_style.css.map */

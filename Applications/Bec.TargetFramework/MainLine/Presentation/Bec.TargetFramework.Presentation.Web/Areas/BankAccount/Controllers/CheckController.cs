@@ -1,16 +1,13 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Presentation.Web.Helpers;
 using Bec.TargetFramework.Infrastructure.Extensions;
-using Newtonsoft.Json.Linq;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 {

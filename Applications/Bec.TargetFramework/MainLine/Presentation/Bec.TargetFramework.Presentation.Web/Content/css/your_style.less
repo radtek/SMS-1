@@ -172,14 +172,15 @@
     display:none;
 }
 
-.search-form{
+.search-form,
+.smart-form{
     input.invalid {
         border: 1px solid #a90329;
         background-color: #fff0f0;
     }
     em.invalid{
         display: block;
-        margin-top: 6px;
+        margin-top: 0;
         padding: 0 1px;
         font-style: normal;
         font-size: 11px;
@@ -188,3 +189,6 @@
     }
 }
 
+.smart-form fieldset+fieldset {
+    border-top: none !important;
+}

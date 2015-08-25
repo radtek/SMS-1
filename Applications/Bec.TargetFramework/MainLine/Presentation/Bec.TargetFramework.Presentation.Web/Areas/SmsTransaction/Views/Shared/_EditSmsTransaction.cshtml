@@ -22,7 +22,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("EditSmsTransaction", "Buyer", new { area = "SmsTransaction" })" method="POST" id="editSmsTransaction-form" class="smart-form">
+                        <form action="@Url.Action("EditSmsTransaction", "Transaction", new { area = "SmsTransaction" })" method="POST" id="editSmsTransaction-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
