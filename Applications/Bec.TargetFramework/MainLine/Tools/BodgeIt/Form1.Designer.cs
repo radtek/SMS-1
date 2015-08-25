@@ -38,6 +38,7 @@
             this.numericUpDownDays = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.addDefaultUsers = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -68,7 +69,6 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.addDefaultUsers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -190,6 +190,17 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Add new user";
+            // 
+            // addDefaultUsers
+            // 
+            this.addDefaultUsers.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.addDefaultUsers.Location = new System.Drawing.Point(213, 212);
+            this.addDefaultUsers.Name = "addDefaultUsers";
+            this.addDefaultUsers.Size = new System.Drawing.Size(130, 53);
+            this.addDefaultUsers.TabIndex = 18;
+            this.addDefaultUsers.Text = "Add Defaults (T1-T5, Ana, Elvis1, Elvis2, Fred)";
+            this.addDefaultUsers.UseVisualStyleBackColor = false;
+            this.addDefaultUsers.Click += new System.EventHandler(this.addDefaultUsers_Click);
             // 
             // button2
             // 
@@ -367,7 +378,8 @@
             this.comboAddress.Items.AddRange(new object[] {
             "http://localhost:9000",
             "http://dev-as-01.bec.local:9000",
-            "http://sys-as-01.bec.local:9000"});
+            "http://sys-as-01.bec.local:9000",
+            "http://uat-as-01.bec.local:9000"});
             this.comboAddress.Location = new System.Drawing.Point(87, 12);
             this.comboAddress.Name = "comboAddress";
             this.comboAddress.Size = new System.Drawing.Size(235, 21);
@@ -471,17 +483,6 @@
             this.label15.Size = new System.Drawing.Size(22, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
-            // 
-            // addDefaultUsers
-            // 
-            this.addDefaultUsers.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.addDefaultUsers.Location = new System.Drawing.Point(213, 212);
-            this.addDefaultUsers.Name = "addDefaultUsers";
-            this.addDefaultUsers.Size = new System.Drawing.Size(130, 53);
-            this.addDefaultUsers.TabIndex = 18;
-            this.addDefaultUsers.Text = "Add Defaults (T1-T5, Ana, Elvis1, Elvis2, Fred)";
-            this.addDefaultUsers.UseVisualStyleBackColor = false;
-            this.addDefaultUsers.Click += new System.EventHandler(this.addDefaultUsers_Click);
             // 
             // Form1
             // 
