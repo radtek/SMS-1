@@ -46,6 +46,9 @@ namespace Bec.TargetFramework.Hosts.BusinessService
             app.UseAutofacMiddleware(iocContainer);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
+
+            // required to display detailed exception
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
         }
 
         public class TraceExceptionLogger : ExceptionLogger
