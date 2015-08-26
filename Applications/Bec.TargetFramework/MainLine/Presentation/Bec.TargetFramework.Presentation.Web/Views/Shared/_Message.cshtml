@@ -24,9 +24,9 @@
                 }
                 else
                 {
-                    foreach (Tuple<string,string> button in ViewBag.Buttons)
+                    foreach (Tuple<string,string,string> button in ViewBag.Buttons)
                     {
-                        <button type="button" id="@button.Item1" class="btn btn-primary" data-dismiss="modal">
+                        <button type="button" id="@button.Item1" class="btn @button.Item3" data-dismiss="modal">
                             @button.Item2
                         </button>
                     }

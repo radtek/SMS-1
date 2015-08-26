@@ -7,37 +7,13 @@
                 <h1>Buyer Products</h1>
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-2">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
-                                    Bank Account Check
-                                </h3>
-                            </div>
-                            <div class="panel-body no-padding text-align-center">
-                                <div class="the-price">
-                                    <h1>
-                                        £0.00
-                                    </h1>
-                                </div>
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            Bank Account check for the buyer
-                                        </td>
-                                    </tr>
-                                    <tr class="active">
-                                        <td>
-                                            Instant result of Match or No Match
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="panel-footer no-padding">
-                                <a data-href="@Url.Action("ViewAddSmsTransaction", "Products", new {area = "ProOrganisation"})" data-modallink="true" class="btn btn-primary btn-block" role="button">Order</a>
-                            </div>
-                        </div>
+                        <br />
+                        <ul style="list-style:square;">
+                            <li>
+                                <p style="display:inline-block">Bank Account Check&nbsp;</p>
+                                <a data-href="@Url.Action("ViewAddSmsTransaction", "Products", new { area  = "ProOrganisation" })" class="btn btn-primary btn-xs inline-heading" data-modallink="true">Order</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
