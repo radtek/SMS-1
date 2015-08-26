@@ -25,12 +25,6 @@
     </vcs-settings>
     <requirements />
     <build-triggers>
-      <build-trigger id="remoteRunOnBranch" type="remoteRunOnBranch">
-        <parameters>
-          <param name="branchy:jetbrains.git" value="pattern:jetbrains.git" />
-          <param name="pattern:jetbrains.git" value="refs/heads/release/*" />
-        </parameters>
-      </build-trigger>
       <build-trigger id="vcsTrigger" type="vcsTrigger">
         <parameters>
           <param name="branchFilter" value="+:*" />
