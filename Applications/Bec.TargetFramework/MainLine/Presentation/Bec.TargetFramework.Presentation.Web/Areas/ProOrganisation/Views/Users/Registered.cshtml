@@ -41,7 +41,7 @@
         var iGrid = new gridItem(
             {
                 gridElementId: 'regGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true, hasPin = false }))',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = false, loginAllowed = true }))',
                 schema: { data: "Items", total: "Count", model: { id: "UserID" } },
                 type: 'odata-v4',
                 serverSorting: true,

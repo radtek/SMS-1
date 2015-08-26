@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed, bool hasPin)
+        public async Task<ActionResult> GetUsers(bool temporary, bool loginAllowed)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
@@ -54,18 +54,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.Contact.LastName
             }, true);
 
-            var where = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x =>
                 !x.UserAccount.IsDeleted &&
                 x.OrganisationID == orgID &&
                 x.UserAccount.IsTemporaryAccount == temporary &&
                 x.UserAccount.IsLoginAllowed == loginAllowed);
-
-            if (hasPin)
-                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode != null));
-            else
-                where = Expression.And(where, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.PinCode == null));
-
-            var filter = ODataHelper.Filter(where);
 
             JObject res = await queryClient.QueryAsync("UserAccountOrganisations", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
@@ -102,6 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
+            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true);
 
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -141,18 +135,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewGeneratePin(Guid uaoId, Guid userId, string label)
+        public ActionResult ViewReinstate(Guid uaoId, Guid userId, string label)
         {
             ViewBag.uaoId = uaoId;
             ViewBag.userId = userId;
             ViewBag.fullName = label;
-            return PartialView("_GenerateUserPin");
+            return PartialView("_Reinstate");
         }
 
         [HttpPost]
-        public async Task<ActionResult> GeneratePin(Guid uaoId, Guid userId)
+        public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
-            await userClient.GeneratePinAsync(uaoId, false);
+            await userClient.GeneratePinAsync(uaoId, true);
 
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;
