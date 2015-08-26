@@ -887,7 +887,7 @@
     <Content Include="Areas\ProOrganisation\Views\_ViewStart.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.cshtml" />
-    <Content Include="Areas\ProOrganisation\Views\Shared\_GenerateUserPin.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_Reinstate.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\web.config" />
     <Content Include="Areas\SmsTransaction\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.cshtml" />

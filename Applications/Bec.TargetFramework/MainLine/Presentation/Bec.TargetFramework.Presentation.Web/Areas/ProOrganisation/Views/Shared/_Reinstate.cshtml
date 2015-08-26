@@ -4,12 +4,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="generatePinLabel">Generate PIN</h4>
+                <h4 class="modal-title" id="generatePinLabel">Reinstate Invite</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("GeneratePin", "Users", new { area = "ProOrganisation" })" method="POST" id="generatePin-form" class="smart-form">
+                        <form action="@Url.Action("Reinstate", "Users", new { area = "ProOrganisation" })" method="POST" id="generatePin-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
@@ -18,7 +18,7 @@
 
                                 <div class="row">
                                     <section class="col">
-                                        <label class="label">Are you sure you wish to generate a PIN number for @ViewBag.fullName?</label>
+                                        <label class="label">Are you sure you wish to reinstate the expired invite for @ViewBag.fullName?</label>
                                     </section>
                                 </div>
 
@@ -32,7 +32,7 @@
                     Cancel
                 </button>
                 <button type="button" id="submitGeneratePin" class="btn btn-primary">
-                    Generate PIN
+                    Reinstate
                 </button>
             </div>
         </div>

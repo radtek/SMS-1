@@ -9,7 +9,6 @@
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
                 <li><a href="#s1"> New Invites </a></li>
-                <li><a href="#s2"> With PIN </a></li>
                 <li><a href="#s3"> Expired </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
@@ -27,7 +26,6 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="generatePinButton" class="btn btn-primary btn-sm" data-modallink="true">Generate PIN</a>
                                 <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
@@ -62,10 +60,6 @@
                                     <dd><p id="ddwName"></p></dd>
                                     <dt>Email:</dt>
                                     <dd><p id="ddwEmail"></p></dd>
-                                    <dt>PIN:</dt>
-                                    <dd><p id="ddwPin"></p></dd>
-                                    <dt>PIN Created:</dt>
-                                    <dd><p id="ddwPinCreated"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -85,7 +79,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="regeneratePinButton" class="btn btn-primary btn-sm" data-modallink="true">Regenerate PIN</a>
+                                <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true">Reinstate Invite</a>
                                 <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
@@ -93,10 +87,6 @@
                                     <dd><p id="ddeName"></p></dd>
                                     <dt>Email:</dt>
                                     <dd><p id="ddeEmail"></p></dd>
-                                    <dt>PIN:</dt>
-                                    <dd><p id="ddePin"></p></dd>
-                                    <dt>PIN Created:</dt>
-                                    <dd><p id="ddePinCreated"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -116,7 +106,7 @@
         var nGrid = new gridItem(
             {
                 gridElementId: 'nGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = false }))',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true }))',
                 schema: { data: "Items", total: "Count", model: { id: "UserID" } },
                 type: 'odata-v4',
                 serverSorting: true,
@@ -151,59 +141,10 @@
                 ]
             });
 
-        var wGrid = new gridItem(
-            {
-                gridElementId: 'wGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true, hasPin = true }))',
-                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "Contact.LastName", dir: "asc" },
-                panels: ['wPanel'],
-                change: wChange,
-                jumpToId: '@TempData["UserId"]',
-                columns: [
-                        {
-                            field: "UserID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Contact.Salutation",
-                            title: "Title"
-                        },
-                        {
-                            field: "Contact.LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
-                        },
-                        {
-                            field: "UserAccount.Email",
-                            title: "Email"
-                        },
-                        {
-                            field: "UserAccount.Created",
-                            title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
-                        },
-                        {
-                            field: "PinCode",
-                            title: "PIN"
-                        },
-                        {
-                            field: "PinCreated",
-                            title: "PIN Created",
-                            template: function (dataItem) {
-                                return dateString(dataItem.PinCreated);
-                            }
-                        }
-                ]
-            });
-
         var eGrid = new gridItem(
             {
                 gridElementId: 'eGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false, hasPin = true }))',
+                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false }))',
                 schema: { data: "Items", total: "Count", model: { id: "UserID" } },
                 type: 'odata-v4',
                 serverSorting: true,
@@ -234,13 +175,6 @@
                             field: "UserAccount.Created",
                             title: "Invite Created",
                             template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
-                        },
-                        {
-                            field: "PinCreated",
-                            title: "PIN Created",
-                            template: function (dataItem) {
-                                return dateString(dataItem.PinCreated);
-                            }
                         }
                 ]
             });
@@ -270,26 +204,14 @@
             $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
             $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
 
-            $("#generatePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
             $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
-        }
-        function wChange(dataItem) {
-            $("p#ddwSal").text(dataItem.Contact.Salutation || "");
-            $("p#ddwName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
-            $("p#ddwEmail").text(dataItem.UserAccount.Email || "");
-            $("p#ddwPin").text(dataItem.PinCode || "");
-            $("p#ddwPinCreated").text(dateString(dataItem.PinCreated));
-
-            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
-            $("#revokeButton2").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
         }
         function eChange(dataItem) {
             $("p#ddeSal").text(dataItem.Contact.Salutation || "");
-            $("p#ddeName").text(dataItem.FirstName + " " + dataItem.Contact.LastName);
+            $("p#ddeName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
             $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
-            $("p#ddePinCreated").text(dateString(dataItem.PinCreated));
 
-            $("#regeneratePinButton").data('href', '@Url.Action("ViewGeneratePin", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+            $("#reinstateButton").data('href', '@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
             $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
         }
 
