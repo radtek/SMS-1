@@ -5,30 +5,83 @@
 @model IEnumerable<SmsTransactionDTO>
 <!-- MAIN CONTENT -->
 <div id="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-desktop fa-fw "></i> Bank Account Check
+            </h1>
+        </div>
+    </div>
     @foreach (var tx in Model)
     {
-        <div class="well">
-            <div class="row">
-                <div class="col col-6">
-                    <h5>@tx.Organisation.OrganisationDetails.First().Name</h5>
-                    <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.OrganisationID })">
-                        <section>
-                            <label class="input">
-                                <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
-                            </label>
-                        </section>
-                        <section>
-                            <label class="input">
-                                <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
-                            </label>
-                        </section>
-                        <section>
-                            <label class="Button">
-                                <input type="submit" value="Check" id="submitButton" />
-                            </label>
-                        </section>
-                    </form>
-                    <div id="result-@i"></div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-4">
+                <div class="jarviswidget jarviswidget-sortable" role="widget">
+                    <header role="heading">
+                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                        <h2>Bank Account Check Form - @tx.Organisation.OrganisationDetails.First().Name</h2>
+                    </header>
+
+                    <div role="content">
+                        <div class="widget-body no-padding">
+                            <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
+                                <header>
+                                    Bank Account Details
+                                </header>
+                                <div class="alert alert-info margin-left-10 margin-right-10">
+                                    <p>
+                                        <i class="fa fa-fw fa-lg fa-exclamation"></i>
+                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
+                                    </p>
+                                    <p>
+                                        <strong>
+                                            This system will check whether these bank account details match those validated by the Safe Move Scheme.  Please note this system will not perform a transfer of funds.
+                                        </strong>
+                                    </p>
+                                </div>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-sm-12">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
+                                            </label>
+                                        </section>
+                                    </div>
+
+                                    <div class="row">
+                                        <section class="col col-sm-12">
+                                            <label class="input">
+                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
+                                            </label>
+                                        </section>
+                                    </div>
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" class="btn btn-primary">
+                                        Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
+                                    </button>
+                                </footer>
+                            </form>
+                            <div class="alert alert-success" style="display: none;" id="result-match-@i">
+                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match!</h4>
+                                @*<p>
+                                        The provided Bank Account details are valid and you can safely use it!
+                                    </p>*@
+                            </div>
+                            <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
+                                <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match!</h4>
+                                @*<p>
+                                        The provided Bank Account details are not valid and you should not use it!
+                                    </p>*@
+                            </div>
+                            <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
+                                <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,9 +118,15 @@
         function validateSubmit(form) {
             $("#submitButton").prop('disabled', true);
 
-            var resDiv = $('#result-' + $(form).data("index"));
-            resDiv.empty();
-            resDiv.append("Please wait...");
+            var matchDiv = $('#result-match-' + $(form).data("index"));
+            var noMatchDiv = $('#result-no-match-' + $(form).data("index"));
+            var serverErrorDiv = $('#result-server-error-' + $(form).data("index"));
+            var spinner = $('#spinner-' + $(form).data("index"));
+
+            matchDiv.hide();
+            noMatchDiv.hide();
+            serverErrorDiv.hide();
+            spinner.show();
 
             var formData = $(form).serializeArray();
             ajaxWrapper({
@@ -76,18 +135,18 @@
                 data: formData
             }).done(function (res) {
                 $("#submitButton").prop('disabled', false);
-                resDiv.empty();
-                if (res.result == true)
-                    resDiv.append("Match");
+                spinner.hide();
+                if (res.result == true) {
+                    matchDiv.show();
+                }
                 else {
-                    resDiv.append("No Match");
+                    noMatchDiv.show();
                 }
             }).fail(function (e) {
                 $("#submitButton").prop('disabled', false);
-                resDiv.empty();
-
                 console.log(e);
-                resDiv.append("Error");
+                spinner.hide();
+                serverErrorDiv.show();
             });
         }
 
