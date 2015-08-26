@@ -407,7 +407,7 @@ var findAddress = function (opts) {
             self.findAddressButton.prop('disabled', true);
 
             ajaxWrapper({
-                url: window.location.origin + '/Home/FindAddress',
+                url: self.findAddressButton.data('url'),
                 data: { postcode: pc }
             })
             .always(function () {
