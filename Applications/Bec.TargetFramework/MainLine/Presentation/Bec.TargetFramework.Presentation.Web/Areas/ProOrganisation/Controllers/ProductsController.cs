@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 ViewBag.title = "Warning";
                 ViewBag.message = "A property transaction already exists for this user at this address. Are you sure that you wish to continue?";
-                ViewBag.Buttons = new List<Tuple<string,string>> { Tuple.Create("save", "Continue" ), Tuple.Create("cancel", "Cancel" ) };
+                ViewBag.Buttons = new List<Tuple<string, string, string>> { Tuple.Create("cancel", "Cancel", "btn-default"), Tuple.Create("save", "Continue", "btn-primary") };
                 return PartialView("_Message");
             }
             return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);

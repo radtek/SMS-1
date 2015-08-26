@@ -3,7 +3,7 @@
 <div id="content">
     <div class="row">
 
-        <h2 class="row-seperator-header inline-heading">View Bank Accounts</h2>
+        <h2 class="row-seperator-header inline-heading">View My Bank Accounts</h2>
         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
         {
             <a data-href="@Url.Action("ViewAddBankAccount", "Account", new { area  = "BankAccount" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Bank Account</a>

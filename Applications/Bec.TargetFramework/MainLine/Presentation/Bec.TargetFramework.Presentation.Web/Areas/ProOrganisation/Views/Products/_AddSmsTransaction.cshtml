@@ -15,19 +15,19 @@
         -->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addTransactionLabel">Purchase Product</h4>
+                <h4 class="modal-title" id="addTransactionLabel">Order Product - Buyer Product > Bank Account Check</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
+                    <section class="col-12">
                         <form id="addTransaction-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <input name="buyerUaoID" id="buyerUaoID" type="hidden" />
                             <fieldset>
-                                <section>
+                                <legend>Primary Buyer</legend>
                                     <div class="row">
-                                        <div class="col col-sm-4">
+                                    <section class="col col-sm-4">
                                             <label class="label">Title</label>
                                             <label class="select">
                                                 <select name="Salutation" tabindex="1">
@@ -39,31 +39,36 @@
                                                 </select>
                                                 <i></i>
                                             </label>
-                                        </div>
-                                        <div class="col col-sm-4">
+                                    </section>
+                                    <section class="col col-sm-4">
                                             <label class="label">First Name</label>
                                             <label class="input">
-                                                <input name="firstName" tabindex="2" maxlength="100" />
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            <input name="FirstName" tabindex="2" maxlength="100" />
                                             </label>
-                                        </div>
-                                        <div class="col col-sm-4">
+                                    </section>
+                                    <section class="col col-sm-4">
                                             <label class="label">Last Name</label>
                                             <label class="input">
-                                                <input name="lastName" tabindex="3" maxlength="100" />
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            <input name="LastName" tabindex="3" maxlength="100" />
                                             </label>
-                                        </div>
-                                    </div>
                                 </section>
-
-                                <section>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-sm-12">
                                     <label class="label">Email</label>
                                     <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                         <input name="Email" type="email" tabindex="4" maxlength="200" />
                                     </label>
-                                </section>
+                                    </div>
+                                </div>
+
                             </fieldset>
 
                             <fieldset>
+                                <legend>Transaction Address</legend>
                                 <div class="row">
                                     <section class="col col-4">
                                         <label class="label">Lookup Postcode</label>
@@ -88,7 +93,7 @@
 
                                 <div class="row">
                                     <section class="col" id="sms_noMatch">
-                                        <em style="color:#d56161">No matches found, please enter address below</em>
+                                        <em style="color: #d56161">No matches found, please enter address below</em>
                                     </section>
                                 </div>
 
@@ -101,60 +106,59 @@
 
                                 <div class="row">
                                     <section class="col col-6">
-                                        <label class="label">Internal Reference</label>
+                                        @*<label class="label">Transaction Address</label>*@
                                         <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Reference, new { tabindex = "9", maxlength = 500 })
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "9", maxlength = 50 })
                                         </label>
                                     </section>
                                     <section class="col col-6">
-                                        <label class="label">Transaction Address</label>
                                         <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "12", maxlength = 50 })
                                         </label>
                                     </section>
+                                </div>
 
+                                <div class="row">
                                     <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "10", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "13", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "11", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
                                         <label class="label">Additional Address Information</label>
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.Address.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "11", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Address.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "14", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
 
-                                <div class="row">
-                                    <section class="col col-6">
+                            </fieldset>
+                            <fieldset>
+                                <legend>Other Details</legend>
+                                <div class="form-group">
+                                    <label class="label">Internal Reference</label>
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "12", maxlength = 50 })
+                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.Reference, new { tabindex = "15", maxlength = 500 })
                                         </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "13", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "14", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "15", maxlength = 50 })
-                                        </label>
-                                    </section>
                                 </div>
                             </fieldset>
                             <!--
@@ -170,7 +174,7 @@
                             </fieldset>
                                 -->
                         </form>
-                    </div>
+                    </section>
                 </div>
             </div>
             <div class="modal-footer">
@@ -182,7 +186,7 @@
                     Cancel
                 </button>
                 <button type="button" id="submitAddTransaction" class="btn btn-primary" tabindex="16">
-                    Purchase
+                    Order Product
                 </button>
             </div>
         </div>
@@ -202,7 +206,8 @@
         resList: '#sms_addressresults',
         manAddRow: '#sms_manAddRow',
         noMatch: '#sms_noMatch',
-        findAddressButton: '#sms_findaddressbutton'
+        findAddressButton: '#sms_findaddressbutton',
+        additionalAddress: '#AdditionalAddressInformation'
     }).setup();
 
     // submit from when Save button clicked
@@ -214,7 +219,10 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            "Name": {
+            "FirstName": {
+                required: true
+            },
+            "LastName": {
                 required: true
             },
             "Email": {
@@ -273,7 +281,7 @@
             data: formData
         }).done(function (res) {
             if (res.result == true)
-                window.location = '@Url.Action("Index", "Buyer", new { area = "SmsTransaction" })';
+                window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })';
             else {
                 $('#buyerUaoID').val(res.buyerUaoID);
                 updateBalance();

@@ -73,7 +73,7 @@
         $("#submitPurchase").prop('disabled', true);
         var formData = $("#purchase-form").serializeArray();
         ajaxWrapper({
-            url: '@Url.Action("Purchase", "Buyer", new { area = "SmsTransaction" })',
+            url: '@Url.Action("Purchase", "Transaction", new { area = "SmsTransaction" })',
             type: "POST",
             data: formData
         }).done(function (res) {

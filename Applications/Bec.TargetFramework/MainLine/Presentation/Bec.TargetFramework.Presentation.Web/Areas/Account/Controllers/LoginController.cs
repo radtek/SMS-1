@@ -1,30 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.Security;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.Security;
-using Bec.TargetFramework.UI.Process.Filters;
-using BrockAllen.MembershipReboot;
-using Bec.TargetFramework.Infrastructure.Extensions;
-using System.Net.Http.Formatting;
-using Omu.ValueInjecter;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Infrastructure.Settings;
-using Bec.TargetFramework.Entities.Enums;
-using System.ComponentModel.DataAnnotations;
-using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Security;
+using BrockAllen.MembershipReboot;
+using Omu.ValueInjecter;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
@@ -89,11 +79,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
                     if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
                     {
-
                         if (ua.IsTemporaryAccount)
+                        {
                             return RedirectToAction("Index", "Register", new { area = "Account" });
+                        }
                         else
+                        {
+                            // the final landing page is decided inside the Home controller
                             return RedirectToAction("Index", "Home", new { area = "" });
+                        }
                     }
                     else
                         msg = "Invalid Username or Password";
@@ -133,18 +127,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
 
             return true;
-        }
-
-        private static async Task<List<Claim>> GenerateUserClaims(Guid userId, IUserLogicClient ulc)
-        {
-            List<Claim> claims = new List<Claim>();
-            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(userId);
-            foreach (var org in orgs)
-            {
-                foreach (var item in await ulc.GetUserClaimsAsync(userId, org.OrganisationID))
-                    claims.Add(new Claim(item.Type, item.Value));
-            }
-            return claims;
         }
 
         [HttpPost]

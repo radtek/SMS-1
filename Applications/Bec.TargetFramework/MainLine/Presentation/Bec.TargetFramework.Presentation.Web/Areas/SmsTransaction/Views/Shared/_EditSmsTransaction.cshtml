@@ -17,12 +17,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editSmsTransactionLabel">Edit Transaction</h4>
+                <h4 class="modal-title" id="editSmsTransactionLabel">Edit Primary Buyer</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("EditSmsTransaction", "Buyer", new { area = "SmsTransaction" })" method="POST" id="editSmsTransaction-form" class="smart-form">
+                        <form action="@Url.Action("EditSmsTransaction", "Transaction", new { area = "SmsTransaction" })" method="POST" id="editSmsTransaction-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
@@ -33,7 +33,6 @@
                                     <label class="label">Title</label>
                                     <label class="select">
                                         @Html.DropDownListFor(m => m.Model.UserAccountOrganisation.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "1" })
-                                        <i></i>
                                     </label>
                                 </section>
                                 <section>
@@ -46,18 +45,20 @@
                                 <section>
                                     <label class="label">Last Name</label>
                                     <label class="input">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.Contact.LastName, new { tabindex = "3", maxlength = 50 })
+                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.Contact.LastName, new {tabindex = "3", maxlength = 50})
                                     </label>
                                 </section>
-                                <section>
-                                    <label class="label">Email Address</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", type = "email" })
-                                    </label>
-                                </section>
-
+                                @if (ViewBag.IsTemporaryUser)
+                                {
+                                    <section>
+                                        <label class="label">Email Address</label>
+                                        <label class="input ">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", type = "email" })
+                                        </label>
+                                    </section>
+                                }
                             </fieldset>
                         </form>
                     </div>
@@ -98,13 +99,14 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            FirstName: {
+
+            '@Html.NameFor(m => m.Model.UserAccountOrganisation.Contact.FirstName)': {
                 required: true
             },
-            LastName: {
+            '@Html.NameFor(m => m.Model.UserAccountOrganisation.Contact.LastName)': {
                 required: true
             },
-            EmailAddress1: {
+            '@Html.NameFor(m => m.Model.UserAccountOrganisation.UserAccount.Email)': {
                 required: true,
                 email: true
             }

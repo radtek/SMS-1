@@ -360,7 +360,7 @@ var findAddress = function (opts) {
     this.town = $(opts.town);
     this.county = $(opts.county);
     this.postcode = $(opts.postcode);
-    this.additional = $(opts.additionalAddress)
+    this.additional = $(opts.additionalAddress);
 
     this.manualAddress = $(opts.manualAddress);
     this.resList = $(opts.resList);

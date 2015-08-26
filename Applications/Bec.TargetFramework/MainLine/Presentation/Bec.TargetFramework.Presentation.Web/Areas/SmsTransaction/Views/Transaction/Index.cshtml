@@ -1,0 +1,164 @@
+﻿<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
+        <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
+        <input class="inline-heading pull-right" type="text" id="gridSearchInput" />
+
+        <div class="col-sm-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div id="txGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row hidden" id="rPanel">
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3>Transaction Details</h3>
+                        <h5>Transaction Address</h5>
+                        <dl class="dl-horizontal">
+                            <dt id="dtAddressLine1">Address Line 1:</dt>
+                            <dd><p id="ddAddressLine1"></p></dd>
+                            <dt id="dtAddressLine2">Address Line 2:</dt>
+                            <dd><p id="ddAddressLine2"></p></dd>
+                            <dt id="dtTown">Town:</dt>
+                            <dd><p id="ddTown"></p></dd>
+                            <dt id="dtCounty">County:</dt>
+                            <dd><p id="ddCounty"></p></dd>
+                            <dt id="dtPostCode">Post Code:</dt>
+                            <dd><p id="ddPostCode"></p></dd>
+                            <dt id="dtAdditionalAddressInformation">Additional Information:</dt>
+                            <dd><p id="ddAdditionalAddressInformation"></p></dd>
+                        </dl>
+                        <h5>Product</h5>
+                        <dl class="dl-horizontal">
+                            <dt>Product Name:</dt>
+                            <dd>
+                                <p>
+                                    Buyer Products > Bank Account Check
+                                </p>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3>Product Details</h3>
+                        <h5>
+                            Primary Buyer
+                            <a id="editButton" class="btn btn-sm btn-default" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil"></i></a>
+                        </h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                
+                                <dl class="dl-horizontal">
+                                    <dt>Full Name:</dt>
+                                    <dd>
+                                        <p id="ddName"></p>
+                                    </dd>
+                                    <dt>Email:</dt>
+                                    <dd>
+                                        <p id="ddEmail"></p>
+                                    </dd>
+                                </dl>
+                                <a id="resendButton" class="btn btn-primary" data-modallink="true">Resend Login Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        //set up grid options for the three grids. most are passed straight on to kendo grid.
+        var txGrid = new gridItem(
+            {
+                gridElementId: 'txGrid',
+                url: '@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })',
+                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
+                type: 'odata-v4',
+                serverSorting: true,
+                serverPaging: true,
+                defaultSort: { field: "CreatedOn", dir: "desc" },
+                panels: ['rPanel'],
+                jumpToId: '@TempData["SmsTransactionID"]',
+                change: txChange,
+                searchElementId: 'gridSearchInput',
+                searchButtonId: 'gridSearchButton',
+                columns: [
+                        {
+                            field: "SmsTransactionID",
+                            hidden: true,
+                        },
+                        {
+                            field: "Reference",
+                            title: "Reference"
+                        },
+                        {
+                            field: "Address.Line1",
+                            title: "Address Line 1"
+                        },
+                        {
+                            field: "Address.PostalCode",
+                            title: "Postcode"
+                        },
+                        {
+                            field: "CreatedOn",
+                            title: "Created",
+                            template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                        }
+                ]
+            });
+
+        $(document).ready(function () {
+            txGrid.makeGrid();
+
+            findModalLinks();
+        });
+
+        //data binding for the panes beneath each grid
+        function txChange(dataItem) {
+            $("p#ddAddressLine1").text(dataItem.Address.Line1 || "");
+            $("p#ddAddressLine2").text(dataItem.Address.Line2 || "");
+            $("p#ddTown").text(dataItem.Address.Town || "");
+            $("p#ddCounty").text(dataItem.Address.County || "");
+            $("p#ddPostCode").text(dataItem.Address.PostalCode || "");
+            $("p#ddAdditionalAddressInformation").text(dataItem.Address.AdditionalAddressInformation || "");
+
+            $("p#ddName").text(
+                (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
+                (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
+                (dataItem.UserAccountOrganisation.Contact.LastName || ""));
+            $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
+
+            $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
+            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" +
+                encodeURIComponent(
+                    (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
+                    (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
+                    (dataItem.UserAccountOrganisation.Contact.LastName || "")));
+
+            $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+
+            toggleFields(dataItem);
+        }
+
+        function toggleFields(dataItem) {
+            $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.Address.Line1);
+            $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.Address.Line2);
+            $("#dtTown, p#ddTown").toggle(!!dataItem.Address.Town);
+            $("#dtCounty, p#ddCounty").toggle(!!dataItem.Address.County);
+            $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.Address.PostalCode);
+            $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.Address.AdditionalAddressInformation);
+        }
+
+    </script>
+}

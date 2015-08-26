@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Bec.TargetFramework.Infrastructure.Log;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Security;
+using System;
 using System.Threading.Tasks;
-using Bec.TargetFramework.Business.Client.Interfaces;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Presentation.Web.Helpers;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : ApplicationControllerBase
     {
         public IAddressLogicClient AddressClient { get; set; }
-        public IQueryLogicClient queryClient { get; set; }
-        public HomeController()
-        {
-        }
+        public IQueryLogicClient QueryClient { get; set; }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name }) });
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var data = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
-            return View(data);
+            if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+            {
+                return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
+            }
+            else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
+            {
+                return RedirectToAction("OutstandingBankAccounts", "Finance", new { area = "Admin" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Buyer", new { area = "SmsTransaction" });
+            }
         }
 
         public ActionResult Denied()

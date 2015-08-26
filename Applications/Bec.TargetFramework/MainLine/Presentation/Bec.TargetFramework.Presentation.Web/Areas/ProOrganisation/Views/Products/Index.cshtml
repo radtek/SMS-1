@@ -1,33 +1,31 @@
 ﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-
-        <h2 class="row-seperator-header">Products</h2>
+        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-shopping-cart margin-right-10"></i>Order Products</h2>
         <div class="col-sm-12">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <h4>Buyer Products</h4>
+            <div class="well well-light">
+                <h3>Buyer Products</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-2">
                         <br />
                         <ul style="list-style:square;">
                             <li>
                                 <p style="display:inline-block">Bank Account Check&nbsp;</p>
-                                <a data-href="@Url.Action("ViewAddSmsTransaction", "Products", new { area  = "ProOrganisation" })" class="btn btn-primary btn-xs inline-heading" data-modallink="true">Purchase</a>
+                                <a data-href="@Url.Action("ViewAddSmsTransaction", "Products", new { area  = "ProOrganisation" })" class="btn btn-primary btn-xs inline-heading" data-modallink="true">Order</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 @section Scripts {
     <script type="text/javascript">
-
-        $(document).ready(function () {
+        $(function () {
             findModalLinks();
         });
-
     </script>
 }
