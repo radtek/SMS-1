@@ -231,7 +231,7 @@ namespace BodgeIt
                 {
                     FirstName = "Admin",
                     LastName = "T" + i.ToString(),
-                    EmailAddress1 = textEmail.Text,
+                    EmailAddress1 = string.Format(textEmail.Text, i),
                     Salutation = textSalutation.Text
                 };
                 HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };

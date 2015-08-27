@@ -271,7 +271,7 @@
             this.textEmail.Name = "textEmail";
             this.textEmail.Size = new System.Drawing.Size(268, 20);
             this.textEmail.TabIndex = 5;
-            this.textEmail.Text = "applications@beconsultancy.co.uk";
+            this.textEmail.Text = "applications{0}@beconsultancy.co.uk";
             // 
             // textLastName
             // 
