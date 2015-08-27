@@ -93,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                         msg = "Invalid Username or Password";
                 }
 
-                ModelState.AddModelError("", string.Format("{0}. Please contact support on {1}", msg, commonSettings.SupportTelephoneNumber));
+                ModelState.AddModelError("", msg);
             }
 
             return View(model);
