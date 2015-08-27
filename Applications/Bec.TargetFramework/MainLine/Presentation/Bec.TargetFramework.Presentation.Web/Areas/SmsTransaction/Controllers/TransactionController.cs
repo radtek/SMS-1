@@ -70,6 +70,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new
             {
                 x.SmsTransactionID,
+                x.UserAccountOrganisationID,
                 x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,

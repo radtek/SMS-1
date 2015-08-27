@@ -131,15 +131,24 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            FirstName: {
+            '@Html.NameFor(m => m.Model.Contact.FirstName)': {
                 required: true
             },
-            LastName: {
+            '@Html.NameFor(m => m.Model.Contact.LastName)': {
                 required: true
             },
-            EmailAddress1: {
+            '@Html.NameFor(m => m.Model.UserAccount.Email)': {
                 required: true,
-                email: true
+                email: true,
+                remote: {
+                    url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                    data: {
+                        email: function () { return $('#@Html.IdFor(m => m.Model.UserAccount.Email)').val(); },
+                        uaoID: function () { return '@ViewBag.uaoID' }
+                    },
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             },
             rolecheck: {
                 required: true,

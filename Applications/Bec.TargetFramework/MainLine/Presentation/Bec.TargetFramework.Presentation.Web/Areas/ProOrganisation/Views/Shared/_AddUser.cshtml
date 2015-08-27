@@ -124,7 +124,13 @@
             },
             EmailAddress1: {
                 required: true,
-                email: true
+                email: true,
+                remote: {
+                    url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                    data: { email: function () { return $('#EmailAddress1').val(); } },
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             },
             rolecheck: {
                 required:true,

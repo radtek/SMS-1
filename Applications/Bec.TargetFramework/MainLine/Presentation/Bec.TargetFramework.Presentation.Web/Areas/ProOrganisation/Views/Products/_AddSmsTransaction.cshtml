@@ -227,7 +227,13 @@
             },
             "Email": {
                 required: true,
-                email: true
+                email: true,
+                remote: {
+                    url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                    data: { email: function () { return $('#Email').val(); } },
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             },
             "Address.Line1": {
                 required: true

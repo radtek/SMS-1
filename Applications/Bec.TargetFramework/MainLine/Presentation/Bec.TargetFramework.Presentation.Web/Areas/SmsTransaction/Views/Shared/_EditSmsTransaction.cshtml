@@ -108,7 +108,16 @@
             },
             '@Html.NameFor(m => m.Model.UserAccountOrganisation.UserAccount.Email)': {
                 required: true,
-                email: true
+                email: true,
+                remote: {
+                    url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                    data: {
+                        email: function () { return $('#@Html.IdFor(m => m.Model.UserAccountOrganisation.UserAccount.Email)').val(); },
+                        uaoID: function () { return '@Model.Model.UserAccountOrganisationID' }
+                    },
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             }
         },
 
