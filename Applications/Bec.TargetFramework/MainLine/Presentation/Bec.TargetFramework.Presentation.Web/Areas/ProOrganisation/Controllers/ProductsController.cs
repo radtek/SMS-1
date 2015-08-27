@@ -1,5 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Web.Mvc;
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
     [ClaimsRequired("View", "Products", Order = 1000)]
-    public class ProductsController : Controller
+    public class ProductsController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
