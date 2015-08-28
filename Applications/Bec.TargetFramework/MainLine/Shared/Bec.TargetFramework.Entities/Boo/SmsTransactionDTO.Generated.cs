@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -37,6 +37,7 @@ namespace Bec.TargetFramework.Entities
           this.UserAccountOrganisationID = userAccountOrganisationID;
           this.Address = address;
           this.Organisation = organisation;
+          this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
           this.UserAccountOrganisation = userAccountOrganisation;
         }
 
@@ -86,6 +87,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
+        public List<SmsUserAccountOrganisationTransactionDTO> SmsUserAccountOrganisationTransactions { get; set; }
 
         [DataMember]
         public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }

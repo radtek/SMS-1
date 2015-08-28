@@ -45,6 +45,7 @@ namespace Bec.TargetFramework.Entities
             if (level > 0) {
               target.Address = source.Address.ToDtoWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
+              target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 

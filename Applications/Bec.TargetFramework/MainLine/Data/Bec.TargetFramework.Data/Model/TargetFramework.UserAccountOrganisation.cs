@@ -333,6 +333,15 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
+        /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
         /// There are no comments for SmsTransactions in the schema.
         /// </summary>
         public virtual ICollection<SmsTransaction> SmsTransactions
