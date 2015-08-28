@@ -82,6 +82,24 @@ namespace Bec.TargetFramework.Business.Logic
             await db.SaveChangesAsync();
         }
 
+        public async Task Delete(string id)
+        {
+            var dbSet = dbType.GetProperty(id).GetValue(db) as IQueryable;
+            var itemType = dbSet.GetType().GetGenericArguments()[0];
+
+            var model = this.GetEdmModel(itemType);
+            var entitySetContext = new ODataQueryContext(model, itemType, Request.ODataProperties().Path);
+            var options = new ODataQueryOptions(entitySetContext, Request);
+
+            var res = options.ApplyTo(dbSet);
+            var list = await res.ToListAsync();
+            var item = list.Single();
+
+            db.Entry(item).State = EntityState.Deleted;
+
+            await db.SaveChangesAsync();
+        }
+
         private void patchObject(DbContext dbc, object obj, JObject patch)
         {
             var t = ObjectContext.GetObjectType(obj.GetType());
