@@ -1,0 +1,107 @@
+﻿    <!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+@if (Request.IsAuthenticated && !Html.RouteMatches("AcceptTCs", "Index"))
+{
+    <aside id="left-panel">
+
+        <!-- User info -->
+        @*@{ Html.RenderPartial("_CurrentUser"); }*@
+        <!-- end user info -->
+        <!-- NAVIGATION : This navigation is also responsive
+
+            To make this navigation dynamic please make sure to link the node
+            (the reference to the nav > ul) after page load. Or the navigation
+            will not initialize.
+            -->
+        <nav>
+            <!-- NOTE: Notice the gaps after each icon usage <i></i>..
+                Please note that these links work a bit different than
+                traditional href="" links. See documentation for details.
+                -->
+
+            <ul>
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+                {
+                    <li class="@Html.RouteIf("active", "Transaction", "Index")">
+                        <a href="@Url.Action("Index", "Transaction", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-building-o"></i> <span class="menu-item-parent">View Transactions</span></a>
+                    </li>
+                }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                {
+                    <li class="@Html.RouteIf("active", "Products", "Index")">
+                        <a href="@Url.Action("Index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order Products</span></a>
+                    </li>
+                }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
+                {
+                    <li class="@Html.RouteIf("active", "InternalNotifications", "Index")">
+                        <a href="@Url.Action("Index", "InternalNotifications", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-bell"></i> <span class="menu-item-parent">View Notifications</span></a>
+                    </li>
+                }
+                @*
+                    @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                    {
+                        <li class="@Html.RouteIf("active", "Account", "index")">
+                            <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">View My Bank Accounts</span></a>
+                        </li>
+                    }
+                *@
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
+                {
+                    <li class="@Html.RouteIf("open", "Finance")">
+                        <a href="#"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Finance</span></a>
+                        <ul>
+                            <li class="@Html.RouteIf("active", "Finance", "OutstandingBankAccounts")">
+                                <a href="@Url.Action("OutstandingBankAccounts", "Finance", new { area = "Admin" })">View Bank Accounts</a>
+                            </li>
+                            <li class="@Html.RouteIf("active", "Finance", "CreditHistory")">
+                                <a href="@Url.Action("CreditHistory", "Finance", new { area = "Admin" })">View Credit History</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @*
+                    @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Credit"))
+                    {
+                        <li class="@Html.RouteIf("active", "Credit", "Index")">
+                            <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">View Credit Account</span></a>
+                        </li>
+                    }
+                *@
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                {
+                    <li class="@Html.RouteIf("open", "Company")">
+                        <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
+                        <ul>
+                            <li class="@Html.RouteIf("active", "Company", "Provisional")">
+                                <a href="@Url.Action("Provisional", "Company", new { area = "Admin" })">View Provisional Companies</a>
+                            </li>
+                            <li class="@Html.RouteIf("active", "Company", "Qualified")">
+                                <a href="@Url.Action("Qualified", "Company", new { area = "Admin" })">View Qualified Companies</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
+                {
+                    <li class="@Html.RouteIf("open", "Users")">
+                        <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Users</span></a>
+                        <ul>
+                            <li class="@Html.RouteIf("active", "Users", "Invited")">
+                                <a href="@Url.Action("Invited", "Users", new { area = "ProOrganisation" })">View Invited Users</a>
+                            </li>
+                            <li class="@Html.RouteIf("active", "Users", "Registered")">
+                                <a href="@Url.Action("Registered", "Users", new { area = "ProOrganisation" })">View Registered Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </nav>
+        <span class="minifyme" data-action="minifyMenu">
+            <i class="fa fa-arrow-circle-left hit"></i>
+        </span>
+
+    </aside>
+    <!-- END NAVIGATION -->
+}

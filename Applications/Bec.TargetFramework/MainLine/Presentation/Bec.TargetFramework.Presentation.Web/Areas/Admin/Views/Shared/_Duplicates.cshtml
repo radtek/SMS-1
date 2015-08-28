@@ -1,0 +1,40 @@
+﻿@using Kendo.Mvc.UI
+@model List<Bec.TargetFramework.Entities.VOrganisationWithStatusAndAdminDTO>
+<div class="modal fade" id="duplicatesModal" tabindex="-1" role="dialog" aria-labelledby="duplicateCompaniesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="duplicateCompaniesLabel">Duplicate companies found</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <p></p>
+                        <p>The company with the address details provided is already registered in the system.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @(Html.Kendo().Grid(Model).Columns(columns =>
+                        {
+                            columns.Bound(d => d.Name).Title("Company Name");
+                            columns.Bound(d => d.Line1).Title("Address 1");
+                            columns.Bound(d => d.PostalCode).Title("Postcode");
+                            columns.Bound(d => d.OrganisationAdminLastName).Title("System Administrator").Template(d => d.OrganisationAdminFirstName + " " + d.OrganisationAdminLastName);
+                            columns.Bound(d => d.StatusValueName).Title("Status");
+                            columns.Bound(d => d.CreatedOn).Title("Created On").ClientTemplate("return dateString(#= CreatedOn #)");
+                            columns.Bound(d => d.CreatedBy).Title("Created By");
+                        }).Name("grid").Scrollable(s=>s.Height(300))
+                        )
+                        <div id="duplicatesGrid"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="abortSave" class="btn btn-default" data-dismiss="modal">
+                    Amend the company details
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

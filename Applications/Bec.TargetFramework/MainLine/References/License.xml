@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license id="73e73728-4ba0-4334-89bd-e53aee21dd16" expiration="2014-07-03T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="4.4.2" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
+  <name>c.misson@beconsultancy.co.uk</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>I6HcG81NXXDzQKaeXc5fv5pnm4w=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>WTqUTM6ZhdhDtDyQ9+FNIn2d8y8zlC6kgwCj829Ybg83zX0NgAp9mtL9iNwuw+8Rt18jmLSs7tUob8TqWvbXIeMYZWNp/4aTNLj2ZM5J9uQL7tNt7TXDyYSNVkj9rBEsWtrrSS2w4EN6O/2DOXeT1AH89xYKoGhhHHxCc6+rRJU=</SignatureValue>
+  </Signature>
+</license>

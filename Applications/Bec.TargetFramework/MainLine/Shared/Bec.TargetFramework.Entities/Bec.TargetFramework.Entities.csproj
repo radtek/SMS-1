@@ -1,0 +1,1989 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{596DCD71-078B-4875-A8E2-CDA10F90920E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.Entities</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="Fabrik.Common, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\References\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Boo\AccountDTO.cs" />
+    <Compile Include="Boo\AccountDTO.Generated.cs">
+      <DependentUpon>AccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ActorClaimRoleMappingDTO.cs" />
+    <Compile Include="Boo\ActorClaimRoleMappingDTO.Generated.cs">
+      <DependentUpon>ActorClaimRoleMappingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ActorDTO.cs" />
+    <Compile Include="Boo\ActorDTO.Generated.cs">
+      <DependentUpon>ActorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\AddressChronologyDTO.cs" />
+    <Compile Include="Boo\AddressChronologyDTO.Generated.cs">
+      <DependentUpon>AddressChronologyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\AddressDTO.cs" />
+    <Compile Include="Boo\AddressDTO.Generated.cs">
+      <DependentUpon>AddressDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ApplicationErrorLogDTO.cs" />
+    <Compile Include="Boo\ApplicationLogDTO.cs" />
+    <Compile Include="Boo\ApplicationPluginDTO.cs" />
+    <Compile Include="Boo\ApplicationStageDTO.cs" />
+    <Compile Include="Boo\ApplicationStageDTO.Generated.cs">
+      <DependentUpon>ApplicationStageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ApplicationStageWorkflowDTO.cs" />
+    <Compile Include="Boo\ApplicationTraceLogDTO.cs" />
+    <Compile Include="Boo\ArtefactClaimDTO.cs" />
+    <Compile Include="Boo\ArtefactClaimDTO.Generated.cs">
+      <DependentUpon>ArtefactClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactClaimTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactClaimTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactDependencyDTO.cs" />
+    <Compile Include="Boo\ArtefactDependencyDTO.Generated.cs">
+      <DependentUpon>ArtefactDependencyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactDependencyTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactDependencyTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactDependencyTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactDTO.cs" />
+    <Compile Include="Boo\ArtefactDTO.Generated.cs">
+      <DependentUpon>ArtefactDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactNotificationConstructDTO.cs" />
+    <Compile Include="Boo\ArtefactNotificationConstructDTO.Generated.cs">
+      <DependentUpon>ArtefactNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactNotificationConstructTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactNotificationConstructTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactNotificationConstructTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactProductDTO.cs" />
+    <Compile Include="Boo\ArtefactProductDTO.Generated.cs">
+      <DependentUpon>ArtefactProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactProductTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactProductTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactRoleDTO.cs" />
+    <Compile Include="Boo\ArtefactRoleDTO.Generated.cs">
+      <DependentUpon>ArtefactRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactRoleTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactRoleTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactSubscriptionDTO.cs" />
+    <Compile Include="Boo\ArtefactSubscriptionDTO.Generated.cs">
+      <DependentUpon>ArtefactSubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactSubscriptionTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactSubscriptionTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactSubscriptionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactTemplateDTO.cs" />
+    <Compile Include="Boo\ArtefactTemplateDTO.Generated.cs">
+      <DependentUpon>ArtefactTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ArtefactWorkflowDTO.cs" />
+    <Compile Include="Boo\ArtefactWorkflowTemplateDTO.cs" />
+    <Compile Include="Boo\AttachmentDetailDTO.cs" />
+    <Compile Include="Boo\AttachmentDetailDTO.Generated.cs">
+      <DependentUpon>AttachmentDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\AttachmentDetailGroupDTO.cs" />
+    <Compile Include="Boo\AttachmentDetailGroupDTO.Generated.cs">
+      <DependentUpon>AttachmentDetailGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\AttachmentDetailRoleDTO.cs" />
+    <Compile Include="Boo\AttachmentDetailRoleDTO.Generated.cs">
+      <DependentUpon>AttachmentDetailRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\AttachmentDTO.cs" />
+    <Compile Include="Boo\AttachmentDTO.Generated.cs">
+      <DependentUpon>AttachmentDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BankSortCodeDTO.cs" />
+    <Compile Include="Boo\BankSortCodeDTO.Generated.cs">
+      <DependentUpon>BankSortCodeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BillingDTO.cs" />
+    <Compile Include="Boo\BillingDTO.Generated.cs">
+      <DependentUpon>BillingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BillingTemplateDTO.cs" />
+    <Compile Include="Boo\BillingTemplateDTO.Generated.cs">
+      <DependentUpon>BillingTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BucketDTO.cs" />
+    <Compile Include="Boo\BucketDTO.Generated.cs">
+      <DependentUpon>BucketDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BucketTemplateDTO.cs" />
+    <Compile Include="Boo\BucketTemplateDTO.Generated.cs">
+      <DependentUpon>BucketTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\BusEventBusEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\BusEventDTO.cs" />
+    <Compile Include="Boo\BusEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\BusEventTypeDTO.cs" />
+    <Compile Include="Boo\BusMessageContentDTO.cs" />
+    <Compile Include="Boo\BusMessageDTO.cs" />
+    <Compile Include="Boo\BusMessageProcessLogDTO.cs" />
+    <Compile Include="Boo\BusMessageStatusDTO.cs" />
+    <Compile Include="Boo\BusTaskDTO.cs" />
+    <Compile Include="Boo\BusTaskHandlerDTO.cs" />
+    <Compile Include="Boo\BusTaskProcessLogDTO.cs" />
+    <Compile Include="Boo\BusTaskScheduleDTO.cs" />
+    <Compile Include="Boo\BusTaskScheduleProcessLogDTO.cs" />
+    <Compile Include="Boo\ClassificationTypeCategoryDTO.cs" />
+    <Compile Include="Boo\ClassificationTypeCategoryDTO.Generated.cs">
+      <DependentUpon>ClassificationTypeCategoryDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ClassificationTypeDTO.cs" />
+    <Compile Include="Boo\ClassificationTypeDTO.Generated.cs">
+      <DependentUpon>ClassificationTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CompanyHouseDTO.cs" />
+    <Compile Include="Boo\CompanyHouseDTO.Generated.cs">
+      <DependentUpon>CompanyHouseDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ComponentTierDTO.cs" />
+    <Compile Include="Boo\ComponentTierDTO.Generated.cs">
+      <DependentUpon>ComponentTierDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ComponentTierTemplateDTO.cs" />
+    <Compile Include="Boo\ComponentTierTemplateDTO.Generated.cs">
+      <DependentUpon>ComponentTierTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ContactDTO.cs" />
+    <Compile Include="Boo\ContactDTO.Generated.cs">
+      <DependentUpon>ContactDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ContactNameDTO.cs" />
+    <Compile Include="Boo\ContactNameDTO.Generated.cs">
+      <DependentUpon>ContactNameDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ContactPhoneDTO.cs" />
+    <Compile Include="Boo\ContactPhoneDTO.Generated.cs">
+      <DependentUpon>ContactPhoneDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ContactRegulatorDTO.cs" />
+    <Compile Include="Boo\ContactRegulatorDTO.Generated.cs">
+      <DependentUpon>ContactRegulatorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ContainsagadataDTO.cs" />
+    <Compile Include="Boo\ContainsagadataDTO.Generated.cs">
+      <DependentUpon>ContainsagadataDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CountryCodeDTO.cs" />
+    <Compile Include="Boo\CountryCodeDTO.Generated.cs">
+      <DependentUpon>CountryCodeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CountryDeductionDTO.cs" />
+    <Compile Include="Boo\CountryDeductionDTO.Generated.cs">
+      <DependentUpon>CountryDeductionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CountryDeductionTemplateDTO.cs" />
+    <Compile Include="Boo\CountryDeductionTemplateDTO.Generated.cs">
+      <DependentUpon>CountryDeductionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CurrencyCodeDTO.cs" />
+    <Compile Include="Boo\CurrencyCodeDTO.Generated.cs">
+      <DependentUpon>CurrencyCodeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\CurrencyRateDTO.cs" />
+    <Compile Include="Boo\CurrencyRateDTO.Generated.cs">
+      <DependentUpon>CurrencyRateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DeductionDTO.cs" />
+    <Compile Include="Boo\DeductionDTO.Generated.cs">
+      <DependentUpon>DeductionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DeductionTemplateDTO.cs" />
+    <Compile Include="Boo\DeductionTemplateDTO.Generated.cs">
+      <DependentUpon>DeductionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationArtefactDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationArtefactDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationArtefactDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationArtefactTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationArtefactTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationArtefactTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationBranchDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationBranchDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationBranchDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationBranchTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationBranchTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationBranchTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupDefaultOrganisationRoleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupGroupTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupRoleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupRoleDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupRoleTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupRoleTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupTargetDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupTargetDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupTargetTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupTargetTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupTargetTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationGroupTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationGroupTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationGroupTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationInterfacePanelTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationInterfacePanelUserTypeTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationIPFDUserTypeTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationLedgerDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationLedgerDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationLedgerDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationLedgerTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationLedgerTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationLedgerTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationModuleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationModuleDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationModuleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationModuleTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationModuleTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationModuleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationNotificationConstructDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationNotificationConstructDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationNotificationConstructRoleTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationNotificationConstructTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationNotificationConstructTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationNotificationConstructTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationNotificationVisibilityTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationPaymentMethodDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationPaymentMethodDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationPaymentMethodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationPaymentMethodTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationPaymentMethodTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationPaymentMethodTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationPlanSubscriptionTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationProductDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationProductDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationProductTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationProductTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleClaimDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleClaimDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleClaimTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleClaimTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleModuleRoleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleRoleTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleTargetDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleTargetDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleTargetTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleTargetTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleTargetTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationRoleTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationRoleTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationShoppingCartBlueprintDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationShoppingCartBlueprintDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationShoppingCartBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationShoppingCartBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationShoppingCartBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationShoppingCartBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationStageDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationStatusTypeDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationStatusTypeDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationStatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationStatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationStatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationTargetDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationTargetDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationTargetTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationTargetTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationTargetTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationTaskRoleDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationTaskRoleDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationTaskRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationUserStageDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationUserStageDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationUserStageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationUserTargetDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationUserTargetDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationUserTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationUserTargetTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationUserTargetTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationUserTargetTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationUserTypeDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationUserTypeDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationUserTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationUserTypeTemplateDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationUserTypeTemplateDTO.Generated.cs">
+      <DependentUpon>DefaultOrganisationUserTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DefaultOrganisationWorkflowDTO.cs" />
+    <Compile Include="Boo\DefaultOrganisationWorkflowTemplateDTO.cs" />
+    <Compile Include="Boo\DirectDebitMandateDTO.cs" />
+    <Compile Include="Boo\DirectDebitMandateDTO.Generated.cs">
+      <DependentUpon>DirectDebitMandateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DirectDebitMandateTemplateDTO.cs" />
+    <Compile Include="Boo\DirectDebitMandateTemplateDTO.Generated.cs">
+      <DependentUpon>DirectDebitMandateTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DirectDebitScheduleDTO.cs" />
+    <Compile Include="Boo\DirectDebitScheduleDTO.Generated.cs">
+      <DependentUpon>DirectDebitScheduleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DiscountDTO.cs" />
+    <Compile Include="Boo\DiscountDTO.Generated.cs">
+      <DependentUpon>DiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DiscountRelatedProductDTO.cs" />
+    <Compile Include="Boo\DiscountRelatedProductDTO.Generated.cs">
+      <DependentUpon>DiscountRelatedProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DiscountRelatedProductTemplateDTO.cs" />
+    <Compile Include="Boo\DiscountRelatedProductTemplateDTO.Generated.cs">
+      <DependentUpon>DiscountRelatedProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\DiscountTemplateDTO.cs" />
+    <Compile Include="Boo\DiscountTemplateDTO.Generated.cs">
+      <DependentUpon>DiscountTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ElmahErrorDTO.cs" />
+    <Compile Include="Boo\ErrorCodeDTO.cs" />
+    <Compile Include="Boo\ErrorCodeDTO.Generated.cs">
+      <DependentUpon>ErrorCodeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\EventStatusDTO.cs" />
+    <Compile Include="Boo\EventStatusDTO.Generated.cs">
+      <DependentUpon>EventStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ExternalRoleTemplateClaimDTO.cs" />
+    <Compile Include="Boo\FieldDetailDTO.cs" />
+    <Compile Include="Boo\FieldDetailDTO.Generated.cs">
+      <DependentUpon>FieldDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FieldDetailTemplateDTO.cs" />
+    <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
+      <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
+    <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
+      <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GlobalAccountingPeriodDTO.cs" />
+    <Compile Include="Boo\GlobalAccountingPeriodDTO.Generated.cs">
+      <DependentUpon>GlobalAccountingPeriodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GlobalDirectDebitCollectionPeriodDTO.cs" />
+    <Compile Include="Boo\GlobalDirectDebitCollectionPeriodDTO.Generated.cs">
+      <DependentUpon>GlobalDirectDebitCollectionPeriodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GlobalPaymentMethodDTO.cs" />
+    <Compile Include="Boo\GlobalPaymentMethodDTO.Generated.cs">
+      <DependentUpon>GlobalPaymentMethodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GroupDTO.cs" />
+    <Compile Include="Boo\GroupDTO.Generated.cs">
+      <DependentUpon>GroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GroupRoleDTO.cs" />
+    <Compile Include="Boo\GroupRoleDTO.Generated.cs">
+      <DependentUpon>GroupRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\GroupTemplateRoleDTO.cs" />
+    <Compile Include="Boo\IdentityCheckProviderDTO.cs" />
+    <Compile Include="Boo\InterfacePanelTemplateDTO.cs" />
+    <Compile Include="Boo\InterfacePanelTemplateDTO.Generated.cs">
+      <DependentUpon>InterfacePanelTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\InviteDTO.cs" />
+    <Compile Include="Boo\InvoiceDTO.cs" />
+    <Compile Include="Boo\InvoiceDTO.Generated.cs">
+      <DependentUpon>InvoiceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\InvoiceLineItemDTO.cs" />
+    <Compile Include="Boo\InvoiceLineItemDTO.Generated.cs">
+      <DependentUpon>InvoiceLineItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\InvoiceProcessLogDTO.cs" />
+    <Compile Include="Boo\InvoiceProcessLogDTO.Generated.cs">
+      <DependentUpon>InvoiceProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LedgerAccountBalanceDTO.cs" />
+    <Compile Include="Boo\LedgerAccountBalanceDTO.Generated.cs">
+      <DependentUpon>LedgerAccountBalanceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LedgerAccountDTO.cs" />
+    <Compile Include="Boo\LedgerAccountTransactionDTO.cs" />
+    <Compile Include="Boo\LegalOrganisationDetailDTO.cs" />
+    <Compile Include="Boo\LegalOrganisationDetailDTO.Generated.cs">
+      <DependentUpon>LegalOrganisationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LinkedAccountClaimDTO.cs" />
+    <Compile Include="Boo\LinkedAccountClaimDTO.Generated.cs">
+      <DependentUpon>LinkedAccountClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LinkedAccountDTO.cs" />
+    <Compile Include="Boo\LinkedAccountDTO.Generated.cs">
+      <DependentUpon>LinkedAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LRDocumentDTO.cs" />
+    <Compile Include="Boo\LRRegisterExtractDTO.cs" />
+    <Compile Include="Boo\LRTitleDTO.cs" />
+    <Compile Include="Boo\ManufacturerDTO.cs" />
+    <Compile Include="Boo\ModuleArtefactDTO.cs" />
+    <Compile Include="Boo\ModuleArtefactDTO.Generated.cs">
+      <DependentUpon>ModuleArtefactDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleArtefactTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleArtefactTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleArtefactTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleClaimDTO.cs" />
+    <Compile Include="Boo\ModuleClaimDTO.Generated.cs">
+      <DependentUpon>ModuleClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleClaimTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleClaimTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleDependencyDTO.cs" />
+    <Compile Include="Boo\ModuleDependencyDTO.Generated.cs">
+      <DependentUpon>ModuleDependencyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleDependencyTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleDependencyTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleDependencyTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleDTO.cs" />
+    <Compile Include="Boo\ModuleDTO.Generated.cs">
+      <DependentUpon>ModuleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleNotificationConstructDataTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructDatumDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructDTO.Generated.cs">
+      <DependentUpon>ModuleNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleNotificationConstructParameterDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructParameterTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleNotificationConstructTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleNotificationConstructVisibilityDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationConstructVisibilityTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationVisibilityDTO.cs" />
+    <Compile Include="Boo\ModuleNotificationVisibilityTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleOperationDTO.cs" />
+    <Compile Include="Boo\ModuleOperationTemplateDTO.cs" />
+    <Compile Include="Boo\ModulePluginDTO.cs" />
+    <Compile Include="Boo\ModulePluginDTO.Generated.cs">
+      <DependentUpon>ModulePluginDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModulePluginTemplateDTO.cs" />
+    <Compile Include="Boo\ModulePluginTemplateDTO.Generated.cs">
+      <DependentUpon>ModulePluginTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleProductDTO.cs" />
+    <Compile Include="Boo\ModuleProductDTO.Generated.cs">
+      <DependentUpon>ModuleProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleProductTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleProductTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleResourceDTO.cs" />
+    <Compile Include="Boo\ModuleResourceOperationDTO.cs" />
+    <Compile Include="Boo\ModuleResourceOperationTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleResourceTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleRoleClaimDTO.cs" />
+    <Compile Include="Boo\ModuleRoleClaimTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleRoleDTO.cs" />
+    <Compile Include="Boo\ModuleRoleDTO.Generated.cs">
+      <DependentUpon>ModuleRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleRoleTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleRoleTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleSettingDTO.cs" />
+    <Compile Include="Boo\ModuleSettingDTO.Generated.cs">
+      <DependentUpon>ModuleSettingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleSettingTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleSettingTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleSettingTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleStageDefinitionTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleStageDefinitionTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleStageDefinitionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleStageDTO.cs" />
+    <Compile Include="Boo\ModuleStageDTO.Generated.cs">
+      <DependentUpon>ModuleStageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleStageTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleStageTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleStageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleStateDTO.cs" />
+    <Compile Include="Boo\ModuleStateItemDTO.cs" />
+    <Compile Include="Boo\ModuleStateItemTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleStateTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleStatusTypeDTO.cs" />
+    <Compile Include="Boo\ModuleStatusTypeDTO.Generated.cs">
+      <DependentUpon>ModuleStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleStatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleStatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleStatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleSubscriptionDTO.cs" />
+    <Compile Include="Boo\ModuleSubscriptionDTO.Generated.cs">
+      <DependentUpon>ModuleSubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleSubscriptionTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleSubscriptionTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleSubscriptionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleWorkflowDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowTargetDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowTargetTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowUserStageDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowUserStageDTO.Generated.cs">
+      <DependentUpon>ModuleWorkflowUserStageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ModuleWorkflowUserStageTemplateDTO.cs" />
+    <Compile Include="Boo\ModuleWorkflowUserStageTemplateDTO.Generated.cs">
+      <DependentUpon>ModuleWorkflowUserStageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructClaimDTO.cs" />
+    <Compile Include="Boo\NotificationConstructClaimDTO.Generated.cs">
+      <DependentUpon>NotificationConstructClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructClaimTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructClaimTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructDataTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructDataTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructDataTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructDatumDTO.cs" />
+    <Compile Include="Boo\NotificationConstructDatumDTO.Generated.cs">
+      <DependentUpon>NotificationConstructDatumDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructDTO.cs" />
+    <Compile Include="Boo\NotificationConstructDTO.Generated.cs">
+      <DependentUpon>NotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructGroupDTO.cs" />
+    <Compile Include="Boo\NotificationConstructGroupDTO.Generated.cs">
+      <DependentUpon>NotificationConstructGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructGroupNotificationConstructDTO.cs" />
+    <Compile Include="Boo\NotificationConstructGroupNotificationConstructDTO.Generated.cs">
+      <DependentUpon>NotificationConstructGroupNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructGroupNotificationConstructTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructGroupNotificationConstructTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructGroupNotificationConstructTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructGroupTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructGroupTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructGroupTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructParameterDTO.cs" />
+    <Compile Include="Boo\NotificationConstructParameterDTO.Generated.cs">
+      <DependentUpon>NotificationConstructParameterDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructParameterTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructParameterTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructParameterTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructRoleDTO.cs" />
+    <Compile Include="Boo\NotificationConstructRoleDTO.Generated.cs">
+      <DependentUpon>NotificationConstructRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructRoleTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructRoleTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructTargetDTO.cs" />
+    <Compile Include="Boo\NotificationConstructTargetDTO.Generated.cs">
+      <DependentUpon>NotificationConstructTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructTargetTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructTargetTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructTargetTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationConstructTemplateDTO.cs" />
+    <Compile Include="Boo\NotificationConstructTemplateDTO.Generated.cs">
+      <DependentUpon>NotificationConstructTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationDTO.cs" />
+    <Compile Include="Boo\NotificationDTO.Generated.cs">
+      <DependentUpon>NotificationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationRecipientDTO.cs" />
+    <Compile Include="Boo\NotificationRecipientDTO.Generated.cs">
+      <DependentUpon>NotificationRecipientDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\NotificationRecipientLogDTO.cs" />
+    <Compile Include="Boo\NotificationRecipientLogDTO.Generated.cs">
+      <DependentUpon>NotificationRecipientLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OperationDTO.cs" />
+    <Compile Include="Boo\OperationDTO.Generated.cs">
+      <DependentUpon>OperationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationAccountingPeriodDTO.cs" />
+    <Compile Include="Boo\OrganisationAccountingPeriodDTO.Generated.cs">
+      <DependentUpon>OrganisationAccountingPeriodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationArchiveDTO.cs" />
+    <Compile Include="Boo\OrganisationArtefactDTO.cs" />
+    <Compile Include="Boo\OrganisationArtefactDTO.Generated.cs">
+      <DependentUpon>OrganisationArtefactDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationBankAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationBankAccountDTO.Generated.cs">
+      <DependentUpon>OrganisationBankAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationBankAccountStatusDTO.cs" />
+    <Compile Include="Boo\OrganisationBankAccountStatusDTO.Generated.cs">
+      <DependentUpon>OrganisationBankAccountStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationBucketDTO.cs" />
+    <Compile Include="Boo\OrganisationCategoryDTO.cs" />
+    <Compile Include="Boo\OrganisationDetailDTO.cs" />
+    <Compile Include="Boo\OrganisationDetailDTO.Generated.cs">
+      <DependentUpon>OrganisationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationDirectDebitMandateDTO.cs" />
+    <Compile Include="Boo\OrganisationDirectDebitMandateDTO.Generated.cs">
+      <DependentUpon>OrganisationDirectDebitMandateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationDirectDebitMandateProcessLogDTO.cs" />
+    <Compile Include="Boo\OrganisationDirectDebitMandateProcessLogDTO.Generated.cs">
+      <DependentUpon>OrganisationDirectDebitMandateProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationDirectDebitMandateSignoffDTO.cs" />
+    <Compile Include="Boo\OrganisationDiscountDTO.cs" />
+    <Compile Include="Boo\OrganisationDiscountDTO.Generated.cs">
+      <DependentUpon>OrganisationDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationDTO.cs" />
+    <Compile Include="Boo\OrganisationDTO.Generated.cs">
+      <DependentUpon>OrganisationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationExternalGroupDTO.cs" />
+    <Compile Include="Boo\OrganisationExternalGroupOrganisationExternalRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationExternalRoleClaimDTO.cs" />
+    <Compile Include="Boo\OrganisationExternalRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationFinancialDetailDTO.cs" />
+    <Compile Include="Boo\OrganisationFinancialDetailDTO.Generated.cs">
+      <DependentUpon>OrganisationFinancialDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationGroupDTO.cs" />
+    <Compile Include="Boo\OrganisationGroupDTO.Generated.cs">
+      <DependentUpon>OrganisationGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationGroupOrganisationRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationGroupRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationGroupRoleDTO.Generated.cs">
+      <DependentUpon>OrganisationGroupRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationIdentityCheckProviderDTO.cs" />
+    <Compile Include="Boo\OrganisationInsuranceDetailDTO.cs" />
+    <Compile Include="Boo\OrganisationInsuranceDetailDTO.Generated.cs">
+      <DependentUpon>OrganisationInsuranceDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationLedgerAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerAccountDTO.Generated.cs">
+      <DependentUpon>OrganisationLedgerAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationAccountDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.cs" />
+    <Compile Include="Boo\OrganisationLedgerTransactionDTO.Generated.cs">
+      <DependentUpon>OrganisationLedgerTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
+    <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />
+    <Compile Include="Boo\OrganisationNotificationConstructDTO.cs" />
+    <Compile Include="Boo\OrganisationNotificationConstructRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationNotificationVisibilityDTO.cs" />
+    <Compile Include="Boo\OrganisationOperationDTO.cs" />
+    <Compile Include="Boo\OrganisationPaymentMethodDTO.cs" />
+    <Compile Include="Boo\OrganisationPaymentMethodDTO.Generated.cs">
+      <DependentUpon>OrganisationPaymentMethodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationPlanSubscriptionDTO.cs" />
+    <Compile Include="Boo\OrganisationPlanSubscriptionDTO.Generated.cs">
+      <DependentUpon>OrganisationPlanSubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationProductDTO.cs" />
+    <Compile Include="Boo\OrganisationProductPurchaseDTO.cs" />
+    <Compile Include="Boo\OrganisationProductPurchaseDTO.Generated.cs">
+      <DependentUpon>OrganisationProductPurchaseDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationProductTemplateDTO.cs" />
+    <Compile Include="Boo\OrganisationRelationshipDTO.cs" />
+    <Compile Include="Boo\OrganisationRelationshipRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationRelationshipRoleExternalDTO.cs" />
+    <Compile Include="Boo\OrganisationResourceDTO.cs" />
+    <Compile Include="Boo\OrganisationResourceOperationDTO.cs" />
+    <Compile Include="Boo\OrganisationRoleClaimDTO.cs" />
+    <Compile Include="Boo\OrganisationRoleClaimDTO.Generated.cs">
+      <DependentUpon>OrganisationRoleClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationRoleDTO.Generated.cs">
+      <DependentUpon>OrganisationRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationSettingDTO.cs" />
+    <Compile Include="Boo\OrganisationSettingDTO.Generated.cs">
+      <DependentUpon>OrganisationSettingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationSettingTemplateDTO.cs" />
+    <Compile Include="Boo\OrganisationSettingTemplateDTO.Generated.cs">
+      <DependentUpon>OrganisationSettingTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationShoppingCartBlueprintDTO.cs" />
+    <Compile Include="Boo\OrganisationShoppingCartBlueprintDTO.Generated.cs">
+      <DependentUpon>OrganisationShoppingCartBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationStageTemplateDTO.cs" />
+    <Compile Include="Boo\OrganisationStageTemplateDTO.Generated.cs">
+      <DependentUpon>OrganisationStageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationStateDTO.cs" />
+    <Compile Include="Boo\OrganisationStateItemDTO.cs" />
+    <Compile Include="Boo\OrganisationStatusDTO.cs" />
+    <Compile Include="Boo\OrganisationStatusDTO.Generated.cs">
+      <DependentUpon>OrganisationStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationStatusTypeDTO.cs" />
+    <Compile Include="Boo\OrganisationStatusTypeDTO.Generated.cs">
+      <DependentUpon>OrganisationStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationStructureDTO.cs" />
+    <Compile Include="Boo\OrganisationStructureDTO.Generated.cs">
+      <DependentUpon>OrganisationStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTeamDTO.cs" />
+    <Compile Include="Boo\OrganisationTeamDTO.Generated.cs">
+      <DependentUpon>OrganisationTeamDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTeamSettingDTO.cs" />
+    <Compile Include="Boo\OrganisationTeamSettingDTO.Generated.cs">
+      <DependentUpon>OrganisationTeamSettingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTeamSettingTemplateDTO.cs" />
+    <Compile Include="Boo\OrganisationTeamSettingTemplateDTO.Generated.cs">
+      <DependentUpon>OrganisationTeamSettingTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTradingNameDTO.cs" />
+    <Compile Include="Boo\OrganisationTradingNameDTO.Generated.cs">
+      <DependentUpon>OrganisationTradingNameDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTypeDTO.cs" />
+    <Compile Include="Boo\OrganisationTypeDTO.Generated.cs">
+      <DependentUpon>OrganisationTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationTypeUserTypeIdentityCheckTemplateDTO.cs" />
+    <Compile Include="Boo\OrganisationUnitDTO.cs" />
+    <Compile Include="Boo\OrganisationUnitDTO.Generated.cs">
+      <DependentUpon>OrganisationUnitDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationUnitOrganisationGroupDTO.cs" />
+    <Compile Include="Boo\OrganisationUnitOrganisationGroupDTO.Generated.cs">
+      <DependentUpon>OrganisationUnitOrganisationGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationUnitOrganisationRoleDTO.cs" />
+    <Compile Include="Boo\OrganisationUnitOrganisationRoleDTO.Generated.cs">
+      <DependentUpon>OrganisationUnitOrganisationRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationUnitStructureDTO.cs" />
+    <Compile Include="Boo\OrganisationUnitStructureDTO.Generated.cs">
+      <DependentUpon>OrganisationUnitStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationUserStageDTO.cs" />
+    <Compile Include="Boo\OrganisationUserStageDTO.Generated.cs">
+      <DependentUpon>OrganisationUserStageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationUserTypeDTO.cs" />
+    <Compile Include="Boo\OrganisationUserTypeDTO.Generated.cs">
+      <DependentUpon>OrganisationUserTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\OrganisationVisibilityStateDTO.cs" />
+    <Compile Include="Boo\OrganisationVisibilityStateVisibilitySchemeDTO.cs" />
+    <Compile Include="Boo\OrganisationWorkflowDTO.cs" />
+    <Compile Include="Boo\PackageDTO.cs" />
+    <Compile Include="Boo\PackageDTO.Generated.cs">
+      <DependentUpon>PackageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductDTO.cs" />
+    <Compile Include="Boo\PackageProductDTO.Generated.cs">
+      <DependentUpon>PackageProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductRelationshipBlueprintDTO.cs" />
+    <Compile Include="Boo\PackageProductRelationshipBlueprintDTO.Generated.cs">
+      <DependentUpon>PackageProductRelationshipBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductRelationshipBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\PackageProductRelationshipBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>PackageProductRelationshipBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductRelationshipDTO.cs" />
+    <Compile Include="Boo\PackageProductRelationshipDTO.Generated.cs">
+      <DependentUpon>PackageProductRelationshipDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductRelationshipTemplateDTO.cs" />
+    <Compile Include="Boo\PackageProductRelationshipTemplateDTO.Generated.cs">
+      <DependentUpon>PackageProductRelationshipTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductSpecificationBlueprintDTO.cs" />
+    <Compile Include="Boo\PackageProductSpecificationBlueprintDTO.Generated.cs">
+      <DependentUpon>PackageProductSpecificationBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductSpecificationBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\PackageProductSpecificationBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>PackageProductSpecificationBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageProductTemplateDTO.cs" />
+    <Compile Include="Boo\PackageProductTemplateDTO.Generated.cs">
+      <DependentUpon>PackageProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PackageTemplateDTO.cs" />
+    <Compile Include="Boo\PackageTemplateDTO.Generated.cs">
+      <DependentUpon>PackageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PasswordResetRequestDTO.cs" />
+    <Compile Include="Boo\PasswordResetRequestDTO.Generated.cs">
+      <DependentUpon>PasswordResetRequestDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PasswordResetSecretDTO.cs" />
+    <Compile Include="Boo\PasswordResetSecretDTO.Generated.cs">
+      <DependentUpon>PasswordResetSecretDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanBillingDTO.cs" />
+    <Compile Include="Boo\PlanBillingDTO.Generated.cs">
+      <DependentUpon>PlanBillingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanBillingTemplateDTO.cs" />
+    <Compile Include="Boo\PlanBillingTemplateDTO.Generated.cs">
+      <DependentUpon>PlanBillingTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanDiscountDTO.cs" />
+    <Compile Include="Boo\PlanDiscountDTO.Generated.cs">
+      <DependentUpon>PlanDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanDiscountTemplateDTO.cs" />
+    <Compile Include="Boo\PlanDiscountTemplateDTO.Generated.cs">
+      <DependentUpon>PlanDiscountTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanDTO.cs" />
+    <Compile Include="Boo\PlanDTO.Generated.cs">
+      <DependentUpon>PlanDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanGlobalPaymentMethodDTO.cs" />
+    <Compile Include="Boo\PlanGlobalPaymentMethodDTO.Generated.cs">
+      <DependentUpon>PlanGlobalPaymentMethodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanGlobalPaymentMethodTemplateDTO.cs" />
+    <Compile Include="Boo\PlanGlobalPaymentMethodTemplateDTO.Generated.cs">
+      <DependentUpon>PlanGlobalPaymentMethodTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanGroupDTO.cs" />
+    <Compile Include="Boo\PlanGroupDTO.Generated.cs">
+      <DependentUpon>PlanGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanProductDTO.cs" />
+    <Compile Include="Boo\PlanProductDTO.Generated.cs">
+      <DependentUpon>PlanProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanProductTemplateDTO.cs" />
+    <Compile Include="Boo\PlanProductTemplateDTO.Generated.cs">
+      <DependentUpon>PlanProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionBillingPeriodDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionBillingProcessLogDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionBillingProcessLogDTO.Generated.cs">
+      <DependentUpon>PlanSubscriptionBillingProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionDTO.Generated.cs">
+      <DependentUpon>PlanSubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionPaymentPlanDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionPaymentPlanDTO.Generated.cs">
+      <DependentUpon>PlanSubscriptionPaymentPlanDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionPeriodDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionPeriodDTO.Generated.cs">
+      <DependentUpon>PlanSubscriptionPeriodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionProcessLogDTO.cs" />
+    <Compile Include="Boo\PlanSubscriptionProcessLogDTO.Generated.cs">
+      <DependentUpon>PlanSubscriptionProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanSubscriptionTemplateDTO.cs" />
+    <Compile Include="Boo\PlanTemplateDTO.cs" />
+    <Compile Include="Boo\PlanTemplateDTO.Generated.cs">
+      <DependentUpon>PlanTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanTransactionDTO.cs" />
+    <Compile Include="Boo\PlanTransactionDTO.Generated.cs">
+      <DependentUpon>PlanTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanTransactionTemplateDTO.cs" />
+    <Compile Include="Boo\PlanTransactionTemplateDTO.Generated.cs">
+      <DependentUpon>PlanTransactionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PlanTransactionTierDTO.cs" />
+    <Compile Include="Boo\PlanTransactionTierTemplateDTO.cs" />
+    <Compile Include="Boo\PluginDTO.cs" />
+    <Compile Include="Boo\PluginDTO.Generated.cs">
+      <DependentUpon>PluginDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\PluginTemplateDTO.cs" />
+    <Compile Include="Boo\PluginTemplateDTO.Generated.cs">
+      <DependentUpon>PluginTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductAttributeDTO.cs" />
+    <Compile Include="Boo\ProductAttributeDTO.Generated.cs">
+      <DependentUpon>ProductAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductAttributeTemplateDTO.cs" />
+    <Compile Include="Boo\ProductAttributeTemplateDTO.Generated.cs">
+      <DependentUpon>ProductAttributeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductBusTaskDTO.cs" />
+    <Compile Include="Boo\ProductBusTaskDTO.Generated.cs">
+      <DependentUpon>ProductBusTaskDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductBusTaskTemplateDTO.cs" />
+    <Compile Include="Boo\ProductBusTaskTemplateDTO.Generated.cs">
+      <DependentUpon>ProductBusTaskTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductClaimDTO.cs" />
+    <Compile Include="Boo\ProductClaimDTO.Generated.cs">
+      <DependentUpon>ProductClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductClaimTemplateDTO.cs" />
+    <Compile Include="Boo\ProductClaimTemplateDTO.Generated.cs">
+      <DependentUpon>ProductClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDeductionDTO.cs" />
+    <Compile Include="Boo\ProductDeductionDTO.Generated.cs">
+      <DependentUpon>ProductDeductionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDeductionTemplateDTO.cs" />
+    <Compile Include="Boo\ProductDeductionTemplateDTO.Generated.cs">
+      <DependentUpon>ProductDeductionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDetailDTO.cs" />
+    <Compile Include="Boo\ProductDetailDTO.Generated.cs">
+      <DependentUpon>ProductDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDetailTemplateDTO.cs" />
+    <Compile Include="Boo\ProductDetailTemplateDTO.Generated.cs">
+      <DependentUpon>ProductDetailTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDiscountDTO.cs" />
+    <Compile Include="Boo\ProductDiscountDTO.Generated.cs">
+      <DependentUpon>ProductDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDiscountTemplateDTO.cs" />
+    <Compile Include="Boo\ProductDiscountTemplateDTO.Generated.cs">
+      <DependentUpon>ProductDiscountTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductDTO.cs" />
+    <Compile Include="Boo\ProductDTO.Generated.cs">
+      <DependentUpon>ProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductFamilyDTO.cs" />
+    <Compile Include="Boo\ProductFamilyDTO.Generated.cs">
+      <DependentUpon>ProductFamilyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductFamilyProductPackageDTO.cs" />
+    <Compile Include="Boo\ProductFamilyProductPackageDTO.Generated.cs">
+      <DependentUpon>ProductFamilyProductPackageDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductFamilyProductPackageTemplateDTO.cs" />
+    <Compile Include="Boo\ProductFamilyProductPackageTemplateDTO.Generated.cs">
+      <DependentUpon>ProductFamilyProductPackageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductFamilyTemplateDTO.cs" />
+    <Compile Include="Boo\ProductFamilyTemplateDTO.Generated.cs">
+      <DependentUpon>ProductFamilyTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductPlanDTO.cs" />
+    <Compile Include="Boo\ProductPlanDTO.Generated.cs">
+      <DependentUpon>ProductPlanDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductPlanTemplateDTO.cs" />
+    <Compile Include="Boo\ProductPlanTemplateDTO.Generated.cs">
+      <DependentUpon>ProductPlanTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductProductAttributeDTO.cs" />
+    <Compile Include="Boo\ProductProductAttributeDTO.Generated.cs">
+      <DependentUpon>ProductProductAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductProductAttributeTemplateDTO.cs" />
+    <Compile Include="Boo\ProductProductAttributeTemplateDTO.Generated.cs">
+      <DependentUpon>ProductProductAttributeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductProductTaskDTO.cs" />
+    <Compile Include="Boo\ProductProductTaskTemplateDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseBusTaskProcessLogDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseBusTaskProcessLogDTO.Generated.cs">
+      <DependentUpon>ProductPurchaseBusTaskProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductPurchaseDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseDTO.Generated.cs">
+      <DependentUpon>ProductPurchaseDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductPurchaseProcessLogDTO.cs" />
+    <Compile Include="Boo\ProductPurchaseProcessLogDTO.Generated.cs">
+      <DependentUpon>ProductPurchaseProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductPurchaseProductTaskDTO.cs" />
+    <Compile Include="Boo\ProductRelationshipBlueprintDTO.cs" />
+    <Compile Include="Boo\ProductRelationshipBlueprintDTO.Generated.cs">
+      <DependentUpon>ProductRelationshipBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductRelationshipBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\ProductRelationshipBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>ProductRelationshipBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductRelationshipDTO.cs" />
+    <Compile Include="Boo\ProductRelationshipDTO.Generated.cs">
+      <DependentUpon>ProductRelationshipDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductRelationshipTemplateDTO.cs" />
+    <Compile Include="Boo\ProductRelationshipTemplateDTO.Generated.cs">
+      <DependentUpon>ProductRelationshipTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductRoleDTO.cs" />
+    <Compile Include="Boo\ProductRoleDTO.Generated.cs">
+      <DependentUpon>ProductRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductRoleTemplateDTO.cs" />
+    <Compile Include="Boo\ProductRoleTemplateDTO.Generated.cs">
+      <DependentUpon>ProductRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationAttributeDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationAttributeDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationAttributeOptionDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationAttributeOptionDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationAttributeOptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationAttributeOptionTemplateDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationAttributeOptionTemplateDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationAttributeOptionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationAttributeTemplateDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationAttributeTemplateDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationAttributeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationBlueprintDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationBlueprintDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductSpecificationBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\ProductSpecificationBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>ProductSpecificationBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductTagDTO.cs" />
+    <Compile Include="Boo\ProductTagDTO.Generated.cs">
+      <DependentUpon>ProductTagDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductTagTemplateDTO.cs" />
+    <Compile Include="Boo\ProductTagTemplateDTO.Generated.cs">
+      <DependentUpon>ProductTagTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductTaskDTO.cs" />
+    <Compile Include="Boo\ProductTemplateDTO.cs" />
+    <Compile Include="Boo\ProductTemplateDTO.Generated.cs">
+      <DependentUpon>ProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductVariantAttributeCombinationDTO.cs" />
+    <Compile Include="Boo\ProductVariantAttributeCombinationDTO.Generated.cs">
+      <DependentUpon>ProductVariantAttributeCombinationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductVariantAttributeCombinationTemplateDTO.cs" />
+    <Compile Include="Boo\ProductVariantAttributeCombinationTemplateDTO.Generated.cs">
+      <DependentUpon>ProductVariantAttributeCombinationTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductVariantAttributeValueDTO.cs" />
+    <Compile Include="Boo\ProductVariantAttributeValueDTO.Generated.cs">
+      <DependentUpon>ProductVariantAttributeValueDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ProductVariantAttributeValueTemplateDTO.cs" />
+    <Compile Include="Boo\ProductVariantAttributeValueTemplateDTO.Generated.cs">
+      <DependentUpon>ProductVariantAttributeValueTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RelationshipRoleDTO.cs" />
+    <Compile Include="Boo\RelationshipRoleDTO.Generated.cs">
+      <DependentUpon>RelationshipRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RelationshipRoleTemplateDTO.cs" />
+    <Compile Include="Boo\RepositoryDTO.cs" />
+    <Compile Include="Boo\RepositoryDTO.Generated.cs">
+      <DependentUpon>RepositoryDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RepositoryStructureDTO.cs" />
+    <Compile Include="Boo\RepositoryStructureDTO.Generated.cs">
+      <DependentUpon>RepositoryStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RepositoryStructureGroupDTO.cs" />
+    <Compile Include="Boo\RepositoryStructureGroupDTO.Generated.cs">
+      <DependentUpon>RepositoryStructureGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RepositoryStructureRoleDTO.cs" />
+    <Compile Include="Boo\RepositoryStructureRoleDTO.Generated.cs">
+      <DependentUpon>RepositoryStructureRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ResourceDTO.cs" />
+    <Compile Include="Boo\ResourceDTO.Generated.cs">
+      <DependentUpon>ResourceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ResourceOperationDTO.cs" />
+    <Compile Include="Boo\ResourceOperationTargetDTO.cs" />
+    <Compile Include="Boo\ResourceOperationTargetDTO.Generated.cs">
+      <DependentUpon>ResourceOperationTargetDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RoleClaimDTO.cs" />
+    <Compile Include="Boo\RoleClaimDTO.Generated.cs">
+      <DependentUpon>RoleClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RoleDTO.cs" />
+    <Compile Include="Boo\RoleDTO.Generated.cs">
+      <DependentUpon>RoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\RoleTemplateClaimDTO.cs" />
+    <Compile Include="Boo\ServiceBusErrorLogDTO.cs" />
+    <Compile Include="Boo\ServiceBusTraceLogDTO.cs" />
+    <Compile Include="Boo\ServiceDefinitionDetailDTO.cs" />
+    <Compile Include="Boo\ServiceDefinitionDetailDTO.Generated.cs">
+      <DependentUpon>ServiceDefinitionDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ServiceDefinitionDTO.cs" />
+    <Compile Include="Boo\ServiceDefinitionDTO.Generated.cs">
+      <DependentUpon>ServiceDefinitionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ServiceErrorLogDTO.cs" />
+    <Compile Include="Boo\ServiceInterfaceDTO.cs" />
+    <Compile Include="Boo\ServiceInterfaceDTO.Generated.cs">
+      <DependentUpon>ServiceInterfaceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ServiceInterfaceProcessLogDTO.cs" />
+    <Compile Include="Boo\ServiceInterfaceProcessLogDTO.Generated.cs">
+      <DependentUpon>ServiceInterfaceProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ServiceProviderDTO.cs" />
+    <Compile Include="Boo\ServiceProviderDTO.Generated.cs">
+      <DependentUpon>ServiceProviderDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ServiceTraceLogDTO.cs" />
+    <Compile Include="Boo\SettingDTO.cs" />
+    <Compile Include="Boo\SettingDTO.Generated.cs">
+      <DependentUpon>SettingDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartBlueprintDTO.cs" />
+    <Compile Include="Boo\ShoppingCartBlueprintDTO.Generated.cs">
+      <DependentUpon>ShoppingCartBlueprintDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartBlueprintProductDTO.cs" />
+    <Compile Include="Boo\ShoppingCartBlueprintProductDTO.Generated.cs">
+      <DependentUpon>ShoppingCartBlueprintProductDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartBlueprintProductTemplateDTO.cs" />
+    <Compile Include="Boo\ShoppingCartBlueprintProductTemplateDTO.Generated.cs">
+      <DependentUpon>ShoppingCartBlueprintProductTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartBlueprintTemplateDTO.cs" />
+    <Compile Include="Boo\ShoppingCartBlueprintTemplateDTO.Generated.cs">
+      <DependentUpon>ShoppingCartBlueprintTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartDTO.cs" />
+    <Compile Include="Boo\ShoppingCartDTO.Generated.cs">
+      <DependentUpon>ShoppingCartDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartItemDTO.cs" />
+    <Compile Include="Boo\ShoppingCartItemDTO.Generated.cs">
+      <DependentUpon>ShoppingCartItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.Generated.cs">
+      <DependentUpon>ShoppingCartItemProductAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ShoppingCartItemProductSpecificationDTO.Generated.cs">
+      <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SmsTransactionDTO.cs" />
+    <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
+      <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificationAttributeDTO.Generated.cs">
+      <DependentUpon>SpecificationAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificationAttributeOptionTemplateDTO.Generated.cs">
+      <DependentUpon>SpecificationAttributeOptionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificationAttributeRelationshipDTO.Generated.cs">
+      <DependentUpon>SpecificationAttributeRelationshipDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificationAttributeRelationshipTemplateDTO.Generated.cs">
+      <DependentUpon>SpecificationAttributeRelationshipTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificationAttributeTemplateDTO.Generated.cs">
+      <DependentUpon>SpecificationAttributeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SpecificiationAttributeOptionDTO.Generated.cs">
+      <DependentUpon>SpecificiationAttributeOptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StateDTO.Generated.cs">
+      <DependentUpon>StateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StateItemDTO.Generated.cs">
+      <DependentUpon>StateItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeClaimDTO.Generated.cs">
+      <DependentUpon>StatusTypeClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeClaimTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeClaimTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeDTO.Generated.cs">
+      <DependentUpon>StatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeRoleDTO.Generated.cs">
+      <DependentUpon>StatusTypeRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeRoleTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeRoleTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeStructureDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeStructureTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeStructureTransitionDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTransitionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeStructureTransitionTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeStructureTransitionTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeValueDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StatusTypeValueTemplateDTO.Generated.cs">
+      <DependentUpon>StatusTypeValueTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\StructureDTO.Generated.cs">
+      <DependentUpon>StructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SubscriptionDTO.Generated.cs">
+      <DependentUpon>SubscriptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TaxRateDTO.Generated.cs">
+      <DependentUpon>TaxRateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TaxRateTemplateDTO.Generated.cs">
+      <DependentUpon>TaxRateTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TenantDTO.Generated.cs">
+      <DependentUpon>TenantDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TimeoutentityDTO.Generated.cs">
+      <DependentUpon>TimeoutentityDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionLevelComponentDTO.Generated.cs">
+      <DependentUpon>TransactionLevelComponentDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionLevelComponentTemplateDTO.Generated.cs">
+      <DependentUpon>TransactionLevelComponentTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionOrderDTO.Generated.cs">
+      <DependentUpon>TransactionOrderDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionOrderItemDTO.Generated.cs">
+      <DependentUpon>TransactionOrderItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionOrderPaymentDTO.Generated.cs">
+      <DependentUpon>TransactionOrderPaymentDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionOrderPaymentErrorDTO.Generated.cs">
+      <DependentUpon>TransactionOrderPaymentErrorDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TransactionOrderProcessLogDTO.Generated.cs">
+      <DependentUpon>TransactionOrderProcessLogDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\TwoFactorAuthTokenDTO.Generated.cs">
+      <DependentUpon>TwoFactorAuthTokenDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountArchiveDTO.Generated.cs">
+      <DependentUpon>UserAccountArchiveDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountAuditDTO.Generated.cs">
+      <DependentUpon>UserAccountAuditDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountDetailDTO.Generated.cs">
+      <DependentUpon>UserAccountDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountDTO.Generated.cs">
+      <DependentUpon>UserAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountLedgerAccountDTO.Generated.cs">
+      <DependentUpon>UserAccountLedgerAccountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountLoginSessionDatumDTO.Generated.cs">
+      <DependentUpon>UserAccountLoginSessionDatumDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountLoginSessionDTO.Generated.cs">
+      <DependentUpon>UserAccountLoginSessionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationGroupDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationRoleDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationSecondaryUserTypeDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationSecondaryUserTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationStatusDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationStructureDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationStructureDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountOrganisationTeamDTO.Generated.cs">
+      <DependentUpon>UserAccountOrganisationTeamDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserCertificateDTO.Generated.cs">
+      <DependentUpon>UserCertificateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserClaimDTO.Generated.cs">
+      <DependentUpon>UserClaimDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserTypeDTO.Generated.cs">
+      <DependentUpon>UserTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VAttachmentDTO.Generated.cs">
+      <DependentUpon>VAttachmentDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VBranchDTO.Generated.cs">
+      <DependentUpon>VBranchDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VClaimSourceDTO.Generated.cs">
+      <DependentUpon>VClaimSourceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VClassificationDTO.Generated.cs">
+      <DependentUpon>VClassificationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VCompanyDTO.Generated.cs">
+      <DependentUpon>VCompanyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VCountryAndCurrencyDTO.Generated.cs">
+      <DependentUpon>VCountryAndCurrencyDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VCountryDeductionDTO.Generated.cs">
+      <DependentUpon>VCountryDeductionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VDefaultEmailAddressDTO.Generated.cs">
+      <DependentUpon>VDefaultEmailAddressDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VDefaultOrganisationStatusDTO.Generated.cs">
+      <DependentUpon>VDefaultOrganisationStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VDefaultOrganisationUserTypeOrganisationTypeDTO.Generated.cs">
+      <DependentUpon>VDefaultOrganisationUserTypeOrganisationTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VGlobalAccountingCurrentPeriodDTO.Generated.cs">
+      <DependentUpon>VGlobalAccountingCurrentPeriodDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VGroupDTO.Generated.cs">
+      <DependentUpon>VGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs">
+      <DependentUpon>VInvoiceWithCurrentTransactionOrderStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationConstructDTO.Generated.cs">
+      <DependentUpon>VNotificationConstructDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationConstructGroupDTO.Generated.cs">
+      <DependentUpon>VNotificationConstructGroupDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationInternalDTO.cs" />
+    <Compile Include="Boo\VNotificationInternalUnreadDTO.Generated.cs">
+      <DependentUpon>VNotificationInternalUnreadDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationRecipientStatusDTO.Generated.cs">
+      <DependentUpon>VNotificationRecipientStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationViewOnlyUaoDTO.cs" />
+    <Compile Include="Boo\VNotificationViewOnlyUaoDTO.Generated.cs">
+      <DependentUpon>VNotificationViewOnlyUaoDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VNotificationWithUAOVerificationCodeDTO.Generated.cs">
+      <DependentUpon>VNotificationWithUAOVerificationCodeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationBankAccountsWithStatusDTO.cs" />
+    <Compile Include="Boo\VOrganisationBankAccountsWithStatusDTO.Generated.cs">
+      <DependentUpon>VOrganisationBankAccountsWithStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationCheckoutDiscountDTO.Generated.cs">
+      <DependentUpon>VOrganisationCheckoutDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationDetailDTO.Generated.cs">
+      <DependentUpon>VOrganisationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationDTO.Generated.cs">
+      <DependentUpon>VOrganisationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationFinancialStatusDTO.Generated.cs">
+      <DependentUpon>VOrganisationFinancialStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.cs" />
+    <Compile Include="Boo\VOrganisationLedgerTransactionBalanceDTO.Generated.cs">
+      <DependentUpon>VOrganisationLedgerTransactionBalanceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationPaymentMethodStatusDTO.Generated.cs">
+      <DependentUpon>VOrganisationPaymentMethodStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationStatusDTO.Generated.cs">
+      <DependentUpon>VOrganisationStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationUserTypeDTO.Generated.cs">
+      <DependentUpon>VOrganisationUserTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VOrganisationWithStatusAndAdminDTO.Generated.cs">
+      <DependentUpon>VOrganisationWithStatusAndAdminDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.Generated.cs">
+      <DependentUpon>VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VProductAttributeDTO.Generated.cs">
+      <DependentUpon>VProductAttributeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VProductDeductionDTO.Generated.cs">
+      <DependentUpon>VProductDeductionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VProductDiscountDTO.Generated.cs">
+      <DependentUpon>VProductDiscountDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VProductSpecificationDTO.Generated.cs">
+      <DependentUpon>VProductSpecificationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VProductSpecificationOptionDTO.Generated.cs">
+      <DependentUpon>VProductSpecificationOptionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VResourceDTO.Generated.cs">
+      <DependentUpon>VResourceDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VRoleDTO.Generated.cs">
+      <DependentUpon>VRoleDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VStateDTO.Generated.cs">
+      <DependentUpon>VStateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VStatusTypeDTO.Generated.cs">
+      <DependentUpon>VStatusTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VStatusTypeTemplateDTO.Generated.cs">
+      <DependentUpon>VStatusTypeTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VTemporaryUsersNotLoggedInDTO.Generated.cs">
+      <DependentUpon>VTemporaryUsersNotLoggedInDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VUserAccountNotLoggedInDTO.Generated.cs">
+      <DependentUpon>VUserAccountNotLoggedInDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Boo\VUserAccountOrganisationDTO.Generated.cs">
+      <DependentUpon>VUserAccountOrganisationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VUserAccountOrganisationUserTypeOrganisationTypeDTO.Generated.cs">
+      <DependentUpon>VUserAccountOrganisationUserTypeOrganisationTypeDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VUserRoleRegulatorDetailDTO.Generated.cs">
+      <DependentUpon>VUserRoleRegulatorDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VUserStatusDTO.Generated.cs">
+      <DependentUpon>VUserStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\CartPricingDTO.cs" />
+    <Compile Include="DTO\CartPricingItemDTO.cs" />
+    <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
+    <Compile Include="Boo\ShoppingCartItemProductSpecificationDTO.cs" />
+    <Compile Include="Boo\SpecificationAttributeDTO.cs" />
+    <Compile Include="Boo\SpecificationAttributeOptionTemplateDTO.cs" />
+    <Compile Include="Boo\SpecificationAttributeRelationshipDTO.cs" />
+    <Compile Include="Boo\SpecificationAttributeRelationshipTemplateDTO.cs" />
+    <Compile Include="Boo\SpecificationAttributeTemplateDTO.cs" />
+    <Compile Include="Boo\SpecificiationAttributeOptionDTO.cs" />
+    <Compile Include="Boo\StateDTO.cs" />
+    <Compile Include="Boo\StateItemDTO.cs" />
+    <Compile Include="Boo\StatusTypeClaimDTO.cs" />
+    <Compile Include="Boo\StatusTypeClaimTemplateDTO.cs" />
+    <Compile Include="Boo\StatusTypeDTO.cs" />
+    <Compile Include="Boo\StatusTypeRoleDTO.cs" />
+    <Compile Include="Boo\StatusTypeRoleTemplateDTO.cs" />
+    <Compile Include="Boo\StatusTypeStructureDTO.cs" />
+    <Compile Include="Boo\StatusTypeStructureTemplateDTO.cs" />
+    <Compile Include="Boo\StatusTypeStructureTransitionDTO.cs" />
+    <Compile Include="Boo\StatusTypeStructureTransitionTemplateDTO.cs" />
+    <Compile Include="Boo\StatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\StatusTypeValueDTO.cs" />
+    <Compile Include="Boo\StatusTypeValueTemplateDTO.cs" />
+    <Compile Include="Boo\StructureDTO.cs" />
+    <Compile Include="Boo\StsInviteDTO.cs" />
+    <Compile Include="Boo\StsInviteProcessLogDTO.cs" />
+    <Compile Include="Boo\StsPropertyDTO.cs" />
+    <Compile Include="Boo\StsSearchAccountDTO.cs" />
+    <Compile Include="Boo\StsSearchAccountIDDocumentDTO.cs" />
+    <Compile Include="Boo\StsSearchActorDetailDepositDTO.cs" />
+    <Compile Include="Boo\StsSearchActorDetailDTO.cs" />
+    <Compile Include="Boo\StsSearchActorDTO.cs" />
+    <Compile Include="Boo\StsSearchActorProcessLogDTO.cs" />
+    <Compile Include="Boo\StsSearchActorStructureDTO.cs" />
+    <Compile Include="Boo\StsSearchDetailDTO.cs" />
+    <Compile Include="Boo\StsSearchDTO.cs" />
+    <Compile Include="Boo\StsSearchLRDocumentOrderDTO.cs" />
+    <Compile Include="Boo\StsSearchProcessLogDTO.cs" />
+    <Compile Include="Boo\StsSearchPropertyDTO.cs" />
+    <Compile Include="Boo\StsSearchRelationDTO.cs" />
+    <Compile Include="Boo\SubscriptionDTO.cs" />
+    <Compile Include="Boo\TaxRateDTO.cs" />
+    <Compile Include="Boo\TaxRateTemplateDTO.cs" />
+    <Compile Include="Boo\TenantDTO.cs" />
+    <Compile Include="Boo\TFEventDTO.cs" />
+    <Compile Include="Boo\TFEventMessageSubscriberDTO.cs" />
+    <Compile Include="Boo\TFEventTypeDTO.cs" />
+    <Compile Include="Boo\TimeoutentityDTO.cs" />
+    <Compile Include="Boo\TransactionLevelComponentDTO.cs" />
+    <Compile Include="Boo\TransactionLevelComponentTemplateDTO.cs" />
+    <Compile Include="Boo\TransactionOrderDTO.cs" />
+    <Compile Include="Boo\TransactionOrderItemDTO.cs" />
+    <Compile Include="Boo\TransactionOrderPaymentDTO.cs" />
+    <Compile Include="Boo\TransactionOrderPaymentErrorDTO.cs" />
+    <Compile Include="Boo\TransactionOrderProcessLogDTO.cs" />
+    <Compile Include="Boo\TwoFactorAuthTokenDTO.cs" />
+    <Compile Include="Boo\UpGetUserClaimResultDTO.cs" />
+    <Compile Include="Boo\UpGetUserClaimResultDTO.Generated.cs">
+      <DependentUpon>UpGetUserClaimResultDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountArchiveDTO.cs" />
+    <Compile Include="Boo\UserAccountAuditDTO.cs" />
+    <Compile Include="Boo\UserAccountDetailDTO.cs" />
+    <Compile Include="Boo\UserAccountDTO.cs" />
+    <Compile Include="Boo\UserAccountLedgerAccountDTO.cs" />
+    <Compile Include="Boo\UserAccountLoginSessionDatumDTO.cs" />
+    <Compile Include="Boo\UserAccountLoginSessionDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationGroupDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationRoleDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationSecondaryUserTypeDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationStatusDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationStructureDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationTeamDTO.cs" />
+    <Compile Include="Boo\UserAccountOrganisationUnitDTO.cs" />
+    <Compile Include="Boo\UserCertificateDTO.cs" />
+    <Compile Include="Boo\UserClaimDTO.cs" />
+    <Compile Include="Boo\UserStageTemplateDTO.cs" />
+    <Compile Include="Boo\UserStageTemplateDTO.Generated.cs">
+      <DependentUpon>UserStageTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserTypeDTO.cs" />
+    <Compile Include="Boo\VAttachmentDTO.cs" />
+    <Compile Include="Boo\VBranchDTO.cs" />
+    <Compile Include="Boo\VbusmessagestatuDTO.cs" />
+    <Compile Include="Boo\VBusTaskScheduleDTO.cs" />
+    <Compile Include="Boo\VClaimSourceDTO.cs" />
+    <Compile Include="Boo\VClassificationDTO.cs" />
+    <Compile Include="Boo\VCompanyDTO.cs" />
+    <Compile Include="Boo\VcomplianceofficerDTO.cs" />
+    <Compile Include="Boo\VCountryAndCurrencyDTO.cs" />
+    <Compile Include="Boo\VCountryDeductionDTO.cs" />
+    <Compile Include="Boo\VDefaultEmailAddressDTO.cs" />
+    <Compile Include="Boo\VDefaultOrganisationStatusDTO.cs" />
+    <Compile Include="Boo\VDefaultOrganisationUserTypeOrganisationTypeDTO.cs" />
+    <Compile Include="Boo\VGlobalAccountingCurrentPeriodDTO.cs" />
+    <Compile Include="Boo\VGroupDTO.cs" />
+    <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.cs" />
+    <Compile Include="Boo\VisibilityClaimTemplateDTO.cs" />
+    <Compile Include="Boo\VisibilitySchemeTemplateDTO.cs" />
+    <Compile Include="Boo\VisibilitySchemeVisibilityTemplateDTO.cs" />
+    <Compile Include="Boo\VisibilityStateTemplateDTO.cs" />
+    <Compile Include="Boo\VisibilityStateVisibilitySchemeDTO.cs" />
+    <Compile Include="Boo\VNotificationConstructDTO.cs" />
+    <Compile Include="Boo\VNotificationConstructGroupDTO.cs" />
+    <Compile Include="Boo\VNotificationConstructGroupNotificationConstructDTO.cs" />
+    <Compile Include="Boo\VNotificationInternalUnreadDTO.cs" />
+    <Compile Include="Boo\VNotificationRecipientStatusDTO.cs" />
+    <Compile Include="Boo\VNotificationWithUAOVerificationCodeDTO.cs" />
+    <Compile Include="Boo\VNotificationWithVerificationCodeDTO.cs" />
+    <Compile Include="Boo\VOperationDTO.cs" />
+    <Compile Include="Boo\VOrganisationCheckoutDiscountDTO.cs" />
+    <Compile Include="Boo\VOrganisationClaimDTO.cs" />
+    <Compile Include="Boo\VOrganisationComplianceOfficerDTO.cs" />
+    <Compile Include="Boo\VOrganisationDetailDTO.cs" />
+    <Compile Include="Boo\VOrganisationDTO.cs" />
+    <Compile Include="Boo\VOrganisationFinancialStatusDTO.cs" />
+    <Compile Include="Boo\VOrganisationPaymentMethodStatusDTO.cs" />
+    <Compile Include="Boo\VOrganisationStatusDTO.cs" />
+    <Compile Include="Boo\VOrganisationTemplateDTO.cs" />
+    <Compile Include="Boo\VOrganisationUserTypeDTO.cs" />
+    <Compile Include="Boo\VOrganisationWithStatusAndAdminDTO.cs" />
+    <Compile Include="Boo\VOrgansiationClaimDTO.cs" />
+    <Compile Include="Boo\VPlanSubscriptionStatusWithBillingAndPaymentMethodStatusDTO.cs" />
+    <Compile Include="Boo\VProductAttributeDTO.cs" />
+    <Compile Include="Boo\VProductDeductionDTO.cs" />
+    <Compile Include="Boo\VProductDiscountDTO.cs" />
+    <Compile Include="Boo\VProductSpecificationDTO.cs" />
+    <Compile Include="Boo\VProductSpecificationOptionDTO.cs" />
+    <Compile Include="Boo\VResourceDTO.cs" />
+    <Compile Include="Boo\VRoleDTO.cs" />
+    <Compile Include="Boo\VStateDTO.cs" />
+    <Compile Include="Boo\VStatusTypeDTO.cs" />
+    <Compile Include="Boo\VStatusTypeTemplateDTO.cs" />
+    <Compile Include="Boo\VTemporaryUsersNotLoggedInDTO.cs" />
+    <Compile Include="Boo\VUserAccountNotLoggedInDTO.cs" />
+    <Compile Include="Boo\VUserAccountOrganisationDTO.cs" />
+    <Compile Include="Boo\VUserAccountOrganisationUserTypeOrganisationTypeDTO.cs" />
+    <Compile Include="Boo\VUserDTO.cs" />
+    <Compile Include="Boo\VUserDTO.Generated.cs">
+      <DependentUpon>VUserDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VUserManagementDTO.cs" />
+    <Compile Include="Boo\VUserRoleRegulatorDetailDTO.cs" />
+    <Compile Include="Boo\VUserStatusDTO.cs" />
+    <Compile Include="Boo\VUserWorkflowInstanceStatusDTO.cs" />
+    <Compile Include="DTO\AddCompanyDTO.cs" />
+    <Compile Include="DTO\AddNewCompanyAndAdministratorDTO.cs" />
+    <Compile Include="DTO\AjaxRequestError.cs" />
+    <Compile Include="DTO\CreditTopUpEventDTO.cs" />
+    <Compile Include="DTO\Event\EventPayload.cs" />
+    <Compile Include="DTO\FirmDetailsUserDTO.cs" />
+    <Compile Include="DTO\FirmPreferenceDTO.cs" />
+    <Compile Include="DTO\FirmProductDTO.cs" />
+    <Compile Include="DTO\FirmDetailsDTO.cs" />
+    <Compile Include="DTO\CompanyDTO.cs" />
+    <Compile Include="DTO\ForgotPasswordDTO.cs" />
+    <Compile Include="DTO\IDCheckRequestDTO.cs" />
+    <Compile Include="DTO\InformationDTO.cs" />
+    <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\NotificationCountDTO.cs" />
+    <Compile Include="DTO\NotificationResultDTO.cs" />
+    <Compile Include="DTO\NotificationContentDTO.cs" />
+    <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\ColpNextStepsNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\NotificationRenderDTO.cs" />
+    <Compile Include="DTO\Notification\NotificationContainerDTO.cs" />
+    <Compile Include="DTO\Notification\NotificationRenderObject.cs" />
+    <Compile Include="DTO\Notification\NotificationSettingDTO.cs" />
+    <Compile Include="DTO\Notification\NotificationDictionaryDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationBankAccountAddStatusDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationBankAccountStateChangeDTO.cs" />
+    <Compile Include="DTO\Payment\CalculateTaxRequestDTO.cs" />
+    <Compile Include="DTO\Payment\CalculateTaxResultDTO.cs" />
+    <Compile Include="DTO\Payment\CreditAdjustmentDTO.cs" />
+    <Compile Include="DTO\Payment\OrderRequestDTO.cs" />
+    <Compile Include="DTO\Payment\OrderResponseDTO.cs" />
+    <Compile Include="DTO\Payment\PaymentTransactionRequestDTO.cs" />
+    <Compile Include="DTO\Payment\PaymentTransactionResponseDTO.cs" />
+    <Compile Include="DTO\PermanentAccountDTO.cs" />
+    <Compile Include="DTO\PersonalDetailDTO.cs" />
+    <Compile Include="DTO\FirmUserDTO.cs" />
+    <Compile Include="DTO\FirmBranchDTO.cs" />
+    <Compile Include="DTO\RegistrationSummaryDTO.cs" />
+    <Compile Include="DTO\RegistrationDTO.cs" />
+    <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\UsernameReminderDTO.cs" />
+    <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
+    <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
+    <Compile Include="DTO\TelephoneDTO.cs" />
+    <Compile Include="DTO\TemporaryAccountDTO.cs" />
+    <Compile Include="DTO\TermsConditionsDataDTO.cs" />
+    <Compile Include="DTO\UserCertificateDTO.cs" />
+    <Compile Include="DTO\UserCertificateDTO.Generated.cs">
+      <DependentUpon>UserCertificateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\UserIdentificationMessageDTO.cs" />
+    <Compile Include="DTO\ClassificationTypeDTO.cs" />
+    <Compile Include="DTO\ContactJsonDTO.cs" />
+    <Compile Include="DTO\ContactDTO.cs" />
+    <Compile Include="DTO\GoogleDTO.cs" />
+    <Compile Include="DTO\AddressDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationGroupDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationRoleDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationUnitDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationDetailDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationUserStateDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationUserStateTemplateDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationVisibilityStateDTO.cs" />
+    <Compile Include="DTO\Organisation\OrganisationVisibilityStateVisibilitySchemeDTO.cs" />
+    <Compile Include="DTO\PostCodeDTO.cs" />
+    <Compile Include="DTO\RoleClaimDTO.cs" />
+    <Compile Include="DTO\ResourceDTO.cs" />
+    <Compile Include="DTO\OperationDTO.cs" />
+    <Compile Include="DTO\RoleTemplateDTO.cs" />
+    <Compile Include="DTO\StateDTO.cs" />
+    <Compile Include="DTO\StateItemSlimDTO.cs" />
+    <Compile Include="DTO\StateItemDTO.cs" />
+    <Compile Include="DTO\UserAccountLoginSessionDTO.cs" />
+    <Compile Include="DTO\UserClaimDTO.cs" />
+    <Compile Include="DTO\UserDetailDTO.cs" />
+    <Compile Include="DTO\UserManagementCritieraDTO.cs" />
+    <Compile Include="DTO\vAttachmentDTO.cs" />
+    <Compile Include="DTO\vBranchDTO.cs" />
+    <Compile Include="DTO\vOrganisationDTO.cs" />
+    <Compile Include="DTO\vClassificationDTO.cs" />
+    <Compile Include="DTO\vUserManagementDTO.cs" />
+    <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\FirmUserEnum.cs" />
+    <Compile Include="Enums\NotificationEnums.cs" />
+    <Compile Include="Enums\OrganisationEnums.cs" />
+    <Compile Include="Enums\StatusTypesEnum.cs" />
+    <Compile Include="Enums\TFEnums.cs" />
+    <Compile Include="Enums\TFEventEnum.cs" />
+    <Compile Include="Enums\WorkflowEnums.cs" />
+    <Compile Include="Helpers\RegexExpressions.cs" />
+    <Compile Include="Injections\IgnoreProps.cs" />
+    <Compile Include="Injections\CaseInsensitiveInjection.cs" />
+    <Compile Include="Injections\NullableInjection.cs" />
+    <Compile Include="DTO\PaymentDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\ExperianIDCheckSettings.cs" />
+    <Compile Include="Settings\PaymentSettings.cs" />
+    <Compile Include="Enums\PaymentTransactionType.cs" />
+    <Compile Include="Validators\BaseValidator.cs" />
+    <Compile Include="WebUserHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\External\BrockAllen.MembershipReboot-master\src\BrockAllen.MembershipReboot\BrockAllen.MembershipReboot.csproj">
+      <Project>{a33fe01f-ae9b-4bde-b521-ab13916b1cfa}</Project>
+      <Name>BrockAllen.MembershipReboot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation.Mvc5\FluentValidation.Mvc5.csproj">
+      <Project>{23e384ef-5a39-4d73-a8d5-ef48c71c128f}</Project>
+      <Name>FluentValidation.Mvc5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\External\FluentValidation\FluentValidation\FluentValidation.csproj">
+      <Project>{dae0249b-4f69-4ac9-9a17-aa23e0795316}</Project>
+      <Name>FluentValidation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bec.TargetFramework.Infrastructure\Bec.TargetFramework.Infrastructure.csproj">
+      <Project>{60ffc9db-218a-4d15-932f-1ee535d930c1}</Project>
+      <Name>Bec.TargetFramework.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

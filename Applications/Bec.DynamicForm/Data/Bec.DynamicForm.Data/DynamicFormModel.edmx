@@ -1,0 +1,1260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DynamicFormDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Answers">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="bigint" />
+          <Property Name="ParentId" Type="bigint" />
+          <Property Name="Answer" Type="varchar" MaxLength="1000" />
+          <Property Name="UploadLink" Type="varchar" MaxLength="500" />
+          <Property Name="ChoiceAnswered" Type="varchar" MaxLength="100" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="SectionId" Type="int" />
+          <Property Name="ChoiceText" Type="varchar" MaxLength="100" />
+          <Property Name="VersionId" Type="int" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="FormId" />
+          </Key>
+          <Property Name="FormId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormName" Type="varchar" MaxLength="100" />
+          <Property Name="FormDescription" Type="varchar" MaxLength="255" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="FormTypeId" Type="int" />
+          <Property Name="Versionid" Type="int" />
+          <Property Name="isActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="FormSection">
+          <Key>
+            <PropertyRef Name="FormSectionId" />
+          </Key>
+          <Property Name="FormSectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionNo" Type="int" />
+          <Property Name="SectionName" Type="varchar" MaxLength="100" />
+          <Property Name="SectionDescription" Type="varchar" MaxLength="255" />
+          <Property Name="FormId" Type="int" />
+          <Property Name="FormSectionParentId" Type="int" />
+          <Property Name="VersionId" Type="int" />
+        </EntityType>
+        <EntityType Name="FormSectionQuestion">
+          <Key>
+            <PropertyRef Name="FormSectionQuestionid" />
+          </Key>
+          <Property Name="FormSectionQuestionid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormSectionid" Type="int" />
+          <Property Name="QuestionId" Type="bigint" />
+          <Property Name="QuestionNo" Type="varchar" MaxLength="25" />
+          <Property Name="SortingOrderNo" Type="int" />
+          <Property Name="IsVisible" Type="bit" />
+          <Property Name="IsMandatory" Type="bit" />
+        </EntityType>
+        <EntityType Name="FormSectionQuestionTemplate">
+          <Key>
+            <PropertyRef Name="FormSectionQuestionTemplateid" />
+          </Key>
+          <Property Name="FormSectionQuestionTemplateid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormSectionid" Type="int" />
+          <Property Name="QuestionId" Type="bigint" />
+          <Property Name="QuestionNo" Type="varchar" MaxLength="25" />
+          <Property Name="SortingOrderNo" Type="int" />
+          <Property Name="IsVisible" Type="bit" />
+          <Property Name="IsMandatory" Type="bit" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionTemplateId" Type="bigint" />
+          <Property Name="QuestionNo" Type="bigint" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="QuestionControlTypeId" Type="int" />
+          <Property Name="HelpText" Type="varchar" MaxLength="500" />
+          <Property Name="MaxText" Type="varchar" MaxLength="50" />
+          <Property Name="VersionNo" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionControlType">
+          <Key>
+            <PropertyRef Name="QuestionControlTypeid" />
+          </Key>
+          <Property Name="QuestionControlTypeid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ControlTypeName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="QuestionOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OptionText" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="QuestionOptionLookup">
+          <Key>
+            <PropertyRef Name="QuestionOptionLookupId" />
+          </Key>
+          <Property Name="QuestionOptionLookupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="bigint" />
+          <Property Name="OptionId" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionOptionLookupTemplate">
+          <Key>
+            <PropertyRef Name="QuestionOptionLookupTemplateId" />
+          </Key>
+          <Property Name="QuestionOptionLookupTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="bigint" />
+          <Property Name="OptionId" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionTemplate">
+          <Key>
+            <PropertyRef Name="QuestionTemplateId" />
+          </Key>
+          <Property Name="QuestionTemplateId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="QuestionNo" Type="int" />
+          <Property Name="QuestionControlTypeId" Type="int" />
+          <Property Name="HelpText" Type="varchar" MaxLength="500" />
+          <Property Name="MaxText" Type="varchar" MaxLength="50" />
+          <Property Name="VersionNo" Type="int" />
+        </EntityType>
+        <EntityType Name="QuestionValidationLookup">
+          <Key>
+            <PropertyRef Name="ValidationQuestionLookId" />
+          </Key>
+          <Property Name="ValidationQuestionLookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ValidationTypeId" Type="int" />
+          <Property Name="QuestionId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="QuestionValidationLookupTemplate">
+          <Key>
+            <PropertyRef Name="ValidationQuestionLookTemplateId" />
+          </Key>
+          <Property Name="ValidationQuestionLookTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ValidationTypeId" Type="int" />
+          <Property Name="QuestionId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Triggers">
+          <Key>
+            <PropertyRef Name="TriggerId" />
+          </Key>
+          <Property Name="TriggerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TriggerValue" Type="varchar(max)" />
+          <Property Name="TriggerAction" Type="varchar(max)" />
+          <Property Name="TriggerPointQuestionid" Type="bigint" />
+          <Property Name="TriggerPointSectionId" Type="int" />
+        </EntityType>
+        <EntityType Name="TriggersTemplate">
+          <Key>
+            <PropertyRef Name="TriggerTemplateId" />
+          </Key>
+          <Property Name="TriggerTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TriggerValue" Type="varchar(max)" />
+          <Property Name="TriggerAction" Type="varchar(max)" />
+          <Property Name="TriggerPointQuestionid" Type="bigint" />
+          <Property Name="TriggerPointSectionId" Type="int" />
+        </EntityType>
+        <EntityType Name="ValidationType">
+          <Key>
+            <PropertyRef Name="ValidationTypeId" />
+          </Key>
+          <Property Name="ValidationTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ValidationTypeName" Type="varchar" MaxLength="100" />
+          <Property Name="Expression" Type="varchar" MaxLength="1000" />
+          <Property Name="Format" Type="varchar" MaxLength="255" />
+          <Property Name="ErrorMessage" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="VersionId" />
+          </Key>
+          <Property Name="VersionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormId" Type="int" />
+          <Property Name="VersionName" Type="varchar" MaxLength="100" />
+          <Property Name="Notes" Type="varchar" MaxLength="500" />
+          <Property Name="DocVersionId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DynamicFormDB.dbo.vQuestion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="bigint" Nullable="false" />
+          <Property Name="QuestionTemplateId" Type="bigint" />
+          <Property Name="QuestionNo" Type="bigint" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="QuestionControlTypeId" Type="int" />
+          <Property Name="HelpText" Type="varchar" MaxLength="500" />
+          <Property Name="MaxText" Type="varchar" MaxLength="50" />
+          <Property Name="VersionNo" Type="int" />
+          <Property Name="ControlTypeName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Function Name="Form_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Form_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormId" Type="int" Mode="InOut" />
+          <Parameter Name="FormName" Type="varchar" Mode="In" />
+          <Parameter Name="FormDescription" Type="varchar" Mode="In" />
+          <Parameter Name="ParentId" Type="int" Mode="In" />
+          <Parameter Name="FormTypeId" Type="int" Mode="In" />
+          <Parameter Name="Versionid" Type="int" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="Form_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Form_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormId" Type="int" Mode="In" />
+          <Parameter Name="FormName" Type="varchar" Mode="In" />
+          <Parameter Name="FormDescription" Type="varchar" Mode="In" />
+          <Parameter Name="ParentId" Type="int" Mode="In" />
+          <Parameter Name="FormTypeId" Type="int" Mode="In" />
+          <Parameter Name="Versionid" Type="int" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="FormSection_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FormSection_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionId" Type="int" Mode="InOut" />
+          <Parameter Name="SectionNo" Type="int" Mode="In" />
+          <Parameter Name="SectionName" Type="varchar" Mode="In" />
+          <Parameter Name="SectionDescription" Type="varchar" Mode="In" />
+          <Parameter Name="FormId" Type="int" Mode="In" />
+          <Parameter Name="FormSectionParentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FormSection_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionId" Type="int" Mode="In" />
+          <Parameter Name="FormId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FormSection_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionId" Type="int" Mode="In" />
+          <Parameter Name="SectionNo" Type="int" Mode="In" />
+          <Parameter Name="SectionName" Type="varchar" Mode="In" />
+          <Parameter Name="SectionDescription" Type="varchar" Mode="In" />
+          <Parameter Name="FormId" Type="int" Mode="In" />
+          <Parameter Name="FormSectionParentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FormSectionQuestion_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionid" Type="int" Mode="In" />
+          <Parameter Name="Questionid" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="FormSectionQuestion_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionQuestionid" Type="int" Mode="InOut" />
+          <Parameter Name="FormSectionid" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+          <Parameter Name="SortingOrderNo" Type="int" Mode="In" />
+          <Parameter Name="IsVisible" Type="bit" Mode="In" />
+          <Parameter Name="IsMandatory" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="FormSectionQuestion_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FormSectionQuestion_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionQuestionid" Type="int" Mode="In" />
+          <Parameter Name="FormSectionid" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+          <Parameter Name="SortingOrderNo" Type="int" Mode="In" />
+          <Parameter Name="IsVisible" Type="bit" Mode="In" />
+          <Parameter Name="IsMandatory" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="Question_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Question_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="InOut" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="QuestionControlTypeId" Type="int" Mode="In" />
+          <Parameter Name="HelpText" Type="varchar" Mode="In" />
+          <Parameter Name="MaxText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Question_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Question_SelectByFormSection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormSectionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Question_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="QuestionControlTypeId" Type="int" Mode="In" />
+          <Parameter Name="HelpText" Type="varchar" Mode="In" />
+          <Parameter Name="MaxText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionControlType_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionControlTypeid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="QuestionControlType_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionControlTypeid" Type="int" Mode="InOut" />
+          <Parameter Name="ControlTypeName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionControlType_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionControlTypeid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="QuestionControlType_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionControlTypeid" Type="int" Mode="In" />
+          <Parameter Name="ControlTypeName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionOption_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OptionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="QuestionOption_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OptionId" Type="int" Mode="InOut" />
+          <Parameter Name="OptionText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionOption_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OptionId" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="QuestionOption_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OptionId" Type="int" Mode="In" />
+          <Parameter Name="OptionText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionOptionLookup_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+          <Parameter Name="OptionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="QuestionOptionLookup_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionOptionLookupId" Type="int" Mode="InOut" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+          <Parameter Name="OptionText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="QuestionOptionLookup_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="QuestionValidationLookup_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationTypeId" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="QuestionValidationLookup_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationQuestionLookId" Type="int" Mode="InOut" />
+          <Parameter Name="ValidationTypeId" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="QuestionValidationLookup_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationQuestionLookId" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="Triggers_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TriggerId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Triggers_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TriggerId" Type="int" Mode="InOut" />
+          <Parameter Name="TriggerValue" Type="varchar(max)" Mode="In" />
+          <Parameter Name="TriggerAction" Type="varchar(max)" Mode="In" />
+          <Parameter Name="TriggerPointQuestionid" Type="bigint" Mode="In" />
+          <Parameter Name="TriggerPointSectionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Triggers_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TriggerId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Triggers_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TriggerId" Type="int" Mode="In" />
+          <Parameter Name="TriggerValue" Type="varchar(max)" Mode="In" />
+          <Parameter Name="TriggerAction" Type="varchar(max)" Mode="In" />
+          <Parameter Name="TriggerPointQuestionid" Type="bigint" Mode="In" />
+          <Parameter Name="TriggerPointSectionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ValidationType_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationTypeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ValidationType_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationTypeId" Type="int" Mode="InOut" />
+          <Parameter Name="ValidationTypeName" Type="varchar" Mode="In" />
+          <Parameter Name="Expression" Type="varchar" Mode="In" />
+          <Parameter Name="Format" Type="varchar" Mode="In" />
+          <Parameter Name="ErrorMessage" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ValidationType_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationTypeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ValidationType_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ValidationTypeId" Type="int" Mode="In" />
+          <Parameter Name="ValidationTypeName" Type="varchar" Mode="In" />
+          <Parameter Name="Expression" Type="varchar" Mode="In" />
+          <Parameter Name="Format" Type="varchar" Mode="In" />
+          <Parameter Name="ErrorMessage" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Version_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VersionId" Type="int" Mode="InOut" />
+          <Parameter Name="FormId" Type="int" Mode="In" />
+          <Parameter Name="VersionName" Type="varchar" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="DocVersionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Version_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VersionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="VQuestion_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionId" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="DynamicFormDBModelStoreContainer">
+          <EntitySet Name="Answers" EntityType="Self.Answers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Form" EntityType="Self.Form" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormSection" EntityType="Self.FormSection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormSectionQuestion" EntityType="Self.FormSectionQuestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormSectionQuestionTemplate" EntityType="Self.FormSectionQuestionTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionControlType" EntityType="Self.QuestionControlType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionOption" EntityType="Self.QuestionOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionOptionLookup" EntityType="Self.QuestionOptionLookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionOptionLookupTemplate" EntityType="Self.QuestionOptionLookupTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionTemplate" EntityType="Self.QuestionTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionValidationLookup" EntityType="Self.QuestionValidationLookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionValidationLookupTemplate" EntityType="Self.QuestionValidationLookupTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Triggers" EntityType="Self.Triggers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TriggersTemplate" EntityType="Self.TriggersTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ValidationType" EntityType="Self.ValidationType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vQuestion" EntityType="Self.vQuestion" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vQuestion].[QuestionId] AS [QuestionId], 
+    [vQuestion].[QuestionTemplateId] AS [QuestionTemplateId], 
+    [vQuestion].[QuestionNo] AS [QuestionNo], 
+    [vQuestion].[Description] AS [Description], 
+    [vQuestion].[QuestionControlTypeId] AS [QuestionControlTypeId], 
+    [vQuestion].[HelpText] AS [HelpText], 
+    [vQuestion].[MaxText] AS [MaxText], 
+    [vQuestion].[VersionNo] AS [VersionNo], 
+    [vQuestion].[ControlTypeName] AS [ControlTypeName]
+    FROM [dbo].[vQuestion] AS [vQuestion]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DynamicFormDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int64" />
+          <Property Name="ParentId" Type="Int64" />
+          <Property Name="Answer1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="UploadLink" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ChoiceAnswered" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="ChoiceText" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VersionId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="FormId" />
+          </Key>
+          <Property Name="FormId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FormDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="FormTypeId" Type="Int32" />
+          <Property Name="Versionid" Type="Int32" />
+          <Property Name="isActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="FormSection">
+          <Key>
+            <PropertyRef Name="FormSectionId" />
+          </Key>
+          <Property Name="FormSectionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionNo" Type="Int32" />
+          <Property Name="SectionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SectionDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FormId" Type="Int32" />
+          <Property Name="FormSectionParentId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FormSectionQuestion">
+          <Key>
+            <PropertyRef Name="FormSectionQuestionid" />
+          </Key>
+          <Property Name="FormSectionQuestionid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormSectionid" Type="Int32" />
+          <Property Name="QuestionId" Type="Int64" />
+          <Property Name="SortingOrderNo" Type="Int32" />
+          <Property Name="IsVisible" Type="Boolean" />
+          <Property Name="IsMandatory" Type="Boolean" />
+          <Property Name="QuestionNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QuestionControlType">
+          <Key>
+            <PropertyRef Name="QuestionControlTypeid" />
+          </Key>
+          <Property Name="QuestionControlTypeid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ControlTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QuestionValidationLookup">
+          <Key>
+            <PropertyRef Name="ValidationQuestionLookId" />
+          </Key>
+          <Property Name="ValidationQuestionLookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ValidationTypeId" Type="Int32" />
+          <Property Name="QuestionId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Trigger">
+          <Key>
+            <PropertyRef Name="TriggerId" />
+          </Key>
+          <Property Name="TriggerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TriggerValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TriggerAction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TriggerPointQuestionid" Type="Int64" />
+          <Property Name="TriggerPointSectionId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ValidationType">
+          <Key>
+            <PropertyRef Name="ValidationTypeId" />
+          </Key>
+          <Property Name="ValidationTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expression" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Format" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ValidationTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="VersionId" />
+          </Key>
+          <Property Name="VersionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormId" Type="Int32" />
+          <Property Name="VersionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DocVersionId" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="DynamicFormDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Answers" EntityType="Self.Answer" />
+          <EntitySet Name="Forms" EntityType="Self.Form" />
+          <EntitySet Name="FormSections" EntityType="Self.FormSection" />
+          <EntitySet Name="FormSectionQuestions" EntityType="Self.FormSectionQuestion" />
+          <EntitySet Name="QuestionControlTypes" EntityType="Self.QuestionControlType" />
+          <EntitySet Name="QuestionValidationLookups" EntityType="Self.QuestionValidationLookup" />
+          <EntitySet Name="Triggers" EntityType="Self.Trigger" />
+          <EntitySet Name="ValidationTypes" EntityType="Self.ValidationType" />
+          <EntitySet Name="Versions" EntityType="Self.Version" />
+          <FunctionImport Name="Form_Delete">
+          <Parameter Name="FormId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Form_Insert">
+            <Parameter Name="FormId" Mode="InOut" Type="Int32" />
+            <Parameter Name="FormName" Mode="In" Type="String" />
+            <Parameter Name="FormDescription" Mode="In" Type="String" />
+            <Parameter Name="ParentId" Mode="In" Type="Int32" />
+            <Parameter Name="FormTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="Versionid" Mode="In" Type="Int32" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Form_Select" EntitySet="Forms" ReturnType="Collection(DynamicFormDBModel.Form)">
+          <Parameter Name="FormId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Form_Update">
+            <Parameter Name="FormId" Mode="In" Type="Int32" />
+            <Parameter Name="FormName" Mode="In" Type="String" />
+            <Parameter Name="FormDescription" Mode="In" Type="String" />
+            <Parameter Name="ParentId" Mode="In" Type="Int32" />
+            <Parameter Name="FormTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="Versionid" Mode="In" Type="Int32" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="QuestionOptions" EntityType="DynamicFormDBModel.QuestionOption" />
+          <EntitySet Name="QuestionOptionLookups" EntityType="DynamicFormDBModel.QuestionOptionLookup" />
+          <FunctionImport Name="FormSection_Delete">
+          <Parameter Name="FormSectionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FormSection_Insert">
+            <Parameter Name="FormSectionId" Mode="InOut" Type="Int32" />
+            <Parameter Name="SectionNo" Mode="In" Type="Int32" />
+            <Parameter Name="SectionName" Mode="In" Type="String" />
+            <Parameter Name="SectionDescription" Mode="In" Type="String" />
+            <Parameter Name="FormId" Mode="In" Type="Int32" />
+            <Parameter Name="FormSectionParentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FormSection_Select" EntitySet="FormSections" ReturnType="Collection(DynamicFormDBModel.FormSection)">
+            <Parameter Name="FormSectionId" Mode="In" Type="Int32" />
+            <Parameter Name="FormId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FormSection_Update">
+            <Parameter Name="FormSectionId" Mode="In" Type="Int32" />
+            <Parameter Name="SectionNo" Mode="In" Type="Int32" />
+            <Parameter Name="SectionName" Mode="In" Type="String" />
+            <Parameter Name="SectionDescription" Mode="In" Type="String" />
+            <Parameter Name="FormId" Mode="In" Type="Int32" />
+            <Parameter Name="FormSectionParentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FormSectionQuestion_Delete">
+            <Parameter Name="FormSectionid" Mode="In" Type="Int32" />
+            <Parameter Name="Questionid" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="FormSectionQuestion_Insert">
+            <Parameter Name="FormSectionQuestionid" Mode="InOut" Type="Int32" />
+            <Parameter Name="FormSectionid" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+            <Parameter Name="SortingOrderNo" Mode="In" Type="Int32" />
+            <Parameter Name="IsVisible" Mode="In" Type="Boolean" />
+            <Parameter Name="IsMandatory" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="FormSectionQuestion_Select" EntitySet="FormSectionQuestions" ReturnType="Collection(DynamicFormDBModel.FormSectionQuestion)">
+          <Parameter Name="FormSectionid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FormSectionQuestion_Update">
+            <Parameter Name="FormSectionQuestionid" Mode="In" Type="Int32" />
+            <Parameter Name="FormSectionid" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+            <Parameter Name="SortingOrderNo" Mode="In" Type="Int32" />
+            <Parameter Name="IsVisible" Mode="In" Type="Boolean" />
+            <Parameter Name="IsMandatory" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Question_Delete">
+          <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Question_Insert">
+            <Parameter Name="QuestionId" Mode="InOut" Type="Int64" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="QuestionControlTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="HelpText" Mode="In" Type="String" />
+            <Parameter Name="MaxText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Question_Update">
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="QuestionControlTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="HelpText" Mode="In" Type="String" />
+            <Parameter Name="MaxText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionControlType_Delete">
+          <Parameter Name="QuestionControlTypeid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionControlType_Insert">
+            <Parameter Name="QuestionControlTypeid" Mode="InOut" Type="Int32" />
+            <Parameter Name="ControlTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionControlType_Select" EntitySet="QuestionControlTypes" ReturnType="Collection(DynamicFormDBModel.QuestionControlType)">
+          <Parameter Name="QuestionControlTypeid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionControlType_Update">
+            <Parameter Name="QuestionControlTypeid" Mode="In" Type="Int32" />
+            <Parameter Name="ControlTypeName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionValidationLookup_Delete">
+            <Parameter Name="ValidationTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionValidationLookup_Insert">
+            <Parameter Name="ValidationQuestionLookId" Mode="InOut" Type="Int32" />
+            <Parameter Name="ValidationTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionValidationLookup_Select" ReturnType="Collection(DynamicFormDBModel.QuestionValidationLookup_Select_Result)">
+            <Parameter Name="ValidationQuestionLookId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Triggers_Delete">
+          <Parameter Name="TriggerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Triggers_Insert">
+            <Parameter Name="TriggerId" Mode="InOut" Type="Int32" />
+            <Parameter Name="TriggerValue" Mode="In" Type="String" />
+            <Parameter Name="TriggerAction" Mode="In" Type="String" />
+            <Parameter Name="TriggerPointQuestionid" Mode="In" Type="Int64" />
+            <Parameter Name="TriggerPointSectionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Triggers_Select" EntitySet="Triggers" ReturnType="Collection(DynamicFormDBModel.Trigger)">
+          <Parameter Name="TriggerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Triggers_Update">
+            <Parameter Name="TriggerId" Mode="In" Type="Int32" />
+            <Parameter Name="TriggerValue" Mode="In" Type="String" />
+            <Parameter Name="TriggerAction" Mode="In" Type="String" />
+            <Parameter Name="TriggerPointQuestionid" Mode="In" Type="Int64" />
+            <Parameter Name="TriggerPointSectionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ValidationType_Delete">
+          <Parameter Name="ValidationTypeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ValidationType_Insert">
+            <Parameter Name="ValidationTypeId" Mode="InOut" Type="Int32" />
+            <Parameter Name="ValidationTypeName" Mode="In" Type="String" />
+            <Parameter Name="Expression" Mode="In" Type="String" />
+            <Parameter Name="Format" Mode="In" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ValidationType_Select" EntitySet="ValidationTypes" ReturnType="Collection(DynamicFormDBModel.ValidationType)">
+          <Parameter Name="ValidationTypeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ValidationType_Update">
+            <Parameter Name="ValidationTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="ValidationTypeName" Mode="In" Type="String" />
+            <Parameter Name="Expression" Mode="In" Type="String" />
+            <Parameter Name="Format" Mode="In" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Version_Insert">
+            <Parameter Name="VersionId" Mode="InOut" Type="Int32" />
+            <Parameter Name="FormId" Mode="In" Type="Int32" />
+            <Parameter Name="VersionName" Mode="In" Type="String" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="DocVersionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Version_Select" ReturnType="Collection(DynamicFormDBModel.Version_Select_Result)">
+          <Parameter Name="VersionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Questions" EntityType="DynamicFormDBModel.Question" />
+          <FunctionImport Name="QuestionOption_Delete">
+          <Parameter Name="OptionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOption_Insert">
+            <Parameter Name="OptionId" Mode="InOut" Type="Int32" />
+            <Parameter Name="OptionText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOption_Select" EntitySet="QuestionOptions" ReturnType="Collection(DynamicFormDBModel.QuestionOption)">
+            <Parameter Name="OptionId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOption_Update">
+            <Parameter Name="OptionId" Mode="In" Type="Int32" />
+            <Parameter Name="OptionText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOptionLookup_Delete">
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+            <Parameter Name="OptionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOptionLookup_Insert">
+            <Parameter Name="QuestionOptionLookupId" Mode="InOut" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+            <Parameter Name="OptionText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="QuestionOptionLookup_Select" EntitySet="QuestionOptionLookups" ReturnType="Collection(DynamicFormDBModel.QuestionOptionLookup)">
+          <Parameter Name="QuestionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="FormSectionQuestionTemplates" EntityType="DynamicFormDBModel.FormSectionQuestionTemplate" />
+          <EntitySet Name="QuestionOptionLookupTemplates" EntityType="DynamicFormDBModel.QuestionOptionLookupTemplate" />
+          <EntitySet Name="QuestionTemplates" EntityType="DynamicFormDBModel.QuestionTemplate" />
+          <EntitySet Name="QuestionValidationLookupTemplates" EntityType="DynamicFormDBModel.QuestionValidationLookupTemplate" />
+          <EntitySet Name="TriggersTemplates" EntityType="DynamicFormDBModel.TriggersTemplate" />
+          <FunctionImport Name="Question_Select" EntitySet="Questions" ReturnType="Collection(DynamicFormDBModel.Question)">
+          <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="Question_SelectByFormSection" EntitySet="Questions" ReturnType="Collection(DynamicFormDBModel.Question)">
+          <Parameter Name="FormSectionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="vQuestions" EntityType="DynamicFormDBModel.vQuestion" />
+          <FunctionImport Name="VQuestion_Select" ReturnType="Collection(DynamicFormDBModel.VQuestion_Select_Result)">
+            <Parameter Name="QuestionId" Mode="In" Type="Int64" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Form_Select_Result">
+          <Property Type="Int32" Name="FormId" Nullable="false" />
+          <Property Type="String" Name="FormName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FormDescription" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ParentId" Nullable="true" />
+          <Property Type="Int32" Name="FormTypeId" Nullable="true" />
+          <Property Type="Int32" Name="Versionid" Nullable="true" />
+          <Property Type="Boolean" Name="isActive" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="QuestionOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OptionText" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QuestionOptionLookup">
+          <Key>
+            <PropertyRef Name="QuestionOptionLookupId" />
+          </Key>
+          <Property Name="QuestionOptionLookupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int64" />
+          <Property Name="OptionId" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="FormSection_Select_Result">
+          <Property Type="Int32" Name="FormSectionId" Nullable="false" />
+          <Property Type="String" Name="SectionNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SectionName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SectionDescription" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="FormId" Nullable="true" />
+          <Property Type="Int32" Name="FormSectionParentId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="FormSectionQuestion_Select_Result">
+          <Property Type="Int32" Name="FormSectionQuestionid" Nullable="false" />
+          <Property Type="Int32" Name="FormSectionid" Nullable="true" />
+          <Property Type="Int64" Name="QuestionId" Nullable="true" />
+          <Property Type="Int32" Name="SortingOrderNo" Nullable="true" />
+          <Property Type="Boolean" Name="IsVisible" Nullable="true" />
+          <Property Type="Boolean" Name="IsMandatory" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Question_Select_Result">
+          <Property Type="Int64" Name="QuestionId" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="QuestionControlTypeId" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="HelpText" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MaxText" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="QuestionControlType_Select_Result">
+          <Property Type="Int32" Name="QuestionControlTypeid" Nullable="false" />
+          <Property Type="String" Name="ControlTypeName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="QuestionValidationLookup_Select_Result">
+          <Property Type="Int32" Name="ValidationQuestionLookId" Nullable="false" />
+          <Property Type="Int32" Name="ValidationTypeId" Nullable="true" />
+          <Property Type="Int64" Name="QuestionId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Triggers_Select_Result">
+          <Property Type="Int32" Name="TriggerId" Nullable="false" />
+          <Property Type="String" Name="TriggerValue" Nullable="true" />
+          <Property Type="String" Name="TriggerAction" Nullable="true" />
+          <Property Type="Int64" Name="TriggerPointQuestionid" Nullable="true" />
+          <Property Type="Int32" Name="TriggerPointSectionId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ValidationType_Select_Result">
+          <Property Type="Int32" Name="ValidationTypeId" Nullable="false" />
+          <Property Type="String" Name="ValidationType" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Expression" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Format" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="Version_Select_Result">
+          <Property Type="Int32" Name="VersionId" Nullable="false" />
+          <Property Type="Int32" Name="FormId" Nullable="true" />
+          <Property Type="String" Name="VersionName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="DocVersionId" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionControlTypeId" Type="Int32" />
+          <Property Name="HelpText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionTemplateId" Type="Int64" />
+          <Property Name="QuestionNo" Type="Int64" />
+          <Property Name="VersionNo" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="QuestionOption_Select_Result">
+          <Property Type="Int32" Name="OptionId" Nullable="false" />
+          <Property Type="String" Name="OptionText" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="QuestionOptionLookup_Select_Result">
+          <Property Type="Int32" Name="QuestionOptionLookupId" Nullable="false" />
+          <Property Type="Int64" Name="QuestionId" Nullable="true" />
+          <Property Type="Int32" Name="OptionId" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="FormSectionQuestionTemplate">
+          <Key>
+            <PropertyRef Name="FormSectionQuestionTemplateid" />
+          </Key>
+          <Property Name="FormSectionQuestionTemplateid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormSectionid" Type="Int32" />
+          <Property Name="QuestionId" Type="Int64" />
+          <Property Name="SortingOrderNo" Type="Int32" />
+          <Property Name="IsVisible" Type="Boolean" />
+          <Property Name="IsMandatory" Type="Boolean" />
+          <Property Name="QuestionNo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="QuestionOptionLookupTemplate">
+          <Key>
+            <PropertyRef Name="QuestionOptionLookupTemplateId" />
+          </Key>
+          <Property Name="QuestionOptionLookupTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int64" />
+          <Property Name="OptionId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="QuestionTemplate">
+          <Key>
+            <PropertyRef Name="QuestionTemplateId" />
+          </Key>
+          <Property Name="QuestionTemplateId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionNo" Type="Int32" />
+          <Property Name="QuestionControlTypeId" Type="Int32" />
+          <Property Name="HelpText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VersionNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="QuestionValidationLookupTemplate">
+          <Key>
+            <PropertyRef Name="ValidationQuestionLookTemplateId" />
+          </Key>
+          <Property Name="ValidationQuestionLookTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ValidationTypeId" Type="Int32" />
+          <Property Name="QuestionId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="TriggersTemplate">
+          <Key>
+            <PropertyRef Name="TriggerTemplateId" />
+          </Key>
+          <Property Name="TriggerTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TriggerValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TriggerAction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TriggerPointQuestionid" Type="Int64" />
+          <Property Name="TriggerPointSectionId" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="Question_Select1_Result">
+          <Property Type="Int64" Name="QuestionId" Nullable="false" />
+          <Property Type="Int64" Name="QuestionTemplateId" Nullable="true" />
+          <Property Type="Int64" Name="QuestionNo" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="QuestionControlTypeId" Nullable="true" />
+          <Property Type="String" Name="HelpText" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MaxText" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="VersionNo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Question_SelectByFormSection_Result">
+          <Property Type="Int64" Name="QuestionId" Nullable="false" />
+          <Property Type="Int64" Name="QuestionTemplateId" Nullable="true" />
+          <Property Type="Int64" Name="QuestionNo" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="QuestionControlTypeId" Nullable="true" />
+          <Property Type="String" Name="HelpText" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MaxText" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="VersionNo" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="vQuestion">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int64" Nullable="false" />
+          <Property Name="QuestionTemplateId" Type="Int64" />
+          <Property Name="QuestionNo" Type="Int64" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionControlTypeId" Type="Int32" />
+          <Property Name="HelpText" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="MaxText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VersionNo" Type="Int32" />
+          <Property Name="ControlTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="VQuestion_Select_Result">
+          <Property Type="Int64" Name="QuestionId" Nullable="false" />
+          <Property Type="Int64" Name="QuestionTemplateId" Nullable="true" />
+          <Property Type="Int64" Name="QuestionNo" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="QuestionControlTypeId" Nullable="true" />
+          <Property Type="String" Name="HelpText" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MaxText" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="VersionNo" Nullable="true" />
+          <Property Type="String" Name="ControlTypeName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DynamicFormDBModelStoreContainer" CdmEntityContainer="DynamicFormDBEntities">
+          <EntitySetMapping Name="Answers">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.Answer">
+              <MappingFragment StoreEntitySet="Answers">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Answer1" ColumnName="Answer" />
+                <ScalarProperty Name="UploadLink" ColumnName="UploadLink" />
+                <ScalarProperty Name="ChoiceAnswered" ColumnName="ChoiceAnswered" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="ChoiceText" ColumnName="ChoiceText" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forms">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.Form">
+              <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="FormName" ColumnName="FormName" />
+                <ScalarProperty Name="FormDescription" ColumnName="FormDescription" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="FormTypeId" ColumnName="FormTypeId" />
+                <ScalarProperty Name="Versionid" ColumnName="Versionid" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormSections">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.FormSection">
+              <MappingFragment StoreEntitySet="FormSection">
+                <ScalarProperty Name="FormSectionId" ColumnName="FormSectionId" />
+                <ScalarProperty Name="SectionNo" ColumnName="SectionNo" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="SectionDescription" ColumnName="SectionDescription" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="FormSectionParentId" ColumnName="FormSectionParentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormSectionQuestions">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.FormSectionQuestion">
+              <MappingFragment StoreEntitySet="FormSectionQuestion">
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="FormSectionQuestionid" ColumnName="FormSectionQuestionid" />
+                <ScalarProperty Name="FormSectionid" ColumnName="FormSectionid" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="SortingOrderNo" ColumnName="SortingOrderNo" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionControlTypes">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionControlType">
+              <MappingFragment StoreEntitySet="QuestionControlType">
+                <ScalarProperty Name="QuestionControlTypeid" ColumnName="QuestionControlTypeid" />
+                <ScalarProperty Name="ControlTypeName" ColumnName="ControlTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionValidationLookups">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionValidationLookup">
+              <MappingFragment StoreEntitySet="QuestionValidationLookup">
+                <ScalarProperty Name="ValidationQuestionLookId" ColumnName="ValidationQuestionLookId" />
+                <ScalarProperty Name="ValidationTypeId" ColumnName="ValidationTypeId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Triggers">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.Trigger">
+              <MappingFragment StoreEntitySet="Triggers">
+                <ScalarProperty Name="TriggerId" ColumnName="TriggerId" />
+                <ScalarProperty Name="TriggerValue" ColumnName="TriggerValue" />
+                <ScalarProperty Name="TriggerAction" ColumnName="TriggerAction" />
+                <ScalarProperty Name="TriggerPointQuestionid" ColumnName="TriggerPointQuestionid" />
+                <ScalarProperty Name="TriggerPointSectionId" ColumnName="TriggerPointSectionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ValidationTypes">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.ValidationType">
+              <MappingFragment StoreEntitySet="ValidationType">
+                <ScalarProperty Name="ValidationTypeName" ColumnName="ValidationTypeName" />
+                <ScalarProperty Name="ValidationTypeId" ColumnName="ValidationTypeId" />
+                <ScalarProperty Name="Expression" ColumnName="Expression" />
+                <ScalarProperty Name="Format" ColumnName="Format" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Versions">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.Version">
+              <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="VersionName" ColumnName="VersionName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="DocVersionId" ColumnName="DocVersionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Form_Delete" FunctionName="DynamicFormDBModel.Store.Form_Delete" />
+          <FunctionImportMapping FunctionImportName="Form_Insert" FunctionName="DynamicFormDBModel.Store.Form_Insert" />
+          <FunctionImportMapping FunctionImportName="Form_Select" FunctionName="DynamicFormDBModel.Store.Form_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Form_Update" FunctionName="DynamicFormDBModel.Store.Form_Update" />
+          <EntitySetMapping Name="QuestionOptions">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionOption">
+              <MappingFragment StoreEntitySet="QuestionOption">
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionOptionLookups">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionOptionLookup">
+              <MappingFragment StoreEntitySet="QuestionOptionLookup">
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionOptionLookupId" ColumnName="QuestionOptionLookupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="FormSection_Delete" FunctionName="DynamicFormDBModel.Store.FormSection_Delete" />
+          <FunctionImportMapping FunctionImportName="FormSection_Insert" FunctionName="DynamicFormDBModel.Store.FormSection_Insert" />
+          <FunctionImportMapping FunctionImportName="FormSection_Select" FunctionName="DynamicFormDBModel.Store.FormSection_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FormSection_Update" FunctionName="DynamicFormDBModel.Store.FormSection_Update" />
+          <FunctionImportMapping FunctionImportName="FormSectionQuestion_Delete" FunctionName="DynamicFormDBModel.Store.FormSectionQuestion_Delete" />
+          <FunctionImportMapping FunctionImportName="FormSectionQuestion_Insert" FunctionName="DynamicFormDBModel.Store.FormSectionQuestion_Insert" />
+          <FunctionImportMapping FunctionImportName="FormSectionQuestion_Select" FunctionName="DynamicFormDBModel.Store.FormSectionQuestion_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FormSectionQuestion_Update" FunctionName="DynamicFormDBModel.Store.FormSectionQuestion_Update" />
+          <FunctionImportMapping FunctionImportName="Question_Delete" FunctionName="DynamicFormDBModel.Store.Question_Delete" />
+          <FunctionImportMapping FunctionImportName="Question_Insert" FunctionName="DynamicFormDBModel.Store.Question_Insert" />
+          <FunctionImportMapping FunctionImportName="Question_Update" FunctionName="DynamicFormDBModel.Store.Question_Update" />
+          <FunctionImportMapping FunctionImportName="QuestionControlType_Delete" FunctionName="DynamicFormDBModel.Store.QuestionControlType_Delete" />
+          <FunctionImportMapping FunctionImportName="QuestionControlType_Insert" FunctionName="DynamicFormDBModel.Store.QuestionControlType_Insert" />
+          <FunctionImportMapping FunctionImportName="QuestionControlType_Select" FunctionName="DynamicFormDBModel.Store.QuestionControlType_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QuestionControlType_Update" FunctionName="DynamicFormDBModel.Store.QuestionControlType_Update" />
+          <FunctionImportMapping FunctionImportName="QuestionValidationLookup_Delete" FunctionName="DynamicFormDBModel.Store.QuestionValidationLookup_Delete" />
+          <FunctionImportMapping FunctionImportName="QuestionValidationLookup_Insert" FunctionName="DynamicFormDBModel.Store.QuestionValidationLookup_Insert" />
+          <FunctionImportMapping FunctionImportName="QuestionValidationLookup_Select" FunctionName="DynamicFormDBModel.Store.QuestionValidationLookup_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DynamicFormDBModel.QuestionValidationLookup_Select_Result">
+                <ScalarProperty Name="ValidationQuestionLookId" ColumnName="ValidationQuestionLookId" />
+                <ScalarProperty Name="ValidationTypeId" ColumnName="ValidationTypeId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Triggers_Delete" FunctionName="DynamicFormDBModel.Store.Triggers_Delete" />
+          <FunctionImportMapping FunctionImportName="Triggers_Insert" FunctionName="DynamicFormDBModel.Store.Triggers_Insert" />
+          <FunctionImportMapping FunctionImportName="Triggers_Select" FunctionName="DynamicFormDBModel.Store.Triggers_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Triggers_Update" FunctionName="DynamicFormDBModel.Store.Triggers_Update" />
+          <FunctionImportMapping FunctionImportName="ValidationType_Delete" FunctionName="DynamicFormDBModel.Store.ValidationType_Delete" />
+          <FunctionImportMapping FunctionImportName="ValidationType_Insert" FunctionName="DynamicFormDBModel.Store.ValidationType_Insert" />
+          <FunctionImportMapping FunctionImportName="ValidationType_Select" FunctionName="DynamicFormDBModel.Store.ValidationType_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ValidationType_Update" FunctionName="DynamicFormDBModel.Store.ValidationType_Update" />
+          <FunctionImportMapping FunctionImportName="Version_Insert" FunctionName="DynamicFormDBModel.Store.Version_Insert" />
+          <FunctionImportMapping FunctionImportName="Version_Select" FunctionName="DynamicFormDBModel.Store.Version_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DynamicFormDBModel.Version_Select_Result">
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="VersionName" ColumnName="VersionName" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="DocVersionId" ColumnName="DocVersionId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="VersionNo" ColumnName="VersionNo" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="QuestionTemplateId" ColumnName="QuestionTemplateId" />
+                <ScalarProperty Name="MaxText" ColumnName="MaxText" />
+                <ScalarProperty Name="HelpText" ColumnName="HelpText" />
+                <ScalarProperty Name="QuestionControlTypeId" ColumnName="QuestionControlTypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="QuestionOption_Delete" FunctionName="DynamicFormDBModel.Store.QuestionOption_Delete" />
+          <FunctionImportMapping FunctionImportName="QuestionOption_Insert" FunctionName="DynamicFormDBModel.Store.QuestionOption_Insert" />
+          <FunctionImportMapping FunctionImportName="QuestionOption_Select" FunctionName="DynamicFormDBModel.Store.QuestionOption_Select">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="QuestionOption_Update" FunctionName="DynamicFormDBModel.Store.QuestionOption_Update" />
+          <FunctionImportMapping FunctionImportName="QuestionOptionLookup_Delete" FunctionName="DynamicFormDBModel.Store.QuestionOptionLookup_Delete" />
+          <FunctionImportMapping FunctionImportName="QuestionOptionLookup_Insert" FunctionName="DynamicFormDBModel.Store.QuestionOptionLookup_Insert" />
+          <FunctionImportMapping FunctionImportName="QuestionOptionLookup_Select" FunctionName="DynamicFormDBModel.Store.QuestionOptionLookup_Select">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FormSectionQuestionTemplates">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.FormSectionQuestionTemplate">
+              <MappingFragment StoreEntitySet="FormSectionQuestionTemplate">
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="IsMandatory" ColumnName="IsMandatory" />
+                <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
+                <ScalarProperty Name="SortingOrderNo" ColumnName="SortingOrderNo" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="FormSectionid" ColumnName="FormSectionid" />
+                <ScalarProperty Name="FormSectionQuestionTemplateid" ColumnName="FormSectionQuestionTemplateid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionOptionLookupTemplates">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionOptionLookupTemplate">
+              <MappingFragment StoreEntitySet="QuestionOptionLookupTemplate">
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionOptionLookupTemplateId" ColumnName="QuestionOptionLookupTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionTemplates">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionTemplate">
+              <MappingFragment StoreEntitySet="QuestionTemplate">
+                <ScalarProperty Name="VersionNo" ColumnName="VersionNo" />
+                <ScalarProperty Name="MaxText" ColumnName="MaxText" />
+                <ScalarProperty Name="HelpText" ColumnName="HelpText" />
+                <ScalarProperty Name="QuestionControlTypeId" ColumnName="QuestionControlTypeId" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuestionTemplateId" ColumnName="QuestionTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionValidationLookupTemplates">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.QuestionValidationLookupTemplate">
+              <MappingFragment StoreEntitySet="QuestionValidationLookupTemplate">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="ValidationTypeId" ColumnName="ValidationTypeId" />
+                <ScalarProperty Name="ValidationQuestionLookTemplateId" ColumnName="ValidationQuestionLookTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TriggersTemplates">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.TriggersTemplate">
+              <MappingFragment StoreEntitySet="TriggersTemplate">
+                <ScalarProperty Name="TriggerPointSectionId" ColumnName="TriggerPointSectionId" />
+                <ScalarProperty Name="TriggerPointQuestionid" ColumnName="TriggerPointQuestionid" />
+                <ScalarProperty Name="TriggerAction" ColumnName="TriggerAction" />
+                <ScalarProperty Name="TriggerValue" ColumnName="TriggerValue" />
+                <ScalarProperty Name="TriggerTemplateId" ColumnName="TriggerTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Question_Select" FunctionName="DynamicFormDBModel.Store.Question_Select" />
+          <FunctionImportMapping FunctionImportName="Question_SelectByFormSection" FunctionName="DynamicFormDBModel.Store.Question_SelectByFormSection">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vQuestions">
+            <EntityTypeMapping TypeName="DynamicFormDBModel.vQuestion">
+              <MappingFragment StoreEntitySet="vQuestion">
+                <ScalarProperty Name="ControlTypeName" ColumnName="ControlTypeName" />
+                <ScalarProperty Name="VersionNo" ColumnName="VersionNo" />
+                <ScalarProperty Name="MaxText" ColumnName="MaxText" />
+                <ScalarProperty Name="HelpText" ColumnName="HelpText" />
+                <ScalarProperty Name="QuestionControlTypeId" ColumnName="QuestionControlTypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="QuestionTemplateId" ColumnName="QuestionTemplateId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="VQuestion_Select" FunctionName="DynamicFormDBModel.Store.VQuestion_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DynamicFormDBModel.VQuestion_Select_Result">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionTemplateId" ColumnName="QuestionTemplateId" />
+                <ScalarProperty Name="QuestionNo" ColumnName="QuestionNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="QuestionControlTypeId" ColumnName="QuestionControlTypeId" />
+                <ScalarProperty Name="HelpText" ColumnName="HelpText" />
+                <ScalarProperty Name="MaxText" ColumnName="MaxText" />
+                <ScalarProperty Name="VersionNo" ColumnName="VersionNo" />
+                <ScalarProperty Name="ControlTypeName" ColumnName="ControlTypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

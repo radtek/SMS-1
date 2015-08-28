@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="848d1e19-a809-4a38-9141-40f6feb0744b" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/9.0/project-config.xsd">
+  <name>Octopus Deploy</name>
+  <description />
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="1.%build.counter%" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_2" name="" type="octopus.create.release">
+        <parameters>
+          <param name="octopus_deployto" value="DEV" />
+          <param name="octopus_host" value="http://localhost:8098/" />
+          <param name="octopus_project_name" value="BE Framework" />
+          <param name="octopus_releasenumber" value="1.%build.counter%" />
+          <param name="octopus_version" value="2.0+" />
+          <param name="octopus_waitfordeployments" value="true" />
+          <param name="secure:octopus_apikey" value="zxxe24de76353ee801cc0d552b83c01cd884ef651d430c23bc3d0f072ea74c05ae4" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings />
+    <requirements />
+    <build-triggers>
+      <build-trigger id="TRIGGER_1" type="buildDependencyTrigger">
+        <parameters>
+          <param name="afterSuccessfulBuildOnly" value="true" />
+          <param name="dependsOn" value="BeFramework_Develop" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <dependencies>
+      <depend-on sourceBuildTypeId="BeFramework_Mainline">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+

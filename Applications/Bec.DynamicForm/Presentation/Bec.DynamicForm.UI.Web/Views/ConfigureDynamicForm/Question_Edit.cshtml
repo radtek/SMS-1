@@ -1,0 +1,375 @@
+﻿@model Bec.DynamicForm.Business.Models.QuestionModels
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Add New Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section PagePopups
+{
+
+}
+@section PageScripts {
+
+    <script>
+
+    head.js("@Url.Content("~/Scripts/jquery/jquery.json-2.2.min.js")");
+   
+    function OpenChoiceBox(name) {
+        $('#dialog-modal-addoption').dialog('open');
+        $("#dialog-modal-addoption").dialog("option", "position", "bottom");
+        $("#dialog-modal-addoption").dialog({
+            height: 'auto',
+            width: 460,
+            modal: true,
+            draggable: false,
+            show: 'fade',
+            resizable: false,
+            Position: 'left'
+        });
+        if (name != 'new')
+            $('#ChoiceName').text(name);
+
+    }
+    function DisplayControls(type) {
+        if (type == 'Radio Button' || type == 'CheckBox' || type == 'Radio Button/Single Text' || type == 'Radio Button/Multiple Text' || type == 'CheckBox/Single Text' || type == 'CheckBox/Multiple') {
+
+            $('#trChoiceRequired').show();
+            
+            $('#trChoices').show();
+
+
+        }
+        else if (type == 'Dropdown' || type == 'Dropdown/Single Text' || type == 'Dropdown/Multiple Text') {
+
+            
+            $('#trChoices').show();
+            $('#trAnswerRequired').hide();
+        }
+        else {
+            $('#trAnswerRequired').hide();
+            $('#trChoiceRequired').hide();
+            $('#trChoices').hide();
+            
+        }
+
+
+    }
+    function DisplayFileRequiredOption(type) {
+        if (type == 'Single' || type == 'Multiple') {
+
+            $('#trFileRequired').show();
+
+        }
+        else {
+            $('#trFileRequired').hide();
+
+        }
+
+    }
+    function  AddOption()
+    {
+        var newrow = '<tr>';
+        newrow += '<td>' + $('#ChoiceName').val() + '</td>';
+        newrow += '<td><a id="lnkEditChoice" href="#" onclick="OpenChoiceBox(\'' + $('#ChoiceName').val() + '\')" class="btn">Edit</a></td>';
+        newrow += '<td><a id="lnkEditChoice" href="#" onclick="DeleteOption(\'' + $('#ChoiceName').val() + '\')" class="btn">Delete</a></td>';
+        newrow += '</tr>';
+        $('#tbChoices > tbody').append($(newrow));
+
+    }
+
+    $(function () {
+       
+
+        $('#lnkNewChoice').live('click', function () {
+
+            $.ajax({
+                url: this.href,
+                cache: false,
+                success: function (html) { $("#editorRows").append(html); }
+            });
+
+           // $('<tr><td><input type="text" id="AnswerChoiceList_' + i + '__ChoiceName" size="20" name="AnswerChoiceList[' + i + '].ChoiceName" value="" placeholder="Input Value" /> <a href="#" id="remScnt">Remove</a></td></tr>').appendTo(scntDiv);
+           
+            return false;
+        });
+
+        $("a.deleteRow").live("click", function () {
+            $(this).parents("tr.editorRow:first").remove();
+            return false;
+        });
+    });
+   
+</script>
+}
+@using (Html.BeginForm("Question_UpdateQuestion", "ConfigureDynamicForm", FormMethod.Post, Model))
+{
+    <div id="fullcol">
+        <div class="portlet rnd">
+            <div class="portlet-header"><h2>Add New Question</h2></div>
+            <div class="portlet-content">
+
+
+                
+                    @Html.AntiForgeryToken()
+                @Html.HiddenFor(mdel=>Model.QuestionId)
+                @Html.HiddenFor(mdel => Model.ParentQuestionId)
+                @Html.HiddenFor(mdel => Model.ParentQuestionNo)
+                @Html.HiddenFor(mdel => Model.SectionId)
+                
+                <table style="width:600px">
+                    <tr>
+                        <td colspan="2">
+
+                            @Html.ValidationSummary(true)
+                        </td>
+                    </tr>
+                    <tr style="display:none" id="trParentQuestion">
+                        <td>Parent Question No <span class="style1">*</span> </td>
+                        <td>
+
+                            @Html.TextBoxFor(model => model.ParentQuestionId, new { @class = "text", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.ParentQuestionId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Question No
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.QuestionNo, new { @class = "text", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.QuestionNo)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Question Text
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "textarea", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.Description)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Help Text
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.HelpText, new { @class = "textarea", @style = "width:400px" })
+                            @Html.ValidationMessageFor(model => model.HelpText)
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Question Type
+                        </td>
+                        <td>
+                            <table>
+                                @for (int i = 0; i < Model.QuestionTypeList.Count; i++)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(modelitem => Model.QuestionTypeList, Model.QuestionTypeList[i].Selected, new { @onclick = "DisplayControls('" + Model.QuestionTypeList[i].QuestionTypeName + "')" })
+                                            @Html.DisplayFor(modelItem => Model.QuestionTypeList[i].QuestionTypeName)
+
+                                    </tr>
+                                    }
+                            </table>
+
+
+                        </td>
+                    </tr>
+                    <tr id="trAnswerRequired" style="display:none">
+                        <td>Answer Required</td>
+                        <td>
+                            @Html.CheckBoxFor(modelitem => Model.AnswerRequired, new { @class = "checkbox" })
+                        </td>
+                    </tr>
+                    <tr id="trChoiceRequired" style="display:none">
+                        <td>Choice Required</td>
+                        <td>
+                            @Html.CheckBoxFor(modelitem => Model.ChoiceRequired, new { @class = "checkbox" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>File Upload</td>
+                        <td>
+                            <table>
+                                @for (int i = 0; i < Model.UploadTypeList.Count; i++)
+                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(modelitem => Model.UploadTypeList, Model.UploadTypeList[i].Selected, new { @onclick = "DisplayFileRequiredOption('" + Model.UploadTypeList[i].UploadTypeName + "')" })
+                                            @Html.DisplayFor(modelItem => Model.UploadTypeList[i].UploadTypeName)
+                                        </td>
+
+                                    </tr>
+                                    }
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="trFileRequired" style="display:none">
+                        <td>File Upload Required</td>
+                        <td>
+                            @Html.CheckBoxFor(modelitem => Model.UploadRequired, new { @class = "checkbox" })
+
+                        </td>
+                    </tr>
+
+                    <tr id="trChoices" style="display:none">
+                        <td >
+                            @Html.ActionLink("Add Choice", "AddChoice", null, new { @id = "lnkNewChoice",@class="btn" })
+
+                        </td>
+                        <td width="600px">
+                            <div id="editorRows">
+                                <table class="table">
+                                    <tr><th>Name</th><th>Child Question</th><th>Upload</th><th></th></tr>
+                                    @foreach (var item in Model.AnswerChoiceList)
+                                    {
+                                        @Html.Partial("AddEditAnswerChoices", item)
+                                    }
+                                </table>
+                            </div>
+
+
+
+
+</td>
+                    </tr>
+                   
+                   
+                    <tr>
+                        <td>Validation Type</td>
+                        <td>
+                            <table id="tbtiggerChoice">
+                                @for (int i = 0; i < Model.ValidationList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.RadioButtonFor(modelitem => Model.ValidationList, Model.ValidationList[i].Selected)
+                                            @Html.DisplayFor(modelItem => Model.ValidationList[i].ValidationType)
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </table>
+
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Roles that can answer
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" class="table" id="tblcategories">
+                                @for (int i = 0; i < Model.AnswerRoleList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.CheckBoxFor(modelitem => Model.UploadRoleList[i].Selected, Model.AnswerRoleList[i].Selected)
+                                            @Html.HiddenFor(modelitem => Model.AnswerRoleList[i].CategoryId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.AnswerRoleList[i].Title)
+
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            Roles that can upload if any
+                        </td>
+                        <td>
+                            <table cellpadding="0" cellspacing="0" border="0" class="table" id="tblcategories">
+                                @for (int i = 0; i < Model.UploadRoleList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.CheckBoxFor(modelitem => Model.UploadRoleList[i].Selected, Model.AnswerRoleList[i].Selected)
+                                            @Html.HiddenFor(modelitem => Model.UploadRoleList[i].CategoryId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.UploadRoleList[i].Title)
+
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(model => Model.VisibleToOppositeTransactionUser, new { @class = "checkbox" })
+
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" class="btn" value="Save" />|<a href="@Url.Action("Forms_Summary", "ConfigureDynamicForm")" class="btn">Cancel</a>
+                        </td>
+                        <td colspan="2" style="float:left">
+                            <div id="loading" style="display: none;">
+                                <img src="@Url.Content("~/Content/images/ajax-loader.gif")" /> Please wait.....
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+                
+
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+        <div id="dialog-modal-addoption" title="Add Version" style="display:none">
+    <div class="Popup">
+        <div class="pageheading">
+            <h1>
+                Add/Edit Option
+            </h1>
+        </div>
+        <table class="smstable" border="0" cellpadding="3" cellspacing="10">
+            <tr>
+                <td>Choice Text</td>
+                <td>
+                    <input type="text" class="text" id="ChoiceName" name="ChoiceName"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="save" id="addchoice" name="addchoice" onclick="return AddOption();" class="btn" />
+                    
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+}
+

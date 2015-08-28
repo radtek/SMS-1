@@ -1,0 +1,13 @@
+﻿@model Bec.DynamicForms.Models.AnswerChoiceModel
+
+<div class="editorRow">
+    @using (Html.BeginCollectionItem("HideTriggerListQuestion"))
+{
+    <div >
+        @Html.RadioButtonFor(x => x,false)
+        @Html.DisplayFor(x => x.ChoiceName)
+    </div>
+}
+</div>
+
+

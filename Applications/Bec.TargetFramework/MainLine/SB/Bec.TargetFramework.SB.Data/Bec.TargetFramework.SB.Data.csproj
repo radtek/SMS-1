@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DF0B93F6-EFBB-43FC-AF47-A75BF771D110}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bec.TargetFramework.SB.Data</RootNamespace>
+    <AssemblyName>Bec.TargetFramework.SB.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EnsureThat">
+      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Serilog.Tracing, Version=2.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.Serilog.Tracing.2.0.1.1\Lib\NET45\NServiceBus.Serilog.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus.Transports.SQLServer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NServiceBus.SqlServer.2.1.2\lib\net45\NServiceBus.Transports.SQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetFrameworkCore.BusEvent.cs" />
+    <Compile Include="TargetFrameworkCore.BusEventBusEventMessageSubscriber.cs" />
+    <Compile Include="TargetFrameworkCore.BusEventMessageSubscriber.cs" />
+    <Compile Include="TargetFrameworkCore.BusEventType.cs" />
+    <Compile Include="TargetFrameworkCore.BusMessage.cs" />
+    <Compile Include="TargetFrameworkCore.BusMessageContent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetFrameworkCore.BusMessageProcessLog.cs" />
+    <Compile Include="TargetFrameworkCore.BusTask.cs" />
+    <Compile Include="TargetFrameworkCore.BusTaskHandler.cs" />
+    <Compile Include="TargetFrameworkCore.BusTaskSchedule.cs" />
+    <Compile Include="TargetFrameworkCore.BusTaskScheduleProcessLog.cs" />
+    <Compile Include="TargetFrameworkCore.ClassificationType.cs" />
+    <Compile Include="TargetFrameworkCore.ClassificationTypeCategory.cs" />
+    <Compile Include="TargetFrameworkCore.Setting.cs" />
+    <Compile Include="TargetFrameworkCore.StatusType.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeStructure.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeStructureTemplate.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeStructureTransition.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeStructureTransitionTemplate.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeTemplate.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeValue.cs" />
+    <Compile Include="TargetFrameworkCore.StatusTypeValueTemplate.cs" />
+    <Compile Include="TargetFrameworkCore.TargetFrameworkCoreEntities.cs" />
+    <Compile Include="TargetFrameworkCore.VBusMessageProcessLog.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetFrameworkCore.VBusTaskSchedule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetFrameworkCore.VBusTaskScheduleProcessLog.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TargetFrameworkCore.VStatusType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="TargetFrameworkCore.Diagram1.view">
+      <DependentUpon>TargetFrameworkCore.edml</DependentUpon>
+    </None>
+    <DevartEntityDeploy Include="TargetFrameworkCore.edml">
+      <Generator>DevartEfGenerator</Generator>
+      <LastGenOutput>TargetFrameworkCore.info</LastGenOutput>
+    </DevartEntityDeploy>
+    <None Include="TargetFrameworkCore.edps">
+      <DependentUpon>TargetFrameworkCore.edml</DependentUpon>
+    </None>
+    <None Include="TargetFrameworkCore.info">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TargetFrameworkCore.edml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,84 @@
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <h2 class="row-seperator-header inline-heading">Check Bank Accounts</h2>
+    
+    <div class="well">
+        <div class="row">
+            <div class="col col-6">
+                <form id="check-Form">
+                    <section>
+                        <label class="input">
+                            <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
+                        </label>
+                    </section>
+                    <section>
+                        <label class="input">
+                            <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
+                        </label>
+                    </section>
+                    <section>
+                        <label class="Button">
+                            <input type="submit" value="Check" id="submitButton" />
+                        </label>
+                    </section>
+                </form>
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $("#check-Form").validate({
+            ignore: '.skip',
+            // Rules for form validation
+            rules: {
+                accountNumber: {
+                    required: true,
+                    digits: true,
+                    minlength: 8
+                },
+                sortCode: {
+                    required: true,
+                    digits: true,
+                    minlength: 6
+                }
+            },
+
+            submitHandler: validateSubmit
+        });
+
+        function validateSubmit(form) {
+            $("#submitButton").prop('disabled', true);
+
+            $('#result').empty();
+            $('#result').append("Please wait...");
+
+            var formData = $("#check-Form").serializeArray();
+            ajaxWrapper({
+                url: '@Url.Action("PerformCheck","Check", new {Area="BankAccount"})',
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                $("#submitButton").prop('disabled', false);
+                $('#result').empty();
+                if (res.result == true)
+                    $('#result').append("Match");
+                else {
+                    $('#result').append("No Match");
+                }
+            }).fail(function (e) {
+                $("#submitButton").prop('disabled', false);
+                $('#result').empty();
+
+                console.log(e);
+                $('#result').append("Error");
+            });
+        }
+
+    </script>
+}

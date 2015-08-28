@@ -1,0 +1,103 @@
+﻿@using Bec.TargetFramework.Entities
+@model LoginDTO
+@{
+    ViewBag.PageId = "extr-page";
+    ViewBag.PageClass = "animated fadeInDown";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <div class="well no-padding">
+                <form action="@Url.Action("Index", "Login",new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Sign In
+                    </header>
+                    @Html.HiddenFor(m => m.ReturnUrl)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <fieldset>
+                        <section>
+                            <label class="label">Username</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-user"></i>
+                                @Html.TextBoxFor(m => m.Username)
+                            </label>
+                            <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Username</a>
+                            <br />
+                        </section>
+                        <section>
+                            <label class="label">Password</label>
+                            <label class="input">
+                                <i class="icon-append fa fa-lock"></i>
+                                @Html.PasswordFor(m => m.Password)
+                            </label>
+                            <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <label style="float:left;margin-top:15px;">Version @TempData["version"]</label>
+                        <button type="submit" id="formSubmit" class="btn btn-primary">
+                            Sign In
+                        </button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
+            <hr />
+            <label>Please note that it is a criminal offense to falsely represent your identity as that of another person (Fraud Act 2006).</label>
+            <label>Logging in to the Safe Move Scheme using login details that do not belong to you, for whatever reason, is considered a false representation.</label>
+            <label>It is important that you do not, under any circumstances, share your login details with anyone. You should take all reasonable measures to protect your log-on details from use by somebody else.</label>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sessionStorage.clear();
+        });
+
+        $(function () {
+
+           
+            // Validation
+            $("#login-form").validate({
+                // Rules for form validation
+                rules: {
+                    Username: {
+                        required: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 20
+                    }
+                },
+
+                // Messages for form validation
+                messages: {
+                    Username: {
+                        required: 'Please enter your username'
+                    },
+                    Password: {
+                        required: 'Please enter your password'
+                    }
+                },
+
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                },
+
+                submitHandler: function (form) {
+                    $('#formSubmit').prop('disabled', true);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

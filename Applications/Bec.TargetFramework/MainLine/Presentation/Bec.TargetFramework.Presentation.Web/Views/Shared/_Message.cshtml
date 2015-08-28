@@ -1,0 +1,37 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addModalLabel">@ViewBag.title</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <form class="smart-form">
+                    <label class="label">@ViewBag.message</label>
+                </form>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+            <div class="modal-footer">
+                @if (ViewBag.Buttons == null)
+                {
+                    <button type="button" id="messageButton" class="btn btn-primary" data-dismiss="modal">
+                        @ViewBag.button
+                    </button>
+                }
+                else
+                {
+                    foreach (Tuple<string,string,string> button in ViewBag.Buttons)
+                    {
+                        <button type="button" id="@button.Item1" class="btn @button.Item3" data-dismiss="modal">
+                            @button.Item2
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WebApiProxy</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Fanie Reynders</authors>
+    <owners>Fanie Reynders</owners>
+    <projectUrl>https://github.com/faniereynders/WebApiProxy</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes />
+    <copyright>$copyright$</copyright>
+    <tags>AspNet WebAPI Proxy JavaScript CSharp</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.2" />
+      <dependency id="DocsByReflection" version="1.0.8.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         ToolsVersion="4.0"
+         DefaultTargets="Default">
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <SolutionDir Condition="'$(SolutionDir)' == ''">$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))</SolutionDir>
+    <ScriptsDir>$(SolutionDir)\scripts</ScriptsDir>
+    <NugetExeDir>$(SolutionDir)\.nuget</NugetExeDir>
+    <Solutionfile>$(SolutionDir)\Fabrik.Common.sln</Solutionfile>
+    <BuildArtifactsDir>$(SolutionDir)\artifacts</BuildArtifactsDir>
+    <NuGetPackageOutputDir>$(BuildArtifactsDir)\packages</NuGetPackageOutputDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AppProjFiles Include="$(SolutionDir)\src\Fabrik.*\**\*.csproj" />
+    <TestProjFiles Include="$(SolutionDir)\src\Specs\**\*.csproj" />
+    <NuGetPackageProjects Include="$(SolutionDir)\src\Fabrik.Common\Fabrik.Common.csproj;$(SolutionDir)\src\Fabrik.Common.Web\Fabrik.Common.Web.csproj;$(SolutionDir)\src\Fabrik.Common.WebAPI\Fabrik.Common.WebAPI.csproj;$(SolutionDir)\src\Fabrik.Common.CMS\Fabrik.Common.CMS.csproj;$(SolutionDir)\src\Fabrik.Common.Web.StructureMap\Fabrik.Common.Web.StructureMap.csproj;$(SolutionDir)\src\Fabrik.Common.Logging\Fabrik.Common.Logging.csproj;$(SolutionDir)\src\Fabrik.Common.Logging.NLog\Fabrik.Common.Logging.NLog.csproj" />
+  </ItemGroup>
+
+  <Target Name="Default" DependsOnTargets="Compile; Specs; Package" />
+  <Target Name="DefaultCI" DependsOnTargets="Compile; Specs; Package; PublishPackage" />
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(BuildArtifactsDir)" />
+  </Target>
+
+  <Target Name="Init" DependsOnTargets="Clean">
+    <MakeDir Directories="$(BuildArtifactsDir);$(NuGetPackageOutputDir)" />
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="Init">
+    <MSBuild Projects="@(AppProjFiles)" Targets="Rebuild" Properties="OutDir=$(BuildArtifactsDir);Configuration=$(Configuration)" />
+    <MSBuild Projects="@(TestProjFiles)" Targets="Rebuild" Properties="Configuration=Debug">
+      <Output PropertyName="TestProjOutputs" TaskParameter="TargetOutputs" />
+    </MSBuild>
+  </Target>
+
+  <Target Name="Specs" DependsOnTargets="Compile">
+    <PropertyGroup>
+      <MSpecAssemblies>$(TestProjOutputs.Replace(";", " "))</MSpecAssemblies>
+      <MSpecCommand>$(SolutionDir)\packages\Machine.Specifications.0.5.8\tools\mspec-clr4.exe $(MSpecAssemblies)</MSpecCommand>
+    </PropertyGroup>
+    <Message Importance="high" Text="Running Specs with this command: $(MSpecCommand)"/>
+    <Exec Command="$(MSpecCommand)" />
+  </Target>
+
+  <Target Name="Package">
+    <Exec Command="$(NugetExeDir)\nuget.exe pack %(NuGetPackageProjects.FullPath) -Build -OutputDirectory $(NuGetPackageOutputDir)" />
+  </Target>
+
+</Project>

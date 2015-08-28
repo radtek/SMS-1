@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license id="15c1b06e-091a-4047-8e81-2253d84bbf0a" expiration="2015-07-09T14:24:43.1055822" type="Standard" ProductName="Elastic Cloud Platform License" WorkerThreads="Max" LicenseVersion="5.0" MaxMessageThroughputPerSecond="Max" AllowedNumberOfWorkerNodes="Max" Applications="NServiceBus;" LicenseType="Elastic Cloud Platform License" Edition="Standard" Quantity="1">
+  <name>BE Consultancy</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>QwkVozqpa5yVFP51IcZGyOSd5HU=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>u7/Q29JupH/mOlAISbn4mvM00GfNvFApTe2euDBVU9wB4GkejkAp/OSibXS/H9ntrG8t2rkbVCLrL2MsGGRXLV2WYLaXMhoL+lpWMBT5s9QB+tIdjzbjLyqXwVVID1dU/WomBIf6MKc0/zJKjINU395JTQBmuiARMRGxgEGnyjQ=</SignatureValue>
+  </Signature>
+</license>

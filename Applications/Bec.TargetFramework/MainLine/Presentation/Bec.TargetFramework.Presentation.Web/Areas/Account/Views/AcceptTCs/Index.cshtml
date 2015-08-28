@@ -1,0 +1,66 @@
+﻿@model Guid
+@{
+    ViewBag.Title = "extr-page";
+}
+
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well no-padding">
+                <form action="@Url.Action("Done", "AcceptTCs", new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
+                    <header>
+                        Terms and Conditions
+                    </header>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationBootstrap()
+                    <input type="hidden" name="notificationID" value="@ViewBag.NotificationID" />
+                    <fieldset>
+                        <label><strong>Please read the following Terms and Conditions, once you are happy please check the checkbox at the bottom of the Terms and Conditions to confirm you have read, understood and accept the Terms and Conditions.</strong></label>
+                    </fieldset>
+                    <div style='height:400px;overflow-y:scroll'>
+                        <fieldset>
+                            @foreach (var line in ViewBag.Lines)
+                            {
+                                <p>@line</p><br />
+                            }
+                            <input type='checkbox' id='tc' autocomplete="off" /><label for='tc'>&nbsp;I have read, understood and accept the Terms and Conditions</label>
+                        </fieldset>
+                    </div>
+                    <footer>
+                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left", id="download-btn" })
+                        <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" disabled />
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+    $('#tc').change(function () {
+        $('#formSubmit').prop('disabled', !$('#tc').prop('checked'));
+    });
+
+    $(window).on('resize', function (e) {
+        //smart admin is a bit odd. 'hidden-menu' means hidden when > 979 pixels, but shown when < 979 pixels...
+        if($(window).width()<979) {
+            if ($('body').hasClass('hidden-menu')) $('body').removeClass('hidden-menu');
+        }
+        else {
+            if (!$('body').hasClass('hidden-menu')) $('body').addClass('hidden-menu');
+        }
+    });
+
+    $('#formSubmit').click(function () {
+        $('#tc').prop('disabled', true);
+        $('#download-btn').prop('disabled', true);
+        $('#formSubmit').prop('disabled', true);
+        $('#login-form').submit();
+    });
+
+    $('#download-btn').click(function (e) {
+        if ($('#download-btn').prop('disabled')) e.preventDefault();
+    });
+</script>
+}
