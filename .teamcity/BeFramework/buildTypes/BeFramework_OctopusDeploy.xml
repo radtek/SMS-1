@@ -10,13 +10,14 @@
     <build-runners>
       <runner id="RUNNER_2" name="" type="octopus.create.release">
         <parameters>
+          <param name="octopus_additionalcommandlinearguments" value="--packageversion %build.number%" />
           <param name="octopus_deployto" value="DEV" />
           <param name="octopus_host" value="http://localhost:8098/" />
           <param name="octopus_project_name" value="BE Framework" />
           <param name="octopus_releasenumber" value="1.%build.counter%" />
           <param name="octopus_version" value="2.0+" />
           <param name="octopus_waitfordeployments" value="true" />
-          <param name="secure:octopus_apikey" value="zxxd3cfa41c347f8a485539217b195d55e6dc3eace8dfbf619ac9e5394085586a09" />
+          <param name="secure:octopus_apikey" value="zxxe24de76353ee801cc0d552b83c01cd884ef651d430c23bc3d0f072ea74c05ae4" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
