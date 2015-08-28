@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public AddressDTO() {
         }
 
-        public AddressDTO(global::System.Guid addressID, string name, string primaryContactName, string line1, string line2, string line3, string city, string stateOrProvince, string county, string country, string postOfficeBox, string postalCode, string uTCOffSet, global::System.Nullable<double> latitude, global::System.Nullable<double> longitude, string telephone1, string telephone2, string telephone3, string fax, global::System.Guid parentID, int addressTypeID, int addressNumber, global::System.Nullable<bool> isPrimaryAddress, global::System.Nullable<int> addressCategoryID, global::System.Nullable<int> addressSubTypeID, string buildingName, bool isActive, bool isDeleted, string countryCode, string additionalAddressInformation, string town, global::System.Nullable<int> order, List<AddressChronologyDTO> addressChronologies, CountryCodeDTO countryCode1, List<SmsTransactionDTO> smsTransactions) {
+        public AddressDTO(global::System.Guid addressID, string name, string primaryContactName, string line1, string line2, string line3, string city, string stateOrProvince, string county, string country, string postOfficeBox, string postalCode, string uTCOffSet, global::System.Nullable<double> latitude, global::System.Nullable<double> longitude, string telephone1, string telephone2, string telephone3, string fax, global::System.Guid parentID, int addressTypeID, int addressNumber, global::System.Nullable<bool> isPrimaryAddress, global::System.Nullable<int> addressCategoryID, global::System.Nullable<int> addressSubTypeID, string buildingName, bool isActive, bool isDeleted, string countryCode, string additionalAddressInformation, string town, global::System.Nullable<int> order, List<AddressChronologyDTO> addressChronologies, CountryCodeDTO countryCode1, List<SmsTransactionDTO> smsTransactions, List<UserAccountAddressDTO> userAccountAddresses) {
 
           this.AddressID = addressID;
           this.Name = name;
@@ -59,6 +59,7 @@ namespace Bec.TargetFramework.Entities
           this.AddressChronologies = addressChronologies;
           this.CountryCode1 = countryCode1;
           this.SmsTransactions = smsTransactions;
+          this.UserAccountAddresses = userAccountAddresses;
         }
 
         #endregion
@@ -173,6 +174,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<SmsTransactionDTO> SmsTransactions { get; set; }
+
+        [DataMember]
+        public List<UserAccountAddressDTO> UserAccountAddresses { get; set; }
 
         #endregion
     }

@@ -1402,6 +1402,14 @@
     <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
       <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionTypeDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SpecificationAttributeDTO.Generated.cs">
       <DependentUpon>SpecificationAttributeDTO.cs</DependentUpon>
     </Compile>
@@ -1503,6 +1511,10 @@
     </Compile>
     <Compile Include="Boo\TwoFactorAuthTokenDTO.Generated.cs">
       <DependentUpon>TwoFactorAuthTokenDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountAddressDTO.cs" />
+    <Compile Include="Boo\UserAccountAddressDTO.Generated.cs">
+      <DependentUpon>UserAccountAddressDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountArchiveDTO.Generated.cs">
       <DependentUpon>UserAccountArchiveDTO.cs</DependentUpon>
