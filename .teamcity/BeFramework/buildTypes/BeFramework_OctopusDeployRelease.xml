@@ -10,6 +10,7 @@
     <build-runners>
       <runner id="RUNNER_11" name="" type="octopus.create.release">
         <parameters>
+          <param name="octopus_additionalcommandlinearguments" value="--packageversion %build.number%" />
           <param name="octopus_host" value="http://localhost:8098/" />
           <param name="octopus_project_name" value="BE Framework" />
           <param name="octopus_releasenumber" value="1.1.%build.counter%" />
