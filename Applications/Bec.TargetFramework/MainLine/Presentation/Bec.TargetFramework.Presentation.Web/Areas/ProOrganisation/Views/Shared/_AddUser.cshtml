@@ -3,14 +3,12 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model ContactDTO
 @{
-    List<SelectListItem> titles = new List<SelectListItem>
-    {
-        new SelectListItem{Text = "Mr",Value="Mr"},
-        new SelectListItem{Text = "Mrs",Value="Mrs"},
-        new SelectListItem{Text = "Miss",Value="Miss"},
-        new SelectListItem{Text = "Ms",Value="Ms"},
-        new SelectListItem{Text = "Dr",Value="Dr"}
-    };
+    var titles = ((SalutationEnum[])Enum.GetValues(typeof(SalutationEnum)))
+        .Select(s => new SelectListItem
+        {
+            Text = s.GetStringValue(),
+            Value = s.GetStringValue()
+        });
 }
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
     <div class="modal-dialog">

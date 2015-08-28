@@ -1,4 +1,6 @@
-﻿<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+﻿@using Bec.TargetFramework.Presentation.Web.Controllers
+@using Bec.TargetFramework.Presentation.Web.Models
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,10 +26,10 @@
                 }
                 else
                 {
-                    foreach (Tuple<string,string,string> button in ViewBag.Buttons)
+                    foreach (ButtonDefinition button in ViewBag.Buttons)
                     {
-                        <button type="button" id="@button.Item1" class="btn @button.Item3" data-dismiss="modal">
-                            @button.Item2
+                        <button type="button" id="@button.Id" class="btn @button.Classes" data-dismiss="modal">
+                            @button.Text
                         </button>
                     }
                 }

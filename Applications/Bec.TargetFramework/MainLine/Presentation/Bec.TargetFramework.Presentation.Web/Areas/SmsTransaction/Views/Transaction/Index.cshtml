@@ -1,4 +1,5 @@
-﻿<!-- MAIN CONTENT -->
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
         <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
@@ -53,8 +54,8 @@
                             <a id="editButton" class="btn btn-sm btn-default" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil"></i></a>
                         </h5>
                         <div class="row">
-                            <div class="col-sm-6">
-                                
+                            <div class="col-sm-12">
+
                                 <dl class="dl-horizontal">
                                     <dt>Full Name:</dt>
                                     <dd>
@@ -69,6 +70,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="well">
+                        <h3>
+                            Additional Buyers
+                        </h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="additionalBuyersGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="well">
+                        <h3>
+                            Giftors
+                        </h3>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="giftorsGrid"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,13 +97,26 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
 
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var txGrid = new gridItem(
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setupTransactionsGrid();
+            setupAdditionalBuyersGrid();
+            setupGiftorsGrid();
+            findModalLinks();
+        });
+
+        var salutations = [];
+        @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
+        {
+            @:salutations.push("@salutation");
+        }
+
+        function setupTransactionsGrid() {
+            var txGrid = new gridItem(
             {
                 gridElementId: 'txGrid',
-                url: '@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })',
+                url: '@Url.Action("GetSmsTransactions", "Transaction", new {area = "SmsTransaction"})',
                 schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
                 type: 'odata-v4',
                 serverSorting: true,
@@ -94,71 +128,337 @@
                 searchElementId: 'gridSearchInput',
                 searchButtonId: 'gridSearchButton',
                 columns: [
-                        {
-                            field: "SmsTransactionID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Reference",
-                            title: "Reference"
-                        },
-                        {
-                            field: "Address.Line1",
-                            title: "Address Line 1"
-                        },
-                        {
-                            field: "Address.PostalCode",
-                            title: "Postcode"
-                        },
-                        {
-                            field: "CreatedOn",
-                            title: "Created",
-                            template: function (dataItem) { return dateString(dataItem.CreatedOn); }
-                        }
+                    {
+                        field: "SmsTransactionID",
+                        hidden: true,
+                    },
+                    {
+                        field: "Reference",
+                        title: "Reference"
+                    },
+                    {
+                        field: "Address.Line1",
+                        title: "Address Line 1"
+                    },
+                    {
+                        field: "Address.PostalCode",
+                        title: "Postcode"
+                    },
+                    {
+                        field: "CreatedOn",
+                        title: "Created",
+                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                    }
                 ]
             });
-
-        $(document).ready(function () {
             txGrid.makeGrid();
 
-            findModalLinks();
-        });
+            //data binding for the panes beneath each grid
+            function txChange(dataItem) {
+                $("p#ddAddressLine1").text(dataItem.Address.Line1 || "");
+                $("p#ddAddressLine2").text(dataItem.Address.Line2 || "");
+                $("p#ddTown").text(dataItem.Address.Town || "");
+                $("p#ddCounty").text(dataItem.Address.County || "");
+                $("p#ddPostCode").text(dataItem.Address.PostalCode || "");
+                $("p#ddAdditionalAddressInformation").text(dataItem.Address.AdditionalAddressInformation || "");
 
-        //data binding for the panes beneath each grid
-        function txChange(dataItem) {
-            $("p#ddAddressLine1").text(dataItem.Address.Line1 || "");
-            $("p#ddAddressLine2").text(dataItem.Address.Line2 || "");
-            $("p#ddTown").text(dataItem.Address.Town || "");
-            $("p#ddCounty").text(dataItem.Address.County || "");
-            $("p#ddPostCode").text(dataItem.Address.PostalCode || "");
-            $("p#ddAdditionalAddressInformation").text(dataItem.Address.AdditionalAddressInformation || "");
-
-            $("p#ddName").text(
+                $("p#ddName").text(
                 (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
                 (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
                 (dataItem.UserAccountOrganisation.Contact.LastName || ""));
-            $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
+                $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
 
-            $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
-            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" +
-                encodeURIComponent(
-                    (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.LastName || "")));
+                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransactionID);
+                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransactionID + "&label=" +
+                        encodeURIComponent(
+                        (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
+                        (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
+                        (dataItem.UserAccountOrganisation.Contact.LastName || "")));
 
-            $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+                $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
-            toggleFields(dataItem);
+                toggleFields(dataItem);
+            }
+
+            function toggleFields(dataItem) {
+                $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.Address.Line1);
+                $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.Address.Line2);
+                $("#dtTown, p#ddTown").toggle(!!dataItem.Address.Town);
+                $("#dtCounty, p#ddCounty").toggle(!!dataItem.Address.County);
+                $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.Address.PostalCode);
+                $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.Address.AdditionalAddressInformation);
+            }
         }
 
-        function toggleFields(dataItem) {
-            $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.Address.Line1);
-            $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.Address.Line2);
-            $("#dtTown, p#ddTown").toggle(!!dataItem.Address.Town);
-            $("#dtCounty, p#ddCounty").toggle(!!dataItem.Address.County);
-            $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.Address.PostalCode);
-            $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.Address.AdditionalAddressInformation);
+        function setupAdditionalBuyersGrid() {
+            var additionalBuyersGrid = $("#additionalBuyersGrid");
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})',
+                            type: 'GET',
+                            data: options.data,
+                            dataType: "json",
+                            cache: false,
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    update: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Update", "AdditionalBuyer", new {area = "SmsTransaction"})',
+                            type: 'POST',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    destroy: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "AdditionalBuyer", new {area = "SmsTransaction"})',
+                            type: 'DELETE',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    create: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Create", "AdditionalBuyer", new {area = "SmsTransaction"})',
+                            type: 'POST',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    data: "Items",
+                    total: "Count",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Salutation: { validation: { required: true }, defaultValue: salutations[0] },
+                            FirstName: { validation: { required: true } },
+                            LastName: { validation: { required: true } },
+                            Email: { validation: { required: true, email: true } }
+                        }
+                    }
+                }
+            });
+            additionalBuyersGrid.kendoGrid({
+                dataSource: dataSource,
+                selectable: "row",
+                filterable: false,
+                sortable: true,
+                height: 250,
+                toolbar: ["create"],
+                columns: [
+                    { field: "Salutation", title: "Salutation", editor: salutationDropDownEditor, template: "#=Salutation#" },
+                    { field: "FirstName", title: "First Name" },
+                    { field: "LastName", title: "Last Name" },
+                    { field: "Email", title: "Email" },
+                    {
+                        command: [
+                            { name: "edit" },
+                            {
+                                name: "Delete",
+                                text: "<i class=\"fa fa-remove\"></i> Delete",
+                                //className: "fa fa-map-marker",
+                                click: function (e) {
+                                    var tr = $(e.target).closest("tr"); //get the row for deletion
+                                    var data = this.dataItem(tr); //get the row data so it can be referred later
+
+                                    var title = "Deleting Additional Buyer";
+                                    var message = "Are you sure that you want to delete selected additional buyer?";
+                                    var buttonsQueryString =
+                                        "buttons[0].Id=cancelBtn&buttons[0].Classes=btn-default&buttons[0].Text=Cancel&" +
+                                        "buttons[1].Id=deleteBtn&buttons[1].Classes=btn-primary&buttons[1].Text=Delete";
+                                    handleModal({ url: '@Url.Action("ViewMessage", "Home", new {Area = "",})' + "?title=" + title + "&message=" + message + "&" + buttonsQueryString }, {
+                                        deleteBtn: function () {
+                                            dataSource.remove(data);
+                                            dataSource.sync();
+                                        }
+                                    }, false);
+                                }
+                            }
+                        ],
+                        title: "&nbsp;",
+                        width: "180px"
+                    }
+                ],
+                editable: "inline"
+            });
         }
 
+        function setupGiftorsGrid() {
+            var additionalBuyersGrid = $("#giftorsGrid");
+
+
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})',
+                            type: 'GET',
+                            data: options.data,
+                            dataType: "json",
+                            cache: false,
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    update: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Update", "Giftor", new { area = "SmsTransaction" })',
+                            type: 'POST',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    destroy: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "Giftor", new { area = "SmsTransaction" })',
+                            type: 'DELETE',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    create: function (options) {
+                        $.ajax({
+                            url: '@Url.Action("Create", "Giftor", new { area = "SmsTransaction" })',
+                            type: 'POST',
+                            data: options.data.models[0],
+                            dataType: "json",
+                            success: function (data) {
+                                options.success(data);
+                            },
+                            error: function (data) {
+                                options.error(data);
+                            }
+                        });
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    data: "Items",
+                    total: "Count",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { editable: false, nullable: true },
+                            Salutation: { validation: { required: true }, defaultValue: salutations[0] },
+                            FirstName: { validation: { required: true } },
+                            LastName: { validation: { required: true } },
+                            Email: { validation: { required: true, email: true } }
+                        }
+                    }
+                }
+            });
+            additionalBuyersGrid.kendoGrid({
+                dataSource: dataSource,
+                selectable: "row",
+                filterable: false,
+                sortable: true,
+                height: 250,
+                toolbar: ["create"],
+                columns: [
+                    { field: "Salutation", title: "Salutation", editor: salutationDropDownEditor, template: "#=Salutation#" },
+                    { field: "FirstName", title: "First Name" },
+                    { field: "LastName", title: "Last Name" },
+                    { field: "Email", title: "Email" },
+                    {
+                        command: [
+                            { name: "edit" },
+                            {
+                                name: "Delete",
+                                text: "<i class=\"fa fa-remove\"></i> Delete",
+                                click: function (e) {
+                                    var tr = $(e.target).closest("tr"); //get the row for deletion
+                                    var data = this.dataItem(tr); //get the row data so it can be referred later
+
+                                    var title = "Deleting Giftor";
+                                    var message = "Are you sure that you want to delete selected giftor?";
+                                    var buttonsQueryString =
+                                        "buttons[0].Id=cancelBtn&buttons[0].Classes=btn-default&buttons[0].Text=Cancel&" +
+                                        "buttons[1].Id=deleteBtn&buttons[1].Classes=btn-primary&buttons[1].Text=Delete";
+                                    handleModal({ url: '@Url.Action("ViewMessage", "Home", new {Area = "",})' + "?title=" + title + "&message=" + message + "&" + buttonsQueryString }, {
+                                        deleteBtn: function () {
+                                            dataSource.remove(data);
+                                            dataSource.sync();
+                                        }
+                                    }, false);
+                                }
+                            }
+                        ],
+                        title: "&nbsp;",
+                        width: "180px"
+                    }
+                ],
+                editable: "inline"
+            });
+        }
+
+        function salutationDropDownEditor(container, options) {
+            $('<input required data-bind="value:' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: false,
+                    dataSource: {
+                        data: salutations
+                    }
+                });
+        }
     </script>
 }
