@@ -9701,6 +9701,8 @@
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="RowVersion" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
+          <Property Name="MortgageApplicationNumber" Type="varchar" MaxLength="50" />
+          <Property Name="LenderName" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -28546,6 +28548,8 @@
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="e9fce6a6-d752-49ec-9baf-ba057f31aba4" />
           <Property Name="RowVersion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="c0ae7b1a-0302-4801-930d-960a0731eac1" />
+          <Property Name="MortgageApplicationNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="bcebbdb6-a408-434c-a56d-3876cafdeaec" />
+          <Property Name="LenderName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="19986eb1-64dd-4821-aa87-932c304cfc39" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="SmsTransactions" ToRole="UserAccountOrganisation" ed:Guid="3a0d1a7b-f25a-4e4a-9606-d271c6ecfa27" />
@@ -42905,6 +42909,8 @@
                 <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
                 <ScalarProperty Name="TenureTypeID" ColumnName="TenureTypeID" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="MortgageApplicationNumber" ColumnName="MortgageApplicationNumber" />
+                <ScalarProperty Name="LenderName" ColumnName="LenderName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

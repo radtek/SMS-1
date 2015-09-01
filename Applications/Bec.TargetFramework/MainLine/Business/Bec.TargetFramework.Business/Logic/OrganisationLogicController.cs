@@ -532,6 +532,9 @@ namespace Bec.TargetFramework.Business.Logic
                     OrganisationID = orgID,
                     UserAccountOrganisationID = buyerUaoID,
                     Reference = dto.Reference,
+                    Price = dto.Price,
+                    LenderName = dto.LenderName,
+                    MortgageApplicationNumber = dto.MortgageApplicationNumber,
                     CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);

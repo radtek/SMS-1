@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, string mortgageApplicationNumber, string lenderName, AddressDTO address, OrganisationDTO organisation, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -35,6 +35,8 @@ namespace Bec.TargetFramework.Entities
           this.CreatedOn = createdOn;
           this.RowVersion = rowVersion;
           this.UserAccountOrganisationID = userAccountOrganisationID;
+          this.MortgageApplicationNumber = mortgageApplicationNumber;
+          this.LenderName = lenderName;
           this.Address = address;
           this.Organisation = organisation;
           this.UserAccountOrganisation = userAccountOrganisation;
@@ -76,6 +78,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> UserAccountOrganisationID { get; set; }
+
+        [DataMember]
+        public string MortgageApplicationNumber { get; set; }
+
+        [DataMember]
+        public string LenderName { get; set; }
 
         #endregion
 

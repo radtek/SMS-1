@@ -138,6 +138,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for MortgageApplicationNumber in the schema.
+        /// </summary>
+        public virtual string MortgageApplicationNumber
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for LenderName in the schema.
+        /// </summary>
+        public virtual string LenderName
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
