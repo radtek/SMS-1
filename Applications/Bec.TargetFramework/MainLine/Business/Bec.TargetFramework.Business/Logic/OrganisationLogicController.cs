@@ -155,6 +155,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
+            string orgTypeName;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
             var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
@@ -163,6 +164,8 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
+
+                orgTypeName = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == organisationID).OrganisationType.Name;
 
                 // add user to organisation
                 userOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID, addDefaultRoles);
@@ -209,16 +212,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
+            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+            if (!isTemporary && orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
 
             if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
             return uaoDto;
         }
 
-        public async Task CreateTsAndCsNotificationAsync(Guid userOrgID)
+        public async Task CreateTsAndCsNotificationAsync(Guid userOrgID, NotificationConstructEnum type)
         {
-            var nc = NotificationLogic.GetLatestNotificationConstructIdFromName("TcPublic");
+            var nc = NotificationLogic.GetLatestNotificationConstructIdFromName(type.GetStringValue());
 
             var notificationDto = new NotificationDTO();
             notificationDto.NotificationConstructID = nc.NotificationConstructID;

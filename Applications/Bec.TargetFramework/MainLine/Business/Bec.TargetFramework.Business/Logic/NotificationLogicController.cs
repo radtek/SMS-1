@@ -269,17 +269,17 @@ namespace Bec.TargetFramework.Business.Logic
             return notificationContentDto;
         }
 
-        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, NotificationConstructEnum notificationConstruct)
+        public List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId, [System.Web.Http.FromUri]params NotificationConstructEnum[] types)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var undreadNotifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationInternalUnreads
                     .Where(x => x.UserID == userId);
-                if (notificationConstruct != NotificationConstructEnum.All)
+                if (types.Length > 0)
                 {
-                    var notificationConstructName = notificationConstruct.GetStringValue();
+                    var notificationConstructName = types.Select(x => x.GetStringValue());
                     undreadNotifications = undreadNotifications
-                        .Where(n => n.Name == notificationConstructName)
+                        .Where(n => notificationConstructName.Contains(n.Name))
                         .OrderByDescending(x => x.DateSent);
                 }
 
@@ -289,8 +289,8 @@ namespace Bec.TargetFramework.Business.Logic
 
         public NotificationResultDTO GetTcAndCsText(Guid accountID)
         {
-            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic).FirstOrDefault();
-            Ensure.That(unreadDTO).IsNotNull();
+            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing).FirstOrDefault();
+            if (unreadDTO == null) return null;
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
             string val = StandaloneReportGenerator.GetReportTextItem(construct, null, "TextContent");
             return new NotificationResultDTO

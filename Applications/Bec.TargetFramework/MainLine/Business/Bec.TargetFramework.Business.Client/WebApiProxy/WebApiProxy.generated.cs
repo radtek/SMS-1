@@ -375,12 +375,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct);
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct);
 
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct);
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -520,12 +520,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
 
 		/// <param name="userOrgID"></param>
+		/// <param name="type"></param>
 		/// <returns></returns>
-		Task CreateTsAndCsNotificationAsync(Guid userOrgID);
+		Task CreateTsAndCsNotificationAsync(Guid userOrgID,NotificationConstructEnum type);
 
 		/// <param name="userOrgID"></param>
+		/// <param name="type"></param>
 		/// <returns></returns>
-		void CreateTsAndCsNotification(Guid userOrgID);
+		void CreateTsAndCsNotification(Guid userOrgID,NotificationConstructEnum type);
 
 		/// <returns></returns>
 		Task<Nullable<Guid>> GetTemporaryOrganisationBranchIDAsync();
@@ -2272,10 +2274,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum notificationConstruct)
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user);
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user);
 		}
 
 		/// <summary>
@@ -2283,10 +2285,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <param name="notificationConstruct"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum notificationConstruct)
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + "&notificationConstruct=" + notificationConstruct, _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user)).Result;
 		}
 
 		/// <summary>
@@ -2638,21 +2640,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userOrgID"></param>
+		/// <param name="type"></param>
 		/// <returns></returns>
-		public virtual Task CreateTsAndCsNotificationAsync(Guid userOrgID)
+		public virtual Task CreateTsAndCsNotificationAsync(Guid userOrgID,NotificationConstructEnum type)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID + "&type=" + type, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="userOrgID"></param>
-		public virtual void CreateTsAndCsNotification(Guid userOrgID)
+		/// <param name="type"></param>
+		public virtual void CreateTsAndCsNotification(Guid userOrgID,NotificationConstructEnum type)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID=" + userOrgID + "&type=" + type, null, _user)).Wait();
 		}
 
 		/// <summary>

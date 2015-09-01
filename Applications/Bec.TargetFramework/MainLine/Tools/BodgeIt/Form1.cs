@@ -46,6 +46,8 @@ namespace BodgeIt
             comboDB.DisplayMember = "Text";
             comboDB.ValueMember = "Value";
             comboDB.SelectedIndex = 0;
+
+            comboBox1.SelectedIndex = 0;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -192,7 +194,7 @@ namespace BodgeIt
                 await c.ExecuteNonQueryAsync();
 
                 c.Parameters.Clear();
-                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" uao join \"UserType\" uat on uat.\"UserTypeID\" =  uao.\"UserTypeID\" where uat.\"Name\" = 'Organisation Administrator'";
+                c.CommandText = string.Format("select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" uao join \"UserType\" uat on uat.\"UserTypeID\" =  uao.\"UserTypeID\" where uat.\"Name\" = '{0}'", comboBox1.Text);
                 using (var r = await c.ExecuteReaderAsync())
                 {
                     while (await r.ReadAsync()) uaos.Add(r.GetGuid(0));
@@ -203,7 +205,11 @@ namespace BodgeIt
 
             //insert new notifications for permanent users
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            foreach (var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID={0}", id), HttpMethod.Post, "user", null);
+            foreach (var id in uaos)
+            {
+                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID={0}&type={1}", id, textNCName.Text), HttpMethod.Post, "user", null);
+                x.EnsureSuccessStatusCode();
+            }
             MessageBox.Show("Done");
         }
 

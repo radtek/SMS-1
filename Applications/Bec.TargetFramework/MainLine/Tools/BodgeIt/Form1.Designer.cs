@@ -69,6 +69,8 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -397,6 +399,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.comboBox1);
+            this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.button6);
             this.groupBox3.Controls.Add(this.buttonBrowse);
@@ -464,7 +468,7 @@
             this.textNCName.Name = "textNCName";
             this.textNCName.Size = new System.Drawing.Size(131, 20);
             this.textNCName.TabIndex = 1;
-            this.textNCName.Text = "TcPublic";
+            this.textNCName.Text = "TcFirmConveyancing";
             // 
             // label13
             // 
@@ -483,6 +487,28 @@
             this.label15.Size = new System.Drawing.Size(22, 13);
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 75);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "User Type";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Organisation Administrator",
+            "User",
+            "Administrator"});
+            this.comboBox1.Location = new System.Drawing.Point(94, 72);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(131, 21);
+            this.comboBox1.TabIndex = 8;
             // 
             // Form1
             // 
@@ -558,6 +584,8 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonAutoAdmin;
         private System.Windows.Forms.Button addDefaultUsers;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
     }
 }
 

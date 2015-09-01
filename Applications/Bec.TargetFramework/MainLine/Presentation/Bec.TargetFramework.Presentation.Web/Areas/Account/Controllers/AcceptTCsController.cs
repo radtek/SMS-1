@@ -1,5 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
             var result = await NotificationLogicClient.GetTcAndCsTextAsync(userObject.UserID);
+            if (result == null)
+            {
+                userObject.NeedsTCs = false;
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
             ViewBag.NotificationID = result.NotificationID;
             ViewBag.NotificationConstructID = result.NotificationConstructID;
             ViewBag.NotificationConstructVersionNumber = result.NotificationConstructVersionNumber;
@@ -41,7 +47,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             //mark as read: update session
             WebUserObject userObject = HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
-            if (userObject != null) userObject.NeedsTCs = false;
+            if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
 
             //update database
             await NotificationLogicClient.MarkAcceptedAsync(notificationID);

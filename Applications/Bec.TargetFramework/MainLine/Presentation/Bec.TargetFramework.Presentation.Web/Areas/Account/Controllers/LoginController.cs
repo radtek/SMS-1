@@ -122,7 +122,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             string orgName = olc.GetOrganisationDTO(orgID).Name;
 
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, NotificationConstructEnum.TcPublic)).Count > 0;
+            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
 
