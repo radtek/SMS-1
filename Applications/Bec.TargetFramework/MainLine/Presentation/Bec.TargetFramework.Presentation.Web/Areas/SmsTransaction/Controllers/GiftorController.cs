@@ -14,8 +14,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 Items = new[]
                 {
-                    new { Id = Guid.NewGuid().ToString(), Salutation = "Mr", FirstName = "Dave", LastName = "Smiths", Email = "john@smiths.c"},  
-                    new { Id = Guid.NewGuid().ToString(), Salutation = "Mrs", FirstName = "Elis", LastName = "Smiths", Email = "am@smiths.c"}
+                    new { Id = Guid.NewGuid().ToString(), Salutation = "Mr", FirstName = "Dave", LastName = "Smiths", Email = "john@smiths.c", Line1 = "Marlesfield House", Line2 = "114-116 Main Road", Town = "Sidcup", PostalCode = "DA14 6NG"},  
+                    new { Id = Guid.NewGuid().ToString(), Salutation = "Mrs", FirstName = "Elis", LastName = "Smiths", Email = "am@smiths.c", Line1 = "Marlesfield House", Line2 = "114-116 Main Road", Town = "Sidcup", PostalCode = "DA14 6NG"}
                 },
                 Count = 2
             }, JsonRequestBehavior.AllowGet);

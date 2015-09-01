@@ -871,6 +871,9 @@
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Libs\jquery.loadTemplate-1.4.5.js" />
+    <Content Include="Scripts\Libs\jquery.loadTemplate-1.4.5.min.js" />
+    <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
