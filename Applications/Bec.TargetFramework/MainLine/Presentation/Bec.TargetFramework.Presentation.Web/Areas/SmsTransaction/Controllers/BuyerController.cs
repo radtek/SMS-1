@@ -16,19 +16,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> Index()
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.OrganisationID,
-                x.Address.Line1,
-                x.Address.Line2,
-                x.Address.Town,
-                x.Address.City,
-                x.Address.County,
-                x.Address.PostalCode,
-                Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name })
+                x.SmsTransaction.OrganisationID,
+                x.SmsTransaction.Address.Line1,
+                x.SmsTransaction.Address.Line2,
+                x.SmsTransaction.Address.Town,
+                x.SmsTransaction.Address.City,
+                x.SmsTransaction.Address.County,
+                x.SmsTransaction.Address.PostalCode,
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name })
             });
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var data = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationId == uaoID);
+            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             return View(data);
         }
     }

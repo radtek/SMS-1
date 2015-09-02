@@ -10,6 +10,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
@@ -34,37 +36,44 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.SmsTransactionID,
-                x.Reference,
-                x.Address.Line1,
-                x.Address.Line2,
-                x.Address.Town,
-                x.Address.County,
-                x.Address.PostalCode,
-                x.Address.AdditionalAddressInformation,
+                x.SmsTransaction.SmsTransactionID,
+                x.SmsTransaction.Reference,
+                x.SmsTransaction.Address.Line1,
+                x.SmsTransaction.Address.Line2,
+                x.SmsTransaction.Address.Town,
+                x.SmsTransaction.Address.County,
+                x.SmsTransaction.Address.PostalCode,
+                x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.CreatedOn
+                x.SmsTransaction.CreatedOn
             });
 
-            var where = ODataHelper.Expression<SmsTransactionDTO>(x => x.OrganisationID == orgID);
+            var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var sellerTypeId = UserAccountOrganisationTransactionType.Seller.GetIntValue();
+            var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.SmsTransaction.OrganisationID == orgID &&
+                (
+                    x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId ||
+                    x.SmsUserAccountOrganisationTransactionTypeId == sellerTypeId
+                ));
 
             if (!string.IsNullOrEmpty(search))
             {
-                where = Expression.And(where, ODataHelper.Expression<SmsTransactionDTO>(x =>
-                    x.Reference.ToLower().Contains(search) ||
-                    x.Address.Line1.ToLower().Contains(search) ||
-                    x.Address.PostalCode.ToLower().Contains(search)
+                where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
+                    x.SmsTransaction.Reference.ToLower().Contains(search) ||
+                    x.SmsTransaction.Address.Line1.ToLower().Contains(search) ||
+                    x.SmsTransaction.Address.PostalCode.ToLower().Contains(search)
                     ));
             }
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("SmsTransactions", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("SmsUserAccountOrganisationTransactions", Request.QueryString + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

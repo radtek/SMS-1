@@ -4,7 +4,7 @@
     string aclass = "";
     string ain = "in";
 }
-@model IEnumerable<SmsTransactionDTO>
+@model IEnumerable<SmsUserAccountOrganisationTransactionDTO>
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
@@ -27,13 +27,13 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down"></i> <i class="fa fa-lg fa-angle-up"></i>
-                                                <strong>@tx.Organisation.OrganisationDetails.First().Name</strong> Bank Account Check - Purchase of @tx.Address.Line1 @tx.Address.PostalCode
+                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Bank Account Check - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
                                         <div class="panel-body">
-                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
+                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
                                                 <header>
                                                     Bank Account Details
                                                 </header>

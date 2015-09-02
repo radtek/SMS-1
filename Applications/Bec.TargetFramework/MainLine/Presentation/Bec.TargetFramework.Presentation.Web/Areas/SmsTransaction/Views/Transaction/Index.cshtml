@@ -174,11 +174,11 @@
             {
                 gridElementId: 'txGrid',
                 url: '@Url.Action("GetSmsTransactions", "Transaction", new {area = "SmsTransaction"})',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
+                schema: { data: "Items", total: "Count", model: { id: "SmsTransaction.SmsTransactionID" } },
                 type: 'odata-v4',
                 serverSorting: true,
                 serverPaging: true,
-                defaultSort: { field: "CreatedOn", dir: "desc" },
+                defaultSort: { field: "SmsTransaction.CreatedOn", dir: "desc" },
                 panels: ['rPanel'],
                 jumpToId: '@TempData["SmsTransactionID"]',
                 change: txChange,
@@ -186,25 +186,25 @@
                 searchButtonId: 'gridSearchButton',
                 columns: [
                     {
-                        field: "SmsTransactionID",
+                        field: "SmsTransaction.SmsTransactionID",
                         hidden: true,
                     },
                     {
-                        field: "Reference",
+                        field: "SmsTransaction.Reference",
                         title: "Reference"
                     },
                     {
-                        field: "Address.Line1",
+                        field: "SmsTransaction.Address.Line1",
                         title: "Address Line 1"
                     },
                     {
-                        field: "Address.PostalCode",
+                        field: "SmsTransaction.Address.PostalCode",
                         title: "Postcode"
                     },
                     {
-                        field: "CreatedOn",
+                        field: "SmsTransaction.CreatedOn",
                         title: "Created",
-                        template: function (dataItem) { return dateString(dataItem.CreatedOn); }
+                        template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
                     }
                 ]
             });
@@ -212,12 +212,13 @@
 
             //data binding for the panes beneath each grid
             function txChange(dataItem) {
-                $("p#ddAddressLine1").text(dataItem.Address.Line1 || "");
-                $("p#ddAddressLine2").text(dataItem.Address.Line2 || "");
-                $("p#ddTown").text(dataItem.Address.Town || "");
-                $("p#ddCounty").text(dataItem.Address.County || "");
-                $("p#ddPostCode").text(dataItem.Address.PostalCode || "");
-                $("p#ddAdditionalAddressInformation").text(dataItem.Address.AdditionalAddressInformation || "");
+                console.log(dataItem);
+                $("p#ddAddressLine1").text(dataItem.SmsTransaction.Address.Line1 || "");
+                $("p#ddAddressLine2").text(dataItem.SmsTransaction.Address.Line2 || "");
+                $("p#ddTown").text(dataItem.SmsTransaction.Address.Town || "");
+                $("p#ddCounty").text(dataItem.SmsTransaction.Address.County || "");
+                $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
+                $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
 
                 $("p#ddName").text(
                 (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
@@ -225,15 +226,15 @@
                 (dataItem.UserAccountOrganisation.Contact.LastName || ""));
                 $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
 
-                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransactionID);
-                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransactionID + "&label=" +
+                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
+                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&label=" +
                         encodeURIComponent(
                         (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
                         (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
                         (dataItem.UserAccountOrganisation.Contact.LastName || "")));
 
                 $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransactionID);
+                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
 
                 toggleFields(dataItem);
                 showTransactionRelatedParties(dataItem, '@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})', 'additionalBuyers', 'additionalBuyersAccordion');
@@ -241,12 +242,12 @@
             }
 
             function toggleFields(dataItem) {
-                $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.Address.Line1);
-                $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.Address.Line2);
-                $("#dtTown, p#ddTown").toggle(!!dataItem.Address.Town);
-                $("#dtCounty, p#ddCounty").toggle(!!dataItem.Address.County);
-                $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.Address.PostalCode);
-                $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.Address.AdditionalAddressInformation);
+                $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.SmsTransaction.Address.Line1);
+                $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.SmsTransaction.Address.Line2);
+                $("#dtTown, p#ddTown").toggle(!!dataItem.SmsTransaction.Address.Town);
+                $("#dtCounty, p#ddCounty").toggle(!!dataItem.SmsTransaction.Address.County);
+                $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.SmsTransaction.Address.PostalCode);
+                $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.SmsTransaction.Address.AdditionalAddressInformation);
             }
 
             function showTransactionRelatedParties(dataItem, url, targetElementId, accordionId) {
@@ -255,7 +256,7 @@
                     url: url,
                     type: 'GET',
                     data: {
-                        transactionId: dataItem.SmsTransactionID
+                        transactionId: dataItem.SmsTransaction.SmsTransactionID
                     },
                     success: function (data) {
                         console.log(data);

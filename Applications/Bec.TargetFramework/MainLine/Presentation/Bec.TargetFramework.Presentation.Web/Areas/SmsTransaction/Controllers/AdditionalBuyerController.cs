@@ -5,6 +5,8 @@ using Bec.TargetFramework.Presentation.Web.Filters;
 using System.Web.Mvc;
 using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -16,7 +18,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-        public IAdditionalBuyerLogicClient additionalBuyerClient { get; set; }
         public async Task<ActionResult> Get(Guid transactionId)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
@@ -35,10 +36,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountAddress.Address.PostalCode,
                 x.UserAccountAddress.Address.AdditionalAddressInformation,
             });
-
+            var additionalBuyerTypeId = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 
                 x.SmsTransactionId == transactionId &&
-                x.SmsTransaction.OrganisationID == orgID);
+                x.SmsTransaction.OrganisationID == orgID &&
+                x.SmsUserAccountOrganisationTransactionTypeId == additionalBuyerTypeId);
 
             var filter = ODataHelper.Filter(where);
 
@@ -46,27 +48,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        [HttpPost]
-        public JsonResult Create(string salutation, string firstName, string lastName, string email)
-        {
-            return Json(new { result = true });
-        }
-
-        [HttpPost]
-        public JsonResult Update(Guid id, string salutation, string firstName, string lastName, string email)
-        {
-            return Json(new {result = true});
-        }
-
-        [HttpDelete]
-        public JsonResult Delete(Guid id)
-        {
-            return Json(new { result = true });
-        }
-
         public ActionResult ViewAddAdditionalBuyer(Guid txID)
         {
-            var model = new AddAdditionalBuyerDTO
+            var model = new AddSmsClientDTO
             {
                 TransactionId = txID
             };
@@ -75,15 +59,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAdditionalBuyer(AddAdditionalBuyerDTO model)
+        public async Task<ActionResult> AddAdditionalBuyer(AddSmsClientDTO model)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
                 var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email);
-                model.UaoId = additionalBuyerUaoId;
+                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                {
+                    UaoId = additionalBuyerUaoId,
+                    TransactionId = model.TransactionId,
+                    Line1 = model.Line1,
+                    Line2 = model.Line2,
+                    County = model.County,
+                    AdditionalAddressInformation = model.AdditionalAddressInformation,
+                    PostalCode = model.PostalCode,
+                    Town = model.Town,
+                    Manual = model.Manual,
+                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.AdditionalBuyer
+                };
 
-                await additionalBuyerClient.AddAdditionalBuyerAsync(model);
+                await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

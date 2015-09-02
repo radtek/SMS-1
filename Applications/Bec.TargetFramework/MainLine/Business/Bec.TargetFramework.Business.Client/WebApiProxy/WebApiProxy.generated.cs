@@ -64,10 +64,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	public partial interface IAdditionalBuyerLogicClient : IClientBase	{	
 
 		/// <returns></returns>
-		Task AddAdditionalBuyerAsync(AddAdditionalBuyerDTO addAdditionalBuyerDTO);
+		Task AddAdditionalBuyerAsync(AddSmsClientDTO addAdditionalBuyerDTO);
 
 		/// <returns></returns>
-		void AddAdditionalBuyer(AddAdditionalBuyerDTO addAdditionalBuyerDTO);
+		void AddAdditionalBuyer(AddSmsClientDTO addAdditionalBuyerDTO);
 	}
 
 	public partial interface IAddressLogicClient : IClientBase	{	
@@ -610,15 +610,21 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
 
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoId"></param>
+		/// <param name="newUaoId"></param>
 		/// <returns></returns>
-		Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID);
+		Task UpdateSmsTransactionUaoAsync(Guid oldUaoId,Guid newUaoId);
 
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoId"></param>
+		/// <param name="newUaoId"></param>
 		/// <returns></returns>
-		void UpdateSmsTransactionUao(Guid oldID,Guid newID);
+		void UpdateSmsTransactionUao(Guid oldUaoId,Guid newUaoId);
+
+		/// <returns></returns>
+		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
+
+		/// <returns></returns>
+		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -1468,19 +1474,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task AddAdditionalBuyerAsync(AddAdditionalBuyerDTO addAdditionalBuyerDTO)
+		public virtual Task AddAdditionalBuyerAsync(AddSmsClientDTO addAdditionalBuyerDTO)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<AddAdditionalBuyerDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user);
+			return PostAsync<AddSmsClientDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void AddAdditionalBuyer(AddAdditionalBuyerDTO addAdditionalBuyerDTO)
+		public virtual void AddAdditionalBuyer(AddSmsClientDTO addAdditionalBuyerDTO)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<AddAdditionalBuyerDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user)).Wait();
+			Task.Run(() => PostAsync<AddSmsClientDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user)).Wait();
 		}
 
 		#endregion
@@ -2872,24 +2878,43 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoId"></param>
+		/// <param name="newUaoId"></param>
 		/// <returns></returns>
-		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID)
+		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldUaoId,Guid newUaoId)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoId=" + oldUaoId + "&newUaoId=" + newUaoId, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
-		public virtual void UpdateSmsTransactionUao(Guid oldID,Guid newID)
+		/// <param name="oldUaoId"></param>
+		/// <param name="newUaoId"></param>
+		public virtual void UpdateSmsTransactionUao(Guid oldUaoId,Guid newUaoId)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoId=" + oldUaoId + "&newUaoId=" + newUaoId, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
 		}
 
 		/// <summary>

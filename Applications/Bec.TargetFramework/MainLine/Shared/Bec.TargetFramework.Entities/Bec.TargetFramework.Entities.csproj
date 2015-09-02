@@ -1902,7 +1902,8 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
-    <Compile Include="DTO\SmsTransaction\AddAdditionalBuyerDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />

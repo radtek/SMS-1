@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -74,7 +75,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             try
             {
                 if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, salutation, firstName, lastName, email);
-                TempData["SmsTransactionID"] = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
+                var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
+
+                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                {
+                    UaoId = buyerUaoID.Value,
+                    TransactionId = transactionId,
+                    Line1 = "N/A",
+                    Line2 = "N/A",
+                    County = "N/A",
+                    AdditionalAddressInformation = "N/A",
+                    PostalCode = "N/A",
+                    Town = "N/A",
+                    Manual = false,
+                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+                };
+
+                await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
+
+                TempData["SmsTransactionID"] = transactionId;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

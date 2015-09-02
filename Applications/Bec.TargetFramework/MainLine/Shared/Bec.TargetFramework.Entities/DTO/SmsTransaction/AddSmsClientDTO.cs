@@ -3,9 +3,10 @@
 namespace Bec.TargetFramework.Entities
 {
     [System.Serializable]
-    public class AddAdditionalBuyerDTO
+    public class AddSmsClientDTO
     {
         public Guid TransactionId { get; set; }
+        public Guid OrganisationId { get; set; }
         public Guid UaoId { get; set; }
         public string Salutation { get; set; }
         public string FirstName { get; set; }
