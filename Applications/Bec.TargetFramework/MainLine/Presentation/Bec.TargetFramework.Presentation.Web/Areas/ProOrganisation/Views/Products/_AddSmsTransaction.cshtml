@@ -240,14 +240,7 @@
         hint: false
     }, {
         display: 'Name',
-        source: lenders,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'Unable to find any lender that match the current query',
-                '</div>'
-            ].join('\n')
-        }
+        source: lenders
     })
     .on('typeahead:asyncrequest', function () {
         $('#orgSearch').parent().siblings('.typeahead-spinner').show();
