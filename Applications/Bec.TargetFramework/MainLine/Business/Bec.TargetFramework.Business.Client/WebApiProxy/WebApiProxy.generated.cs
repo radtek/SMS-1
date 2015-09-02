@@ -61,6 +61,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		HttpClient HttpClient { get; }
 	}
 
+	public partial interface IAdditionalBuyerLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task AddAdditionalBuyerAsync(AddAdditionalBuyerDTO addAdditionalBuyerDTO);
+
+		/// <returns></returns>
+		void AddAdditionalBuyer(AddAdditionalBuyerDTO addAdditionalBuyerDTO);
+	}
+
 	public partial interface IAddressLogicClient : IClientBase	{	
 
 		/// <param name="postCode"></param>
@@ -1434,6 +1443,47 @@ namespace Bec.TargetFramework.Business.Client.Clients
         {
             return string.Concat(values.Select(v => "&" + name + "=" + v.ToString()));
         }
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class AdditionalBuyerLogicClient : ClientBase, Interfaces.IAdditionalBuyerLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public AdditionalBuyerLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public AdditionalBuyerLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AddAdditionalBuyerAsync(AddAdditionalBuyerDTO addAdditionalBuyerDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AddAdditionalBuyerDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AddAdditionalBuyer(AddAdditionalBuyerDTO addAdditionalBuyerDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AddAdditionalBuyerDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user)).Wait();
+		}
+
+		#endregion
 	}
 	/// <summary>
 	/// 

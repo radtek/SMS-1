@@ -1902,6 +1902,7 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddAdditionalBuyerDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
@@ -1945,6 +1946,7 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
     <Compile Include="Enums\NotificationEnums.cs" />

@@ -21,8 +21,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public IProductLogicClient prodClient { get; set; }
         public IUserLogicClient userClient { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? selectedTransactionId)
         {
+            if (selectedTransactionId.HasValue)
+            {
+                TempData["SmsTransactionID"] = selectedTransactionId;
+            }
             return View();
         }
 

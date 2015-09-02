@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.min.js",
                 "~/Scripts/Bec/bec.jquery.validation.dategb.js",
-                "~/Scripts/Libs/jquery.loadTemplate-1.4.5.min.js",
+                "~/Scripts/Libs/handlebars-v3.0.3.js",
                 "~/Scripts/Libs/lodash.js"
                 ));
 

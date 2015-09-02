@@ -871,8 +871,7 @@
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
-    <Content Include="Scripts\Libs\jquery.loadTemplate-1.4.5.js" />
-    <Content Include="Scripts\Libs\jquery.loadTemplate-1.4.5.min.js" />
+    <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
     <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
@@ -919,6 +918,7 @@
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

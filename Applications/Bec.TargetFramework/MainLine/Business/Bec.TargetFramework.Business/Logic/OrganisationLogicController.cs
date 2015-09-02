@@ -447,12 +447,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
         {
-            
             //add becky personal org & user
             DefaultOrganisationDTO defaultOrganisation;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existing != null)
                 {
                     if (existing.Organisation.OrganisationType.Name != "Personal") throw new Exception("The specified email belongs to a system user; this is not currently supported.");

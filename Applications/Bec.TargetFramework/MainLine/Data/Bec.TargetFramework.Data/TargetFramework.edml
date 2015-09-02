@@ -9835,7 +9835,7 @@
           <Property Name="SmsUserAccountOrganisationTransactionId" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationId" Type="uuid" Nullable="false" />
           <Property Name="SmsTransactionId" Type="uuid" Nullable="false" />
-          <Property Name="SmsUserAccountOrganisationTransactionTypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeId" Type="int" Nullable="false" />
           <Property Name="UserAccountAddressId" Type="uuid" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
