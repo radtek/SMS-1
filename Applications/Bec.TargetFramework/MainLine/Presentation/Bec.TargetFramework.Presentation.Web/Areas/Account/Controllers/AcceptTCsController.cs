@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Done(Guid notificationID)
         {
             //mark as read: update session

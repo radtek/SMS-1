@@ -54,6 +54,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes, bool? killDuplicates)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
@@ -131,6 +132,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AmendCredit(Guid orgID, decimal amount, string reason)
         { 
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;

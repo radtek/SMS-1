@@ -86,6 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditSmsTransaction(Guid txID)
         {
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
@@ -111,6 +112,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId, Guid txID)
         {
             var uao = await userClient.ResendLoginsAsync(uaoId);

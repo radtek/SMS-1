@@ -8,6 +8,8 @@
                 <div class="row">
                     <div class="col col-8">
                         <form action="@Url.Action(ViewBag.action, ViewBag.controller, new { area = ViewBag.area, baID = ViewBag.OrganisationBankAccountID, status = ViewBag.status, isactive = ViewBag.isactive, killDuplicates = ViewBag.killDuplicates })" method="POST" id="confirmStatus-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
                             <fieldset>
                                 <section>
                                     <label class="label">@ViewBag.message</label>

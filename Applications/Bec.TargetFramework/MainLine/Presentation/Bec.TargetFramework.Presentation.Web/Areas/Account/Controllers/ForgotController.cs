@@ -38,6 +38,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Username(string email)
         {
             var response = await ValidateCaptcha();
@@ -58,6 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Password(string username)
         {
             var response = await ValidateCaptcha();
@@ -103,6 +105,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reset(ResetPasswordModel model)
         {
             

@@ -44,6 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CreatePermanentLoginModel model)
         {
             //check for any subsequent locking of this account

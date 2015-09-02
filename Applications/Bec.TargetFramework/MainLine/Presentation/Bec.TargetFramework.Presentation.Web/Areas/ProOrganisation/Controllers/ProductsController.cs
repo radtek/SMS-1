@@ -59,6 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> AddSmsTransaction(SmsTransactionDTO dto, Guid? buyerUaoID, string salutation, string firstName, string lastName, string email)
         {

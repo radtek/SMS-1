@@ -55,6 +55,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddTempCompany(AddCompanyDTO model)
         {
             if (ModelState.IsValid)
@@ -77,6 +78,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RejectTempCompany(RejectCompanyDTO model)
         {
             await OrganisationClient.RejectOrganisationAsync(model);
@@ -94,6 +96,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
             await UserLogicClient.GeneratePinAsync(uaoId, false);
@@ -126,6 +129,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
             var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
@@ -150,6 +154,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditCompany(Guid orgID)
         {
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);

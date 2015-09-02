@@ -77,7 +77,7 @@
         spinner.show();
         notificationContentWrapper.hide();
 
-        $.ajax({
+        ajaxWrapper({
             url: '@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })',
             method: 'GET',
             data: { notificationId: dataItem.NotificationID }

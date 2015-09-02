@@ -86,6 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddUser(ContactDTO contact)
         {
             var roles = Edit.ReadFormValues(Request,"role-", s => Guid.Parse(s), v => v == "on")
@@ -112,6 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
             var uao = await userClient.ResendLoginsAsync(uaoId);
@@ -129,6 +131,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RevokeInvite(Guid userId)
         {
             await userClient.LockUserTemporaryAccountAsync(userId);
@@ -144,6 +147,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
             await userClient.GeneratePinAsync(uaoId, true);
@@ -200,6 +204,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditUser(Guid uaoID)
         {
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
