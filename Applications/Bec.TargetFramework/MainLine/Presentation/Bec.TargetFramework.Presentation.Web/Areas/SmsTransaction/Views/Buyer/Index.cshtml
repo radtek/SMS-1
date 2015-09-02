@@ -32,22 +32,20 @@
                                         </h4>
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
-                                        <div class="panel-body">
+                                        <div class="panel-body no-padding">
                                             <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
-                                                <header>
-                                                    Bank Account Details
-                                                </header>
-                                                <div class="alert alert-info margin-left-10 margin-right-10">
+                                                <div class="alert alert-info margin-left-10 margin-right-10 margin-top-10">
+                                                    <h4 class="alert-heading">
+                                                        <i class="fa fa-info margin-right-5"></i>Important!
+                                                    </h4>
                                                     <p>
-                                                        <i class="fa fa-fw fa-lg fa-exclamation"></i>
                                                         Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
                                                     </p>
                                                     <p>
-                                                        <strong>
-                                                            This system will check whether these bank account details match those validated by the Safe Move Scheme.  Please note this system will not perform a transfer of funds.
-                                                        </strong>
+                                                        This system will check whether these bank account details match those validated by the Safe Move Scheme. Please note this system will not perform a transfer of funds.
                                                     </p>
                                                 </div>
+                                                
                                                 <fieldset>
                                                     <div class="row">
                                                         <section class="col col-sm-12">
