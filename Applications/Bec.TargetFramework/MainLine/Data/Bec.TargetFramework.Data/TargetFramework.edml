@@ -403,6 +403,7 @@
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" store:Type="Tables" Schema="public" Table="OrganisationLedgerTransaction" />
           <EntitySet Name="vOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.Store.vOrganisationLedgerTransactionBalance" store:Type="Views" Schema="public" Table="vOrganisationLedgerTransactionBalance" />
           <EntitySet Name="vNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.Store.vNotificationViewOnlyUao" store:Type="Views" Schema="public" Table="vNotificationViewOnlyUao" />
+          <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Store.Lender" store:Type="Tables" Schema="public" Table="Lender" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -9785,6 +9786,13 @@
           <Property Name="NotificationSubject" Type="varchar" MaxLength="200" />
           <Property Name="IsInternal" Type="boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="Lender">
+          <Key>
+            <PropertyRef Name="LenderID" />
+          </Key>
+          <Property Name="LenderID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18239,6 +18247,7 @@
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.OrganisationLedgerTransaction" />
           <EntitySet Name="VOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance" />
           <EntitySet Name="VNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.VNotificationViewOnlyUao" />
+          <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Lender" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -28640,6 +28649,13 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9af8f5f8-dae8-4962-bb08-309731429a40" />
           <Property Name="NotificationSubject" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4f748143-1c74-434a-9ee5-db38cbfc1a90" />
           <Property Name="IsInternal" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a52ffaad-0f18-4a6a-b35c-ca9dcaecfe1b" />
+        </EntityType>
+        <EntityType Name="Lender" ed:Guid="653a38da-926c-4632-8530-3af67e1fc6e6">
+          <Key>
+            <PropertyRef Name="LenderID" />
+          </Key>
+          <Property Name="LenderID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="0bd8d35e-3847-4d45-8ad1-dd78e3153fe9" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="fbfdeb6b-584f-44bc-9633-1be45a6978e5" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -42984,6 +43000,14 @@
                 <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
                 <ScalarProperty Name="NotificationConstructID" ColumnName="NotificationConstructID" />
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lenders">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Lender">
+              <MappingFragment StoreEntitySet="Lenders">
+                <ScalarProperty Name="LenderID" ColumnName="LenderID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace BodgeIt
 {
@@ -311,6 +312,23 @@ namespace BodgeIt
                     con.Close();
                 }
                 MessageBox.Show("Ana, Elvis1, Elvis2 and Fred were added successfully! Wait for the rest.");
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"c:\poc\select.xml");
+            foreach (XmlNode n in doc.SelectNodes("/select/option"))
+                sb.AppendLine(string.Format("insert into \"Lender\"(\"Name\") values ('{0}');", n.InnerText.Replace("'", "''")));
+
+            int conIndex = (int)comboDB.SelectedValue;
+            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            {
+                con.Open();
+                runScript(con, sb.ToString());
+                con.Close();
             }
         }
     }

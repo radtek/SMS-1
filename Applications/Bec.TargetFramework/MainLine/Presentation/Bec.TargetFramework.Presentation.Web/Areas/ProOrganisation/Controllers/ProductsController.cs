@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
         // GET: ProOrganisation/Products
         public ActionResult Index()
         {
@@ -23,10 +25,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
-        public ActionResult ViewAddSmsTransaction()
+        public async Task<ActionResult> ViewAddSmsTransaction()
         {
+            var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
+            var data = await queryClient.QueryAsync<LenderDTO>("Lenders", select);
+            ViewBag.Lenders = data.Select(x => new SelectListItem { Text = x.Name });
+
             return PartialView("_AddSmsTransaction");
         }
+
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> CheckDuplicateUserSmsTransaction(SmsTransactionDTO dto, string email)
         {
