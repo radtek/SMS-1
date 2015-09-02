@@ -163,9 +163,9 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="label">Mortgage Lender</label>
-                                        <label class="select">
-                                            @Html.DropDownListFor(m => m.LenderName, (IEnumerable<SelectListItem>)ViewBag.Lenders, new { tabindex = "16", maxlength = 200 })
-                                            <i></i>
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.LenderName, new { tabindex = "16", maxlength = 50, id = "lenderSearch", @class = "form-control" })
+                                            <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
                                         </label>
                                     </section>
                                     <section class="col col-6">
@@ -219,7 +219,42 @@
     </div>
 </div>
 
+<script type="text/javascript" src="~/Scripts/typeahead.bundle.min.js"></script>
 <script type="text/javascript">
+
+    var lenders = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '@Url.Action("SearchLenders", "Products", new {Area = "ProOrganisation"})' + '?search=%QUERY',
+            wildcard: '%QUERY',
+            transform: function (response) {
+                return response.Items;
+            }
+        }
+    });
+
+    $('#lenderSearch').typeahead({
+        minLength: 1,
+        highlight: true,
+        hint: false
+    }, {
+        display: 'Name',
+        source: lenders,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'Unable to find any lender that match the current query',
+                '</div>'
+            ].join('\n')
+        }
+    })
+    .on('typeahead:asyncrequest', function () {
+        $('#orgSearch').parent().siblings('.typeahead-spinner').show();
+    })
+    .on('typeahead:asynccancel typeahead:asyncreceive', function () {
+        $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
+    });
 
     new findAddress({
         postcodelookup: '#sms_postcodelookup',
