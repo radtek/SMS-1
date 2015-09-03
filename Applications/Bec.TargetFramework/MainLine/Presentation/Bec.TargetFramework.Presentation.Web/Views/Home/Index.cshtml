@@ -12,6 +12,8 @@
                 <div class="col col-6">
                     <h5>@tx.Organisation.OrganisationDetails.First().Name</h5>
                     <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.OrganisationID })">
+                        @Html.ValidationBootstrap()
+                        @Html.AntiForgeryToken()
                         <section>
                             <label class="input">
                                 <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />

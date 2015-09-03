@@ -26,6 +26,8 @@
                     <div role="content">
                         <div class="widget-body no-padding">
                             <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
+                                @Html.ValidationBootstrap()
+                                @Html.AntiForgeryToken()
                                 <header>
                                     Bank Account Details
                                 </header>
