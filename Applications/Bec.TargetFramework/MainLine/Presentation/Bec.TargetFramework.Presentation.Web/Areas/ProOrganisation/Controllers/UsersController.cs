@@ -172,7 +172,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.UserAccount.IsActive
             }, true);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", Request.QueryString + select + filter);
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
 
             var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
             var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID);

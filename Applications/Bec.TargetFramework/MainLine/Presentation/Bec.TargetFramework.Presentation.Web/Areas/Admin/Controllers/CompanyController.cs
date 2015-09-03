@@ -149,7 +149,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             ViewBag.orgID = orgID;
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", Request.QueryString + select + filter);
+            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
             return PartialView("_EditCompany", Edit.MakeModel(res.First()));
         }
 

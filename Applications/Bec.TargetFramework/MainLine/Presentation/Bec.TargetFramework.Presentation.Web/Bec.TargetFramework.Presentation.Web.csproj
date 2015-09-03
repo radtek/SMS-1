@@ -321,6 +321,7 @@
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\ClaimsRequiredAttribute.cs" />
+    <Compile Include="Filters\ContentSecurityPolicyFilterAttribute.cs" />
     <Compile Include="Filters\PreventMultipleLoginsActionFilter.cs" />
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
     <Compile Include="Filters\RedirectHelper.cs" />

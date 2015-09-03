@@ -60,7 +60,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("SmsTransactions", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("SmsTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
