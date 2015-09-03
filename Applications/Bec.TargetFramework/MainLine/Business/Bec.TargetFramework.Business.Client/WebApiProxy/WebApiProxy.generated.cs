@@ -1256,13 +1256,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		Task GeneratePinAsync(Guid uaoID,Boolean blank);
+		Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting);
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		void GeneratePin(Guid uaoID,Boolean blank);
+		void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -4599,11 +4601,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank)
+		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user);
+			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user);
 		}
 
 		/// <summary>
@@ -4611,10 +4614,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
-		public virtual void GeneratePin(Guid uaoID,Boolean blank)
+		/// <param name="overwriteExisting"></param>
+		public virtual void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user)).Wait();
 		}
 
 		/// <summary>

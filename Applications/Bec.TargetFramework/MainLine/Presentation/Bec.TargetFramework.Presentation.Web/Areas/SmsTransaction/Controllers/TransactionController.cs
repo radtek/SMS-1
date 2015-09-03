@@ -133,7 +133,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [HttpPost]
         public async Task<ActionResult> ResendLogins(Guid uaoId, Guid txID)
         {
-            var uao = await userClient.ResendLoginsAsync(uaoId);
+            await userClient.ResendLoginsAsync(uaoId);
             TempData["SmsTransactionID"] = txID;
             return RedirectToAction("Index");
         }
