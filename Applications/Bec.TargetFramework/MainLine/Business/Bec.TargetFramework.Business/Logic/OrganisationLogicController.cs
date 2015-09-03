@@ -236,11 +236,11 @@ namespace Bec.TargetFramework.Business.Logic
             await NotificationLogic.SaveNotificationAsync(notificationDto);
         }
 
-        private async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
+        internal async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
         {
             string eventName = "TestEvent";
             switch (userType)
-        {
+            {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
