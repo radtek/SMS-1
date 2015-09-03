@@ -77,7 +77,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> AddSmsTransaction(SmsTransactionDTO dto, Guid? buyerUaoID, string salutation, string firstName, string lastName, string email)
         {
             // todo: ZM birthDate
-            var birthDate = DateTime.Now;
+            var birthDate = new DateTime(1970, 1, 1);
+
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
