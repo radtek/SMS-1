@@ -195,7 +195,8 @@ namespace Bec.TargetFramework.Business.Logic
                         FirstName = userContactDto.FirstName,
                         LastName = userContactDto.LastName,
                         EmailAddress1 = userContactDto.EmailAddress1,
-                        Salutation = userContactDto.Salutation
+                        Salutation = userContactDto.Salutation,
+                        BirthDate = userContactDto.BirthDate
                     };
                     scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
                     uao.PrimaryContactID = contact.ContactID;
@@ -451,7 +452,7 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, DateTime birthDate)
         {
             //add becky personal org & user
             DefaultOrganisationDTO defaultOrganisation;
@@ -484,7 +485,8 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = salutation,
                 FirstName = firstName,
                 LastName = lastName,
-                EmailAddress1 = email
+                EmailAddress1 = email,
+                BirthDate = birthDate
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, true, true);

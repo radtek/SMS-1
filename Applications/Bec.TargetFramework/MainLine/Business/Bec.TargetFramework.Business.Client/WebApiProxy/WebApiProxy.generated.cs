@@ -61,15 +61,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		HttpClient HttpClient { get; }
 	}
 
-	public partial interface IAdditionalBuyerLogicClient : IClientBase	{	
-
-		/// <returns></returns>
-		Task AddAdditionalBuyerAsync(AddSmsClientDTO addAdditionalBuyerDTO);
-
-		/// <returns></returns>
-		void AddAdditionalBuyer(AddSmsClientDTO addAdditionalBuyerDTO);
-	}
-
 	public partial interface IAddressLogicClient : IClientBase	{	
 
 		/// <param name="postCode"></param>
@@ -382,14 +373,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
 
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct);
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types);
 
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct);
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -584,8 +575,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
+		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -593,8 +585,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
+		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -1455,47 +1448,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class AdditionalBuyerLogicClient : ClientBase, Interfaces.IAdditionalBuyerLogicClient	{		
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public AdditionalBuyerLogicClient(string url) : base(url)
-		{
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public AdditionalBuyerLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
-		{
-		}
-
-		#region Methods
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task AddAdditionalBuyerAsync(AddSmsClientDTO addAdditionalBuyerDTO)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<AddSmsClientDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AddAdditionalBuyer(AddSmsClientDTO addAdditionalBuyerDTO)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<AddSmsClientDTO>("api/AdditionalBuyerLogic/AddAdditionalBuyer", addAdditionalBuyerDTO, _user)).Wait();
-		}
-
-		#endregion
-	}
-	/// <summary>
-	/// 
-	/// </summary>
 	public partial class AddressLogicClient : ClientBase, Interfaces.IAddressLogicClient	{		
 
 		/// <summary>
@@ -2328,23 +2280,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct)
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user);
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct)
+		/// <param name="types"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user)).Result;
 		}
 
 		/// <summary>
@@ -2820,15 +2772,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
+		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user);
 		}
 
 		/// <summary>
@@ -2840,14 +2793,15 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
+		/// <param name="birthDate"></param>
+		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
 		}
 
 		/// <summary>

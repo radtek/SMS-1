@@ -50,20 +50,20 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-sm-12">
+                                    <section class="col col-sm-8">
                                         <label class="label">Email</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                             @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email" })
                                         </label>
                                     </section>
-                                    @*<section class="col col-sm-4">
+                                    <section class="col col-sm-4">
                                         <label class="label">Date of Birth</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.DateOfBirth, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "dateOfBirthInput" })
+                                            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "birthDateInput" })
                                         </label>
-                                    </section>*@
+                                    </section>
                                 </div>
                             </fieldset>
 
@@ -73,19 +73,19 @@
                                     <section class="col col-4">
                                         <label class="label">Lookup Postcode</label>
                                         <label class="input">
-                                            <input id="sms_postcodelookup" type="text" tabindex="5" maxlength="10" />
+                                            <input id="sms_postcodelookup" type="text" tabindex="6" maxlength="10" />
                                         </label>
                                     </section>
 
                                     <section class="col">
                                         <label class="label">&nbsp;</label>
-                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new { Area = "" })" type="button" class="btn btn-default btn-sm" tabindex="6">Find Address</button>
+                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new { Area = "" })" type="button" class="btn btn-default btn-sm" tabindex="7">Find Address</button>
                                     </section>
                                 </div>
 
                                 <section>
                                     <label class="select">
-                                        <select id="sms_addressresults" tabindex="7"></select>
+                                        <select id="sms_addressresults" tabindex="8"></select>
                                         <i></i>
                                     </label>
                                 </section>
@@ -100,7 +100,7 @@
                                 <div class="row" id="sms_manAddRow">
                                     <section class="col">
                                         <input type="checkbox" id="sms_manualAddress" />
-                                        <label for="sms_manualAddress" tabindex="8">Edit Address Details</label>
+                                        <label for="sms_manualAddress" tabindex="9">Edit Address Details</label>
                                     </section>
                                 </div>
 
@@ -108,26 +108,12 @@
                                     <section class="col col-6">
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "9", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
                                         </label>
                                     </section>
                                     <section class="col col-6">
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "12", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "10", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "13", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "13", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
@@ -135,8 +121,22 @@
                                 <div class="row">
                                     <section class="col col-6">
                                         <label class="input">
+                                            @Html.TextBoxFor(m => m.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "11", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "12", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
@@ -144,7 +144,7 @@
                                     <section class="col col-sm-12">
                                         <label class="label">Additional Address Information</label>
                                         <label class="input">
-                                            @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "14", maxlength = 50 })
+                                            @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "15", maxlength = 50 })
                                         </label>
                                     </section>
                                 </div>
@@ -155,10 +155,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancelAddAdditionalBuyer" class="btn btn-default" data-dismiss="modal" tabindex="17">
+                <button type="button" id="cancelAddAdditionalBuyer" class="btn btn-default" data-dismiss="modal" tabindex="18">
                     Cancel
                 </button>
-                <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="16">
+                <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="17">
                     Add
                 </button>
             </div>
@@ -194,8 +194,9 @@
                             error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                         }
                     },
-                    "@Html.IdFor(m => m.DateOfBirth)": {
-                        required: true
+                    "@Html.IdFor(m => m.BirthDate)": {
+                        required: true,
+                        dateGB: true
                     },
                     "@Html.IdFor(m => m.Line1)": {
                         required: true
@@ -282,23 +283,23 @@
             }).setup();
         }
 
-        //function setupDateOfBirthInput() {
-        //    var now = new Date();
-        //    var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
-            //$("#dateOfBirthInput").datepicker({
-            //    dateFormat: "dd/mm/yy",
-            //    maxDate: now,
-            //    minDate: minDate,
-            //    changeMonth: true,
-            //    changeYear: true,
-            //    yearRange: "-110:+0",
-            //    showButtonPanel: true,
-            //    prevText: "<i class=\"fa fa-chevron-left\"></i>",
-            //    nextText: "<i class=\"fa fa-chevron-right\"></i>"
-            //}).datepicker("setDate", minDate);
-        //}
+        function setupDateOfBirthInput() {
+            var now = new Date();
+            var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
+            $("#birthDateInput").datepicker({
+                dateFormat: "dd/mm/yy",
+                maxDate: now,
+                minDate: minDate,
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-110:+0",
+                showButtonPanel: true,
+                prevText: "<i class=\"fa fa-chevron-left\"></i>",
+                nextText: "<i class=\"fa fa-chevron-right\"></i>"
+            }).datepicker("setDate", minDate);
+        }
 
-        //setupDateOfBirthInput();
+        setupDateOfBirthInput();
         setupAddressLookup();
         setupForm();
     });

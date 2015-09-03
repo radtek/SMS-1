@@ -76,6 +76,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> AddSmsTransaction(SmsTransactionDTO dto, Guid? buyerUaoID, string salutation, string firstName, string lastName, string email)
         {
+            // todo: ZM birthDate
+            var birthDate = DateTime.Now;
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
@@ -91,7 +93,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             try
             {
-                if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, salutation, firstName, lastName, email);
+                if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, salutation, firstName, lastName, email, birthDate);
                 var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
 
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO

@@ -27,6 +27,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
+                x.UserAccountOrganisation.Contact.BirthDate,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountAddress.Address.Line1,
@@ -53,7 +54,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var model = new AddSmsClientDTO
             {
                 TransactionId = txID,
-                DateOfBirth = new DateTime(DateTime.Now.AddYears(-110).Year, 1, 1)
+                BirthDate = new DateTime(DateTime.Now.AddYears(-110).Year, 1, 1)
             };
 
             return PartialView("_AddAdditionalBuyer", model);
@@ -65,7 +66,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email);
+                var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate);
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
                     UaoId = additionalBuyerUaoId,
