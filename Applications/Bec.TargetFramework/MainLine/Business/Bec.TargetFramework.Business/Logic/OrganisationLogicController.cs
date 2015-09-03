@@ -155,6 +155,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
+            string orgTypeName;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
             var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
@@ -163,6 +164,8 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
+
+                orgTypeName = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == organisationID).OrganisationType.Name;
 
                 // add user to organisation
                 userOrgID = scope.DbContexts.Get<TargetFrameworkEntities>().FnAddUserToOrganisation(ua.ID, organisationID, userTypeValue.GetGuidValue(), organisationID, addDefaultRoles);
@@ -209,16 +212,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value);
+            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+            if (!isTemporary && orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
 
             if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
             return uaoDto;
         }
 
-        public async Task CreateTsAndCsNotificationAsync(Guid userOrgID)
+        public async Task CreateTsAndCsNotificationAsync(Guid userOrgID, NotificationConstructEnum type)
         {
-            var nc = NotificationLogic.GetLatestNotificationConstructIdFromName("TcPublic");
+            var nc = NotificationLogic.GetLatestNotificationConstructIdFromName(type.GetStringValue());
 
             var notificationDto = new NotificationDTO();
             notificationDto.NotificationConstructID = nc.NotificationConstructID;
@@ -423,7 +427,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existingUser != null)
                 {
                     var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
@@ -434,10 +438,12 @@ namespace Bec.TargetFramework.Business.Logic
                             x.PostalCode == dto.Address.PostalCode);
                     if (address != null)
                     {
-                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x =>
-                            x.OrganisationID == orgID &&
-                            x.UserAccountOrganisationID == existingUser.UserAccountOrganisationID &&
-                            x.AddressID == address.AddressID).FirstOrDefault();
+                        var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.FirstOrDefault(x => 
+                            x.SmsTransaction.OrganisationID == orgID &&
+                            x.SmsTransaction.AddressID == address.AddressID &&
+                            x.UserAccountOrganisationId == existingUser.UserAccountOrganisationID &&
+                            x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId);
                         if (tx != null) return true;
                     }
                 }
@@ -530,6 +536,9 @@ namespace Bec.TargetFramework.Business.Logic
                     Address = address,
                     OrganisationID = orgID,
                     Reference = dto.Reference,
+                    Price = dto.Price,
+                    LenderName = dto.LenderName,
+                    MortgageApplicationNumber = dto.MortgageApplicationNumber,
                     CreatedOn = DateTime.Now
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);

@@ -4,8 +4,8 @@ namespace Bec.TargetFramework.Entities.Enums
 {
     public enum NotificationConstructEnum : int
     {
-        [StringValue("All")]
-        All = 0,
+        //[StringValue("All")]
+        //All = 0,
         [StringValue("ConveyancyEmployeeNextSteps")]
         ConveyancyEmployeeNextSteps = 1,
         [StringValue("ColpRegistration")]
@@ -32,5 +32,7 @@ namespace Bec.TargetFramework.Entities.Enums
         BankAccountMarkedAsSafe = 12,
         [StringValue("CreditAdjustment")]
         CreditAdjustment = 13,
+        [StringValue("TcFirmConveyancing")]
+        TcFirmConveyancing = 14,
     }
 }

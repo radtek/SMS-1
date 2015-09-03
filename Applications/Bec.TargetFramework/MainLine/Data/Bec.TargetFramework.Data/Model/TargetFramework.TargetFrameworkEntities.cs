@@ -1991,6 +1991,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsUserAccountOrganisationTransaction in the schema.
         /// </summary>
         public virtual DbSet<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Lender in the schema.
+        /// </summary>
+        public virtual DbSet<Lender> Lenders { get; set; }
 
         #region Methods
 

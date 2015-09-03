@@ -52,7 +52,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var model = new AddSmsClientDTO
             {
-                TransactionId = txID
+                TransactionId = txID,
+                DateOfBirth = new DateTime(DateTime.Now.AddYears(-110).Year, 1, 1)
             };
 
             return PartialView("_AddAdditionalBuyer", model);

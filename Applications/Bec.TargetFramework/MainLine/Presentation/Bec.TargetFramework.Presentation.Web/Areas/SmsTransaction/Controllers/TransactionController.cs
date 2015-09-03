@@ -23,11 +23,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public IProductLogicClient prodClient { get; set; }
         public IUserLogicClient userClient { get; set; }
 
-        public ActionResult Index(Guid? selectedTransactionId)
+        public ActionResult Index(Guid? selectedTransactionID)
         {
-            if (selectedTransactionId.HasValue)
+            if (selectedTransactionID.HasValue)
             {
-                TempData["SmsTransactionID"] = selectedTransactionId;
+                TempData["SmsTransactionID"] = selectedTransactionID;
             }
             return View();
         }
@@ -77,45 +77,51 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID)
+        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID)
         {
-            ViewBag.txID = txID;
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new
+            ViewBag.txId = txID;
+            ViewBag.uaoId = uaoID;
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
             {
-                x.SmsTransactionID,
                 x.UserAccountOrganisationID,
-                x.UserAccountOrganisation.Contact.Salutation,
-                x.UserAccountOrganisation.Contact.FirstName,
-                x.UserAccountOrganisation.Contact.LastName,
-                x.UserAccountOrganisation.UserAccount.Email,
-                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
+                x.UserAccount.Email,
+                x.UserAccount.IsTemporaryAccount
             }, true);
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
-            var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x =>
+                x.UserAccountOrganisationID == uaoID);
+
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
             var model = res.First();
-            ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
+            ViewBag.IsTemporaryUser = model.UserAccount.IsTemporaryAccount;
 
             return PartialView("_EditSmsTransaction", Edit.MakeModel(model));
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditSmsTransaction(Guid txID)
+        public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
         {
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = Edit.fromD(Request.Form);
 
-            await queryClient.UpdateGraphAsync("SmsTransactions", data, filter);
-            return RedirectToAction("Index");
+            await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
+            return RedirectToAction("Index", new { selectedTransactionID = txID });
         }
 
         public async Task<ActionResult> ViewResendLogins(Guid txID, string label)
         {
-            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.UserAccountOrganisationID });
-            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
-            var res = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select + filter);
+            var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationId });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => 
+                x.SmsTransactionId == txID &&
+                x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId);
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
 
             ViewBag.txID = txID;
-            ViewBag.uaoId = res.First().UserAccountOrganisationID;
+            ViewBag.uaoId = res.First().UserAccountOrganisationId;
             ViewBag.label = label;
             ViewBag.RedirectAction = "ResendLogins";
             ViewBag.RedirectController = "Transaction";

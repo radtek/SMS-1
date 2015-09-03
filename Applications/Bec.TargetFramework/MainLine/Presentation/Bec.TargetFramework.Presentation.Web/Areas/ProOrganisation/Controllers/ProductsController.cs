@@ -3,6 +3,9 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Models;
+using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,6 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
+        public IQueryLogicClient queryClient { get; set; }
         // GET: ProOrganisation/Products
         public ActionResult Index()
         {
@@ -27,6 +31,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             return PartialView("_AddSmsTransaction");
         }
+
+        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> SearchLenders(string search)
+        {
+            search = search.ToLower();
+            if (string.IsNullOrWhiteSpace(search)) return null;
+
+            var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
+            var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
+            JObject res = await queryClient.QueryAsync("Lenders", select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
+        }
+
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> CheckDuplicateUserSmsTransaction(SmsTransactionDTO dto, string email)
         {

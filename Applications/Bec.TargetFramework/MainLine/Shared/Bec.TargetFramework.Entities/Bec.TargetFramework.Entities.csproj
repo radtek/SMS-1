@@ -587,6 +587,10 @@
     <Compile Include="Boo\LegalOrganisationDetailDTO.Generated.cs">
       <DependentUpon>LegalOrganisationDetailDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\LenderDTO.cs" />
+    <Compile Include="Boo\LenderDTO.Generated.cs">
+      <DependentUpon>LenderDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\LinkedAccountClaimDTO.cs" />
     <Compile Include="Boo\LinkedAccountClaimDTO.Generated.cs">
       <DependentUpon>LinkedAccountClaimDTO.cs</DependentUpon>

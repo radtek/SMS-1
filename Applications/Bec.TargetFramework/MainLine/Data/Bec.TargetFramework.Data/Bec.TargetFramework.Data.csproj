@@ -184,6 +184,7 @@
     <Compile Include="Converters\InvoiceProcessLogConverter.cs" />
     <Compile Include="Converters\LedgerAccountBalanceConverter.cs" />
     <Compile Include="Converters\LegalOrganisationDetailConverter.cs" />
+    <Compile Include="Converters\LenderConverter.cs" />
     <Compile Include="Converters\LinkedAccountClaimConverter.cs" />
     <Compile Include="Converters\LinkedAccountConverter.cs" />
     <Compile Include="Converters\ModuleArtefactConverter.cs" />
@@ -570,6 +571,7 @@
     <Compile Include="Model\TargetFramework.InvoiceProcessLog.cs" />
     <Compile Include="Model\TargetFramework.LedgerAccountBalance.cs" />
     <Compile Include="Model\TargetFramework.LegalOrganisationDetail.cs" />
+    <Compile Include="Model\TargetFramework.Lender.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccount.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccountClaim.cs" />
     <Compile Include="Model\TargetFramework.Module.cs" />

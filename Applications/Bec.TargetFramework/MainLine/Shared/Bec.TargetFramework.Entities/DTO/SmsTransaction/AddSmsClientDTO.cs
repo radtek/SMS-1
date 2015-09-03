@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -12,6 +13,7 @@ namespace Bec.TargetFramework.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string Line1 { get; set; }
         public string Line2 { get; set; }
         public string AdditionalAddressInformation { get; set; }

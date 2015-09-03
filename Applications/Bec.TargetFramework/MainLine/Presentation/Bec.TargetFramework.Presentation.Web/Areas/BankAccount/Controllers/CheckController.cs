@@ -2,6 +2,7 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
 using System.Linq;
@@ -11,8 +12,7 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 {
-    [AllowAnonymous]
-    public class CheckController : Controller
+    public class CheckController : ApplicationControllerBase
     {
         public IQueryLogicClient queryClient { get; set; }
 

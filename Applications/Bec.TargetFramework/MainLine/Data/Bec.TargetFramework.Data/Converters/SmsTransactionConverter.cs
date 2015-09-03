@@ -39,14 +39,14 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationID = source.OrganisationID;
             target.CreatedOn = source.CreatedOn;
             target.RowVersion = source.RowVersion;
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.MortgageApplicationNumber = source.MortgageApplicationNumber;
+            target.LenderName = source.LenderName;
 
             // Navigation Properties
             if (level > 0) {
               target.Address = source.Address.ToDtoWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
-              target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -73,7 +73,8 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationID = source.OrganisationID;
             target.CreatedOn = source.CreatedOn;
             target.RowVersion = source.RowVersion;
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.MortgageApplicationNumber = source.MortgageApplicationNumber;
+            target.LenderName = source.LenderName;
 
             // User-defined partial method
             OnEntityCreating(source, target);
