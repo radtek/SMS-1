@@ -95,7 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
-            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true);
+            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
 
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -146,7 +146,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [HttpPost]
         public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
-            await userClient.GeneratePinAsync(uaoId, true);
+            await userClient.GeneratePinAsync(uaoId, true, true);
 
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;
