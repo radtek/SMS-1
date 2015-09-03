@@ -1,0 +1,305 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model AddSmsClientDTO
+@{
+    var titles = ((SalutationEnum[])Enum.GetValues(typeof(SalutationEnum)))
+        .Select(s => new SelectListItem
+        {
+            Text = s.GetStringValue(),
+            Value = s.GetStringValue()
+        });
+}
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addAdditionalBuyerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addAdditionalBuyerLabel">Add Additional Buyer</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col-12">
+                        <form id="addAdditionalBuyer-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.TransactionId)
+                            <fieldset>
+                                <legend>Personal Details</legend>
+                                <div class="row">
+                                    <section class="col col-sm-4">
+                                        <label class="label">Title</label>
+                                        <label class="select">
+                                            @Html.DropDownListFor(m => m.Salutation, new SelectList(titles, "Value", "Text"), new { tabindex = "1" })
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-4">
+                                        <label class="label">First Name</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.FirstName, new { tabindex = "2", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-4">
+                                        <label class="label">Last Name</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.LastName, new { tabindex = "3", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Email</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email" })
+                                        </label>
+                                    </section>
+                                    @*<section class="col col-sm-4">
+                                        <label class="label">Date of Birth</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.DateOfBirth, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "dateOfBirthInput" })
+                                        </label>
+                                    </section>*@
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Registered Home Address</legend>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">Lookup Postcode</label>
+                                        <label class="input">
+                                            <input id="sms_postcodelookup" type="text" tabindex="5" maxlength="10" />
+                                        </label>
+                                    </section>
+
+                                    <section class="col">
+                                        <label class="label">&nbsp;</label>
+                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new { Area = "" })" type="button" class="btn btn-default btn-sm" tabindex="6">Find Address</button>
+                                    </section>
+                                </div>
+
+                                <section>
+                                    <label class="select">
+                                        <select id="sms_addressresults" tabindex="7"></select>
+                                        <i></i>
+                                    </label>
+                                </section>
+
+
+                                <div class="row">
+                                    <section class="col" id="sms_noMatch">
+                                        <em style="color: #d56161">No matches found, please enter address below</em>
+                                    </section>
+                                </div>
+
+                                <div class="row" id="sms_manAddRow">
+                                    <section class="col">
+                                        <input type="checkbox" id="sms_manualAddress" />
+                                        <label for="sms_manualAddress" tabindex="8">Edit Address Details</label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "9", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "12", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "10", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "13", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "11", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="label">Additional Address Information</label>
+                                        <label class="input">
+                                            @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { id = "AdditionalAddressInformation", @readonly = "readonly", tabindex = "14", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelAddAdditionalBuyer" class="btn btn-default" data-dismiss="modal" tabindex="17">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="16">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        function setupForm() {
+            // submit from when Save button clicked
+            $("#submitAddAdditionalBuyer").click(function () {
+                $("#addAdditionalBuyer-form").submit();
+            });
+
+            $("#addAdditionalBuyer-form").validate({
+                ignore: '.skip',
+                // Rules for form validation
+                rules: {
+                    "@Html.IdFor(m => m.FirstName)": {
+                        required: true
+                    },
+                    "@Html.IdFor(m => m.LastName)": {
+                        required: true
+                    },
+                    "@Html.IdFor(m => m.Email)": {
+                        required: true,
+                        email: true,
+                        remote: {
+                            url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                            data: { email: function () { return $('#@Html.IdFor(m => m.Email)').val(); } },
+                            dataType: 'json',
+                            error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                        }
+                    },
+                    "@Html.IdFor(m => m.DateOfBirth)": {
+                        required: true
+                    },
+                    "@Html.IdFor(m => m.Line1)": {
+                        required: true
+                    },
+                    "@Html.IdFor(m => m.Town)": {
+                        required: true
+                    },
+                    "@Html.IdFor(m => m.PostalCode)": {
+                        required: true,
+                        minlength: 5
+                    },
+                },
+                // Do not change code below
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                },
+
+                submitHandler: validateSubmit
+            });
+        }
+
+        function validateSubmit(form) {
+            $("#submitAddAdditionalBuyer").prop('disabled', true);
+            var formData = $("#addAdditionalBuyer-form").serializeArray();
+            //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
+            handleModal(
+            {
+                url: '@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })',
+                data: formData,
+                method: 'POST'
+            },
+            {
+                cancel: function () {
+                    $("#submitAddAdditionalBuyer").prop('disabled', false);
+                },
+                save: function () {
+                    doPost(formData);
+                }
+            },
+            true,
+            "save"); //default action if no duplicate results
+        }
+
+        function doPost(formData) {
+            ajaxWrapper({
+                url: '@Url.Action("AddAdditionalBuyer", "AdditionalBuyer", new { area = "SmsTransaction" })',
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                console.log(res);
+                if (res.result === true)
+                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })';
+                else {
+                    handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                        messageButton: function () {
+                            $("#submitAddTransaction").prop('disabled', false);
+                        }
+                    }, true);
+                }
+            }).fail(function (e) {
+                console.log(e);
+                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitAddAdditionalBuyer").prop('disabled', false);
+                    }
+                }, true);
+            });
+        }
+
+        function setupAddressLookup() {
+            new findAddress({
+                postcodelookup: '#sms_postcodelookup',
+                line1: '#sms_Line1',
+                line2: '#sms_Line2',
+                town: '#sms_Town',
+                county: '#sms_County',
+                postcode: '#sms_PostalCode',
+                manualAddress: '#sms_manualAddress',
+                resList: '#sms_addressresults',
+                manAddRow: '#sms_manAddRow',
+                noMatch: '#sms_noMatch',
+                findAddressButton: '#sms_findaddressbutton',
+                additionalAddress: '#AdditionalAddressInformation'
+            }).setup();
+        }
+
+        //function setupDateOfBirthInput() {
+        //    var now = new Date();
+        //    var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
+            //$("#dateOfBirthInput").datepicker({
+            //    dateFormat: "dd/mm/yy",
+            //    maxDate: now,
+            //    minDate: minDate,
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    yearRange: "-110:+0",
+            //    showButtonPanel: true,
+            //    prevText: "<i class=\"fa fa-chevron-left\"></i>",
+            //    nextText: "<i class=\"fa fa-chevron-right\"></i>"
+            //}).datepicker("setDate", minDate);
+        //}
+
+        //setupDateOfBirthInput();
+        setupAddressLookup();
+        setupForm();
+    });
+</script>

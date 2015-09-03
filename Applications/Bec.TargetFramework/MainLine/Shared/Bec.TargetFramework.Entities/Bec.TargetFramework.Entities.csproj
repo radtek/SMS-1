@@ -1406,6 +1406,14 @@
     <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
       <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionTypeDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SpecificationAttributeDTO.Generated.cs">
       <DependentUpon>SpecificationAttributeDTO.cs</DependentUpon>
     </Compile>
@@ -1507,6 +1515,10 @@
     </Compile>
     <Compile Include="Boo\TwoFactorAuthTokenDTO.Generated.cs">
       <DependentUpon>TwoFactorAuthTokenDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\UserAccountAddressDTO.cs" />
+    <Compile Include="Boo\UserAccountAddressDTO.Generated.cs">
+      <DependentUpon>UserAccountAddressDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountArchiveDTO.Generated.cs">
       <DependentUpon>UserAccountArchiveDTO.cs</DependentUpon>
@@ -1894,6 +1906,8 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
@@ -1937,6 +1951,8 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
+    <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
     <Compile Include="Enums\NotificationEnums.cs" />
     <Compile Include="Enums\OrganisationEnums.cs" />

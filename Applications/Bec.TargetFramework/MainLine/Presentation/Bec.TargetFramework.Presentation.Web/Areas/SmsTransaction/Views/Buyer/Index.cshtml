@@ -1,8 +1,10 @@
 ﻿@using Bec.TargetFramework.Entities
 @{
     int i = 0;
+    string aclass = "";
+    string ain = "in";
 }
-@model IEnumerable<SmsTransactionDTO>
+@model IEnumerable<SmsUserAccountOrganisationTransactionDTO>
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
@@ -12,83 +14,87 @@
             </h1>
         </div>
     </div>
-    @foreach (var tx in Model)
-    {
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="jarviswidget well transparent" role="widget">
+                <div role="content">
+                    <div>
+                        <div class="panel-group smart-accordion-default" id="accordion">
+                            @foreach (var tx in Model)
+                            {
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
+                                                <i class="fa fa-lg fa-angle-down"></i> <i class="fa fa-lg fa-angle-up"></i>
+                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Bank Account Check - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-@i" class="panel-collapse collapse @ain">
+                                        <div class="panel-body no-padding">
+                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
+                                                <div class="alert alert-info margin-left-10 margin-right-10 margin-top-10">
+                                                    <h4 class="alert-heading">
+                                                        <i class="fa fa-info margin-right-5"></i>Important!
+                                                    </h4>
+                                                    <p>
+                                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
+                                                    </p>
+                                                    <p>
+                                                        This system will check whether these bank account details match those validated by the Safe Move Scheme. Please note this system will not perform a transfer of funds.
+                                                    </p>
+                                                </div>
+                                                
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <section class="col col-sm-12">
+                                                            <label class="label">Account Number</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
+                                                            </label>
+                                                        </section>
+                                                    </div>
 
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
-                <div class="jarviswidget jarviswidget-sortable" role="widget">
-                    <header role="heading">
-                        <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                        <h2>Bank Account Check Form - @tx.Organisation.OrganisationDetails.First().Name</h2>
-                    </header>
-
-                    <div role="content">
-                        <div class="widget-body no-padding">
-                            <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
-                                <header>
-                                    Bank Account Details
-                                </header>
-                                <div class="alert alert-info margin-left-10 margin-right-10">
-                                    <p>
-                                        <i class="fa fa-fw fa-lg fa-exclamation"></i>
-                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
-                                    </p>
-                                    <p>
-                                        <strong>
-                                            This system will check whether these bank account details match those validated by the Safe Move Scheme.  Please note this system will not perform a transfer of funds.
-                                        </strong>
-                                    </p>
+                                                    <div class="row">
+                                                        <section class="col col-sm-12">
+                                                            <label class="label">Sort Code</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                                <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                </fieldset>
+                                                <footer>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
+                                                    </button>
+                                                </footer>
+                                            </form>
+                                            <div class="alert alert-success" style="display: none;" id="result-match-@i">
+                                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
+                                            </div>
+                                            <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
+                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match</h4>
+                                            </div>
+                                            <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
+                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <fieldset>
-                                    <div class="row">
-                                        <section class="col col-sm-12">
-                                            <label class="label">Account Number</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
-                                            </label>
-                                        </section>
-                                    </div>
-
-                                    <div class="row">
-                                        <section class="col col-sm-12">
-                                            <label class="label">Sort Code</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
-                                            </label>
-                                        </section>
-                                    </div>
-                                </fieldset>
-                                <footer>
-                                    <button type="submit" class="btn btn-primary">
-                                        Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
-                                    </button>
-                                </footer>
-                            </form>
-                            <div class="alert alert-success" style="display: none;" id="result-match-@i">
-                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match!</h4>
-                                @*<p>
-                                        The provided Bank Account details are valid and you can safely use it!
-                                    </p>*@
-                            </div>
-                            <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
-                                <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match!</h4>
-                                @*<p>
-                                        The provided Bank Account details are not valid and you should not use it!
-                                    </p>*@
-                            </div>
-                            <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
-                                <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
-                            </div>
+                                i++;
+                                aclass = "collapsed";
+                                ain = "";
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    }
+    </div>
 </div>
 
 @section Scripts {

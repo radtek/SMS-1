@@ -2,15 +2,15 @@
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Models;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -52,7 +52,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 ViewBag.title = "Warning";
                 ViewBag.message = "A property transaction already exists for this user at this address. Are you sure that you wish to continue?";
-                ViewBag.Buttons = new List<Tuple<string, string, string>> { Tuple.Create("cancel", "Cancel", "btn-default"), Tuple.Create("save", "Continue", "btn-primary") };
+                ViewBag.Buttons = new List<ButtonDefinition>
+                {
+                    new ButtonDefinition
+                    {
+                        Id = "cancel",
+                        Classes = "btn-default",
+                        Text = "Cancel"
+                    },
+                    new ButtonDefinition
+                    {
+                        Id = "save",
+                        Classes = "btn-primary",
+                        Text = "Continue"
+                    }
+                };
                 return PartialView("_Message");
             }
             return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
@@ -78,7 +92,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             try
             {
                 if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, salutation, firstName, lastName, email);
-                TempData["SmsTransactionID"] = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
+                var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
+
+                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                {
+                    UaoId = buyerUaoID.Value,
+                    TransactionId = transactionId,
+                    Line1 = "N/A",
+                    Line2 = "N/A",
+                    County = "N/A",
+                    AdditionalAddressInformation = "N/A",
+                    PostalCode = "N/A",
+                    Town = "N/A",
+                    Manual = false,
+                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+                };
+
+                await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
+
+                TempData["SmsTransactionID"] = transactionId;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

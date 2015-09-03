@@ -427,7 +427,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existingUser != null)
                 {
                     var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
@@ -438,10 +438,12 @@ namespace Bec.TargetFramework.Business.Logic
                             x.PostalCode == dto.Address.PostalCode);
                     if (address != null)
                     {
-                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x =>
-                            x.OrganisationID == orgID &&
-                            x.UserAccountOrganisationID == existingUser.UserAccountOrganisationID &&
-                            x.AddressID == address.AddressID).FirstOrDefault();
+                        var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.FirstOrDefault(x => 
+                            x.SmsTransaction.OrganisationID == orgID &&
+                            x.SmsTransaction.AddressID == address.AddressID &&
+                            x.UserAccountOrganisationId == existingUser.UserAccountOrganisationID &&
+                            x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId);
                         if (tx != null) return true;
                     }
                 }
@@ -451,12 +453,11 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
         {
-            
             //add becky personal org & user
             DefaultOrganisationDTO defaultOrganisation;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existing != null)
                 {
                     if (existing.Organisation.OrganisationType.Name != "Personal") throw new Exception("The specified email belongs to a system user; this is not currently supported.");
@@ -534,7 +535,6 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionID = txID,
                     Address = address,
                     OrganisationID = orgID,
-                    UserAccountOrganisationID = buyerUaoID,
                     Reference = dto.Reference,
                     Price = dto.Price,
                     LenderName = dto.LenderName,
@@ -550,12 +550,58 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UpdateSmsTransactionUaoAsync(Guid oldID, Guid newID)
+        public async Task UpdateSmsTransactionUaoAsync(Guid oldUaoId, Guid newUaoId)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.UserAccountOrganisationID == oldID))
-                    smsTx.UserAccountOrganisationID = newID;
+                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Where(x => x.UserAccountOrganisationId == oldUaoId))
+                    smsTx.UserAccountOrganisationId = newUaoId;
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+        {
+            Guid userId;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var userAccount = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoId);
+                Ensure.That(userAccount).IsNotNull();
+                userId = userAccount.UserID;
+            }
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var address = new Address
+                {
+                    AddressID = Guid.NewGuid(),
+                    Name = string.Empty,
+                    Line1 = assignSmsClientToTransactionDTO.Line1,
+                    Line2 = assignSmsClientToTransactionDTO.Line2,
+                    AdditionalAddressInformation = assignSmsClientToTransactionDTO.AdditionalAddressInformation,
+                    Town = assignSmsClientToTransactionDTO.Town,
+                    County = assignSmsClientToTransactionDTO.County,
+                    PostalCode = assignSmsClientToTransactionDTO.PostalCode
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
+
+                var userAccountAddress = new UserAccountAddress
+                {
+                    UserAccountAddressId = Guid.NewGuid(),
+                    AddressId = address.AddressID,
+                    UserAccountId = userId
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountAddresses.Add(userAccountAddress);
+
+                var uaot = new SmsUserAccountOrganisationTransaction
+                {
+                    SmsUserAccountOrganisationTransactionId = Guid.NewGuid(),
+                    SmsTransactionId = assignSmsClientToTransactionDTO.TransactionId,
+                    UserAccountOrganisationId = assignSmsClientToTransactionDTO.UaoId,
+                    SmsUserAccountOrganisationTransactionTypeId = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    UserAccountAddressId = userAccountAddress.UserAccountAddressId
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 
                 await scope.SaveChangesAsync();
             }

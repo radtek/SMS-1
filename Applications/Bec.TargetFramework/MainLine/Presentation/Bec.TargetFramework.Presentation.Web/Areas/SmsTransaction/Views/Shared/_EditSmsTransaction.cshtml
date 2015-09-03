@@ -2,16 +2,14 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Helpers;
-@model Edit<SmsTransactionDTO>
+@model Edit<UserAccountOrganisationDTO>
 @{
-    List<SelectListItem> titles = new List<SelectListItem>
-    {
-        new SelectListItem{Text = "Mr",Value="Mr"},
-        new SelectListItem{Text = "Mrs",Value="Mrs"},
-        new SelectListItem{Text = "Miss",Value="Miss"},
-        new SelectListItem{Text = "Ms",Value="Ms"},
-        new SelectListItem{Text = "Dr",Value="Dr"}
-    };
+    var titles = ((SalutationEnum[])Enum.GetValues(typeof(SalutationEnum)))
+        .Select(s => new SelectListItem
+        {
+            Text = s.GetStringValue(),
+            Value = s.GetStringValue()
+        });
 }
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editSmsTransactionLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -26,27 +24,28 @@
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
-                            @Html.HiddenFor(m => m.Model.UserAccountOrganisation.Contact.RowVersion)
-                            @Html.HiddenFor(m => m.Model.UserAccountOrganisation.UserAccount.RowVersion)
+                            @Html.Hidden("uaoID", (object)ViewBag.uaoID)
+                            @Html.HiddenFor(m => m.Model.Contact.RowVersion)
+                            @Html.HiddenFor(m => m.Model.UserAccount.RowVersion)
                             <fieldset>
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Model.UserAccountOrganisation.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "1" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, new SelectList(titles, "Value", "Text"), new { tabindex = "1" })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">First Name</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.Contact.FirstName, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.Model.Contact.FirstName, new { tabindex = "2", maxlength = 50 })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Last Name</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.Contact.LastName, new {tabindex = "3", maxlength = 50})
+                                        @Html.TextBoxFor(m => m.Model.Contact.LastName, new {tabindex = "3", maxlength = 50})
                                     </label>
                                 </section>
                                 @if (ViewBag.IsTemporaryUser)
@@ -55,7 +54,7 @@
                                         <label class="label">Email Address</label>
                                         <label class="input ">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", type = "email" })
+                                            @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "4", type = "email" })
                                         </label>
                                     </section>
                                 }
@@ -100,19 +99,19 @@
         // Rules for form validation
         rules: {
 
-            '@Html.NameFor(m => m.Model.UserAccountOrganisation.Contact.FirstName)': {
+            '@Html.NameFor(m => m.Model.Contact.FirstName)': {
                 required: true
             },
-            '@Html.NameFor(m => m.Model.UserAccountOrganisation.Contact.LastName)': {
+            '@Html.NameFor(m => m.Model.Contact.LastName)': {
                 required: true
             },
-            '@Html.NameFor(m => m.Model.UserAccountOrganisation.UserAccount.Email)': {
+            '@Html.NameFor(m => m.Model.UserAccount.Email)': {
                 required: true,
                 email: true,
                 remote: {
                     url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
                     data: {
-                        email: function () { return $('#@Html.IdFor(m => m.Model.UserAccountOrganisation.UserAccount.Email)').val(); },
+                        email: function () { return $('#@Html.IdFor(m => m.Model.UserAccount.Email)').val(); },
                         uaoID: function () { return '@Model.Model.UserAccountOrganisationID' }
                     },
                     dataType: 'json',
