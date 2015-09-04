@@ -32,8 +32,6 @@ namespace Bec.TargetFramework.Entities
         public string OrganisationBranchID { get; set; }
 
         [DataMember]
-        public List<AddressDTO> Addresses { get; set; }
-        [DataMember]
         public bool IsConcreteOrganisation { get; set; }
         [DataMember]
         public string OrganisationID { get; set; }

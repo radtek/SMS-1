@@ -559,15 +559,6 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
-    
-        /// <summary>
-        /// There are no comments for UserAccountAddresses in the schema.
-        /// </summary>
-        public virtual ICollection<UserAccountAddress> UserAccountAddresses
-        {
-            get;
-            set;
-        }
 
         #endregion
     }

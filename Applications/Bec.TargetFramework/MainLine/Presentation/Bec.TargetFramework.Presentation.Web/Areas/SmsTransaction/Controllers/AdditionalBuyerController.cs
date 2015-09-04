@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
@@ -30,12 +31,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.Contact.BirthDate,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.UserAccountAddress.Address.Line1,
-                x.UserAccountAddress.Address.Line2,
-                x.UserAccountAddress.Address.Town,
-                x.UserAccountAddress.Address.County,
-                x.UserAccountAddress.Address.PostalCode,
-                x.UserAccountAddress.Address.AdditionalAddressInformation,
+                Addresses = x.UserAccountOrganisation.Contact.Addresses.Select(a => 
+                    new
+                    {
+                        a.Line1,
+                        a.Line2,
+                        a.Town,
+                        a.County,
+                        a.PostalCode,
+                        a.AdditionalAddressInformation,
+                        a.IsPrimaryAddress
+                    })
             });
             var additionalBuyerTypeId = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 
@@ -53,8 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var model = new AddSmsClientDTO
             {
-                TransactionId = txID,
-                BirthDate = new DateTime(DateTime.Now.AddYears(-110).Year, 1, 1)
+                TransactionId = txID
             };
 
             return PartialView("_AddAdditionalBuyer", model);
@@ -66,7 +71,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate);
+                var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate.Value);
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
                     UaoId = additionalBuyerUaoId,

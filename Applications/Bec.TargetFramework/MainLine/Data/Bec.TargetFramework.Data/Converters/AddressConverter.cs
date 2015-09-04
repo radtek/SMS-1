@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Entities
               target.AddressChronologies = source.AddressChronologies.ToDtosWithRelated(level - 1);
               target.CountryCode1 = source.CountryCode1.ToDtoWithRelated(level - 1);
               target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
-              target.UserAccountAddresses = source.UserAccountAddresses.ToDtosWithRelated(level - 1);
+              target.Contact = source.Contact.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

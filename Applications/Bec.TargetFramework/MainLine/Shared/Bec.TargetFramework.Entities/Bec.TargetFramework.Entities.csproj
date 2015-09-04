@@ -1517,9 +1517,6 @@
       <DependentUpon>TwoFactorAuthTokenDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\UserAccountAddressDTO.cs" />
-    <Compile Include="Boo\UserAccountAddressDTO.Generated.cs">
-      <DependentUpon>UserAccountAddressDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\UserAccountArchiveDTO.Generated.cs">
       <DependentUpon>UserAccountArchiveDTO.cs</DependentUpon>
     </Compile>
@@ -1906,6 +1903,7 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />

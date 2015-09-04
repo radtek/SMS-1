@@ -22,16 +22,14 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionId, global::System.Guid userAccountOrganisationId, global::System.Guid smsTransactionId, int smsUserAccountOrganisationTransactionTypeId, global::System.Guid userAccountAddressId, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, UserAccountAddressDTO userAccountAddress, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionId, global::System.Guid userAccountOrganisationId, global::System.Guid smsTransactionId, int smsUserAccountOrganisationTransactionTypeId, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsUserAccountOrganisationTransactionId = smsUserAccountOrganisationTransactionId;
           this.UserAccountOrganisationId = userAccountOrganisationId;
           this.SmsTransactionId = smsTransactionId;
           this.SmsUserAccountOrganisationTransactionTypeId = smsUserAccountOrganisationTransactionTypeId;
-          this.UserAccountAddressId = userAccountAddressId;
           this.SmsTransaction = smsTransaction;
           this.SmsUserAccountOrganisationTransactionType = smsUserAccountOrganisationTransactionType;
-          this.UserAccountAddress = userAccountAddress;
           this.UserAccountOrganisation = userAccountOrganisation;
         }
 
@@ -51,9 +49,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public int SmsUserAccountOrganisationTransactionTypeId { get; set; }
 
-        [DataMember]
-        public global::System.Guid UserAccountAddressId { get; set; }
-
         #endregion
 
         #region Navigation Properties
@@ -63,9 +58,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public SmsUserAccountOrganisationTransactionTypeDTO SmsUserAccountOrganisationTransactionType { get; set; }
-
-        [DataMember]
-        public UserAccountAddressDTO UserAccountAddress { get; set; }
 
         [DataMember]
         public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }

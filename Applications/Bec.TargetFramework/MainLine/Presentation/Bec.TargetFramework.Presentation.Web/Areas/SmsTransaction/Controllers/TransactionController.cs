@@ -46,13 +46,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.Address.AdditionalAddressInformation,
+                x.SmsTransaction.CreatedOn,
                 x.UserAccountOrganisation.Contact.Salutation,
                 x.UserAccountOrganisation.Contact.FirstName,
                 x.UserAccountOrganisation.Contact.LastName,
                 x.UserAccountOrganisation.Contact.BirthDate,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.SmsTransaction.CreatedOn
+                Addresses = x.UserAccountOrganisation.Contact.Addresses.Select(a =>
+                    new
+                    {
+                        a.Line1,
+                        a.Line2,
+                        a.Town,
+                        a.County,
+                        a.PostalCode,
+                        a.AdditionalAddressInformation,
+                        a.IsPrimaryAddress
+                    })
             });
 
             var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();

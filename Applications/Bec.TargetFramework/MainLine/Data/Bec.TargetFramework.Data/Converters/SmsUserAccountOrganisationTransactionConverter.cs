@@ -33,13 +33,11 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationId = source.UserAccountOrganisationId;
             target.SmsTransactionId = source.SmsTransactionId;
             target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
-            target.UserAccountAddressId = source.UserAccountAddressId;
 
             // Navigation Properties
             if (level > 0) {
               target.SmsTransaction = source.SmsTransaction.ToDtoWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactionType = source.SmsUserAccountOrganisationTransactionType.ToDtoWithRelated(level - 1);
-              target.UserAccountAddress = source.UserAccountAddress.ToDtoWithRelated(level - 1);
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
@@ -61,7 +59,6 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationId = source.UserAccountOrganisationId;
             target.SmsTransactionId = source.SmsTransactionId;
             target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
-            target.UserAccountAddressId = source.UserAccountAddressId;
 
             // User-defined partial method
             OnEntityCreating(source, target);

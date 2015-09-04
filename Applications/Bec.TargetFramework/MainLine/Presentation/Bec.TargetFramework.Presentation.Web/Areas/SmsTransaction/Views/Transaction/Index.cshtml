@@ -48,29 +48,11 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="well">
-                        
-                        <h3>Product Details</h3>
-                        <h5>
+                        <h3>
                             Primary Buyer
-                            <span class="pull-right">
-                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true">Resend Login Details</a>
-                            </span>
-                        </h5>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <dl class="dl-horizontal">
-                                    <dt>Full Name:</dt>
-                                    <dd>
-                                        <p id="ddName"></p>
-                                    </dd>
-                                    <dt>Email:</dt>
-                                    <dd>
-                                        <p id="ddEmail"></p>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
+                            
+                        </h3>
+                        <div id="primaryBuyer"></div>
                     </div>
                     <div class="well">
                         <h3>
@@ -80,11 +62,7 @@
                                 <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer"><i class="fa fa-plus margin-right-5"></i>Add</a>
                             </span>
                         </h3>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div id="additionalBuyers"></div>
-                            </div>
-                        </div>
+                        <div id="additionalBuyers"></div>
                     </div>
                     @*<div class="well">
                             <h3>
@@ -106,6 +84,44 @@
 </div>
 
 @section Scripts {
+
+    <script id="primaryBuyerDetailsTmpl" type="text/x-handlebars-template">
+        <h5>
+            Personal Details
+            <span class="pull-right">
+                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true">Resend Login Details</a>
+            </span>
+        </h5>
+        <dl class="dl-horizontal">
+            <dt>Full Name:</dt>
+            <dd><p>{{FullName}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{Email}}</p></dd>
+            {{#if FormattedBirthDate}}
+            <dt>Date of Birth:</dt>
+            <dd><p>{{FormattedBirthDate}}</p></dd>
+            {{/if}}
+        </dl>
+        <h5>Registered Home Address</h5>
+        <dl class="dl-horizontal">
+            <dt>Address Line 1:</dt>
+            <dd><p>{{HomeAddress.Line1}}</p></dd>
+            {{#if HomeAddress.Line2}}
+            <dt>Address Line 2:</dt>
+            <dd><p>{{HomeAddress.Line2}}</p></dd>
+            {{/if}}
+            <dt>Town:</dt>
+            <dd><p>{{HomeAddress.Town}}</p></dd>
+            {{#if HomeAddress.County}}
+            <dt>County:</dt>
+            <dd><p>{{HomeAddress.County}}</p></dd>
+            {{/if}}
+            <dt>Post Code:</dt>
+            <dd><p>{{HomeAddress.PostalCode}}</p></dd>
+        </dl>
+    
+    </script>
 
     <script id="relatedPartiesTmpl" type="text/x-handlebars-template">
         {{#if isEmpty}}
@@ -130,7 +146,7 @@
                     <div class="panel-body">
                         <div class="pull-right">
                             @*<a href="#" class="btn btn-primary"><i class="fa fa-edit"></i> Edit </a>
-                            <a href="#" class="btn btn-primary"><i class="fa fa-remove"></i> Delete </a>*@
+                                <a href="#" class="btn btn-primary"><i class="fa fa-remove"></i> Delete </a>*@
                         </div>
                         <dl class="dl-horizontal pull-left">
                             <dt>Full Name:</dt>
@@ -141,22 +157,20 @@
                             <dt>Date of Birth:</dt>
                             <dd><p>{{FormattedBirthDate}}</p></dd>
                             {{/if}}
-                            {{#with UserAccountAddress.Address}}
                             <dt>Address Line 1:</dt>
-                            <dd><p>{{Line1}}</p></dd>
-                            {{#if Line2}}
+                            <dd><p>{{HomeAddress.Line1}}</p></dd>
+                            {{#if HomeAddress.Line2}}
                             <dt>Address Line 2:</dt>
-                            <dd><p>{{Line2}}</p></dd>
+                            <dd><p>{{HomeAddress.Line2}}</p></dd>
                             {{/if}}
                             <dt>Town:</dt>
-                            <dd><p>{{Town}}</p></dd>
-                            {{#if County}}
+                            <dd><p>{{HomeAddress.Town}}</p></dd>
+                            {{#if HomeAddress.County}}
                             <dt>County:</dt>
-                            <dd><p>{{County}}</p></dd>
+                            <dd><p>{{HomeAddress.County}}</p></dd>
                             {{/if}}
                             <dt>Post Code:</dt>
-                            <dd><p>{{PostalCode}}</p></dd>
-                            {{/with}}
+                            <dd><p>{{HomeAddress.PostalCode}}</p></dd>
                         </dl>
                     </div>
                 </div>
@@ -175,7 +189,7 @@
         @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
         {
             @:salutations.push("@salutation");
-                }
+                        }
 
         function setupTransactionsGrid() {
             var txGrid = new gridItem(
@@ -227,12 +241,6 @@
                 $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
                 $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
 
-                $("p#ddName").text(
-                (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
-                (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
-                (dataItem.UserAccountOrganisation.Contact.LastName || ""));
-                $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
-
                 $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationId);
                 $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&label=" +
                     encodeURIComponent(
@@ -244,6 +252,7 @@
                 $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
 
                 toggleFields(dataItem);
+                showPrimaryBuyerDetails(dataItem);
                 showTransactionRelatedParties(dataItem, '@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})', 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
                 //showTransactionRelatedParties(dataItem, '@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})', 'giftors', 'giftorsAccordion');
             }
@@ -255,6 +264,21 @@
                 $("#dtCounty, p#ddCounty").toggle(!!dataItem.SmsTransaction.Address.County);
                 $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.SmsTransaction.Address.PostalCode);
                 $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.SmsTransaction.Address.AdditionalAddressInformation);
+            }
+
+            function showPrimaryBuyerDetails(dataItem) {
+                var uao = dataItem.UserAccountOrganisation;
+                var data = {
+                    FullName: uao.Contact.Salutation + " " + uao.Contact.FirstName + " " + uao.Contact.LastName,
+                    Email: uao.UserAccount.Email,
+                    FormattedBirthDate: moment(uao.Contact.BirthDate).format('DD/MM/YYYY'),
+                    HomeAddress: _.find(uao.Contact.Addresses, { 'IsPrimaryAddress': true })
+                };
+
+                var source = $("#primaryBuyerDetailsTmpl").html();
+                var template = Handlebars.compile(source);
+                var html = template(data);
+                $('#primaryBuyer').html(html);
             }
 
             function showTransactionRelatedParties(dataItem, url, targetElementId, accordionId, spinnerId) {
@@ -274,7 +298,8 @@
                         return _.extend({}, additionalBuyer, {
                             FullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                             ElementId: 'id' + additionalBuyer.SmsUserAccountOrganisationTransactionId,
-                            FormattedBirthDate: moment(additionalBuyer.UserAccountOrganisation.Contact.BirthDate).format('DD/MM/YYYY')
+                            FormattedBirthDate: moment(additionalBuyer.UserAccountOrganisation.Contact.BirthDate).format('DD/MM/YYYY'),
+                            HomeAddress: _.find(contact.Addresses, { 'IsPrimaryAddress': true })
                         });
                     });
                     var templateData = {

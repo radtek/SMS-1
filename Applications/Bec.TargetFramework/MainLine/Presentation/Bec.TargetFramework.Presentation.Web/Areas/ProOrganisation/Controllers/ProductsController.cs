@@ -1,16 +1,16 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
-using Bec.TargetFramework.Presentation.Web.Models;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Bec.TargetFramework.Presentation.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Bec.TargetFramework.Entities.Enums;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -24,12 +24,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
-        public ActionResult ViewAddSmsTransaction()
-        {
-            return PartialView("_AddSmsTransaction");
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
@@ -72,15 +66,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
         }
 
+        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
+        public ActionResult ViewAddSmsTransaction()
+        {
+            return PartialView("_AddSmsTransaction");
+        }
+
         [HttpPost]
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> AddSmsTransaction(SmsTransactionDTO dto, Guid? buyerUaoID, string salutation, string firstName, string lastName, string email)
+        public async Task<ActionResult> AddSmsTransaction(AddSmsTransactionDTO addSmsTransactionDto)
         {
-            // todo: ZM birthDate
-            var birthDate = new DateTime(1970, 1, 1);
-
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var uaoID = HttpContext.GetWebUserObject().UaoID;
 
             var prod = await prodClient.GetBankAccountCheckProductAsync();
             var crAccount = await orgClient.GetCreditAccountAsync(orgID);
@@ -89,25 +86,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 result = false,
                 title = "Purchase Failed",
                 message = "Insufficient credit. Please top up and retry.",
-                buyerUaoID = buyerUaoID
+                buyerUaoID = addSmsTransactionDto.BuyerUaoId
             }, JsonRequestBehavior.AllowGet);
 
             try
             {
-                if (buyerUaoID == null) buyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, salutation, firstName, lastName, email, birthDate);
-                var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, buyerUaoID.Value, prod.ProductID, prod.ProductVersionID, dto);
+                if (addSmsTransactionDto.BuyerUaoId == null)
+                {
+                    addSmsTransactionDto.BuyerUaoId = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.BirthDate.Value);
+                }
+                var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, addSmsTransactionDto.BuyerUaoId.Value, prod.ProductID, prod.ProductVersionID, addSmsTransactionDto.SmsTransactionDTO);
 
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
-                    UaoId = buyerUaoID.Value,
+                    UaoId = addSmsTransactionDto.BuyerUaoId.Value,
                     TransactionId = transactionId,
-                    Line1 = "N/A",
-                    Line2 = "N/A",
-                    County = "N/A",
-                    AdditionalAddressInformation = "N/A",
-                    PostalCode = "N/A",
-                    Town = "N/A",
-                    Manual = false,
+                    Line1 = addSmsTransactionDto.Line1,
+                    Line2 = addSmsTransactionDto.Line2,
+                    County = addSmsTransactionDto.County,
+                    AdditionalAddressInformation = addSmsTransactionDto.AdditionalAddressInformation,
+                    PostalCode = addSmsTransactionDto.PostalCode,
+                    Town = addSmsTransactionDto.Town,
+                    Manual = addSmsTransactionDto.Manual,
                     UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
                 };
 
@@ -123,7 +123,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                     result = false,
                     title = "Purchase Failed",
                     message = ex.Message,
-                    buyerUaoID = buyerUaoID
+                    buyerUaoID = addSmsTransactionDto.BuyerUaoId
                 }, JsonRequestBehavior.AllowGet);
             }
         }

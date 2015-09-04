@@ -66,16 +66,6 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
-    
-        /// <summary>
-        /// There are no comments for UserAccountAddressId in the schema.
-        /// </summary>
-        public virtual global::System.Guid UserAccountAddressId
-        {
-            get;
-            set;
-        }
-
 
         #endregion
 
@@ -94,15 +84,6 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsUserAccountOrganisationTransactionType in the schema.
         /// </summary>
         public virtual SmsUserAccountOrganisationTransactionType SmsUserAccountOrganisationTransactionType
-        {
-            get;
-            set;
-        }
-    
-        /// <summary>
-        /// There are no comments for UserAccountAddress in the schema.
-        /// </summary>
-        public virtual UserAccountAddress UserAccountAddress
         {
             get;
             set;
