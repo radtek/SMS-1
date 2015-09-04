@@ -400,7 +400,6 @@
     <Compile Include="Converters\TransactionOrderPaymentErrorConverter.cs" />
     <Compile Include="Converters\TransactionOrderProcessLogConverter.cs" />
     <Compile Include="Converters\TwoFactorAuthTokenConverter.cs" />
-    <Compile Include="Converters\UserAccountAddressConverter.cs" />
     <Compile Include="Converters\UserAccountArchiveConverter.cs" />
     <Compile Include="Converters\UserAccountAuditConverter.cs" />
     <Compile Include="Converters\UserAccountConverter.cs" />
@@ -791,7 +790,6 @@
     <Compile Include="Model\TargetFramework.TransactionOrderProcessLog.cs" />
     <Compile Include="Model\TargetFramework.TwoFactorAuthToken.cs" />
     <Compile Include="Model\TargetFramework.UserAccount.cs" />
-    <Compile Include="Model\TargetFramework.UserAccountAddress.cs" />
     <Compile Include="Model\TargetFramework.UserAccountArchive.cs" />
     <Compile Include="Model\TargetFramework.UserAccountAudit.cs" />
     <Compile Include="Model\TargetFramework.UserAccountDetail.cs" />

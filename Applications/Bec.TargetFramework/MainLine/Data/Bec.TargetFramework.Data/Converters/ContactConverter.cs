@@ -88,6 +88,7 @@ namespace Bec.TargetFramework.Entities
               target.Accounts = source.Accounts.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);
               target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
+              target.Addresses = source.Addresses.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

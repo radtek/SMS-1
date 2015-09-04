@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public UserAccountDTO() {
         }
 
-        public UserAccountDTO(global::System.Guid iD, string tenant, string username, string email, global::System.DateTime created, global::System.DateTime lastUpdated, global::System.Nullable<System.DateTime> passwordChanged, bool requiresPasswordReset, string mobileCode, global::System.Nullable<System.DateTime> mobileCodeSent, string mobilePhoneNumber, int accountTwoFactorAuthMode, int currentTwoFactorAuthStatus, bool isAccountVerified, bool isLoginAllowed, bool isAccountClosed, global::System.Nullable<System.DateTime> accountClosed, global::System.Nullable<System.DateTime> lastLogin, global::System.Nullable<System.DateTime> lastFailedLogin, int failedLoginCount, string verificationKey, global::System.Nullable<int> verificationPurpose, global::System.Nullable<System.DateTime> verificationKeySent, string hashedPassword, global::System.Nullable<System.DateTime> lastFailedPasswordReset, int failedPasswordResetCount, global::System.Nullable<System.DateTime> mobilePhoneNumberChanged, string verificationStorage, bool isActive, bool isDeleted, bool isTemporaryAccount, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isApproved, bool isEmployee, int failedForgotUsernameAttempts, int failedForgotPasswordAttempts, bool isForgotUsernameRequestAllowed, bool isForgotPasswordRequestAllowed, global::System.Nullable<System.DateTime> lastForgotUsernameFailedAttempt, global::System.Nullable<System.DateTime> lastForgotPasswordFailedAttempt, global::System.Nullable<long> rowVersion, List<UserAccountOrganisationDTO> userAccountOrganisations, List<UserCertificateDTO> userCertificates, List<UserAccountLedgerAccountDTO> userAccountLedgerAccounts, List<UserAccountDetailDTO> userAccountDetails, List<LinkedAccountDTO> linkedAccounts, List<PasswordResetSecretDTO> passwordResetSecrets, List<TwoFactorAuthTokenDTO> twoFactorAuthTokens, List<UserClaimDTO> userClaims, List<UserAccountArchiveDTO> userAccountArchives, List<UserAccountAddressDTO> userAccountAddresses) {
+        public UserAccountDTO(global::System.Guid iD, string tenant, string username, string email, global::System.DateTime created, global::System.DateTime lastUpdated, global::System.Nullable<System.DateTime> passwordChanged, bool requiresPasswordReset, string mobileCode, global::System.Nullable<System.DateTime> mobileCodeSent, string mobilePhoneNumber, int accountTwoFactorAuthMode, int currentTwoFactorAuthStatus, bool isAccountVerified, bool isLoginAllowed, bool isAccountClosed, global::System.Nullable<System.DateTime> accountClosed, global::System.Nullable<System.DateTime> lastLogin, global::System.Nullable<System.DateTime> lastFailedLogin, int failedLoginCount, string verificationKey, global::System.Nullable<int> verificationPurpose, global::System.Nullable<System.DateTime> verificationKeySent, string hashedPassword, global::System.Nullable<System.DateTime> lastFailedPasswordReset, int failedPasswordResetCount, global::System.Nullable<System.DateTime> mobilePhoneNumberChanged, string verificationStorage, bool isActive, bool isDeleted, bool isTemporaryAccount, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isApproved, bool isEmployee, int failedForgotUsernameAttempts, int failedForgotPasswordAttempts, bool isForgotUsernameRequestAllowed, bool isForgotPasswordRequestAllowed, global::System.Nullable<System.DateTime> lastForgotUsernameFailedAttempt, global::System.Nullable<System.DateTime> lastForgotPasswordFailedAttempt, global::System.Nullable<long> rowVersion, List<UserAccountOrganisationDTO> userAccountOrganisations, List<UserCertificateDTO> userCertificates, List<UserAccountLedgerAccountDTO> userAccountLedgerAccounts, List<UserAccountDetailDTO> userAccountDetails, List<LinkedAccountDTO> linkedAccounts, List<PasswordResetSecretDTO> passwordResetSecrets, List<TwoFactorAuthTokenDTO> twoFactorAuthTokens, List<UserClaimDTO> userClaims, List<UserAccountArchiveDTO> userAccountArchives) {
 
           this.ID = iD;
           this.Tenant = tenant;
@@ -77,7 +77,6 @@ namespace Bec.TargetFramework.Entities
           this.TwoFactorAuthTokens = twoFactorAuthTokens;
           this.UserClaims = userClaims;
           this.UserAccountArchives = userAccountArchives;
-          this.UserAccountAddresses = userAccountAddresses;
         }
 
         #endregion
@@ -246,9 +245,6 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<UserAccountArchiveDTO> UserAccountArchives { get; set; }
-
-        [DataMember]
-        public List<UserAccountAddressDTO> UserAccountAddresses { get; set; }
 
         #endregion
     }

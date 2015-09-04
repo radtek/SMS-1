@@ -1978,11 +1978,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VNotificationViewOnlyUao> VNotificationViewOnlyUaos { get; set; }
     
         /// <summary>
-        /// There are no comments for UserAccountAddress in the schema.
-        /// </summary>
-        public virtual DbSet<UserAccountAddress> UserAccountAddresses { get; set; }
-    
-        /// <summary>
         /// There are no comments for SmsUserAccountOrganisationTransactionType in the schema.
         /// </summary>
         public virtual DbSet<SmsUserAccountOrganisationTransactionType> SmsUserAccountOrganisationTransactionTypes { get; set; }

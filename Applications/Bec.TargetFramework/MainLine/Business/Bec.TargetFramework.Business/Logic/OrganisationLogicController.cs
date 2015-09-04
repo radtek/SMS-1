@@ -565,12 +565,12 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
         {
-            Guid userId;
+            UserAccountOrganisationDTO uaoDto;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var userAccount = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoId);
-                Ensure.That(userAccount).IsNotNull();
-                userId = userAccount.UserID;
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoId);
+                Ensure.That(uao).IsNotNull();
+                uaoDto = uao.ToDtoWithRelated(1);
             }
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -583,17 +583,11 @@ namespace Bec.TargetFramework.Business.Logic
                     AdditionalAddressInformation = assignSmsClientToTransactionDTO.AdditionalAddressInformation,
                     Town = assignSmsClientToTransactionDTO.Town,
                     County = assignSmsClientToTransactionDTO.County,
-                    PostalCode = assignSmsClientToTransactionDTO.PostalCode
+                    PostalCode = assignSmsClientToTransactionDTO.PostalCode,
+                    ParentID = uaoDto.Contact.ContactID,
+                    IsPrimaryAddress = true
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
-
-                var userAccountAddress = new UserAccountAddress
-                {
-                    UserAccountAddressId = Guid.NewGuid(),
-                    AddressId = address.AddressID,
-                    UserAccountId = userId
-                };
-                scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountAddresses.Add(userAccountAddress);
 
                 var uaot = new SmsUserAccountOrganisationTransaction
                 {
@@ -601,7 +595,6 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionId = assignSmsClientToTransactionDTO.TransactionId,
                     UserAccountOrganisationId = assignSmsClientToTransactionDTO.UaoId,
                     SmsUserAccountOrganisationTransactionTypeId = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                    UserAccountAddressId = userAccountAddress.UserAccountAddressId
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 

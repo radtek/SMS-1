@@ -61,7 +61,7 @@
                                         <label class="label">Date of Birth</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "birthDateInput" })
+                                            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "birthDateInput", placeholder = "dd/mm/yyyy" })
                                         </label>
                                     </section>
                                 </div>
@@ -178,13 +178,13 @@
                 ignore: '.skip',
                 // Rules for form validation
                 rules: {
-                    "@Html.IdFor(m => m.FirstName)": {
+                    "@Html.NameFor(m => m.FirstName)": {
                         required: true
                     },
-                    "@Html.IdFor(m => m.LastName)": {
+                    "@Html.NameFor(m => m.LastName)": {
                         required: true
                     },
-                    "@Html.IdFor(m => m.Email)": {
+                    "@Html.NameFor(m => m.Email)": {
                         required: true,
                         email: true,
                         remote: {
@@ -194,17 +194,17 @@
                             error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                         }
                     },
-                    "@Html.IdFor(m => m.BirthDate)": {
+                    "@Html.NameFor(m => m.BirthDate)": {
                         required: true,
                         dateGB: true
                     },
-                    "@Html.IdFor(m => m.Line1)": {
+                    "@Html.NameFor(m => m.Line1)": {
                         required: true
                     },
-                    "@Html.IdFor(m => m.Town)": {
+                    "@Html.NameFor(m => m.Town)": {
                         required: true
                     },
-                    "@Html.IdFor(m => m.PostalCode)": {
+                    "@Html.NameFor(m => m.PostalCode)": {
                         required: true,
                         minlength: 5
                     },
@@ -285,18 +285,16 @@
 
         function setupDateOfBirthInput() {
             var now = new Date();
-            var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
             $("#birthDateInput").datepicker({
                 dateFormat: "dd/mm/yy",
                 maxDate: now,
-                minDate: minDate,
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "-110:+0",
                 showButtonPanel: true,
                 prevText: "<i class=\"fa fa-chevron-left\"></i>",
                 nextText: "<i class=\"fa fa-chevron-right\"></i>"
-            }).datepicker("setDate", minDate);
+            });
         }
 
         setupDateOfBirthInput();

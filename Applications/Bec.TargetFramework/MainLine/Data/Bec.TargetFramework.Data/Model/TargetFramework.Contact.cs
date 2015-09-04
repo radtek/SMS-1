@@ -591,6 +591,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for Addresses in the schema.
+        /// </summary>
+        public virtual ICollection<Address> Addresses
+        {
+            get;
+            set;
+        }
 
         #endregion
     }
