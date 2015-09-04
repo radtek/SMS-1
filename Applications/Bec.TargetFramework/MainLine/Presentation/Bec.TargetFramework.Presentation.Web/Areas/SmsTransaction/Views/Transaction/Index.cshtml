@@ -48,10 +48,14 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="well">
-                        <h3>
-                            Primary Buyer
-                            
-                        </h3>
+                        <h3>Primary Buyer</h3>
+                        <h5>
+                            Personal Details
+                            <span class="pull-right">
+                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true">Resend Login Details</a>
+                            </span>
+                        </h5>
                         <div id="primaryBuyer"></div>
                     </div>
                     <div class="well">
@@ -86,13 +90,7 @@
 @section Scripts {
 
     <script id="primaryBuyerDetailsTmpl" type="text/x-handlebars-template">
-        <h5>
-            Personal Details
-            <span class="pull-right">
-                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true">Resend Login Details</a>
-            </span>
-        </h5>
+
         <dl class="dl-horizontal">
             <dt>Full Name:</dt>
             <dd><p>{{FullName}}</p></dd>
@@ -120,7 +118,7 @@
             <dt>Post Code:</dt>
             <dd><p>{{HomeAddress.PostalCode}}</p></dd>
         </dl>
-    
+
     </script>
 
     <script id="relatedPartiesTmpl" type="text/x-handlebars-template">
@@ -189,7 +187,7 @@
         @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
         {
             @:salutations.push("@salutation");
-                        }
+                                    }
 
         function setupTransactionsGrid() {
             var txGrid = new gridItem(
@@ -241,15 +239,14 @@
                 $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
                 $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
 
+                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
                 $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationId);
                 $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&label=" +
                     encodeURIComponent(
                     (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
                     (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
                     (dataItem.UserAccountOrganisation.Contact.LastName || "")));
-
                 $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
 
                 toggleFields(dataItem);
                 showPrimaryBuyerDetails(dataItem);
