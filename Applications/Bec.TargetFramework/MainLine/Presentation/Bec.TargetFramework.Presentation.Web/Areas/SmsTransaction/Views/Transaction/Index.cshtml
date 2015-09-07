@@ -68,19 +68,16 @@
                         </h3>
                         <div id="additionalBuyers"></div>
                     </div>
-                    @*<div class="well">
-                            <h3>
-                                Giftors
-                                <span class="pull-right">
-                                    <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor"><i class="fa fa-plus margin-right-5"></i>Add</a>
-                                </span>
-                            </h3>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div id="giftors"></div>
-                                </div>
-                            </div>
-                        </div>*@
+                    <div class="well">
+                        <h3>
+                            Giftors
+                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
+                            <span class="pull-right">
+                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                            </span>
+                        </h3>
+                        <div id="giftors"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,11 +122,11 @@
         {{#if isEmpty}}
         <div class="alert alert-info fade in">
             <i class="fa-fw fa fa-info"></i>
-            There are no additional buyers associated with the transaction.
+            There is no one associated with the transaction.
         </div>
         {{/if}}
         <div class="panel-group smart-accordion-default" id="{{accordionId}}">
-            {{#each additionalBuyers}}
+            {{#each items}}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title" data-parent="#{{@@root.accordionId}}">
@@ -187,7 +184,7 @@
         @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
         {
             @:salutations.push("@salutation");
-                                    }
+                                                }
 
         function setupTransactionsGrid() {
             var txGrid = new gridItem(
@@ -204,7 +201,7 @@
                 change: txChange,
                 searchElementId: 'gridSearchInput',
                 searchButtonId: 'gridSearchButton',
-                onLoaded: function (data){
+                onLoaded: function (data) {
                     console.log(data);
                 },
                 columns: [
@@ -243,6 +240,8 @@
                 $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
 
                 $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
+                $("#addGiftorButton").data('href', '@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
+
                 $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationId);
                 $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&label=" +
                     encodeURIComponent(
@@ -254,7 +253,7 @@
                 toggleFields(dataItem);
                 showPrimaryBuyerDetails(dataItem);
                 showTransactionRelatedParties(dataItem, '@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})', 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
-                //showTransactionRelatedParties(dataItem, '@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})', 'giftors', 'giftorsAccordion');
+                showTransactionRelatedParties(dataItem, '@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})', 'giftors', 'giftorsAccordion', 'spinnerGiftors');
             }
 
             function toggleFields(dataItem) {
@@ -292,20 +291,20 @@
                     }
                 })
                 .success(function (data) {
-                    var additionalBuyers = data.Items;
-                    additionalBuyers = _.map(additionalBuyers, function (additionalBuyer) {
-                        var contact = additionalBuyer.UserAccountOrganisation.Contact;
-                        return _.extend({}, additionalBuyer, {
+                    var items = data.Items;
+                    items = _.map(items, function (item) {
+                        var contact = item.UserAccountOrganisation.Contact;
+                        return _.extend({}, item, {
                             FullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-                            ElementId: 'id' + additionalBuyer.SmsUserAccountOrganisationTransactionId,
-                            FormattedBirthDate: moment(additionalBuyer.UserAccountOrganisation.Contact.BirthDate).format('DD/MM/YYYY'),
+                            ElementId: 'id' + item.SmsUserAccountOrganisationTransactionId,
+                            FormattedBirthDate: moment(item.UserAccountOrganisation.Contact.BirthDate).format('DD/MM/YYYY'),
                             HomeAddress: _.find(contact.Addresses, { 'IsPrimaryAddress': true })
                         });
                     });
                     var templateData = {
                         accordionId: accordionId,
-                        isEmpty: additionalBuyers.length === 0,
-                        additionalBuyers: additionalBuyers
+                        isEmpty: items.length === 0,
+                        items: items
                     };
 
                     var source = $("#relatedPartiesTmpl").html();

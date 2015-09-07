@@ -10,17 +10,17 @@
             Value = s.GetStringValue()
         });
 }
-<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addAdditionalBuyerLabel" aria-hidden="true">
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addGiftorLabel" aria-hidden="true">
     <div class="modal-dialog">
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addAdditionalBuyerLabel">Add Additional Buyer</h4>
+                <h4 class="modal-title" id="addGiftorLabel">Add Giftor</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <section class="col-12">
-                        <form id="addAdditionalBuyer-form" class="smart-form">
+                        <form id="addGiftor-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.TransactionId)
@@ -155,10 +155,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="cancelAddAdditionalBuyer" class="btn btn-default" data-dismiss="modal" tabindex="18">
+                <button type="button" id="cancelAddGiftor" class="btn btn-default" data-dismiss="modal" tabindex="18">
                     Cancel
                 </button>
-                <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="17">
+                <button type="button" id="submitAddGiftor" class="btn btn-primary" tabindex="17">
                     <small><i class="fa fa-plus margin-right-5"></i></small>Add
                 </button>
             </div>
@@ -170,11 +170,11 @@
     $(function () {
         function setupForm() {
             // submit from when Save button clicked
-            $("#submitAddAdditionalBuyer").click(function () {
-                $("#addAdditionalBuyer-form").submit();
+            $("#submitAddGiftor").click(function () {
+                $("#addGiftor-form").submit();
             });
 
-            $("#addAdditionalBuyer-form").validate({
+            $("#addGiftor-form").validate({
                 ignore: '.skip',
                 // Rules for form validation
                 rules: {
@@ -219,10 +219,11 @@
         }
 
         function submitForm(form) {
-            $("#submitAddAdditionalBuyer").prop('disabled', true);
-            var formData = $("#addAdditionalBuyer-form").serializeArray();
+            $("#submitAddGiftor").prop('disabled', true);
+            var formData = $("#addGiftor-form").serializeArray();
+
             ajaxWrapper({
-                url: '@Url.Action("AddAdditionalBuyer", "AdditionalBuyer", new { area = "SmsTransaction" })',
+                url: '@Url.Action("AddGiftor", "Giftor", new { area = "SmsTransaction" })',
                 type: "POST",
                 data: formData
             }).done(function (res) {
@@ -239,7 +240,7 @@
                 console.log(e);
                 handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
                     messageButton: function () {
-                        $("#submitAddAdditionalBuyer").prop('disabled', false);
+                        $("#submitAddGiftor").prop('disabled', false);
                     }
                 }, true);
             });
