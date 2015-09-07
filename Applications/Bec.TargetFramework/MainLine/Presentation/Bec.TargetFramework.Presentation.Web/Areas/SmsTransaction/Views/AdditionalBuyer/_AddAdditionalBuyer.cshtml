@@ -248,7 +248,7 @@
             }).done(function (res) {
                 console.log(res);
                 if (res.result === true)
-                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })';
+                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionId })';
                 else {
                     handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                         messageButton: function () {

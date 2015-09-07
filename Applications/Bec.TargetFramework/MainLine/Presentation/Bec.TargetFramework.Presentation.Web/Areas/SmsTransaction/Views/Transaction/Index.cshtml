@@ -194,7 +194,7 @@
             {
                 gridElementId: 'txGrid',
                 url: '@Url.Action("GetSmsTransactions", "Transaction", new {area = "SmsTransaction"})',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransaction.SmsTransactionID" } },
+                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionId" } },
                 type: 'odata-v4',
                 serverSorting: true,
                 serverPaging: true,
@@ -204,9 +204,12 @@
                 change: txChange,
                 searchElementId: 'gridSearchInput',
                 searchButtonId: 'gridSearchButton',
+                onLoaded: function (data){
+                    console.log(data);
+                },
                 columns: [
                     {
-                        field: "SmsTransaction.SmsTransactionID",
+                        field: "SmsTransaction.SmsTransactionId",
                         hidden: true,
                     },
                     {
