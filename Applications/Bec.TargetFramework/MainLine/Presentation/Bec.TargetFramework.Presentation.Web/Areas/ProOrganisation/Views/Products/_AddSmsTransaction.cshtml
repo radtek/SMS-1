@@ -323,7 +323,7 @@
                 <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="19">
                     Cancel
                 </button>
-                <button type="button" id="stepBack" class="btn btn-primary" tabindex="20">
+                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="20">
                     <i class="fa fa-chevron-left margin-right-5"></i>Back
                 </button>
                 <button type="button" id="stepNext" class="btn btn-primary" tabindex="20">
@@ -467,10 +467,12 @@
                 var $total = navigation.find('li').length;
                 var $current = index + 1;
                 if ($current >= $total) {
+                    $('#stepBack').show();
                     $('#stepNext').hide();
                     $('#submitAddTransaction').show();
                     $('#submitAddTransaction').removeClass('disabled');
                 } else {
+                    $('#stepBack').hide();
                     $('#stepNext').show();
                     $('#submitAddTransaction').hide();
                 }
