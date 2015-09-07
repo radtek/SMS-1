@@ -40,9 +40,6 @@
                                         <li data-target="#step2">
                                             <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Transaction</span> </a>
                                         </li>
-                                        <li>
-                                            <a> <span class="step">3</span> <span class="title">Order Product</span> </a>
-                                        </li>
                                     </ul>
                                     <div class="clearfix"></div>
                                 </div>
@@ -466,13 +463,10 @@
 
         var wizard = $('#addTransactionWizard').bootstrapWizard({
             tabClass: 'form-wizard',
-            onTabClick: function(tab, navigation, index) {
-                return false;
-            },
             onTabShow: function (tab, navigation, index) {
                 var $total = navigation.find('li').length;
                 var $current = index + 1;
-                if ($current >= $total - 1) {
+                if ($current >= $total) {
                     $('#stepNext').hide();
                     $('#submitAddTransaction').show();
                     $('#submitAddTransaction').removeClass('disabled');
@@ -484,7 +478,16 @@
         });
 
         $("#submitAddTransaction").click(function () {
-            $("#addTransaction-form").submit();
+            var form = $("#addTransaction-form");
+            var isValid = form.valid();
+            if (!isValid) {
+                var invalidInputs = $(form.find('.tab-pane .invalid')[0]);
+                var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
+                wizard.bootstrapWizard('show', tabId);
+
+                return false;
+            }
+            form.submit();
         });
 
         $("#stepNext").click(function () {
