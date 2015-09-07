@@ -30,23 +30,27 @@
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.BuyerUaoId)
-                        <section class="col-12">
+                        <section class="col-xs-12">
                             <div id="addTransactionWizard">
-                                <div class="form-bootstrapWizard margin-top-10 margin-bottom-10">
-                                    <ul class="bootstrapWizard form-wizard">
+                                <div class="form-bootstrapWizard margin-left-10 margin-right-10">
+                                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                                         <li class="active" data-target="#step1">
-                                            <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Primary Buyer</span> </a>
+                                            <a href="#step1" data-toggle="tab">
+                                                <h4 class="list-group-item-heading">Step 1</h4>
+                                                <p class="list-group-item-text">Primary Buyer</p>
+                                            </a>
                                         </li>
                                         <li data-target="#step2">
-                                            <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Transaction</span> </a>
+                                            <a href="#step2" data-toggle="tab">
+                                                <h4 class="list-group-item-heading">Step 2</h4>
+                                                <p class="list-group-item-text">Transaction Details</p>
+                                            </a>
                                         </li>
                                     </ul>
-                                    <div class="clearfix"></div>
                                 </div>
 
-
-                                <div class="tab-content margin-top-10">
-                                    <div class="tab-pane active" id="tab1">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="step1">
 
                                         <fieldset>
                                             <legend>Primary Buyer</legend>
@@ -174,7 +178,7 @@
                                         </fieldset>
                                     </div>
 
-                                    <div class="tab-pane" id="tab2">
+                                    <div class="tab-pane" id="step2">
                                         <fieldset>
                                             <legend>Transaction Details</legend>
                                             <div class="row">
