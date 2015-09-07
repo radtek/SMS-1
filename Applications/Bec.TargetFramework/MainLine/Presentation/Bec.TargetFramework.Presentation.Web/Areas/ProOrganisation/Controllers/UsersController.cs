@@ -13,7 +13,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Bec.TargetFramework.Presentation.Web.Helpers;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -116,6 +115,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
+            await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var uao = await userClient.ResendLoginsAsync(uaoId);
 
             TempData["UserId"] = uao.UserID;
@@ -123,8 +123,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewRevokeInvite(Guid userId, string label)
+        public ActionResult ViewRevokeInvite(Guid uaoId, Guid userId, string label)
         {
+            ViewBag.uaoId = uaoId;
             ViewBag.userId = userId;
             ViewBag.label = label;
             return PartialView("_RevokeInvite");
@@ -132,8 +133,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RevokeInvite(Guid userId)
+        public async Task<ActionResult> RevokeInvite(Guid uaoId, Guid userId)
         {
+            await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.LockUserTemporaryAccountAsync(userId);
             return RedirectToAction("Invited");
         }
@@ -150,6 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
+            await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.GeneratePinAsync(uaoId, true);
 
             TempData["UserId"] = userId;
@@ -207,6 +210,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditUser(Guid uaoID)
         {
+            await EnsureUserInOrg(uaoID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = Edit.fromD(Request.Form);
             
@@ -218,6 +222,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
 
             return RedirectToAction("Registered");
+        }
+
+        internal static async Task EnsureUserInOrg(Guid uaoID, Guid orgID, IQueryLogicClient client)
+        {
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.OrganisationID });
+            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            dynamic ret = await client.QueryAsync("UserAccountOrganisations", select + filter);
+            if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
         }
     }
 }
