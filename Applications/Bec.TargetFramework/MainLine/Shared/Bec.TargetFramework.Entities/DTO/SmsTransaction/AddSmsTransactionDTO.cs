@@ -6,7 +6,7 @@ namespace Bec.TargetFramework.Entities
     public class AddSmsTransactionDTO
     {
         public SmsTransactionDTO SmsTransactionDTO { get; set; }
-        public Guid? BuyerUaoId { get; set; }
+        public Guid? BuyerUaoID { get; set; }
         public string Salutation { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

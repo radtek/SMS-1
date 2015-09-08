@@ -29,7 +29,7 @@ namespace Bec.TargetFramework.Entities
             var target = new SmsUserAccountOrganisationTransactionTypeDTO();
 
             // Properties
-            target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
+            target.SmsUserAccountOrganisationTransactionTypeID = source.SmsUserAccountOrganisationTransactionTypeID;
             target.Name = source.Name;
             target.Description = source.Description;
             target.IsActive = source.IsActive;
@@ -54,7 +54,7 @@ namespace Bec.TargetFramework.Entities
             var target = new Bec.TargetFramework.Data.SmsUserAccountOrganisationTransactionType();
 
             // Properties
-            target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
+            target.SmsUserAccountOrganisationTransactionTypeID = source.SmsUserAccountOrganisationTransactionTypeID;
             target.Name = source.Name;
             target.Description = source.Description;
             target.IsActive = source.IsActive;

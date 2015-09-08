@@ -6,8 +6,8 @@ namespace Bec.TargetFramework.Entities
     [System.Serializable]
     public class AssignSmsClientToTransactionDTO
     {
-        public Guid TransactionId { get; set; }
-        public Guid UaoId { get; set; }
+        public Guid TransactionID { get; set; }
+        public Guid UaoID { get; set; }
         public UserAccountOrganisationTransactionType UserAccountOrganisationTransactionType { get; set; }
         public string Line1 { get; set; }
         public string Line2 { get; set; }

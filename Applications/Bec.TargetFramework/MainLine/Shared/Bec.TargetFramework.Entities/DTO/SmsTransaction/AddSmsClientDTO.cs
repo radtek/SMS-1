@@ -6,9 +6,9 @@ namespace Bec.TargetFramework.Entities
     [System.Serializable]
     public class AddSmsClientDTO
     {
-        public Guid TransactionId { get; set; }
-        public Guid OrganisationId { get; set; }
-        public Guid UaoId { get; set; }
+        public Guid TransactionID { get; set; }
+        public Guid OrganisationID { get; set; }
+        public Guid UaoID { get; set; }
         public string Salutation { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

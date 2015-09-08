@@ -87,35 +87,33 @@
 @section Scripts {
 
     <script id="primaryBuyerDetailsTmpl" type="text/x-handlebars-template">
-
         <dl class="dl-horizontal">
             <dt>Full Name:</dt>
-            <dd><p>{{FullName}}</p></dd>
+            <dd><p>{{fullName}}</p></dd>
             <dt>Email:</dt>
-            <dd><p>{{Email}}</p></dd>
-            {{#if FormattedBirthDate}}
+            <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
+            {{#if formattedBirthDate}}
             <dt>Date of Birth:</dt>
-            <dd><p>{{FormattedBirthDate}}</p></dd>
+            <dd><p>{{formattedBirthDate}}</p></dd>
             {{/if}}
         </dl>
         <h5>Registered Home Address</h5>
         <dl class="dl-horizontal">
             <dt>Address Line 1:</dt>
-            <dd><p>{{HomeAddress.Line1}}</p></dd>
-            {{#if HomeAddress.Line2}}
+            <dd><p>{{Address.Line1}}</p></dd>
+            {{#if Address.Line2}}
             <dt>Address Line 2:</dt>
-            <dd><p>{{HomeAddress.Line2}}</p></dd>
+            <dd><p>{{Address.Line2}}</p></dd>
             {{/if}}
             <dt>Town:</dt>
-            <dd><p>{{HomeAddress.Town}}</p></dd>
-            {{#if HomeAddress.County}}
+            <dd><p>{{Address.Town}}</p></dd>
+            {{#if Address.County}}
             <dt>County:</dt>
-            <dd><p>{{HomeAddress.County}}</p></dd>
+            <dd><p>{{Address.County}}</p></dd>
             {{/if}}
             <dt>Post Code:</dt>
-            <dd><p>{{HomeAddress.PostalCode}}</p></dd>
+            <dd><p>{{Address.PostalCode}}</p></dd>
         </dl>
-
     </script>
 
     <script id="relatedPartiesTmpl" type="text/x-handlebars-template">
@@ -130,14 +128,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title" data-parent="#{{@@root.accordionId}}">
-                        <a data-toggle="collapse" href="#{{ElementId}}" aria-expanded="false" class="collapsed">
+                        <a data-toggle="collapse" href="#{{elementId}}" aria-expanded="false" class="collapsed">
                             <i class="fa fa-lg fa-angle-down pull-right"></i>
                             <i class="fa fa-lg fa-angle-up pull-right"></i>
-                            <span>{{FullName}}</span>
+                            <span>{{fullName}}</span>
                         </a>
                     </h4>
                 </div>
-                <div class="panel-collapse collapse" aria-expanded="false" id="{{ElementId}}">
+                <div class="panel-collapse collapse" aria-expanded="false" id="{{elementId}}">
                     <div class="panel-body">
                         <div class="pull-right">
                             @*<a href="#" class="btn btn-primary"><i class="fa fa-edit"></i> Edit </a>
@@ -145,27 +143,27 @@
                         </div>
                         <dl class="dl-horizontal pull-left">
                             <dt>Full Name:</dt>
-                            <dd><p>{{FullName}}</p></dd>
+                            <dd><p>{{fullName}}</p></dd>
                             <dt>Email:</dt>
                             <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
-                            {{#if FormattedBirthDate}}
+                            {{#if formattedBirthDate}}
                             <dt>Date of Birth:</dt>
-                            <dd><p>{{FormattedBirthDate}}</p></dd>
+                            <dd><p>{{formattedBirthDate}}</p></dd>
                             {{/if}}
                             <dt>Address Line 1:</dt>
-                            <dd><p>{{HomeAddress.Line1}}</p></dd>
-                            {{#if HomeAddress.Line2}}
+                            <dd><p>{{Address.Line1}}</p></dd>
+                            {{#if Address.Line2}}
                             <dt>Address Line 2:</dt>
-                            <dd><p>{{HomeAddress.Line2}}</p></dd>
+                            <dd><p>{{Address.Line2}}</p></dd>
                             {{/if}}
                             <dt>Town:</dt>
-                            <dd><p>{{HomeAddress.Town}}</p></dd>
-                            {{#if HomeAddress.County}}
+                            <dd><p>{{Address.Town}}</p></dd>
+                            {{#if Address.County}}
                             <dt>County:</dt>
-                            <dd><p>{{HomeAddress.County}}</p></dd>
+                            <dd><p>{{Address.County}}</p></dd>
                             {{/if}}
                             <dt>Post Code:</dt>
-                            <dd><p>{{HomeAddress.PostalCode}}</p></dd>
+                            <dd><p>{{Address.PostalCode}}</p></dd>
                         </dl>
                     </div>
                 </div>
@@ -184,14 +182,14 @@
         @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
         {
             @:salutations.push("@salutation");
-                                                }
+        }
 
         function setupTransactionsGrid() {
             var txGrid = new gridItem(
             {
                 gridElementId: 'txGrid',
                 url: '@Url.Action("GetSmsTransactions", "Transaction", new {area = "SmsTransaction"})',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionId" } },
+                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
                 type: 'odata-v4',
                 serverSorting: true,
                 serverPaging: true,
@@ -201,12 +199,9 @@
                 change: txChange,
                 searchElementId: 'gridSearchInput',
                 searchButtonId: 'gridSearchButton',
-                onLoaded: function (data) {
-                    console.log(data);
-                },
                 columns: [
                     {
-                        field: "SmsTransaction.SmsTransactionId",
+                        field: "SmsTransactionID",
                         hidden: true,
                     },
                     {
@@ -239,15 +234,15 @@
                 $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
                 $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
 
-                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
-                $("#addGiftorButton").data('href', '@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID);
+                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID);
+                $("#addGiftorButton").data('href', '@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID);
 
-                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationId);
-                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txId=" + dataItem.SmsTransaction.SmsTransactionID + "&label=" +
+                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID);
+                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID + "&label=" +
                     encodeURIComponent(
-                    (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.LastName || "")));
+                    (dataItem.Contact.Salutation || "") + " " +
+                    (dataItem.Contact.FirstName || "") + " " +
+                    (dataItem.Contact.LastName || "")));
                 $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
                 toggleFields(dataItem);
@@ -266,13 +261,11 @@
             }
 
             function showPrimaryBuyerDetails(dataItem) {
-                var uao = dataItem.UserAccountOrganisation;
-                var data = {
-                    FullName: uao.Contact.Salutation + " " + uao.Contact.FirstName + " " + uao.Contact.LastName,
-                    Email: uao.UserAccount.Email,
-                    FormattedBirthDate: moment(uao.Contact.BirthDate).format('DD/MM/YYYY'),
-                    HomeAddress: _.find(uao.Contact.Addresses, { 'IsPrimaryAddress': true })
-                };
+                var contact = dataItem.Contact;
+                var data = _.extend({}, dataItem, {
+                    fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
+                    formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
+                });
 
                 var source = $("#primaryBuyerDetailsTmpl").html();
                 var template = Handlebars.compile(source);
@@ -287,18 +280,17 @@
                     url: url,
                     type: 'GET',
                     data: {
-                        transactionId: dataItem.SmsTransaction.SmsTransactionID
+                        transactionID: dataItem.SmsTransactionID
                     }
                 })
                 .success(function (data) {
                     var items = data.Items;
                     items = _.map(items, function (item) {
-                        var contact = item.UserAccountOrganisation.Contact;
+                        var contact = item.Contact;
                         return _.extend({}, item, {
-                            FullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-                            ElementId: 'id' + item.SmsUserAccountOrganisationTransactionId,
-                            FormattedBirthDate: moment(item.UserAccountOrganisation.Contact.BirthDate).format('DD/MM/YYYY'),
-                            HomeAddress: _.find(contact.Addresses, { 'IsPrimaryAddress': true })
+                            fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
+                            elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
+                            formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
                         });
                     });
                     var templateData = {

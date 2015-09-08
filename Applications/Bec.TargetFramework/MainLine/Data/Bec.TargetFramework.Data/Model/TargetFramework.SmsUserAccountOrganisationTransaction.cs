@@ -28,9 +28,9 @@ namespace Bec.TargetFramework.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for SmsUserAccountOrganisationTransactionId in the schema.
+        /// There are no comments for SmsUserAccountOrganisationTransactionID in the schema.
         /// </summary>
-        public virtual global::System.Guid SmsUserAccountOrganisationTransactionId
+        public virtual global::System.Guid SmsUserAccountOrganisationTransactionID
         {
             get;
             set;
@@ -38,9 +38,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for UserAccountOrganisationId in the schema.
+        /// There are no comments for UserAccountOrganisationID in the schema.
         /// </summary>
-        public virtual global::System.Guid UserAccountOrganisationId
+        public virtual global::System.Guid UserAccountOrganisationID
         {
             get;
             set;
@@ -48,9 +48,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for SmsTransactionId in the schema.
+        /// There are no comments for SmsTransactionID in the schema.
         /// </summary>
-        public virtual global::System.Guid SmsTransactionId
+        public virtual global::System.Guid SmsTransactionID
         {
             get;
             set;
@@ -58,9 +58,29 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for SmsUserAccountOrganisationTransactionTypeId in the schema.
+        /// There are no comments for SmsUserAccountOrganisationTransactionTypeID in the schema.
         /// </summary>
-        public virtual int SmsUserAccountOrganisationTransactionTypeId
+        public virtual int SmsUserAccountOrganisationTransactionTypeID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for AddressID in the schema.
+        /// </summary>
+        public virtual global::System.Guid AddressID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ContactID in the schema.
+        /// </summary>
+        public virtual global::System.Guid ContactID
         {
             get;
             set;
@@ -84,6 +104,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsUserAccountOrganisationTransactionType in the schema.
         /// </summary>
         public virtual SmsUserAccountOrganisationTransactionType SmsUserAccountOrganisationTransactionType
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Address in the schema.
+        /// </summary>
+        public virtual Address Address
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Contact in the schema.
+        /// </summary>
+        public virtual Contact Contact
         {
             get;
             set;

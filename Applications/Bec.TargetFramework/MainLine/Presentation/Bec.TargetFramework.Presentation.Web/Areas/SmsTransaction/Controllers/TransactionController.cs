@@ -38,41 +38,37 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.SmsTransaction.SmsTransactionID,
+                x.SmsTransactionID,
                 x.SmsTransaction.Reference,
-                x.SmsTransaction.Address.Line1,
-                x.SmsTransaction.Address.Line2,
-                x.SmsTransaction.Address.Town,
-                x.SmsTransaction.Address.County,
-                x.SmsTransaction.Address.PostalCode,
-                x.SmsTransaction.Address.AdditionalAddressInformation,
+                SmsTransactionAddressLine1 = x.SmsTransaction.Address.Line1,
+                SmsTransactionAddressLine2 = x.SmsTransaction.Address.Line2,
+                SmsTransactionAddressTown = x.SmsTransaction.Address.Town,
+                SmsTransactionAddressCounty = x.SmsTransaction.Address.County,
+                SmsTransactionAddressPostalCode = x.SmsTransaction.Address.PostalCode,
+                SmsTransactionAddressAdditionalAddressInformation = x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.SmsTransaction.CreatedOn,
-                x.UserAccountOrganisation.Contact.Salutation,
-                x.UserAccountOrganisation.Contact.FirstName,
-                x.UserAccountOrganisation.Contact.LastName,
-                x.UserAccountOrganisation.Contact.BirthDate,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
+                x.Contact.BirthDate,
+                x.UserAccountOrganisationID,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                Addresses = x.UserAccountOrganisation.Contact.Addresses.Select(a =>
-                    new
-                    {
-                        a.Line1,
-                        a.Line2,
-                        a.Town,
-                        a.County,
-                        a.PostalCode,
-                        a.AdditionalAddressInformation,
-                        a.IsPrimaryAddress
-                    })
+                RegisteredHomeAddressLine1 = x.Address.Line1,
+                RegisteredHomeAddressLine2 = x.Address.Line2,
+                RegisteredHomeAddressTown = x.Address.Town,
+                RegisteredHomeAddressCounty = x.Address.County,
+                RegisteredHomeAddressPostalCode = x.Address.PostalCode,
+                RegisteredHomeAddressAdditionalAddressInformation = x.Address.AdditionalAddressInformation
             });
 
-            var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var sellerTypeId = UserAccountOrganisationTransactionType.Seller.GetIntValue();
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var sellerTypeID = UserAccountOrganisationTransactionType.Seller.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.SmsTransaction.OrganisationID == orgID &&
                 (
-                    x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId ||
-                    x.SmsUserAccountOrganisationTransactionTypeId == sellerTypeId
+                    x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID ||
+                    x.SmsUserAccountOrganisationTransactionTypeID == sellerTypeID
                 ));
 
             if (!string.IsNullOrEmpty(search))
@@ -125,15 +121,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> ViewResendLogins(Guid txID, string label)
         {
-            var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationId });
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => 
-                x.SmsTransactionId == txID &&
-                x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId);
+                x.SmsTransactionID == txID &&
+                x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
             var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
 
             ViewBag.txID = txID;
-            ViewBag.uaoId = res.First().UserAccountOrganisationId;
+            ViewBag.uaoID = res.First().UserAccountOrganisationID;
             ViewBag.label = label;
             ViewBag.RedirectAction = "ResendLogins";
             ViewBag.RedirectController = "Transaction";
@@ -142,9 +138,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ResendLogins(Guid uaoId, Guid txID)
+        public async Task<ActionResult> ResendLogins(Guid uaoID, Guid txID)
         {
-            await userClient.ResendLoginsAsync(uaoId);
+            await userClient.ResendLoginsAsync(uaoID);
             TempData["SmsTransactionID"] = txID;
             return RedirectToAction("Index");
         }

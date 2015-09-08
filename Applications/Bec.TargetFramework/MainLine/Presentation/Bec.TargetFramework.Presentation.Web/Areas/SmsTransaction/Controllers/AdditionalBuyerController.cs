@@ -19,35 +19,30 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-        public async Task<ActionResult> Get(Guid transactionId)
+        public async Task<ActionResult> Get(Guid transactionID)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.UserAccountOrganisation.Contact.Salutation,
-                x.UserAccountOrganisation.Contact.FirstName,
-                x.UserAccountOrganisation.Contact.LastName,
-                x.UserAccountOrganisation.Contact.BirthDate,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                Addresses = x.UserAccountOrganisation.Contact.Addresses.Select(a => 
-                    new
-                    {
-                        a.Line1,
-                        a.Line2,
-                        a.Town,
-                        a.County,
-                        a.PostalCode,
-                        a.AdditionalAddressInformation,
-                        a.IsPrimaryAddress
-                    })
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                x.Address.AdditionalAddressInformation,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
+                x.Contact.BirthDate
             });
-            var additionalBuyerTypeId = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
+            var additionalBuyerTypeID = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 
-                x.SmsTransactionId == transactionId &&
+                x.SmsTransactionID == transactionID &&
                 x.SmsTransaction.OrganisationID == orgID &&
-                x.SmsUserAccountOrganisationTransactionTypeId == additionalBuyerTypeId);
+                x.SmsUserAccountOrganisationTransactionTypeID == additionalBuyerTypeID);
 
             var filter = ODataHelper.Filter(where);
 
@@ -59,7 +54,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var model = new AddSmsClientDTO
             {
-                TransactionId = txID
+                TransactionID = txID
             };
 
             return PartialView("_AddAdditionalBuyer", model);
@@ -71,11 +66,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var additionalBuyerUaoId = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate.Value);
+                var additionalBuyerUaoID = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate.Value);
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
-                    UaoId = additionalBuyerUaoId,
-                    TransactionId = model.TransactionId,
+                    UaoID = additionalBuyerUaoID,
+                    TransactionID = model.TransactionID,
                     Line1 = model.Line1,
                     Line2 = model.Line2,
                     County = model.County,

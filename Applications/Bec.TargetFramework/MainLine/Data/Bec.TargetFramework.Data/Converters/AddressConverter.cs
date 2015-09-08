@@ -68,6 +68,7 @@ namespace Bec.TargetFramework.Entities
               target.CountryCode1 = source.CountryCode1.ToDtoWithRelated(level - 1);
               target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
               target.Contact = source.Contact.ToDtoWithRelated(level - 1);
+              target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

@@ -22,14 +22,18 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionId, global::System.Guid userAccountOrganisationId, global::System.Guid smsTransactionId, int smsUserAccountOrganisationTransactionTypeId, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Guid addressID, global::System.Guid contactID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation) {
 
-          this.SmsUserAccountOrganisationTransactionId = smsUserAccountOrganisationTransactionId;
-          this.UserAccountOrganisationId = userAccountOrganisationId;
-          this.SmsTransactionId = smsTransactionId;
-          this.SmsUserAccountOrganisationTransactionTypeId = smsUserAccountOrganisationTransactionTypeId;
+          this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
+          this.UserAccountOrganisationID = userAccountOrganisationID;
+          this.SmsTransactionID = smsTransactionID;
+          this.SmsUserAccountOrganisationTransactionTypeID = smsUserAccountOrganisationTransactionTypeID;
+          this.AddressID = addressID;
+          this.ContactID = contactID;
           this.SmsTransaction = smsTransaction;
           this.SmsUserAccountOrganisationTransactionType = smsUserAccountOrganisationTransactionType;
+          this.Address = address;
+          this.Contact = contact;
           this.UserAccountOrganisation = userAccountOrganisation;
         }
 
@@ -38,16 +42,22 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public global::System.Guid SmsUserAccountOrganisationTransactionId { get; set; }
+        public global::System.Guid SmsUserAccountOrganisationTransactionID { get; set; }
 
         [DataMember]
-        public global::System.Guid UserAccountOrganisationId { get; set; }
+        public global::System.Guid UserAccountOrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Guid SmsTransactionId { get; set; }
+        public global::System.Guid SmsTransactionID { get; set; }
 
         [DataMember]
-        public int SmsUserAccountOrganisationTransactionTypeId { get; set; }
+        public int SmsUserAccountOrganisationTransactionTypeID { get; set; }
+
+        [DataMember]
+        public global::System.Guid AddressID { get; set; }
+
+        [DataMember]
+        public global::System.Guid ContactID { get; set; }
 
         #endregion
 
@@ -58,6 +68,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public SmsUserAccountOrganisationTransactionTypeDTO SmsUserAccountOrganisationTransactionType { get; set; }
+
+        [DataMember]
+        public AddressDTO Address { get; set; }
+
+        [DataMember]
+        public ContactDTO Contact { get; set; }
 
         [DataMember]
         public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }

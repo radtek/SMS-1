@@ -31,9 +31,9 @@ namespace Bec.TargetFramework.Data
         #region Properties
     
         /// <summary>
-        /// There are no comments for SmsUserAccountOrganisationTransactionTypeId in the schema.
+        /// There are no comments for SmsUserAccountOrganisationTransactionTypeID in the schema.
         /// </summary>
-        public virtual int SmsUserAccountOrganisationTransactionTypeId
+        public virtual int SmsUserAccountOrganisationTransactionTypeID
         {
             get;
             set;

@@ -86,21 +86,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 result = false,
                 title = "Purchase Failed",
                 message = "Insufficient credit. Please top up and retry.",
-                buyerUaoID = addSmsTransactionDto.BuyerUaoId
+                buyerUaoID = addSmsTransactionDto.BuyerUaoID
             }, JsonRequestBehavior.AllowGet);
 
             try
             {
-                if (addSmsTransactionDto.BuyerUaoId == null)
+                if (addSmsTransactionDto.BuyerUaoID == null)
                 {
-                    addSmsTransactionDto.BuyerUaoId = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.BirthDate.Value);
+                    addSmsTransactionDto.BuyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.BirthDate.Value);
                 }
-                var transactionId = await orgClient.PurchaseProductAsync(orgID, uaoID, addSmsTransactionDto.BuyerUaoId.Value, prod.ProductID, prod.ProductVersionID, addSmsTransactionDto.SmsTransactionDTO);
+                var transactionID = await orgClient.PurchaseProductAsync(orgID, uaoID, addSmsTransactionDto.BuyerUaoID.Value, prod.ProductID, prod.ProductVersionID, addSmsTransactionDto.SmsTransactionDTO);
 
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
-                    UaoId = addSmsTransactionDto.BuyerUaoId.Value,
-                    TransactionId = transactionId,
+                    UaoID = addSmsTransactionDto.BuyerUaoID.Value,
+                    TransactionID = transactionID,
                     Line1 = addSmsTransactionDto.Line1,
                     Line2 = addSmsTransactionDto.Line2,
                     County = addSmsTransactionDto.County,
@@ -113,7 +113,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
                 await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
 
-                TempData["SmsTransactionID"] = transactionId;
+                TempData["SmsTransactionID"] = transactionID;
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -123,7 +123,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                     result = false,
                     title = "Purchase Failed",
                     message = ex.Message,
-                    buyerUaoID = addSmsTransactionDto.BuyerUaoId
+                    buyerUaoID = addSmsTransactionDto.BuyerUaoID
                 }, JsonRequestBehavior.AllowGet);
             }
         }

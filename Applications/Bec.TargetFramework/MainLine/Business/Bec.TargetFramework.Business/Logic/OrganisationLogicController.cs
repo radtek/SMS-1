@@ -439,12 +439,12 @@ namespace Bec.TargetFramework.Business.Logic
                             x.PostalCode == dto.Address.PostalCode);
                     if (address != null)
                     {
-                        var buyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+                        var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
                         var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.FirstOrDefault(x => 
                             x.SmsTransaction.OrganisationID == orgID &&
                             x.SmsTransaction.AddressID == address.AddressID &&
-                            x.UserAccountOrganisationId == existingUser.UserAccountOrganisationID &&
-                            x.SmsUserAccountOrganisationTransactionTypeId == buyerTypeId);
+                            x.UserAccountOrganisationID == existingUser.UserAccountOrganisationID &&
+                            x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
                         if (tx != null) return true;
                     }
                 }
@@ -552,12 +552,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UpdateSmsTransactionUaoAsync(Guid oldUaoId, Guid newUaoId)
+        public async Task UpdateSmsTransactionUaoAsync(Guid oldUaoID, Guid newUaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Where(x => x.UserAccountOrganisationId == oldUaoId))
-                    smsTx.UserAccountOrganisationId = newUaoId;
+                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Where(x => x.UserAccountOrganisationID == oldUaoID))
+                    smsTx.UserAccountOrganisationID = newUaoID;
 
                 await scope.SaveChangesAsync();
             }
@@ -568,7 +568,7 @@ namespace Bec.TargetFramework.Business.Logic
             UserAccountOrganisationDTO uaoDto;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoId);
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoID);
                 Ensure.That(uao).IsNotNull();
                 uaoDto = uao.ToDtoWithRelated(1);
             }
@@ -591,10 +591,12 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var uaot = new SmsUserAccountOrganisationTransaction
                 {
-                    SmsUserAccountOrganisationTransactionId = Guid.NewGuid(),
-                    SmsTransactionId = assignSmsClientToTransactionDTO.TransactionId,
-                    UserAccountOrganisationId = assignSmsClientToTransactionDTO.UaoId,
-                    SmsUserAccountOrganisationTransactionTypeId = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
+                    SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
+                    UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
+                    SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    AddressID = address.AddressID,
+                    ContactID = uaoDto.Contact.ContactID
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 

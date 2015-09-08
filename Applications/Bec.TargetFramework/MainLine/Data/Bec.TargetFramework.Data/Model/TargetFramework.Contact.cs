@@ -600,6 +600,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

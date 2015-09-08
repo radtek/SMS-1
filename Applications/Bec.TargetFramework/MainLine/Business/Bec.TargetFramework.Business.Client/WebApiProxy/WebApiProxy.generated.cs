@@ -605,15 +605,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
 
-		/// <param name="oldUaoId"></param>
-		/// <param name="newUaoId"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		Task UpdateSmsTransactionUaoAsync(Guid oldUaoId,Guid newUaoId);
+		Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID);
 
-		/// <param name="oldUaoId"></param>
-		/// <param name="newUaoId"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		void UpdateSmsTransactionUao(Guid oldUaoId,Guid newUaoId);
+		void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -2838,24 +2838,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldUaoId"></param>
-		/// <param name="newUaoId"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldUaoId,Guid newUaoId)
+		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoId=" + oldUaoId + "&newUaoId=" + newUaoId, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldUaoId"></param>
-		/// <param name="newUaoId"></param>
-		public virtual void UpdateSmsTransactionUao(Guid oldUaoId,Guid newUaoId)
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
+		public virtual void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoId=" + oldUaoId + "&newUaoId=" + newUaoId, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user)).Wait();
 		}
 
 		/// <summary>

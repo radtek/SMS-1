@@ -22,9 +22,9 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionTypeDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionTypeDTO(int smsUserAccountOrganisationTransactionTypeId, string name, string description, bool isActive, bool isDeleted, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
+        public SmsUserAccountOrganisationTransactionTypeDTO(int smsUserAccountOrganisationTransactionTypeID, string name, string description, bool isActive, bool isDeleted, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
 
-          this.SmsUserAccountOrganisationTransactionTypeId = smsUserAccountOrganisationTransactionTypeId;
+          this.SmsUserAccountOrganisationTransactionTypeID = smsUserAccountOrganisationTransactionTypeID;
           this.Name = name;
           this.Description = description;
           this.IsActive = isActive;
@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public int SmsUserAccountOrganisationTransactionTypeId { get; set; }
+        public int SmsUserAccountOrganisationTransactionTypeID { get; set; }
 
         [DataMember]
         public string Name { get; set; }

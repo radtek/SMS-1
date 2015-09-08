@@ -23,7 +23,7 @@
                         <form id="addAdditionalBuyer-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.TransactionId)
+                            @Html.HiddenFor(m => m.TransactionID)
                             <fieldset>
                                 <legend>Personal Details</legend>
                                 <div class="row">
@@ -227,7 +227,7 @@
                 data: formData
             }).done(function (res) {
                 if (res.result === true)
-                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionId })';
+                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionID })';
                 else {
                     handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                         messageButton: function () {

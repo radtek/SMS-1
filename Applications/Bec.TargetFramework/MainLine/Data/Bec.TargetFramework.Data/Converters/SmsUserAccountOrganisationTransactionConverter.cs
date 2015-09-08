@@ -29,15 +29,19 @@ namespace Bec.TargetFramework.Entities
             var target = new SmsUserAccountOrganisationTransactionDTO();
 
             // Properties
-            target.SmsUserAccountOrganisationTransactionId = source.SmsUserAccountOrganisationTransactionId;
-            target.UserAccountOrganisationId = source.UserAccountOrganisationId;
-            target.SmsTransactionId = source.SmsTransactionId;
-            target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
+            target.SmsUserAccountOrganisationTransactionID = source.SmsUserAccountOrganisationTransactionID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.SmsTransactionID = source.SmsTransactionID;
+            target.SmsUserAccountOrganisationTransactionTypeID = source.SmsUserAccountOrganisationTransactionTypeID;
+            target.AddressID = source.AddressID;
+            target.ContactID = source.ContactID;
 
             // Navigation Properties
             if (level > 0) {
               target.SmsTransaction = source.SmsTransaction.ToDtoWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactionType = source.SmsUserAccountOrganisationTransactionType.ToDtoWithRelated(level - 1);
+              target.Address = source.Address.ToDtoWithRelated(level - 1);
+              target.Contact = source.Contact.ToDtoWithRelated(level - 1);
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
@@ -55,10 +59,12 @@ namespace Bec.TargetFramework.Entities
             var target = new Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction();
 
             // Properties
-            target.SmsUserAccountOrganisationTransactionId = source.SmsUserAccountOrganisationTransactionId;
-            target.UserAccountOrganisationId = source.UserAccountOrganisationId;
-            target.SmsTransactionId = source.SmsTransactionId;
-            target.SmsUserAccountOrganisationTransactionTypeId = source.SmsUserAccountOrganisationTransactionTypeId;
+            target.SmsUserAccountOrganisationTransactionID = source.SmsUserAccountOrganisationTransactionID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.SmsTransactionID = source.SmsTransactionID;
+            target.SmsUserAccountOrganisationTransactionTypeID = source.SmsUserAccountOrganisationTransactionTypeID;
+            target.AddressID = source.AddressID;
+            target.ContactID = source.ContactID;
 
             // User-defined partial method
             OnEntityCreating(source, target);
