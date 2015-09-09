@@ -48,3 +48,9 @@ values (uuid_generate_v1(), 'Credit', 'Credit', TRUE);
 
 insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
 values (uuid_generate_v1(), 'Products', 'Products', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'InternalNotifications', 'InternalNotifications', TRUE);
+
+insert into public."Resource"("ResourceID", "ResourceName", "ResourceDescription", "IsActive")
+values (uuid_generate_v1(), 'MyTransactions', 'MyTransactions', TRUE); 
