@@ -1305,12 +1305,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO ResendLogins(Guid uaoId);
 
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID);
+		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel);
 
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID);
+		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
 	}
 
 }
@@ -4727,21 +4729,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID)
+		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID, _user);
+			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID)
+		/// <param name="withRelatedLevel"></param>
+		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID, _user)).Result;
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
 		}
 
 		#endregion

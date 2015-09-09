@@ -859,11 +859,11 @@ namespace Bec.TargetFramework.Business.Logic
             return uaoDTO;
         }
 
-        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID)
+        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID, int withRelatedLevel)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtosWithRelated(withRelatedLevel);
             }
         }
     }

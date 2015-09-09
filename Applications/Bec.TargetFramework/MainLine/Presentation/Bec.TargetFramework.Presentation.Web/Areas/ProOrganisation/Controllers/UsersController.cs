@@ -175,7 +175,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var rorderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter + rorderby)).ToList();
 
-            var userRoles = userClient.GetRoles(uaoID);
+            var userRoles = userClient.GetRoles(uaoID, 0);
 
             var r = new List<Tuple<int, string, string, Guid, string>>();
             for (int i = 0; i < allRoles.Count; i++)

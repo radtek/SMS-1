@@ -1711,6 +1711,7 @@
     <Compile Include="Boo\VUserStatusDTO.Generated.cs">
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
@@ -1949,6 +1950,7 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
