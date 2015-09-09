@@ -30,6 +30,16 @@ namespace Bec.TargetFramework.Business.Logic
         public ProductLogicController ProductLogic { get; set; }
         public PaymentLogicController PaymentLogic { get; set; }
 
+        public async Task<bool> HasOrganisationAnySafeBankAccount(Guid organisationID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var safeBankAccountStatus = BankAccountStatusEnum.Safe.GetStringValue();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus
+                    .Any(s => s.OrganisationID == organisationID && s.Status == safeBankAccountStatus && s.IsActive);
+            }
+        }
+
         public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
             using (var scope = DbContextScopeFactory.Create())

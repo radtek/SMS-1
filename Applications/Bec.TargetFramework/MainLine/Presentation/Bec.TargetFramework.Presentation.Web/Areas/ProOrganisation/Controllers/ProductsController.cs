@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -20,9 +21,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
-        // GET: ProOrganisation/Products
+
         public ActionResult Index()
         {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var hasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
+            ViewBag.HasOrganisationAnySafeBankAccounts = hasOrganisationAnySafeBankAccounts;
+
             return View();
         }
 
@@ -69,6 +74,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public ActionResult ViewAddSmsTransaction()
         {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var hasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
+            if (!hasOrganisationAnySafeBankAccounts)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             return PartialView("_AddSmsTransaction");
         }
 

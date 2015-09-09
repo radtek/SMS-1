@@ -437,6 +437,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Boolean HasOrganisationAnySafeBankAccount(Guid organisationID);
+
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
@@ -2452,6 +2460,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual Boolean HasOrganisationAnySafeBankAccount(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
