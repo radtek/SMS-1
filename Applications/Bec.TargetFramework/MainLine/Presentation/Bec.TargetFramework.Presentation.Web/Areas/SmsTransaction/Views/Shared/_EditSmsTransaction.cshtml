@@ -31,7 +31,8 @@
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, new SelectList(titles, "Value", "Text"), new { tabindex = "1" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "1" })
+                                        <i></i>
                                     </label>
                                 </section>
                                 <section>
@@ -98,7 +99,9 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-
+            '@Html.NameFor(m => m.Model.Contact.Salutation)': {
+                required: true
+            },
             '@Html.NameFor(m => m.Model.Contact.FirstName)': {
                 required: true
             },

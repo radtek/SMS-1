@@ -13,13 +13,13 @@
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
     <div class="modal-dialog">
         <!--
-        <div class="help help-container help-sm">
-            <div class="help-vert">HELP</div>
-            <div class="help help-inner">
-                <div>Help goes here</div>
-            </div>
-        </div>
--->
+                <div class="help help-container help-sm">
+                    <div class="help-vert">HELP</div>
+                    <div class="help help-inner">
+                        <div>Help goes here</div>
+                    </div>
+                </div>
+        -->
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="addUserLabel">Add User</h4>
@@ -71,7 +71,7 @@
                                             <label for="role-@role.Item1.OrganisationRoleID">@role.Item1.RoleName</label>
                                         </label>
                                     }
-                                    
+
                                 </section>
 
                             </fieldset>
@@ -98,7 +98,7 @@
     }
 
     function countRoles() {
-        var c =0;
+        var c = 0;
         $('.role-checkbox').each(function (i, item) {
             if ($(item).prop('checked')) c++;
         });
@@ -114,13 +114,16 @@
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            FirstName: {
+            '@Html.NameFor(m => m.Salutation)': {
                 required: true
             },
-            LastName: {
+            '@Html.NameFor(m => m.FirstName)': {
                 required: true
             },
-            EmailAddress1: {
+            '@Html.NameFor(m => m.LastName)': {
+                required: true
+            },
+            '@Html.NameFor(m => m.EmailAddress1)': {
                 required: true,
                 email: true,
                 remote: {
@@ -131,8 +134,8 @@
                 }
             },
             rolecheck: {
-                required:true,
-                min:1
+                required: true,
+                min: 1
             }
         },
         messages: {
