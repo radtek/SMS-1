@@ -13,7 +13,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bec.TargetFramework.Presentation.Web.Filters;
-using EnsureThat;
 
 namespace Bec.TargetFramework.Presentation.Web.Base
 {

@@ -1,8 +1,6 @@
 ﻿using BrockAllen.MembershipReboot;
-using BrockAllen.MembershipReboot.WebHost;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 
 namespace Bec.TargetFramework.Security.Configuration
 {

@@ -1,13 +1,10 @@
-﻿using Autofac.Integration.Mvc;
-using Fabrik.Common;
+﻿using Fabrik.Common;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Autofac;
 using FluentValidation.Results;
 
 

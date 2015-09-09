@@ -7,7 +7,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Microsoft.Ajax.Utilities;
 using System.Collections.Generic;
 using Bec.TargetFramework.Infrastructure.Extensions;
 
@@ -35,7 +34,7 @@ namespace Bec.TargetFramework.Presentation.Web
         /// <returns></returns>
         public static IHtmlString AssemblyVersion(this HtmlHelper helper)
         {
-            if (_displayVersion.IsNullOrWhiteSpace())
+            if (string.IsNullOrWhiteSpace(_displayVersion))
                 SetDisplayVersion();
 
             return helper.Raw(_displayVersion);
@@ -152,7 +151,7 @@ namespace Bec.TargetFramework.Presentation.Web
             sb.AppendFormat("<div class=\"alert alert-{0} alert-block\">", alertType);
             sb.Append("<button class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
 
-            if (!heading.IsNullOrWhiteSpace())
+            if (!string.IsNullOrWhiteSpace(heading))
             {
                 sb.AppendFormat("<h4 class=\"alert-heading\">{0}</h4>", heading);
             }

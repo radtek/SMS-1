@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Omu.ValueInjecter;
 
 namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
 {
@@ -15,7 +14,6 @@ namespace Bec.TargetFramework.Infrastructure.CouchBaseCache
     using Enyim.Caching.Memcached;
     using Enyim.Caching.Memcached.Results.Helpers;
 
-    using ServiceStack.Common;
     using Couchbase.Configuration;
 
     public sealed class CouchBaseCacheClient : ICacheClient,ICacheProvider

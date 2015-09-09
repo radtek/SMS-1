@@ -61,6 +61,7 @@ namespace Bec.TargetFramework.SB.TaskServices
             }
             catch (Exception ex)
             {
+                if (Environment.UserInteractive) Console.WriteLine(ex.Message);
                 if (IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName) != null)
                 {
                     var logger = IocProvider.GetIocContainer(AppDomain.CurrentDomain.FriendlyName).Resolve<ILogger>();

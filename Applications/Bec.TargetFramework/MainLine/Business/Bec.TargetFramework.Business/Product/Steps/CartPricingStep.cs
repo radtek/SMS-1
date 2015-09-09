@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Bec.TargetFramework.Business.Product.Interfaces;
 using Bec.TargetFramework.Business.Product.Processor;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Business.Logic;

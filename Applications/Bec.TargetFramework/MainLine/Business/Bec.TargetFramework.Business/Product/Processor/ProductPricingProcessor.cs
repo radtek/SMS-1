@@ -8,7 +8,6 @@ using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Mehdime.Entity;
 //using Fabrik.Common;
 

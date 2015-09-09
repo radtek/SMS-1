@@ -1,6 +1,5 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using Npgsql;
 using System.Configuration;
 using ServiceStack.Text;
 

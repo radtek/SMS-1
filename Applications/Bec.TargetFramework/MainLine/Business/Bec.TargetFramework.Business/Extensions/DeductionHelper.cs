@@ -1,5 +1,4 @@
 ﻿using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using EnsureThat;
 using Mehdime.Entity;
 using System;

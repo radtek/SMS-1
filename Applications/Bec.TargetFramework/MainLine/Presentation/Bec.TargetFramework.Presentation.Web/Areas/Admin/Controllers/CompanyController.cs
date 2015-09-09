@@ -7,8 +7,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Presentation.Web.Base;
-using JSM;
-using JSM.MVC4;
 using ServiceStack.ServiceHost;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
@@ -20,7 +18,7 @@ using Bec.TargetFramework.Presentation.Web.Helpers;
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     [ClaimsRequired("Add", "Company", Order = 1000)]
-    public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
+    public class CompanyController : ApplicationControllerBase
     {
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public INotificationLogicClient NotificationClient { get; set; }

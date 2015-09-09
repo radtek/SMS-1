@@ -1,7 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Business.Product.Interfaces;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
 using EnsureThat;

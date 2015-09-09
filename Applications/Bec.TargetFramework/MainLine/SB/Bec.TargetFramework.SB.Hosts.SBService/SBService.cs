@@ -59,6 +59,7 @@ namespace Bec.TargetFramework.SB.Hosts.SBService
             }
             catch (Exception ex)
             {
+                if (Environment.UserInteractive) Console.WriteLine(ex.Message);
                 if (m_LifetimeScope != null)
                 {
                     var logger = m_LifetimeScope.Resolve<ILogger>();
