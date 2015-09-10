@@ -284,6 +284,17 @@ namespace Bec.TargetFramework.Business.Logic
                 var executingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccount.Username == UserNameService.UserName);
                 if (executingUao != null && executingUao.Contact != null)
                 {
+                    string organisationName;
+                    var organisationDetails = executingUao.Organisation.OrganisationDetails.FirstOrDefault();
+                    if (organisationDetails != null)
+                    {
+                        organisationName = organisationDetails.Name;
+                    }
+                    else
+                    {
+                        organisationName = Constants.SmsTeamName;
+                    }
+                    tempDto.InviterOrganisationName = organisationName;
                     tempDto.InviterSalutation = executingUao.Contact.Salutation;
                     tempDto.InviterFirstName = executingUao.Contact.FirstName;
                     tempDto.InviterLastName = executingUao.Contact.LastName;
