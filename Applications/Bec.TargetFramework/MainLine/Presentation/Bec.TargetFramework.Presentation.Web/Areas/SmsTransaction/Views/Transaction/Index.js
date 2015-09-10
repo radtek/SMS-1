@@ -45,14 +45,14 @@ $(function () {
 
     primaryBuyerTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("url") + '?view=_primaryBuyerDetailsTmpl' }
+        { url: $('#content').data("templateurl") + '?view=_primaryBuyerDetailsTmpl' }
     ).done(function (res) {
         primaryBuyerTemplatePromise.resolve(Handlebars.compile(res));
     });
 
     relatedPartiesTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("url") + '?view=_relatedPartiesTmpl' }
+        { url: $('#content').data("templateurl") + '?view=_relatedPartiesTmpl' }
     ).done(function (res) {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });
