@@ -14,7 +14,6 @@
     </div>
     @foreach (var tx in Model)
     {
-
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <div class="jarviswidget jarviswidget-sortable" role="widget">
@@ -25,7 +24,7 @@
 
                     <div role="content">
                         <div class="widget-body no-padding">
-                            <form id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
+                            <form class="check-bank-form" id="check-Form-@(i++)" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new {Area = "BankAccount", orgID = tx.OrganisationID})" class="smart-form" novalidate="novalidate">
                                 @Html.ValidationBootstrap()
                                 @Html.AntiForgeryToken()
                                 <header>
@@ -71,15 +70,9 @@
                             </form>
                             <div class="alert alert-success" style="display: none;" id="result-match-@i">
                                 <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match!</h4>
-                                @*<p>
-                                        The provided Bank Account details are valid and you can safely use it!
-                                    </p>*@
                             </div>
                             <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
                                 <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match!</h4>
-                                @*<p>
-                                        The provided Bank Account details are not valid and you should not use it!
-                                    </p>*@
                             </div>
                             <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
                                 <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
@@ -94,65 +87,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        var opts = {
-            ignore: '.skip',
-            // Rules for form validation
-            rules: {
-                accountNumber: {
-                    required: true,
-                    digits: true,
-                    minlength: 8
-                },
-                sortCode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6
-                }
-            },
-
-            submitHandler: validateSubmit
-        };
-
-        @for (int j = 0; j < i; j++)
-        {
-            <text>$("#check-Form-</text>@j<text>").validate(opts);</text>
-        }
-
-        function validateSubmit(form) {
-            $("#submitButton").prop('disabled', true);
-
-            var matchDiv = $('#result-match-' + $(form).data("index"));
-            var noMatchDiv = $('#result-no-match-' + $(form).data("index"));
-            var serverErrorDiv = $('#result-server-error-' + $(form).data("index"));
-            var spinner = $('#spinner-' + $(form).data("index"));
-
-            matchDiv.hide();
-            noMatchDiv.hide();
-            serverErrorDiv.hide();
-            spinner.show();
-
-            var formData = $(form).serializeArray();
-            ajaxWrapper({
-                url: $(form).data("url"),
-                type: "POST",
-                data: formData
-            }).done(function (res) {
-                $("#submitButton").prop('disabled', false);
-                spinner.hide();
-                if (res.result == true) {
-                    matchDiv.show();
-                }
-                else {
-                    noMatchDiv.show();
-                }
-            }).fail(function (e) {
-                $("#submitButton").prop('disabled', false);
-                console.log(e);
-                spinner.hide();
-                serverErrorDiv.show();
-            });
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Buyer/Index")"></script>
 }

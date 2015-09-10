@@ -205,8 +205,40 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
+    <Content Include="Areas\Account\Views\Forgot\Password.js" />
+    <Content Include="Areas\Account\Views\Forgot\Reset.js" />
+    <Content Include="Areas\Account\Views\Forgot\Username.js" />
+    <Content Include="Areas\Account\Views\Login\Index.js" />
+    <Content Include="Areas\Account\Views\Register\Index.js" />
+    <Content Include="Areas\Admin\Views\Company\Provisional.js" />
+    <Content Include="Areas\Admin\Views\Company\Qualified.js" />
+    <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
+    <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
+    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
+    <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
+    <Content Include="Areas\BankAccount\Views\Account\Index.js" />
+    <Content Include="Areas\BankAccount\Views\Check\Index.js" />
+    <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\Index.js" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.js" />
+    <Content Include="Areas\ProOrganisation\Views\Products\Index.js" />
+    <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_Reinstate.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.js" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
+    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -729,9 +761,9 @@
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
-    <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
@@ -1706,14 +1738,15 @@
     <Content Include="Scripts\plugin\x-editable\moment.min.js" />
     <Content Include="Scripts\plugin\x-editable\x-editable.min.js" />
     <Content Include="Scripts\pubsubjs\pubsub.js" />
-    <Content Include="Scripts\GeneratePin.js" />
-    <Content Include="Scripts\RejectCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_GeneratePin.js" />
+    <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\smart-chat-ui\smart.chat.manager.min.js" />
     <Content Include="Scripts\smart-chat-ui\smart.chat.ui.min.js" />
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\_ResendLogins.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1751,7 +1784,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Ribbon.cshtml" />
-    <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />

@@ -115,7 +115,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
-            await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var uao = await userClient.ResendLoginsAsync(uaoId);
 
             TempData["UserId"] = uao.UserID;

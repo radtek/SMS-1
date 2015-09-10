@@ -7,7 +7,7 @@
     <div class="well">
         <div class="row">
             <div class="col col-6">
-                <form id="check-Form">
+                <form id="check-Form" data-url="@Url.Action("PerformCheck","Check", new {Area="BankAccount"})">
                     @Html.ValidationBootstrap()
                     @Html.AntiForgeryToken()
                     <section>
@@ -34,53 +34,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        $("#check-Form").validate({
-            ignore: '.skip',
-            // Rules for form validation
-            rules: {
-                accountNumber: {
-                    required: true,
-                    digits: true,
-                    minlength: 8
-                },
-                sortCode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6
-                }
-            },
-
-            submitHandler: validateSubmit
-        });
-
-        function validateSubmit(form) {
-            $("#submitButton").prop('disabled', true);
-
-            $('#result').empty();
-            $('#result').append("Please wait...");
-
-            var formData = $("#check-Form").serializeArray();
-            ajaxWrapper({
-                url: '@Url.Action("PerformCheck","Check", new {Area="BankAccount"})',
-                type: "POST",
-                data: formData
-            }).done(function (res) {
-                $("#submitButton").prop('disabled', false);
-                $('#result').empty();
-                if (res.result == true)
-                    $('#result').append("Match");
-                else {
-                    $('#result').append("No Match");
-                }
-            }).fail(function (e) {
-                $("#submitButton").prop('disabled', false);
-                $('#result').empty();
-
-                console.log(e);
-                $('#result').append("Error");
-            });
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/BankAccount/Check/Index")"></script>
 }

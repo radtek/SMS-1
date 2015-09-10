@@ -35,10 +35,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    // submit from when Save button clicked
-    $("#submitrevokeLogins").click(function () {
-        $("#submitrevokeLogins").prop('disabled', true);
-        $("#revokeLogins-form").submit();
-    });
-</script>
+<script async src="@Scripts.Url("~/Scripts/ProOrganisation/Shared/_RevokeInvite")"></script>

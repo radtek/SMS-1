@@ -34,11 +34,4 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    // submit from when Save button clicked
-    $("#submitResendLogins").click(function () {
-        $("#submitResendLogins").prop('disabled', true);
-        $("#resendLogins-form").submit();
-    });
-</script>
+<script async src="@Scripts.Url("~/Scripts/Shared/_ResendLogins")"></script>

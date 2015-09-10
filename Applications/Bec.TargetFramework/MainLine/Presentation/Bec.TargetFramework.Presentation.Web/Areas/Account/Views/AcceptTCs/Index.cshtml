@@ -27,7 +27,7 @@
                         </fieldset>
                     </div>
                     <footer>
-                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left", id="download-btn" })
+                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left", id = "download-btn" })
                         <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" disabled />
                     </footer>
                 </form>
@@ -37,30 +37,5 @@
 </div>
 
 @section Scripts {
-<script type="text/javascript">
-    $('#tc').change(function () {
-        $('#formSubmit').prop('disabled', !$('#tc').prop('checked'));
-    });
-
-    $(window).on('resize', function (e) {
-        //smart admin is a bit odd. 'hidden-menu' means hidden when > 979 pixels, but shown when < 979 pixels...
-        if($(window).width()<979) {
-            if ($('body').hasClass('hidden-menu')) $('body').removeClass('hidden-menu');
-        }
-        else {
-            if (!$('body').hasClass('hidden-menu')) $('body').addClass('hidden-menu');
-        }
-    });
-
-    $('#formSubmit').click(function () {
-        $('#tc').prop('disabled', true);
-        $('#download-btn').prop('disabled', true);
-        $('#formSubmit').prop('disabled', true);
-        $('#login-form').submit();
-    });
-
-    $('#download-btn').click(function (e) {
-        if ($('#download-btn').prop('disabled')) e.preventDefault();
-    });
-</script>
+    <script async src="@Scripts.Url("~/Scripts/Account/AcceptTCs/Index")"></script>
 }

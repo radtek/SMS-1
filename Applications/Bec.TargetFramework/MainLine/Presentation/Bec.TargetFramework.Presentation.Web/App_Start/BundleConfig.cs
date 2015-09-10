@@ -76,6 +76,64 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
                 ));
 
+            bundles.Add(new ScriptBundle("~/Scripts/site").Include(
+                "~/Scripts/site.js",
+                "~/Scripts/jquery.unobtrusive-ajax.min.js",
+                "~/Scripts/kendo/kendo.core.min.js",
+                "~/Scripts/kendo/kendo.data.min.js",
+                "~/Scripts/kendo/kendo.data.odata.min.js",
+                "~/Scripts/kendo/kendo.columnsorter.min.js",
+                "~/Scripts/kendo/kendo.pager.min.js",
+                "~/Scripts/kendo/kendo.userevents.min.js",
+                "~/Scripts/kendo/kendo.selectable.min.js",
+                "~/Scripts/kendo/kendo.grid.min.js",
+                "~/Scripts/kendo/kendo.aspnetmvc.min.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Account/AcceptTCs/Index").Include("~/Areas/Account/Views/AcceptTCs/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Login/Index").Include("~/Areas/Account/Views/Login/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Password").Include("~/Areas/Account/Views/Forgot/Password.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Reset").Include("~/Areas/Account/Views/Forgot/Reset.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Username").Include("~/Areas/Account/Views/Forgot/Username.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/Register/Index").Include("~/Areas/Account/Views/Register/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Provisional").Include("~/Areas/Admin/Views/Company/Provisional.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Qualified").Include("~/Areas/Admin/Views/Company/Qualified.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/_AmendCredit").Include("~/Areas/Admin/Views/Finance/_AmendCredit.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/CreditHistory").Include("~/Areas/Admin/Views/Finance/CreditHistory.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/InternalNotifications/Index").Include("~/Areas/Admin/Views/InternalNotifications/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddTempCompany").Include("~/Areas/Admin/Views/Shared/_AddTempCompany.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditCompany").Include("~/Areas/Admin/Views/Shared/_EditCompany.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EmailLog").Include("~/Areas/Admin/Views/Shared/_EmailLog.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_GeneratePin").Include("~/Areas/Admin/Views/Shared/_GeneratePin.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Shared/_AddBankAccount").Include("~/Areas/BankAccount/Views/Shared/_AddBankAccount.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Credit/_TopUpCredit").Include("~/Areas/ProOrganisation/Views/Credit/_TopUpCredit.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Products/_AddSmsTransaction").Include("~/Areas/ProOrganisation/Views/Products/_AddSmsTransaction.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Products/Index").Include("~/Areas/ProOrganisation/Views/Products/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_AddUser").Include("~/Areas/ProOrganisation/Views/Shared/_AddUser.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_EditUser").Include("~/Areas/ProOrganisation/Views/Shared/_EditUser.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_Reinstate").Include("~/Areas/ProOrganisation/Views/Shared/_Reinstate.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Shared/_RevokeInvite").Include("~/Areas/ProOrganisation/Views/Shared/_RevokeInvite.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Invited").Include("~/Areas/ProOrganisation/Views/Users/Invited.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Registered").Include("~/Areas/ProOrganisation/Views/Users/Registered.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/Index").Include("~/Areas/SmsTransaction/Views/Buyer/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_ResendLogins").Include("~/Views/Shared/_ResendLogins.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));            
+
             BundleTable.EnableOptimizations = true;
         }
     }

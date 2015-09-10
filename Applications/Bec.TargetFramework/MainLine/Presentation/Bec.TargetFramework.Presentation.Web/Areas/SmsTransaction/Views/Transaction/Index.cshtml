@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="txGrid"></div>
+                        <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]"></div>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         <h3>Product Details</h3>
                         <h5>
                             Primary Buyer
-                            <a id="editButton" class="btn btn-sm btn-default" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil"></i></a>
+                            <a id="editButton" class="btn btn-sm btn-default" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil"></i></a>
                         </h5>
                         <div class="row">
                             <div class="col-sm-6">
@@ -65,7 +65,7 @@
                                         <p id="ddEmail"></p>
                                     </dd>
                                 </dl>
-                                <a id="resendButton" class="btn btn-primary" data-modallink="true">Resend Login Details</a>
+                                <a id="resendButton" class="btn btn-primary" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Transaction", new { area = "SmsTransaction" })">Resend Login Details</a>
                             </div>
                         </div>
                     </div>
@@ -76,89 +76,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var txGrid = new gridItem(
-            {
-                gridElementId: 'txGrid',
-                url: '@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "CreatedOn", dir: "desc" },
-                panels: ['rPanel'],
-                jumpToId: '@TempData["SmsTransactionID"]',
-                change: txChange,
-                searchElementId: 'gridSearchInput',
-                searchButtonId: 'gridSearchButton',
-                columns: [
-                        {
-                            field: "SmsTransactionID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Reference",
-                            title: "Reference"
-                        },
-                        {
-                            field: "Address.Line1",
-                            title: "Address Line 1"
-                        },
-                        {
-                            field: "Address.PostalCode",
-                            title: "Postcode"
-                        },
-                        {
-                            field: "CreatedOn",
-                            title: "Created",
-                            template: function (dataItem) { return dateString(dataItem.CreatedOn); }
-                        }
-                ]
-            });
-
-        $(document).ready(function () {
-            txGrid.makeGrid();
-
-            findModalLinks();
-        });
-
-        //data binding for the panes beneath each grid
-        function txChange(dataItem) {
-            $("p#ddAddressLine1").text(dataItem.Address.Line1 || "");
-            $("p#ddAddressLine2").text(dataItem.Address.Line2 || "");
-            $("p#ddTown").text(dataItem.Address.Town || "");
-            $("p#ddCounty").text(dataItem.Address.County || "");
-            $("p#ddPostCode").text(dataItem.Address.PostalCode || "");
-            $("p#ddAdditionalAddressInformation").text(dataItem.Address.AdditionalAddressInformation || "");
-
-            $("p#ddName").text(
-                (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
-                (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
-                (dataItem.UserAccountOrganisation.Contact.LastName || ""));
-            $("p#ddEmail").text(dataItem.UserAccountOrganisation.UserAccount.Email || "");
-
-            $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID);
-            $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new { area = "SmsTransaction" })' + "?txId=" + dataItem.SmsTransactionID + "&label=" +
-                encodeURIComponent(
-                    (dataItem.UserAccountOrganisation.Contact.Salutation || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.FirstName || "") + " " +
-                    (dataItem.UserAccountOrganisation.Contact.LastName || "")));
-
-            $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-
-            toggleFields(dataItem);
-        }
-
-        function toggleFields(dataItem) {
-            $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.Address.Line1);
-            $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.Address.Line2);
-            $("#dtTown, p#ddTown").toggle(!!dataItem.Address.Town);
-            $("#dtCounty, p#ddCounty").toggle(!!dataItem.Address.County);
-            $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.Address.PostalCode);
-            $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.Address.AdditionalAddressInformation);
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/Index")"></script>
 }

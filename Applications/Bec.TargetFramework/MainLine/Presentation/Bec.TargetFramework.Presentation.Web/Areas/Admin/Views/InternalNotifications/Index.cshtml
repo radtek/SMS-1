@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="notificationsGrid"></div>
+                        <div id="notificationsGrid" data-url="@Url.Action("LoadNotifications", "InternalNotifications", new { area = "Admin" })"></div>
                     </div>
                 </div>
             </div>
@@ -16,11 +16,11 @@
                     <!-- well -->
                     <div class="well">
                         <h5>Notification Details<i class="fa fa-refresh fa-spin margin-left-5"></i></h5>
-                        <div id="notificationContentWrapper">
-                            <a id="notificationDetailsButton" class="btn btn-primary btn-sm">
+                        <div id="notificationContentWrapper" data-url="@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })">
+                            <a id="notificationDetailsButton" class="btn btn-primary btn-sm" data-url="@Url.Action("Details", "InternalNotifications", new { area = "Admin" })">
                                 <i class="fa fa-arrows-alt margin-right-5"></i>Full Screen
                             </a>
-                            <a id="notificationPdfButton" class="btn btn-primary btn-sm">
+                            <a id="notificationPdfButton" class="btn btn-primary btn-sm" data-url="@Url.Action("ExportToPdf", "InternalNotifications", new { area = "Admin" })">
                                 <i class="fa fa-file-pdf-o margin-right-5"></i>PDF
                             </a>
                             <div id="notificationContent"></div>
@@ -33,63 +33,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-    //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var notificationsGrid = new gridItem(
-    {
-        gridElementId: 'notificationsGrid',
-        url: '@Url.Action("LoadNotifications", "InternalNotifications", new { area = "Admin" })',
-        schema: { data: "data", total: "total", model: { id: "NotificationID" } },
-        defaultSort: { field: "DateSent", dir: "desc" },
-        change: notificationsChange,
-        panels: ['notificationsPanel'],
-        columns: [
-                {
-                    field: "NotificationID",
-                    hidden: true,
-                },
-                {
-                    field: "NotificationSubject",
-                    title: "Notification Subject"
-                },
-                {
-                    field: "DateSent",
-                    title: "Date Sent",
-                    template: function (dataItem) {
-                        return moment(dataItem.DateSent).format('DD/MM/YYYY HH:mm');
-                    }
-                }
-        ]
-    });
-
-    $(document).ready(function () {
-        notificationsGrid.makeGrid();
-    });
-
-    //data binding for the panes beneath each grid
-    function notificationsChange(dataItem) {
-        var notificationDetailsBtn = $("#notificationDetailsButton");
-        var notificationPdfBtn = $("#notificationPdfButton");
-        var notificationContentElement = $("#notificationContent");
-        var notificationContentWrapper = $('#notificationContentWrapper');
-        var spinner = $('#notificationsPanel .fa-spin');
-
-        spinner.show();
-        notificationContentWrapper.hide();
-
-        ajaxWrapper({
-            url: '@Url.Action("GetNotification", "InternalNotifications", new { area = "Admin" })',
-            method: 'GET',
-            data: { notificationId: dataItem.NotificationID }
-        }).done(function (result) {
-            notificationContentElement.html(result.data);
-            notificationDetailsBtn.attr('href', '@Url.Action("Details", "InternalNotifications", new { area = "Admin" })' + "?notificationId=" + dataItem.NotificationID);
-            notificationPdfBtn.attr('href', '@Url.Action("ExportToPdf", "InternalNotifications", new { area = "Admin" })' + "?notificationId=" + dataItem.NotificationID);
-            
-            notificationContentWrapper.show();
-            spinner.hide();
-        });
-    }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/Admin/InternalNotifications/Index")"></script>
 }

@@ -37,6 +37,12 @@
     <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    <!-- get these synchronously, then load page-specific scripts asynchronously -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    @Scripts.Render("~/scripts/smartadmin")
+    @Scripts.Render("~/Scripts/site")
+
+    @RenderSection("Scripts", false)
 </head>
 <body class="@ViewBag.PageClass @Settings.CurrentTheme @Html.RouteIf("hidden-menu","AcceptTCs", "Index")">
     @{ Html.RenderPartial("_Header", RenderSection("topright", false)); }
@@ -45,7 +51,6 @@
         @RenderBody()
     </div>
 
-    @{ Html.RenderPartial("_Scripts", RenderSection("Scripts", false)); }
 </body>
 
 </html>
