@@ -148,6 +148,36 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CreatedBy in the schema.
+        /// </summary>
+        public virtual string CreatedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ModifiedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedBy in the schema.
+        /// </summary>
+        public virtual string ModifiedBy
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

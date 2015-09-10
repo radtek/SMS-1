@@ -155,7 +155,8 @@ namespace Bec.TargetFramework.Business.Logic
                 FirstName = dto.OrganisationAdminFirstName,
                 LastName = dto.OrganisationAdminLastName,
                 EmailAddress1 = dto.OrganisationAdminEmail,
-                Salutation = dto.OrganisationAdminSalutation
+                Salutation = dto.OrganisationAdminSalutation,
+                CreatedBy = UserNameService.UserName
             };
 
             var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
@@ -206,7 +207,8 @@ namespace Bec.TargetFramework.Business.Logic
                         LastName = userContactDto.LastName,
                         EmailAddress1 = userContactDto.EmailAddress1,
                         Salutation = userContactDto.Salutation,
-                        BirthDate = userContactDto.BirthDate
+                        BirthDate = userContactDto.BirthDate,
+                        CreatedBy = UserNameService.UserName
                     };
                     scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
                     uao.PrimaryContactID = contact.ContactID;
@@ -339,7 +341,8 @@ namespace Bec.TargetFramework.Business.Logic
                     ContactID = Guid.NewGuid(),
                     ParentID = organisationID.Value,
                     ContactName = "",
-                    IsPrimaryContact = true
+                    IsPrimaryContact = true,
+                    CreatedBy = UserNameService.UserName
                 };
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
@@ -368,7 +371,8 @@ namespace Bec.TargetFramework.Business.Logic
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = String.Empty,
                     IsPrimaryAddress = true,
-                    AdditionalAddressInformation = dto.AdditionalAddressInformation
+                    AdditionalAddressInformation = dto.AdditionalAddressInformation,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
 
@@ -496,7 +500,8 @@ namespace Bec.TargetFramework.Business.Logic
                 FirstName = firstName,
                 LastName = lastName,
                 EmailAddress1 = email,
-                BirthDate = birthDate
+                BirthDate = birthDate,
+                CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, true, true);
@@ -551,7 +556,8 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     LenderName = dto.LenderName,
                     MortgageApplicationNumber = dto.MortgageApplicationNumber,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
 
@@ -587,6 +593,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var address = new Address
                 {
                     AddressID = Guid.NewGuid(),
+                    AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
                     Name = string.Empty,
                     Line1 = assignSmsClientToTransactionDTO.Line1,
                     Line2 = assignSmsClientToTransactionDTO.Line2,
@@ -595,7 +602,8 @@ namespace Bec.TargetFramework.Business.Logic
                     County = assignSmsClientToTransactionDTO.County,
                     PostalCode = assignSmsClientToTransactionDTO.PostalCode,
                     ParentID = uaoDto.Contact.ContactID,
-                    IsPrimaryAddress = true
+                    IsPrimaryAddress = true,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
 
@@ -606,7 +614,8 @@ namespace Bec.TargetFramework.Business.Logic
                     UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
                     AddressID = address.AddressID,
-                    ContactID = uaoDto.Contact.ContactID
+                    ContactID = uaoDto.Contact.ContactID,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 

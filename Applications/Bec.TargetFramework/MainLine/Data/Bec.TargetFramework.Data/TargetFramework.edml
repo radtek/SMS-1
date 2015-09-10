@@ -6172,6 +6172,10 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="FirmName" Type="varchar" MaxLength="500" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate">
           <Key>
@@ -6767,6 +6771,10 @@
           <Property Name="AdditionalAddressInformation" Type="varchar" MaxLength="1000" />
           <Property Name="Town" Type="varchar" MaxLength="200" />
           <Property Name="Order" Type="int" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="OrganisationTeamSettingTemplate">
           <Key>
@@ -9721,6 +9729,9 @@
           <Property Name="RowVersion" Type="bigint" Nullable="false" devart:DefaultValue="nextval('sms.&quot;SmsTransaction_RowVersion_seq&quot;'::regclass)" />
           <Property Name="MortgageApplicationNumber" Type="varchar" MaxLength="50" />
           <Property Name="LenderName" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -9823,6 +9834,12 @@
           <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
           <Property Name="AddressID" Type="uuid" Nullable="false" />
           <Property Name="ContactID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -24760,6 +24777,10 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="c368d0ed-7cc1-4ba9-938b-bff927ee5555" />
           <Property Name="FirmName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="2c09c718-6071-4028-a8e0-561a2a84fbe9" />
           <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="d0632baa-1c3b-43a5-8155-63bf33cbf22f" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="ada67f6d-d01c-4cf7-889f-b22ca1a36f44" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="b32d3fa5-9561-4518-a993-a9978cf6fcc5" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b92b09a5-7ac9-48b9-b7bb-9b2106b234d3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="10fe0dbb-6599-454c-8faf-c4564e5ad80a" />
           <NavigationProperty Name="ContactNames" Relationship="Bec.TargetFramework.Data.fk_ContactName_Contact" FromRole="Contact" ToRole="ContactNames" ed:Guid="f7d6222e-8524-447e-b668-e37bf93b6a1d" />
           <NavigationProperty Name="ContactPhones" Relationship="Bec.TargetFramework.Data.fk_ContactPhone_Contact" FromRole="Contact" ToRole="ContactPhones" ed:Guid="4787eefd-7a16-4ed2-afdc-789f333b44ba" />
           <NavigationProperty Name="ContactRegulators" Relationship="Bec.TargetFramework.Data.fk_ContactOrganisationRegulator_Contact" FromRole="Contact" ToRole="ContactRegulators" ed:Guid="8d2ae885-c79f-4f42-b6ac-656cea67515e" />
@@ -25503,6 +25524,10 @@
           <Property Name="AdditionalAddressInformation" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="1100874b-6b4d-4e30-8eb2-ebeb5df28932" />
           <Property Name="Town" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="7ccf0ba7-8865-4697-8587-b583088e7f42" />
           <Property Name="Order" Type="Int32" ed:ValidateRequired="False" ed:Guid="8014122f-accc-4225-b9e3-cf2e41436824" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="ad0ce223-bb6d-4420-8eda-22b38ae4b99c" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="2f94fa5d-f9f6-4a0c-a4bc-edd324396de9" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="08d215b5-2062-4c60-8437-5789c34bd256" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4228c1c0-251f-452f-8283-92ce1d65b2ec" />
           <NavigationProperty Name="AddressChronologies" Relationship="Bec.TargetFramework.Data.fk_AddressChronology_Address" FromRole="Address" ToRole="AddressChronologies" ed:Guid="c66a9900-de9e-4f6c-bacd-1aa0b5ed9243" />
           <NavigationProperty Name="CountryCode1" Relationship="Bec.TargetFramework.Data.fk_Address_CountryCode" FromRole="Addresses" ToRole="CountryCode1" ed:Guid="3876534d-2df9-419a-adac-3d6f2c079b5e" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="Address" ToRole="SmsTransactions" ed:Guid="884e46aa-bfec-4973-bca1-bbd543420cf4" />
@@ -28670,6 +28695,9 @@
           <Property Name="RowVersion" Type="Int64" Nullable="false" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <Property Name="MortgageApplicationNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="bcebbdb6-a408-434c-a56d-3876cafdeaec" />
           <Property Name="LenderName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="19986eb1-64dd-4821-aa87-932c304cfc39" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
@@ -28782,6 +28810,12 @@
           <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="c5c0f8ad-c34e-413a-adcc-13496bc5903a" />
           <Property Name="AddressID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2b3b7ed-3e99-49c2-a626-d7bd3015839c" />
           <Property Name="ContactID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1c6cd85d-d62c-43d3-9fe9-849fe7f2560b" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="a6d28164-525b-47ea-b5c7-8834263e54c0" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2f3c61da-3331-4d78-b8ba-6207b2f659d0" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="024d805f-172c-4169-a78f-83d2ea32eb88" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="d8134039-a199-409c-bdd6-c74854476ab6" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b918e258-f61e-4ac1-8935-ea4f2ee7dd5e" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
           <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
@@ -39812,6 +39846,10 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="FirmName" ColumnName="FirmName" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -40437,6 +40475,10 @@
                 <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
                 <ScalarProperty Name="AdditionalAddressInformation" ColumnName="AdditionalAddressInformation" />
                 <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43124,6 +43166,9 @@
                 <ScalarProperty Name="TenureTypeID" ColumnName="TenureTypeID" />
                 <ScalarProperty Name="MortgageApplicationNumber" ColumnName="MortgageApplicationNumber" />
                 <ScalarProperty Name="LenderName" ColumnName="LenderName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43220,6 +43265,12 @@
                 <ScalarProperty Name="SmsUserAccountOrganisationTransactionTypeID" ColumnName="SmsUserAccountOrganisationTransactionTypeID" />
                 <ScalarProperty Name="AddressID" ColumnName="AddressID" />
                 <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

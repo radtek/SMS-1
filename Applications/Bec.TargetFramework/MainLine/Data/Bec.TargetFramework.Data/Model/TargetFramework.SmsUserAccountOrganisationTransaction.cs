@@ -23,6 +23,8 @@ namespace Bec.TargetFramework.Data
 
         public SmsUserAccountOrganisationTransaction()
         {
+          this.IsActive = true;
+          this.IsDeleted = false;
         }
 
         #region Properties
@@ -81,6 +83,66 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ContactID in the schema.
         /// </summary>
         public virtual global::System.Guid ContactID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsActive in the schema.
+        /// </summary>
+        public virtual bool IsActive
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsDeleted in the schema.
+        /// </summary>
+        public virtual bool IsDeleted
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedOn in the schema.
+        /// </summary>
+        public virtual global::System.DateTime CreatedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedBy in the schema.
+        /// </summary>
+        public virtual string CreatedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ModifiedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedBy in the schema.
+        /// </summary>
+        public virtual string ModifiedBy
         {
             get;
             set;

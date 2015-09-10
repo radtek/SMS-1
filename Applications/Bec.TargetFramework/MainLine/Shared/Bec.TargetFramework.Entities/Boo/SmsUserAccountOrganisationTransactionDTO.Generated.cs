@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Guid addressID, global::System.Guid contactID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Guid addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
           this.UserAccountOrganisationID = userAccountOrganisationID;
@@ -30,6 +30,12 @@ namespace Bec.TargetFramework.Entities
           this.SmsUserAccountOrganisationTransactionTypeID = smsUserAccountOrganisationTransactionTypeID;
           this.AddressID = addressID;
           this.ContactID = contactID;
+          this.IsActive = isActive;
+          this.IsDeleted = isDeleted;
+          this.CreatedOn = createdOn;
+          this.CreatedBy = createdBy;
+          this.ModifiedOn = modifiedOn;
+          this.ModifiedBy = modifiedBy;
           this.SmsTransaction = smsTransaction;
           this.SmsUserAccountOrganisationTransactionType = smsUserAccountOrganisationTransactionType;
           this.Address = address;
@@ -58,6 +64,24 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid ContactID { get; set; }
+
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public bool IsDeleted { get; set; }
+
+        [DataMember]
+        public global::System.DateTime CreatedOn { get; set; }
+
+        [DataMember]
+        public string CreatedBy { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
 
         #endregion
 

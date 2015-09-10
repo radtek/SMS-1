@@ -41,6 +41,9 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.MortgageApplicationNumber = source.MortgageApplicationNumber;
             target.LenderName = source.LenderName;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // Navigation Properties
             if (level > 0) {
@@ -75,6 +78,9 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.MortgageApplicationNumber = source.MortgageApplicationNumber;
             target.LenderName = source.LenderName;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -79,6 +79,10 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.FirmName = source.FirmName;
             target.RowVersion = source.RowVersion;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // Navigation Properties
             if (level > 0) {
@@ -156,6 +160,10 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.FirmName = source.FirmName;
             target.RowVersion = source.RowVersion;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // User-defined partial method
             OnEntityCreating(source, target);

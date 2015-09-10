@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -36,6 +36,9 @@ namespace Bec.TargetFramework.Entities
           this.RowVersion = rowVersion;
           this.MortgageApplicationNumber = mortgageApplicationNumber;
           this.LenderName = lenderName;
+          this.CreatedBy = createdBy;
+          this.ModifiedOn = modifiedOn;
+          this.ModifiedBy = modifiedBy;
           this.Address = address;
           this.Organisation = organisation;
           this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
@@ -80,6 +83,15 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string LenderName { get; set; }
+
+        [DataMember]
+        public string CreatedBy { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
 
         #endregion
 
