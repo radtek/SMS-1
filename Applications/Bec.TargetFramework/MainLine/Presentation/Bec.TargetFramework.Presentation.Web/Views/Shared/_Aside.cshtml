@@ -13,12 +13,11 @@
             (the reference to the nav > ul) after page load. Or the navigation
             will not initialize.
             -->
-        <nav>
+        <nav class="margin-top-5">
             <!-- NOTE: Notice the gaps after each icon usage <i></i>..
                 Please note that these links work a bit different than
                 traditional href="" links. See documentation for details.
                 -->
-
             <ul>
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
@@ -59,9 +58,9 @@
                                 <a href="@Url.Action("OutstandingBankAccounts", "Finance", new { area = "Admin" })">View Bank Accounts</a>
                             </li>
                             @*
-                            <li class="@Html.RouteIf("active", "Finance", "CreditHistory")">
-                                <a href="@Url.Action("CreditHistory", "Finance", new { area = "Admin" })">View Credit History</a>
-                            </li>
+                                <li class="@Html.RouteIf("active", "Finance", "CreditHistory")">
+                                    <a href="@Url.Action("CreditHistory", "Finance", new { area = "Admin" })">View Credit History</a>
+                                </li>
                             *@
                         </ul>
                     </li>
