@@ -29,6 +29,16 @@ namespace Bec.TargetFramework.Business.Logic
         public ProductLogicController ProductLogic { get; set; }
         public PaymentLogicController PaymentLogic { get; set; }
 
+        public async Task<bool> HasOrganisationAnySafeBankAccount(Guid organisationID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var safeBankAccountStatus = BankAccountStatusEnum.Safe.GetStringValue();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus
+                    .Any(s => s.OrganisationID == organisationID && s.Status == safeBankAccountStatus && s.IsActive);
+            }
+        }
+
         public async Task ExpireTemporaryLoginsAsync(int days, int hours, int minutes)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -44,21 +54,21 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ExpireUserAccountOrganisationAsync(Guid uaoID)
-                    {
+        {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
 
-                        uao.UserAccount.IsLoginAllowed = false;
-                        uao.PinCode = null;
+                uao.UserAccount.IsLoginAllowed = false;
+                uao.PinCode = null;
 
-                        if (uao.Organisation != null)
-                        {
-                            var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                if (uao.Organisation != null)
+                {
+                    var status = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
                     if (status != null && status.StatusTypeValueID == verifiedStatus.StatusTypeValueID)
-                                await ExpireOrganisationAsync(uao.OrganisationID);
-                        }
+                        await ExpireOrganisationAsync(uao.OrganisationID);
+                }
                 await scope.SaveChangesAsync();
             }
         }
@@ -144,7 +154,8 @@ namespace Bec.TargetFramework.Business.Logic
                 FirstName = dto.OrganisationAdminFirstName,
                 LastName = dto.OrganisationAdminLastName,
                 EmailAddress1 = dto.OrganisationAdminEmail,
-                Salutation = dto.OrganisationAdminSalutation
+                Salutation = dto.OrganisationAdminSalutation,
+                CreatedBy = UserNameService.UserName
             };
 
             var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
@@ -194,7 +205,9 @@ namespace Bec.TargetFramework.Business.Logic
                         FirstName = userContactDto.FirstName,
                         LastName = userContactDto.LastName,
                         EmailAddress1 = userContactDto.EmailAddress1,
-                        Salutation = userContactDto.Salutation
+                        Salutation = userContactDto.Salutation,
+                        BirthDate = userContactDto.BirthDate,
+                        CreatedBy = UserNameService.UserName
                     };
                     scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
                     uao.PrimaryContactID = contact.ContactID;
@@ -239,15 +252,15 @@ namespace Bec.TargetFramework.Business.Logic
             await NotificationLogic.SaveNotificationAsync(notificationDto);
         }
 
-        private async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
+        internal async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
         {
             string eventName = "TestEvent";
             switch (userType)
-        {
+            {
                 case UserTypeEnum.User:
                     eventName = "NewUser";
                     break;
-            }            
+            }
 
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
@@ -327,7 +340,8 @@ namespace Bec.TargetFramework.Business.Logic
                     ContactID = Guid.NewGuid(),
                     ParentID = organisationID.Value,
                     ContactName = "",
-                    IsPrimaryContact = true
+                    IsPrimaryContact = true,
+                    CreatedBy = UserNameService.UserName
                 };
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
@@ -356,7 +370,8 @@ namespace Bec.TargetFramework.Business.Logic
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = String.Empty,
                     IsPrimaryAddress = true,
-                    AdditionalAddressInformation = dto.AdditionalAddressInformation
+                    AdditionalAddressInformation = dto.AdditionalAddressInformation,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
 
@@ -426,7 +441,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existingUser != null)
                 {
                     var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
@@ -437,10 +452,12 @@ namespace Bec.TargetFramework.Business.Logic
                             x.PostalCode == dto.Address.PostalCode);
                     if (address != null)
                     {
-                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x =>
-                            x.OrganisationID == orgID &&
+                        var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+                        var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.FirstOrDefault(x =>
+                            x.SmsTransaction.OrganisationID == orgID &&
+                            x.SmsTransaction.AddressID == address.AddressID &&
                             x.UserAccountOrganisationID == existingUser.UserAccountOrganisationID &&
-                            x.AddressID == address.AddressID).FirstOrDefault();
+                            x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
                         if (tx != null) return true;
                     }
                 }
@@ -448,14 +465,13 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email)
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, DateTime birthDate)
         {
-            
             //add becky personal org & user
             DefaultOrganisationDTO defaultOrganisation;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existing != null)
                 {
                     if (existing.Organisation.OrganisationType.Name != "Personal") throw new Exception("The specified email belongs to a system user; this is not currently supported.");
@@ -482,7 +498,9 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = salutation,
                 FirstName = firstName,
                 LastName = lastName,
-                EmailAddress1 = email
+                EmailAddress1 = email,
+                BirthDate = birthDate,
+                CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, true, true);
@@ -533,12 +551,12 @@ namespace Bec.TargetFramework.Business.Logic
                     SmsTransactionID = txID,
                     Address = address,
                     OrganisationID = orgID,
-                    UserAccountOrganisationID = buyerUaoID,
                     Reference = dto.Reference,
                     Price = dto.Price,
                     LenderName = dto.LenderName,
                     MortgageApplicationNumber = dto.MortgageApplicationNumber,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
 
@@ -549,12 +567,56 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UpdateSmsTransactionUaoAsync(Guid oldID, Guid newID)
+        public async Task UpdateSmsTransactionUaoAsync(Guid oldUaoID, Guid newUaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Where(x => x.UserAccountOrganisationID == oldID))
-                    smsTx.UserAccountOrganisationID = newID;
+                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Where(x => x.UserAccountOrganisationID == oldUaoID))
+                    smsTx.UserAccountOrganisationID = newUaoID;
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+        {
+            UserAccountOrganisationDTO uaoDto;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoID);
+                Ensure.That(uao).IsNotNull();
+                uaoDto = uao.ToDtoWithRelated(1);
+            }
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var address = new Address
+                {
+                    AddressID = Guid.NewGuid(),
+                    AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
+                    Name = string.Empty,
+                    Line1 = assignSmsClientToTransactionDTO.Line1,
+                    Line2 = assignSmsClientToTransactionDTO.Line2,
+                    AdditionalAddressInformation = assignSmsClientToTransactionDTO.AdditionalAddressInformation,
+                    Town = assignSmsClientToTransactionDTO.Town,
+                    County = assignSmsClientToTransactionDTO.County,
+                    PostalCode = assignSmsClientToTransactionDTO.PostalCode,
+                    ParentID = uaoDto.Contact.ContactID,
+                    IsPrimaryAddress = true,
+                    CreatedBy = UserNameService.UserName
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
+
+                var uaot = new SmsUserAccountOrganisationTransaction
+                {
+                    SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
+                    SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
+                    UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
+                    SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    AddressID = address.AddressID,
+                    ContactID = uaoDto.Contact.ContactID,
+                    CreatedBy = UserNameService.UserName
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 
                 await scope.SaveChangesAsync();
             }
@@ -580,7 +642,7 @@ namespace Bec.TargetFramework.Business.Logic
                 PopulateBankAccountHistory(ret);
                 foreach (var account in ret)
                 {
-                    account.Duplicates = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x => 
+                    account.Duplicates = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x =>
                         x.OrganisationID != account.OrganisationID &&
                         x.BankAccountNumber == account.BankAccountNumber &&
                         x.SortCode == account.SortCode)
@@ -608,7 +670,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var bankAccountStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
-                
+
                 var bankAccount = accountDTO.ToEntity();
                 bankAccount.OrganisationBankAccountID = Guid.NewGuid();
                 bankAccount.OrganisationID = orgID;
@@ -686,17 +748,17 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         private static bool CheckStatusChange(OrganisationBankAccountStateChangeDTO change, BankAccountStatusEnum currentStatus)
-        { 
+        {
             switch (currentStatus)
             {
                 case BankAccountStatusEnum.Safe:
                     if (change.BankAccountStatus == BankAccountStatusEnum.FraudSuspicion ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;   
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
                     break;
                 case BankAccountStatusEnum.FraudSuspicion:
                 case BankAccountStatusEnum.PendingValidation:
                     if (change.BankAccountStatus == BankAccountStatusEnum.Safe ||
-                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;                        
+                        change.BankAccountStatus == BankAccountStatusEnum.PotentialFraud) return true;
                     break;
             }
             return false;
@@ -721,14 +783,27 @@ namespace Bec.TargetFramework.Business.Logic
 
         private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
             where TNotification : BankAccountStateChangeNotificationDTO, new()
+        {
+            var financeAdministratorRoleName = OrganisationRoleName.FinanceAdministrator.GetStringValue();
+            var roles = await UserLogic.GetRoles(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID, 1);
+            var isFinanceAdmin = roles.Any(r => r.OrganisationRole.RoleName == financeAdministratorRoleName);
+            string markedBy;
+            if (isFinanceAdmin)
             {
-            var markedBy = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
+                markedBy = Constants.FinanceTeamName;
+            }
+            else
+            {
+                var markedByUser = UserLogic.GetUserAccountOrganisationPrimaryContact(bankAccountStatusChangeRequest.ChangedByUserAccountOrganisationID);
+                markedBy = markedByUser.FullName;
+            }
+
             var notificationDto = new TNotification
             {
                 OrganisationId = bankAccount.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,
-                MarkedBy = markedBy.FullName,
+                MarkedBy = markedBy,
                 Reason = bankAccountStatusChangeRequest.Notes,
                 DetailsUrl = bankAccountStatusChangeRequest.DetailsUrl,
             };
@@ -746,8 +821,8 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
         public async Task ToggleBankAccountActive(Guid orgID, Guid baID, bool active, string notes)
-                {
-                    using (var scope = DbContextScopeFactory.Create())
+        {
+            using (var scope = DbContextScopeFactory.Create())
             {
                 var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts
                     .Single(x => x.OrganisationBankAccountID == baID);
@@ -773,7 +848,7 @@ namespace Bec.TargetFramework.Business.Logic
                 await AddStatus(bankAccountAddStatus);
                 await scope.SaveChangesAsync();
             }
-                }
+        }
 
         private async Task AddStatus(OrganisationBankAccountAddStatusDTO bankAccountAddStatus)
         {
@@ -817,7 +892,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                var account = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => 
+                var account = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x =>
                     x.OrganisationID == orgID &&
                     x.LedgerAccountTypeID == creditType);
                 if (rowVersion.HasValue && account.RowVersion != rowVersion) throw new Exception("The credit account has been updated by another user. Please go back and try again");

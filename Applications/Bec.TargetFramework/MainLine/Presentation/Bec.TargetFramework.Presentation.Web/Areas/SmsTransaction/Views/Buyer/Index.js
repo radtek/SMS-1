@@ -1,5 +1,5 @@
 ﻿$(function(){
-    $('.check-bank-form').each(function(i, item){
+    $('.check-bank-form').each(function (i, item) {
         $(item).validate({
             ignore: '.skip',
             // Rules for form validation

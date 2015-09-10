@@ -27,6 +27,21 @@ $('#lenderSearch').typeahead({
 });
 
 new findAddress({
+    postcodelookup: '#primaryBuyerPostcodeLookup',
+    line1: '#primaryBuyerLine1',
+    line2: '#primaryBuyerLine2',
+    town: '#primaryBuyerTown',
+    county: '#primaryBuyerCounty',
+    postcode: '#primaryBuyerPostalCode',
+    manualAddress: '#primaryBuyerManualAddress',
+    resList: '#primaryBuyerAddressResults',
+    manAddRow: '#primaryBuyerManAddRow',
+    noMatch: '#primaryBuyerNoMatch',
+    findAddressButton: '#primaryBuyerFindAddressButton',
+    additionalAddress: '#primaryBuyerAdditionalAddressInformation'
+}).setup();
+
+new findAddress({
     postcodelookup: '#sms_postcodelookup',
     line1: '#sms_Line1',
     line2: '#sms_Line2',
@@ -38,18 +53,16 @@ new findAddress({
     manAddRow: '#sms_manAddRow',
     noMatch: '#sms_noMatch',
     findAddressButton: '#sms_findaddressbutton',
-    additionalAddress: '#AdditionalAddressInformation'
+    additionalAddress: '#sms_AdditionalAddressInformation'
 }).setup();
-
-// submit from when Save button clicked
-$("#submitAddTransaction").click(function () {
-    $("#addTransaction-form").submit();
-});
 
 $("#addTransaction-form").validate({
     ignore: '.skip',
     // Rules for form validation
     rules: {
+        "Salutation": {
+            required: true
+        },
         "FirstName": {
             required: true
         },
@@ -60,30 +73,44 @@ $("#addTransaction-form").validate({
             required: true,
             email: true,
             remote: {
-                url: $('#Email').data("url"),
+                url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
                 data: { email: function () { return $('#Email').val(); } },
                 dataType: 'json',
                 error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
             }
         },
-        "Address.Line1": {
+        "BirthDate": {
+            required: true,
+            dateGB: true
+        },
+        "Line1": {
             required: true
         },
-        "Address.Town": {
+        "Town": {
             required: true
         },
-        "Address.PostalCode": {
+        "PostalCode": {
             required: true,
             minlength: 5
         },
-        Reference: {
+        "SmsTransactionDTO.Address.Line1": {
             required: true
         },
-        Price: {
+        "SmsTransactionDTO.Address.Town": {
+            required: true
+        },
+        "SmsTransactionDTO.Address.PostalCode": {
+            required: true,
+            minlength: 5
+        },
+        "SmsTransactionDTO.Reference": {
+            required: true
+        },
+        "SmsTransactionDTO.Price": {
             required: true,
             digits: true,
             max: 2147483647
-        }
+        },
     },
 
     // Do not change code below
@@ -94,8 +121,47 @@ $("#addTransaction-form").validate({
     submitHandler: validateSubmit
 });
 
+var wizard = $('#addTransactionWizard').bootstrapWizard({
+    tabClass: 'form-wizard',
+    onTabShow: function (tab, navigation, index) {
+        var $total = navigation.find('li').length;
+        var $current = index + 1;
+        if ($current >= $total) {
+            $('#stepBack').show();
+            $('#stepNext').hide();
+            $('#submitAddTransaction').show();
+            $('#submitAddTransaction').removeClass('disabled');
+        } else {
+            $('#stepBack').hide();
+            $('#stepNext').show();
+            $('#submitAddTransaction').hide();
+        }
+    }
+});
+
+$("#submitAddTransaction").click(function () {
+    var form = $("#addTransaction-form");
+    var isValid = form.valid();
+    if (!isValid) {
+        var invalidInputs = $(form.find('.tab-pane .invalid')[0]);
+        var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
+        wizard.bootstrapWizard('show', tabId);
+
+        return false;
+    }
+    form.submit();
+});
+
+$("#stepNext").click(function () {
+    wizard.bootstrapWizard('next');
+});
+
+$("#stepBack").click(function () {
+    wizard.bootstrapWizard('previous');
+});
+
 function validateSubmit(form) {
-    $("#submitAddTransaction").prop('disabled', true);
+    $("#addTransactionControls button").prop('disabled', true);
     var formData = $("#addTransaction-form").serializeArray();
     //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
     handleModal(
@@ -106,7 +172,7 @@ function validateSubmit(form) {
     },
     {
         cancel: function () {
-            $("#submitAddTransaction").prop('disabled', false);
+            $("#addTransactionControls button").prop('disabled', false);
         },
         save: function () {
             doPost(formData);
@@ -129,7 +195,7 @@ function doPost(formData) {
             updateBalance();
             handleModal({ url: $('#d1').data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                 messageButton: function () {
-                    $("#submitAddTransaction").prop('disabled', false);
+                    $("#addTransactionControls button").prop('disabled', false);
                 }
             }, true);
         }
@@ -138,7 +204,7 @@ function doPost(formData) {
         updateBalance();
         handleModal({ url: $('#d1').data("redirectto") + "?title=Error&message=" + e + "&button=Back" }, {
             messageButton: function () {
-                $("#submitAddTransaction").prop('disabled', false);
+                $("#addTransactionControls button").prop('disabled', false);
             }
         }, true);
     });
@@ -159,4 +225,21 @@ function topUp() {
     }, true);
 }
 
+function setupDateOfBirthInput() {
+    var now = new Date();
+    var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
+    $("#birthDateInput").datepicker({
+        dateFormat: "dd/mm/yy",
+        maxDate: now,
+        minDate: minDate,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-110:+0",
+        showButtonPanel: true,
+        prevText: "<i class=\"fa fa-chevron-left\"></i>",
+        nextText: "<i class=\"fa fa-chevron-right\"></i>"
+    });
+}
+
 updateBalance();
+setupDateOfBirthInput();

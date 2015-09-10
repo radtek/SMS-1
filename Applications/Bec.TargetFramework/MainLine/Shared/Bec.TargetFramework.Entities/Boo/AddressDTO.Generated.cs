@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public AddressDTO() {
         }
 
-        public AddressDTO(global::System.Guid addressID, string name, string primaryContactName, string line1, string line2, string line3, string city, string stateOrProvince, string county, string country, string postOfficeBox, string postalCode, string uTCOffSet, global::System.Nullable<double> latitude, global::System.Nullable<double> longitude, string telephone1, string telephone2, string telephone3, string fax, global::System.Guid parentID, int addressTypeID, int addressNumber, global::System.Nullable<bool> isPrimaryAddress, global::System.Nullable<int> addressCategoryID, global::System.Nullable<int> addressSubTypeID, string buildingName, bool isActive, bool isDeleted, string countryCode, string additionalAddressInformation, string town, global::System.Nullable<int> order, List<AddressChronologyDTO> addressChronologies, CountryCodeDTO countryCode1, List<SmsTransactionDTO> smsTransactions) {
+        public AddressDTO(global::System.Guid addressID, string name, string primaryContactName, string line1, string line2, string line3, string city, string stateOrProvince, string county, string country, string postOfficeBox, string postalCode, string uTCOffSet, global::System.Nullable<double> latitude, global::System.Nullable<double> longitude, string telephone1, string telephone2, string telephone3, string fax, global::System.Guid parentID, int addressTypeID, int addressNumber, global::System.Nullable<bool> isPrimaryAddress, global::System.Nullable<int> addressCategoryID, global::System.Nullable<int> addressSubTypeID, string buildingName, bool isActive, bool isDeleted, string countryCode, string additionalAddressInformation, string town, global::System.Nullable<int> order, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, List<AddressChronologyDTO> addressChronologies, CountryCodeDTO countryCode1, List<SmsTransactionDTO> smsTransactions, ContactDTO contact, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
 
           this.AddressID = addressID;
           this.Name = name;
@@ -56,9 +56,15 @@ namespace Bec.TargetFramework.Entities
           this.AdditionalAddressInformation = additionalAddressInformation;
           this.Town = town;
           this.Order = order;
+          this.CreatedOn = createdOn;
+          this.CreatedBy = createdBy;
+          this.ModifiedOn = modifiedOn;
+          this.ModifiedBy = modifiedBy;
           this.AddressChronologies = addressChronologies;
           this.CountryCode1 = countryCode1;
           this.SmsTransactions = smsTransactions;
+          this.Contact = contact;
+          this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
         }
 
         #endregion
@@ -161,6 +167,18 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public global::System.Nullable<int> Order { get; set; }
 
+        [DataMember]
+        public global::System.DateTime CreatedOn { get; set; }
+
+        [DataMember]
+        public string CreatedBy { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -173,6 +191,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<SmsTransactionDTO> SmsTransactions { get; set; }
+
+        [DataMember]
+        public ContactDTO Contact { get; set; }
+
+        [DataMember]
+        public List<SmsUserAccountOrganisationTransactionDTO> SmsUserAccountOrganisationTransactions { get; set; }
 
         #endregion
     }

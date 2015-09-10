@@ -3,16 +3,6 @@
 @using Bec.TargetFramework.Infrastructure.Extensions
 @using Bec.TargetFramework.Presentation.Web.Helpers;
 @model Edit<UserAccountOrganisationDTO>
-@{
-    List<SelectListItem> titles = new List<SelectListItem>
-    {
-        new SelectListItem{Text = "Mr",Value="Mr"},
-        new SelectListItem{Text = "Mrs",Value="Mrs"},
-        new SelectListItem{Text = "Miss",Value="Miss"},
-        new SelectListItem{Text = "Ms",Value="Ms"},
-        new SelectListItem{Text = "Dr",Value="Dr"}
-    };
-}
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
     <div class="modal-dialog">
 
@@ -40,7 +30,7 @@
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "13" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, Html.EnumList<SalutationEnum>(), "Please Select", new { tabindex = "13" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -62,7 +52,7 @@
                                     <label class="label">Email Address</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
+                                        @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3", type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
                                     </label>
                                 </section>
                                 @if (Context.GetWebUserObject().UaoID != ViewBag.uaoID)

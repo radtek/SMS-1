@@ -2,16 +2,7 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model ContactDTO
-@{
-    List<SelectListItem> titles = new List<SelectListItem>
-    {
-        new SelectListItem{Text = "Mr",Value="Mr"},
-        new SelectListItem{Text = "Mrs",Value="Mrs"},
-        new SelectListItem{Text = "Miss",Value="Miss"},
-        new SelectListItem{Text = "Ms",Value="Ms"},
-        new SelectListItem{Text = "Dr",Value="Dr"}
-    };
-}
+
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
     <div class="modal-dialog">
         <!--
@@ -36,7 +27,7 @@
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "1" })
+                                        @Html.DropDownListFor(m => m.Salutation, Html.EnumList<SalutationEnum>(), "Please Select", new { tabindex = "1" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -58,7 +49,7 @@
                                     <label class="label">Email Address</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.EmailAddress1, new { tabindex = "4", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
+                                        @Html.TextBoxFor(m => m.EmailAddress1, new { type = "email", tabindex = "4", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
                                     </label>
                                 </section>
 

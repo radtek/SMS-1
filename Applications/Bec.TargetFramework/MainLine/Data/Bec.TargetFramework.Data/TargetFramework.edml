@@ -403,6 +403,8 @@
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.Store.OrganisationLedgerTransaction" store:Type="Tables" Schema="public" Table="OrganisationLedgerTransaction" />
           <EntitySet Name="vOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.Store.vOrganisationLedgerTransactionBalance" store:Type="Views" Schema="public" Table="vOrganisationLedgerTransactionBalance" />
           <EntitySet Name="vNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.Store.vNotificationViewOnlyUao" store:Type="Views" Schema="public" Table="vNotificationViewOnlyUao" />
+          <EntitySet Name="SmsUserAccountOrganisationTransactionTypes" EntityType="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransactionType" store:Type="Tables" Schema="sms" Table="SmsUserAccountOrganisationTransactionType" />
+          <EntitySet Name="SmsUserAccountOrganisationTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" store:Type="Tables" Schema="sms" Table="SmsUserAccountOrganisationTransaction" />
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Store.Lender" store:Type="Tables" Schema="public" Table="Lender" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -2896,9 +2898,25 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="OrganisationLedgerTransaction" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
-          <AssociationSet Name="SmsTransaction_fk" Association="Bec.TargetFramework.Data.Store.SmsTransaction_fk">
-            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_SmsTransaction_fk">
             <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk">
+            <End Role="SmsUserAccountOrganisationTransactionType" EntitySet="SmsUserAccountOrganisationTransactionTypes" />
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_Address_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_Address_fk">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_Contact_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_Contact_fk">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -6154,6 +6172,10 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="FirmName" Type="varchar" MaxLength="500" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate">
           <Key>
@@ -6749,6 +6771,10 @@
           <Property Name="AdditionalAddressInformation" Type="varchar" MaxLength="1000" />
           <Property Name="Town" Type="varchar" MaxLength="200" />
           <Property Name="Order" Type="int" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="OrganisationTeamSettingTemplate">
           <Key>
@@ -9700,10 +9726,12 @@
           <Property Name="TenureTypeID" Type="int" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
-          <Property Name="RowVersion" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="UserAccountOrganisationID" Type="uuid" />
+          <Property Name="RowVersion" Type="bigint" Nullable="false" devart:DefaultValue="nextval('sms.&quot;SmsTransaction_RowVersion_seq&quot;'::regclass)" />
           <Property Name="MortgageApplicationNumber" Type="varchar" MaxLength="50" />
           <Property Name="LenderName" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -9785,6 +9813,33 @@
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
           <Property Name="NotificationSubject" Type="varchar" MaxLength="200" />
           <Property Name="IsInternal" Type="boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SmsUserAccountOrganisationTransactionType">
+          <Key>
+            <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+          </Key>
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" MaxLength="2000" DefaultValue="NULL::character varying" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="SmsUserAccountOrganisationTransaction">
+          <Key>
+            <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+          </Key>
+          <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
+          <Property Name="AddressID" Type="uuid" Nullable="false" />
+          <Property Name="ContactID" Type="uuid" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -17825,14 +17880,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SmsTransaction_fk">
-          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="0..1" />
-          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
+        <Association Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk">
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsTransaction">
+              <PropertyRef Name="SmsTransactionID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="SmsTransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk">
+          <End Role="SmsUserAccountOrganisationTransactionType" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransactionType" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsUserAccountOrganisationTransactionType">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_Address_fk">
+          <End Role="Address" Type="Bec.TargetFramework.Data.Store.Address" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_Contact_fk">
+          <End Role="Contact" Type="Bec.TargetFramework.Data.Store.Contact" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccountOrganisation">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Principal>
-            <Dependent Role="SmsTransaction">
+            <Dependent Role="SmsUserAccountOrganisationTransaction">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Dependent>
           </ReferentialConstraint>
@@ -18247,6 +18350,8 @@
           <EntitySet Name="OrganisationLedgerTransactions" EntityType="Bec.TargetFramework.Data.OrganisationLedgerTransaction" />
           <EntitySet Name="VOrganisationLedgerTransactionBalances" EntityType="Bec.TargetFramework.Data.VOrganisationLedgerTransactionBalance" />
           <EntitySet Name="VNotificationViewOnlyUaos" EntityType="Bec.TargetFramework.Data.VNotificationViewOnlyUao" />
+          <EntitySet Name="SmsUserAccountOrganisationTransactionTypes" EntityType="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransactionType" />
+          <EntitySet Name="SmsUserAccountOrganisationTransactions" EntityType="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" />
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Lender" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -20676,9 +20781,29 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="OrganisationLedgerTransactions" EntitySet="OrganisationLedgerTransactions" />
           </AssociationSet>
-          <AssociationSet Name="SmsTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_fk">
+          <AssociationSet Name="Contact_AddressSet" Association="Bec.TargetFramework.Data.Contact_Address">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Addresses" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk">
+            <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+            <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk">
+            <End Role="SmsUserAccountOrganisationTransactionType" EntitySet="SmsUserAccountOrganisationTransactionTypes" />
+            <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_Address_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_Contact_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
-            <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+            <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -21035,7 +21160,7 @@
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_Contact" FromRole="UserAccountOrganisations" ToRole="Contact" ed:Guid="0da83991-c941-46d2-9815-251c4ebc37b3" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_Organisation" FromRole="UserAccountOrganisations" ToRole="Organisation" ed:Guid="928d9191-f38a-436b-b21d-b7dd584c1058" />
           <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationLedgerTransactions" ed:Guid="9081b431-50ac-4326-bb17-cf1c527fa475" />
-          <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="UserAccountOrganisation" ToRole="SmsTransactions" ed:Guid="6e643a20-6864-4040-b092-8486af8d5d37" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="UserAccountOrganisation" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="d9460f57-8f52-44d0-9a61-fe6db7eb5a80" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -24652,12 +24777,18 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="c368d0ed-7cc1-4ba9-938b-bff927ee5555" />
           <Property Name="FirmName" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="2c09c718-6071-4028-a8e0-561a2a84fbe9" />
           <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="d0632baa-1c3b-43a5-8155-63bf33cbf22f" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="ada67f6d-d01c-4cf7-889f-b22ca1a36f44" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="b32d3fa5-9561-4518-a993-a9978cf6fcc5" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b92b09a5-7ac9-48b9-b7bb-9b2106b234d3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="10fe0dbb-6599-454c-8faf-c4564e5ad80a" />
           <NavigationProperty Name="ContactNames" Relationship="Bec.TargetFramework.Data.fk_ContactName_Contact" FromRole="Contact" ToRole="ContactNames" ed:Guid="f7d6222e-8524-447e-b668-e37bf93b6a1d" />
           <NavigationProperty Name="ContactPhones" Relationship="Bec.TargetFramework.Data.fk_ContactPhone_Contact" FromRole="Contact" ToRole="ContactPhones" ed:Guid="4787eefd-7a16-4ed2-afdc-789f333b44ba" />
           <NavigationProperty Name="ContactRegulators" Relationship="Bec.TargetFramework.Data.fk_ContactOrganisationRegulator_Contact" FromRole="Contact" ToRole="ContactRegulators" ed:Guid="8d2ae885-c79f-4f42-b6ac-656cea67515e" />
           <NavigationProperty Name="Accounts" Relationship="Bec.TargetFramework.Data.fk_Account_Contact" FromRole="Contact" ToRole="Accounts" ed:Guid="02807b31-9d3b-47aa-8617-caba9271c31d" />
           <NavigationProperty Name="UserAccountOrganisations" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisation_Contact" FromRole="Contact" ToRole="UserAccountOrganisations" ed:Guid="9760b9fd-82bb-48e6-9ccc-22959b12b690" />
           <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Contact" ToRole="Organisations" ed:Guid="737034bc-16e7-41d1-835a-e138d443ae1b" />
+          <NavigationProperty Name="Addresses" Relationship="Bec.TargetFramework.Data.Contact_Address" FromRole="Contact" ToRole="Addresses" ed:Guid="c7780a52-9a39-4c6d-984d-cf1f07dd121a" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="Contact" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="ae96d7ae-0425-4c5b-b388-7bedda826b39" />
         </EntityType>
         <EntityType Name="ModuleDependencyTemplate" ed:Guid="9a80b3c2-3957-4097-820c-c3e961b47cc9">
           <Key>
@@ -25393,9 +25524,15 @@
           <Property Name="AdditionalAddressInformation" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="1100874b-6b4d-4e30-8eb2-ebeb5df28932" />
           <Property Name="Town" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="7ccf0ba7-8865-4697-8587-b583088e7f42" />
           <Property Name="Order" Type="Int32" ed:ValidateRequired="False" ed:Guid="8014122f-accc-4225-b9e3-cf2e41436824" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="ad0ce223-bb6d-4420-8eda-22b38ae4b99c" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="2f94fa5d-f9f6-4a0c-a4bc-edd324396de9" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="08d215b5-2062-4c60-8437-5789c34bd256" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4228c1c0-251f-452f-8283-92ce1d65b2ec" />
           <NavigationProperty Name="AddressChronologies" Relationship="Bec.TargetFramework.Data.fk_AddressChronology_Address" FromRole="Address" ToRole="AddressChronologies" ed:Guid="c66a9900-de9e-4f6c-bacd-1aa0b5ed9243" />
           <NavigationProperty Name="CountryCode1" Relationship="Bec.TargetFramework.Data.fk_Address_CountryCode" FromRole="Addresses" ToRole="CountryCode1" ed:Guid="3876534d-2df9-419a-adac-3d6f2c079b5e" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="Address" ToRole="SmsTransactions" ed:Guid="884e46aa-bfec-4973-bca1-bbd543420cf4" />
+          <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.Contact_Address" FromRole="Addresses" ToRole="Contact" ed:Guid="ea8a9b5c-23a2-4a0e-8047-df6b3d445b90" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="Address" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="69370a36-d151-49c7-836f-6bb163da8888" />
         </EntityType>
         <EntityType Name="OrganisationTeamSettingTemplate" ed:Guid="b4214565-af20-4cac-9d30-3592de62aeda">
           <Key>
@@ -28555,13 +28692,15 @@
           <Property Name="TenureTypeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="61d17b39-cc39-47fc-ae55-dabfb144e9be" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="fdb54436-46d1-447b-9d00-a85648ff2d61" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="e9fce6a6-d752-49ec-9baf-ba057f31aba4" />
-          <Property Name="RowVersion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="c0ae7b1a-0302-4801-930d-960a0731eac1" />
+          <Property Name="RowVersion" Type="Int64" Nullable="false" ed:ValidateRequired="True" ed:Guid="414a2594-b05e-4d13-8980-ebacf413dcd9" />
           <Property Name="MortgageApplicationNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="bcebbdb6-a408-434c-a56d-3876cafdeaec" />
           <Property Name="LenderName" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="19986eb1-64dd-4821-aa87-932c304cfc39" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
-          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="SmsTransactions" ToRole="UserAccountOrganisation" ed:Guid="3a0d1a7b-f25a-4e4a-9606-d271c6ecfa27" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus" ed:Guid="87c44c9e-5f30-45e7-bda3-e5d28f150d26">
           <Key>
@@ -28649,6 +28788,39 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="9af8f5f8-dae8-4962-bb08-309731429a40" />
           <Property Name="NotificationSubject" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4f748143-1c74-434a-9ee5-db38cbfc1a90" />
           <Property Name="IsInternal" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="a52ffaad-0f18-4a6a-b35c-ca9dcaecfe1b" />
+        </EntityType>
+        <EntityType Name="SmsUserAccountOrganisationTransactionType" ed:Guid="0e3999c5-bb67-46e2-925c-68caa182289f">
+          <Key>
+            <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+          </Key>
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="98c86013-6b95-4790-ada7-2424823f9379" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="858a68a0-e15a-4206-8d79-75669edcce05" />
+          <Property Name="Description" Type="String" DefaultValue="NULL::character varying" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="0971f7eb-c52a-4a9c-bca9-66676287737b" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="0815a677-a4f0-438d-8f2b-1af5766d368b" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="535dcd92-5c54-4b1b-afb4-fa8170ea2f16" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactionType" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="c59e749d-76ed-4fa9-8a3c-5523c6476d29" />
+        </EntityType>
+        <EntityType Name="SmsUserAccountOrganisationTransaction" ed:Guid="91d1a162-41e8-454d-8b37-858ae90c4b15">
+          <Key>
+            <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+          </Key>
+          <Property Name="SmsUserAccountOrganisationTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="97f68c22-8a73-4e5b-a2c9-7cc75bc3950f" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e66f40fd-df73-4922-b6ca-8d7bf59e58fb" />
+          <Property Name="SmsTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="571912b0-2d1e-4f22-a6fc-0db15df78d79" />
+          <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="c5c0f8ad-c34e-413a-adcc-13496bc5903a" />
+          <Property Name="AddressID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2b3b7ed-3e99-49c2-a626-d7bd3015839c" />
+          <Property Name="ContactID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1c6cd85d-d62c-43d3-9fe9-849fe7f2560b" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="a6d28164-525b-47ea-b5c7-8834263e54c0" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2f3c61da-3331-4d78-b8ba-6207b2f659d0" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="024d805f-172c-4169-a78f-83d2ea32eb88" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="d8134039-a199-409c-bdd6-c74854476ab6" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b918e258-f61e-4ac1-8935-ea4f2ee7dd5e" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
+          <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
+          <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
+          <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Contact_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Contact" ed:Guid="6fcb6856-21eb-4558-bc7d-5cc270241227" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="UserAccountOrganisation" ed:Guid="6d6a0671-ad57-4a27-9029-7729497aca06" />
         </EntityType>
         <EntityType Name="Lender" ed:Guid="653a38da-926c-4632-8530-3af67e1fc6e6">
           <Key>
@@ -36337,14 +36509,74 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SmsTransaction_fk" ed:Guid="99f4cd42-6397-46de-a802-2ab483001b64">
-          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="0..1" />
-          <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
+        <Association Name="Contact_Address" ed:Guid="9310cda7-64cc-4ba9-8462-117a7c619d8e">
+          <End Role="Contact" Type="Bec.TargetFramework.Data.Contact" Multiplicity="1" />
+          <End Role="Addresses" Type="Bec.TargetFramework.Data.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="Addresses">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" ed:Guid="c9b292ed-7a03-496e-8286-7035c36de42f">
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsTransaction">
+              <PropertyRef Name="SmsTransactionID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransactions">
+              <PropertyRef Name="SmsTransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" ed:Guid="fe36cbbf-5b9f-4f8d-a2a6-bb448d051095">
+          <End Role="SmsUserAccountOrganisationTransactionType" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransactionType" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsUserAccountOrganisationTransactionType">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransactions">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_Address_fk" ed:Guid="0e281681-34bc-4b54-a092-97ff837d71eb">
+          <End Role="Address" Type="Bec.TargetFramework.Data.Address" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransactions">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_Contact_fk" ed:Guid="cb9c6457-10ea-41a1-8a97-1433a5d8c7d3">
+          <End Role="Contact" Type="Bec.TargetFramework.Data.Contact" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="ContactID" />
+            </Principal>
+            <Dependent Role="SmsUserAccountOrganisationTransactions">
+              <PropertyRef Name="ContactID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" ed:Guid="7b517107-447a-4c08-b7a0-0476c48d4894">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserAccountOrganisation">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Principal>
-            <Dependent Role="SmsTransactions">
+            <Dependent Role="SmsUserAccountOrganisationTransactions">
               <PropertyRef Name="UserAccountOrganisationID" />
             </Dependent>
           </ReferentialConstraint>
@@ -39614,6 +39846,10 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="FirmName" ColumnName="FirmName" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -40239,6 +40475,10 @@
                 <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
                 <ScalarProperty Name="AdditionalAddressInformation" ColumnName="AdditionalAddressInformation" />
                 <ScalarProperty Name="Town" ColumnName="Town" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42924,9 +43164,11 @@
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
                 <ScalarProperty Name="TenureTypeID" ColumnName="TenureTypeID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="MortgageApplicationNumber" ColumnName="MortgageApplicationNumber" />
                 <ScalarProperty Name="LenderName" ColumnName="LenderName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43000,6 +43242,35 @@
                 <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
                 <ScalarProperty Name="NotificationConstructID" ColumnName="NotificationConstructID" />
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmsUserAccountOrganisationTransactionTypes">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransactionType">
+              <MappingFragment StoreEntitySet="SmsUserAccountOrganisationTransactionTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="SmsUserAccountOrganisationTransactionTypeID" ColumnName="SmsUserAccountOrganisationTransactionTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmsUserAccountOrganisationTransactions">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction">
+              <MappingFragment StoreEntitySet="SmsUserAccountOrganisationTransactions">
+                <ScalarProperty Name="SmsUserAccountOrganisationTransactionID" ColumnName="SmsUserAccountOrganisationTransactionID" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
+                <ScalarProperty Name="SmsUserAccountOrganisationTransactionTypeID" ColumnName="SmsUserAccountOrganisationTransactionTypeID" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

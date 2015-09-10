@@ -1,0 +1,53 @@
+﻿{{#if isEmpty}}
+<div class="alert alert-info fade in">
+    <i class="fa-fw fa fa-info"></i>
+    There is no one associated with the transaction.
+</div>
+{{/if}}
+<div class="panel-group smart-accordion-default" id="{{accordionId}}">
+    {{#each items}}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" data-parent="#{{@@root.accordionId}}">
+                <a data-toggle="collapse" href="#{{elementId}}" aria-expanded="false" class="collapsed">
+                    <i class="fa fa-lg fa-angle-down pull-right"></i>
+                    <i class="fa fa-lg fa-angle-up pull-right"></i>
+                    <span>{{fullName}}</span>
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" aria-expanded="false" id="{{elementId}}">
+            <div class="panel-body">
+                <div class="pull-right">
+                    @*<a href="#" class="btn btn-primary"><i class="fa fa-edit"></i> Edit </a>
+                        <a href="#" class="btn btn-primary"><i class="fa fa-remove"></i> Delete </a>*@
+                </div>
+                <dl class="dl-horizontal pull-left">
+                    <dt>Full Name:</dt>
+                    <dd><p>{{fullName}}</p></dd>
+                    <dt>Email:</dt>
+                    <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
+                    {{#if formattedBirthDate}}
+                    <dt>Date of Birth:</dt>
+                    <dd><p>{{formattedBirthDate}}</p></dd>
+                    {{/if}}
+                    <dt>Address Line 1:</dt>
+                    <dd><p>{{Address.Line1}}</p></dd>
+                    {{#if Address.Line2}}
+                    <dt>Address Line 2:</dt>
+                    <dd><p>{{Address.Line2}}</p></dd>
+                    {{/if}}
+                    <dt>Town:</dt>
+                    <dd><p>{{Address.Town}}</p></dd>
+                    {{#if Address.County}}
+                    <dt>County:</dt>
+                    <dd><p>{{Address.County}}</p></dd>
+                    {{/if}}
+                    <dt>Post Code:</dt>
+                    <dd><p>{{Address.PostalCode}}</p></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

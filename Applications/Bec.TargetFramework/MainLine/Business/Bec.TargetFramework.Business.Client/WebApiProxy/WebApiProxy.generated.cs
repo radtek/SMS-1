@@ -372,14 +372,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		NotificationContentDTO GetNotificationContent(Guid notificationId,Guid userAccountOrganisationId,NotificationExportFormatIDEnum notificationExportFormat);
 
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct);
+		Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types);
 
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct);
+		List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types);
 
 		/// <param name="accountID"></param>
 		/// <returns></returns>
@@ -435,6 +435,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Boolean HasOrganisationAnySafeBankAccount(Guid organisationID);
 
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
@@ -574,8 +582,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
+		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -583,8 +592,9 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email);
+		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -602,15 +612,21 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
 
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID);
+		Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID);
 
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		void UpdateSmsTransactionUao(Guid oldID,Guid newID);
+		void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID);
+
+		/// <returns></returns>
+		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
+
+		/// <returns></returns>
+		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
@@ -1247,13 +1263,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		Task GeneratePinAsync(Guid uaoID,Boolean blank);
+		Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting);
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		void GeneratePin(Guid uaoID,Boolean blank);
+		void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -1286,12 +1304,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		UserAccountOrganisationDTO ResendLogins(Guid uaoId);
 
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID);
+		Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel);
 
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID);
+		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
 	}
 
 }
@@ -2271,23 +2291,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
+		/// <param name="types"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] notificationConstruct)
+		public virtual Task<List<VNotificationInternalUnreadDTO>> GetUnreadNotificationsAsync(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user);
+			return GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="userId"></param>
-		/// <param name="notificationConstruct"></param>
-		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] notificationConstruct)
+		/// <param name="types"></param>
+		public virtual List<VNotificationInternalUnreadDTO> GetUnreadNotifications(Guid userId,NotificationConstructEnum[] types)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("notificationConstruct", notificationConstruct), _user)).Result;
+			return Task.Run(() => GetAsync<List<VNotificationInternalUnreadDTO>>("api/NotificationLogic/GetUnreadNotifications?userId=" + userId + mapArray("types", types), _user)).Result;
 		}
 
 		/// <summary>
@@ -2441,6 +2461,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		}
 
 		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual Boolean HasOrganisationAnySafeBankAccount(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -2763,15 +2804,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
+		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user);
 		}
 
 		/// <summary>
@@ -2783,14 +2825,15 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email)
+		/// <param name="birthDate"></param>
+		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2825,24 +2868,43 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
 		/// <returns></returns>
-		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldID,Guid newID)
+		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="oldID"></param>
-		/// <param name="newID"></param>
-		public virtual void UpdateSmsTransactionUao(Guid oldID,Guid newID)
+		/// <param name="oldUaoID"></param>
+		/// <param name="newUaoID"></param>
+		public virtual void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldID=" + oldID + "&newID=" + newID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4569,11 +4631,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
 		/// <returns></returns>
-		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank)
+		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user);
+			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user);
 		}
 
 		/// <summary>
@@ -4581,10 +4644,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
-		public virtual void GeneratePin(Guid uaoID,Boolean blank)
+		/// <param name="overwriteExisting"></param>
+		public virtual void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4664,21 +4728,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
-		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID)
+		public virtual Task<List<UserAccountOrganisationRoleDTO>> GetRolesAsync(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID, _user);
+			return GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID)
+		/// <param name="withRelatedLevel"></param>
+		public virtual List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID, _user)).Result;
+			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
 		}
 
 		#endregion

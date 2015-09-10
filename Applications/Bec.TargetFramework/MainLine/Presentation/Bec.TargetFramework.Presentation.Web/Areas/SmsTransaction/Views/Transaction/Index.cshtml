@@ -1,5 +1,6 @@
-﻿<!-- MAIN CONTENT -->
-<div id="content">
+﻿@using Bec.TargetFramework.Entities.Enums
+<!-- MAIN CONTENT -->
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
     <div class="row">
         <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
         <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
@@ -47,27 +48,35 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="well">
-                        <h3>Product Details</h3>
+                        <h3>Primary Buyer</h3>
                         <h5>
-                            Primary Buyer
-                            <a id="editButton" class="btn btn-sm btn-default" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil"></i></a>
+                            Personal Details
+                            <span class="pull-right">
+                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})"><i class="fa fa-envelope margin-right-5"></i>Resend Login Details</a>
+                            </span>
                         </h5>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                
-                                <dl class="dl-horizontal">
-                                    <dt>Full Name:</dt>
-                                    <dd>
-                                        <p id="ddName"></p>
-                                    </dd>
-                                    <dt>Email:</dt>
-                                    <dd>
-                                        <p id="ddEmail"></p>
-                                    </dd>
-                                </dl>
-                                <a id="resendButton" class="btn btn-primary" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Transaction", new { area = "SmsTransaction" })">Resend Login Details</a>
-                            </div>
-                        </div>
+                        <div id="primaryBuyer"></div>
+                    </div>
+                    <div class="well">
+                        <h3>
+                            Additional Buyers
+                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
+                            <span class="pull-right">
+                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                            </span>
+                        </h3>
+                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
+                    </div>
+                    <div class="well">
+                        <h3>
+                            Giftors
+                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
+                            <span class="pull-right">
+                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                            </span>
+                        </h3>
+                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
                     </div>
                 </div>
             </div>

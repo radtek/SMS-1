@@ -25,7 +25,10 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.min.js",
-                "~/Scripts/Bec/bec.jquery.validation.dategb.js"
+                "~/Scripts/Bec/bec.jquery.validation.dategb.js",
+                "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/lodash.js",
+                "~/Scripts/Libs/jquery.bootstrap.wizard.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(
@@ -123,6 +126,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Invited").Include("~/Areas/ProOrganisation/Views/Users/Invited.js"));
             bundles.Add(new ScriptBundle("~/Scripts/ProOrganisation/Users/Registered").Include("~/Areas/ProOrganisation/Views/Users/Registered.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/AdditionalBuyer/_AddAdditionalBuyer").Include("~/Areas/SmsTransaction/Views/AdditionalBuyer/_AddAdditionalBuyer.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Giftor/_AddGiftor").Include("~/Areas/SmsTransaction/Views/Giftor/_AddGiftor.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/Index").Include("~/Areas/SmsTransaction/Views/Buyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));

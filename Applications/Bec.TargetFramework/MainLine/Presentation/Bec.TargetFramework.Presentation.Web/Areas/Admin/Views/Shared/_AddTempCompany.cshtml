@@ -1,4 +1,6 @@
 ﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
 @model AddCompanyDTO
 @{
     List<SelectListItem> regulators = new List<SelectListItem>
@@ -6,15 +8,6 @@
         new SelectListItem{Text = "SRA", Value="SRA"},
         new SelectListItem{Text = "CLC", Value="CLC"},
         new SelectListItem{Text = "Other", Value="Other"}
-    };
-
-    List<SelectListItem> titles = new List<SelectListItem>
-    {
-        new SelectListItem{Text = "Mr", Value="Mr"},
-        new SelectListItem{Text = "Mrs", Value="Mrs"},
-        new SelectListItem{Text = "Miss", Value="Miss"},
-        new SelectListItem{Text = "Ms", Value="Ms"},
-        new SelectListItem{Text = "Dr", Value="Dr"}
     };
 }
 
@@ -174,7 +167,7 @@
                                     <section class="col col-2">
                                         <label class="label">Title</label>
                                         <label class="select">
-                                            @Html.DropDownListFor(m => m.OrganisationAdminSalutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "13" })
+                                            @Html.DropDownListFor(m => m.OrganisationAdminSalutation, Html.EnumList<SalutationEnum>(), "Please Select", new { tabindex = "13" })
                                             <i></i>
                                         </label>
                                     </section>
@@ -199,7 +192,7 @@
                                         <label class="label">Email</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { tabindex = "16", maxlength = 100, data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
+                                            @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { tabindex = "16", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
                                         </label>
                                     </section>
                                     <section class="col col-4">

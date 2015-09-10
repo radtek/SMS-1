@@ -25,22 +25,22 @@ $(function () {
         ignore: '.skip',
         // Rules for form validation
         rules: {
-            'Model.UserAccountOrganisation.Contact.Salutation': {
+            'Model.Contact.Salutation': {
                 required: true
             },
-            'Model.UserAccountOrganisation.Contact.FirstName': {
+            'Model.Contact.FirstName': {
                 required: true
             },
-            'Model.UserAccountOrganisation.Contact.LastName': {
+            'Model.Contact.LastName': {
                 required: true
             },
-            'Model.UserAccountOrganisation.UserAccount.Email': {
+            'Model.UserAccount.Email': {
                 required: true,
                 email: true,
                 remote: {
-                    url: $('#Model_UserAccountOrganisation_UserAccount_Email').data("url"),
+                    url: $('#Model_UserAccount_Email').data("url"),
                     data: {
-                        email: function () { return $('#Model_UserAccountOrganisation_UserAccount_Email').val(); },
+                        email: function () { return $('#Model_UserAccount_Email').val(); },
                         uaoID: function () { return $('#uaoID').val(); }
                     },
                     dataType: 'json',

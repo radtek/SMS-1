@@ -20,6 +20,12 @@
                 -->
 
             <ul>
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions"))
+                {
+                    <li class="@Html.RouteIf("active", "Buyer", "Index")">
+                        <a href="@Url.Action("Index", "Buyer", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Bank Account Check</span></a>
+                    </li>
+                }
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "Transaction", "Index")">
@@ -32,7 +38,7 @@
                         <a href="@Url.Action("Index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order Products</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Home"))
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "InternalNotifications"))
                 {
                     <li class="@Html.RouteIf("active", "InternalNotifications", "Index")">
                         <a href="@Url.Action("Index", "InternalNotifications", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-bell"></i> <span class="menu-item-parent">View Notifications</span></a>

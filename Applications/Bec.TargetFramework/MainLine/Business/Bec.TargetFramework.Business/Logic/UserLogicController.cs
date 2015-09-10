@@ -720,13 +720,13 @@ namespace Bec.TargetFramework.Business.Logic
         }
 
 
-        public async Task GeneratePinAsync(Guid uaoID, bool blank)
+        public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
 
-                if (!string.IsNullOrEmpty(uao.PinCode)) throw new Exception("Cannot generate pin; pin already exists. Please go back and try again.");
+                if (!overwriteExisting && !string.IsNullOrEmpty(uao.PinCode)) throw new Exception("Cannot generate pin; pin already exists. Please go back and try again.");
 
                 uao.PinCode = blank ? null : CreatePin(4);
                 uao.PinCreated = DateTime.Now;
@@ -820,15 +820,24 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
         {
-            VUserAccountOrganisationDTO oldUaInfo;
-            Guid[] roles = null;
+            string username;
+            UserAccountOrganisationDTO uaoDTO;
+            ContactDTO contactDTO;
+            UserTypeEnum userTypeValue;
+
+            //generate new password
+            var newPassword = RandomPasswordGenerator.Generate(10);
+
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                roles = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoId).Select(x => x.OrganisationRoleID).ToArray();
-                oldUaInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VUserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId).ToDto();
-                var orgInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == oldUaInfo.OrganisationID); //will be null if org type != professional
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
+                uaoDTO = uao.ToDto();
+                username = uao.UserAccount.Username;
+                contactDTO = uao.Contact.ToDto();
+
+                var orgInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == uaoDTO.OrganisationID); //will be null if org type != professional
                 if (orgInfo != null)
-                {                 //check status
+                {
                     var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
                     var activeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
                     if (orgInfo.StatusTypeValueID != verifiedStatus.StatusTypeValueID && orgInfo.StatusTypeValueID != activeStatus.StatusTypeValueID)
@@ -836,45 +845,24 @@ namespace Bec.TargetFramework.Business.Logic
                 }
             }
 
-            //generate new username & password
-            var randomUsername = RandomPasswordGenerator.GenerateRandomName();
-            var randomPassword = RandomPasswordGenerator.Generate(10);
-            var userContactDto = new ContactDTO
-            {
-                Telephone1 = oldUaInfo.Telephone,
-                FirstName = oldUaInfo.FirstName,
-                LastName = oldUaInfo.LastName,
-                EmailAddress1 = oldUaInfo.Email,
-                Salutation = oldUaInfo.Salutation
-            };
+            await ResetUserPassword(uaoDTO.UserID, newPassword);
 
-            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUaInfo.UserTypeID.ToString()).Value;
+            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(uaoDTO.UserTypeID.ToString()).Value;
 
-            //add new user & email them
-            var newUao = await OrganisationLogic.AddNewUserToOrganisationAsync(oldUaInfo.OrganisationID, userContactDto, userType, randomUsername, randomPassword, true, true, false, roles);
+            //email user again
+            await OrganisationLogic.SendNewUserEmailAsync(username, newPassword, uaoDTO.UserAccountOrganisationID, contactDTO, uaoDTO.OrganisationID, userType);
 
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                //disable the old user
-                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Single(x => x.ID == newUao.UserID);
-                user.IsLoginAllowed = true;
-                await scope.SaveChangesAsync();
-            }
+            await GeneratePinAsync(uaoDTO.UserAccountOrganisationID, string.IsNullOrEmpty(uaoDTO.PinCode), true);
 
-            //disable old temps
-            await LockUserTemporaryAccountAsync(oldUaInfo.ID);
-
-            await GeneratePinAsync(newUao.UserAccountOrganisationID, string.IsNullOrEmpty(oldUaInfo.PinCode));
-
-            await OrganisationLogic.UpdateSmsTransactionUaoAsync(uaoId, newUao.UserAccountOrganisationID);
-            return newUao;
+            await OrganisationLogic.UpdateSmsTransactionUaoAsync(uaoId, uaoDTO.UserAccountOrganisationID);
+            return uaoDTO;
         }
 
-        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID)
+        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID, int withRelatedLevel)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtosWithRelated(withRelatedLevel);
             }
         }
     }

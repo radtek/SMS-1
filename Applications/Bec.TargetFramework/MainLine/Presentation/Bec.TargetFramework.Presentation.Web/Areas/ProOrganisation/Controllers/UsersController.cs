@@ -95,7 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
-            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true);
+            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
 
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -152,7 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.GeneratePinAsync(uaoId, true);
+            await userClient.GeneratePinAsync(uaoId, true, true);
 
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 1;
@@ -181,7 +181,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var rorderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter + rorderby)).ToList();
 
-            var userRoles = userClient.GetRoles(uaoID);
+            var userRoles = userClient.GetRoles(uaoID, 0);
 
             var r = new List<Tuple<int, string, string, Guid, string>>();
             for (int i = 0; i < allRoles.Count; i++)

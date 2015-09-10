@@ -130,16 +130,6 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for UserAccountOrganisationID in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<System.Guid> UserAccountOrganisationID
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
         /// There are no comments for MortgageApplicationNumber in the schema.
         /// </summary>
         public virtual string MortgageApplicationNumber
@@ -153,6 +143,36 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for LenderName in the schema.
         /// </summary>
         public virtual string LenderName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedBy in the schema.
+        /// </summary>
+        public virtual string CreatedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ModifiedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedBy in the schema.
+        /// </summary>
+        public virtual string ModifiedBy
         {
             get;
             set;
@@ -182,9 +202,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for UserAccountOrganisation in the schema.
+        /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
         /// </summary>
-        public virtual UserAccountOrganisation UserAccountOrganisation
+        public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
         {
             get;
             set;

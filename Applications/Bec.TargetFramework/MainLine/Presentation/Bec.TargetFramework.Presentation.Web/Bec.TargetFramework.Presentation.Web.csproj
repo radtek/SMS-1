@@ -178,7 +178,9 @@
     <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ButtonDefinition.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
     <Compile Include="Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
@@ -236,7 +239,9 @@
     <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
+    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.js" />
+    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
@@ -765,6 +770,9 @@
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
+    <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
+    <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
@@ -811,6 +819,10 @@
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
+    <Content Include="Views\Shared\_relatedPartiesTmpl.cshtml" />
+    <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
