@@ -1,7 +1,8 @@
-﻿$(function () {
+﻿var nGrid;
+$(function () {
 
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var nGrid = new gridItem(
+    nGrid = new gridItem(
         {
             gridElementId: 'nGrid',
             url: $('#nGrid').data("url"),

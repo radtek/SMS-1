@@ -1,6 +1,7 @@
-﻿$(function () {
+﻿var uGrid, vGrid, rGrid;
+$(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var uGrid = new gridItem(
+    uGrid = new gridItem(
         {
             gridElementId: 'unverifiedGrid',
             url: $('#unverifiedGrid').data("url"),
@@ -55,7 +56,7 @@
             ]
         });
 
-    var vGrid = new gridItem(
+    vGrid = new gridItem(
         {
             gridElementId: 'verifiedGrid',
             url: $('#verifiedGrid').data("url"),
@@ -117,7 +118,7 @@
             ]
         });
 
-    var rGrid = new gridItem(
+    rGrid = new gridItem(
         {
             gridElementId: 'rejectedGrid',
             url: $('#rejectedGrid').data("url"),

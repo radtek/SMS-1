@@ -1,7 +1,8 @@
-﻿var shownMessage = false;
+﻿var baGrid;
+var shownMessage = false;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var baGrid = new gridItem(
+    baGrid = new gridItem(
         {
             gridElementId: 'baGrid',
             url: $('#baGrid').data("url"),

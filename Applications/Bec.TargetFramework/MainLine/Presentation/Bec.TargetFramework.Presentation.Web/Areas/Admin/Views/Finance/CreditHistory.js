@@ -1,7 +1,8 @@
-﻿$(function () {
-    var shownMessage = false;
+﻿var shownMessage = false;
+var statementGrid;
+$(function () {    
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var statementGrid = new gridItem(
+    statementGrid = new gridItem(
     {
         gridElementId: 'statementGrid',
         url: $('#statementGrid').data("url"),
@@ -48,21 +49,6 @@
         ]
     });
 
-    var companies = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        identify: function (datum) {
-            return datum.OrganisationID;
-        },
-        remote: {
-            url: $('#orgSearch').data("url") + '?search=%QUERY',
-            wildcard: '%QUERY',
-            transform: function (response) {
-                return response.Items;
-            }
-        }
-    });
-
     findModalLinks();
     setupDateRangeInputs();
     statementGrid.makeGrid();
@@ -92,6 +78,21 @@ function txChange(dataItem) {
 }
 
 function setupAutocomplete() {
+    var companies = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        identify: function (datum) {
+            return datum.OrganisationID;
+        },
+        remote: {
+            url: $('#orgSearch').data("url") + '?search=%QUERY',
+            wildcard: '%QUERY',
+            transform: function (response) {
+                return response.Items;
+            }
+        }
+    });
+
     $('#orgSearch').typeahead({
         minLength: 1,
         highlight: true,
@@ -110,7 +111,7 @@ function setupAutocomplete() {
         .on("typeahead:selected typeahead:autocompleted", function (e, datum) {
             $('#orgID').val(datum.OrganisationID);
             $("#amendCreditButton").attr('disabled', false);
-            $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})' + "?orgId=" + datum.OrganisationID);
+            $("#amendCreditButton").data('href', $("#amendCreditButton").data("url") + "?orgId=" + datum.OrganisationID);
             applyFilter();
         })
         .on('typeahead:asyncrequest', function () {

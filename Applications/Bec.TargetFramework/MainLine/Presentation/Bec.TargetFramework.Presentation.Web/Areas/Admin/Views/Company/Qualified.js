@@ -1,6 +1,7 @@
-﻿$(function () {
+﻿var uGrid;
+$(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var uGrid = new gridItem(
+    uGrid = new gridItem(
         {
             gridElementId: 'activeGrid',
             url: $('#activeGrid').data("url"),

@@ -1,6 +1,7 @@
-﻿$(function () {
+﻿var notificationsGrid;
+$(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var notificationsGrid = new gridItem(
+    notificationsGrid = new gridItem(
     {
         gridElementId: 'notificationsGrid',
         url: $('#notificationsGrid').data("url"),

@@ -1,6 +1,7 @@
-﻿$(function () {
+﻿var iGrid;
+$(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var iGrid = new gridItem(
+    iGrid = new gridItem(
         {
             gridElementId: 'regGrid',
             url: $('#regGrid').data("url"),

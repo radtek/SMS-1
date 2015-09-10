@@ -1,7 +1,8 @@
-﻿$(function () {
+﻿var statementGrid;
+$(function () {
     var shownMessage = false;
     //set up grid options for the three grids. most are passed straight on to kendo grid.
-    var statementGrid = new gridItem(
+    statementGrid = new gridItem(
         {
             gridElementId: 'statementGrid',
             url: $('#statementGrid').data("url"),

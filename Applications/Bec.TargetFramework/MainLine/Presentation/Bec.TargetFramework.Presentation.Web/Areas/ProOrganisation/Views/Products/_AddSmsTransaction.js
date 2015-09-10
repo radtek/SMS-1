@@ -73,7 +73,7 @@ $("#addTransaction-form").validate({
             required: true,
             email: true,
             remote: {
-                url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
+                url: $('#Email').data("url"),
                 data: { email: function () { return $('#Email').val(); } },
                 dataType: 'json',
                 error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }

@@ -1,7 +1,7 @@
 ﻿var primaryBuyerTemplatePromise, relatedPartiesTemplatePromise;
-
+var txGrid;
 $(function () {
-    var txGrid = new gridItem(
+    txGrid = new gridItem(
     {
         gridElementId: 'txGrid',
         url: $('#txGrid').data("url"),
@@ -110,7 +110,7 @@ function showPrimaryBuyerDetails(dataItem) {
 function showTransactionRelatedParties(dataItem, url, targetElementId, accordionId, spinnerId) {
     $('#' + spinnerId).show();
 
-    $.ajax({
+    ajaxWrapper({
         url: url,
         type: 'GET',
         data: {
