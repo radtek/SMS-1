@@ -9,7 +9,7 @@ namespace Bec.TargetFramework.Presentation.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            //filters.Add(new ContentSecurityPolicyFilterAttribute());
+            filters.Add(new SecurityFilterAttribute());
         }
     }
 }
