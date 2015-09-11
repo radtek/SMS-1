@@ -24,7 +24,7 @@
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, Html.EnumList<SalutationEnum>(), "Please Select", new { tabindex = "1" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1" })
                                         <i></i>
                                     </label>
                                 </section>

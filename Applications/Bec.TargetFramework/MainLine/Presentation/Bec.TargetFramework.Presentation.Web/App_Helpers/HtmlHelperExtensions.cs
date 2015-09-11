@@ -191,6 +191,19 @@ namespace Bec.TargetFramework.Presentation.Web
             }
             return new SelectList(rejects, "Value", "Text");
         }
+
+        public static SelectList EnumListString<T>(this HtmlHelper helper)
+        {
+            List<object> rejects = new List<object>();
+            Type eType = typeof(T);
+            foreach (var item in Enum.GetValues(eType))
+            {
+                var member = eType.GetMember(item.ToString())[0];
+                StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
+                rejects.Add(new { Text = attr.StringValue, Value = attr.StringValue });
+            }
+            return new SelectList(rejects, "Value", "Text");
+        }
         
         public static MvcHtmlString Timeago(this HtmlHelper helper, DateTime dateTime)
         {
