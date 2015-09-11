@@ -2,7 +2,6 @@
 using Bec.TargetFramework.Business.Product.Interfaces;
 using Bec.TargetFramework.Business.Product.Helpers;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Infrastructure.Log;
 using System;

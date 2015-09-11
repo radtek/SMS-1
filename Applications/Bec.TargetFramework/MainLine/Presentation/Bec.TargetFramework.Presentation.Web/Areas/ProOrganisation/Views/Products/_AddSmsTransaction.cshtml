@@ -2,16 +2,9 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model AddSmsTransactionDTO
-@{
-    var titles = ((SalutationEnum[])Enum.GetValues(typeof(SalutationEnum)))
-        .Select(s => new SelectListItem
-        {
-            Text = s.GetStringValue(),
-            Value = s.GetStringValue()
-        });
-}
+
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" id="d1" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })" data-message="@Url.Action("ViewMessage", "Home", new { Area = "", })" data-getbal="@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })" data-topup="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })">
         <!--
         <div class="help help-container help-sm">
             <div class="help-vert">HELP</div>
@@ -26,7 +19,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="addTransaction-form" class="smart-form margin-top-10">
+                    <form id="addTransaction-form" class="smart-form margin-top-10" data-url="@Url.Action("AddSmsTransaction", "Products", new { area = "ProOrganisation" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.BuyerUaoID)
@@ -58,7 +51,7 @@
                                                 <section class="col col-sm-4">
                                                     <label class="label">Title</label>
                                                     <label class="select">
-                                                        @Html.DropDownListFor(m => m.Salutation, new SelectList(titles, "Value", "Text"), "Please Select", new { tabindex = "1" })
+                                                        @Html.DropDownListFor(m => m.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1" })
                                                         <i></i>
                                                     </label>
                                                 </section>
@@ -82,7 +75,7 @@
                                                     <label class="label">Email</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email" })
+                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
                                                     </label>
                                                 </section>
                                                 <section class="col col-sm-4">
@@ -275,7 +268,7 @@
                                                 <section class="col col-6">
                                                     <label class="label">Mortgage Lender</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "16", maxlength = 50, id = "lenderSearch", @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "16", maxlength = 50, id = "lenderSearch", @class = "form-control", data_url = Url.Action("SearchLenders", "Products", new { Area = "ProOrganisation" }) })
                                                         <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
                                                     </label>
                                                 </section>
@@ -299,17 +292,17 @@
                                             </div>
                                         </fieldset>
                                         <!--
-                    <fieldset>
-                        <section>
-                            <label class="label">Product Price: <span id="price">£10.00</span></label>
-                        </section>
+                                        <fieldset>
+                                            <section>
+                                                <label class="label">Product Price: <span id="price">£10.00</span></label>
+                                            </section>
 
-                        <section>
-                            <label class="label">Credit Balance as of <span id="balance"></span></label>
-                        </section>
+                                            <section>
+                                                <label class="label">Credit Balance as of <span id="balance"></span></label>
+                                            </section>
 
-                    </fieldset>
-                    -->
+                                        </fieldset>
+                                            -->
 
                                     </div>
 
@@ -341,256 +334,5 @@
     </div>
 </div>
 
-<script type="text/javascript" src="~/Scripts/typeahead.bundle.min.js"></script>
-<script type="text/javascript">
-
-    $(function () {
-
-        var lenders = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: '@Url.Action("SearchLenders", "Products", new {Area = "ProOrganisation"})' + '?search=%QUERY',
-                wildcard: '%QUERY',
-                transform: function (response) {
-                    return response.Items;
-                }
-            }
-        });
-
-        $('#lenderSearch').typeahead({
-            minLength: 1,
-            highlight: true,
-            hint: false
-        }, {
-            display: 'Name',
-            source: lenders
-        })
-        .on('typeahead:asyncrequest', function () {
-            $('#orgSearch').parent().siblings('.typeahead-spinner').show();
-        })
-        .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-            $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
-        });
-
-        new findAddress({
-            postcodelookup: '#primaryBuyerPostcodeLookup',
-            line1: '#primaryBuyerLine1',
-            line2: '#primaryBuyerLine2',
-            town: '#primaryBuyerTown',
-            county: '#primaryBuyerCounty',
-            postcode: '#primaryBuyerPostalCode',
-            manualAddress: '#primaryBuyerManualAddress',
-            resList: '#primaryBuyerAddressResults',
-            manAddRow: '#primaryBuyerManAddRow',
-            noMatch: '#primaryBuyerNoMatch',
-            findAddressButton: '#primaryBuyerFindAddressButton',
-            additionalAddress: '#primaryBuyerAdditionalAddressInformation'
-        }).setup();
-
-        new findAddress({
-            postcodelookup: '#sms_postcodelookup',
-            line1: '#sms_Line1',
-            line2: '#sms_Line2',
-            town: '#sms_Town',
-            county: '#sms_County',
-            postcode: '#sms_PostalCode',
-            manualAddress: '#sms_manualAddress',
-            resList: '#sms_addressresults',
-            manAddRow: '#sms_manAddRow',
-            noMatch: '#sms_noMatch',
-            findAddressButton: '#sms_findaddressbutton',
-            additionalAddress: '#sms_AdditionalAddressInformation'
-        }).setup();
-
-        $("#addTransaction-form").validate({
-            ignore: '.skip',
-            // Rules for form validation
-            rules: {
-                "@Html.NameFor(m => m.Salutation)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.FirstName)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.LastName)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.Email)": {
-                    required: true,
-                    email: true,
-                    remote: {
-                        url: '@Url.Action("CheckEmail", "Home", new { Area = "" })',
-                        data: { email: function () { return $('#Email').val(); } },
-                        dataType: 'json',
-                        error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
-                    }
-                },
-                "@Html.NameFor(m => m.BirthDate)": {
-                    required: true,
-                    dateGB: true
-                },
-                "@Html.NameFor(m => m.Line1)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.Town)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.PostalCode)": {
-                    required: true,
-                    minlength: 5
-                },
-                "@Html.NameFor(m => m.SmsTransactionDTO.Address.Line1)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.SmsTransactionDTO.Address.Town)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.SmsTransactionDTO.Address.PostalCode)": {
-                    required: true,
-                    minlength: 5
-                },
-                "@Html.NameFor(m => m.SmsTransactionDTO.Reference)": {
-                    required: true
-                },
-                "@Html.NameFor(m => m.SmsTransactionDTO.Price)": {
-                    required: true,
-                    digits: true,
-                    max: 2147483647
-                },
-            },
-
-            // Do not change code below
-            errorPlacement: function (error, element) {
-                error.insertAfter(element.parent());
-            },
-
-            submitHandler: validateSubmit
-        });
-
-        var wizard = $('#addTransactionWizard').bootstrapWizard({
-            tabClass: 'form-wizard',
-            onTabShow: function (tab, navigation, index) {
-                var $total = navigation.find('li').length;
-                var $current = index + 1;
-                if ($current >= $total) {
-                    $('#stepBack').show();
-                    $('#stepNext').hide();
-                    $('#submitAddTransaction').show();
-                    $('#submitAddTransaction').removeClass('disabled');
-                } else {
-                    $('#stepBack').hide();
-                    $('#stepNext').show();
-                    $('#submitAddTransaction').hide();
-                }
-            }
-        });
-
-        $("#submitAddTransaction").click(function () {
-            var form = $("#addTransaction-form");
-            var isValid = form.valid();
-            if (!isValid) {
-                var invalidInputs = $(form.find('.tab-pane .invalid')[0]);
-                var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
-                wizard.bootstrapWizard('show', tabId);
-
-                return false;
-            }
-            form.submit();
-        });
-
-        $("#stepNext").click(function () {
-            wizard.bootstrapWizard('next');
-        });
-
-        $("#stepBack").click(function () {
-            wizard.bootstrapWizard('previous');
-        });
-
-        function validateSubmit(form) {
-            $("#addTransactionControls button").prop('disabled', true);
-            var formData = $("#addTransaction-form").serializeArray();
-            //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
-            handleModal(
-            {
-                url: '@Url.Action("CheckDuplicateUserSmsTransaction", "Products", new { Area = "ProOrganisation" })',
-                data: formData,
-                method: 'POST'
-            },
-            {
-                cancel: function () {
-                    $("#addTransactionControls button").prop('disabled', false);
-                },
-                save: function () {
-                    doPost(formData);
-                }
-            },
-            true,
-            "save"); //default action if no duplicate results
-        }
-
-        function doPost(formData) {
-            ajaxWrapper({
-                url: '@Url.Action("AddSmsTransaction", "Products", new { area = "ProOrganisation" })',
-                type: "POST",
-                data: formData
-            }).done(function (res) {
-                if (res.result == true)
-                    window.location = '@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })';
-                else {
-                    $('#buyerUaoID').val(res.buyerUaoID);
-                    updateBalance();
-                    handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
-                        messageButton: function () {
-                            $("#addTransactionControls button").prop('disabled', false);
-                        }
-                    }, true);
-                }
-            }).fail(function (e) {
-                console.log(e);
-                updateBalance();
-                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#addTransactionControls button").prop('disabled', false);
-                    }
-                }, true);
-            });
-        }
-
-        function updateBalance() {
-            ajaxWrapper({ url: '@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })' + '?startOfDay=false&date=' + new Date().toJSON().slice(0, 10) })
-                .done(function (res) {
-                    $('#balance').text(new Date().toLocaleTimeString() + ": " + formatCurrency(parseFloat(res)));
-                });
-        }
-
-        function topUp() {
-            handleModal({ url: '@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })' }, {
-                submitPay: function () {
-                    updateBalance();
-                }
-            }, true);
-        }
-
-        function setupDateOfBirthInput() {
-            var now = new Date();
-            var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
-            $("#birthDateInput").datepicker({
-                dateFormat: "dd/mm/yy",
-                maxDate: now,
-                minDate: minDate,
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-110:+0",
-                showButtonPanel: true,
-                prevText: "<i class=\"fa fa-chevron-left\"></i>",
-                nextText: "<i class=\"fa fa-chevron-right\"></i>"
-            });
-        }
-
-        updateBalance();
-        setupDateOfBirthInput();
-    });
-
-</script>
-}
+@Scripts.Render("~/Scripts/typeahead")
+<script async src="@Scripts.Url("~/Scripts/ProOrganisation/Products/_AddSmsTransaction")"></script>

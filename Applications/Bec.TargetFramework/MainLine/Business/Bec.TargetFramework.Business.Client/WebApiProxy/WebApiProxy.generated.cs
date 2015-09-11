@@ -15,7 +15,6 @@ using Bec.TargetFramework.Business.Client.Models;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using System.Web.Http;
-using Bec.TargetFramework.Infrastructure;
 using BrockAllen.MembershipReboot;
 using ServiceStack.Text;
 

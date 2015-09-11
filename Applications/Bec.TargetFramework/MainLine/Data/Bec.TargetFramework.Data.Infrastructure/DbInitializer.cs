@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Bec.TargetFramework.Infrastructure.Log;
+﻿using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Serilog;
 using Bec.TargetFramework.Infrastructure.Settings;
 using System;

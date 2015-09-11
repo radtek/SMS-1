@@ -7,9 +7,9 @@
 
         <div class="col-sm-12">
 
-            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist">
+            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
                 <li><a href="#s1"> New Invites </a></li>
-                <li><a href="#s3"> Expired </a></li>
+                <li><a href="#s2"> Expired </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
 
@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="nGrid"></div>
+                                <div id="nGrid" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true })" data-jumpto="@TempData["UserId"]"></div>
                             </div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                                <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -43,34 +43,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="well">
-                                <div id="wGrid"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row hidden" id="wPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true">Resend Login Details</a>
-                                <a id="revokeButton2" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
-                                <h5>Selected Invite</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddwName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="ddwEmail"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="s3" role="tabpanel">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="well">
-                                <div id="eGrid"></div>
+                                <div id="eGrid" data-url="@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false })" data-jumpto="@TempData["UserId"]"></div>
                             </div>
                         </div>
                     </div>
@@ -79,8 +52,8 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true">Reinstate Invite</a>
-                                <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true">Revoke Invite</a>
+                                <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })">Reinstate Invite</a>
+                                <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
@@ -100,120 +73,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var nGrid = new gridItem(
-            {
-                gridElementId: 'nGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = true }))',
-                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "Contact.LastName", dir: "asc" },
-                panels: ['nPanel'],
-                change: nChange,
-                jumpToId: '@TempData["UserId"]',
-                columns: [
-                        {
-                            field: "UserID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Contact.Salutation",
-                            title: "Title"
-                        },
-                        {
-                            field: "Contact.LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
-                        },
-                        {
-                            field: "UserAccount.Email",
-                            title: "Email"
-                        },
-                        {
-                            field: "UserAccount.Created",
-                            title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
-                        }
-                ]
-            });
-
-        var eGrid = new gridItem(
-            {
-                gridElementId: 'eGrid',
-                url: '@Html.Raw(@Url.Action("GetUsers", "Users", new { area = "ProOrganisation", temporary = true, loginAllowed = false }))',
-                schema: { data: "Items", total: "Count", model: { id: "UserID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "Contact.LastName", dir: "asc" },
-                panels: ['ePanel'],
-                change: eChange,
-                jumpToId: '@TempData["UserId"]',
-                columns: [
-                        {
-                            field: "UserID",
-                            hidden: true,
-                        },
-                        {
-                            field: "Contact.Salutation",
-                            title: "Title"
-                        },
-                        {
-                            field: "Contact.LastName",
-                            title: "Name",
-                            template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
-                        },
-                        {
-                            field: "UserAccount.Email",
-                            title: "Email"
-                        },
-                        {
-                            field: "UserAccount.Created",
-                            title: "Invite Created",
-                            template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
-                        }
-                ]
-            });
-
-        var tabs = new tabItem("myTab1",
-        {
-            s1: {
-                grids: [nGrid]
-            },
-            s2: {
-                grids: [wGrid]
-            },
-            s3: {
-                grids: [eGrid]
-            },
-        });
-
-        $(document).ready(function () {
-            tabs.makeTab();
-            tabs.showTab(@TempData["tabIndex"]);
-            findModalLinks();
-        });
-
-        //data binding for the panes beneath each grid
-        function nChange(dataItem) {
-            $("p#ddnSal").text(dataItem.Contact.Salutation || "");
-            $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
-            $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
-
-            $("#revokeButton1").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
-        }
-        function eChange(dataItem) {
-            $("p#ddeSal").text(dataItem.Contact.Salutation || "");
-            $("p#ddeName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
-            $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
-
-            $("#reinstateButton").data('href', '@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })' + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
-            $("#revokeButton3").data('href', '@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })' + "?userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/ProOrganisation/Users/Invited")"></script>
 }

@@ -1,5 +1,6 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
@@ -81,7 +82,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("SmsUserAccountOrganisationTransactions", Request.QueryString + select + filter);
+            JObject res = await queryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
@@ -110,8 +111,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
         {
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = Edit.fromD(Request.Form);
 
@@ -138,11 +141,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoID, Guid txID)
         {
+            await UsersController.EnsureUserInOrg(uaoID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.ResendLoginsAsync(uaoID);
             TempData["SmsTransactionID"] = txID;
             return RedirectToAction("Index");
+        }
+
+        internal static async Task EnsureSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient client)
+        {
+            var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });
+            var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
+            dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
+            if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
         }
     }
 }

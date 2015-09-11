@@ -1,7 +1,6 @@
 ﻿using Bec.TargetFramework.Aop.Aspects;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using EnsureThat;

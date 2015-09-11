@@ -1,6 +1,6 @@
 ﻿@using Bec.TargetFramework.Entities.Enums
 <!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
     <div class="row">
         <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
         <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="txGrid"></div>
+                        <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]"></div>
                     </div>
                 </div>
             </div>
@@ -52,8 +52,8 @@
                         <h5>
                             Personal Details
                             <span class="pull-right">
-                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true"><i class="fa fa-envelope margin-right-5"></i>Resend Login Details</a>
+                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})"><i class="fa fa-envelope margin-right-5"></i>Resend Login Details</a>
                             </span>
                         </h5>
                         <div id="primaryBuyer"></div>
@@ -63,20 +63,20 @@
                             Additional Buyers
                             <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
                             <span class="pull-right">
-                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
                             </span>
                         </h3>
-                        <div id="additionalBuyers"></div>
+                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
                     </div>
                     <div class="well">
                         <h3>
                             Giftors
                             <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
                             <span class="pull-right">
-                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
                             </span>
                         </h3>
-                        <div id="giftors"></div>
+                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
                     </div>
                 </div>
             </div>
@@ -85,232 +85,5 @@
 </div>
 
 @section Scripts {
-
-    <script id="primaryBuyerDetailsTmpl" type="text/x-handlebars-template">
-        <dl class="dl-horizontal">
-            <dt>Full Name:</dt>
-            <dd><p>{{fullName}}</p></dd>
-            <dt>Email:</dt>
-            <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
-            {{#if formattedBirthDate}}
-            <dt>Date of Birth:</dt>
-            <dd><p>{{formattedBirthDate}}</p></dd>
-            {{/if}}
-        </dl>
-        <h5>Registered Home Address</h5>
-        <dl class="dl-horizontal">
-            <dt>Address Line 1:</dt>
-            <dd><p>{{Address.Line1}}</p></dd>
-            {{#if Address.Line2}}
-            <dt>Address Line 2:</dt>
-            <dd><p>{{Address.Line2}}</p></dd>
-            {{/if}}
-            <dt>Town:</dt>
-            <dd><p>{{Address.Town}}</p></dd>
-            {{#if Address.County}}
-            <dt>County:</dt>
-            <dd><p>{{Address.County}}</p></dd>
-            {{/if}}
-            <dt>Post Code:</dt>
-            <dd><p>{{Address.PostalCode}}</p></dd>
-        </dl>
-    </script>
-
-    <script id="relatedPartiesTmpl" type="text/x-handlebars-template">
-        {{#if isEmpty}}
-        <div class="alert alert-info fade in">
-            <i class="fa-fw fa fa-info"></i>
-            There is no one associated with the transaction.
-        </div>
-        {{/if}}
-        <div class="panel-group smart-accordion-default" id="{{accordionId}}">
-            {{#each items}}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title" data-parent="#{{@@root.accordionId}}">
-                        <a data-toggle="collapse" href="#{{elementId}}" aria-expanded="false" class="collapsed">
-                            <i class="fa fa-lg fa-angle-down pull-right"></i>
-                            <i class="fa fa-lg fa-angle-up pull-right"></i>
-                            <span>{{fullName}}</span>
-                        </a>
-                    </h4>
-                </div>
-                <div class="panel-collapse collapse" aria-expanded="false" id="{{elementId}}">
-                    <div class="panel-body">
-                        <div class="pull-right">
-                            @*<a href="#" class="btn btn-primary"><i class="fa fa-edit"></i> Edit </a>
-                                <a href="#" class="btn btn-primary"><i class="fa fa-remove"></i> Delete </a>*@
-                        </div>
-                        <dl class="dl-horizontal pull-left">
-                            <dt>Full Name:</dt>
-                            <dd><p>{{fullName}}</p></dd>
-                            <dt>Email:</dt>
-                            <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
-                            {{#if formattedBirthDate}}
-                            <dt>Date of Birth:</dt>
-                            <dd><p>{{formattedBirthDate}}</p></dd>
-                            {{/if}}
-                            <dt>Address Line 1:</dt>
-                            <dd><p>{{Address.Line1}}</p></dd>
-                            {{#if Address.Line2}}
-                            <dt>Address Line 2:</dt>
-                            <dd><p>{{Address.Line2}}</p></dd>
-                            {{/if}}
-                            <dt>Town:</dt>
-                            <dd><p>{{Address.Town}}</p></dd>
-                            {{#if Address.County}}
-                            <dt>County:</dt>
-                            <dd><p>{{Address.County}}</p></dd>
-                            {{/if}}
-                            <dt>Post Code:</dt>
-                            <dd><p>{{Address.PostalCode}}</p></dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            setupTransactionsGrid();
-            findModalLinks();
-        });
-
-        var salutations = [];
-        @foreach (var salutation in ((SalutationEnum[]) Enum.GetValues(typeof (SalutationEnum))))
-        {
-            @:salutations.push("@salutation");
-        }
-
-        function setupTransactionsGrid() {
-            var txGrid = new gridItem(
-            {
-                gridElementId: 'txGrid',
-                url: '@Url.Action("GetSmsTransactions", "Transaction", new {area = "SmsTransaction"})',
-                schema: { data: "Items", total: "Count", model: { id: "SmsTransactionID" } },
-                type: 'odata-v4',
-                serverSorting: true,
-                serverPaging: true,
-                defaultSort: { field: "SmsTransaction.CreatedOn", dir: "desc" },
-                panels: ['rPanel'],
-                jumpToId: '@TempData["SmsTransactionID"]',
-                change: txChange,
-                searchElementId: 'gridSearchInput',
-                searchButtonId: 'gridSearchButton',
-                columns: [
-                    {
-                        field: "SmsTransactionID",
-                        hidden: true,
-                    },
-                    {
-                        field: "SmsTransaction.Reference",
-                        title: "Internal Reference"
-                    },
-                    {
-                        field: "SmsTransaction.Address.Line1",
-                        title: "Address Line 1"
-                    },
-                    {
-                        field: "SmsTransaction.Address.PostalCode",
-                        title: "Postcode"
-                    },
-                    {
-                        field: "SmsTransaction.CreatedOn",
-                        title: "Created",
-                        template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
-                    }
-                ]
-            });
-            txGrid.makeGrid();
-
-            //data binding for the panes beneath each grid
-            function txChange(dataItem) {
-                $("p#ddAddressLine1").text(dataItem.SmsTransaction.Address.Line1 || "");
-                $("p#ddAddressLine2").text(dataItem.SmsTransaction.Address.Line2 || "");
-                $("p#ddTown").text(dataItem.SmsTransaction.Address.Town || "");
-                $("p#ddCounty").text(dataItem.SmsTransaction.Address.County || "");
-                $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
-                $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
-
-                $("#addAdditionalBuyerButton").data('href', '@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID);
-                $("#addGiftorButton").data('href', '@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID);
-
-                $("#editButton").data('href', '@Url.Action("ViewEditSmsTransaction", "Transaction", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID);
-                $("#resendButton").data('href', '@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})' + "?txID=" + dataItem.SmsTransactionID + "&label=" +
-                    encodeURIComponent(
-                    (dataItem.Contact.Salutation || "") + " " +
-                    (dataItem.Contact.FirstName || "") + " " +
-                    (dataItem.Contact.LastName || "")));
-                $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
-
-                toggleFields(dataItem);
-                showPrimaryBuyerDetails(dataItem);
-                showTransactionRelatedParties(dataItem, '@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})', 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
-                showTransactionRelatedParties(dataItem, '@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})', 'giftors', 'giftorsAccordion', 'spinnerGiftors');
-            }
-
-            function toggleFields(dataItem) {
-                $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.SmsTransaction.Address.Line1);
-                $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.SmsTransaction.Address.Line2);
-                $("#dtTown, p#ddTown").toggle(!!dataItem.SmsTransaction.Address.Town);
-                $("#dtCounty, p#ddCounty").toggle(!!dataItem.SmsTransaction.Address.County);
-                $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.SmsTransaction.Address.PostalCode);
-                $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.SmsTransaction.Address.AdditionalAddressInformation);
-            }
-
-            function showPrimaryBuyerDetails(dataItem) {
-                var contact = dataItem.Contact;
-                var data = _.extend({}, dataItem, {
-                    fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-                    formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
-                });
-
-                var source = $("#primaryBuyerDetailsTmpl").html();
-                var template = Handlebars.compile(source);
-                var html = template(data);
-                $('#primaryBuyer').html(html);
-            }
-
-            function showTransactionRelatedParties(dataItem, url, targetElementId, accordionId, spinnerId) {
-                $('#' + spinnerId).show();
-
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: {
-                        transactionID: dataItem.SmsTransactionID
-                    }
-                })
-                .success(function (data) {
-                    var items = data.Items;
-                    items = _.map(items, function (item) {
-                        var contact = item.Contact;
-                        return _.extend({}, item, {
-                            fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-                            elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
-                            formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
-                        });
-                    });
-                    var templateData = {
-                        accordionId: accordionId,
-                        isEmpty: items.length === 0,
-                        items: items
-                    };
-
-                    var source = $("#relatedPartiesTmpl").html();
-                    var template = Handlebars.compile(source);
-                    var html = template(templateData);
-                    $('#' + targetElementId).html(html);
-                })
-                .error(function (data) {
-                    console.log(data);
-                })
-                .always(function () {
-                    $('#' + spinnerId).hide();
-                });
-            }
-        }
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/Index")"></script>
 }

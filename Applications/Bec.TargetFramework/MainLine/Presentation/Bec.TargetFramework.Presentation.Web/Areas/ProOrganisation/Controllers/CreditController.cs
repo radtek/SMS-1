@@ -59,8 +59,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.BalanceOn < to &&
                 x.OrganisationLedgerAccountID == creditAccountID);
 
-            var query = ODataHelper.RemoveParameters(Request) + select + filter;
-            JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", query);
+            JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

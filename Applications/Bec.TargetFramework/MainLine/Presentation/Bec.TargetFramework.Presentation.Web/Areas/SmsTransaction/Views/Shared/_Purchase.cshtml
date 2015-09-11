@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form id="purchase-form" class="smart-form">
+                        <form id="purchase-form" class="smart-form" data-url="@Url.Action("Purchase", "Transaction", new { area = "SmsTransaction" })" data-message="@Url.Action("ViewMessage", "Home", new { Area = "", })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
@@ -68,30 +68,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $("#submitPurchase").click(function () {
-        $("#submitPurchase").prop('disabled', true);
-        var formData = $("#purchase-form").serializeArray();
-        ajaxWrapper({
-            url: '@Url.Action("Purchase", "Transaction", new { area = "SmsTransaction" })',
-            type: "POST",
-            data: formData
-        }).done(function (res) {
-            if (res.result == true)
-                hideCurrentModal();
-            else
-                handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#submitPurchase").prop('disabled', false);
-                    }
-                }, true);
-        }).fail(function (e) {
-            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "" })' + "?title=Error&message=" + e + "&button=Back" }, {
-                messageButton: function () {
-                    $("#submitPurchase").prop('disabled', false);
-                }
-            }, true);
-        });
-
-    })
-</script>
+<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Shared/_Purchase")"></script>

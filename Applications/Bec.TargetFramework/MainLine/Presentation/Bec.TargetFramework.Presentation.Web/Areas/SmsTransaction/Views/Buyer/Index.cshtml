@@ -33,7 +33,9 @@
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
                                         <div class="panel-body no-padding">
-                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("PerformCheck", "Check", new { Area = "BankAccount", orgID = tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
+                                            <form class="bank-check-form" id="check-Form-@i" data-index="@i" data-url="@Url.Action(" performcheck", "Check" , new { area="BankAccount" , orgid=tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
+                                                @Html.ValidationBootstrap()
+                                                @Html.AntiForgeryToken()
                                                 <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                                     <h5 class="margin-top-10 margin-bottom-10"><i class="fa-fw fa fa-info"></i><strong>How to use?</strong></h5>
                                                     <p>
@@ -98,65 +100,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        var opts = {
-            ignore: '.skip',
-            // Rules for form validation
-            rules: {
-                accountNumber: {
-                    required: true,
-                    digits: true,
-                    minlength: 8
-                },
-                sortCode: {
-                    required: true,
-                    digits: true,
-                    minlength: 6
-                }
-            },
-
-            submitHandler: validateSubmit
-        };
-
-        @for (int j = 0; j < i; j++)
-        {
-            <text>$("#check-Form-</text>@j<text>").validate(opts);</text>
-        }
-
-        function validateSubmit(form) {
-            $("#submitButton").prop('disabled', true);
-
-            var matchDiv = $('#result-match-' + $(form).data("index"));
-            var noMatchDiv = $('#result-no-match-' + $(form).data("index"));
-            var serverErrorDiv = $('#result-server-error-' + $(form).data("index"));
-            var spinner = $('#spinner-' + $(form).data("index"));
-
-            matchDiv.hide();
-            noMatchDiv.hide();
-            serverErrorDiv.hide();
-            spinner.show();
-
-            var formData = $(form).serializeArray();
-            ajaxWrapper({
-                url: $(form).data("url"),
-                type: "POST",
-                data: formData
-            }).done(function (res) {
-                $("#submitButton").prop('disabled', false);
-                spinner.hide();
-                if (res.result == true) {
-                    matchDiv.show();
-                }
-                else {
-                    noMatchDiv.show();
-                }
-            }).fail(function (e) {
-                $("#submitButton").prop('disabled', false);
-                console.log(e);
-                spinner.hide();
-                serverErrorDiv.show();
-            });
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Buyer/Index")"></script>
 }

@@ -98,5 +98,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetTemplate(string view)
+        {
+            return PartialView(view);
+        }
     }
 }

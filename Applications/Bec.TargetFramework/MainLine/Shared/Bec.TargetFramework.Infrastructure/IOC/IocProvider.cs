@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Bec.TargetFramework.Infrastructure.IOC;
 using Bec.TargetFramework.Infrastructure.Log;
-using EnsureThat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
