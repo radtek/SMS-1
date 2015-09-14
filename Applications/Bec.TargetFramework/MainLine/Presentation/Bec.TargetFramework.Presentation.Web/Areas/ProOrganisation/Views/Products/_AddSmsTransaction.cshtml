@@ -30,13 +30,13 @@
                                         <li class="active" data-target="#step1">
                                             <a href="#step1" data-toggle="tab">
                                                 <h4 class="list-group-item-heading">Step 1</h4>
-                                                <p class="list-group-item-text">Primary Buyer</p>
+                                                <p class="list-group-item-text">Primary Buyer Details</p>
                                             </a>
                                         </li>
                                         <li data-target="#step2">
                                             <a href="#step2" data-toggle="tab">
                                                 <h4 class="list-group-item-heading">Step 2</h4>
-                                                <p class="list-group-item-text">Transaction Details</p>
+                                                <p class="list-group-item-text">Transaction Address</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -46,7 +46,7 @@
                                     <div class="tab-pane active" id="step1">
 
                                         <fieldset>
-                                            <legend>Primary Buyer</legend>
+                                            <legend>Primary Buyer Details</legend>
                                             <div class="row">
                                                 <section class="col col-sm-4">
                                                     <label class="label">Title</label>
@@ -173,7 +173,7 @@
 
                                     <div class="tab-pane" id="step2">
                                         <fieldset>
-                                            <legend>Transaction Details</legend>
+                                            <legend>Transaction Address</legend>
                                             <div class="row">
                                                 <section class="col col-4">
                                                     <label class="label">Lookup Postcode</label>
@@ -253,42 +253,41 @@
                                                     </label>
                                                 </section>
                                             </div>
-
-                                            <div class="row">
-                                                <section class="col col-6">
-                                                    <label class="label">Price</label>
-                                                    <label class="input">
-                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Price, new { tabindex = "15", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
-
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Other Details</legend>
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="label">Mortgage Lender</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "16", maxlength = 50, id = "lenderSearch", @class = "form-control", data_url = Url.Action("SearchLenders", "Products", new { Area = "ProOrganisation" }) })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "15", maxlength = 50, id = "lenderSearch", @class = "form-control", data_url = Url.Action("SearchLenders", "Products", new { Area = "ProOrganisation" }) })
                                                         <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="label">Mortgage Application Number</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.MortgageApplicationNumber, new { tabindex = "17", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.MortgageApplicationNumber, new { tabindex = "16", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
-
-                                        </fieldset>
-                                        <fieldset>
-                                            <legend>Other Details</legend>
-                                            <div class="form-group">
-                                                <label class="label">Internal Reference</label>
-                                                <label class="input">
-                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                    @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "18", maxlength = 500 })
-                                                </label>
+                                            <div class="row">
+                                                <section class="col col-sm-12">
+                                                    <label class="label">Your Reference</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "17", maxlength = 500 })
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Price</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Price, new { tabindex = "18", maxlength = 50 })
+                                                    </label>
+                                                </section>
                                             </div>
                                         </fieldset>
                                         <!--

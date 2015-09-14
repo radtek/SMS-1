@@ -22,7 +22,7 @@ $(function () {
             },
             {
                 field: "SmsTransaction.Reference",
-                title: "Internal Reference"
+                title: "Your Reference"
             },
             {
                 field: "SmsTransaction.Address.Line1",
