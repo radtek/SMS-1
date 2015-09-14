@@ -160,14 +160,6 @@
                                                     </label>
                                                 </section>
                                             </div>
-                                            <div class="row">
-                                                <section class="col col-sm-12">
-                                                    <label class="label">Additional Address Information</label>
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.AdditionalAddressInformation, new { id = "primaryBuyerAdditionalAddressInformation", @readonly = "readonly", tabindex = "15", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
                                         </fieldset>
                                     </div>
 
@@ -178,19 +170,19 @@
                                                 <section class="col col-4">
                                                     <label class="label">Lookup Postcode</label>
                                                     <label class="input">
-                                                        <input id="sms_postcodelookup" type="text" tabindex="5" maxlength="10" />
+                                                        <input id="sms_postcodelookup" type="text" tabindex="15" maxlength="10" />
                                                     </label>
                                                 </section>
 
                                                 <section class="col">
                                                     <label class="label">&nbsp;</label>
-                                                    <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new {Area = ""})" type="button" class="btn btn-default btn-sm" tabindex="6">Find Address</button>
+                                                    <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new {Area = ""})" type="button" class="btn btn-default btn-sm" tabindex="16">Find Address</button>
                                                 </section>
                                             </div>
 
                                             <section>
                                                 <label class="select">
-                                                    <select id="sms_addressresults" tabindex="7"></select>
+                                                    <select id="sms_addressresults" tabindex="17"></select>
                                                     <i></i>
                                                 </label>
                                             </section>
@@ -205,7 +197,7 @@
                                             <div class="row" id="sms_manAddRow">
                                                 <section class="col">
                                                     <input type="checkbox" id="sms_manualAddress" />
-                                                    <label for="sms_manualAddress" tabindex="8">Edit Address Details</label>
+                                                    <label for="sms_manualAddress" tabindex="18">Edit Address Details</label>
                                                 </section>
                                             </div>
 
@@ -213,12 +205,12 @@
                                                 <section class="col col-6">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "9", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Line1, new { id = "sms_Line1", @readonly = "readonly", placeholder = "Address Line 1", tabindex = "19", maxlength = 50 })
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "12", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.County, new { id = "sms_County", @readonly = "readonly", placeholder = "County", tabindex = "22", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -226,13 +218,13 @@
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "10", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Line2, new { id = "sms_Line2", @readonly = "readonly", placeholder = "Address Line 2", tabindex = "20", maxlength = 50 })
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "13", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.PostalCode, new { id = "sms_PostalCode", @readonly = "readonly", placeholder = "Postcode", tabindex = "23", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -241,33 +233,23 @@
                                                 <section class="col col-6">
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "11", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.Town, new { id = "sms_Town", @readonly = "readonly", placeholder = "Town", tabindex = "21", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
-                                            <div class="row">
-                                                <section class="col col-sm-12">
-                                                    <label class="label">Additional Address Information</label>
-                                                    <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Address.AdditionalAddressInformation, new { id = "sms_AdditionalAddressInformation", @readonly = "readonly", tabindex = "14", maxlength = 50 })
-                                                    </label>
-                                                </section>
-                                            </div>
-                                        </fieldset>
-                                        <fieldset>
-                                            <legend>Other Details</legend>
+
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="label">Mortgage Lender</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "15", maxlength = 50, id = "lenderSearch", @class = "form-control", data_url = Url.Action("SearchLenders", "Products", new { Area = "ProOrganisation" }) })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", @class = "form-control", data_url = Url.Action("SearchLenders", "Products", new { Area = "ProOrganisation" }) })
                                                         <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
                                                     </label>
                                                 </section>
                                                 <section class="col col-6">
                                                     <label class="label">Mortgage Application Number</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.MortgageApplicationNumber, new { tabindex = "16", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.MortgageApplicationNumber, new { tabindex = "25", maxlength = 50 })
                                                     </label>
                                                 </section>
                                             </div>
@@ -276,17 +258,17 @@
                                                     <label class="label">Your Reference</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "17", maxlength = 500 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "26", maxlength = 500 })
                                                     </label>
                                                 </section>
                                             </div>
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="label">Price</label>
-                                                    <label class="input">
-                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Price, new { tabindex = "18", maxlength = 50 })
-                                                    </label>
+                                                <label class="input">
+                                                    <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Price, new { tabindex = "27", maxlength = 50 })
+                                                </label>
                                                 </section>
                                             </div>
                                         </fieldset>
@@ -316,16 +298,16 @@
                 <button type="button" class="btn btn-sm btn-default pull-left" onclick="updateBalance()" tabindex="19">Refresh</button>
                 <button type="button" class="btn btn-sm btn-default pull-left" onclick="topUp()" tabindex="18">Top Up Credit</button>
                     -->
-                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="19">
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="28">
                     Cancel
                 </button>
-                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="20">
+                <button type="button" id="stepBack" class="btn btn-primary" style="display:none;" tabindex="29">
                     <i class="fa fa-chevron-left margin-right-5"></i>Back
                 </button>
-                <button type="button" id="stepNext" class="btn btn-primary" tabindex="20">
+                <button type="button" id="stepNext" class="btn btn-primary" tabindex="30">
                     Next<i class="fa fa-chevron-right margin-left-5"></i>
                 </button>
-                <button type="button" id="submitAddTransaction" class="btn btn-primary" style="display:none;" tabindex="20">
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" style="display:none;" tabindex="30">
                     Order Product<i class="fa fa-check margin-left-5"></i>
                 </button>
             </div>
@@ -333,5 +315,7 @@
     </div>
 </div>
 
-@Scripts.Render("~/Scripts/typeahead")
-<script async src="@Scripts.Url("~/Scripts/ProOrganisation/Products/_AddSmsTransaction")"></script>
+@section Scripts {
+    @Scripts.Render("~/Scripts/typeahead")
+    <script async src="@Scripts.Url("~/Scripts/ProOrganisation/Products/_AddSmsTransaction")"></script>
+}
