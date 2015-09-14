@@ -29,7 +29,7 @@ $(function () {
                     },
                     {
                         field: "OrganisationAdminLastName",
-                        title: "System Administrator",
+                        title: "Organisation Administrator",
                         template: function (dataItem) {
                             return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
                         }
@@ -91,7 +91,7 @@ $(function () {
                 },
                 {
                     field: "OrganisationAdminLastName",
-                    title: "System Administrator",
+                    title: "Organisation Administrator",
                     template: function (dataItem) {
                         return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
                     }
@@ -145,7 +145,7 @@ $(function () {
                 },
                 {
                     field: "OrganisationAdminLastName",
-                    title: "System Administrator",
+                    title: "Organisation Administrator",
                     template: function (dataItem) {
                         return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
                     }
