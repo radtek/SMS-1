@@ -237,7 +237,8 @@ function setupDateOfBirthInput() {
         yearRange: "-110:+0",
         showButtonPanel: true,
         prevText: "<i class=\"fa fa-chevron-left\"></i>",
-        nextText: "<i class=\"fa fa-chevron-right\"></i>"
+        nextText: "<i class=\"fa fa-chevron-right\"></i>",
+        onSelect: function (date, inst) { $(this).valid(); }
     });
 }
 
