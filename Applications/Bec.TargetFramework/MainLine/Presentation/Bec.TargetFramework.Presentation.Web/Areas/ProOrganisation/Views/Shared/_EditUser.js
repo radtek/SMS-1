@@ -36,7 +36,7 @@ $("#editUser-form").validate({
                 url: $('#Model_UserAccount_Email').data("url"),
                 data: {
                     email: function () { return $('#Model_UserAccount_Email').val(); },
-                    uaoID: function () { return $('#uaoID'); }
+                    uaoID: function () { return $('#uaoID').val(); }
                 },
                 dataType: 'json',
                 error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }

@@ -53,5 +53,5 @@ function rChange(dataItem) {
     $("p#ddEmail").text(dataItem.UserAccount.Email || "");
     $("p#ddUsername").text(dataItem.UserAccount.Username || "");
 
-    $("#editButton").data('href', $("#editButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID);
+    $("#editButton").data('href', $("#editButton").data("url") + "?uaoID=" + dataItem.UserAccountOrganisationID);
 }
