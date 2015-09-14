@@ -33,7 +33,7 @@
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
                                         <div class="panel-body no-padding">
-                                            <form class="bank-check-form" id="check-Form-@i" data-index="@i" data-url="@Url.Action(" performcheck", "Check" , new { area="BankAccount" , orgid=tx.SmsTransaction.OrganisationID })" class="smart-form" novalidate="novalidate">
+                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("performcheck", "Check" , new { area="BankAccount" , orgid=tx.SmsTransaction.OrganisationID })" class="smart-form bank-check-form">
                                                 @Html.ValidationBootstrap()
                                                 @Html.AntiForgeryToken()
                                                 <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
@@ -51,7 +51,6 @@
                                                 <fieldset>
                                                     <div class="row">
                                                         <section class="col col-sm-12">
-                                                            <label class="label">Account Number</label>
                                                             <label class="input">
                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                                 <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" />
@@ -61,7 +60,6 @@
 
                                                     <div class="row">
                                                         <section class="col col-sm-12">
-                                                            <label class="label">Sort Code</label>
                                                             <label class="input">
                                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                                 <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" />
@@ -70,7 +68,7 @@
                                                     </div>
                                                 </fieldset>
                                                 <footer>
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="check-button btn btn-primary">
                                                         Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
                                                     </button>
                                                 </footer>
