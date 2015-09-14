@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form id="amend-form" class="smart-form" data-url="@Url.Action("AmendCredit", "Finance", new { area = "Admin" })" data-fail="@Url.Action("ViewMessage", "Home", new { Area = "" })">
+                        <form id="amend-form" class="smart-form" data-url="@Url.Action("AmendCredit", "Finance", new { area = "Admin" })" data-fail="@Url.Action("ViewMessage", "Message", new { Area = "" })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="orgID" value="@ViewBag.orgID" />

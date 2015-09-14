@@ -37,18 +37,9 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View("Denied");
         }
 
-
         public ActionResult ViewCancel()
         {
             return PartialView("_Cancel");
-        }
-
-        public ActionResult ViewMessage(string title, string message, string button)
-        {
-            ViewBag.title = title;
-            ViewBag.message = message;
-            ViewBag.button = button;
-            return PartialView("_Message");
         }
 
         public ActionResult ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)

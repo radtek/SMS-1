@@ -36,7 +36,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form id="payment-form" class="smart-form" data-url="@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })" data-redirect="@ViewBag.redirect" data-redirectto="@Url.Action("Index", "Credit", new { area = "ProOrganisation" })" data-message="@Url.Action("ViewMessage", "Home", new { Area = "", })">
+                        <form id="payment-form" class="smart-form" data-url="@Url.Action("TopUpCredit", "Credit", new { area = "ProOrganisation" })" data-redirect="@ViewBag.redirect" data-redirectto="@Url.Action("Index", "Credit", new { area = "ProOrganisation" })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="txID" id="txID" />

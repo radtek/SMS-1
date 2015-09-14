@@ -16,9 +16,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     public class AcceptTCsController : Controller
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
-        public AcceptTCsController()
-        {
-        }
 
         public async Task<ActionResult> Index()
         {

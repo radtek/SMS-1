@@ -1,6 +1,13 @@
 ﻿$(function () {
-    $('#tc').change(function () {
-        $('#formSubmit').prop('disabled', !$('#tc').prop('checked'));
+    var formSubmitButton = $('#formSubmit');
+    var tcCheckbox = $('#tc');
+    var isTsCsAccepted = false;
+    tcCheckbox.change(function () {
+        isTsCsAccepted = $('#tc').prop('checked');
+        if (isTsCsAccepted) {
+            formSubmitButton.attr("title", "");
+            formSubmitButton.tooltip("destroy");
+        }
     });
 
     $(window).on('resize', function (e) {
@@ -13,11 +20,22 @@
         }
     });
 
-    $('#formSubmit').click(function () {
-        $('#tc').prop('disabled', true);
-        $('#download-btn').prop('disabled', true);
-        $('#formSubmit').prop('disabled', true);
-        $('#login-form').submit();
+    formSubmitButton.click(function (e) {
+        formSubmitButton.prop('disabled', true);
+        if (isTsCsAccepted) {
+            $('#tc').prop('disabled', true);
+            $('#download-btn').prop('disabled', true);
+            $('#login-form').submit();
+        } else {
+            handleModal({ url: $(formSubmitButton).data("message") }, {
+                messageButton: function () {
+                    formSubmitButton.prop('disabled', false);
+                }
+            }, true);
+
+            e.preventDefault();
+            return false;
+        }
     });
 
     $('#download-btn').click(function (e) {
