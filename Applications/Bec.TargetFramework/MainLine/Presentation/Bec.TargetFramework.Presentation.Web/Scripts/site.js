@@ -11,6 +11,7 @@ function checkRedirect(response) {
 
 //wrapper around ajax call to catch json redirect instructions
 function ajaxWrapper(options) {
+    options = $.extend({ cache: false }, options);
     return $.ajax(options).fail(function (err) {
         checkRedirect(err.responseJSON);
     });
