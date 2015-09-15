@@ -19,7 +19,7 @@ $(function () {
 
         submitHandler: function (form) {
             $('#formSubmit').prop('disabled', true);
-            form.submit();
+            if (grecaptcha.getResponse().length > 0) form.submit();
         }
     });
 });
