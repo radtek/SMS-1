@@ -78,6 +78,6 @@ function txChange(dataItem) {
     //show a message on adding an account
     if ($('#content').data("showmessage") == 'True' && !shownMessage) {
         shownMessage = true;
-        handleModal({ url: $('#content').data("url") + "?title=" + encodeURIComponent("Validation Pending") + "&message=" + encodeURIComponent(dataItem.Description + ".") + "&button=OK" }, null, true);
+        handleModal({ url: $('#content').data("url") + "?title=" + encodeURIComponent("Validation Pending") + "&message=" + encodeURIComponent(dataItem.Description) + "&button=OK" }, null, true);
     }
 }

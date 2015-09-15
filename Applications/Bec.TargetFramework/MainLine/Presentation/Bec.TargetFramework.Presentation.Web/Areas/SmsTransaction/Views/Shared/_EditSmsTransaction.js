@@ -34,19 +34,31 @@
             'Model.Contact.LastName': {
                 required: true
             },
-            'Model.UserAccount.Email': {
+            'Model.UserAccountOrganisation.UserAccount.Email': {
                 required: true,
                 email: true,
                 remote: {
-                    url: $('#Model_UserAccount_Email').data("url"),
+                    url: $('#Model_UserAccountOrganisation_UserAccount_Email').data("url"),
                     data: {
-                        email: function () { return $('#Model_UserAccount_Email').val(); },
+                        email: function () { return $('#Model_UserAccountOrganisation_UserAccount_Email').val(); },
                         uaoID: function () { return $('#uaoID').val(); }
                     },
                     dataType: 'json',
                     error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                 }
-            }
+            },
+            'Model.Contact.BirthDate': {
+                required: true
+            },
+            'Model.Address.Line1': {
+                required: true
+            },
+            'Model.Address.PostalCode': {
+                required: true
+            },
+            'Model.Address.Town': {
+                required: true
+            },
         },
 
         // Do not change code below
