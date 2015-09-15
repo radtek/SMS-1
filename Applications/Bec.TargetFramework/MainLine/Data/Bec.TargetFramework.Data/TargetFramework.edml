@@ -6775,6 +6775,7 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
         </EntityType>
         <EntityType Name="OrganisationTeamSettingTemplate">
           <Key>
@@ -25528,6 +25529,7 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="2f94fa5d-f9f6-4a0c-a4bc-edd324396de9" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="08d215b5-2062-4c60-8437-5789c34bd256" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="4228c1c0-251f-452f-8283-92ce1d65b2ec" />
+          <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="449e624e-c866-4ad9-864e-650df555a5a7" />
           <NavigationProperty Name="AddressChronologies" Relationship="Bec.TargetFramework.Data.fk_AddressChronology_Address" FromRole="Address" ToRole="AddressChronologies" ed:Guid="c66a9900-de9e-4f6c-bacd-1aa0b5ed9243" />
           <NavigationProperty Name="CountryCode1" Relationship="Bec.TargetFramework.Data.fk_Address_CountryCode" FromRole="Addresses" ToRole="CountryCode1" ed:Guid="3876534d-2df9-419a-adac-3d6f2c079b5e" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="Address" ToRole="SmsTransactions" ed:Guid="884e46aa-bfec-4973-bca1-bbd543420cf4" />
@@ -40479,6 +40481,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
