@@ -8,6 +8,7 @@ using Bec.TargetFramework.Presentation.Web.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -22,12 +23,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IProductLogicClient prodClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var hasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
-            ViewBag.HasOrganisationAnySafeBankAccounts = hasOrganisationAnySafeBankAccounts;
-
+            ViewBag.HasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
+            var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
+            var filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == orgID);
+            var orgs = await queryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
+            var org = orgs.First();
+            ViewBag.OrganisationName = org.Name;
+            ViewBag.OrgAdminName = string.Join(" ", org.OrganisationAdminSalutation, org.OrganisationAdminFirstName, org.OrganisationAdminLastName);
             return View();
         }
 

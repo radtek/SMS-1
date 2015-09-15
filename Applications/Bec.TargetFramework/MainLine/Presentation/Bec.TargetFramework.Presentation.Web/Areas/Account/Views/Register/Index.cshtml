@@ -29,7 +29,10 @@
                                 </section>
                             }
                             <section>
-                                <strong>Create Account</strong>
+                                @if (ViewBag.PINRequired)
+                                {
+                                    <strong>Create Account</strong>
+                                }
                                 <label class="label">Please choose a unique username and password to create your account.</label>
                                 <label class="label">Username</label>
                                 <label class="input">
