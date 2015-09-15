@@ -359,7 +359,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
 }
 
 function formatCurrency(val) {
-    return '£' + val.toFixed(2);
+    return accounting.formatMoney(val, "£ ", 2);
 }
 
 var findAddress = function (opts) {

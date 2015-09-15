@@ -28,7 +28,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Bec/bec.jquery.validation.dategb.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
                 "~/Scripts/Libs/lodash.js",
-                "~/Scripts/Libs/jquery.bootstrap.wizard.js"
+                "~/Scripts/Libs/jquery.bootstrap.wizard.js",
+                "~/Scripts/Libs/accounting.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(

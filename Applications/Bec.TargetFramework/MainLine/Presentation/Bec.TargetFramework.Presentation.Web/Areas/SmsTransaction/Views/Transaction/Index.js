@@ -1,4 +1,6 @@
-﻿var primaryBuyerTemplatePromise, relatedPartiesTemplatePromise;
+﻿var transactionDetailsTemplatePromise,
+    primaryBuyerTemplatePromise,
+    relatedPartiesTemplatePromise;
 var txGrid;
 $(function () {
     txGrid = new gridItem(
@@ -43,6 +45,13 @@ $(function () {
     txGrid.makeGrid();
     findModalLinks();
 
+    transactionDetailsTemplatePromise = $.Deferred();
+    ajaxWrapper(
+        { url: $('#content').data("templateurl") + '?view=_transactionDetailsTmpl' }
+    ).done(function (res) {
+        transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
+    });
+
     primaryBuyerTemplatePromise = $.Deferred();
     ajaxWrapper(
         { url: $('#content').data("templateurl") + '?view=_primaryBuyerDetailsTmpl' }
@@ -61,13 +70,6 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function txChange(dataItem) {
-    $("p#ddAddressLine1").text(dataItem.SmsTransaction.Address.Line1 || "");
-    $("p#ddAddressLine2").text(dataItem.SmsTransaction.Address.Line2 || "");
-    $("p#ddTown").text(dataItem.SmsTransaction.Address.Town || "");
-    $("p#ddCounty").text(dataItem.SmsTransaction.Address.County || "");
-    $("p#ddPostCode").text(dataItem.SmsTransaction.Address.PostalCode || "");
-    $("p#ddAdditionalAddressInformation").text(dataItem.SmsTransaction.Address.AdditionalAddressInformation || "");
-
     $("#addAdditionalBuyerButton").data('href', $("#addAdditionalBuyerButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
     $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
 
@@ -79,19 +81,20 @@ function txChange(dataItem) {
         (dataItem.Contact.LastName || "")));
     $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
-    toggleFields(dataItem);
+    showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);
     showTransactionRelatedParties(dataItem, $('#additionalBuyers').data("url"), 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
     showTransactionRelatedParties(dataItem, $('#giftors').data("url"), 'giftors', 'giftorsAccordion', 'spinnerGiftors');
 }
 
-function toggleFields(dataItem) {
-    $('#dtAddressLine1, p#ddAddressLine1').toggle(!!dataItem.SmsTransaction.Address.Line1);
-    $('#dtAddressLine2, p#ddAddressLine2').toggle(!!dataItem.SmsTransaction.Address.Line2);
-    $("#dtTown, p#ddTown").toggle(!!dataItem.SmsTransaction.Address.Town);
-    $("#dtCounty, p#ddCounty").toggle(!!dataItem.SmsTransaction.Address.County);
-    $("#dtPostCode, p#ddPostCode").toggle(!!dataItem.SmsTransaction.Address.PostalCode);
-    $("#dtAdditionalAddressInformation, p#ddAdditionalAddressInformation").toggle(!!dataItem.SmsTransaction.Address.AdditionalAddressInformation);
+function showTransactionDetails(dataItem) {
+    var data = _.extend({}, dataItem, {
+        purchasePrice: formatCurrency(dataItem.SmsTransaction.Price)
+    });
+    transactionDetailsTemplatePromise.done(function (template) {
+        var html = template(data);
+        $('#transactionDetails').html(html);
+    });
 }
 
 function showPrimaryBuyerDetails(dataItem) {

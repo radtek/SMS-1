@@ -148,4 +148,10 @@
 .smart-form fieldset + fieldset {
   border-top: none !important;
 }
+.dl-horizontal dt {
+  width: 175px;
+}
+.dl-horizontal dd {
+  margin-left: 195px;
+}
 /*# sourceMappingURL=your_style.css.map */

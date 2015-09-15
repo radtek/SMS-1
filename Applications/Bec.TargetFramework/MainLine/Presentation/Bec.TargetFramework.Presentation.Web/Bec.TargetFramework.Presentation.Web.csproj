@@ -776,6 +776,7 @@
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Libs\accounting.js" />
     <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
     <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\Libs\lodash.js" />
@@ -1925,6 +1926,7 @@
     <Content Include="Views\Home\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
+    <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

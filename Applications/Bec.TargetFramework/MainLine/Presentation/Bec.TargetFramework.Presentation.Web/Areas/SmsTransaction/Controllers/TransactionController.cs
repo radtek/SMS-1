@@ -41,6 +41,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 x.SmsTransactionID,
                 x.SmsTransaction.Reference,
+                x.SmsTransaction.MortgageApplicationNumber,
+                x.SmsTransaction.Price,
                 SmsTransactionAddressLine1 = x.SmsTransaction.Address.Line1,
                 SmsTransactionAddressLine2 = x.SmsTransaction.Address.Line2,
                 SmsTransactionAddressTown = x.SmsTransaction.Address.Town,

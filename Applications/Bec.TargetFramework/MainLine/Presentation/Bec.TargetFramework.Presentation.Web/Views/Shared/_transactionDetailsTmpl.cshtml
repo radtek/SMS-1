@@ -1,0 +1,37 @@
+﻿<h5>Transaction Address</h5>
+<dl class="dl-horizontal">
+    <dt>Address Line 1:</dt>
+    <dd><p>{{SmsTransaction.Address.Line1}}</p></dd>
+    {{#if SmsTransaction.Address.Line2}}
+    <dt>Address Line 2:</dt>
+    <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
+    {{/if}}
+    <dt>Town:</dt>
+    <dd><p>{{SmsTransaction.Address.Town}}</p></dd>
+    {{#if SmsTransaction.Address.County}}
+    <dt>County:</dt>
+    <dd><p>{{SmsTransaction.Address.County}}</p></dd>
+    {{/if}}
+    <dt>Post Code:</dt>
+    <dd><p>{{SmsTransaction.Address.PostalCode}}</p></dd>
+</dl>
+<h5>Other Details</h5>
+<dl class="dl-horizontal">
+    {{#if SmsTransaction.MortgageApplicationNumber}}
+    <dt>Mortgage Application No.:</dt>
+    <dd><p>{{SmsTransaction.MortgageApplicationNumber}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Price}}
+    <dt>Purchase Price:</dt>
+    <dd><p>{{purchasePrice}}</p></dd>
+    {{/if}}
+</dl>
+<h5>Product</h5>
+<dl class="dl-horizontal">
+    <dt>Product Name:</dt>
+    <dd>
+        <p>
+            Buyer Products > Safe Buyer
+        </p>
+    </dd>
+</dl>
