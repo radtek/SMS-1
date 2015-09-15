@@ -1,21 +1,21 @@
-﻿function ignore(e) {
-    if (e) e.preventDefault();
-}
+﻿$(function () {
+    function ignore(e) {
+        if (e) e.preventDefault();
+    }
 
-function countRoles() {
-    var c = 0;
-    $('.role-checkbox').each(function (i, item) {
-        if ($(item).prop('checked')) c++;
-    });
-    $('#rolecheck').val(c);
-}
+    function countRoles() {
+        var c = 0;
+        $('.role-checkbox').each(function (i, item) {
+            if ($(item).prop('checked')) c++;
+        });
+        $('#rolecheck').val(c);
+    }
 
-function validateSubmit(form) {
-    $("#submitEditSmsTransaction").prop('disabled', true);
-    form.submit();
-}
+    function validateSubmit(form) {
+        $("#submitEditSmsTransaction").prop('disabled', true);
+        form.submit();
+    }
 
-$(function () {
     // submit from when Save button clicked
     $("#submitEditSmsTransaction").click(function () {
         $("#editSmsTransaction-form").submit();
@@ -56,4 +56,23 @@ $(function () {
 
         submitHandler: validateSubmit
     });
+
+    function setupDateOfBirthInput() {
+        var now = new Date();
+        var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
+        $("#birthDateInput").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: now,
+            minDate: minDate,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-110:+0",
+            showButtonPanel: true,
+            prevText: "<i class=\"fa fa-chevron-left\"></i>",
+            nextText: "<i class=\"fa fa-chevron-right\"></i>",
+            onSelect: function (date, inst) { $(this).valid(); }
+        });
+    }
+
+    setupDateOfBirthInput();
 });

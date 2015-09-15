@@ -90,22 +90,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             ViewBag.txId = txID;
             ViewBag.uaoId = uaoID;
-            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                x.UserAccountOrganisationID,
+                x.SmsUserAccountOrganisationTransactionID,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
-                x.UserAccount.Email,
-                x.UserAccount.IsTemporaryAccount
-            }, true);
+                x.Contact.BirthDate,
+                ContactRowVersion = x.Contact.RowVersion,
+                x.UserAccountOrganisation.UserAccount.Email,
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
+                UserAccountRowVersion = x.UserAccountOrganisation.UserAccount.RowVersion,
+                x.Address.Line1,
+                x.Address.Line2,
+                x.Address.Town,
+                x.Address.County,
+                x.Address.PostalCode,
+                AddressRowVersion = x.Address.RowVersion
+            });
 
-            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x =>
-                x.UserAccountOrganisationID == uaoID);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
 
-            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.First();
-            ViewBag.IsTemporaryUser = model.UserAccount.IsTemporaryAccount;
+            ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
 
             return PartialView("_EditSmsTransaction", Edit.MakeModel(model));
         }
@@ -115,10 +124,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
         {
             await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
             var data = Edit.fromD(Request.Form);
 
-            await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
+            await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
             return RedirectToAction("Index", new { selectedTransactionID = txID });
         }
 

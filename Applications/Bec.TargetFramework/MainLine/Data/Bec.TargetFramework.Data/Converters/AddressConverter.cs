@@ -65,6 +65,7 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
@@ -125,6 +126,7 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);
