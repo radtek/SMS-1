@@ -18,9 +18,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             //response.AddHeader("Content-Security-Policy", policy);
             //response.AddHeader("X-WebKit-CSP", policy);
             //response.AddHeader("X-Content-Security-Policy", policy);
-
-            response.AddHeader("X-XSS-Protection", "1; mode=block;");
-
+            
             response.AddHeader("X-Content-Type-Options", "nosniff");
 
             response.AddHeader("X-Frame-Options", "DENY");
