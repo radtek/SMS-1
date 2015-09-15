@@ -15,14 +15,15 @@
                     @Html.ValidationBootstrap()
                     <input type="hidden" name="notificationID" value="@ViewBag.NotificationID" />
                     <fieldset>
-                        <label>Please read the following Terms and Conditions, once you are happy <strong>please check the checkbox at the bottom of the Terms and Conditions</strong> to confirm you have read, understood and accept the Terms and Conditions <strong>before you click 'Continue'.</strong></label>
+                        <label>Please read the following Terms and Conditions, once you are happy <strong>please check the checkbox at the bottom of the Terms and Conditions</strong> to confirm you have read, understood and accept the Terms and Conditions <strong>before you click 'Continue'.</strong><br /><br /></label>
                     </fieldset>
                     <div style="height:400px;overflow-y:scroll">
                         <fieldset>
                             @foreach (var line in ViewBag.Lines)
                             {
-                                <p>@line</p><br />
+                                @line<br />
                             }
+                            <br />
                             <input type="checkbox" id="tc" autocomplete="off" class="margin-right-10" />
                             <label for="tc">I have read, understood and accept the Terms and Conditions</label>
                         </fieldset>
