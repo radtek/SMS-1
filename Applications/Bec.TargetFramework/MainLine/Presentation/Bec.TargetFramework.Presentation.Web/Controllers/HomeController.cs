@@ -66,14 +66,14 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             Expression filter;
             if (uaoID.HasValue)
             {
-                var selectUao = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccount.IsTemporaryAccount });
+                var selectUao = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccount.Email });
                 var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
                 var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
                 var uao = uaoAsync.FirstOrDefault();
-                var isUaoTemporaryAccount = uao.UserAccount.IsTemporaryAccount;
+                var uaoEmail = uao.UserAccount.Email;
 
                 filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
-                    x.UserAccount.IsTemporaryAccount == isUaoTemporaryAccount &&
+                    x.UserAccount.Email != uaoEmail &&
                     x.UserAccountOrganisationID != uaoID &&
                     x.UserAccount.Email.ToLower() == email);
             }
