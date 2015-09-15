@@ -173,8 +173,6 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                Logger.Trace(string.Format("new user: {0} password: {1}", username, password));
-
                 orgTypeName = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == organisationID).OrganisationType.Name;
 
                 // add user to organisation
