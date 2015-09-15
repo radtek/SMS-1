@@ -37,8 +37,7 @@
         resList: '#primaryBuyerAddressResults',
         manAddRow: '#primaryBuyerManAddRow',
         noMatch: '#primaryBuyerNoMatch',
-        findAddressButton: '#primaryBuyerFindAddressButton',
-        additionalAddress: '#primaryBuyerAdditionalAddressInformation'
+        findAddressButton: '#primaryBuyerFindAddressButton'
     }).setup();
 
     new findAddress({
@@ -52,8 +51,7 @@
         resList: '#sms_addressresults',
         manAddRow: '#sms_manAddRow',
         noMatch: '#sms_noMatch',
-        findAddressButton: '#sms_findaddressbutton',
-        additionalAddress: '#sms_AdditionalAddressInformation'
+        findAddressButton: '#sms_findaddressbutton'
     }).setup();
 
     $("#addTransaction-form").validate({

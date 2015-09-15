@@ -69,6 +69,20 @@
         submitHandler: validateSubmit
     });
 
+    new findAddress({
+        postcodelookup: '#primaryBuyerPostcodeLookup',
+        line1: '#primaryBuyerLine1',
+        line2: '#primaryBuyerLine2',
+        town: '#primaryBuyerTown',
+        county: '#primaryBuyerCounty',
+        postcode: '#primaryBuyerPostalCode',
+        manualAddress: '#primaryBuyerManualAddress',
+        resList: '#primaryBuyerAddressResults',
+        manAddRow: '#primaryBuyerManAddRow',
+        noMatch: '#primaryBuyerNoMatch',
+        findAddressButton: '#primaryBuyerFindAddressButton'
+    }).setup();
+
     function setupDateOfBirthInput() {
         var now = new Date();
         var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
