@@ -39,10 +39,12 @@ function validateSubmit(form) {
             $('#result').append("No Match");
         }
     }).fail(function (e) {
-        $("#submitButton").prop('disabled', false);
-        $('#result').empty();
+        if (!hasRedirect(e)) {
+            $("#submitButton").prop('disabled', false);
+            $('#result').empty();
 
-        console.log(e);
-        $('#result').append("Error");
+            console.log(e);
+            $('#result').append("Error");
+        }
     });
 }

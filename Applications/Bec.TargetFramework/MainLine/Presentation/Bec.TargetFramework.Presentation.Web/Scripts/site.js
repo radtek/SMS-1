@@ -6,7 +6,11 @@ $(document).ready(function () {
 
 //checks for a json redirect response instruction
 function checkRedirect(response) {
-    if (response && response.HasRedirectUrl) window.location.href = response.RedirectUrl;
+    if (hasRedirect(response)) window.location.href = response.RedirectUrl;
+}
+
+function hasRedirect(response){
+    return response && response.HasRedirectUrl;
 }
 
 //wrapper around ajax call to catch json redirect instructions
@@ -443,8 +447,8 @@ var findAddress = function (opts) {
                     self.lookupFailed();
                 }
             })
-            .fail(function () {
-                self.lookupFailed();
+            .fail(function (err) {
+                if (!hasRedirect(response)) self.lookupFailed();
             });
         });
     }

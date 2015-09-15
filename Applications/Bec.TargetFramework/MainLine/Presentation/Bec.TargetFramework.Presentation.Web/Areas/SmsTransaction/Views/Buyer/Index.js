@@ -48,9 +48,11 @@ function validateSubmit(form) {
             noMatchDiv.show();
         }
     }).fail(function (e) {
-        $(".check-button").prop('disabled', false);
-        console.log(e);
-        spinner.hide();
-        serverErrorDiv.show();
+        if (!hasRedirect(response)) {
+            $(".check-button").prop('disabled', false);
+            console.log(e);
+            spinner.hide();
+            serverErrorDiv.show();
+        }
     });
 };
