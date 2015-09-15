@@ -30,7 +30,7 @@
                     </div>
                     <footer>
                         @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left", id = "download-btn" })
-                        <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", title = "Accept Terms and Conditions", message = "Please read and accept the Terms and Conditions. You can find the acceptance statement at the bottom of the text content.", button = "Close" })" />
+                        <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", title = "Accept Terms and Conditions", message = "Please read the terms and conditions then accept them by ticking the box at the bottom of the document.", button = "Close" })" />
                     </footer>
                 </form>
             </div>
