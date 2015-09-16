@@ -46,6 +46,10 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
             var config = new LoggerConfiguration();
 
             var emailClient = new SmtpClient();
+            
+            LogEventLevel seqLevel;
+            if (!Enum.TryParse<LogEventLevel>(ConfigurationManager.AppSettings["SerilogEventLevel"], out seqLevel))
+                seqLevel = LogEventLevel.Error;
 
             // defaults are seq and eventLog
             config.Enrich.With(new ApplicationDetailsEnricher())
@@ -53,11 +57,11 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
                 .Enrich.With(new AppDomainFriendlyNameEnricher("AppDomainFriendlyName"))
                 .Enrich.With(new ProcessSessionIdEnricher("ProcessID"))
                 .Enrich.With(new PrincipalIdentityNameEnricher("PrincipalID"))
-                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"])
+                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"], seqLevel)
                 .WriteTo.EventLog(ConfigurationManager.AppSettings["SerilogEventLogSource"],
-                    ConfigurationManager.AppSettings["SerilogEventLogName"],restrictedToMinimumLevel: LogEventLevel.Error)
+                    ConfigurationManager.AppSettings["SerilogEventLogName"], restrictedToMinimumLevel: LogEventLevel.Error)
                 .WriteTo.Email(ConfigurationManager.AppSettings["SerilogFromEmail"],
-                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials,m_EmailOutputTemplate,
+                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials, m_EmailOutputTemplate,
                     restrictedToMinimumLevel: LogEventLevel.Error);
 
             if (!string.IsNullOrEmpty(logCategory))
