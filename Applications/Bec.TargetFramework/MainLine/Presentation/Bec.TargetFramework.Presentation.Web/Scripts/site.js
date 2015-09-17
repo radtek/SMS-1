@@ -448,7 +448,7 @@ var findAddress = function (opts) {
                 }
             })
             .fail(function (err) {
-                if (!hasRedirect(response)) self.lookupFailed();
+                if (!hasRedirect(err.responseJSON)) self.lookupFailed();
             });
         });
     }
