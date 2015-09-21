@@ -38,6 +38,7 @@ namespace Bec.TargetFramework.Presentation.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+            MvcHandler.DisableMvcResponseHeader = true;
         }
 
         protected void Application_Error(Object sender, EventArgs e)
@@ -49,6 +50,11 @@ namespace Bec.TargetFramework.Presentation.Web
 
         }
 
+        protected void Application_EndRequest()
+        {
+            // removing excessive headers.
+            Response.Headers.Remove("Server");
+        }
 
         protected void LogException(Exception exc)
         {
