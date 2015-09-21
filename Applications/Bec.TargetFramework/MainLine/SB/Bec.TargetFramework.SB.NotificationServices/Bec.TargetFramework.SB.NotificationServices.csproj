@@ -322,9 +322,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <Content Include="Properties\licenses.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Properties\licenses.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
