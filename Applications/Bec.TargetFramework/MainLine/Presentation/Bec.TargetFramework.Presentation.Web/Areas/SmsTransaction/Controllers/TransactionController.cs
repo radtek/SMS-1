@@ -155,7 +155,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoID, Guid txID)
         {
-            await UsersController.EnsureUserInOrg(uaoID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.ResendLoginsAsync(uaoID);
             TempData["SmsTransactionID"] = txID;
             return RedirectToAction("Index");
