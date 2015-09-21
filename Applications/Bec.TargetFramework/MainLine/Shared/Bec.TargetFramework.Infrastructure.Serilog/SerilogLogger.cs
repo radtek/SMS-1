@@ -45,20 +45,24 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
         public void DefaultLoggingStrategy(string logCategory,bool webEnrichers)
         {
             var config = new LoggerConfiguration();
-
-            var emailClient = new SmtpClient();
             
             LogEventLevel seqLevel;
             if (!Enum.TryParse<LogEventLevel>(ConfigurationManager.AppSettings["SerilogEventLevel"], out seqLevel))
                 seqLevel = LogEventLevel.Error;
 
+            int port = 25;
+            bool ssl = false;
+            string host = ConfigurationManager.AppSettings["smtp:host"];
+            int.TryParse(ConfigurationManager.AppSettings["smtp:port"], out port);
+            bool.TryParse(ConfigurationManager.AppSettings["smtp:ssl"], out ssl);
+
             var ec = new EmailConnectionInfo
             {
-                EnableSsl = emailClient.EnableSsl,
-                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
-                MailServer = emailClient.Host,
-                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
-                Port = emailClient.Port,
+                EnableSsl =ssl,
+                FromEmail = ConfigurationManager.AppSettings["smtp:from"],
+                MailServer = host,
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["smtp:user"], ConfigurationManager.AppSettings["smtp:pass"]),
+                Port = port,
                 ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
             };
 
@@ -101,19 +105,23 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
         {
             var config = new LoggerConfiguration();
 
-            var emailClient = new SmtpClient();
-
             LogEventLevel seqLevel;
             if (!Enum.TryParse<LogEventLevel>(ConfigurationManager.AppSettings["SerilogEventLevel"], out seqLevel))
                 seqLevel = LogEventLevel.Error;
 
+            int port = 25;
+            bool ssl = false;
+            string host = ConfigurationManager.AppSettings["smtp:host"];
+            int.TryParse(ConfigurationManager.AppSettings["smtp:port"], out port);
+            bool.TryParse(ConfigurationManager.AppSettings["smtp:ssl"], out ssl);
+
             var ec = new EmailConnectionInfo
             {
-                EnableSsl = emailClient.EnableSsl,
-                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
-                MailServer = emailClient.Host,
-                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
-                Port = emailClient.Port,
+                EnableSsl = ssl,
+                FromEmail = ConfigurationManager.AppSettings["smtp:from"],
+                MailServer = host,
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["smtp:user"], ConfigurationManager.AppSettings["smtp:pass"]),
+                Port = port,
                 ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
             };
 
