@@ -8,6 +8,7 @@ namespace Bec.TargetFramework.Entities
     {
         public Guid TransactionID { get; set; }
         public Guid UaoID { get; set; }
+        public Guid AssigningByOrganisationID { get; set; }
         public UserAccountOrganisationTransactionType UserAccountOrganisationTransactionType { get; set; }
         public string Line1 { get; set; }
         public string Line2 { get; set; }

@@ -71,6 +71,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 {
                     UaoID = giftorUaoID,
                     TransactionID = model.TransactionID,
+                    AssigningByOrganisationID = currentUser.OrganisationID,
                     Line1 = model.Line1,
                     Line2 = model.Line2,
                     County = model.County,

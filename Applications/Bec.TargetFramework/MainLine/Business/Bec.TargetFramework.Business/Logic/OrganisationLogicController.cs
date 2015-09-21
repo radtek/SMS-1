@@ -595,7 +595,17 @@ namespace Bec.TargetFramework.Business.Logic
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoID);
                 Ensure.That(uao).IsNotNull();
                 uaoDto = uao.ToDtoWithRelated(1);
+
+                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.FirstOrDefault(x => x.SmsTransactionID == assignSmsClientToTransactionDTO.TransactionID);
+                Ensure.That(transaction).IsNotNull();
+                if (transaction.OrganisationID != assignSmsClientToTransactionDTO.AssigningByOrganisationID)
+                {
+                    throw new InvalidOperationException("The transaction does not belong to the organisation that the user is part of.");
+                    Logger.Fatal("The organisation with id: {0} is trying to assign sms client to the transaction with id: {1}. Sms Client UaoID: {2}", 
+                        assignSmsClientToTransactionDTO.AssigningByOrganisationID, assignSmsClientToTransactionDTO.TransactionID, assignSmsClientToTransactionDTO.UaoID);
+                }
             }
+
             using (var scope = DbContextScopeFactory.Create())
             {
                 var address = new Address
