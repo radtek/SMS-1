@@ -211,7 +211,6 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
                         MailMessage message = new MailMessage();
                         message.IsBodyHtml = true;
-                        message.Sender = new MailAddress("applications@beconsultancy.co.uk");
                         message.Subject = settingsDto.Subject;
 
                         string bodyContent = System.Text.Encoding.UTF8.GetString(reportData);
