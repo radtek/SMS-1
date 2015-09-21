@@ -59,9 +59,9 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
             var ec = new EmailConnectionInfo
             {
                 EnableSsl =ssl,
-                FromEmail = ConfigurationManager.AppSettings["smtp:from"],
+                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
                 MailServer = host,
-                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["smtp:user"], ConfigurationManager.AppSettings["smtp:pass"]),
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
                 Port = port,
                 ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
             };
@@ -118,9 +118,9 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
             var ec = new EmailConnectionInfo
             {
                 EnableSsl = ssl,
-                FromEmail = ConfigurationManager.AppSettings["smtp:from"],
+                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
                 MailServer = host,
-                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["smtp:user"], ConfigurationManager.AppSettings["smtp:pass"]),
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
                 Port = port,
                 ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
             };
