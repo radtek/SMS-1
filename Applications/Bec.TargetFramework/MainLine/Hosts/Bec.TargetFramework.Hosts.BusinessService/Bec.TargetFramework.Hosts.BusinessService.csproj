@@ -184,7 +184,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Bec.TargetFramework.Hosts.BusinessService.nuspec" />
-    <None Include="Properties\licenses.config" />
+    <Content Include="Properties\licenses.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
