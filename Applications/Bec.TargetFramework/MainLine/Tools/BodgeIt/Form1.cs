@@ -232,7 +232,7 @@ namespace BodgeIt
 
             Guid orgID = new Guid(textOrgId.Text);
 
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i <= numericUpDown1.Value; i++)
             {
                 var contact = new
                 {
