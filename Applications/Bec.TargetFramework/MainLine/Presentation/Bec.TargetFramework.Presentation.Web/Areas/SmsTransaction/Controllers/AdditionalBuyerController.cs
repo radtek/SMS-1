@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Bec.TargetFramework.Presentation.Web.Base;
-using Bec.TargetFramework.Presentation.Web.Filters;
-using System.Web.Mvc;
-using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
@@ -27,12 +26,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.Address.Line1,
-                x.Address.Line2,
-                x.Address.Town,
-                x.Address.County,
-                x.Address.PostalCode,
-                x.Address.AdditionalAddressInformation,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -72,13 +65,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     UaoID = additionalBuyerUaoID,
                     TransactionID = model.TransactionID,
                     AssigningByOrganisationID = currentUser.OrganisationID,
-                    Line1 = model.Line1,
-                    Line2 = model.Line2,
-                    County = model.County,
-                    AdditionalAddressInformation = model.AdditionalAddressInformation,
-                    PostalCode = model.PostalCode,
-                    Town = model.Town,
-                    Manual = model.Manual,
                     UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.AdditionalBuyer
                 };
 

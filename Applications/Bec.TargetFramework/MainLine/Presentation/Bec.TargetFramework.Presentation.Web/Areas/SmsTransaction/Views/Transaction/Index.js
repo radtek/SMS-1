@@ -23,6 +23,10 @@ $(function () {
                 hidden: true,
             },
             {
+                field: "UserAccountOrganisation.UserAccount.Email",
+                title: "Primary Buyer's Email"
+            },
+            {
                 field: "SmsTransaction.Reference",
                 title: "Your Reference"
             },

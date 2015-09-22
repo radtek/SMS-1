@@ -1,44 +1,4 @@
 ﻿$(function () {
-    var lenders = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: {
-            url: $('#lenderSearch').data("url") + '?search=%QUERY',
-            wildcard: '%QUERY',
-            transform: function (response) {
-                return response.Items;
-            }
-        }
-    });
-
-    $('#lenderSearch').typeahead({
-        minLength: 1,
-        highlight: true,
-        hint: false
-    }, {
-        display: 'Name',
-        source: lenders
-    })
-    .on('typeahead:asyncrequest', function () {
-        $('#orgSearch').parent().siblings('.typeahead-spinner').show();
-    })
-    .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-        $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
-    });
-
-    new findAddress({
-        postcodelookup: '#primaryBuyerPostcodeLookup',
-        line1: '#primaryBuyerLine1',
-        line2: '#primaryBuyerLine2',
-        town: '#primaryBuyerTown',
-        county: '#primaryBuyerCounty',
-        postcode: '#primaryBuyerPostalCode',
-        manualAddress: '#primaryBuyerManualAddress',
-        resList: '#primaryBuyerAddressResults',
-        manAddRow: '#primaryBuyerManAddRow',
-        noMatch: '#primaryBuyerNoMatch',
-        findAddressButton: '#primaryBuyerFindAddressButton'
-    }).setup();
 
     new findAddress({
         postcodelookup: '#sms_postcodelookup',
@@ -80,35 +40,7 @@
             "BirthDate": {
                 required: true,
                 dateGB: true
-            },
-            "Line1": {
-                required: true
-            },
-            "Town": {
-                required: true
-            },
-            "PostalCode": {
-                required: true,
-                minlength: 5
-            },
-            "SmsTransactionDTO.Address.Line1": {
-                required: true
-            },
-            "SmsTransactionDTO.Address.Town": {
-                required: true
-            },
-            "SmsTransactionDTO.Address.PostalCode": {
-                required: true,
-                minlength: 5
-            },
-            "SmsTransactionDTO.Reference": {
-                required: true
-            },
-            "SmsTransactionDTO.Price": {
-                required: true,
-                digits: true,
-                max: 2147483647
-            },
+            }
         },
 
         // Do not change code below

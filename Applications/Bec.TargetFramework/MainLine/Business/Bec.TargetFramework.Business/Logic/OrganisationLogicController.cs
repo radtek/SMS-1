@@ -451,7 +451,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var existingUser = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
-                if (existingUser != null)
+                if (existingUser != null && dto.Address != null)
                 {
                     var address = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(x =>
                             x.Line1 == dto.Address.Line1 &&
@@ -550,8 +550,15 @@ namespace Bec.TargetFramework.Business.Logic
                     address = dto.Address.ToEntity();
                     address.AddressID = Guid.NewGuid();
                     address.AddressTypeID = AddressTypeIDEnum.Work.GetIntValue();
-                    address.Name = String.Empty;
+                    address.Name = string.Empty;
                     address.ParentID = txID;
+
+                    // hack: until the address get resolved and will come back to be mandatory
+                    if (address.Line1 == null)
+                    {
+                        address.Line1 = string.Empty;
+                    }
+
                     scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
                 }
 
@@ -608,30 +615,12 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                var address = new Address
-                {
-                    AddressID = Guid.NewGuid(),
-                    AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
-                    Name = string.Empty,
-                    Line1 = assignSmsClientToTransactionDTO.Line1,
-                    Line2 = assignSmsClientToTransactionDTO.Line2,
-                    AdditionalAddressInformation = assignSmsClientToTransactionDTO.AdditionalAddressInformation,
-                    Town = assignSmsClientToTransactionDTO.Town,
-                    County = assignSmsClientToTransactionDTO.County,
-                    PostalCode = assignSmsClientToTransactionDTO.PostalCode,
-                    ParentID = uaoDto.Contact.ContactID,
-                    IsPrimaryAddress = true,
-                    CreatedBy = UserNameService.UserName
-                };
-                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
-
                 var uaot = new SmsUserAccountOrganisationTransaction
                 {
                     SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
                     SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
                     UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
                     SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                    AddressID = address.AddressID,
                     ContactID = uaoDto.Contact.ContactID,
                     CreatedBy = UserNameService.UserName
                 };

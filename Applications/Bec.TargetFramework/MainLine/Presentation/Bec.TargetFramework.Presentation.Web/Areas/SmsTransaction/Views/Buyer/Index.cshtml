@@ -27,7 +27,13 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Safe Buyer - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
+                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Safe Buyer
+                                                @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                                {
+                                                    <span>
+                                                        - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
+                                                    </span>
+                                                }
                                             </a>
                                         </h4>
                                     </div>

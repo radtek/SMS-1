@@ -41,14 +41,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 x.SmsTransactionID,
                 x.SmsTransaction.Reference,
-                x.SmsTransaction.MortgageApplicationNumber,
-                x.SmsTransaction.Price,
-                SmsTransactionAddressLine1 = x.SmsTransaction.Address.Line1,
-                SmsTransactionAddressLine2 = x.SmsTransaction.Address.Line2,
-                SmsTransactionAddressTown = x.SmsTransaction.Address.Town,
-                SmsTransactionAddressCounty = x.SmsTransaction.Address.County,
-                SmsTransactionAddressPostalCode = x.SmsTransaction.Address.PostalCode,
-                SmsTransactionAddressAdditionalAddressInformation = x.SmsTransaction.Address.AdditionalAddressInformation,
+                x.SmsTransaction.Address.Line1,
+                x.SmsTransaction.Address.Line2,
+                x.SmsTransaction.Address.Town,
+                x.SmsTransaction.Address.County,
+                x.SmsTransaction.Address.PostalCode,
+                x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.SmsTransaction.CreatedOn,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
@@ -57,12 +55,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisationID,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                RegisteredHomeAddressLine1 = x.Address.Line1,
-                RegisteredHomeAddressLine2 = x.Address.Line2,
-                RegisteredHomeAddressTown = x.Address.Town,
-                RegisteredHomeAddressCounty = x.Address.County,
-                RegisteredHomeAddressPostalCode = x.Address.PostalCode,
-                RegisteredHomeAddressAdditionalAddressInformation = x.Address.AdditionalAddressInformation
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -78,6 +70,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
                     x.SmsTransaction.Reference.ToLower().Contains(search) ||
+                    x.UserAccountOrganisation.UserAccount.Email.ToLower().Contains(search) ||
                     x.SmsTransaction.Address.Line1.ToLower().Contains(search) ||
                     x.SmsTransaction.Address.PostalCode.ToLower().Contains(search)
                     ));
@@ -102,13 +95,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 ContactRowVersion = x.Contact.RowVersion,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                UserAccountRowVersion = x.UserAccountOrganisation.UserAccount.RowVersion,
-                x.Address.Line1,
-                x.Address.Line2,
-                x.Address.Town,
-                x.Address.County,
-                x.Address.PostalCode,
-                AddressRowVersion = x.Address.RowVersion
+                UserAccountRowVersion = x.UserAccountOrganisation.UserAccount.RowVersion
             });
 
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>

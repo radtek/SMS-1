@@ -27,6 +27,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/app.min.js",
                 "~/Scripts/Bec/bec.jquery.validation.dategb.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
                 "~/Scripts/Libs/accounting.js"
