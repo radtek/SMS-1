@@ -646,7 +646,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x => x.OrganisationID == orgID).ToDtos();
-                PopulateBankAccountHistory(ret);
+                PopulateBankAccountHistory(ret, false);
                 return ret;
             }
         }
@@ -658,7 +658,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var s = LogicHelper.GetStatusType(scope, StatusTypeEnum.BankAccount.GetStringValue(), BankAccountStatusEnum.PendingValidation.GetStringValue());
 
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x => x.IsActive && x.Status == s.Name).ToDtos();
-                PopulateBankAccountHistory(ret);
+                PopulateBankAccountHistory(ret, true);
                 foreach (var account in ret)
                 {
                     account.Duplicates = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Where(x =>
@@ -666,20 +666,24 @@ namespace Bec.TargetFramework.Business.Logic
                         x.BankAccountNumber == account.BankAccountNumber &&
                         x.SortCode == account.SortCode)
                         .ToDtos();
-                    PopulateBankAccountHistory(account.Duplicates);
+                    PopulateBankAccountHistory(account.Duplicates, true);
                 }
                 return ret;
             }
         }
 
-        private void PopulateBankAccountHistory(List<VOrganisationBankAccountsWithStatusDTO> accounts)
+        private void PopulateBankAccountHistory(List<VOrganisationBankAccountsWithStatusDTO> accounts, bool includeNotes)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 foreach (var item in accounts)
                 {
                     item.History = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus.Where(x => x.OrganisationBankAccountID == item.OrganisationBankAccountID).OrderByDescending(x => x.StatusChangedOn).ToDtos();
-                    foreach (var h in item.History) h.StatusTypeValue = scope.DbContexts.Get<TargetFrameworkEntities>().StatusTypeValues.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).ToDto();
+                    foreach (var h in item.History)
+                    {
+                        h.StatusTypeValue = scope.DbContexts.Get<TargetFrameworkEntities>().StatusTypeValues.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).ToDto();
+                        if(!includeNotes) h.Notes = "";
+                    }
                 }
             }
         }
