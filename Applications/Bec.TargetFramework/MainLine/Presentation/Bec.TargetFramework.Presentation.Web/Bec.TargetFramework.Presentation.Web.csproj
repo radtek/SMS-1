@@ -777,6 +777,7 @@
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\Libs\accounting.js" />
+    <Content Include="Scripts\Libs\handlebars-helper-x.js" />
     <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
     <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\Libs\lodash.js" />

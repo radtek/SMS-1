@@ -9833,7 +9833,7 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
           <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="int" Nullable="false" />
-          <Property Name="AddressID" Type="uuid" Nullable="false" />
+          <Property Name="AddressID" Type="uuid" />
           <Property Name="ContactID" Type="uuid" Nullable="false" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
@@ -17906,7 +17906,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="SmsUserAccountOrganisationTransaction_Address_fk">
-          <End Role="Address" Type="Bec.TargetFramework.Data.Store.Address" Multiplicity="1" />
+          <End Role="Address" Type="Bec.TargetFramework.Data.Store.Address" Multiplicity="0..1" />
           <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">
@@ -28810,7 +28810,7 @@
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e66f40fd-df73-4922-b6ca-8d7bf59e58fb" />
           <Property Name="SmsTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="571912b0-2d1e-4f22-a6fc-0db15df78d79" />
           <Property Name="SmsUserAccountOrganisationTransactionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="c5c0f8ad-c34e-413a-adcc-13496bc5903a" />
-          <Property Name="AddressID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d2b3b7ed-3e99-49c2-a626-d7bd3015839c" />
+          <Property Name="AddressID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d2b3b7ed-3e99-49c2-a626-d7bd3015839c" />
           <Property Name="ContactID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1c6cd85d-d62c-43d3-9fe9-849fe7f2560b" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="a6d28164-525b-47ea-b5c7-8834263e54c0" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2f3c61da-3331-4d78-b8ba-6207b2f659d0" />
@@ -36548,7 +36548,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="SmsUserAccountOrganisationTransaction_Address_fk" ed:Guid="0e281681-34bc-4b54-a092-97ff837d71eb">
-          <End Role="Address" Type="Bec.TargetFramework.Data.Address" Multiplicity="1" />
+          <End Role="Address" Type="Bec.TargetFramework.Data.Address" Multiplicity="0..1" />
           <End Role="SmsUserAccountOrganisationTransactions" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Address">

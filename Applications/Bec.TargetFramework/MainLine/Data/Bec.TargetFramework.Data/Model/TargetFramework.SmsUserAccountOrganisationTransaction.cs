@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for AddressID in the schema.
         /// </summary>
-        public virtual global::System.Guid AddressID
+        public virtual global::System.Nullable<System.Guid> AddressID
         {
             get;
             set;

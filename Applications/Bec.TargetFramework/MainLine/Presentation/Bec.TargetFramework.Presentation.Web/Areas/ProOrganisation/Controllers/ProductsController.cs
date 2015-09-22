@@ -119,13 +119,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                     UaoID = addSmsTransactionDto.BuyerUaoID.Value,
                     TransactionID = transactionID,
                     AssigningByOrganisationID = orgID,
-                    Line1 = addSmsTransactionDto.Line1,
-                    Line2 = addSmsTransactionDto.Line2,
-                    County = addSmsTransactionDto.County,
-                    AdditionalAddressInformation = addSmsTransactionDto.AdditionalAddressInformation,
-                    PostalCode = addSmsTransactionDto.PostalCode,
-                    Town = addSmsTransactionDto.Town,
-                    Manual = addSmsTransactionDto.Manual,
                     UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
                 };
 
