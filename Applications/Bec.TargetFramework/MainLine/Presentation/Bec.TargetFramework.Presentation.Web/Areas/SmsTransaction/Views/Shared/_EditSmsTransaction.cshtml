@@ -19,7 +19,6 @@
                             @Html.Hidden("txID", (object)ViewBag.txID)
                             @Html.Hidden("uaoID", (object)ViewBag.uaoID)
                             @Html.HiddenFor(m => m.Model.Contact.RowVersion)
-                            @Html.HiddenFor(m => m.Model.Address.RowVersion)
                             @Html.HiddenFor(m => m.Model.UserAccountOrganisation.UserAccount.RowVersion)
                             <fieldset>
                                 <legend>Primary Buyer Details</legend>
@@ -69,75 +68,6 @@
                                         </label>
                                     </section>
                                 </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Registered Home Address</legend>
-                                <div class="row">
-                                    <section class="col col-4">
-                                        <label class="label">Lookup Postcode</label>
-                                        <label class="input">
-                                            <input id="primaryBuyerPostcodeLookup" type="text" tabindex="6" maxlength="10" />
-                                        </label>
-                                    </section>
-                                    <section class="col">
-                                        <label class="label">&nbsp;</label>
-                                        <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "Home", new {Area = ""})" type="button" class="btn btn-default btn-sm" tabindex="7">Find Address</button>
-                                    </section>
-                                </div>
-                                <section>
-                                    <label class="select">
-                                        <select id="primaryBuyerAddressResults" tabindex="8"></select>
-                                        <i></i>
-                                    </label>
-                                </section>
-                                <div class="row">
-                                    <section class="col" id="primaryBuyerNoMatch">
-                                        <em style="color: #d56161">No matches found, please enter address below</em>
-                                    </section>
-                                </div>
-                                <div class="row" id="primaryBuyerManAddRow">
-                                    <section class="col">
-                                        <input type="checkbox" id="primaryBuyerManualAddress" />
-                                        <label for="primaryBuyerManualAddress" tabindex="9">Edit Address Details</label>
-                                    </section>
-                                </div>
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Model.Address.Line1, new { id = "primaryBuyerLine1", placeholder = "Address Line 1", tabindex = "10", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Model.Address.County, new { id = "primaryBuyerCounty", placeholder = "County", tabindex = "13", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            @Html.TextBoxFor(m => m.Model.Address.Line2, new { id = "primaryBuyerLine2", placeholder = "Address Line 2", tabindex = "11", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Model.Address.PostalCode, new { id = "primaryBuyerPostalCode", placeholder = "Postcode", tabindex = "14", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
-                                <div class="row">
-                                    <section class="col col-6">
-                                        <label class="input">
-                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.Model.Address.Town, new { id = "primaryBuyerTown", placeholder = "Town", tabindex = "12", maxlength = 50 })
-                                        </label>
-                                    </section>
-                                </div>
-
                             </fieldset>
                         </form>
                     </div>

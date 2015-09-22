@@ -49,16 +49,7 @@
             },
             'Model.Contact.BirthDate': {
                 required: true
-            },
-            'Model.Address.Line1': {
-                required: true
-            },
-            'Model.Address.PostalCode': {
-                required: true
-            },
-            'Model.Address.Town': {
-                required: true
-            },
+            }
         },
 
         // Do not change code below
@@ -68,20 +59,6 @@
 
         submitHandler: validateSubmit
     });
-
-    new findAddress({
-        postcodelookup: '#primaryBuyerPostcodeLookup',
-        line1: '#primaryBuyerLine1',
-        line2: '#primaryBuyerLine2',
-        town: '#primaryBuyerTown',
-        county: '#primaryBuyerCounty',
-        postcode: '#primaryBuyerPostalCode',
-        manualAddress: '#primaryBuyerManualAddress',
-        resList: '#primaryBuyerAddressResults',
-        manAddRow: '#primaryBuyerManAddRow',
-        noMatch: '#primaryBuyerNoMatch',
-        findAddressButton: '#primaryBuyerFindAddressButton'
-    }).setup();
 
     function setupDateOfBirthInput() {
         var now = new Date();
