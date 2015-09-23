@@ -866,9 +866,15 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                string updatedBy = bankAccountAddStatus.BankAccountOrganisationID != bankAccountAddStatus.OrganisationID
-                    ? scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Single(x => x.OrganisationID == bankAccountAddStatus.OrganisationID).Name
-                    : UserNameService.UserName;
+                string updatedBy = UserNameService.UserName;
+                if (bankAccountAddStatus.BankAccountOrganisationID != bankAccountAddStatus.OrganisationID)
+                {
+                    var org = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationDetails.Single(x => x.OrganisationID == bankAccountAddStatus.OrganisationID);
+                    if (org.Organisation.OrganisationType.Name == "Administration")
+                        updatedBy = Constants.SmsTeamName;
+                    else
+                        updatedBy = org.Name;
+                }
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus.Add(new OrganisationBankAccountStatus
                 {
