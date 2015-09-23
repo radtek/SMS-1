@@ -22,7 +22,7 @@
                             <label class="label">Username</label>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
-                                @Html.TextBoxFor(m => m.Username)
+                                @Html.TextBoxFor(m => m.Username, new { autocomplete = "off" })
                             </label>
                             <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Username</a>
                             <br />
@@ -31,7 +31,7 @@
                             <label class="label">Password</label>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                @Html.PasswordFor(m => m.Password)
+                                @Html.PasswordFor(m => m.Password, new { autocomplete = "off" })
                             </label>
                             <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
                         </section>

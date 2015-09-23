@@ -37,7 +37,7 @@
                                 <label class="label">Username</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-user"></i>
-                                    @Html.TextBoxFor(m => m.NewUsername)
+                                    @Html.TextBoxFor(m => m.NewUsername, new { autocomplete = "off" })
                                 </label>
                             </section>
                             <section>
@@ -46,12 +46,12 @@
                                 <label class="label">Password</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-lock"></i>
-                                    @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25 })
+                                    @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25, autocomplete = "off" })
                                 </label>
                                 <label class="label">Confirm password</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-lock"></i>
-                                    @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25 })
+                                    @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25, autocomplete = "off" })
                                 </label>
                             </section>
                         </fieldset>

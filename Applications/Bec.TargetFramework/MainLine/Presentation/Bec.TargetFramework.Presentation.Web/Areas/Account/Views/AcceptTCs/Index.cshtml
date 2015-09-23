@@ -11,6 +11,7 @@
                     <header>
                         Terms and Conditions
                     </header>
+                    <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
                     @Html.AntiForgeryToken()
                     @Html.ValidationBootstrap()
                     <input type="hidden" name="notificationID" value="@ViewBag.NotificationID" />
@@ -23,6 +24,7 @@
                             {
                                 @line<br />
                             }
+                            <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
                             <br />
                             <input type="checkbox" id="tc" autocomplete="off" class="margin-right-10" />
                             <label for="tc">I have read, understood and accept the Terms and Conditions</label>
