@@ -48,40 +48,39 @@ namespace Bec.TargetFramework.Aop.Aspects
 
         public override void OnException(MethodExecutionArgs args)
         {
-            StringBuilder stringBuilder = new StringBuilder(1024);
-
-            // Write the exit message. 
-            stringBuilder.Append(this.methodName);
-            stringBuilder.Append('(');
-
-            // Write the current instance object, unless the method 
-            // is static. 
-            object instance = args.Instance;
-            if (instance != null)
-            {
-                stringBuilder.Append("this=");
-                stringBuilder.Append(instance);
-                if (args.Arguments.Count > 0)
-                    stringBuilder.Append("; ");
-            }
-
-            // Write the list of all arguments. 
-            for (int i = 0; i < args.Arguments.Count; i++)
-            {
-                if (i > 0)
-                    stringBuilder.Append(", ");
-                stringBuilder.Append(args.Arguments.GetArgument(i) ?? "null");
-            }
-
-            // Write the exception message. 
-            stringBuilder.AppendFormat("): Exception ");
-            stringBuilder.Append(args.Exception.GetType().Name);
-            stringBuilder.Append(": ");
-            stringBuilder.Append(args.Exception.FlattenException());
-
             if (TraceEnabled)
             {
-                Logger().Trace(stringBuilder.ToString());
+                StringBuilder stringBuilder = new StringBuilder(1024);
+
+                // Write the exit message. 
+                stringBuilder.Append(this.methodName);
+                stringBuilder.Append('(');
+
+                // Write the current instance object, unless the method 
+                // is static. 
+                object instance = args.Instance;
+                if (instance != null)
+                {
+                    stringBuilder.Append("this=");
+                    stringBuilder.Append(instance);
+                    if (args.Arguments.Count > 0)
+                        stringBuilder.Append("; ");
+                }
+
+                // Write the list of all arguments. 
+                for (int i = 0; i < args.Arguments.Count; i++)
+                {
+                    if (i > 0)
+                        stringBuilder.Append(", ");
+                    stringBuilder.Append(args.Arguments.GetArgument(i) ?? "null");
+                }
+
+                // Write the exception message. 
+                stringBuilder.AppendFormat("): Exception ");
+                stringBuilder.Append(args.Exception.GetType().Name);
+                stringBuilder.Append(": ");
+                stringBuilder.Append(args.Exception.FlattenException());
+
                 Logger().Error(stringBuilder.ToString());
             }
         }

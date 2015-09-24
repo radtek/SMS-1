@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -50,50 +50,11 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Wcf">
-      <HintPath>..\..\packages\Autofac.Wcf.3.0.1\lib\net40\Autofac.Integration.Wcf.dll</HintPath>
-    </Reference>
     <Reference Include="Couchbase">
       <HintPath>..\..\References\Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="Couchbase.AspNet">
       <HintPath>..\..\References\Couchbase.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper">
-      <HintPath>..\..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Devart.Data, Version=5.0.927.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Devart.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Devart.Data.PostgreSql, Version=7.3.135.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Devart.Data.PostgreSql.dll</HintPath>
-    </Reference>
-    <Reference Include="Devart.Data.PostgreSql.Entity, Version=7.3.344.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
-    </Reference>
-    <Reference Include="EnsureThat, Version=2.0.0.39118, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Enyim.Caching">
-      <HintPath>..\..\References\Enyim.Caching.dll</HintPath>
-    </Reference>
-    <Reference Include="JSM">
-      <HintPath>..\..\packages\JSM.1.0.1.0\lib\net40\JSM.dll</HintPath>
-    </Reference>
-    <Reference Include="JSM.MVC4">
-      <HintPath>..\..\packages\JSM.MVC4.1.0.1.0\lib\net45\JSM.MVC4.dll</HintPath>
     </Reference>
     <Reference Include="Kendo.Mvc">
       <HintPath>..\..\References\Kendo.Mvc.dll</HintPath>
@@ -102,41 +63,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.2.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Npgsql.2.2.4.1\lib\net45\Mono.Security.dll</HintPath>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Npgsql, Version=2.2.4.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Npgsql.2.2.4.1\lib\net45\Npgsql.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Core">
-      <HintPath>..\..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
     </Reference>
     <Reference Include="Omu.ValueInjecter, Version=2.3.3.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -149,16 +87,6 @@
     <Reference Include="Serilog.Extras.Web">
       <HintPath>..\..\packages\Serilog.Extras.Web.1.3.42\lib\net45\Serilog.Extras.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Serilog.1.4.8\lib\net45\Serilog.FullNetFx.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.Email">
-      <HintPath>..\..\packages\Serilog.Sinks.Email.1.3.42\lib\net45\Serilog.Sinks.Email.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.EventLog">
-      <HintPath>..\..\packages\Serilog.Sinks.EventLog.1.3.42\lib\net45\Serilog.Sinks.EventLog.dll</HintPath>
-    </Reference>
     <Reference Include="ServiceStack.Interfaces">
       <HintPath>..\..\References\ServiceStack.Interfaces.dll</HintPath>
     </Reference>
@@ -167,29 +95,11 @@
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.identitymodel.services" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -198,66 +108,39 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Http.Owin">
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
-    </Reference>
-    <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Thinktecture.IdentityModel.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Thinktecture.IdentityModel.Client.1.1.1\lib\portable-net45+wp80+win8\Thinktecture.IdentityModel.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Thinktecture.IdentityModel.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Thinktecture.IdentityModel.Core.1.0.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
-      <Private>True</Private>
       <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime">
-      <Private>True</Private>
       <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -271,25 +154,12 @@
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security.Facebook">
-      <HintPath>..\..\packages\Microsoft.Owin.Security.Facebook.3.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Google">
-      <HintPath>..\..\packages\Microsoft.Owin.Security.Google.3.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Twitter">
-      <HintPath>..\..\packages\Microsoft.Owin.Security.Twitter.3.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
-      <HintPath>..\..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
-    <Compile Include="App_Helpers\UserManager.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -312,15 +182,19 @@
     <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\ClaimsRequiredAttribute.cs" />
+    <Compile Include="Filters\SecurityFilterAttribute.cs" />
     <Compile Include="Filters\PreventMultipleLoginsActionFilter.cs" />
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
     <Compile Include="Filters\RedirectHelper.cs" />
@@ -333,17 +207,51 @@
     <Compile Include="Helpers\ODataHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ButtonDefinition.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
     <Compile Include="Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
+    <Content Include="Areas\Account\Views\Forgot\Password.js" />
+    <Content Include="Areas\Account\Views\Forgot\Reset.js" />
+    <Content Include="Areas\Account\Views\Forgot\Username.js" />
+    <Content Include="Areas\Account\Views\Login\Index.js" />
+    <Content Include="Areas\Account\Views\Register\Index.js" />
+    <Content Include="Areas\Admin\Views\Company\Provisional.js" />
+    <Content Include="Areas\Admin\Views\Company\Qualified.js" />
+    <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
+    <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
+    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
+    <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
+    <Content Include="Areas\BankAccount\Views\Account\Index.js" />
+    <Content Include="Areas\BankAccount\Views\Check\Index.js" />
+    <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\Index.js" />
+    <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.js" />
+    <Content Include="Areas\ProOrganisation\Views\Products\Index.js" />
+    <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_Reinstate.js" />
+    <Content Include="Areas\ProOrganisation\Views\Shared\_RevokeInvite.js" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
+    <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
+    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
+    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.js" />
+    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -410,9 +318,7 @@
     <Content Include="Content\img\demo\widget-colorpicker.png" />
     <Content Include="Content\img\dropzone\spritemap%402x.png" />
     <Content Include="Content\img\dropzone\spritemap.png" />
-    <Content Include="Content\img\favicon\1favicon.ico" />
     <Content Include="Content\img\favicon\favicon.ico" />
-    <Content Include="Content\img\favicon\favicon.png" />
     <Content Include="Content\img\flags\de.png" />
     <Content Include="Content\img\flags\es.png" />
     <Content Include="Content\img\flags\flags.png" />
@@ -477,6 +383,7 @@
     <Content Include="Content\img\saturation.png" />
     <Content Include="Content\img\select2-spinner.gif" />
     <Content Include="Content\img\SMS Master Screen.png" />
+    <Content Include="Content\img\sms-logo-118x42.png" />
     <Content Include="Content\img\sort_asc.png" />
     <Content Include="Content\img\sort_asc_disabled.png" />
     <Content Include="Content\img\sort_both.png" />
@@ -548,6 +455,7 @@
     <Content Include="Content\img\violate.jpg" />
     <Content Include="Content\img\voicecommand\active-btn.gif" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Content\SMS Master Screen.png" />
     <Content Include="Content\sound\bigbox.mp3" />
     <Content Include="Content\sound\license.txt" />
     <Content Include="Content\sound\messagebox.mp3" />
@@ -826,7 +734,6 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -866,9 +773,14 @@
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
     <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_GeneratePin.cshtml" />
-    <Content Include="Scripts\FindAddress.js" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Libs\accounting.js" />
+    <Content Include="Scripts\Libs\handlebars-helper-x.js" />
+    <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
+    <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
+    <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
@@ -913,6 +825,10 @@
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
+    <Content Include="Views\Shared\_relatedPartiesTmpl.cshtml" />
+    <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -920,10 +836,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\JSM.js" />
-    <Content Include="Scripts\JSM.min.js" />
-    <Content Include="Scripts\json2.js" />
-    <Content Include="Scripts\json2.min.js" />
     <Content Include="Scripts\kendo\angular.min.js" />
     <Content Include="Scripts\kendo\cultures\kendo.culture.af-ZA.min.js" />
     <Content Include="Scripts\kendo\cultures\kendo.culture.af.min.js" />
@@ -1846,16 +1758,16 @@
     <Content Include="Scripts\plugin\x-editable\jquery.mockjax.min.js" />
     <Content Include="Scripts\plugin\x-editable\moment.min.js" />
     <Content Include="Scripts\plugin\x-editable\x-editable.min.js" />
-    <Content Include="Scripts\pubsub.js" />
     <Content Include="Scripts\pubsubjs\pubsub.js" />
-    <Content Include="Scripts\GeneratePin.js" />
-    <Content Include="Scripts\RejectCompany.js" />
+    <Content Include="Areas\Admin\Views\Shared\_GeneratePin.js" />
+    <Content Include="Areas\Admin\Views\Shared\_RejectTempCompany.js" />
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\smart-chat-ui\smart.chat.manager.min.js" />
     <Content Include="Scripts\smart-chat-ui\smart.chat.ui.min.js" />
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\_ResendLogins.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1893,7 +1805,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Ribbon.cshtml" />
-    <Content Include="Views\Shared\_Scripts.cshtml" />
     <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />
@@ -2014,6 +1925,7 @@
     <Content Include="Views\Home\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
+    <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2087,7 +1999,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32203</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32204/</IISUrl>
+          <IISUrl>https://localhost:44300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -2108,11 +2020,6 @@
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
     <Error Condition="!Exists('..\..\packages\OctoPack.3.0.41\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\..\packages\OctoPack.3.0.41\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
-  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

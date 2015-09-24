@@ -7,8 +7,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Presentation.Web.Base;
-using JSM;
-using JSM.MVC4;
 using ServiceStack.ServiceHost;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
@@ -20,7 +18,7 @@ using Bec.TargetFramework.Presentation.Web.Helpers;
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     [ClaimsRequired("Add", "Company", Order = 1000)]
-    public class CompanyController : ApplicationControllerBase, IJavaScriptModelAware
+    public class CompanyController : ApplicationControllerBase
     {
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public INotificationLogicClient NotificationClient { get; set; }
@@ -55,6 +53,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddTempCompany(AddCompanyDTO model)
         {
             if (ModelState.IsValid)
@@ -77,6 +76,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> RejectTempCompany(RejectCompanyDTO model)
         {
             await OrganisationClient.RejectOrganisationAsync(model);
@@ -94,6 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
             await UserLogicClient.GeneratePinAsync(uaoId, false, false);
@@ -126,6 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendLogins(Guid uaoId)
         {
             var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
@@ -145,11 +147,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             ViewBag.orgID = orgID;
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", Request.QueryString + select + filter);
+            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
             return PartialView("_EditCompany", Edit.MakeModel(res.First()));
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditCompany(Guid orgID)
         {
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);

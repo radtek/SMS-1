@@ -1,6 +1,5 @@
 ﻿using Bec.TargetFramework.Aop.Aspects;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Entities.Injections;
@@ -859,11 +858,11 @@ namespace Bec.TargetFramework.Business.Logic
             return uaoDTO;
         }
 
-        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID)
+        public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID, int withRelatedLevel)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtos();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtosWithRelated(withRelatedLevel);
             }
         }
     }

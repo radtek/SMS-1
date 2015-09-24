@@ -4,7 +4,7 @@
 @model RejectCompanyDTO
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="rejectCompanyLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="rejectCompanyLabel">Reject Company</h4>
@@ -28,7 +28,7 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-4">
+                                    <section class="col col-xs-12">
                                         <label class="select">
                                             @Html.DropDownListFor(model => model.Reason, Html.EnumList<RejectionTypeIDEnum>(), "Please Select")
                                             <i></i>
@@ -41,7 +41,7 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-8">
+                                    <section class="col col-xs-12">
                                         <label class="textarea">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                             @Html.TextAreaFor(model => model.Notes, new { rows = "5" })
@@ -64,4 +64,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="~/Scripts/RejectCompany.js"></script>
+<script async src="@Scripts.Url("~/Scripts/Admin/Shared/_RejectTempCompany")"></script>

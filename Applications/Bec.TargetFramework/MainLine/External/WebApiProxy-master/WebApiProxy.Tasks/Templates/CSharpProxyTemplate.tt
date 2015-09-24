@@ -21,7 +21,6 @@ using <#= Configuration.Namespace#>.Models;
 using <#= Configuration.EntitiesNamespace #>;
 using <#= Configuration.EnumsNamespace #>;
 using System.Web.Http;
-using Bec.TargetFramework.Infrastructure;
 using BrockAllen.MembershipReboot;
 using ServiceStack.Text;
 

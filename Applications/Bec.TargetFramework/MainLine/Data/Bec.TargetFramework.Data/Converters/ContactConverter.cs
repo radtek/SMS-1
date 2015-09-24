@@ -79,6 +79,10 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.FirmName = source.FirmName;
             target.RowVersion = source.RowVersion;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // Navigation Properties
             if (level > 0) {
@@ -88,6 +92,8 @@ namespace Bec.TargetFramework.Entities
               target.Accounts = source.Accounts.ToDtosWithRelated(level - 1);
               target.UserAccountOrganisations = source.UserAccountOrganisations.ToDtosWithRelated(level - 1);
               target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
+              target.Addresses = source.Addresses.ToDtosWithRelated(level - 1);
+              target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -154,6 +160,10 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.FirmName = source.FirmName;
             target.RowVersion = source.RowVersion;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
 
             // User-defined partial method
             OnEntityCreating(source, target);

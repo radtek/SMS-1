@@ -1,5 +1,5 @@
 ﻿using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
+using Mehdime.Entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,12 +19,11 @@ namespace EnumGenerator
         {
             m_FileName = fileName;
 
-            using (
-                var scope = new UnitOfWorkScope<TargetFrameworkEntities>(UnitOfWorkScopePurpose.Reading,
-                    null))
+            DbContextScopeFactory factory = new DbContextScopeFactory();
+            using (var scope = factory.CreateReadOnly())
             {
-                m_ClassificationTypes = scope.DbContext.ClassificationTypes.ToList();
-                m_ClassificationTypeCategories = scope.DbContext.ClassificationTypeCategories.ToList();
+                m_ClassificationTypes = scope.DbContexts.Get<TargetFrameworkEntities>().ClassificationTypes.ToList();
+                m_ClassificationTypeCategories = scope.DbContexts.Get<TargetFrameworkEntities>().ClassificationTypeCategories.ToList();
             }
         }
 

@@ -37,18 +37,9 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View("Denied");
         }
 
-
         public ActionResult ViewCancel()
         {
             return PartialView("_Cancel");
-        }
-
-        public ActionResult ViewMessage(string title, string message, string button)
-        {
-            ViewBag.title = title;
-            ViewBag.message = message;
-            ViewBag.button = button;
-            return PartialView("_Message");
         }
 
         public ActionResult ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
@@ -71,15 +62,37 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public async Task<ActionResult> CheckEmail(string email, Guid? uaoID)
         {
             email = email.ToLower();
-            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccountOrganisationID });
-            var filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccount.Email.ToLower() == email);
-            if (uaoID.HasValue) filter = Expression.And(filter, ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID != uaoID));
+            string select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccountOrganisationID });
+            Expression filter;
+            if (uaoID.HasValue)
+            {
+                var selectUao = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccount.Email });
+                var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
+                var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
+                var uao = uaoAsync.FirstOrDefault();
+                var uaoEmail = uao.UserAccount.Email;
+
+                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
+                    x.UserAccount.Email != uaoEmail &&
+                    x.UserAccountOrganisationID != uaoID &&
+                    x.UserAccount.Email.ToLower() == email);
+            }
+            else
+            {
+                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccount.Email.ToLower() == email);
+            }
+
             var res = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + ODataHelper.Filter(filter));
 
             if (res.Any())
                 return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetTemplate(string view)
+        {
+            return PartialView(view);
         }
     }
 }

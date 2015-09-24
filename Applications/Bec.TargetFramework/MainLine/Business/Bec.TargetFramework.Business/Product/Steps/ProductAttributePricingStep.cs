@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using EnsureThat;
 using Bec.TargetFramework.Business.Logic;
 using Bec.TargetFramework.Data;
-using Bec.TargetFramework.Data.Infrastructure;
 using Mehdime.Entity;
 
 namespace Bec.TargetFramework.Business.Product

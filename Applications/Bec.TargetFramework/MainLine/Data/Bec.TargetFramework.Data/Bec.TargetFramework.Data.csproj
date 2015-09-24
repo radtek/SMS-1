@@ -52,9 +52,6 @@
       <HintPath>..\..\References\Devart.Data.PostgreSql.Entity.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EnsureThat">
-      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -64,17 +61,9 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\AccountConverter.cs" />
@@ -184,6 +173,7 @@
     <Compile Include="Converters\InvoiceProcessLogConverter.cs" />
     <Compile Include="Converters\LedgerAccountBalanceConverter.cs" />
     <Compile Include="Converters\LegalOrganisationDetailConverter.cs" />
+    <Compile Include="Converters\LenderConverter.cs" />
     <Compile Include="Converters\LinkedAccountClaimConverter.cs" />
     <Compile Include="Converters\LinkedAccountConverter.cs" />
     <Compile Include="Converters\ModuleArtefactConverter.cs" />
@@ -363,6 +353,8 @@
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
     <Compile Include="Converters\SmsTransactionConverter.cs" />
+    <Compile Include="Converters\SmsUserAccountOrganisationTransactionConverter.cs" />
+    <Compile Include="Converters\SmsUserAccountOrganisationTransactionTypeConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeOptionTemplateConverter.cs" />
     <Compile Include="Converters\SpecificationAttributeRelationshipConverter.cs" />
@@ -567,6 +559,7 @@
     <Compile Include="Model\TargetFramework.InvoiceProcessLog.cs" />
     <Compile Include="Model\TargetFramework.LedgerAccountBalance.cs" />
     <Compile Include="Model\TargetFramework.LegalOrganisationDetail.cs" />
+    <Compile Include="Model\TargetFramework.Lender.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccount.cs" />
     <Compile Include="Model\TargetFramework.LinkedAccountClaim.cs" />
     <Compile Include="Model\TargetFramework.Module.cs" />
@@ -746,6 +739,8 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
     <Compile Include="Model\TargetFramework.SmsTransaction.cs" />
+    <Compile Include="Model\TargetFramework.SmsUserAccountOrganisationTransaction.cs" />
+    <Compile Include="Model\TargetFramework.SmsUserAccountOrganisationTransactionType.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttribute.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttributeOptionTemplate.cs" />
     <Compile Include="Model\TargetFramework.SpecificationAttributeRelationship.cs" />
@@ -853,9 +848,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Content Include="Properties\licenses.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Properties\licenses.config" />
     <None Include="TargetFramework.DbContext.tmpl">
       <DependentUpon>TargetFramework.edml</DependentUpon>
     </None>

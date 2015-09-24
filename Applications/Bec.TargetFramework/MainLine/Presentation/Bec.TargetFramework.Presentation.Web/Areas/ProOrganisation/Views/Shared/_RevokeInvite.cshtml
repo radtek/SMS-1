@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("RevokeInvite", "Users", new { area = "ProOrganisation", userId = ViewBag.userId })" method="POST" id="revokeLogins-form" class="smart-form">
+                        <form action="@Url.Action("RevokeInvite", "Users", new { area = "ProOrganisation", uaoId = ViewBag.uaoId, userId = ViewBag.userId })" method="POST" id="revokeLogins-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
@@ -35,10 +35,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    // submit from when Save button clicked
-    $("#submitrevokeLogins").click(function () {
-        $("#submitrevokeLogins").prop('disabled', true);
-        $("#revokeLogins-form").submit();
-    });
-</script>
+<script async src="@Scripts.Url("~/Scripts/ProOrganisation/Shared/_RevokeInvite")"></script>

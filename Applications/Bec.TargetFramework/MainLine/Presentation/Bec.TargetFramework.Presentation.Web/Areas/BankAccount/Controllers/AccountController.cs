@@ -39,6 +39,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [ClaimsRequired("Add", "BankAccount", Order = 1000)]
         public async Task<ActionResult> AddBankAccount(OrganisationBankAccountDTO dto)
         {
@@ -61,6 +62,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddStatus(Guid baID, BankAccountStatusEnum status, string notes)
         {
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
@@ -93,7 +95,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             ViewBag.area = "BankAccount";
             return PartialView("_AddStatus");
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ToggleActive(Guid baID, bool isactive, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;

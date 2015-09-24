@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public ContactDTO() {
         }
 
-        public ContactDTO(global::System.Guid contactID, string contactName, global::System.Nullable<System.Guid> masterContactID, global::System.Guid parentID, global::System.Nullable<System.Guid> ownerID, string customerTypeID, global::System.Nullable<int> preferredContactMethodID, global::System.Nullable<bool> isBackOfficeCustomer, string salutation, string jobTitle, string firstName, string department, string nickName, string middleName, string lastName, global::System.Nullable<System.DateTime> birthDate, string description, global::System.Nullable<int> genderTypeID, global::System.Nullable<bool> hasChildren, global::System.Nullable<int> educationTypeID, string webSiteURL, string emailAddress1, string emailAddress2, string emailAddress3, string assistantName, string assistantPhone, string managerName, string managerPhone, global::System.Nullable<int> countryTypeID, global::System.Nullable<bool> doNotFax, global::System.Nullable<bool> doNotEmail, global::System.Nullable<bool> doNotTelephone, global::System.Nullable<bool> isPrivate, string telephone1, string telephone2, string telephone3, string fax, string mobileNumber1, string mobileNumber2, string mobileNumber3, global::System.Nullable<int> organisationUnitID, global::System.Nullable<System.Guid> parentContactID, bool isPrimaryContact, global::System.Nullable<int> contactTypeID, global::System.Nullable<int> contactSubTypeID, global::System.Nullable<int> contactCategoryID, bool isActive, bool isDeleted, string firmName, global::System.Nullable<long> rowVersion, List<ContactNameDTO> contactNames, List<ContactPhoneDTO> contactPhones, List<ContactRegulatorDTO> contactRegulators, List<AccountDTO> accounts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationDTO> organisations) {
+        public ContactDTO(global::System.Guid contactID, string contactName, global::System.Nullable<System.Guid> masterContactID, global::System.Guid parentID, global::System.Nullable<System.Guid> ownerID, string customerTypeID, global::System.Nullable<int> preferredContactMethodID, global::System.Nullable<bool> isBackOfficeCustomer, string salutation, string jobTitle, string firstName, string department, string nickName, string middleName, string lastName, global::System.Nullable<System.DateTime> birthDate, string description, global::System.Nullable<int> genderTypeID, global::System.Nullable<bool> hasChildren, global::System.Nullable<int> educationTypeID, string webSiteURL, string emailAddress1, string emailAddress2, string emailAddress3, string assistantName, string assistantPhone, string managerName, string managerPhone, global::System.Nullable<int> countryTypeID, global::System.Nullable<bool> doNotFax, global::System.Nullable<bool> doNotEmail, global::System.Nullable<bool> doNotTelephone, global::System.Nullable<bool> isPrivate, string telephone1, string telephone2, string telephone3, string fax, string mobileNumber1, string mobileNumber2, string mobileNumber3, global::System.Nullable<int> organisationUnitID, global::System.Nullable<System.Guid> parentContactID, bool isPrimaryContact, global::System.Nullable<int> contactTypeID, global::System.Nullable<int> contactSubTypeID, global::System.Nullable<int> contactCategoryID, bool isActive, bool isDeleted, string firmName, global::System.Nullable<long> rowVersion, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, List<ContactNameDTO> contactNames, List<ContactPhoneDTO> contactPhones, List<ContactRegulatorDTO> contactRegulators, List<AccountDTO> accounts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationDTO> organisations, List<AddressDTO> addresses, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
 
           this.ContactID = contactID;
           this.ContactName = contactName;
@@ -74,12 +74,18 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.FirmName = firmName;
           this.RowVersion = rowVersion;
+          this.CreatedOn = createdOn;
+          this.CreatedBy = createdBy;
+          this.ModifiedOn = modifiedOn;
+          this.ModifiedBy = modifiedBy;
           this.ContactNames = contactNames;
           this.ContactPhones = contactPhones;
           this.ContactRegulators = contactRegulators;
           this.Accounts = accounts;
           this.UserAccountOrganisations = userAccountOrganisations;
           this.Organisations = organisations;
+          this.Addresses = addresses;
+          this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
         }
 
         #endregion
@@ -236,6 +242,18 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public global::System.Nullable<long> RowVersion { get; set; }
 
+        [DataMember]
+        public global::System.DateTime CreatedOn { get; set; }
+
+        [DataMember]
+        public string CreatedBy { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -257,6 +275,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<OrganisationDTO> Organisations { get; set; }
+
+        [DataMember]
+        public List<AddressDTO> Addresses { get; set; }
+
+        [DataMember]
+        public List<SmsUserAccountOrganisationTransactionDTO> SmsUserAccountOrganisationTransactions { get; set; }
 
         #endregion
     }

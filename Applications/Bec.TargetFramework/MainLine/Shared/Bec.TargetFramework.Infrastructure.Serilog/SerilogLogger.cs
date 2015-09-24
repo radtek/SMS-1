@@ -16,6 +16,7 @@ using Serilog.Web.Extensions.Enrichers;
 using ILogger = Serilog.ILogger;
 using Serilog.Sinks.EventLog;
 using LogNs = Serilog;
+using Serilog.Sinks.Email;
 
 
 namespace Bec.TargetFramework.Infrastructure.Serilog
@@ -44,8 +45,26 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
         public void DefaultLoggingStrategy(string logCategory,bool webEnrichers)
         {
             var config = new LoggerConfiguration();
+            
+            LogEventLevel seqLevel;
+            if (!Enum.TryParse<LogEventLevel>(ConfigurationManager.AppSettings["SerilogEventLevel"], out seqLevel))
+                seqLevel = LogEventLevel.Error;
 
-            var emailClient = new SmtpClient();
+            int port = 25;
+            bool ssl = false;
+            string host = ConfigurationManager.AppSettings["smtp:host"];
+            int.TryParse(ConfigurationManager.AppSettings["smtp:port"], out port);
+            bool.TryParse(ConfigurationManager.AppSettings["smtp:ssl"], out ssl);
+
+            var ec = new EmailConnectionInfo
+            {
+                EnableSsl =ssl,
+                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
+                MailServer = host,
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
+                Port = port,
+                ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
+            };
 
             // defaults are seq and eventLog
             config.Enrich.With(new ApplicationDetailsEnricher())
@@ -53,12 +72,10 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
                 .Enrich.With(new AppDomainFriendlyNameEnricher("AppDomainFriendlyName"))
                 .Enrich.With(new ProcessSessionIdEnricher("ProcessID"))
                 .Enrich.With(new PrincipalIdentityNameEnricher("PrincipalID"))
-                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"])
+                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"], seqLevel)
                 .WriteTo.EventLog(ConfigurationManager.AppSettings["SerilogEventLogSource"],
-                    ConfigurationManager.AppSettings["SerilogEventLogName"],restrictedToMinimumLevel: LogEventLevel.Error)
-                .WriteTo.Email(ConfigurationManager.AppSettings["SerilogFromEmail"],
-                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials,m_EmailOutputTemplate,
-                    restrictedToMinimumLevel: LogEventLevel.Error);
+                    ConfigurationManager.AppSettings["SerilogEventLogName"], restrictedToMinimumLevel: LogEventLevel.Error)
+                .WriteTo.Email(ec, restrictedToMinimumLevel: LogEventLevel.Error);
 
             if (!string.IsNullOrEmpty(logCategory))
                 config.Enrich.WithProperty("Category", logCategory);
@@ -88,19 +105,35 @@ namespace Bec.TargetFramework.Infrastructure.Serilog
         {
             var config = new LoggerConfiguration();
 
-            var emailClient = new SmtpClient();
+            LogEventLevel seqLevel;
+            if (!Enum.TryParse<LogEventLevel>(ConfigurationManager.AppSettings["SerilogEventLevel"], out seqLevel))
+                seqLevel = LogEventLevel.Error;
+
+            int port = 25;
+            bool ssl = false;
+            string host = ConfigurationManager.AppSettings["smtp:host"];
+            int.TryParse(ConfigurationManager.AppSettings["smtp:port"], out port);
+            bool.TryParse(ConfigurationManager.AppSettings["smtp:ssl"], out ssl);
+
+            var ec = new EmailConnectionInfo
+            {
+                EnableSsl = ssl,
+                FromEmail = ConfigurationManager.AppSettings["SerilogFromEmail"],
+                MailServer = host,
+                NetworkCredentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SerilogUser"], ConfigurationManager.AppSettings["SerilogPass"]),
+                Port = port,
+                ToEmail = ConfigurationManager.AppSettings["SerilogToEmail"],
+            };
 
             // defaults are seq and eventLog
             config.Enrich.With(new ApplicationDetailsEnricher())
                 .Enrich.With(new ExceptionDataEnricher())
                 .Enrich.With(new ProcessSessionIdEnricher("ProcessID"))
                 .Enrich.With(new PrincipalIdentityNameEnricher("PrincipalID"))
-                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"])
+                .WriteTo.Seq(ConfigurationManager.AppSettings["SerilogSeqServerUrl"], seqLevel)
                 .WriteTo.EventLog(ConfigurationManager.AppSettings["SerilogEventLogSource"],
                     ConfigurationManager.AppSettings["SerilogEventLogName"], restrictedToMinimumLevel: LogEventLevel.Error)
-                .WriteTo.Email(ConfigurationManager.AppSettings["SerilogFromEmail"],
-                    ConfigurationManager.AppSettings["SerilogToEmail"], emailClient.Host, emailClient.Credentials,
-                    restrictedToMinimumLevel: LogEventLevel.Error);
+                .WriteTo.Email(ec, restrictedToMinimumLevel: LogEventLevel.Error);
 
             if (!string.IsNullOrEmpty(logCategory))
                 config.Enrich.WithProperty("Category", logCategory);

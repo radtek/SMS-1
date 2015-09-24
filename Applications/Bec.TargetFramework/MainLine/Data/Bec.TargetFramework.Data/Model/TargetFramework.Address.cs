@@ -350,6 +350,56 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for CreatedOn in the schema.
+        /// </summary>
+        public virtual global::System.DateTime CreatedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedBy in the schema.
+        /// </summary>
+        public virtual string CreatedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedOn in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.DateTime> ModifiedOn
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ModifiedBy in the schema.
+        /// </summary>
+        public virtual string ModifiedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for RowVersion in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> RowVersion
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -377,6 +427,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsTransactions in the schema.
         /// </summary>
         public virtual ICollection<SmsTransaction> SmsTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Contact in the schema.
+        /// </summary>
+        public virtual Contact Contact
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
+        /// </summary>
+        public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
         {
             get;
             set;

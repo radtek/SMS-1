@@ -61,6 +61,8 @@
             this.comboAddress = new System.Windows.Forms.ComboBox();
             this.comboDB = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.buttonBrowse = new System.Windows.Forms.Button();
@@ -69,12 +71,15 @@
             this.textNCName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -167,6 +172,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.numericUpDown1);
             this.groupBox2.Controls.Add(this.addDefaultUsers);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label11);
@@ -305,7 +311,7 @@
             this.buttonAutoAdmin.Name = "buttonAutoAdmin";
             this.buttonAutoAdmin.Size = new System.Drawing.Size(75, 23);
             this.buttonAutoAdmin.TabIndex = 17;
-            this.buttonAutoAdmin.Text = "Add T1-T5";
+            this.buttonAutoAdmin.Text = "Add T1-Tn";
             this.buttonAutoAdmin.UseVisualStyleBackColor = true;
             this.buttonAutoAdmin.Click += new System.EventHandler(this.buttonAutoAdmin_Click);
             // 
@@ -397,6 +403,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.comboBox1);
+            this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.button6);
             this.groupBox3.Controls.Add(this.buttonBrowse);
@@ -410,6 +418,28 @@
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Update Latest Ts && Cs Report SELECT MATCHING SERVER && DB ABOVE";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Organisation Administrator",
+            "User",
+            "Administrator"});
+            this.comboBox1.Location = new System.Drawing.Point(94, 72);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(131, 21);
+            this.comboBox1.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 75);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "User Type";
             // 
             // button5
             // 
@@ -464,7 +494,7 @@
             this.textNCName.Name = "textNCName";
             this.textNCName.Size = new System.Drawing.Size(131, 20);
             this.textNCName.TabIndex = 1;
-            this.textNCName.Text = "TcPublic";
+            this.textNCName.Text = "TcFirmConveyancing";
             // 
             // label13
             // 
@@ -484,11 +514,34 @@
             this.label15.TabIndex = 9;
             this.label15.Text = "DB";
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(602, 379);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(106, 23);
+            this.button8.TabIndex = 11;
+            this.button8.Text = "Load Lenders";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(294, 185);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(39, 20);
+            this.numericUpDown1.TabIndex = 19;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 479);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox3);
@@ -510,6 +563,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -558,6 +612,10 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button buttonAutoAdmin;
         private System.Windows.Forms.Button addDefaultUsers;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 

@@ -3,14 +3,14 @@
     <div class="row">
 
         <h2 class="row-seperator-header inline-heading">View Credit History</h2>
-        <a data-href="#" id="amendCreditButton" class="btn btn-primary btn-sm inline-heading" data-modallink="true" disabled>Amend Credit</a>
+        <a data-href="#" id="amendCreditButton" class="btn btn-primary btn-sm inline-heading" data-modallink="true" disabled data-url="@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})">Amend Credit</a>
 
         <div class="col-sm-12 margin-top-10">
             <form id="creditSearchForm" class="search-form">
                 <div class="row form-group">
                     <div class="col-sm-3">
                         <input type="hidden" id="orgID" />
-                        <input type="text" id="orgSearch" class="form-control" placeholder="Enter Firm Name" />
+                        <input type="text" id="orgSearch" class="form-control" placeholder="Enter Firm Name" data-url="@Url.Action("SearchCompany", "Finance", new {Area = "Admin"})" />
                         <span class="typeahead-spinner"><i class="fa fa-spin fa-spinner"></i></span>
                     </div>
                     <div class="col-sm-2">
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="statementGrid"></div>
+                        <div id="statementGrid" data-url="@Url.Action("GetStatement", "Finance", new {area = "Admin"})"></div>
                     </div>
                 </div>
             </div>
@@ -79,167 +79,7 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="~/Scripts/Bec/bec.daterange.js"></script>
-    <script type="text/javascript" src="~/Scripts/typeahead.bundle.min.js"></script>
-    <script type="text/javascript">
-
-        var shownMessage = false;
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var statementGrid = new gridItem(
-        {
-            gridElementId: 'statementGrid',
-            url: '@Url.Action("GetStatement", "Finance", new {area = "Admin"})',
-            schema: { data: "Items", total: "Count", model: { id: "TransactionOrderID" } },
-            type: 'odata-v4',
-            serverSorting: true,
-            serverPaging: true,
-            defaultSort: { field: "BalanceOn", dir: "asc" },
-            panels: ['rPanel'],
-            change: txChange,
-            onLoadFailed: function (data) {
-                console.log(data);
-            },
-            extraParameters: function () {
-                var selectedDateRange = getSelectedDateRange();
-                return "&from=" + selectedDateRange.from + "&to=" + selectedDateRange.to + "&orgID=" + $('#orgID').val() + "&creditsOnly=" + $('#creditsOnly').val();
-            },
-            columns: [
-                {
-                    field: "InvoiceReference",
-                    title: "Reference",
-                    sortable: false
-                },
-                {
-                    field: "Amount",
-                    title: "Amount",
-                    sortable: false
-                },
-                {
-                    field: "Balance",
-                    title: "Balance",
-                    sortable: false
-                },
-                {
-                    field: "BalanceOn",
-                    title: "Date",
-                    template: function (dataItem) { return dateString(dataItem.BalanceOn); }
-                },
-                {
-                    field: "CreatedByName",
-                    title: "Created By",
-                    sortable: false
-                }
-            ]
-        });
-
-        var companies = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            identify: function (datum) {
-                return datum.OrganisationID;
-            },
-            remote: {
-                url: '@Url.Action("SearchCompany", "Finance", new {Area = "Admin"})' + '?search=%QUERY',
-                wildcard: '%QUERY',
-                transform: function (response) {
-                    return response.Items;
-                }
-            }
-        });
-
-        $(function () {
-            findModalLinks();
-            setupDateRangeInputs();
-            statementGrid.makeGrid();
-            setupAutocomplete();
-            setupForm();
-        });
-
-        function applyFilter() {
-            statementGrid.refreshGrid();
-        }
-
-        function getSelectedDateRange() {
-            var dateFrom = moment($('#from').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
-            var dateTo = moment($('#to').val(), 'DD/MM/YYYY').format('YYYY-MM-DD');
-            return {
-                from: dateFrom,
-                to: dateTo
-            };
-        }
-
-        //data binding for the panes beneath each grid
-        function txChange(dataItem) {
-            $("p#ddReference").text(dataItem.InvoiceReference || "");
-            $("p#ddAmount").text(dataItem.Amount || "");
-            $("p#ddDate").text(dateString(dataItem.BalanceOn) || "");
-            $("p#ddCreatedBy").text(dataItem.CreatedByName || "");
-        }
-
-        function setupAutocomplete() {
-            $('#orgSearch').typeahead({
-                minLength: 1,
-                highlight: true,
-                hint: false
-            }, {
-                display: 'Name',
-                source: companies,
-                templates: {
-                    empty: [
-                        '<div class="empty-message">',
-                        'Unable to find any company that match the current query',
-                        '</div>'
-                    ].join('\n')
-                }
-            })
-                .on("typeahead:selected typeahead:autocompleted", function (e, datum) {
-                    $('#orgID').val(datum.OrganisationID);
-                    $("#amendCreditButton").attr('disabled', false);
-                    $("#amendCreditButton").data('href', '@Url.Action("ViewAmendCredit", "Finance", new {area = "Admin"})' + "?orgId=" + datum.OrganisationID);
-                    applyFilter();
-                })
-                .on('typeahead:asyncrequest', function () {
-                    $('#orgSearch').parent().siblings('.typeahead-spinner').show();
-                })
-                .on('typeahead:asynccancel typeahead:asyncreceive', function () {
-                    $('#orgSearch').parent().siblings('.typeahead-spinner').hide();
-                });
-        }
-
-        function setupDateRangeInputs() {
-            $.becDateRange({
-                dateFromInputSelector: "#from",
-                dateToInputSelector: "#to",
-                dateFromShowButtonSelector: "#from ~ .input-group-addon",
-                dateToShowButtonSelector: "#to ~ .input-group-addon"
-            });
-        }
-
-        function setupForm() {
-            var creditSearchForm = $("#creditSearchForm");
-            $("#submitCreditSearch").click(function (e) {
-                creditSearchForm.submit();
-            });
-            creditSearchForm.validate({
-                ignore: '.skip',
-                rules: {
-                    from: {
-                        required: true,
-                        dateGB: true
-                    },
-                    to: {
-                        required: true,
-                        dateGB: true
-                    },
-                },
-
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                },
-
-                submitHandler: applyFilter
-            });
-        }
-    </script>
+    @Scripts.Render("~/Scripts/daterange")
+    @Scripts.Render("~/Scripts/typeahead")
+    <script async src="@Scripts.Url("~/Scripts/Admin/Finance/CreditHistory")"></script>
 }

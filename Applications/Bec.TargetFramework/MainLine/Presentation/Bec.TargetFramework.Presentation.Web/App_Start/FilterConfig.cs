@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using Bec.TargetFramework.Presentation.Web.Filters;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web
@@ -8,6 +9,7 @@ namespace Bec.TargetFramework.Presentation.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new SecurityFilterAttribute());
         }
     }
 }

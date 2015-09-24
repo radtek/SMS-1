@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, global::System.Nullable<System.Guid> userAccountOrganisationID, AddressDTO address, OrganisationDTO organisation, UserAccountOrganisationDTO userAccountOrganisation) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -34,10 +34,14 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationID = organisationID;
           this.CreatedOn = createdOn;
           this.RowVersion = rowVersion;
-          this.UserAccountOrganisationID = userAccountOrganisationID;
+          this.MortgageApplicationNumber = mortgageApplicationNumber;
+          this.LenderName = lenderName;
+          this.CreatedBy = createdBy;
+          this.ModifiedOn = modifiedOn;
+          this.ModifiedBy = modifiedBy;
           this.Address = address;
           this.Organisation = organisation;
-          this.UserAccountOrganisation = userAccountOrganisation;
+          this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
         }
 
         #endregion
@@ -75,7 +79,19 @@ namespace Bec.TargetFramework.Entities
         public long RowVersion { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.Guid> UserAccountOrganisationID { get; set; }
+        public string MortgageApplicationNumber { get; set; }
+
+        [DataMember]
+        public string LenderName { get; set; }
+
+        [DataMember]
+        public string CreatedBy { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        [DataMember]
+        public string ModifiedBy { get; set; }
 
         #endregion
 
@@ -88,7 +104,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationDTO Organisation { get; set; }
 
         [DataMember]
-        public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }
+        public List<SmsUserAccountOrganisationTransactionDTO> SmsUserAccountOrganisationTransactions { get; set; }
 
         #endregion
     }

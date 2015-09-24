@@ -1,0 +1,78 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model AddSmsClientDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addAdditionalBuyerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addAdditionalBuyerLabel">Add Additional Buyer</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col-12">
+                        <form id="addAdditionalBuyer-form" class="smart-form" data-url="@Url.Action("AddAdditionalBuyer", "AdditionalBuyer", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionID })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.TransactionID)
+                            <fieldset>
+                                <legend>Additional Buyer Details</legend>
+                                <div class="row">
+                                    <section class="col col-sm-4">
+                                        <label class="label">Title</label>
+                                        <label class="select">
+                                            @Html.DropDownListFor(m => m.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1" })
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-4">
+                                        <label class="label">First Name</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.FirstName, new { tabindex = "2", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-4">
+                                        <label class="label">Last Name</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.LastName, new { tabindex = "3", maxlength = 50 })
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-8">
+                                        <label class="label">Email</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
+                                        </label>
+                                    </section>
+                                    <section class="col col-sm-4">
+                                        <label class="label">Date of Birth <small>[dd/mm/yyyy]</small></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "birthDateInput", placeholder = "dd/mm/yyyy", @readonly = true })
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelAddAdditionalBuyer" class="btn btn-default" data-dismiss="modal" tabindex="18">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="17">
+                    <small><i class="fa fa-plus margin-right-5"></i></small>Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/SmsTransaction/AdditionalBuyer/_AddAdditionalBuyer")"></script>

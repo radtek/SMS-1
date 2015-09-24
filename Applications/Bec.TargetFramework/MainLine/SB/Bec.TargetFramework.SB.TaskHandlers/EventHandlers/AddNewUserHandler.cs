@@ -40,6 +40,9 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                 var notificationConstruct = m_nLogic.GetLatestNotificationConstructIdFromName("AddNewUserTempDetails");
 
+                //fudge in subject
+                notificationConstruct.NotificationSubject = string.Format("Message from {0}", handlerEvent.AddNewCompanyAndAdministratorDto.InviterOrganisationName);
+
                 var settings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
                 settings.NotificationFromEmailAddress = "applications@beconsultancy.co.uk";
 

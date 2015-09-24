@@ -33,37 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>..\..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="EnsureThat">
-      <HintPath>..\..\packages\Ensure.That.2.0.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\EnsureThat.dll\EnsureThat.dll</HintPath>
-    </Reference>
     <Reference Include="Fabrik.Common, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack">
-      <HintPath>..\..\References\ServiceStack.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Common, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=3.9.60.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,42 +48,10 @@
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boo\AccountDTO.cs" />
@@ -586,6 +529,10 @@
     <Compile Include="Boo\LegalOrganisationDetailDTO.cs" />
     <Compile Include="Boo\LegalOrganisationDetailDTO.Generated.cs">
       <DependentUpon>LegalOrganisationDetailDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\LenderDTO.cs" />
+    <Compile Include="Boo\LenderDTO.Generated.cs">
+      <DependentUpon>LenderDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\LinkedAccountClaimDTO.cs" />
     <Compile Include="Boo\LinkedAccountClaimDTO.Generated.cs">
@@ -1402,6 +1349,14 @@
     <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
       <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.cs" />
+    <Compile Include="Boo\SmsUserAccountOrganisationTransactionTypeDTO.Generated.cs">
+      <DependentUpon>SmsUserAccountOrganisationTransactionTypeDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SpecificationAttributeDTO.Generated.cs">
       <DependentUpon>SpecificationAttributeDTO.cs</DependentUpon>
     </Compile>
@@ -1504,6 +1459,7 @@
     <Compile Include="Boo\TwoFactorAuthTokenDTO.Generated.cs">
       <DependentUpon>TwoFactorAuthTokenDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\UserAccountAddressDTO.cs" />
     <Compile Include="Boo\UserAccountArchiveDTO.Generated.cs">
       <DependentUpon>UserAccountArchiveDTO.cs</DependentUpon>
     </Compile>
@@ -1698,6 +1654,7 @@
     <Compile Include="Boo\VUserStatusDTO.Generated.cs">
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
@@ -1890,6 +1847,9 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
+    <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />
@@ -1933,6 +1893,9 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\OrganisationRoleName.cs" />
+    <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
+    <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />
     <Compile Include="Enums\NotificationEnums.cs" />
     <Compile Include="Enums\OrganisationEnums.cs" />

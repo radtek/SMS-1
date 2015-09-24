@@ -1,9 +1,9 @@
 ﻿@using Bec.TargetFramework.Entities.Enums
 <!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-showmessage="@TempData["ShowMessage"]" data-url="@Url.Action("ViewMessage", "Message", new { Area = "", })">
     <div class="row">
 
-        <h2 class="row-seperator-header inline-heading">View My Bank Accounts</h2>
+        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-bank margin-right-10"></i>View My Bank Accounts</h2>
         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
         {
             <a data-href="@Url.Action("ViewAddBankAccount", "Account", new { area  = "BankAccount" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Bank Account</a>
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="baGrid"></div>
+                        <div id="baGrid" data-url="@Url.Action("GetBankAccounts", "Account", new { area = "BankAccount" })" data-jumpto="@TempData["OrganisationBankAccountID"]"></div>
                     </div>
                 </div>
             </div>
@@ -22,18 +22,17 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        
-                        <a id="markFraudSuspiciousButton" class="btn btn-primary btn-sm" data-modallink="true">Mark as Fraud Suspicious</a>
+
+                        <a id="markFraudSuspiciousButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.FraudSuspicion">Mark as Fraud Suspicious</a>
                         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
                         {
-                            <a id="confirmPotentialButton" class="btn btn-primary btn-sm" data-modallink="true">Confirm Potential Fraud</a>
-                            <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true">Mark Safe</a>
+                            <a id="confirmPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.PotentialFraud">Confirm Potential Fraud</a>
+                            <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.Safe">Mark Safe</a>
                             <br />
                             <br />
-                            <a id="activateButton" class="btn btn-primary btn-sm" data-modallink="true">Activate</a>
-                            <a id="deactivateButton" class="btn btn-primary btn-sm" data-modallink="true">Deactivate</a>
+                            <a id="activateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })">Activate</a>
+                            <a id="deactivateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })">Deactivate</a>
                         }
-                        
 
                         <h5>Selected Bank Account</h5>
                         <dl class="dl-horizontal">
@@ -48,7 +47,7 @@
                         </dl>
                     </div>
                 </div>
-                
+
                 <div class="col-sm-6">
                     <div class="well">
                         <h5>Account History</h5>
@@ -62,102 +61,5 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-
-        var shownMessage = false;
-        //set up grid options for the three grids. most are passed straight on to kendo grid.
-        var baGrid = new gridItem(
-            {
-                gridElementId: 'baGrid',
-                url: '@Url.Action("GetBankAccounts", "Account", new { area = "BankAccount" })',
-                schema: { data: "list", total: "total", model: { id: "OrganisationBankAccountID" } },
-                defaultSort: { field: "Created", dir: "asc" },
-                panels: ['rPanel'],
-                jumpToId: '@TempData["OrganisationBankAccountID"]',
-                change: txChange,
-                columns: [
-                        {
-                            field: "BankAccountNumber",
-                            title: "Account Number"
-                        },
-                        {
-                            field: "SortCode",
-                            title: "Sort Code"
-                        },
-                        {
-                            field: "IsActive",
-                        title: "Active",
-                        template: function (dataItem) { return dataItem.IsActive ? "Active" : "Inactive"; }
-                        },
-                        {
-                            field: "Status",
-                            title: "Status"
-                        },
-                        {
-                            field: "StatusChangedBy",
-                            title: "Changed By"
-                        },
-                        {
-                            field: "StatusChangedOn",
-                            title: "Changed On",
-                            template: function (dataItem) { return dateString(dataItem.StatusChangedOn); }
-                        },
-                        {
-                            field: "Created",
-                            title: "Created",
-                            template: function (dataItem) {
-                                return dateString(dataItem.Created);
-                            }
-                        }
-                ]
-            });
-
-        $(document).ready(function () {
-            baGrid.makeGrid();
-
-            findModalLinks();
-        });
-
-        //data binding for the panes beneath each grid
-        function txChange(dataItem) {
-            $("p#ddAccountNumber").text(dataItem.BankAccountNumber || "");
-            $("p#ddSortCode").text(dataItem.SortCode || "");
-            $("p#ddCreated").text(dateString(dataItem.Created));
-            $("p#ddStatus").text(dataItem.Description || "");
-            
-            $("#markFraudSuspiciousButton").data('href', '@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.FraudSuspicion" + "&title=" + encodeURIComponent("Mark as Fraud Suspicious") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account as Fraud Suspicious?"));
-            @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
-            {
-                <text>
-            $("#confirmPotentialButton").data('href', '@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.PotentialFraud" + "&title=" + encodeURIComponent("Confirm Potential Fraud") + "&message=" + encodeURIComponent("Are you sure that you wish to confirm this account as Potential Fraud?"));
-            $("#markSafeButton").data('href', '@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&status=@BankAccountStatusEnum.Safe" + "&title=" + encodeURIComponent("Mark Safe") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account Safe?"));
-
-                $("#activateButton").data('href', '@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Activate Account") + "&message=" + encodeURIComponent("Are you sure that you wish to activate this account?") + "&isactive=true");
-                $("#deactivateButton").data('href', '@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })' + "?baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Deactivate Account") + "&message=" + encodeURIComponent("Are you sure that you wish to deactivate this account?") + "&isactive=false");
-                </text>
-            }
-
-        $("#markFraudButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Safe");
-            $("#markFraudSuspiciousButton").attr("disabled", dataItem.Status != "Safe");
-            @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
-            {
-                <text>
-            $("#confirmPotentialButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Fraud Suspicion");
-            $("#markSafeButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Fraud Suspicion");
-
-                $("#activateButton").attr("disabled", dataItem.IsActive || dataItem.Status != "Safe");
-                $("#deactivateButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Safe");
-                </text>
-            }
-
-            showHistory('#history', dataItem);
-
-            //show a message on adding an account
-        if ('@TempData["ShowMessage"]' == 'True' && !shownMessage) {
-                shownMessage = true;
-            handleModal({ url: '@Url.Action("ViewMessage", "Home", new { Area = "", })' + "?title=" + encodeURIComponent("Validation Pending") + "&message=" + encodeURIComponent(dataItem.Description + ".") + "&button=OK" }, null, true);
-            }
-        }
-
-    </script>
+    <script async src="@Scripts.Url("~/Scripts/BankAccount/Account/Index")"></script>
 }

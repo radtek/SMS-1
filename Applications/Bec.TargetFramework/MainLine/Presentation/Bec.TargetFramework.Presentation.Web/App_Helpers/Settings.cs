@@ -4,7 +4,6 @@ using System;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Web.WebPages;
-using Microsoft.Ajax.Utilities;
 
 #endregion
 
@@ -67,13 +66,13 @@ namespace Bec.TargetFramework.Presentation.Web
             var entry = string.Format("{0}:{1}", prefix, key);
 
             // Make sure the key represents a possible valid entry
-            if (entry.IsNullOrWhiteSpace())
+            if (string.IsNullOrWhiteSpace(entry))
                 return default(T);
 
             var value = ConfigurationManager.AppSettings[entry];
 
             // If the key is available but does not contain any value, return the default value of the specfied type
-            if (value.IsNullOrWhiteSpace())
+            if (string.IsNullOrWhiteSpace(value))
                 return default(T);
 
             // In case the specified type is an enum, try to parse the entry as an enum value

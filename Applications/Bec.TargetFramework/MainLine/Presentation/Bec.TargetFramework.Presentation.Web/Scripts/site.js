@@ -1,10 +1,21 @@
-﻿//checks for a json redirect response instruction
+﻿//from SmartAdmin template
+$(document).ready(function () {
+    pageSetUp();
+    drawBreadCrumb();
+});
+
+//checks for a json redirect response instruction
 function checkRedirect(response) {
-    if (response && response.HasRedirectUrl) window.location.href = response.RedirectUrl;
+    if (hasRedirect(response)) window.location.href = response.RedirectUrl;
+}
+
+function hasRedirect(response){
+    return response && response.HasRedirectUrl;
 }
 
 //wrapper around ajax call to catch json redirect instructions
 function ajaxWrapper(options) {
+    options = $.extend({ cache: false }, options);
     return $.ajax(options).fail(function (err) {
         checkRedirect(err.responseJSON);
     });
@@ -348,7 +359,7 @@ function showDuplicates(selector, headingSelector, dataItem) {
 }
 
 function formatCurrency(val) {
-    return '£' + val.toFixed(2);
+    return accounting.formatMoney(val, "£ ", 2);
 }
 
 var findAddress = function (opts) {
@@ -436,8 +447,8 @@ var findAddress = function (opts) {
                     self.lookupFailed();
                 }
             })
-            .fail(function () {
-                self.lookupFailed();
+            .fail(function (err) {
+                if (!hasRedirect(err.responseJSON)) self.lookupFailed();
             });
         });
     }

@@ -61,12 +61,19 @@ namespace Bec.TargetFramework.Entities
             target.AdditionalAddressInformation = source.AdditionalAddressInformation;
             target.Town = source.Town;
             target.Order = source.Order;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
+            target.RowVersion = source.RowVersion;
 
             // Navigation Properties
             if (level > 0) {
               target.AddressChronologies = source.AddressChronologies.ToDtosWithRelated(level - 1);
               target.CountryCode1 = source.CountryCode1.ToDtoWithRelated(level - 1);
               target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
+              target.Contact = source.Contact.ToDtoWithRelated(level - 1);
+              target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -115,6 +122,11 @@ namespace Bec.TargetFramework.Entities
             target.AdditionalAddressInformation = source.AdditionalAddressInformation;
             target.Town = source.Town;
             target.Order = source.Order;
+            target.CreatedOn = source.CreatedOn;
+            target.CreatedBy = source.CreatedBy;
+            target.ModifiedOn = source.ModifiedOn;
+            target.ModifiedBy = source.ModifiedBy;
+            target.RowVersion = source.RowVersion;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -1,0 +1,33 @@
+﻿{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
+<h5>Transaction Address</h5>
+{{/xif}}
+
+<dl class="dl-horizontal">
+    {{#if SmsTransaction.Address.Line1}}
+    <dt>Address Line 1:</dt>
+    <dd><p>{{SmsTransaction.Address.Line1}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Address.Line2}}
+    <dt>Address Line 2:</dt>
+    <dd><p>{{SmsTransaction.Address.Line2}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Address.Town}}
+    <dt>Town:</dt>
+    <dd><p>{{SmsTransaction.Address.Town}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Address.County}}
+    <dt>County:</dt>
+    <dd><p>{{SmsTransaction.Address.County}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Address.PostalCode}}
+    <dt>Post Code:</dt>
+    <dd><p>{{SmsTransaction.Address.PostalCode}}</p></dd>
+    {{/if}}
+</dl>
+<h5>Product</h5>
+<dl class="dl-horizontal">
+    <dt>Product Name:</dt>
+    <dd>
+        <p>Safe Buyer</p>
+    </dd>
+</dl>

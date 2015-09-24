@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace BodgeIt
 {
@@ -46,6 +47,8 @@ namespace BodgeIt
             comboDB.DisplayMember = "Text";
             comboDB.ValueMember = "Value";
             comboDB.SelectedIndex = 0;
+
+            comboBox1.SelectedIndex = 0;
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -192,7 +195,7 @@ namespace BodgeIt
                 await c.ExecuteNonQueryAsync();
 
                 c.Parameters.Clear();
-                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" uao join \"UserType\" uat on uat.\"UserTypeID\" =  uao.\"UserTypeID\" where uat.\"Name\" = 'Organisation Administrator'";
+                c.CommandText = string.Format("select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" uao join \"UserType\" uat on uat.\"UserTypeID\" =  uao.\"UserTypeID\" where uat.\"Name\" = '{0}'", comboBox1.Text);
                 using (var r = await c.ExecuteReaderAsync())
                 {
                     while (await r.ReadAsync()) uaos.Add(r.GetGuid(0));
@@ -203,7 +206,11 @@ namespace BodgeIt
 
             //insert new notifications for permanent users
             HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-            foreach (var id in uaos) await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID={0}", id), HttpMethod.Post, "user", null);
+            foreach (var id in uaos)
+            {
+                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/CreateTsAndCsNotificationAsync?userOrgID={0}&type={1}", id, textNCName.Text), HttpMethod.Post, "user", null);
+                x.EnsureSuccessStatusCode();
+            }
             MessageBox.Show("Done");
         }
 
@@ -225,7 +232,7 @@ namespace BodgeIt
 
             Guid orgID = new Guid(textOrgId.Text);
 
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i <= numericUpDown1.Value; i++)
             {
                 var contact = new
                 {
@@ -305,6 +312,23 @@ namespace BodgeIt
                     con.Close();
                 }
                 MessageBox.Show("Ana, Elvis1, Elvis2 and Fred were added successfully! Wait for the rest.");
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"c:\poc\select.xml");
+            foreach (XmlNode n in doc.SelectNodes("/select/option"))
+                sb.AppendLine(string.Format("insert into \"Lender\"(\"Name\") values ('{0}');", n.InnerText.Replace("'", "''")));
+
+            int conIndex = (int)comboDB.SelectedValue;
+            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            {
+                con.Open();
+                runScript(con, sb.ToString());
+                con.Close();
             }
         }
     }
