@@ -318,9 +318,7 @@
     <Content Include="Content\img\demo\widget-colorpicker.png" />
     <Content Include="Content\img\dropzone\spritemap%402x.png" />
     <Content Include="Content\img\dropzone\spritemap.png" />
-    <Content Include="Content\img\favicon\1favicon.ico" />
     <Content Include="Content\img\favicon\favicon.ico" />
-    <Content Include="Content\img\favicon\favicon.png" />
     <Content Include="Content\img\flags\de.png" />
     <Content Include="Content\img\flags\es.png" />
     <Content Include="Content\img\flags\flags.png" />
@@ -736,7 +734,6 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
