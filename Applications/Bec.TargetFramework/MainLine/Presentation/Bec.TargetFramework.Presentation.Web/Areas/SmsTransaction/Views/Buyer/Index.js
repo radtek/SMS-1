@@ -1,4 +1,4 @@
-﻿$(function () {    
+﻿$(function () {
     $('.bank-check-form').each(function (i, item) {
         $(item).validate({
             ignore: '.skip',
@@ -17,6 +17,16 @@
             },
             submitHandler: validateSubmit
         });
+    });
+
+    $('.clearResult').on('input', function () {
+        var matchDiv = $('#result-match-' + $(this).data("index"));
+        var noMatchDiv = $('#result-no-match-' + $(this).data("index"));
+        var serverErrorDiv = $('#result-server-error-' + $(this).data("index"));
+
+        matchDiv.hide();
+        noMatchDiv.hide();
+        serverErrorDiv.hide();
     });
 });
 
