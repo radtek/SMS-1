@@ -42,6 +42,11 @@ $(function () {
                 field: "SmsTransaction.CreatedOn",
                 title: "Created",
                 template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
+            },
+            {
+                field: "UserAccountOrganisation.UserAccount.Created",
+                title: "Logged in Date",
+                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.Created); }
             }
         ]
     });
