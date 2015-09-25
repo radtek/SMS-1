@@ -103,6 +103,10 @@
       <Project>{4830bafd-4163-473e-b00f-65f274ac165f}</Project>
       <Name>Mehdime.Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SB\Bec.TargetFramework.SB.Data\Bec.TargetFramework.SB.Data.csproj">
+      <Project>{df0b93f6-efbb-43fc-af47-a75bf771d110}</Project>
+      <Name>Bec.TargetFramework.SB.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Bec.TargetFramework.Entities\Bec.TargetFramework.Entities.csproj">
       <Project>{596dcd71-078b-4875-a8e2-cda10f90920e}</Project>
       <Name>Bec.TargetFramework.Entities</Name>

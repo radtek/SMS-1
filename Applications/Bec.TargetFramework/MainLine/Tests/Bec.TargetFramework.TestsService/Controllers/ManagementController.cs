@@ -1,4 +1,7 @@
-﻿using Devart.Data.PostgreSql;
+﻿using Bec.TargetFramework.Data;
+using Bec.TargetFramework.SB.Data;
+using Devart.Data.PostgreSql;
+using Mehdime.Entity;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -8,14 +11,21 @@ namespace Bec.TargetFramework.TestsService.Controllers
 {
     public class ManagementController : ApiController
     {
-        private const string _tfConnectionString = "Host=localhost;User Id=postgres;Password=admin;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;";
-        private const string _coreConnectionString = "Host=localhost;User Id=postgres;Password=admin;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;";
         private const string _baseDir = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Scripts";
+        public IDbContextScopeFactory DbContextScopeFactory { get; set; }
 
         public async Task<bool> CleanData()
         {
+            string tfConnectionString;
+            string coreConnectionString;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                tfConnectionString = scope.DbContexts.Get<TargetFrameworkEntities>().Database.Connection.ConnectionString;
+                coreConnectionString = scope.DbContexts.Get<TargetFrameworkCoreEntities>().Database.Connection.ConnectionString;
+            }
+
             var result = false;
-            using (PgSqlConnection con = new PgSqlConnection(_tfConnectionString))
+            using (PgSqlConnection con = new PgSqlConnection(tfConnectionString))
             {
                 con.Open();
                 runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\"; delete from \"Address\"; truncate table \"ProductTemplate\" cascade;");
@@ -44,7 +54,7 @@ namespace Bec.TargetFramework.TestsService.Controllers
                 runScript(con, File.ReadAllText(Path.Combine(_baseDir, "Notification", "T&CNotificationsNoCOLP.sql")));
                 con.Close();
             }
-            using (PgSqlConnection con = new PgSqlConnection(_coreConnectionString))
+            using (PgSqlConnection con = new PgSqlConnection(coreConnectionString))
             {
                 con.Open();
                 runScript(con, "truncate \"BusEvent\" cascade; truncate \"BusEventMessageSubscriber\" cascade;");
