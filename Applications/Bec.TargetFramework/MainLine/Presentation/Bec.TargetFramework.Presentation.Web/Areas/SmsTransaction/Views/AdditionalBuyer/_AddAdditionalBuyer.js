@@ -30,8 +30,7 @@
                     }
                 },
                 "BirthDate": {
-                    required: true,
-                    dateGB: true
+                    required: true
                 }
             },
             // Do not change code below
@@ -46,6 +45,7 @@
     function submitForm(form) {
         $("#submitAddAdditionalBuyer").prop('disabled', true);
         var formData = $("#addAdditionalBuyer-form").serializeArray();
+        fixDate(formData, 'BirthDate', "#birthDateInput");
         ajaxWrapper({
             url: $("#addAdditionalBuyer-form").data("url"),
             type: "POST",
@@ -56,7 +56,7 @@
             else {
                 handleModal({ url: $("#addAdditionalBuyer-form").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                     messageButton: function () {
-                        $("#submitAddTransaction").prop('disabled', false);
+                        $("#submitAddAdditionalBuyer").prop('disabled', false);
                     }
                 }, true);
             }
@@ -70,21 +70,6 @@
         });
     }
 
-    function setupDateOfBirthInput() {
-        var now = new Date();
-        $("#birthDateInput").datepicker({
-            dateFormat: "dd/mm/yy",
-            maxDate: now,
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-110:+0",
-            showButtonPanel: true,
-            prevText: "<i class=\"fa fa-chevron-left\"></i>",
-            nextText: "<i class=\"fa fa-chevron-right\"></i>",
-            onSelect: function (date, inst) { $(this).valid(); }
-        });
-    }
-
-    setupDateOfBirthInput();
+    makeDatePicker("#birthDateInput");
     setupForm();
 });

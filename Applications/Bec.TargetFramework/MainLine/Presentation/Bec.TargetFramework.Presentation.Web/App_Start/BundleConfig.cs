@@ -25,7 +25,6 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.min.js",
-                "~/Scripts/Bec/bec.jquery.validation.dategb.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",

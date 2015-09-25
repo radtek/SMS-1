@@ -50,10 +50,10 @@
                                         </label>
                                     </section>
                                     <section class="col col-sm-4">
-                                        <label class="label">Date of Birth <small>[dd/mm/yyyy]</small></label>
+                                        <label class="label">Date of Birth</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { tabindex = "5", data_mask = "99/99/9999", id = "birthDateInput", placeholder = "dd/mm/yyyy", @readonly = true })
+                                            @Html.TextBoxFor(m => m.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput", @readonly = true })
                                         </label>
                                     </section>
                                 </div>
