@@ -42,6 +42,11 @@ $(function () {
                 field: "SmsTransaction.CreatedOn",
                 title: "Created",
                 template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
+            },
+            {
+                field: "UserAccountOrganisation.UserAccount.Created",
+                title: "Logged in Date",
+                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.Created); }
             }
         ]
     });
@@ -105,7 +110,7 @@ function showPrimaryBuyerDetails(dataItem) {
     var contact = dataItem.Contact;
     var data = _.extend({}, dataItem, {
         fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-        formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
+        formattedBirthDate: dateStringNoTime(contact.BirthDate)
     });
 
     primaryBuyerTemplatePromise.done(function (template) {
@@ -131,7 +136,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
             return _.extend({}, item, {
                 fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                 elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
-                formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
+                formattedBirthDate: dateStringNoTime(contact.BirthDate)
             });
         });
         var templateData = {

@@ -112,12 +112,10 @@ function setupForm() {
         ignore: '.skip',
         rules: {
             from: {
-                required: true,
-                dateGB: true
+                required: true
             },
             to: {
-                required: true,
-                dateGB: true
+                required: true
             },
         },
 

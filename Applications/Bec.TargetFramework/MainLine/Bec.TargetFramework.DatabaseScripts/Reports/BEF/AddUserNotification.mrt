@@ -68,21 +68,23 @@
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0,40,7.8</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,11</Font>
-          <Margins>0,0,0,0</Margins>
+          <Font>Calibri,11.25,Regular,Point,False,0</Font>
+		  <Margins>0,0,0,0</Margins>
           <Name>TextContent</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
           <Text>
-			&lt;p&gt;  Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.FirstName} {AddNewCompanyAndAdministratorDTO.LastName},  &lt;/p&gt;  &lt;p&gt;  
+			&lt;p&gt;  Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.LastName},  &lt;/p&gt;  &lt;p&gt;  
 			{AddNewCompanyAndAdministratorDTO.InviterSalutation} {AddNewCompanyAndAdministratorDTO.InviterFirstName} {AddNewCompanyAndAdministratorDTO.InviterLastName} from {AddNewCompanyAndAdministratorDTO.InviterOrganisationName} 
 			has asked you to login to the Safe Move Scheme to protect you against property fraud.  &lt;/p&gt;  &lt;p&gt;  
 			Please go to {AddNewCompanyAndAdministratorDTO.WebsiteURL} and login using the temporary details below:  &lt;/p&gt;  &lt;p&gt;  
 			Username: {AddNewCompanyAndAdministratorDTO.Username}&lt;br/&gt;Password: {AddNewCompanyAndAdministratorDTO.Password}&lt;/p&gt;  &lt;p&gt;  
 			Please note that these are temporary login details to enable you to register and create your own secure login details. 
 			These account details will expire after 7 days.  &lt;/p&gt;  &lt;p&gt;  
-			Kind regards,  &lt;/p&gt;  &lt;p&gt;   
-			The {AddNewCompanyAndAdministratorDTO.ProductName} team  &lt;/p&gt;</Text>
+			Please contact {AddNewCompanyAndAdministratorDTO.InviterOrganisationName} if you have any queries regarding this email.  &lt;/p&gt;  &lt;p&gt;  
+			Kind regards,  &lt;/p&gt;  &lt;p&gt;  
+			The {AddNewCompanyAndAdministratorDTO.ProductName} team  &lt;/p&gt;
+		  </Text>
           <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
