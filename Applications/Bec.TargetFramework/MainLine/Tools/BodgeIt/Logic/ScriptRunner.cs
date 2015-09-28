@@ -1,7 +1,6 @@
 ﻿using Devart.Data.PostgreSql;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -13,7 +12,6 @@ namespace BodgeIt.Logic
 {
     public class ScriptRunner
     {
-        const string baseDir = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Scripts";
         private readonly ScriptProvider _scriptProvider;
         public ScriptRunner()
         {
@@ -26,7 +24,6 @@ namespace BodgeIt.Logic
             {
                 con.Open();
                 RunScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\"; delete from \"Address\"; truncate table \"ProductTemplate\" cascade;");
-
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Security", "Security Categories.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Security", "Security.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Organisation", "Status.sql")));
@@ -37,42 +34,19 @@ namespace BodgeIt.Logic
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Create Default Organisation.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Template.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Create Default Organisation.sql")));
-
-
-                RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
-                //RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
-
-
-                RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
-                //RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
-                RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
-                //RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
-
-                RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
-                //RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
-
-
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
-
-
-                //RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
-
-
-                //RunScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
-
-
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "ProductInitial.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Creation Scripts", "Product", "CreditTopUp.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Creation Scripts", "Product", "Bank Account Check.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Creation Scripts", "Product", "PromoteProduct.sql")));
-
-
-                //RunScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "T&CNotificationsNoCOLP.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Notification", "T&CNotificationsNoCOLP.sql")));
-
 
                 con.Close();
             }
@@ -95,7 +69,7 @@ namespace BodgeIt.Logic
                 Salutation = "Mr"
             };
             HttpClient client = new HttpClient { BaseAddress = new Uri(server) };
-            var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&username={1}&password={2}&isTemporary=false&sendEmail=false&addDefaultRoles=true", 
+            var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&username={1}&password={2}&isTemporary=false&sendEmail=false&addDefaultRoles=true",
                 orgID, lastName, WebUtility.UrlEncode(password)), HttpMethod.Post, "user", contact);
             var s = await x.Content.ReadAsStringAsync();
             Guid g = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];

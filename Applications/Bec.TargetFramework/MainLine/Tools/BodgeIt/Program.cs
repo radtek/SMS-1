@@ -1,12 +1,7 @@
-﻿using Atlassian.Stash.Api;
-using BodgeIt.Logic;
+﻿using BodgeIt.Logic;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Security.Policy;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BodgeIt
@@ -18,9 +13,9 @@ namespace BodgeIt
         {
             if (args.Any(a => a.Contains("CleanData")))
             {
-                var tfConnectionString = Constants.TfCons[0];
-                var coreConnectionString = Constants.CoreCons[0];
-                var server = Constants.Servers[0];
+                var tfConnectionString = ConfigurationManager.ConnectionStrings["TargetFrameworkConnectionString"].ConnectionString;
+                var coreConnectionString = ConfigurationManager.ConnectionStrings["TargetFrameworkCoreConnectionString"].ConnectionString;
+                var server = ConfigurationManager.AppSettings["BusinessServiceBaseURL"];
                 var scriptRunner = new ScriptRunner();
 
                 scriptRunner.CleanData(tfConnectionString, coreConnectionString);

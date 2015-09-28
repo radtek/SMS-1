@@ -23,12 +23,5 @@ namespace BodgeIt
             {2,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
             {3,"Host=uat-db-01;User Id=postgres;Password=14244095dbbc6324c35067a045fd877e;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
         };
-
-        public static Dictionary<int, string> Servers = new Dictionary<int, string>(){
-            {0,"http://localhost:9000/"},
-            {1,"http://bec-dev-01:9000/"},
-            {2,"http://sys-db-01:9000/"},
-            {3,"http://uat-db-01:9000/"},
-        };
     }
 }

@@ -1,38 +1,25 @@
-﻿using Atlassian.Stash.Api;
-using System;
-using System.IO;
-using System.Linq;
+﻿using RestSharp;
 
 namespace BodgeIt.Logic
 {
     public class ScriptProvider
     {
-        private const string BasePath = "Applications/Bec.TargetFramework/MainLine/Bec.TargetFramework.DatabaseScripts/Scripts/";
+        private const string BasePathFormat = "projects/BF/repos/main/browse/Applications/Bec.TargetFramework/MainLine/Bec.TargetFramework.DatabaseScripts/Scripts/{0}?raw";
         private const string StashUrl = "http://bec-dev-01:7990/";
-        private const string Base64Pass = "emVub25tOkJlY29uc3VsdGFuY3kj";
-        private const string ProjectKey = "BF";
-        private const string RepositorySlug = "Main";
+        private const string Base64Pass = "Basic emVub25tOkJlY29uc3VsdGFuY3kj";
 
         public string GetScriptContent(string relativePath)
         {
-            var client = new StashClient(StashUrl, Base64Pass);
+            var client = new RestClient(StashUrl);
+            var request = new RestRequest(string.Format(BasePathFormat, relativePath), Method.GET);
 
-            var filePath = Path.Combine(BasePath, relativePath);
-            filePath.Replace(" ", "%20");
+            request.AddHeader("Accept", "text/html");
+            request.AddHeader("Authorization", Base64Pass);
 
-            var fileContents = client.Repositories.GetFileContents(ProjectKey, RepositorySlug, filePath, new Atlassian.Stash.Api.Helpers.RequestOptions { Limit = short.MaxValue - 1 }).Result;
+            var response = client.Execute(request);
+            var content = response.Content.TrimStart(new char[] { '\uFEFF' }); // raw content as string
 
-            return string.Join(Environment.NewLine, fileContents.FileContents
-                .Select((s, i) => {
-                    if (i == 0)
-                    {
-                        return s.TrimStart(new char[] { '\uFEFF' }); // remove BOM
-                    }
-                    else
-                    {
-                        return s;
-                    }
-                })); 
+            return content;
         }
     }
 }
