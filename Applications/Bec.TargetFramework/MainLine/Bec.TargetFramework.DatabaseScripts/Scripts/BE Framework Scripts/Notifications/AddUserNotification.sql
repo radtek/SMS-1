@@ -156,13 +156,22 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0,40,7.8</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Calibri,11.25,Regular,Point,False,0</Font>
+          <Font>Open Sans,11</Font>
           <Margins>0,0,0,0</Margins>
           <Name>TextContent</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;p&gt;  Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.FirstName} {AddNewCompanyAndAdministratorDTO.LastName},  &lt;/p&gt;  &lt;p&gt;  {AddNewCompanyAndAdministratorDTO.InviterSalutation} {AddNewCompanyAndAdministratorDTO.InviterFirstName} {AddNewCompanyAndAdministratorDTO.InviterLastName} from {AddNewCompanyAndAdministratorDTO.InviterOrganisationName} has asked you to login to the Safe Move Scheme to protect you against property fraud.  &lt;/p&gt;  &lt;p&gt;  Please go to {AddNewCompanyAndAdministratorDTO.WebsiteURL} and login using the temporary details below:  &lt;/p&gt;  &lt;p&gt;  Username: {AddNewCompanyAndAdministratorDTO.Username}&lt;br/&gt;Password: {AddNewCompanyAndAdministratorDTO.Password}&lt;/p&gt;  &lt;p&gt;  Please note that these are temporary login details to enable you to register and create your own secure login details. These account details will expire after 7 days.  &lt;/p&gt;  &lt;p&gt;  Kind regards,  &lt;/p&gt;  &lt;p&gt;  The {AddNewCompanyAndAdministratorDTO.ProductName} team  &lt;/p&gt;</Text>
-          <TextBrush>[50:0:0:0]</TextBrush>
+          <Text>
+			&lt;p&gt;  Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.FirstName} {AddNewCompanyAndAdministratorDTO.LastName},  &lt;/p&gt;  &lt;p&gt;
+			{AddNewCompanyAndAdministratorDTO.InviterSalutation} {AddNewCompanyAndAdministratorDTO.InviterFirstName} {AddNewCompanyAndAdministratorDTO.InviterLastName} from {AddNewCompanyAndAdministratorDTO.InviterOrganisationName}
+			has asked you to login to the Safe Move Scheme to protect you against property fraud.  &lt;/p&gt;  &lt;p&gt;
+			Please go to {AddNewCompanyAndAdministratorDTO.WebsiteURL} and login using the temporary details below:  &lt;/p&gt;  &lt;p&gt;
+			Username: {AddNewCompanyAndAdministratorDTO.Username}&lt;br/&gt;Password: {AddNewCompanyAndAdministratorDTO.Password}&lt;/p&gt;  &lt;p&gt;
+			Please note that these are temporary login details to enable you to register and create your own secure login details.
+			These account details will expire after 7 days.  &lt;/p&gt;  &lt;p&gt;
+			Kind regards,  &lt;/p&gt;  &lt;p&gt;
+			The {AddNewCompanyAndAdministratorDTO.ProductName} team  &lt;/p&gt;</Text>
+          <TextBrush>[51:51:51]</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </TextContent>
@@ -194,10 +203,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/10/2015 3:58:28 PM</ReportChanged>
+  <ReportChanged>9/28/2015 10:44:27 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddUser.mrt</ReportFile>
-  <ReportGuid>d508ea6c923e454ab9c1ad04e686f699</ReportGuid>
+  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddUserNotification.mrt</ReportFile>
+  <ReportGuid>e1bf6fae4fa0451499a9baede8fb8edf</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>

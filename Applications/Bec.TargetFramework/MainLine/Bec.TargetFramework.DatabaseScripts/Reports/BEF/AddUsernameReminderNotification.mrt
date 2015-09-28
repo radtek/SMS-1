@@ -1,58 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StiSerializer version="1.02" type="Net" application="StiReport">
-  <CacheAllData>True</CacheAllData>
   <Dictionary Ref="1" type="Dictionary" isKey="true">
     <BusinessObjects isList="true" count="2">
       <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
         <Alias>NotificationSettingDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="10">
+        <Columns isList="true" count="11">
           <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>LoginRoute,System.String</value>
           <value>NotificationConstructID,System.Guid</value>
           <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificationFromEmailAddress,System.String</value>
           <value>NotificiationSentFromParentID,System.Guid</value>
           <value>ServerLogoImageFileNameWithExtension,System.String</value>
           <value>ServerNotificationImageContentURLFolder,System.String</value>
           <value>ServerURL,System.String</value>
-          <value>LoginRoute,System.String</value>
           <value>Subject,System.String</value>
           <value>Title,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Guid>1926f055d4144572b36e7a96e6843d70</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <AddNewCompanyAndAdministratorDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>AddNewCompanyAndAdministratorDTO</Alias>
+      <UsernameReminderDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>UsernameReminderDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="12">
+        <Columns isList="true" count="6">
           <value>FirstName,System.String</value>
-          <value>InviterFirstName,System.String</value>
-          <value>InviterLastName,System.String</value>
-          <value>InviterOrganisationName,System.String</value>
-          <value>InviterSalutation,System.String</value>
           <value>LastName,System.String</value>
-          <value>Password,System.String</value>
-          <value>ProductName,System.String</value>
           <value>Salutation,System.String</value>
           <value>UserAccountOrganisationID,System.Guid</value>
+          <value>UserID,System.Guid</value>
           <value>Username,System.String</value>
-          <value>WebsiteURL,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>5304ad7740fc455490d66f53c0fd6fd3</Guid>
-        <Name>AddNewCompanyAndAdministratorDTO</Name>
-      </AddNewCompanyAndAdministratorDTO>
+        <Guid>7e5b2063b45d481190b68020ec40a60f</Guid>
+        <Name>UsernameReminderDTO</Name>
+      </UsernameReminderDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
     <Relations isList="true" count="0" />
     <Report isRef="0" />
-    <Variables isList="true" count="1">
-      <value>General</value>
-    </Variables>
+    <Variables isList="true" count="0" />
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0" />
@@ -62,32 +54,34 @@
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="1">
-        <TextContent Ref="5" type="Text" isKey="true">
+        <Text Ref="5" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <AutoWidth>True</AutoWidth>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0,40,7.8</ClientRectangle>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,0,19,4.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,11</Font>
+          <Font>Calibri,11.25,Regular,Point,False,0</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Guid>aec152f25a8e4fdbb05d29af446e8573</Guid>
           <Margins>0,0,0,0</Margins>
-          <Name>TextContent</Name>
+          <Name>Text</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;p&gt;  Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.FirstName} {AddNewCompanyAndAdministratorDTO.LastName},  &lt;/p&gt;  &lt;p&gt;  {AddNewCompanyAndAdministratorDTO.InviterSalutation} {AddNewCompanyAndAdministratorDTO.InviterFirstName} {AddNewCompanyAndAdministratorDTO.InviterLastName} from {AddNewCompanyAndAdministratorDTO.InviterOrganisationName} has asked you to login to the Safe Move Scheme to protect you against property fraud.  &lt;/p&gt;  &lt;p&gt;  Please go to {AddNewCompanyAndAdministratorDTO.WebsiteURL} and login using the temporary details below:  &lt;/p&gt;  &lt;p&gt;  Username: {AddNewCompanyAndAdministratorDTO.Username}&lt;br/&gt;Password: {AddNewCompanyAndAdministratorDTO.Password}&lt;/p&gt;  &lt;p&gt;  Please note that these are temporary login details to enable you to register and create your own secure login details. These account details will expire after 7 days.  &lt;/p&gt;  &lt;p&gt;  Kind regards,  &lt;/p&gt;  &lt;p&gt;  The {AddNewCompanyAndAdministratorDTO.ProductName} team  &lt;/p&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
+          <Text>&lt;p&gt;You are receiving this email because you, or someone else, requested a username reminder.&lt;/p&gt;&lt;p&gt;You Username is: {UsernameReminderDTO.Username}&lt;/p&gt;</Text>
+          <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
-        </TextContent>
+        </Text>
       </Components>
       <Conditions isList="true" count="0" />
-      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
-      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Guid>3f4c07272ec54ccaae2496d9fb03c747</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
-      <PageHeight>10</PageHeight>
-      <PageWidth>40</PageWidth>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
@@ -106,10 +100,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/10/2015 3:58:28 PM</ReportChanged>
-  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddUser.mrt</ReportFile>
-  <ReportGuid>d508ea6c923e454ab9c1ad04e686f699</ReportGuid>
+  <ReportChanged>9/28/2015 10:51:44 AM</ReportChanged>
+  <ReportCreated>9/28/2015 10:50:12 AM</ReportCreated>
+  <ReportFile />
+  <ReportGuid>db610c2c6548416aa1f709bfe7cdbec4</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
@@ -132,7 +126,7 @@ namespace Reports
         }
 
         #region StiReport Designer generated code - do not modify
-		#endregion StiReport Designer generated code - do not modify
+        #endregion StiReport Designer generated code - do not modify
     }
 }
 </Script>
