@@ -1,7 +1,11 @@
-﻿using BodgeIt.Logic;
+﻿using Atlassian.Stash.Api;
+using BodgeIt.Logic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -9,9 +13,6 @@ namespace BodgeIt
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
