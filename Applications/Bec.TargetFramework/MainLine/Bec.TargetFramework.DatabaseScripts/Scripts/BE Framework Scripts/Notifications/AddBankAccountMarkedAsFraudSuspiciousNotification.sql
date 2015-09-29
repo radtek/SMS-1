@@ -142,13 +142,13 @@ VALUES (
     <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="11">
+      <Components isList="true" count="9">
         <TextContent Ref="5" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0,13.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,11</Font>
+          <Font>Microsoft Sans Serif,11</Font>
           <Margins>0,0,0,0</Margins>
           <Name>TextContent</Name>
           <Page isRef="4" />
@@ -163,7 +163,7 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0.4,1,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>ebcb4cd1ff9248ecb0d71fac524e64c2</Guid>
           <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
@@ -180,7 +180,7 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0.4,1.8,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>33e0aa711397490c80cb73e979bf78e2</Guid>
           <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
@@ -197,7 +197,7 @@ VALUES (
           <Brush>Transparent</Brush>
           <ClientRectangle>0.4,2.6,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>6c399a13d2c84d6693f2b15a61d189d8</Guid>
           <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
@@ -209,29 +209,12 @@ VALUES (
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text3>
-        <Text4 Ref="9" type="Text" isKey="true">
+        <Text5 Ref="9" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>0.4,3.4,3.6,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
-          <Guid>f529bd40df864983ac80b72c57474403</Guid>
-          <HorAlignment>Right</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text4</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Reason:&lt;/line-height&gt;&lt;/b&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text4>
-        <Text5 Ref="10" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0.4,4.2,3.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>5a73b08d29294c05a09a905e156e3560</Guid>
           <HorAlignment>Right</HorAlignment>
           <Margins>0,0,0,0</Margins>
@@ -243,12 +226,12 @@ VALUES (
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text5>
-        <Text6 Ref="11" type="Text" isKey="true">
+        <Text6 Ref="10" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>4.6,1,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>d666cef6f51441dda0b39d364072a5a3</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text6</Name>
@@ -259,12 +242,12 @@ VALUES (
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text6>
-        <Text7 Ref="12" type="Text" isKey="true">
+        <Text7 Ref="11" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>4.6,1.8,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>a43d44a16c9f455fb005c85e01288a46</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text7</Name>
@@ -275,12 +258,12 @@ VALUES (
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text7>
-        <Text8 Ref="13" type="Text" isKey="true">
+        <Text8 Ref="12" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>4.6,2.6,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
+          <Font>Microsoft Sans Serif,10</Font>
           <Guid>f5dc17c70f1a40e8a4d0080105b86861</Guid>
           <Margins>0,0,0,0</Margins>
           <Name>Text8</Name>
@@ -291,28 +274,12 @@ VALUES (
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
         </Text8>
-        <Text9 Ref="14" type="Text" isKey="true">
+        <Text10 Ref="13" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
           <Brush>Transparent</Brush>
           <ClientRectangle>4.6,3.4,10.2,0.6</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Open Sans,10</Font>
-          <Guid>48927f2ae58c41d6abd74782fb99cb39</Guid>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text9</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.Reason}&lt;/line-height&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text9>
-        <Text10 Ref="15" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>4.6,4.2,10.2,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Open Sans,10,Underline</Font>
+          <Font>Microsoft Sans Serif,10,Underline</Font>
           <Guid>229a1094c32f475bb527a9678a572f42</Guid>
           <Hyperlink>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Hyperlink>
           <Margins>0,0,0,0</Margins>
@@ -335,13 +302,13 @@ VALUES (
       <PageHeight>10</PageHeight>
       <PageWidth>17</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="16" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="14" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="17" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="15" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -353,13 +320,13 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>8/18/2015 8:47:06 AM</ReportChanged>
+  <ReportChanged>9/29/2015 10:39:46 AM</ReportChanged>
   <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\BankAccountMarkedAsFraudSuspicious.mrt</ReportFile>
-  <ReportGuid>4141d7da97534e5b849f273c14c7fe69</ReportGuid>
+  <ReportFile>C:\Reports\ba f.mrt</ReportFile>
+  <ReportGuid>3e434a44c2dd4ee5bbe1aefbedb5a66f</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
-  <ReportVersion>2014.3.0</ReportVersion>
+  <ReportVersion>2015.1.8</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;

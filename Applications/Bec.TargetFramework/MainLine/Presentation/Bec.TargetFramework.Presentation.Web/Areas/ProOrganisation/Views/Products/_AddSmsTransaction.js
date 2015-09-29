@@ -119,13 +119,15 @@
                 }, true);
             }
         }).fail(function (e) {
-            console.log(e);
-            updateBalance();
-            handleModal({ url: $('#d1').data("redirectto") + "?title=Error&message=" + e + "&button=Back" }, {
-                messageButton: function () {
-                    $("#addTransactionControls button").prop('disabled', false);
-                }
-            }, true);
+            if (!hasRedirect(e.responseJSON)) {
+                console.log(e);
+                updateBalance();
+                handleModal({ url: $('#d1').data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#addTransactionControls button").prop('disabled', false);
+                    }
+                }, true);
+            }
         });
     }
 

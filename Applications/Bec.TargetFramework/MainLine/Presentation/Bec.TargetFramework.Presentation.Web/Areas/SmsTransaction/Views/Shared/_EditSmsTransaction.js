@@ -30,12 +30,14 @@
                 }, true);
             }
         }).fail(function (e) {
-            console.log(e);
-            handleModal({ url: $("#editSmsTransaction-form").data("message") + "?title=Error&message=" + e + "&button=Back" }, {
-                messageButton: function () {
-                    $("#submitEditSmsTransaction").prop('disabled', false);
-                }
-            }, true);
+            if (!hasRedirect(e.responseJSON)) {
+                console.log(e);
+                handleModal({ url: $("#editSmsTransaction-form").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitEditSmsTransaction").prop('disabled', false);
+                    }
+                }, true);
+            }
         });
     }
 

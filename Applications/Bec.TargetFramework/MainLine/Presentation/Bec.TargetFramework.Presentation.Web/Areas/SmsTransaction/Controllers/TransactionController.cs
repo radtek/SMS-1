@@ -117,7 +117,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
-                var data = Edit.fromD(Request.Form);
+                var data = Edit.fromD(Request.Form,
+                    "Contact.Salutation",
+                    "Contact.FirstName",
+                    "Contact.LastName",
+                    "Contact.BirthDate",
+                    "Contact.RowVersion",
+                    "UserAccountOrganisation.UserAccount.Email",
+                    "UserAccountOrganisation.UserAccount.RowVersion");
 
                 await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);

@@ -211,7 +211,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             await EnsureUserInOrg(uaoID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var data = Edit.fromD(Request.Form);
+            var data = Edit.fromD(Request.Form,
+                "Contact.Salutation",
+                "Contact.FirstName",
+                "Contact.LastName",
+                "Contact.RowVersion",
+                "UserAccount.Email",
+                "UserAccount.IsActive",
+                "UserAccount.RowVersion",
+                "UserAccountOrganisationRoles[].Selected",
+                "UserAccountOrganisationRoles[].OrganisationRoleID");
             
             //manipulate collection of roles to include only selected ones
             var array = data["UserAccountOrganisationRoles"] as JArray;

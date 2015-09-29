@@ -4,7 +4,7 @@
 @model AddSmsTransactionDTO
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addTransactionLabel" aria-hidden="true">
-    <div class="modal-dialog" id="d1" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })" data-getbal="@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })" data-topup="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })">
+    <div class="modal-dialog" id="d1" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction" })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" data-getbal="@Url.Action("GetBalanceAsAt", "Credit", new { area = "ProOrganisation" })" data-topup="@Url.Action("ViewTopUpCredit", "Credit", new { area  = "ProOrganisation", redirect = false })">
         <!--
         <div class="help help-container help-sm">
             <div class="help-vert">HELP</div>

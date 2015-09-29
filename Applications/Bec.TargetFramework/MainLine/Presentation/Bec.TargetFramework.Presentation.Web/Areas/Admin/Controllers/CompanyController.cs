@@ -156,7 +156,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> EditCompany(Guid orgID)
         {
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var data = Edit.fromD(Request.Form);
+            var data = Edit.fromD(Request.Form,
+                "IsActive",
+                "RowVersion");
             await queryClient.UpdateGraphAsync("Organisations", data, filter);
             return RedirectToAction("Qualified");
         }

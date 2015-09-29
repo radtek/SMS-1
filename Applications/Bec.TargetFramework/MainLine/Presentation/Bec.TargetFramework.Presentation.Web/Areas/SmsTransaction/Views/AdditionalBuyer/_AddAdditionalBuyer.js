@@ -61,12 +61,14 @@
                 }, true);
             }
         }).fail(function (e) {
-            console.log(e);
-            handleModal({ url: $("#addAdditionalBuyer-form").data("message") + "?title=Error&message=" + e + "&button=Back" }, {
-                messageButton: function () {
-                    $("#submitAddAdditionalBuyer").prop('disabled', false);
-                }
-            }, true);
+            if (!hasRedirect(e.responseJSON)) {
+                console.log(e);
+                handleModal({ url: $("#addAdditionalBuyer-form").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitAddAdditionalBuyer").prop('disabled', false);
+                    }
+                }, true);
+            }
         });
     }
 
