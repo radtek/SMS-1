@@ -90,9 +90,6 @@
                 required: true,
                 minlength: 5
             },
-            "SmsTransaction.Reference": {
-                required: true
-            },
             "SmsTransaction.Price": {
                 required: true,
                 digits: true,

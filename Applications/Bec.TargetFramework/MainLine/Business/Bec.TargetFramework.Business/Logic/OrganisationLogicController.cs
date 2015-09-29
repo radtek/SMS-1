@@ -610,7 +610,6 @@ namespace Bec.TargetFramework.Business.Logic
                 tx.SmsTransaction.Price = dto.SmsTransaction.Price;
                 tx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
                 tx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
-                tx.SmsTransaction.Reference = dto.SmsTransaction.Reference;
 
                 tx.Contact.Salutation = dto.Contact.Salutation;
                 tx.Contact.FirstName = dto.Contact.FirstName;

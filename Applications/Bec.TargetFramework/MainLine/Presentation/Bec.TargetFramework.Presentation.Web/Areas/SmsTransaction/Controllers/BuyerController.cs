@@ -65,7 +65,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
-                x.SmsTransaction.Reference,
                 x.SmsTransaction.OrganisationID,
                 x.SmsTransaction.Address.Line1,
                 x.SmsTransaction.Address.Line2,
