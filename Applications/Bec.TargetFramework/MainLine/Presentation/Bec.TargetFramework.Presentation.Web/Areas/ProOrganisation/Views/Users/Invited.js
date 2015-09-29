@@ -100,6 +100,7 @@ function nChange(dataItem) {
     $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
 
+    $("#resendButton").data('href', $("#resendButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
     $("#revokeButton1").data('href', $("#revokeButton1").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }
 function eChange(dataItem) {
@@ -107,5 +108,5 @@ function eChange(dataItem) {
     $("p#ddeName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
 
-    $("#reinstateButton").data('href', $("#reinstateButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+    $("#reinstateButton").data('href', $("#reinstateButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }
