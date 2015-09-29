@@ -138,22 +138,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewReinstate(Guid uaoId, Guid userId, string label)
+        public ActionResult ViewReinstate(Guid uaoId, string label)
         {
             ViewBag.uaoId = uaoId;
-            ViewBag.userId = userId;
             ViewBag.fullName = label;
             return PartialView("_Reinstate");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
+        public async Task<ActionResult> Reinstate(Guid uaoId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.GeneratePinAsync(uaoId, true, true);
-
-            TempData["UserId"] = userId;
+            var uao = await userClient.ResendLoginsAsync(uaoId);
+            TempData["UserId"] = uao.UserID;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Invited");
         }

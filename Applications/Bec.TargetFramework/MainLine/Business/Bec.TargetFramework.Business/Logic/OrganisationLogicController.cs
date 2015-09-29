@@ -283,14 +283,10 @@ namespace Bec.TargetFramework.Business.Logic
                 {
                     string organisationName;
                     var organisationDetails = executingUao.Organisation.OrganisationDetails.FirstOrDefault();
-                    if (organisationDetails != null)
-                    {
+                    if (organisationDetails == null || executingUao.Organisation.OrganisationType.Name == "Administration")
+                        organisationName = "The " + Constants.SmsTeamName;
+                    else 
                         organisationName = organisationDetails.Name;
-                    }
-                    else
-                    {
-                        organisationName = Constants.SmsTeamName;
-                    }
                     tempDto.InviterOrganisationName = organisationName;
                     tempDto.InviterSalutation = executingUao.Contact.Salutation;
                     tempDto.InviterFirstName = executingUao.Contact.FirstName;
