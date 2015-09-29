@@ -622,6 +622,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID);
 
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		Task UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		void UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
 
@@ -2886,6 +2898,35 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		public virtual Task UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		public virtual void UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Wait();
 		}
 
 		/// <summary>

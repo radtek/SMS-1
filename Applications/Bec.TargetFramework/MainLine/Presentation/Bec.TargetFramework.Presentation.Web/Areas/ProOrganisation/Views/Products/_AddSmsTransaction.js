@@ -68,18 +68,7 @@
         }
     });
 
-    $("#submitAddTransaction").click(function () {
-        var form = $("#addTransaction-form");
-        var isValid = form.valid();
-        if (!isValid) {
-            var invalidInputs = $(form.find('.tab-pane .invalid')[0]);
-            var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
-            wizard.bootstrapWizard('show', tabId);
-
-            return false;
-        }
-        form.submit();
-    });
+    $("#submitAddTransaction").click(checkWizardValid(wizard, "#addTransaction-form"));
 
     $("#stepNext").click(function () {
         wizard.bootstrapWizard('next');

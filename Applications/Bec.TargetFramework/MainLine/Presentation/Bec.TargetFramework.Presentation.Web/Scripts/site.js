@@ -535,3 +535,16 @@ function fixDate(array, name, inputSelector) {
         }
     }
 }
+
+function checkWizardValid(wizard, selector) {
+    return function () {
+        var form = $(selector);
+        if (!form.valid()) {
+            var invalidInputs = $(form.find('.tab-pane .state-error')[0]);
+            var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
+            wizard.bootstrapWizard('show', tabId);
+            return false;
+        }
+        form.submit();
+    }
+}

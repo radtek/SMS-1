@@ -37,18 +37,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> SearchLenders(string search)
-        {
-            search = search.ToLower();
-            if (string.IsNullOrWhiteSpace(search)) return null;
-
-            var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
-            var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
-            JObject res = await queryClient.QueryAsync("Lenders", select + filter);
-            return Content(res.ToString(Formatting.None), "application/json");
-        }
-
-        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> CheckDuplicateUserSmsTransaction(SmsTransactionDTO dto, string email)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;

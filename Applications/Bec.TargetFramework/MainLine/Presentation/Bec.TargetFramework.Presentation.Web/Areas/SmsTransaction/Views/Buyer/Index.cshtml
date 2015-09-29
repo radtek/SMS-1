@@ -28,63 +28,65 @@
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
                                                 <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Safe Buyer
-                                                @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
-                                                {
-                                                    <span>
-                                                        - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
-                                                    </span>
-                                                }
+                                                <span id="heading-@i">
+                                                    @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                                    {
+                                                        <span> - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode</span>
+                                                    }
+                                                </span>
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
                                         <div class="panel-body no-padding">
-                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("performcheck", "Check" , new { area="BankAccount" , orgid=tx.SmsTransaction.OrganisationID })" class="smart-form bank-check-form">
-                                                @Html.ValidationBootstrap()
-                                                @Html.AntiForgeryToken()
-                                                <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
-                                                    <h5 class="margin-top-10 margin-bottom-10"><i class="fa-fw fa fa-info"></i><strong>How to use</strong></h5>
-                                                    <p>
-                                                        This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
-                                                    </p>
-                                                    <p>
-                                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
-                                                    </p>
-                                                    <p>
-                                                        This system will check whether these bank account details match those validated by the Safe Move Scheme. Please note this system will not perform a transfer of funds.
-                                                    </p>
-                                                </div>
+                                            <form class="smart-form">
                                                 <fieldset>
-                                                    <div class="row">
-                                                        <section class="col col-sm-12">
-                                                            <label class="input">
-                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                <input type="text" name="accountNumber" id="accountNumber" class="clearResult" data-index="@i" placeholder="Account Number" maxlength="8" />
-                                                            </label>
-                                                        </section>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <section class="col col-sm-12">
-                                                            <label class="input">
-                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                <input type="text" name="sortCode" id="sortCode" class="clearResult" data-index="@i" placeholder="Sort Code" maxlength="6" />
-                                                            </label>
-                                                        </section>
+                                                    <div>
+                                                        <div class="row">
+                                                            <section class="col col-sm-6">
+                                                                <h6>Transaction Address</h6>
+                                                                <p id="txAddressLine1">@tx.SmsTransaction.Address.Line1</p>
+                                                                <p id="txAddressLine2">@tx.SmsTransaction.Address.Line2</p>
+                                                                <p id="txAddressTown">@tx.SmsTransaction.Address.Town</p>
+                                                                <p id="txAddressCounty">@tx.SmsTransaction.Address.County</p>
+                                                                <p id="txAddressPostalCode">@tx.SmsTransaction.Address.PostalCode</p>
+                                                            </section>
+                                                            <section class="col col-sm-6">
+                                                                <h6>Registered Home Address</h6>
+                                                                <p id="homeAddressLine1">@(tx.Address == null ? "Not yet specified" : tx.Address.Line1)</p>
+                                                                <p id="homeAddressLine2">@(tx.Address == null ? "" : tx.Address.Line2)</p>
+                                                                <p id="homeAddressTown">@(tx.Address == null ? "" : tx.Address.Town)</p>
+                                                                <p id="homeAddressCounty">@(tx.Address == null ? "" : tx.Address.County)</p>
+                                                                <p id="homeAddressPostalCode">@(tx.Address == null ? "" : tx.Address.PostalCode)</p>                                                                
+                                                            </section>
+                                                        </div>
+                                                        <div class="row">
+                                                            <section class="col col-sm-6">
+                                                                <h6>Mortgage Details</h6>
+                                                                <p id="mortgageLender">Lender: @(tx.SmsTransaction.LenderName ?? "None")</p>
+                                                                <p id="mortgageAppNumber">Application Number: @(tx.SmsTransaction.MortgageApplicationNumber ?? "None")</p>
+                                                            </section>
+                                                            <section class="col col-sm-6">
+                                                                <h6>Purchase Price</h6>
+                                                                <p id="purchasePrice">@(tx.SmsTransaction.Price == null ? "Not yet specified" : tx.SmsTransaction.Price.ToString())</p>
+                                                            </section>
+                                                        </div>
                                                     </div>
                                                 </fieldset>
+
                                                 <footer>
-                                                    <button type="submit" class="check-button btn btn-primary">
-                                                        Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
-                                                    </button>
+                                                    <a id="conf" data-modallink="true" class="btn btn-primary" data-href="@Url.Action("ViewConfirmDetails", "Buyer" , new { area = "SmsTransaction", txID = tx.SmsTransactionID, index = i })">
+                                                        Confirm Details and Check Bank Account
+                                                    </a>
                                                 </footer>
                                             </form>
                                             <div class="alert alert-success" style="display: none;" id="result-match-@i">
                                                 <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
+                                                <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
                                             </div>
                                             <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
                                                 <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
-                                                <p>The details given do not match your conveyancer's bank account.</p>
+                                                <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> does not belong to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
                                                 <p>If you have made a mistake, please correct the details and check again.</p>
                                                 <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
                                             </div>

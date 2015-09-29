@@ -39,7 +39,7 @@ function validateSubmit(form) {
             $('#result').append("No Match");
         }
     }).fail(function (e) {
-        if (!hasRedirect(e)) {
+        if (!hasRedirect(e.responseJSON)) {
             $("#submitButton").prop('disabled', false);
             $('#result').empty();
 
