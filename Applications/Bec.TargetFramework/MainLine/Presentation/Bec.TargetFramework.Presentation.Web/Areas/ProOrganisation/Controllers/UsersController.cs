@@ -122,20 +122,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewRevokeInvite(Guid uaoId, Guid userId, string label)
+        public ActionResult ViewRevokeInvite(Guid uaoId, string label)
         {
             ViewBag.uaoId = uaoId;
-            ViewBag.userId = userId;
             ViewBag.label = label;
             return PartialView("_RevokeInvite");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RevokeInvite(Guid uaoId, Guid userId)
+        public async Task<ActionResult> RevokeInvite(Guid uaoId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.LockUserTemporaryAccountAsync(userId);
+            await orgClient.ExpireUserAccountOrganisationAsync(uaoId);
             return RedirectToAction("Invited");
         }
 
