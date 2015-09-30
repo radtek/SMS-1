@@ -27,11 +27,11 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Safe Buyer
+                                                Safe Buyer ordered by @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name
                                                 <span id="heading-@i">
                                                     @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
                                                     {
-                                                        <span> - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode</span>
+                                                        <span> - Purchase of <span id="addressHeading">@tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode</span></span>
                                                     }
                                                 </span>
                                             </a>
@@ -41,42 +41,15 @@
                                         <div class="panel-body no-padding">
                                             <form class="smart-form">
                                                 <fieldset>
-                                                    <div>
-                                                        <div class="row">
-                                                            <section class="col col-sm-6">
-                                                                <h6>Transaction Address</h6>
-                                                                <p id="txAddressLine1">@tx.SmsTransaction.Address.Line1</p>
-                                                                <p id="txAddressLine2">@tx.SmsTransaction.Address.Line2</p>
-                                                                <p id="txAddressTown">@tx.SmsTransaction.Address.Town</p>
-                                                                <p id="txAddressCounty">@tx.SmsTransaction.Address.County</p>
-                                                                <p id="txAddressPostalCode">@tx.SmsTransaction.Address.PostalCode</p>
-                                                            </section>
-                                                            <section class="col col-sm-6">
-                                                                <h6>Registered Home Address</h6>
-                                                                <p id="homeAddressLine1">@(tx.Address == null ? "Not yet specified" : tx.Address.Line1)</p>
-                                                                <p id="homeAddressLine2">@(tx.Address == null ? "" : tx.Address.Line2)</p>
-                                                                <p id="homeAddressTown">@(tx.Address == null ? "" : tx.Address.Town)</p>
-                                                                <p id="homeAddressCounty">@(tx.Address == null ? "" : tx.Address.County)</p>
-                                                                <p id="homeAddressPostalCode">@(tx.Address == null ? "" : tx.Address.PostalCode)</p>                                                                
-                                                            </section>
-                                                        </div>
-                                                        <div class="row">
-                                                            <section class="col col-sm-6">
-                                                                <h6>Mortgage Details</h6>
-                                                                <p id="mortgageLender">Lender: @(tx.SmsTransaction.LenderName ?? "None")</p>
-                                                                <p id="mortgageAppNumber">Application Number: @(tx.SmsTransaction.MortgageApplicationNumber ?? "None")</p>
-                                                            </section>
-                                                            <section class="col col-sm-6">
-                                                                <h6>Purchase Price</h6>
-                                                                <p id="purchasePrice">@(tx.SmsTransaction.Price == null ? "Not yet specified" : tx.SmsTransaction.Price.ToString())</p>
-                                                            </section>
-                                                        </div>
+                                                    <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
+                                                        <p>When you are ready to exchange contracts, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase.</p>
+                                                        <p>Until then, no further action is required.</p>
                                                     </div>
                                                 </fieldset>
 
                                                 <footer>
                                                     <a id="conf" data-modallink="true" class="btn btn-primary" data-href="@Url.Action("ViewConfirmDetails", "Buyer" , new { area = "SmsTransaction", txID = tx.SmsTransactionID, index = i })">
-                                                        Confirm Details and Check Bank Account
+                                                        Check Bank Account
                                                     </a>
                                                 </footer>
                                             </form>
