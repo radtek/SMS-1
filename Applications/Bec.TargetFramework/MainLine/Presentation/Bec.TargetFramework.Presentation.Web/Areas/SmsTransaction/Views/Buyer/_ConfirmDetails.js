@@ -137,6 +137,9 @@
                 $('#submitAddTransaction').hide();
                 $('#stepNext').show();
             }
+        },
+        onTabClick: function (tab, navigation, index) {
+            return false;
         }
     });
 
@@ -176,7 +179,6 @@ function validateSubmit(form) {
             matchDiv.show();
         else
             noMatchDiv.show();
-        showDetails(res.data, res.accountNumber, res.sortCode);
         hideCurrentModal();
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
@@ -188,22 +190,7 @@ function validateSubmit(form) {
 }
 
 function showDetails(data, an, sc) {
-    $('#txAddressLine1').text(data.SmsTransaction.Address.Line1);
-    $('#txAddressLine2').text(data.SmsTransaction.Address.Line2);
-    $('#txAddressTown').text(data.SmsTransaction.Address.Town);
-    $('#txAddressCounty').text(data.SmsTransaction.Address.County);
-    $('#txAddressPostalCode').text(data.SmsTransaction.Address.PostalCode);
-
-    $('#homeAddressLine1').text(data.Address.Line1);
-    $('#homeAddressLine2').text(data.Address.Line2);
-    $('#homeAddressTown').text(data.Address.Town);
-    $('#homeAddressCounty').text(data.Address.County);
-    $('#homeAddressPostalCode').text(data.Address.PostalCode);
-
-    $('#mortgageLender').text('Lender: '+(data.SmsTransaction.LenderName || "None"));
-    $('#mortgageAppNumber').text('Application Number: ' + (data.SmsTransaction.MortgageApplicationNumber || "None"));
-    $('#purchasePrice').text(formatCurrency(data.SmsTransaction.Price));
-
+    $('#addressHeading').text(data.SmsTransaction.Address.Line1 + " " + data.SmsTransaction.Address.PostalCode);
     $('.accountNumber').text(an);
     $('.sortCode').text(sc);
 }
