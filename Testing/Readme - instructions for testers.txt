@@ -4,11 +4,14 @@ To start with the TestingWhiz automated testing tool you have to follow the step
 
 2. Grab BodgeIt tool from developers. 
    It is used for environment preparation such as database.
-   Sample location: C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Tools\BodgeIt\bin\Dev
+   Sample location: C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Tools\BodgeIt\bin\Debug
 
-3. Use scripts making sure all of them are under source control so everyone can track the changes!
+3. Register the directory in the global PATH variable by using:
+   setx PATH "%PATH%;C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Tools\BodgeIt\bin\Debug"
 
-4. After opening the test script check the environment details before starting the test!
+4. Use scripts making sure all of them are under source control so everyone can track the changes!
+
+5. After opening the test script check the environment details before starting the test!
 
    In Methods section you will find PrepareEnvironment method which defines two entry points:
    - BodgeIt command - "bodgeit.exe -CleanData -Dev"
