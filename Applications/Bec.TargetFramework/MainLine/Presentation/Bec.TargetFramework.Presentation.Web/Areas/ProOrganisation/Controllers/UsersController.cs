@@ -118,7 +118,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var uao = await userClient.ResendLoginsAsync(uaoId);
 
             TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 1;
+            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 
@@ -153,7 +153,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             await userClient.GeneratePinAsync(uaoId, true, true);
             var uao = await userClient.ResendLoginsAsync(uaoId);
             TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 1;
+            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 
