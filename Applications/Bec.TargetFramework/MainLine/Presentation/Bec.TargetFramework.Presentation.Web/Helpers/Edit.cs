@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Bec.TargetFramework.Presentation.Web.Helpers
@@ -35,11 +36,19 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             return ret;
         }
 
-        public static Newtonsoft.Json.Linq.JObject fromD(System.Collections.Specialized.NameValueCollection vals)
+        public static Newtonsoft.Json.Linq.JObject fromD(System.Collections.Specialized.NameValueCollection vals, params string[] whitelist)
         {
+            IEnumerable<Regex> tests = whitelist.Select(w => new Regex("Model\\." + w.Replace(".", "\\.").Replace("[]","\\[[0-9]+\\]")));
             Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
-            foreach (var key in vals.AllKeys.Where(k => k.StartsWith("Model."))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
+            foreach (var key in vals.AllKeys.Where(k => whiteListCheck(k, tests))) addD(key.Split('.').Skip(1).ToList(), o, vals[key]);
             return o;
+        }
+
+        private static bool whiteListCheck(string key, IEnumerable<Regex> tests)
+        {
+            if (!key.StartsWith("Model.")) return false;
+            if (!tests.Any(r => r.IsMatch(key))) throw new Exception("Potentially dangerous input has been detected and stopped.");
+            return true;
         }
 
         public static Newtonsoft.Json.Linq.JObject addD(List<string> keys, Newtonsoft.Json.Linq.JObject o, string val)

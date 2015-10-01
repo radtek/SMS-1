@@ -27,70 +27,48 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                                <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong> Safe Buyer
-                                                @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
-                                                {
-                                                    <span>
-                                                        - Purchase of @tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
-                                                    </span>
-                                                }
+                                                Safe Buyer ordered by @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name
+                                                <span id="heading-@i">
+                                                    @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                                    {
+                                                        <span> - Purchase of <span id="addressHeading">@tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode</span></span>
+                                                    }
+                                                </span>
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="collapse-@i" class="panel-collapse collapse @ain">
                                         <div class="panel-body no-padding">
-                                            <form id="check-Form-@i" data-index="@i" data-url="@Url.Action("performcheck", "Check" , new { area="BankAccount" , orgid=tx.SmsTransaction.OrganisationID })" class="smart-form bank-check-form">
-                                                @Html.ValidationBootstrap()
-                                                @Html.AntiForgeryToken()
-                                                <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
-                                                    <h5 class="margin-top-10 margin-bottom-10"><i class="fa-fw fa fa-info"></i><strong>How to use</strong></h5>
-                                                    <p>
-                                                        This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
-                                                    </p>
-                                                    <p>
-                                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
-                                                    </p>
-                                                    <p>
-                                                        This system will check whether these bank account details match those validated by the Safe Move Scheme. Please note this system will not perform a transfer of funds.
-                                                    </p>
-                                                </div>
+                                            <form class="smart-form">
                                                 <fieldset>
-                                                    <div class="row">
-                                                        <section class="col col-sm-12">
-                                                            <label class="input">
-                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                <input type="text" name="accountNumber" id="accountNumber" class="clearResult" data-index="@i" placeholder="Account Number" maxlength="8" />
-                                                            </label>
-                                                        </section>
+                                                    <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
+                                                        <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase.</p>
+                                                        <p>Until then, no further action is required.</p>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <section class="col col-sm-12">
-                                                            <label class="input">
-                                                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                                <input type="text" name="sortCode" id="sortCode" class="clearResult" data-index="@i" placeholder="Sort Code" maxlength="6" />
-                                                            </label>
-                                                        </section>
+                                                    <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-match-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
+                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
+                                                    </div>
+
+                                                    <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-no-match-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
+                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> isn't a registered bank account on The Safe Move Scheme.</p>
+                                                        <p>If you have made a mistake, please correct the details and check again.</p>
+                                                        <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
+                                                    </div>
+
+                                                    <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
                                                     </div>
                                                 </fieldset>
+
                                                 <footer>
-                                                    <button type="submit" class="check-button btn btn-primary">
-                                                        Check<i class="fa fa-spin fa-spinner margin-left-5" id="spinner-@i" style="display:none;"></i>
-                                                    </button>
+                                                    <a id="conf" data-modallink="true" class="btn btn-primary" data-href="@Url.Action("ViewConfirmDetails", "Buyer" , new { area = "SmsTransaction", txID = tx.SmsTransactionID, index = i })">
+                                                        Check Bank Account
+                                                    </a>
                                                 </footer>
                                             </form>
-                                            <div class="alert alert-success" style="display: none;" id="result-match-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
-                                            </div>
-                                            <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
-                                                <p>The details given do not match your conveyancer's bank account.</p>
-                                                <p>If you have made a mistake, please correct the details and check again.</p>
-                                                <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
-                                            </div>
-                                            <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

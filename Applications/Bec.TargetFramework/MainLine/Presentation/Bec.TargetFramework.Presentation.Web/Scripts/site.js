@@ -159,7 +159,20 @@ function hideCurrentModal() {
 
 function dateString(date) {
     try {
+        if (date == "") return "";
         var ret = new Date(date).toLocaleString();
+        if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
+        return ret;
+    }
+    catch (ex) {
+        return "";
+    }
+}
+
+function dateStringNoTime(date) {
+    try {
+        if (date == "") return "";
+        var ret = new Date(date).toLocaleDateString();
         if (ret == "Invalid Date") ret = new Date(date.replace(' ', 'T')).toLocaleString(); //IE...
         return ret;
     }
@@ -482,5 +495,56 @@ var findAddress = function (opts) {
         self.noMatch.show();
         self.resList.prop('disabled', true);
         self.clearForm();
+    }
+}
+
+function makeDatePicker(inputSelector) {
+    var inp = $(inputSelector);
+    inp.datepicker({
+        dateFormat: "yy-mm-ddT00:00:00.0000000",
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-110:+0",
+        showButtonPanel: true,
+        prevText: "<i class=\"fa fa-chevron-left\"></i>",
+        nextText: "<i class=\"fa fa-chevron-right\"></i>",
+        onSelect: function (date, inst) {
+            inp.data("val", date);
+            inp.val(dateStringNoTime(date));
+            $(this).valid();
+        },
+        showOn: ''
+    });
+    var fullVal = inp.val();
+    inp.data("val", fullVal);
+    inp.val(dateStringNoTime(fullVal));
+
+    inp.on('focus', function () {
+        var orig = inp.val();
+        inp.val(inp.data("val"));
+        inp.datepicker('show');
+        inp.val(orig);
+    });
+}
+
+function fixDate(array, name, inputSelector) {
+    for (i in array) {
+        if (array[i].name == name) {
+            array[i].value = $(inputSelector).data("val");
+            break;
+        }
+    }
+}
+
+function checkWizardValid(wizard, selector) {
+    return function () {
+        var form = $(selector);
+        if (!form.valid()) {
+            var invalidInputs = $(form.find('.tab-pane .state-error')[0]);
+            var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
+            wizard.bootstrapWizard('show', tabId);
+            return false;
+        }
+        form.submit();
     }
 }

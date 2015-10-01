@@ -13,7 +13,32 @@
 
     function validateSubmit(form) {
         $("#submitEditSmsTransaction").prop('disabled', true);
-        form.submit();
+        var formData = $("#editSmsTransaction-form").serializeArray();
+        fixDate(formData, 'Model.Contact.BirthDate', "#birthDateInput");
+        ajaxWrapper({
+            url: $("#editSmsTransaction-form").data("url"),
+            type: "POST",
+            data: formData
+        }).done(function (res) {
+            if (res.result === true)
+                window.location = $("#editSmsTransaction-form").data("redirectto");
+            else {
+                handleModal({ url: $("#editSmsTransaction-form").data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitEditSmsTransaction").prop('disabled', false);
+                    }
+                }, true);
+            }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                console.log(e);
+                handleModal({ url: $("#editSmsTransaction-form").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#submitEditSmsTransaction").prop('disabled', false);
+                    }
+                }, true);
+            }
+        });
     }
 
     // submit from when Save button clicked
@@ -60,22 +85,5 @@
         submitHandler: validateSubmit
     });
 
-    function setupDateOfBirthInput() {
-        var now = new Date();
-        var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
-        $("#birthDateInput").datepicker({
-            dateFormat: "dd/mm/yy",
-            maxDate: now,
-            minDate: minDate,
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-110:+0",
-            showButtonPanel: true,
-            prevText: "<i class=\"fa fa-chevron-left\"></i>",
-            nextText: "<i class=\"fa fa-chevron-right\"></i>",
-            onSelect: function (date, inst) { $(this).valid(); }
-        });
-    }
-
-    setupDateOfBirthInput();
+    makeDatePicker("#birthDateInput");
 });

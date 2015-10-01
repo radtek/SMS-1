@@ -113,12 +113,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
         {
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
-            var data = Edit.fromD(Request.Form);
+            try
+            {
+                await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+                var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
+                var data = Edit.fromD(Request.Form,
+                    "Contact.Salutation",
+                    "Contact.FirstName",
+                    "Contact.LastName",
+                    "Contact.BirthDate",
+                    "Contact.RowVersion",
+                    "UserAccountOrganisation.UserAccount.Email",
+                    "UserAccountOrganisation.UserAccount.RowVersion");
 
-            await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
-            return RedirectToAction("Index", new { selectedTransactionID = txID });
+                await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Edit Transaction Failed",
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public async Task<ActionResult> ViewResendLogins(Guid txID, string label)

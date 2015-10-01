@@ -110,7 +110,7 @@ function showPrimaryBuyerDetails(dataItem) {
     var contact = dataItem.Contact;
     var data = _.extend({}, dataItem, {
         fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-        formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
+        formattedBirthDate: dateStringNoTime(contact.BirthDate)
     });
 
     primaryBuyerTemplatePromise.done(function (template) {
@@ -136,7 +136,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
             return _.extend({}, item, {
                 fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                 elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
-                formattedBirthDate: moment(contact.BirthDate).format('DD/MM/YYYY')
+                formattedBirthDate: dateStringNoTime(contact.BirthDate)
             });
         });
         var templateData = {

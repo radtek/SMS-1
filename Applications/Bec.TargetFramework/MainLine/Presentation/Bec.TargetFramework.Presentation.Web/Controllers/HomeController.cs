@@ -3,6 +3,8 @@ using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using Bec.TargetFramework.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -93,6 +95,17 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult GetTemplate(string view)
         {
             return PartialView(view);
+        }
+
+        public async Task<ActionResult> SearchLenders(string search)
+        {
+            search = search.ToLower();
+            if (string.IsNullOrWhiteSpace(search)) return null;
+
+            var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
+            var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
+            JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
     }
 }

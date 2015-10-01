@@ -15,11 +15,14 @@
                 }
             }, true);
     }).fail(function (e) {
-        handleModal({ url: $("#purchase-form").data("message") + "?title=Error&message=" + e + "&button=Back" }, {
-            messageButton: function () {
-                $("#submitPurchase").prop('disabled', false);
-            }
-        }, true);
+        if (!hasRedirect(e.responseJSON)) {
+            console.log(e);
+            handleModal({ url: $("#purchase-form").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                messageButton: function () {
+                    $("#submitPurchase").prop('disabled', false);
+                }
+            }, true);
+        }
     });
 
 });

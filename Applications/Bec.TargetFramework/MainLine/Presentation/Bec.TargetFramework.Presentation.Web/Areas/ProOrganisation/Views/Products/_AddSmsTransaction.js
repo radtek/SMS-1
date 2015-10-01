@@ -38,8 +38,7 @@
                 }
             },
             "BirthDate": {
-                required: true,
-                dateGB: true
+                required: true
             }
         },
 
@@ -69,18 +68,7 @@
         }
     });
 
-    $("#submitAddTransaction").click(function () {
-        var form = $("#addTransaction-form");
-        var isValid = form.valid();
-        if (!isValid) {
-            var invalidInputs = $(form.find('.tab-pane .invalid')[0]);
-            var tabId = $(invalidInputs.parents('.tab-pane')[0]).attr('id');
-            wizard.bootstrapWizard('show', tabId);
-
-            return false;
-        }
-        form.submit();
-    });
+    $("#submitAddTransaction").click(checkWizardValid(wizard, "#addTransaction-form"));
 
     $("#stepNext").click(function () {
         wizard.bootstrapWizard('next');
@@ -93,6 +81,7 @@
     function validateSubmit(form) {
         $("#addTransactionControls button").prop('disabled', true);
         var formData = $("#addTransaction-form").serializeArray();
+        fixDate(formData, 'BirthDate', "#birthDateInput");
         //handlemodal won't show the modal if there are no results, i.e. it receives a json result {"result" : "ok"}
         handleModal(
         {
@@ -130,13 +119,15 @@
                 }, true);
             }
         }).fail(function (e) {
-            console.log(e);
-            updateBalance();
-            handleModal({ url: $('#d1').data("redirectto") + "?title=Error&message=" + e + "&button=Back" }, {
-                messageButton: function () {
-                    $("#addTransactionControls button").prop('disabled', false);
-                }
-            }, true);
+            if (!hasRedirect(e.responseJSON)) {
+                console.log(e);
+                updateBalance();
+                handleModal({ url: $('#d1').data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                    messageButton: function () {
+                        $("#addTransactionControls button").prop('disabled', false);
+                    }
+                }, true);
+            }
         });
     }
 
@@ -155,23 +146,6 @@
         }, true);
     }
 
-    function setupDateOfBirthInput() {
-        var now = new Date();
-        var minDate = new Date(now.getFullYear() - 110, 0, 1);//, 1, 1);
-        $("#birthDateInput").datepicker({
-            dateFormat: "dd/mm/yy",
-            maxDate: now,
-            minDate: minDate,
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-110:+0",
-            showButtonPanel: true,
-            prevText: "<i class=\"fa fa-chevron-left\"></i>",
-            nextText: "<i class=\"fa fa-chevron-right\"></i>",
-            onSelect: function (date, inst) { $(this).valid(); }
-        });
-    }
-
     updateBalance();
-    setupDateOfBirthInput();
+    makeDatePicker("#birthDateInput");
 });

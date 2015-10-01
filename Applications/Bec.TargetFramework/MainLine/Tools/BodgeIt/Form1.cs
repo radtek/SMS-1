@@ -1,4 +1,5 @@
-﻿using BodgeIt.TestDTOs;
+﻿using BodgeIt.Logic;
+using BodgeIt.TestDTOs;
 using Devart.Data.PostgreSql;
 using Newtonsoft.Json.Linq;
 using System;
@@ -19,21 +20,7 @@ namespace BodgeIt
 {
     public partial class Form1 : Form
     {
-        const string baseDir = @"C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Scripts";
-        Dictionary<int, string> tfCons = new Dictionary<int,string>(){
-            {0,"Host=localhost;User Id=postgres;Password=admin;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {1,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {2,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {3,"Host=uat-db-01;User Id=postgres;Password=14244095dbbc6324c35067a045fd877e;Database=TargetFramework;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
-        };
-
-        Dictionary<int, string> coreCons = new Dictionary<int, string>(){
-            {0,"Host=localhost;User Id=postgres;Password=admin;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {1,"Host=bec-dev-01;User Id=postgres;Password=0277922cdd;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {2,"Host=sys-db-01;User Id=postgres;Password=Wzrfdza8VjM3y86WTqdX;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"},
-            {3,"Host=uat-db-01;User Id=postgres;Password=14244095dbbc6324c35067a045fd877e;Database=TargetFrameworkCore;Port=5433;Persist Security Info=True;Initial Schema=public;Unicode=True;"}
-        };
-
+        private readonly ScriptRunner _scriptRunner;
         public Form1()
         {
             InitializeComponent();        
@@ -49,6 +36,7 @@ namespace BodgeIt
             comboDB.SelectedIndex = 0;
 
             comboBox1.SelectedIndex = 0;
+            _scriptRunner = new ScriptRunner();
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -99,70 +87,15 @@ namespace BodgeIt
             if (MessageBox.Show("Are you sure?", "WARNING", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 int conIndex = (int)comboDB.SelectedValue;
-                using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
-                {
-                    con.Open();
-                    runScript(con, "truncate \"DefaultOrganisationTemplate\" cascade; truncate \"UserAccounts\" cascade; truncate \"StatusTypeTemplate\" cascade; truncate \"Operation\" cascade; truncate \"Resource\" cascade; truncate \"Role\" cascade; truncate \"NotificationConstructGroupTemplate\" cascade; delete from \"ContactRegulator\"; delete from \"Contact\"; delete from \"Address\"; truncate table \"ProductTemplate\" cascade;");
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security Categories.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Security", "Security.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Status.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Admin Organisation Template.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Admin Organisation Create.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Status.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Template.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Professional", "Professional Organisation Create Default Organisation.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Template.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Organisation", "Personal", "Personal Organisation Create Default Organisation.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCompanySystemAdminNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUserNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddUsernameReminderNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddForgotPasswordNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));                 
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "ProductInitial.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "CreditTopUp.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "Bank Account Check.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Creation Scripts", "Product", "PromoteProduct.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "T&CNotificationsNoCOLP.sql")));
-                    con.Close();
-                }
-                using (PgSqlConnection con = new PgSqlConnection(coreCons[conIndex]))
-                {
-                    con.Open();
-                    runScript(con, "truncate \"BusEvent\" cascade; truncate \"BusEventMessageSubscriber\" cascade;");
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "BusEvent.sql")));
-                    con.Close();
-                }
+                _scriptRunner.CleanData(Constants.TfCons[conIndex], Constants.CoreCons[conIndex]);
             }
         }
         
-        private void runScript(PgSqlConnection connection, string text)
-        {
-            var c = connection.CreateCommand();
-            c.CommandText = text;
-            c.UnpreparedExecute = true;
-            c.ExecuteReader();
-        }
 
         private void button4_Click(object sender, EventArgs e)
         {
             int conIndex = (int)comboDB.SelectedValue;
-            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
-            {
-                con.Open();
-                var c = con.CreateCommand();
-                c.CommandText = "select \"OrganisationID\" from \"Organisation\" limit 1";
-                using (var r = c.ExecuteReader())
-                {
-                    while (r.Read())
-                    {
-                        textOrgId.Text = r.GetGuid(0).ToString();
-                    }
-                }
-                con.Close();
-            }
+            textOrgId.Text = _scriptRunner.GetCurrentOrganisationId(Constants.TfCons[conIndex]).ToString();
         }
 
         private void buttonBrowse_Click(object sender, EventArgs e)
@@ -180,7 +113,7 @@ namespace BodgeIt
 
             //update latest notification construct
             int conIndex = (int)comboDB.SelectedValue;
-            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
             {
                 await con.OpenAsync();
                 var c = con.CreateCommand();
@@ -217,10 +150,10 @@ namespace BodgeIt
         private void button5_Click(object sender, EventArgs e)
         {
             int conIndex = (int)comboDB.SelectedValue;
-            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
             {
                 con.Open();
-                runScript(con, File.ReadAllText(Path.Combine(baseDir, "Notification", "NewT&CNotification.sql")));
+                _scriptRunner.RunScript(con, File.ReadAllText(Path.Combine(Constants.BaseDir, "Notification", "NewT&CNotification.sql")));
                 con.Close();
             }
             MessageBox.Show("Done");
@@ -231,28 +164,9 @@ namespace BodgeIt
             button4_Click(this, null);
 
             Guid orgID = new Guid(textOrgId.Text);
-
             for (int i = 1; i <= numericUpDown1.Value; i++)
             {
-                var contact = new
-                {
-                    FirstName = "Admin",
-                    LastName = "T" + i.ToString(),
-                    EmailAddress1 = string.Format(textEmail.Text, i),
-                    Salutation = textSalutation.Text
-                };
-                HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
-                var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&username={1}&password={2}&isTemporary=false&sendEmail=false&addDefaultRoles=true", orgID, "T" + i.ToString(), System.Net.WebUtility.UrlEncode(textPassword.Text)), HttpMethod.Post, "user", contact);
-                var s = await x.Content.ReadAsStringAsync();
-                Guid g = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
-
-                //apply all available roles
-
-                //var y = await SendAsync<Guid[]>(client, string.Format("api/OrganisationLogic/GetRoles?orgID={0}", orgID), HttpMethod.Get, "user", null);
-                //var t = await y.Content.ReadAsStringAsync();
-                //Guid[] roles = JArray.Parse(t).Select(j => (Guid)j["OrganisationRoleID"]).ToArray();
-
-                //await SendAsync<Guid[]>(client, string.Format("api/UserLogic/SetRolesAsync?uaoID={0}", g), HttpMethod.Post, "user", roles);
+                await _scriptRunner.AddSallyUser(orgID, comboAddress.Text, "T" + i.ToString(), string.Format(textEmail.Text, i), textPassword.Text);
             }
             MessageBox.Show("Users T1-T5 added successfully!");
         }
@@ -304,11 +218,11 @@ namespace BodgeIt
             {
                 buttonAutoAdmin_Click(this, null);
                 int conIndex = (int)comboDB.SelectedValue;
-                using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+                using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
                 {
                     con.Open();
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultProOrganisationWithUsers.sql")));
-                    runScript(con, File.ReadAllText(Path.Combine(baseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultFred.sql")));
+                    _scriptRunner.RunScript(con, File.ReadAllText(Path.Combine(Constants.BaseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultProOrganisationWithUsers.sql")));
+                    _scriptRunner.RunScript(con, File.ReadAllText(Path.Combine(Constants.BaseDir, "BE Framework Scripts", "Setup", "Defaults", "AddDefaultFred.sql")));
                     con.Close();
                 }
                 MessageBox.Show("Ana, Elvis1, Elvis2 and Fred were added successfully! Wait for the rest.");
@@ -324,10 +238,10 @@ namespace BodgeIt
                 sb.AppendLine(string.Format("insert into \"Lender\"(\"Name\") values ('{0}');", n.InnerText.Replace("'", "''")));
 
             int conIndex = (int)comboDB.SelectedValue;
-            using (PgSqlConnection con = new PgSqlConnection(tfCons[conIndex]))
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
             {
                 con.Open();
-                runScript(con, sb.ToString());
+                _scriptRunner.RunScript(con, sb.ToString());
                 con.Close();
             }
         }

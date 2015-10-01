@@ -118,44 +118,42 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var uao = await userClient.ResendLoginsAsync(uaoId);
 
             TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 1;
+            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewRevokeInvite(Guid uaoId, Guid userId, string label)
+        public ActionResult ViewRevokeInvite(Guid uaoId, string label)
         {
             ViewBag.uaoId = uaoId;
-            ViewBag.userId = userId;
             ViewBag.label = label;
             return PartialView("_RevokeInvite");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RevokeInvite(Guid uaoId, Guid userId)
+        public async Task<ActionResult> RevokeInvite(Guid uaoId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.LockUserTemporaryAccountAsync(userId);
+            await orgClient.ExpireUserAccountOrganisationAsync(uaoId);
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewReinstate(Guid uaoId, Guid userId, string label)
+        public ActionResult ViewReinstate(Guid uaoId, string label)
         {
             ViewBag.uaoId = uaoId;
-            ViewBag.userId = userId;
             ViewBag.fullName = label;
             return PartialView("_Reinstate");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
+        public async Task<ActionResult> Reinstate(Guid uaoId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.GeneratePinAsync(uaoId, true, true);
-
-            TempData["UserId"] = userId;
-            TempData["tabIndex"] = 1;
+            var uao = await userClient.ResendLoginsAsync(uaoId);
+            TempData["UserId"] = uao.UserID;
+            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 
@@ -211,7 +209,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             await EnsureUserInOrg(uaoID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var data = Edit.fromD(Request.Form);
+            var data = Edit.fromD(Request.Form,
+                "Contact.Salutation",
+                "Contact.FirstName",
+                "Contact.LastName",
+                "Contact.RowVersion",
+                "UserAccount.Email",
+                "UserAccount.IsActive",
+                "UserAccount.RowVersion",
+                "UserAccountOrganisationRoles[].Selected",
+                "UserAccountOrganisationRoles[].OrganisationRoleID");
             
             //manipulate collection of roles to include only selected ones
             var array = data["UserAccountOrganisationRoles"] as JArray;

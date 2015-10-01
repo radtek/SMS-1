@@ -9,7 +9,7 @@
 
             <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
                 <li><a href="#s1"> New Invites </a></li>
-                <li><a href="#s2"> Expired Invites </a></li>
+                <li><a href="#s2"> Expired / Revoked Invites </a></li>
             </ul>
             <div id="myTabContent1" class="tab-content padding-10">
 
@@ -26,6 +26,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
+                                <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })">Resend Login Details</a>
                                 <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
@@ -53,7 +54,6 @@
                             <!-- well -->
                             <div class="well">
                                 <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })">Reinstate Invite</a>
-                                <a id="revokeButton3" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })">Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
