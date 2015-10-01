@@ -175,6 +175,7 @@ function validateSubmit(form) {
         type: "POST",
         data: formData
     }).done(function (res) {
+        showDetails(res.data, res.accountNumber, res.sortCode);
         if (res.result == true)
             matchDiv.show();
         else

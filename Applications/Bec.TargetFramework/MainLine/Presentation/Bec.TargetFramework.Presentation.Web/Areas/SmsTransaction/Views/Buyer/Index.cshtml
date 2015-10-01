@@ -42,8 +42,24 @@
                                             <form class="smart-form">
                                                 <fieldset>
                                                     <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
-                                                        <p>When you are ready to exchange contracts, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase.</p>
+                                                        <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase.</p>
                                                         <p>Until then, no further action is required.</p>
+                                                    </div>
+
+                                                    <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-match-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
+                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
+                                                    </div>
+
+                                                    <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-no-match-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
+                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> isn't a registered bank account on The Safe Move Scheme.</p>
+                                                        <p>If you have made a mistake, please correct the details and check again.</p>
+                                                        <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
+                                                    </div>
+
+                                                    <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
+                                                        <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
                                                     </div>
                                                 </fieldset>
 
@@ -53,19 +69,6 @@
                                                     </a>
                                                 </footer>
                                             </form>
-                                            <div class="alert alert-success" style="display: none;" id="result-match-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
-                                                <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
-                                            </div>
-                                            <div class="alert alert-danger" style="display: none;" id="result-no-match-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
-                                                <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> does not belong to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
-                                                <p>If you have made a mistake, please correct the details and check again.</p>
-                                                <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
-                                            </div>
-                                            <div class="alert alert-danger" style="display: none;" id="result-server-error-@i">
-                                                <h4 class="alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
