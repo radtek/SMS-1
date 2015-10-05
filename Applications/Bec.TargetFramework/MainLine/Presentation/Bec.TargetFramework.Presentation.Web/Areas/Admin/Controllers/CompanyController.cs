@@ -47,25 +47,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewAddTempCompany()
-        {
-            return PartialView("_AddTempCompany");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddTempCompany(AddCompanyDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var id = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
-
-                TempData["AddTempCompanyId"] = id;
-            }
-
-            return RedirectToAction("Provisional");
-        }
-
         public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);

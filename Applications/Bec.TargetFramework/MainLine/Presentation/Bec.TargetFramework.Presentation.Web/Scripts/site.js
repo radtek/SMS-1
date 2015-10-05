@@ -432,7 +432,11 @@ var findAddress = function (opts) {
 
             ajaxWrapper({
                 url: self.findAddressButton.data('url'),
-                data: { postcode: pc }
+                data: {
+                    postcode: pc,
+                    __RequestVerificationToken: self.findAddressButton.data('requestverificationtoken')
+                },
+                type: 'POST'
             })
             .always(function () {
                 self.resList.empty();

@@ -1,4 +1,5 @@
-﻿function captchaClick() {
+﻿// global for _Captcha view
+function captchaClick() {
     $('#formSubmit').prop('disabled', false);
 }
 
