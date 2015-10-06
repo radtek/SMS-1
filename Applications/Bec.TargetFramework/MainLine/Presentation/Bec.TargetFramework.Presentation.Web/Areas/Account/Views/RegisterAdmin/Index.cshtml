@@ -19,34 +19,32 @@
     <fieldset>
         <legend>Organisation/Practice Details</legend>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.CompanyName)">Organisation/Practice Name</label>
                     @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="@Html.IdFor(m => m.CompanyName)">Trading Name For Correspondence</label>
-                    <input type="text" class="form-control" tabindex="2"/>
-                    @*@Html.TextBoxFor(m => m.CompanyName, new { tabindex = "5", maxlength = 50, @class = "form-control" })*@
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <label for="@Html.IdFor(m => m.TradingName)">Trading Name For Correspondence</label>
+                    @Html.TextBoxFor(m => m.TradingName, new { tabindex = "2", maxlength = 50, @class = "form-control" })
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Regulator)">Regulator</label>
                     @Html.DropDownListFor(m => m.Regulator, new SelectList(regulators, "Value", "Text"), "Please Select", new { tabindex = "3", @class = "form-control" })
                     <i></i>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.RegulatorNumber)">SRA ID/MIS</label>
-                    @Html.TextBoxFor(m => m.RegulatorNumber, new { placeholder = "SRA ID/MIS", maxlength = 50, tabindex = 4, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.RegulatorNumber, new { type = "number", maxlength = 50, tabindex = 4, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
@@ -56,19 +54,19 @@
         <legend>Head Office Address</legend>
 
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label for="postcodeLookup">Lookup Postcode</label>
                     <input id="postcodeLookup" type="text" tabindex="5" maxlength="10" class="form-control" />
                 </div>
             </div>
-            <div class="col-xs-2">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <button id="findAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary" tabindex="6">Find Address</button>
+                    <button id="findAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-block" tabindex="6">Search</button>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label>Found Addresses</label>
                     <select id="addressResults" tabindex="7" class="form-control"></select>
@@ -78,13 +76,13 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12" id="noMatch">
+            <div class="col-sm-12" id="noMatch">
                 <em style="color:#d56161">No matches found, please enter address below</em>
             </div>
         </div>
 
         <div class="row" id="manAddRow">
-            <div class="col-xs-12">
+            <div class="col-sm-12">
                 <div class="checkbox">
                     <label>
                         @Html.CheckBoxFor(m => m.Manual, new { id = "manualAddress" })
@@ -95,40 +93,40 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Line1)">Address Line 1</label>
-                    @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", placeholder = "Address Line 1", tabindex = "8", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "8", maxlength = 50, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.County)">County</label>
-                    @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", placeholder = "County", tabindex = "11", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", tabindex = "11", maxlength = 50, @class = "form-control" })
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Line2)">Address Line 2</label>
-                    @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", placeholder = "Address Line 2", tabindex = "9", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", tabindex = "9", maxlength = 50, @class = "form-control" })
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.PostalCode)">Postcode</label>
-                    @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", placeholder = "Post Code", tabindex = "12", maxlength = 10, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Town)">Town/City</label>
-                    @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", placeholder = "Town/City", tabindex = "10", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
@@ -137,20 +135,20 @@
     <fieldset>
         <legend>Approved Manager Details</legend>
         <div class="row">
-            <div class="col-xs-2">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminSalutation)">Title</label>
                     @Html.DropDownListFor(m => m.OrganisationAdminSalutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { @class = "form-control", tabindex = "13" })
                 </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminFirstName)">First Name</label>
                     @Html.TextBoxFor(m => m.OrganisationAdminFirstName, new { tabindex = "14", maxlength = 50, @class = "form-control" })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminLastName)">Last Name</label>
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -159,14 +157,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-7">
+            <div class="col-sm-7">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminEmail)">Email</label>
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                     @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { tabindex = "16", maxlength = 100, type = "email", data_url = Url.Action("Check", "EmailCheck", new { Area = "" }), @class = "form-control", })
                 </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-sm-5">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminTelephone)">Phone Number</label>
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -178,23 +176,23 @@
     </fieldset>
     <fieldset>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-sm-12">
                 <div class="form-group">
-                    <label for="@Html.IdFor(m => m.RecommendationSource)">Where Did You Hear About Safe Move Scheme Pre-Registration?</label>
-                    @Html.DropDownListFor(m => m.RecommendationSource, Html.EnumListString<RecommendationSource>(), "Please Select", new { tabindex = "18", @class = "form-control" })
+                    <label for="@Html.IdFor(m => m.OrganisationRecommendationSource)">Where Did You Hear About Safe Move Scheme Pre-Registration?</label>
+                    @Html.DropDownListFor(m => m.OrganisationRecommendationSource, Html.EnumListString<OrganisationRecommendationSource>(), "Please Select", new { tabindex = "18", @class = "form-control" })
                 </div>
             </div>
         </div>
     </fieldset>
     <fieldset>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-sm-12">
                 @Html.Partial("_Captcha")
             </div>
         </div>
     </fieldset>
     <div class="row">
-        <div class="col-xs-offset-10 col-xs-2">
+        <div class="col-sm-offset-10 col-sm-2">
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-primary" id="formSubmit" disabled tabindex="19">Register</button>
             </div>

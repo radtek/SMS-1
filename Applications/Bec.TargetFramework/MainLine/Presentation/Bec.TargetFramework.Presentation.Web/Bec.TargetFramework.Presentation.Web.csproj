@@ -747,6 +747,7 @@
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
+    <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

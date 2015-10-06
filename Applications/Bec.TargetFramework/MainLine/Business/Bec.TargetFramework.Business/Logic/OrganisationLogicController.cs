@@ -330,8 +330,10 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.CompanyName,
+                    dto.TradingName,
                     "",
-                    UserNameService.UserName);
+                    UserNameService.UserName,
+                    dto.OrganisationRecommendationSource.GetIntValue());
 
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();
@@ -375,7 +377,6 @@ namespace Bec.TargetFramework.Business.Logic
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = String.Empty,
                     IsPrimaryAddress = true,
-                    AdditionalAddressInformation = dto.AdditionalAddressInformation,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);

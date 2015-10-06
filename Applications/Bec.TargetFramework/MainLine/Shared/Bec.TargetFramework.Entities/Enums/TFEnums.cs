@@ -1116,4 +1116,10 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Leasehold")]
         Leasehold = 5234
     }
+
+    public enum OrganisationRecommendationSource
+    {
+        [StringValue("Other")]
+        Other = 801948
+    }
 }

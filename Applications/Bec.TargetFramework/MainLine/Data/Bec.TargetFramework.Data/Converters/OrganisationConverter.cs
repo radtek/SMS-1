@@ -52,6 +52,7 @@ namespace Bec.TargetFramework.Entities
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
+            target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
 
             // Navigation Properties
             if (level > 0) {
@@ -93,6 +94,7 @@ namespace Bec.TargetFramework.Entities
               target.OrganisationGroups = source.OrganisationGroups.ToDtosWithRelated(level - 1);
               target.OrganisationRoleClaims = source.OrganisationRoleClaims.ToDtosWithRelated(level - 1);
               target.SmsTransactions = source.SmsTransactions.ToDtosWithRelated(level - 1);
+              target.ClassificationType = source.ClassificationType.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -132,6 +134,7 @@ namespace Bec.TargetFramework.Entities
             target.IsCompanyVerified = source.IsCompanyVerified;
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
+            target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

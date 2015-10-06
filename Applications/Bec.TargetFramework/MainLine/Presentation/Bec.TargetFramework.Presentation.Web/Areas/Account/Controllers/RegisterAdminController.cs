@@ -27,12 +27,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var response = await _captchaService.ValidateCaptcha(Request);
             if (ModelState.IsValid && response.success)
             {
-                var id = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
-
-                TempData["AddTempCompanyId"] = id;
+                await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
+                return RedirectToAction("RegistrationSuccess");
             }
 
-            return RedirectToAction("Provisional");
+            return View(model);
+        }
+
+        public ActionResult RegistrationSuccess()
+        {
+            return View();
         }
     }
 }

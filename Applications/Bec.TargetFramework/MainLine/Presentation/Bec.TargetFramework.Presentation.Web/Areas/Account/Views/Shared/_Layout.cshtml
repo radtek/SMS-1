@@ -41,7 +41,7 @@
     <script src="~/Content/websiteLayout/js/hoverIntent.js"></script>
     <script src="~/Content/websiteLayout/js/slidebars.js"></script>
     <script src="~/Content/websiteLayout/js/libs/modernizr-2.5.3.min.js"></script>
-    <script src="~/Content/websiteLayout/js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="~/Content/websiteLayout/js/jquery.smooth-scroll.min.js"></script>
     <script src="~/Content/websiteLayout/js/scroll.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
@@ -105,12 +105,12 @@
                                 </div>
                                 <nav>
                                     <ul>
-                                        <li><a href="index.php">About</a></li>
-                                        <li><a href="products.php">Products</a></li>
-                                        <li><a href="professionals.php">For Professionals </a></li>
-                                        <li><a href="buyers-sellers.php">For Buyers</a></li>
-                                        <li id="selected"><a href="submit-details.php">Submit Details</a></li>
-                                        <li><a href="contact.php">Contact</a></li>
+                                        <li><a href="">About</a></li>
+                                        <li><a href="">Products</a></li>
+                                        <li><a href="">For Professionals </a></li>
+                                        <li><a href="">For Buyers</a></li>
+                                        <li id="selected"><a href="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })">Submit Details</a></li>
+                                        <li><a href="">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>

@@ -1894,7 +1894,6 @@
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
-    <Compile Include="Enums\RecommendationSource.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

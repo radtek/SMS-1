@@ -794,4 +794,24 @@ form .btn-primary:visited {
   border: 1px solid #b7d24f !important;
   background-color: #afcd3b !important;
 }
+form .btn-primary[disabled] {
+  background-color: #b7d24f !important;
+  border-color: #a0be30 !important;
+}
+form .state-error input,
+form .state-error select,
+form .state-error textarea,
+form input.invalid {
+  border: 1px solid #a90329;
+  background-color: #fff5f5;
+}
+form em.invalid {
+  display: block;
+  margin-top: 5px;
+  padding: 0 1px;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #d56161;
+}
 /*# sourceMappingURL=style.css.map */

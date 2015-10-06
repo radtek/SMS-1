@@ -40,7 +40,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var res = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + ODataHelper.Filter(filter));
 
             if (res.Any())
-                return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
+                return Json("The email address is already registered in Safe Move Scheme. Contact enquiries@safemovescheme.co.uk if this concerns you.", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }

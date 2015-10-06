@@ -1,6 +1,5 @@
 ﻿// global for _Captcha view
 function captchaClick() {
-    console.log('click');
     $('#formSubmit').prop('disabled', false);
 }
 
@@ -55,7 +54,8 @@ $(function () {
                 }
             },
             RegulatorNumber: {
-                required: true
+                required: true,
+                number: true
             },
             OrganisationAdminSalutation: {
                 required: true
@@ -72,7 +72,9 @@ $(function () {
                 remote: {
                     url: $('#OrganisationAdminEmail').data("url"),
                     data: {
-                        email: $('#OrganisationAdminEmail').val(),
+                        email: function () { 
+                            return $('#OrganisationAdminEmail').val();
+                        },
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                     },
                     type: 'POST',
@@ -82,12 +84,14 @@ $(function () {
             },
             OrganisationAdminTelephone: {
                 required: true
+            },
+            OrganisationRecommendationSource: {
+                required: true
             }
         },
-
         // Do not change code below
         errorPlacement: function (error, element) {
-            error.insertAfter(element.parent());
+            element.parent().append(error);
         },
         submitHandler: function (form) {
             $('#formSubmit').prop('disabled', true);
