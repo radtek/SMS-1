@@ -814,4 +814,41 @@ form em.invalid {
   line-height: 15px;
   color: #d56161;
 }
+.client-form header {
+  border-bottom: 1px solid #dfdfdf;
+  padding: 20px;
+}
+.client-form header h1 {
+  margin: 0 !important;
+  font-size: 1.6em !important;
+}
+.client-form footer {
+  border-top: 1px solid #ddd;
+  padding: 15px 20px;
+  background-image: none;
+}
+.client-form .fields {
+  background-color: white;
+}
+.client-form fieldset {
+  margin: 0;
+  padding: 30px;
+}
+.client-form .captcha {
+  margin-top: 20px;
+}
+.client-form .form-group {
+  margin: 0;
+}
+.client-form .version {
+  margin-top: 10px;
+  color: #aaa;
+  text-align: left;
+}
+.foot-note label {
+  font-weight: normal !important;
+}
+.no-padding {
+  padding: 0 !important;
+}
 /*# sourceMappingURL=style.css.map */
