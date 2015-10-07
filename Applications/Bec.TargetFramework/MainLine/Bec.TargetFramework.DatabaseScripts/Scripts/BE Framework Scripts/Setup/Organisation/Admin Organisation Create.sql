@@ -8,6 +8,6 @@ TempDOVN = 1;
 
 
 
-perform  public."fn_CreateOrganisationFromDefault"(27, TempDO, TempDOVN, 'BE Consultancy', '');
+perform  public."fn_CreateOrganisationFromDefault"(27, TempDO, TempDOVN, 'BE Consultancy', '', '', '', 802000);
 
 END $$;

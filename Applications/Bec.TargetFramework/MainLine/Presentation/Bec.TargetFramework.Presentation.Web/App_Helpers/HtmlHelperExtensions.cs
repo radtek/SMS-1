@@ -200,7 +200,7 @@ namespace Bec.TargetFramework.Presentation.Web
             {
                 var member = eType.GetMember(item.ToString())[0];
                 StringValueAttribute attr = member.GetCustomAttributes(typeof(StringValueAttribute), false).FirstOrDefault() as StringValueAttribute;
-                rejects.Add(new { Text = attr.StringValue, Value = attr.StringValue });
+                rejects.Add(new { Text = attr.StringValue, Value = item.ToString() });
             }
             return new SelectList(rejects, "Value", "Text");
         }
@@ -208,6 +208,14 @@ namespace Bec.TargetFramework.Presentation.Web
         public static MvcHtmlString Timeago(this HtmlHelper helper, DateTime dateTime)
         {
             return MvcHtmlString.Create(dateTime.ToRelativeDate());
+        }
+
+        public static IHtmlString AntiForgeryTokenValue(this HtmlHelper htmlHelper)
+        {
+            var field = htmlHelper.AntiForgeryToken().ToHtmlString();
+            var beginIndex = field.IndexOf("value=\"") + 7;
+            var endIndex = field.IndexOf("\"", beginIndex);
+            return new HtmlString(field.Substring(beginIndex, endIndex - beginIndex));
         }
 
         private static string ToRelativeDate(this DateTime dateTime)

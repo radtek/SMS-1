@@ -464,15 +464,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ExpireUserAccountOrganisation(Guid uaoID);
 
-		/// <param name="companyName"></param>
-		/// <param name="postalCode"></param>
+		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(String companyName,String postalCode);
+		Task<Boolean> IsOrganisationInSystemAsync(String regulatorNumber);
 
-		/// <param name="companyName"></param>
-		/// <param name="postalCode"></param>
+		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(String companyName,String postalCode);
+		Boolean IsOrganisationInSystem(String regulatorNumber);
 
 		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
@@ -503,6 +501,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationType"></param>
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
+
+		/// <param name="organisationId"></param>
+		/// <returns></returns>
+		Task<Guid> AddNewOrganisationAdministratorAsync(Guid organisationId);
+
+		/// <param name="organisationId"></param>
+		/// <returns></returns>
+		Guid AddNewOrganisationAdministrator(Guid organisationId);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
@@ -2543,28 +2549,24 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="companyName"></param>
-		/// <param name="postalCode"></param>
+		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		public virtual Task<List<VOrganisationWithStatusAndAdminDTO>> FindDuplicateOrganisationsAsync(String companyName,String postalCode)
+		public virtual Task<Boolean> IsOrganisationInSystemAsync(String regulatorNumber)
 		{
-			companyName = companyName.UrlEncode();
-			postalCode = postalCode.UrlEncode();
+			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?companyName=" + companyName + "&postalCode=" + postalCode, null, _user);
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?regulatorNumber=" + regulatorNumber, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="companyName"></param>
-		/// <param name="postalCode"></param>
-		public virtual List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(String companyName,String postalCode)
+		/// <param name="regulatorNumber"></param>
+		public virtual Boolean IsOrganisationInSystem(String regulatorNumber)
 		{
-			companyName = companyName.UrlEncode();
-			postalCode = postalCode.UrlEncode();
+			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, List<VOrganisationWithStatusAndAdminDTO>>("api/OrganisationLogic/FindDuplicateOrganisations?companyName=" + companyName + "&postalCode=" + postalCode, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?regulatorNumber=" + regulatorNumber, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2647,6 +2649,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync?organisationType=" + organisationType, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationId"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> AddNewOrganisationAdministratorAsync(Guid organisationId)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddNewOrganisationAdministrator?organisationId=" + organisationId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationId"></param>
+		public virtual Guid AddNewOrganisationAdministrator(Guid organisationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddNewOrganisationAdministrator?organisationId=" + organisationId, null, _user)).Result;
 		}
 
 		/// <summary>

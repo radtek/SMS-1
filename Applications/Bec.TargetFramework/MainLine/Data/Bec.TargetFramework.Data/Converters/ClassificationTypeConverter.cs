@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Entities
               target.ClassificationTypeCategory_ClassificationTypeCategoryID = source.ClassificationTypeCategory_ClassificationTypeCategoryID.ToDtoWithRelated(level - 1);
               target.ClassificationTypeCategory_ParentClassificationTypeCategoryID = source.ClassificationTypeCategory_ParentClassificationTypeCategoryID.ToDtoWithRelated(level - 1);
               target.UserAccountArchives = source.UserAccountArchives.ToDtosWithRelated(level - 1);
+              target.Organisations = source.Organisations.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method

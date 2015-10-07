@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationDTO() {
         }
 
-        public OrganisationDTO(global::System.Guid organisationID, int organisationTypeID, global::System.Nullable<int> organisationSubTypeID, global::System.Nullable<int> organisationCategoryID, bool isBranch, bool isHeadOffice, bool isActive, bool isDeleted, bool isUserOrganisation, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<int> organisationSubCategoryID, global::System.Guid defaultOrganisationID, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> parentOrganisationID, global::System.Nullable<bool> isPaymentProvider, global::System.Nullable<System.Guid> primaryContactID, global::System.Nullable<bool> isCompanyVerified, string returnUrl, global::System.Nullable<long> rowVersion, ContactDTO contact, DefaultOrganisationDTO defaultOrganisation, OrganisationTypeDTO organisationType, List<AttachmentDetailDTO> attachmentDetails, List<DiscountDTO> discounts, List<InvoiceDTO> invoices, List<OrganisationInsuranceDetailDTO> organisationInsuranceDetails, List<NotificationConstructTemplateDTO> notificationConstructTemplates, List<OrganisationDetailDTO> organisationDetails, List<OrganisationLedgerAccountDTO> organisationLedgerAccounts, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationBankAccountDTO> organisationBankAccounts, List<OrganisationAccountingPeriodDTO> organisationAccountingPeriods, List<OrganisationArtefactDTO> organisationArtefacts, List<OrganisationDiscountDTO> organisationDiscounts, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationStatusDTO> organisationStatus, List<OrganisationTradingNameDTO> organisationTradingNames, List<OrganisationRoleDTO> organisationRoles, List<OrganisationSettingDTO> organisationSettings, List<OrganisationStructureDTO> organisationStructures, List<OrganisationProductPurchaseDTO> organisationProductPurchases, List<OrganisationPlanSubscriptionDTO> organisationPlanSubscriptions, List<OrganisationShoppingCartBlueprintDTO> organisationShoppingCartBlueprints, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<OrganisationTeamDTO> organisationTeams, List<OrganisationUserTypeDTO> organisationUserTypes, List<PlanSubscriptionDTO> planSubscriptions, List<ShoppingCartDTO> shoppingCarts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationUnitDTO> organisationUnits, List<OrganisationUnitStructureDTO> organisationUnitStructures, List<AccountDTO> accounts_ContactOrganisationID, List<AccountDTO> accounts_ParentOrganisationID, List<OrganisationGroupDTO> organisationGroups, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<SmsTransactionDTO> smsTransactions) {
+        public OrganisationDTO(global::System.Guid organisationID, int organisationTypeID, global::System.Nullable<int> organisationSubTypeID, global::System.Nullable<int> organisationCategoryID, bool isBranch, bool isHeadOffice, bool isActive, bool isDeleted, bool isUserOrganisation, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, global::System.Nullable<int> organisationSubCategoryID, global::System.Guid defaultOrganisationID, int defaultOrganisationVersionNumber, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> parentOrganisationID, global::System.Nullable<bool> isPaymentProvider, global::System.Nullable<System.Guid> primaryContactID, global::System.Nullable<bool> isCompanyVerified, string returnUrl, global::System.Nullable<long> rowVersion, global::System.Nullable<int> organisationRecommendationSourceID, ContactDTO contact, DefaultOrganisationDTO defaultOrganisation, OrganisationTypeDTO organisationType, List<AttachmentDetailDTO> attachmentDetails, List<DiscountDTO> discounts, List<InvoiceDTO> invoices, List<OrganisationInsuranceDetailDTO> organisationInsuranceDetails, List<NotificationConstructTemplateDTO> notificationConstructTemplates, List<OrganisationDetailDTO> organisationDetails, List<OrganisationLedgerAccountDTO> organisationLedgerAccounts, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, List<OrganisationFinancialDetailDTO> organisationFinancialDetails, List<OrganisationBankAccountDTO> organisationBankAccounts, List<OrganisationAccountingPeriodDTO> organisationAccountingPeriods, List<OrganisationArtefactDTO> organisationArtefacts, List<OrganisationDiscountDTO> organisationDiscounts, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationStatusDTO> organisationStatus, List<OrganisationTradingNameDTO> organisationTradingNames, List<OrganisationRoleDTO> organisationRoles, List<OrganisationSettingDTO> organisationSettings, List<OrganisationStructureDTO> organisationStructures, List<OrganisationProductPurchaseDTO> organisationProductPurchases, List<OrganisationPlanSubscriptionDTO> organisationPlanSubscriptions, List<OrganisationShoppingCartBlueprintDTO> organisationShoppingCartBlueprints, List<OrganisationStatusTypeDTO> organisationStatusTypes, List<OrganisationTeamDTO> organisationTeams, List<OrganisationUserTypeDTO> organisationUserTypes, List<PlanSubscriptionDTO> planSubscriptions, List<ShoppingCartDTO> shoppingCarts, List<UserAccountOrganisationDTO> userAccountOrganisations, List<OrganisationUnitDTO> organisationUnits, List<OrganisationUnitStructureDTO> organisationUnitStructures, List<AccountDTO> accounts_ContactOrganisationID, List<AccountDTO> accounts_ParentOrganisationID, List<OrganisationGroupDTO> organisationGroups, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<SmsTransactionDTO> smsTransactions, ClassificationTypeDTO classificationType) {
 
           this.OrganisationID = organisationID;
           this.OrganisationTypeID = organisationTypeID;
@@ -47,6 +47,7 @@ namespace Bec.TargetFramework.Entities
           this.IsCompanyVerified = isCompanyVerified;
           this.ReturnUrl = returnUrl;
           this.RowVersion = rowVersion;
+          this.OrganisationRecommendationSourceID = organisationRecommendationSourceID;
           this.Contact = contact;
           this.DefaultOrganisation = defaultOrganisation;
           this.OrganisationType = organisationType;
@@ -85,6 +86,7 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationGroups = organisationGroups;
           this.OrganisationRoleClaims = organisationRoleClaims;
           this.SmsTransactions = smsTransactions;
+          this.ClassificationType = classificationType;
         }
 
         #endregion
@@ -159,6 +161,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<long> RowVersion { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<int> OrganisationRecommendationSourceID { get; set; }
 
         #endregion
 
@@ -277,6 +282,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<SmsTransactionDTO> SmsTransactions { get; set; }
+
+        [DataMember]
+        public ClassificationTypeDTO ClassificationType { get; set; }
 
         #endregion
     }

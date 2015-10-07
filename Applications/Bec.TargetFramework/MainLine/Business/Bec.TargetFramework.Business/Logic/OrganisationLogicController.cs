@@ -73,14 +73,22 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(string companyName, string postalCode)
+        public async Task<bool> IsOrganisationInSystem(string regulatorNumber)
         {
-            Ensure.That(postalCode).IsNotNullOrWhiteSpace();
+            Ensure.That(regulatorNumber).IsNotNullOrWhiteSpace();
 
-            using (var scope = DbContextScopeFactory.Create())
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var query = GetDuplicateOrganisations(companyName, postalCode);
-                return query.OrderBy(c => c.Name).ThenBy(c => c.CreatedOn).ToDtos();
+                var rejectedStatusName = ProfessionalOrganisationStatusEnum.Rejected.GetStringValue();
+                var unverifiedStatusName = ProfessionalOrganisationStatusEnum.Unverified.GetStringValue();
+                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
+                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
+                    .Where(item => 
+                        item.RegulatorNumber.ToLower() == regulatorNumber.Trim().ToLower() &&
+                        item.StatusValueName != rejectedStatusName &&
+                        item.StatusValueName != unverifiedStatusName);
+
+                return query.Count() > 0;
             }
         }
 
@@ -103,7 +111,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var checkStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                var org = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Single(c => c.OrganisationID == organisationID);
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.First(c => c.OrganisationID == organisationID);
                 if (org.StatusTypeValueID != checkStatus.StatusTypeValueID) throw new Exception(string.Format("Cannot activate a company of status '{0}'. Please go back and try again.", org.StatusValueName));
 
                 await AddOrganisationStatusAsync(organisationID, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Active, null, null);
@@ -121,8 +129,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-
-
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             DefaultOrganisationDTO defaultOrganisation = null;
@@ -135,32 +141,36 @@ namespace Bec.TargetFramework.Business.Logic
             }
             Ensure.That(defaultOrganisation).IsNotNull();
 
-            bool isDuplicate = true;
-            // check if the organisation is not a duplicate
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                isDuplicate = GetDuplicateOrganisations(dto.CompanyName, dto.PostalCode).Any();
-            }
-            Ensure.That(isDuplicate).IsFalse();
-
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
+
+            return organisationID;
+        }
+
+        public async Task<Guid> AddNewOrganisationAdministrator(Guid organisationId)
+        {
+            ContactDTO contactDto;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                contactDto = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == organisationId).ToDto();
+            }
 
             var randomUsername = RandomPasswordGenerator.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
-                Telephone1 = dto.OrganisationAdminTelephone,
-                FirstName = dto.OrganisationAdminFirstName,
-                LastName = dto.OrganisationAdminLastName,
-                EmailAddress1 = dto.OrganisationAdminEmail,
-                Salutation = dto.OrganisationAdminSalutation,
+                Telephone1 = contactDto.Telephone1,
+                FirstName = contactDto.FirstName,
+                LastName = contactDto.LastName,
+                EmailAddress1 = contactDto.EmailAddress1,
+                Salutation = contactDto.Salutation,
                 CreatedBy = UserNameService.UserName
             };
 
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationId, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
+            Ensure.That(uaoDto).IsNotNull();
 
-            return organisationID;
+            return uaoDto.UserAccountOrganisationID;
         }
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
@@ -330,8 +340,10 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.CompanyName,
+                    dto.TradingName,
                     "",
-                    UserNameService.UserName);
+                    UserNameService.UserName,
+                    dto.OrganisationRecommendationSource.GetIntValue());
 
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();
@@ -346,7 +358,12 @@ namespace Bec.TargetFramework.Business.Logic
                     ParentID = organisationID.Value,
                     ContactName = "",
                     IsPrimaryContact = true,
-                    CreatedBy = UserNameService.UserName
+                    CreatedBy = UserNameService.UserName,
+                    Telephone1 = dto.OrganisationAdminTelephone,
+                    FirstName = dto.OrganisationAdminFirstName,
+                    LastName = dto.OrganisationAdminLastName,
+                    EmailAddress1 = dto.OrganisationAdminEmail,
+                    Salutation = dto.OrganisationAdminSalutation,
                 };
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
@@ -375,7 +392,6 @@ namespace Bec.TargetFramework.Business.Logic
                     AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
                     Name = String.Empty,
                     IsPrimaryAddress = true,
-                    AdditionalAddressInformation = dto.AdditionalAddressInformation,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
@@ -942,20 +958,6 @@ namespace Bec.TargetFramework.Business.Logic
                     WasActive = bankAccountAddStatus.WasActive
                 });
                 await scope.SaveChangesAsync();
-            }
-        }
-
-        private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(string companyName, string postalCode)
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
-                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
-                    .Where(item =>
-                        item.PostalCode.ToLower() == postalCode.Trim().ToLower() &&
-                        item.Name.ToLower() == companyName.Trim().ToLower());
-
-                return query;
             }
         }
 

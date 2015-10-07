@@ -1747,7 +1747,9 @@
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
       <Exclude Name="RowVersion" Table="public.Organisation" Type="Column" />
+      <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />

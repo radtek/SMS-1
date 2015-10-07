@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.Presentation.Web.Base;
-using ServiceStack.ServiceHost;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Business.Client.Interfaces;
-using System.Threading.Tasks;
+using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -47,25 +42,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(jsonData, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewAddTempCompany()
-        {
-            return PartialView("_AddTempCompany");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddTempCompany(AddCompanyDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                var id = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum.Conveyancing, model);
-
-                TempData["AddTempCompanyId"] = id;
-            }
-
-            return RedirectToAction("Provisional");
-        }
-
         public async Task<ActionResult> ViewRejectTempCompany(Guid orgId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
@@ -83,20 +59,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId)
+        public async Task<ActionResult> ViewGeneratePin(Guid orgId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
-            ViewBag.uaoId = uaoId;
             ViewBag.companyName = org.Name;
             return PartialView("_GeneratePin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
+        public async Task<ActionResult> GeneratePin(Guid orgId, string notes)
         {
+            var uaoId = await OrganisationClient.AddNewOrganisationAdministratorAsync(orgId);
             await UserLogicClient.GeneratePinAsync(uaoId, false, false);
             
             //set org status
@@ -105,15 +81,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
-        }
-
-        public async Task<ActionResult> ViewDuplicates(string CompanyName, string PostalCode)
-        {
-            var list = await OrganisationClient.FindDuplicateOrganisationsAsync(CompanyName, PostalCode);
-            if (list.Count > 0)
-                return PartialView("_Duplicates", list);
-            else
-                return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewResendLogins(Guid uaoId, string label)

@@ -21,12 +21,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
 
-        HttpClient httpClient;
+        private readonly CaptchaService _captchaService;
         public ForgotController()
         {
-            httpClient = new HttpClient { BaseAddress = new Uri("https://www.google.com/recaptcha/api/") };
+            _captchaService = new CaptchaService();
         }
-        // GET: Account/Forgot
+
         public ActionResult Username()
         {
             return View();
@@ -41,7 +41,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Username(string email)
         {
-            var response = await ValidateCaptcha();
+            var response = await _captchaService.ValidateCaptcha(Request);
             //send email if the email address is found
             if (response.success)
             {
@@ -62,7 +62,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Password(string username)
         {
-            var response = await ValidateCaptcha();
+
+            var response = await _captchaService.ValidateCaptcha(Request);
             if (response.success)
             {
                 //send email if the username is found
@@ -108,7 +109,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reset(ResetPasswordModel model)
         {
-            
+
             //expire the reset request
             var requestUserID = await UserLogicClient.ExpirePasswordResetRequestAsync(model.RequestID);
 
@@ -127,16 +128,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
                 return View("ForgotDone");
             }
-        }
-
-        private async Task<CaptchaResponse> ValidateCaptcha()
-        {
-            string g_recaptcha_response = Request["g-recaptcha-response"];
-            var remote_ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.UserHostAddress;
-            var gr = await httpClient.PostAsync("siteverify?secret=6LfblQcTAAAAAFCb0kLLPOhJnU8YgwrjIjw-XVNI&response=" + g_recaptcha_response + "&remoteip=" + remote_ip, null);
-            gr.EnsureSuccessStatusCode();
-            var response = await gr.Content.ReadAsAsync<CaptchaResponse>();
-            return response;
         }
     }
 }
