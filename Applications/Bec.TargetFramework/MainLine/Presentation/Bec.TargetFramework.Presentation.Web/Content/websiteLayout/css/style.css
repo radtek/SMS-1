@@ -102,6 +102,7 @@ audio:not([controls]) {
 }
 strong {
   font-weight: bold;
+  color: #5a5a5a;
 }
 html {
   font-size: 100%;
@@ -779,33 +780,36 @@ form fieldset legend {
 }
 form select.form-control {
   height: 38px;
+  box-sizing: border-box;
+  outline: 0 none;
+  -moz-appearance: none !important;
 }
-form .btn-primary {
+.btn-primary {
   background-color: #b7d24f;
   border: 1px solid #b7d24f;
 }
-form .btn-primary:hover {
+.btn-primary:hover {
   border: 1px solid #b7d24f;
   background-color: #afcd3b;
 }
-form .btn-primary:active,
-form .btn-primary:focus,
-form .btn-primary:visited {
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:visited {
   border: 1px solid #b7d24f !important;
   background-color: #afcd3b !important;
 }
-form .btn-primary[disabled] {
+.btn-primary[disabled] {
   background-color: #b7d24f !important;
   border-color: #a0be30 !important;
 }
-form .state-error input,
-form .state-error select,
-form .state-error textarea,
-form input.invalid {
+.state-error input,
+.state-error select,
+.state-error textarea,
+input.invalid {
   border: 1px solid #a90329;
   background-color: #fff5f5;
 }
-form em.invalid {
+em.invalid {
   display: block;
   margin-top: 5px;
   padding: 0 1px;
@@ -830,6 +834,14 @@ form em.invalid {
 .client-form .fields {
   background-color: white;
 }
+.client-form .fields label {
+  margin-top: 5px;
+  font-weight: normal !important;
+}
+.client-form .fields strong {
+  display: inline-block;
+  margin-top: 15px !important;
+}
 .client-form fieldset {
   margin: 0;
   padding: 30px;
@@ -844,6 +856,9 @@ form em.invalid {
   margin-top: 10px;
   color: #aaa;
   text-align: left;
+}
+.modal-dialog .modal-body .label {
+  color: #747474;
 }
 .foot-note label {
   font-weight: normal !important;

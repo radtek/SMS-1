@@ -39,6 +39,7 @@ audio:not([controls]) {
 
 strong {
     font-weight: bold;
+    color: darken(@text-color, 10%);
 }
 
 html {
@@ -839,88 +840,115 @@ form {
 
     select.form-control {
         height: 38px;
-    }
-
-    .btn-primary {
-        background-color: @primary-color;
-        border: 1px solid @primary-color;
-
-        &:hover {
-            border: 1px solid @primary-color;
-            background-color: darken(@primary-color, 5%);
-        }
-
-        &:active,
-        &:focus,
-        &:visited {
-            border: 1px solid @primary-color !important;
-            background-color: darken(@primary-color, 5%) !important;
-        }
-
-        &[disabled]{
-            background-color: @primary-color !important;
-            border-color: darken(@primary-color, 10%) !important;
-        }
-    }
-
-    .state-error input, 
-    .state-error select, 
-    .state-error textarea, 
-    input.invalid {
-        border: 1px solid #a90329;
-        background-color: #fff5f5;
-    }
-
-    em.invalid {
-        display: block;
-        margin-top: 5px;
-        padding: 0 1px;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 15px;
-        color: #d56161;
+        box-sizing: border-box;
+        outline: 0 none;
+        -moz-appearance: none !important;
     }
 }
 
-.client-form{
-    header{
+.btn-primary {
+    background-color: @primary-color;
+    border: 1px solid @primary-color;
+
+    &:hover {
+        border: 1px solid @primary-color;
+        background-color: darken(@primary-color, 5%);
+    }
+
+    &:active,
+    &:focus,
+    &:visited {
+        border: 1px solid @primary-color !important;
+        background-color: darken(@primary-color, 5%) !important;
+    }
+
+    &[disabled] {
+        background-color: @primary-color !important;
+        border-color: darken(@primary-color, 10%) !important;
+    }
+}
+
+.state-error input,
+.state-error select,
+.state-error textarea,
+input.invalid {
+    border: 1px solid #a90329;
+    background-color: #fff5f5;
+}
+
+em.invalid {
+    display: block;
+    margin-top: 5px;
+    padding: 0 1px;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #d56161;
+}
+
+.client-form {
+    header {
         border-bottom: 1px solid #dfdfdf;
         padding: 20px;
-        h1{
-            margin:0 !important;
+
+        h1 {
+            margin: 0 !important;
             font-size: 1.6em !important;
         }
     }
-    footer{
+
+    footer {
         border-top: 1px solid #ddd;
         padding: 15px 20px;
         background-image: none;
     }
 
-    .fields{
+    .fields {
         background-color: white;
+
+        label {
+            margin-top: 5px;
+            font-weight: normal !important;
+        }
+
+        strong {
+            display: inline-block;
+            margin-top: 15px !important;
+        }
     }
-    fieldset{
-        margin:0;
-        padding: 30px
+
+    fieldset {
+        margin: 0;
+        padding: 30px;
     }
-    .captcha{
+
+    .captcha {
         margin-top: 20px;
     }
-    .form-group{
+
+    .form-group {
         margin: 0;
     }
-    .version{
-        margin-top:10px;
+
+    .version {
+        margin-top: 10px;
         color: #aaa;
-        text-align:left;
+        text-align: left;
     }
 }
 
-.foot-note label{
+.modal-dialog{
+    .modal-body{
+        .label{
+            color: @text-color;
+        }
+    }
+}
+
+.foot-note label {
     font-weight: normal !important;
 }
 
-.no-padding{
+.no-padding {
     padding: 0 !important;
 }

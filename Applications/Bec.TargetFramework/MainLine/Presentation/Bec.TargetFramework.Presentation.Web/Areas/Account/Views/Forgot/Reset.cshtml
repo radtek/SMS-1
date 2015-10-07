@@ -1,49 +1,55 @@
 ﻿@model Bec.TargetFramework.Presentation.Web.Models.ResetPasswordModel
 @{
-    ViewBag.PageId = "extr-page";
+    ViewBag.Title = "Password Reset";
 }
 
-<div id="content" class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-            <div class="well no-padding">
-                <form action="@Url.Action("Reset", "Forgot", new { area = "Account"})" id="reset-form" method="POST" class="smart-form client-form">
-                    <header>
-                        Password Reset
-                    </header>
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationBootstrap()
-                    @Html.HiddenFor(model => model.RequestID, new { Value = ViewBag.RequestID })
-                    <fieldset>
-                        <section>
-                            <label class="label">Please enter your registered Username</label>
-                            <label class="input">
-                                @Html.TextBoxFor(m => m.Username)
-                            </label>
-                        </section>
-                        <!--captcha-->
-
-                        <section>
-                            <label class="label">Please enter your new password</label>
-                            <label class="input">
-                                @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25 })
-                            </label>
-                        </section>
-                        <section>
-                            <label class="label">Please confirm your new password</label>
-                            <label class="input">
-                                <input type="password" name="confirmPassword" maxlength="25" />
-                            </label>
-                        </section>
-                    </fieldset>
-                    <footer>
-                        <button type="submit" id="formSubmit" class="btn btn-primary">
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+        <form action="@Url.Action("Reset", "Forgot", new { area = "Account"})" id="reset-form" method="POST" class="client-form well no-padding">
+            @Html.ValidationBootstrap()
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.RequestID, new { Value = ViewBag.RequestID })
+            <header>
+                <h1>Password Reset</h1>
+            </header>
+            <section class="fields">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="username">Please enter your registered Username</label>
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="username">Please enter your new password</label>
+                                @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25, @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="username">Please confirm your new password</label>
+                                <input type="password" name="confirmPassword" maxlength="25" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+            <footer>
+                <div class="row">
+                    <div class="col-sm-offset-9 col-sm-3">
+                        <button type="submit" id="formSubmit" class="btn btn-primary btn-block" disabled>
                             Submit
                         </button>
-                    </footer>
-                </form>
-            </div>
-        </div>
+                    </div>
+                </div>
+            </footer>
+        </form>
     </div>
 </div>
 

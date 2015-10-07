@@ -3,7 +3,6 @@
     <div class="row">
 
         <h2 class="row-seperator-header inline-heading">View Provisional Companies</h2>
-        <a data-href="@Url.Action("ViewAddTempCompany","Company",new {area  = "Admin"})" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Company</a>
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
@@ -29,7 +28,6 @@
                             <div class="well">
                                 <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })">Reject Company</a>
                                 <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin" })">Generate PIN</a>
-                                <a id="uEmailLogButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEmailLog", "Company", new { area = "Admin" })">View Email Log</a>
                                 <h5>Company</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>

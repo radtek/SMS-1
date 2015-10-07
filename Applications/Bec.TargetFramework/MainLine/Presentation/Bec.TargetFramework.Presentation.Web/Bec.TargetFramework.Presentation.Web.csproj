@@ -233,7 +233,6 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
-    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
@@ -799,7 +798,6 @@
     <Content Include="Areas\Admin\Views\Company\Provisional.cshtml" />
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
-    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.cshtml" />
     <Content Include="Areas\Account\Views\Login\SessionExpired.cshtml" />
     <Content Include="Areas\Account\Views\Login\LoggedOutByAnother.cshtml" />
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
@@ -814,7 +812,6 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Views\Shared\_ResendLogins.cshtml" />
