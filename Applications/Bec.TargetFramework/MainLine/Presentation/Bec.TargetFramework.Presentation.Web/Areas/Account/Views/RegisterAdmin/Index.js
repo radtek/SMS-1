@@ -55,7 +55,19 @@ $(function () {
             },
             RegulatorNumber: {
                 required: true,
-                number: true
+                number: true,
+                remote: {
+                    url: $('#RegulatorNumber').data("url"),
+                    data: {
+                        regulatorNumber: function () {
+                            return $('#RegulatorNumber').val();
+                        },
+                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
             },
             OrganisationAdminSalutation: {
                 required: true

@@ -44,8 +44,8 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="@Html.IdFor(m => m.RegulatorNumber)">SRA ID/MIS</label>
-                    @Html.TextBoxFor(m => m.RegulatorNumber, new { maxlength = 50, tabindex = 4, @class = "form-control" })
+                    <label for="@Html.IdFor(m => m.RegulatorNumber)">SRA ID/MIS Number</label>
+                    @Html.TextBoxFor(m => m.RegulatorNumber, new { maxlength = 50, tabindex = 4, @class = "form-control", data_url = Url.Action("Check", "CompanyDuplicateCheck", new { Area = "" }) })
                     <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                 </div>
             </div>

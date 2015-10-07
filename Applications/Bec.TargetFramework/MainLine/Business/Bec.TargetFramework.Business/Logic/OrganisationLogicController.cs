@@ -73,14 +73,20 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VOrganisationWithStatusAndAdminDTO> FindDuplicateOrganisations(string companyName, string postalCode)
+        public async Task<bool> IsOrganisationInSystem(string regulatorNumber)
         {
-            Ensure.That(postalCode).IsNotNullOrWhiteSpace();
+            Ensure.That(regulatorNumber).IsNotNullOrWhiteSpace();
 
-            using (var scope = DbContextScopeFactory.Create())
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var query = GetDuplicateOrganisations(companyName, postalCode);
-                return query.OrderBy(c => c.Name).ThenBy(c => c.CreatedOn).ToDtos();
+                var rejectedStatusName = ProfessionalOrganisationStatusEnum.Rejected.GetStringValue();
+                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
+                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
+                    .Where(item => 
+                        item.RegulatorNumber.ToLower() == regulatorNumber.Trim().ToLower() &&
+                        item.StatusValueName != rejectedStatusName);
+
+                return query.Count() > 0;
             }
         }
 
@@ -120,8 +126,6 @@ namespace Bec.TargetFramework.Business.Logic
                 return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Where(item => item.StatusTypeValueID == status.StatusTypeValueID).ToDtos();
             }
         }
-
-
 
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
@@ -952,20 +956,6 @@ namespace Bec.TargetFramework.Business.Logic
                     WasActive = bankAccountAddStatus.WasActive
                 });
                 await scope.SaveChangesAsync();
-            }
-        }
-
-        private IQueryable<VOrganisationWithStatusAndAdmin> GetDuplicateOrganisations(string companyName, string postalCode)
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
-                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
-                    .Where(item =>
-                        item.PostalCode.ToLower() == postalCode.Trim().ToLower() &&
-                        item.Name.ToLower() == companyName.Trim().ToLower());
-
-                return query;
             }
         }
 
