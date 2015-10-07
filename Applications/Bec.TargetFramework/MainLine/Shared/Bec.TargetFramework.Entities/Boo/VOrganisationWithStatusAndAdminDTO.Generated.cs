@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationWithStatusAndAdminDTO() {
         }
 
-        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID) {
+        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regOrganisationAdminSalutation, string regOrganisationAdminFirstName, string regOrganisationAdminLastName, string regOrganisationAdminTelephone, string regOrganisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID) {
 
           this.OrganisationID = organisationID;
           this.Name = name;
@@ -36,6 +36,11 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationAdminLastName = organisationAdminLastName;
           this.OrganisationAdminTelephone = organisationAdminTelephone;
           this.OrganisationAdminEmail = organisationAdminEmail;
+          this.RegOrganisationAdminSalutation = regOrganisationAdminSalutation;
+          this.RegOrganisationAdminFirstName = regOrganisationAdminFirstName;
+          this.RegOrganisationAdminLastName = regOrganisationAdminLastName;
+          this.RegOrganisationAdminTelephone = regOrganisationAdminTelephone;
+          this.RegOrganisationAdminEmail = regOrganisationAdminEmail;
           this.Regulator = regulator;
           this.RegulatorOther = regulatorOther;
           this.RegulatorNumber = regulatorNumber;
@@ -100,6 +105,21 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string OrganisationAdminEmail { get; set; }
+
+        [DataMember]
+        public string RegOrganisationAdminSalutation { get; set; }
+
+        [DataMember]
+        public string RegOrganisationAdminFirstName { get; set; }
+
+        [DataMember]
+        public string RegOrganisationAdminLastName { get; set; }
+
+        [DataMember]
+        public string RegOrganisationAdminTelephone { get; set; }
+
+        [DataMember]
+        public string RegOrganisationAdminEmail { get; set; }
 
         [DataMember]
         public string Regulator { get; set; }

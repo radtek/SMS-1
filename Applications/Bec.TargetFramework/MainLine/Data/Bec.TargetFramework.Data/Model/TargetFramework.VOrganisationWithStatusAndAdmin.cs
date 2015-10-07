@@ -148,6 +148,56 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for RegOrganisationAdminSalutation in the schema.
+        /// </summary>
+        public virtual string RegOrganisationAdminSalutation
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for RegOrganisationAdminFirstName in the schema.
+        /// </summary>
+        public virtual string RegOrganisationAdminFirstName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for RegOrganisationAdminLastName in the schema.
+        /// </summary>
+        public virtual string RegOrganisationAdminLastName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for RegOrganisationAdminTelephone in the schema.
+        /// </summary>
+        public virtual string RegOrganisationAdminTelephone
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for RegOrganisationAdminEmail in the schema.
+        /// </summary>
+        public virtual string RegOrganisationAdminEmail
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for Regulator in the schema.
         /// </summary>
         public virtual string Regulator

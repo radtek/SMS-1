@@ -629,6 +629,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for LegalOrganisationDetail in the schema.
+        /// </summary>
+        public virtual LegalOrganisationDetail LegalOrganisationDetail
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

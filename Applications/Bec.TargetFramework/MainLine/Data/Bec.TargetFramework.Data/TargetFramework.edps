@@ -1772,6 +1772,46 @@
       <Exclude Name="CompanyPostCode" Table="public.vCompany" Type="Column" />
       <Exclude Name="AdditionalAddressInformation" Table="public.vCompany" Type="Column" />
       <Exclude Name="ReturnUrl" Table="public.vCompany" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Name" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationVerified" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegOrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegOrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegOrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegOrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegOrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Regulator" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorOther" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line1" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line2" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Town" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="County" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PostalCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminUserID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Reason" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Notes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedNotes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="BalanceOn" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
@@ -1861,6 +1901,24 @@
       <Exclude Name="IsMultipleProductCombinationDiscount" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountPercentageBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="IsMultipleProductCombinationDiscountCheapestFreeBased" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
+      <Exclude Name="SmsUserAccountOrganisationTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="SmsTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="AddressID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="ContactID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="IsActive" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="IsDeleted" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="CreatedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="CreatedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="ModifiedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="ModifiedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_pkey" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_Address_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_Contact_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
+      <Exclude Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
     </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public LegalOrganisationDetailDTO() {
         }
 
-        public LegalOrganisationDetailDTO(global::System.Guid organisationID, bool isVATRegistered, string vATNumber, bool isCompanyHouseRegistered, string registeredCompanyNumber, global::System.Nullable<int> partnersCount, global::System.Nullable<int> registeredPractitionersCount, global::System.Nullable<int> staffCount, global::System.Nullable<int> monthlyCompletionsCount, bool isActive, bool isDeleted) {
+        public LegalOrganisationDetailDTO(global::System.Guid organisationID, bool isVATRegistered, string vATNumber, bool isCompanyHouseRegistered, string registeredCompanyNumber, global::System.Nullable<int> partnersCount, global::System.Nullable<int> registeredPractitionersCount, global::System.Nullable<int> staffCount, global::System.Nullable<int> monthlyCompletionsCount, bool isActive, bool isDeleted, OrganisationDTO organisation) {
 
           this.OrganisationID = organisationID;
           this.IsVATRegistered = isVATRegistered;
@@ -35,6 +35,7 @@ namespace Bec.TargetFramework.Entities
           this.MonthlyCompletionsCount = monthlyCompletionsCount;
           this.IsActive = isActive;
           this.IsDeleted = isDeleted;
+          this.Organisation = organisation;
         }
 
         #endregion
@@ -73,6 +74,13 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsDeleted { get; set; }
+
+        #endregion
+
+        #region Navigation Properties
+
+        [DataMember]
+        public OrganisationDTO Organisation { get; set; }
 
         #endregion
     }

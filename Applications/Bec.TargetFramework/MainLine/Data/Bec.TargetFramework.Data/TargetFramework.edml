@@ -2922,6 +2922,10 @@
             <End Role="ClassificationType" EntitySet="ClassificationTypes" />
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
+          <AssociationSet Name="fk_LegalOrganisationDetails_Organisation" Association="Bec.TargetFramework.Data.Store.fk_LegalOrganisationDetails_Organisation">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="LegalOrganisationDetails" EntitySet="LegalOrganisationDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9654,6 +9658,11 @@
           <Property Name="OrganisationAdminLastName" Type="varchar" MaxLength="100" />
           <Property Name="OrganisationAdminTelephone" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationAdminEmail" Type="varchar" MaxLength="100" />
+          <Property Name="RegOrganisationAdminSalutation" Type="varchar" MaxLength="100" />
+          <Property Name="RegOrganisationAdminFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="RegOrganisationAdminLastName" Type="varchar" MaxLength="50" />
+          <Property Name="RegOrganisationAdminTelephone" Type="varchar" MaxLength="200" />
+          <Property Name="RegOrganisationAdminEmail" Type="varchar" MaxLength="100" />
           <Property Name="Regulator" Type="varchar" MaxLength="500" />
           <Property Name="RegulatorOther" Type="varchar" MaxLength="500" />
           <Property Name="RegulatorNumber" Type="varchar" MaxLength="50" />
@@ -17959,6 +17968,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LegalOrganisationDetails_Organisation">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
+          <End Role="LegalOrganisationDetails" Type="Bec.TargetFramework.Data.Store.LegalOrganisationDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="LegalOrganisationDetails">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -20829,6 +20850,10 @@
           <AssociationSet Name="Organisation_ClassificationType_OrganisationRecSrc_fkSet" Association="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk">
             <End Role="ClassificationType" EntitySet="ClassificationTypes" />
             <End Role="Organisations" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalOrganisationDetails_OrganisationSet" Association="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="LegalOrganisationDetail" EntitySet="LegalOrganisationDetails" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -27468,6 +27493,7 @@
           <Property Name="MonthlyCompletionsCount" Type="Int32" ed:ValidateRequired="False" ed:Guid="c61093e3-e39e-4247-96e9-1151ed3ffbbc" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c59aa3d9-544e-432c-b6de-ace5162c0890" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6d23df35-2dd9-422d-b218-5d33e35baf4e" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="LegalOrganisationDetail" ToRole="Organisation" ed:Guid="02d56264-9393-4b00-bcf3-fe0b2997f808" />
         </EntityType>
         <EntityType Name="OrganisationFinancialDetail" ed:Guid="ce6ec3cb-8006-46a8-8208-f6c6bd961491">
           <Key>
@@ -28621,6 +28647,7 @@
           <NavigationProperty Name="OrganisationRoleClaims" Relationship="Bec.TargetFramework.Data.fk_OrganisationRoleClaim_Organisation" FromRole="Organisation" ToRole="OrganisationRoleClaims" ed:Guid="a4f393fe-0d0d-46f6-a479-fb3b5806be58" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="Organisation" ToRole="SmsTransactions" ed:Guid="407e3ad1-f64a-4ac7-8f99-0ef11fbf274a" />
           <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
+          <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -28645,6 +28672,11 @@
           <Property Name="OrganisationAdminLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e8665290-880d-47ad-9eef-7e80f41574d4" />
           <Property Name="OrganisationAdminTelephone" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="29718c63-92bb-4a04-a9ce-bcb7fdef332b" />
           <Property Name="OrganisationAdminEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="2e173aee-d49c-41e6-8ecc-0f71d7cb18d8" />
+          <Property Name="RegOrganisationAdminSalutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="33299d38-4b1a-4124-97c2-a271d6386d34" />
+          <Property Name="RegOrganisationAdminFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="4c8cc678-ca7a-46c9-be5e-a0459b25d1d4" />
+          <Property Name="RegOrganisationAdminLastName" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="a2d6ca7b-b706-4573-923c-a68b5daff423" />
+          <Property Name="RegOrganisationAdminTelephone" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="259e2210-275c-441f-8fb5-129bb4b9575c" />
+          <Property Name="RegOrganisationAdminEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e04a7841-ac62-4aa0-bc81-e2fa6a75912a" />
           <Property Name="Regulator" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="33eb5ef9-04d5-4442-9b95-eab160b499f4" />
           <Property Name="RegulatorOther" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5f68dd2d-591e-4678-bc78-45444dfbd422" />
           <Property Name="RegulatorNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="030e6770-5305-4e5d-b042-c181054afa21" />
@@ -36625,6 +36657,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LegalOrganisationDetails_Organisation" ed:Guid="d6b31cc4-bf90-4278-a465-47ee15ac94c6">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
+          <End Role="LegalOrganisationDetail" Type="Bec.TargetFramework.Data.LegalOrganisationDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="LegalOrganisationDetail">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43157,6 +43201,11 @@
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="RegulatorNumber" ColumnName="RegulatorNumber" />
+                <ScalarProperty Name="RegOrganisationAdminSalutation" ColumnName="RegOrganisationAdminSalutation" />
+                <ScalarProperty Name="RegOrganisationAdminFirstName" ColumnName="RegOrganisationAdminFirstName" />
+                <ScalarProperty Name="RegOrganisationAdminLastName" ColumnName="RegOrganisationAdminLastName" />
+                <ScalarProperty Name="RegOrganisationAdminTelephone" ColumnName="RegOrganisationAdminTelephone" />
+                <ScalarProperty Name="RegOrganisationAdminEmail" ColumnName="RegOrganisationAdminEmail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

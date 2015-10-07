@@ -31,16 +31,22 @@ $(function () {
                         field: "OrganisationAdminLastName",
                         title: "Organisation Administrator",
                         template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName || "") + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName || "");
+                            return kendo.htmlEncode(dataItem.RegOrganisationAdminSalutation) + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminLastName);
                         }
                     },
                     {
                         field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
+                        title: "Telephone Number",
+                        template: function (dataItem) {
+                            return kendo.htmlEncode(dataItem.RegOrganisationAdminTelephone);
+                        }
                     },
                     {
                         field: "OrganisationAdminEmail",
-                        title: "Email"
+                        title: "Email",
+                        template: function (dataItem) {
+                            return kendo.htmlEncode(dataItem.RegOrganisationAdminEmail);
+                        }
                     },
                     {
                         field: "CreatedOn",
@@ -199,10 +205,9 @@ function unverifiedChange(dataItem) {
     $("p#dduCompanyTownCity").text(dataItem.Town || "");
     $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
     $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#dduAdditional").text(dataItem.AdditionalAddressInformation || "");
-    $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-    $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
+    $("p#dduSystemAdminEmail").text(dataItem.RegOrganisationAdminEmail || "");
+    $("p#dduSystemAdminTel").text(dataItem.RegOrganisationAdminTelephone || "");
+    $("p#dduSystemAdminName").text((dataItem.RegOrganisationAdminSalutation || "") + " " + (dataItem.RegOrganisationAdminFirstName || "") + " " + (dataItem.RegOrganisationAdminLastName || ""));
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
@@ -222,7 +227,6 @@ function verifiedChange(dataItem) {
     $("p#ddvCompanyTownCity").text(dataItem.Town || "");
     $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#ddvAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation || "" + " " + dataItem.OrganisationAdminFirstName || "" + " " + dataItem.OrganisationAdminLastName || "");
@@ -248,7 +252,6 @@ function rejectedChange(dataItem) {
     $("p#ddrCompanyTownCity").text(dataItem.Town || "");
     $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#ddrAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
