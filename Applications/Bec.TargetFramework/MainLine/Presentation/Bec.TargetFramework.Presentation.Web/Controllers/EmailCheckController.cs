@@ -25,8 +25,9 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccount.Email.ToLower() == email);
             var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
 
+            // todo: ZM use settings to get the number
             if (contactAsync.Any() || uaoAsync.Any())
-                return Json("The email address is already registered in Safe Move Scheme. Contact enquiries@safemovescheme.co.uk if this concerns you.", JsonRequestBehavior.AllowGet);
+                return Json("The email address is already registered in Safe Move Scheme. Call us at 020 3598 0150 if this concerns you.", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }
