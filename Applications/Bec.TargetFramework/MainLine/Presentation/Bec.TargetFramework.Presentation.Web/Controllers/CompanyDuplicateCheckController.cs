@@ -13,7 +13,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             var isInSystem = await OrganisationClient.IsOrganisationInSystemAsync(regulatorNumber);
             if (isInSystem)
-                return Json("The organisation with provided SRA ID/MIS Number is already registered in Safe Move Scheme. Contact enquiries@safemovescheme.co.uk if this concerns you.", JsonRequestBehavior.AllowGet);
+                return Json("The organisation with above SRA ID/MIS Number is already registered in the Safe Move Scheme. Contact enquiries@safemovescheme.co.uk if this concerns you.", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }

@@ -80,11 +80,13 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var rejectedStatusName = ProfessionalOrganisationStatusEnum.Rejected.GetStringValue();
+                var unverifiedStatusName = ProfessionalOrganisationStatusEnum.Unverified.GetStringValue();
                 // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
                 var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
                     .Where(item => 
                         item.RegulatorNumber.ToLower() == regulatorNumber.Trim().ToLower() &&
-                        item.StatusValueName != rejectedStatusName);
+                        item.StatusValueName != rejectedStatusName &&
+                        item.StatusValueName != unverifiedStatusName);
 
                 return query.Count() > 0;
             }
