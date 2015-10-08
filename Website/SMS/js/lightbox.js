@@ -1,0 +1,10 @@
+/*
+$(document).ready(function(){
+    $(".lb-overlay").click(function(){
+        $(".lb-overlay").fadeIn(300);
+    });
+    $(".lb-overlay").click(function(){
+        window.location.replace('#page').fadeOut(300);
+    });
+});
+*/
