@@ -42,7 +42,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.City,
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
-                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name })
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name, y.TradingName })
             });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
