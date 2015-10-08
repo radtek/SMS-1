@@ -31,22 +31,16 @@ $(function () {
                         field: "OrganisationAdminLastName",
                         title: "Organisation Administrator",
                         template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.RegOrganisationAdminSalutation) + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminLastName);
+                            return kendo.htmlEncode(dataItem.RegOrganisationAdminSalutation || "") + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminFirstName || "") + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminLastName || "");
                         }
                     },
                     {
                         field: "OrganisationAdminTelephone",
-                        title: "Telephone Number",
-                        template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.RegOrganisationAdminTelephone);
-                        }
+                        title: "Telephone Number"
                     },
                     {
                         field: "OrganisationAdminEmail",
-                        title: "Email",
-                        template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.RegOrganisationAdminEmail);
-                        }
+                        title: "Email"
                     },
                     {
                         field: "CreatedOn",
