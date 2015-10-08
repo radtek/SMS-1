@@ -873,8 +873,8 @@ form {
 .state-error select,
 .state-error textarea,
 input.invalid {
-    border: 1px solid #a90329;
-    background-color: #fff5f5;
+    border: 1px solid #a90329 !important;
+    background-color: #fff5f5 !important;
 }
 
 em.invalid {
@@ -885,6 +885,53 @@ em.invalid {
     font-size: 12px;
     line-height: 15px;
     color: #d56161;
+}
+
+.alert-danger {
+    border-color: #953b39;
+    color: #fff;
+    background-color: #c26565;
+    text-shadow: none;
+    li{
+        color: #fff;
+        
+    }
+}
+
+.alert {
+    margin-bottom: 20px;
+    margin-top: 0;
+    color: #675100;
+    border-width: 0;
+    border-left-width: 5px;
+    padding: 10px;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+
+    .close {
+        top: 0;
+        right: -5px;
+        line-height: 20px;
+    }
+
+    ul{
+        margin-bottom: 0;
+    }
+    li {
+        margin-left: 25px !important;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    li:before {
+        content: "\f071" !important;
+        font-family: FontAwesome;
+        position: absolute;
+        left: 30px !important;
+        margin: 0 !important;
+    }
+
 }
 
 .client-form {
@@ -908,7 +955,7 @@ em.invalid {
         background-color: white;
 
         label {
-            margin-top: 5px;
+            /*margin-top: 5px;*/
             font-weight: normal !important;
         }
 
