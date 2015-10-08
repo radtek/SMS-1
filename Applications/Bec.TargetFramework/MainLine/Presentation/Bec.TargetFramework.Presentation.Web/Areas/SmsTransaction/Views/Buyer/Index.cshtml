@@ -27,7 +27,7 @@
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                                 <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                                Safe Buyer ordered by @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name
+                                                Safe Buyer ordered by @tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName
                                                 <span id="heading-@i">
                                                     @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
                                                     {
@@ -48,14 +48,14 @@
 
                                                     <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-match-@i">
                                                         <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
-                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().Name</strong>.</p>
+                                                        <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName</strong>.</p>
                                                     </div>
 
                                                     <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-no-match-@i">
                                                         <h4 class="alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
                                                         <p>The bank account with account number <strong><span class="accountNumber"></span></strong> and sort code <strong><span class="sortCode"></span></strong> isn't a registered bank account on The Safe Move Scheme.</p>
                                                         <p>If you have made a mistake, please correct the details and check again.</p>
-                                                        <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().Name immediately.</p>
+                                                        <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName immediately.</p>
                                                     </div>
 
                                                     <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">

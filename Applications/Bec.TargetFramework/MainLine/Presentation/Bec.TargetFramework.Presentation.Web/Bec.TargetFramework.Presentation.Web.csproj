@@ -864,7 +864,9 @@
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.woff" />
-    <Content Include="Content\websiteLayout\SMS-T&amp;C%27s.pdf" />
+    <Content Include="Content\websiteLayout\SMS-T&amp;C%27s.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

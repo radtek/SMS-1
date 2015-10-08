@@ -294,9 +294,14 @@ namespace Bec.TargetFramework.Business.Logic
                     string organisationName;
                     var organisationDetails = executingUao.Organisation.OrganisationDetails.FirstOrDefault();
                     if (organisationDetails == null || executingUao.Organisation.OrganisationType.Name == "Administration")
+                    {
                         organisationName = "The " + Constants.SmsTeamName;
+                    }
                     else 
-                        organisationName = organisationDetails.Name;
+                    {
+                        var org = organisationDetails.ToDto();
+                        organisationName = org.DisplayName;
+                    }
                     tempDto.InviterOrganisationName = organisationName;
                     tempDto.InviterSalutation = executingUao.Contact.Salutation;
                     tempDto.InviterFirstName = executingUao.Contact.FirstName;
@@ -343,7 +348,9 @@ namespace Bec.TargetFramework.Business.Logic
                     dto.TradingName,
                     "",
                     UserNameService.UserName,
-                    dto.OrganisationRecommendationSource.GetIntValue());
+                    dto.OrganisationRecommendationSource != null
+                        ? dto.OrganisationRecommendationSource.GetIntValue()
+                        : (int?)null);
 
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();

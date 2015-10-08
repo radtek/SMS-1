@@ -44,6 +44,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public bool Manual { get; set; }
         [DataMember]
-        public OrganisationRecommendationSource OrganisationRecommendationSource { get; set; }
+        public OrganisationRecommendationSource? OrganisationRecommendationSource { get; set; }
     }
 }
