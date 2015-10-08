@@ -1,9 +1,4 @@
-﻿// global for _Captcha view
-function captchaClick() {
-    $('#formSubmit').prop('disabled', false);
-}
-
-$(function () {
+﻿$(function () {
     'use strict';
 
     new findAddress({
@@ -99,6 +94,11 @@ $(function () {
             },
             OrganisationRecommendationSource: {
                 required: true
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
             }
         },
         // Do not change code below

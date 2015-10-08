@@ -1,15 +1,16 @@
-﻿// global for _Captcha view
-function captchaClick() {
-    $('#formSubmit').prop('disabled', false);
-}
-
-$(function () {
+﻿$(function () {
     // Validation
     $("#forgot-password-form").validate({
+        ignore: '.skip',
         // Rules for form validation
         rules: {
             username: {
                 required: true
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
             }
         },
 
