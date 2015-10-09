@@ -41,6 +41,7 @@ namespace BodgeIt.Logic
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddAdminWelcomeMessageNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "ProductInitial.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Creation Scripts", "Product", "CreditTopUp.sql")));

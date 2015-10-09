@@ -329,3 +329,50 @@ VALUES (
   false,
   null
 );
+
+
+-- AdminWelcomeMessage
+INSERT INTO
+  public."BusEvent"
+(
+  "BusEventID",
+  "BusEventName",
+  "BusEventDescription",
+  "BusEventTypeID"
+)
+VALUES (
+  'AD5C9712-1B40-49B5-BBAB-4C86AA17EE9D',
+  'AdminWelcomeMessage',
+  '',
+  '707d82de-3ddd-11e4-95c4-a77fdf4021b5'
+);
+INSERT INTO
+  public."BusEventMessageSubscriber"
+(
+  "BusEventMessageSubscriberID",
+  "Name",
+  "ObjectName",
+  "ObjectAssembly"
+)
+VALUES (
+  '2C69A4D0-8419-458E-AF9A-E4C5C5F76423',
+  'AdminWelcomeMessage',
+  'Bec.TargetFramework.SB.Messages.Events.AdminWelcomeMessageEvent',
+  'Bec.TargetFramework.SB.Messages'
+);
+INSERT INTO
+  public."BusEventBusEventMessageSubscriber"
+(
+  "BusEventID",
+  "BusEventMessageSubscriberID",
+  "IsActive",
+  "IsDeleted",
+  "BusEventMessageSubscriberFilter"
+)
+VALUES (
+  'AD5C9712-1B40-49B5-BBAB-4C86AA17EE9D',
+  '2C69A4D0-8419-458E-AF9A-E4C5C5F76423',
+  true,
+  false,
+  null
+);

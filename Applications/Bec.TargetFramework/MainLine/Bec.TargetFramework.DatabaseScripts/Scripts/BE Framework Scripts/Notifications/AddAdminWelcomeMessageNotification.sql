@@ -34,14 +34,14 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'AddCompanyAdministratorTempDetails',
-  'Add Company Administrator Temp Details Notification',
+  'AdminWelcomeMessage',
+  'Admin Welcome Message',
   4989,
   4992,
-  'New User Registration',
+  'Welcome to the Safe Move Scheme' ,
   'Test',
   '0001',
-  'Bec.TargetFramework.SB.Notifications.Mutators.AddCompanyAdministratorTempDetailsMutator, Bec.TargetFramework.SB.Notifications',
+  'Bec.TargetFramework.SB.Notifications.Mutators.AdminWelcomeMessageMutator, Bec.TargetFramework.SB.Notifications',
   false
 );
 
@@ -156,7 +156,7 @@ VALUES (
           <Name>Text</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;p&gt;Dear {AdminWelcomeMessageDTO.Salutation} {AdminWelcomeMessageDTO.FirstName} {AdminWelcomeMessageDTO.LastName},&lt;/p&gt;&lt;p&gt;Thank you for your interest in {AdminWelcomeMessageDTO.ProductName}. Your details will be processed shortly and you will receive a call in the next 6-8 weeks to provide you with your unique PIN number which will enable you to login (you will not be able to login without this PIN number). We will contact you using the phone number listed on your regulators website for your firm.&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;The {AdminWelcomeMessageDTO.ProductName} team&lt;/p&gt;</Text>
+          <Text>&lt;p&gt;Dear {AdminWelcomeMessageDTO.Salutation} {AdminWelcomeMessageDTO.FirstName} {AdminWelcomeMessageDTO.LastName},&lt;/p&gt;&lt;p&gt;Thank you for your interest in {AdminWelcomeMessageDTO.ProductName}. Your details will be processed shortly and you will receive a call in the next 6-8 weeks to provide you with your unique PIN number which will enable you to login (you will not be able to login without this PIN number). We will contact you using the phone number listed on your regulator&#39;s website for your firm.&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;The {AdminWelcomeMessageDTO.ProductName} team&lt;/p&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
@@ -278,9 +278,9 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'AddNewCompanyAndAdministratorDTO',
-  'Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO, Bec.TargetFramework.Entities',
-  'AddNewCompanyAndAdministratorDTO',
+  'AdminWelcomeMessageDTO',
+  'Bec.TargetFramework.Entities.AdminWelcomeMessageDTO, Bec.TargetFramework.Entities',
+  'AdminWelcomeMessageDTO',
   'Bec.TargetFramework.Entities',
   'Bec.TargetFramework.Entities',
   true,
@@ -302,8 +302,8 @@ INSERT INTO
 )
 VALUES (
   NcResID,
-  'AddCompanyAdministratorTempDetails Notification',
-  'AddCompanyAdministratorTempDetails Resource',
+  'AdminWelcomeMessage Notification',
+  'AdminWelcomeMessage Resource',
   true,
   false,
   null

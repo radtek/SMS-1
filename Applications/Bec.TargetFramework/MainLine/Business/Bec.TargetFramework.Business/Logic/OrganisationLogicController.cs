@@ -144,7 +144,35 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
+            // send welcome email
+            SendAdminWelcomeMessage(organisationID, dto);
+
             return organisationID;
+        }
+
+        private async Task SendAdminWelcomeMessage(Guid organisationId, AddCompanyDTO addCompanyDto)
+        {
+            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
+            var adminWelcomeMessageDto = new AdminWelcomeMessageDTO
+            {
+                OrganisationId = organisationId,
+                Salutation = addCompanyDto.OrganisationAdminSalutation,
+                FirstName = addCompanyDto.OrganisationAdminFirstName,
+                LastName = addCompanyDto.OrganisationAdminLastName,
+                ProductName = commonSettings.ProductName
+            };
+
+            string payLoad = JsonHelper.SerializeData(new object[] { adminWelcomeMessageDto });
+
+            var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+            {
+                EventName = "AdminWelcomeMessage",
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0001",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(dto);
         }
 
         public async Task<Guid> AddNewOrganisationAdministrator(Guid organisationId)
