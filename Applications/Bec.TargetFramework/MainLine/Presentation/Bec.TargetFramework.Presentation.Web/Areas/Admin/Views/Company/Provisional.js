@@ -199,9 +199,9 @@ function unverifiedChange(dataItem) {
     $("p#dduCompanyTownCity").text(dataItem.Town || "");
     $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
     $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#dduSystemAdminEmail").text(dataItem.RegOrganisationAdminEmail || "");
-    $("p#dduSystemAdminTel").text(dataItem.RegOrganisationAdminTelephone || "");
-    $("p#dduSystemAdminName").text((dataItem.RegOrganisationAdminSalutation || "") + " " + (dataItem.RegOrganisationAdminFirstName || "") + " " + (dataItem.RegOrganisationAdminLastName || ""));
+    $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+    $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+    $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;

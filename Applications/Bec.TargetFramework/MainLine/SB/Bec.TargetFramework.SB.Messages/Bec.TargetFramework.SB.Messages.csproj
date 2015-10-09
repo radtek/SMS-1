@@ -95,7 +95,6 @@
     <Compile Include="Events\CreditAdjustmentEvent.cs" />
     <Compile Include="Events\BankAccountMarkedAsSafeEvent.cs" />
     <Compile Include="Events\BankAccountMarkedAsFraudSuspiciousEvent.cs" />
-    <Compile Include="Events\AdminWelcomeMessageEvent.cs" />
     <Compile Include="Events\ForgotPasswordEvent.cs" />
     <Compile Include="Events\ProcessSearchEvent.cs" />
     <Compile Include="Events\UsernameReminderEvent.cs" />

@@ -74,9 +74,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
             await UserLogicClient.GeneratePinAsync(uaoId, false, false);
-            
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
+            await UserLogicClient.ResendLoginsAsync(uaoId);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;

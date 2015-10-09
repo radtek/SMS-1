@@ -111,21 +111,28 @@ VALUES (
         <Guid>1b597efd28ae4c46a02d08d76be6f1d9</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <AdminWelcomeMessageDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>AdminWelcomeMessageDTO</Alias>
+      <AddNewCompanyAndAdministratorDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>AddNewCompanyAndAdministratorDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="5">
+        <Columns isList="true" count="12">
           <value>FirstName,System.String</value>
+          <value>InviterFirstName,System.String</value>
+          <value>InviterLastName,System.String</value>
+          <value>InviterOrganisationName,System.String</value>
+          <value>InviterSalutation,System.String</value>
           <value>LastName,System.String</value>
-          <value>OrganisationId,System.Guid</value>
+          <value>Password,System.String</value>
           <value>ProductName,System.String</value>
           <value>Salutation,System.String</value>
+          <value>UserAccountOrganisationID,System.Guid</value>
+          <value>Username,System.String</value>
+          <value>WebsiteURL,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>d0ee7c1734554557bc8df813d49500bc</Guid>
-        <Name>AdminWelcomeMessageDTO</Name>
-      </AdminWelcomeMessageDTO>
+        <Guid>24205911a7ab415f91c0ea15287b0803</Guid>
+        <Name>AddNewCompanyAndAdministratorDTO</Name>
+      </AddNewCompanyAndAdministratorDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
@@ -156,7 +163,7 @@ VALUES (
           <Name>Text</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;p&gt;Dear {AdminWelcomeMessageDTO.Salutation} {AdminWelcomeMessageDTO.FirstName} {AdminWelcomeMessageDTO.LastName},&lt;/p&gt;&lt;p&gt;Thank you for your interest in {AdminWelcomeMessageDTO.ProductName}. Your details will be processed shortly and you will receive a call in the next 6-8 weeks to provide you with your unique PIN number which will enable you to login (you will not be able to login without this PIN number). We will contact you using the phone number listed on your regulators website for your firm.&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;The {AdminWelcomeMessageDTO.ProductName} team&lt;/p&gt;</Text>
+          <Text> &lt;p&gt;Dear {AddNewCompanyAndAdministratorDTO.Salutation} {AddNewCompanyAndAdministratorDTO.FirstName} {AddNewCompanyAndAdministratorDTO.LastName},&lt;/p&gt;&lt;p&gt;Thank you for your interest in {AddNewCompanyAndAdministratorDTO.ProductName}. Your registration is currently being processed and you will receive a call sometime in the next few days to provide you with your unique PIN number to enable you to login. You will not be able to login without this PIN number. You will be contacted on the telephone number listed for you on your regulator&#39;s website.&lt;/p&gt;&lt;p&gt;Please store this email somewhere accessible. When we call you with your PIN number, please go to {AddNewCompanyAndAdministratorDTO.WebsiteURL} and login using the temporary details below:&lt;/p&gt;&lt;p&gt;Username: {AddNewCompanyAndAdministratorDTO.Username}&lt;br/&gt;Password: {AddNewCompanyAndAdministratorDTO.Password}&lt;/p&gt;&lt;p&gt;Please note that these are temporary login details to enable you to register and create your own secure login details. These account details will expire 7 days after you receive your PIN number.&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;The {AddNewCompanyAndAdministratorDTO.ProductName} team&lt;/p&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
@@ -187,10 +194,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/8/2015 4:03:03 PM</ReportChanged>
+  <ReportChanged>9/28/2015 10:30:09 AM</ReportChanged>
   <ReportCreated>9/28/2015 10:16:51 AM</ReportCreated>
-  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddAdminWelcomeMessageNotification.mrt</ReportFile>
-  <ReportGuid>838293dcbcab405797ceb9875e11592e</ReportGuid>
+  <ReportFile>C:\GitRepositories\BEF\Applications\Bec.TargetFramework\MainLine\Bec.TargetFramework.DatabaseScripts\Reports\BEF\AddCompanySystemAdminNotification.mrt</ReportFile>
+  <ReportGuid>b3e90514cf234f9e8e3fa7c060e8c822</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>
