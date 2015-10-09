@@ -30,7 +30,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
-                    new List<NotificationRecipientDTO> { new NotificationRecipientDTO { OrganisationID = handlerEvent.AdminWelcomeMessageDTO.OrganisationId } },
+                    new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = handlerEvent.AdminWelcomeMessageDTO.UserAccountOrganisationId } },
                     new NotificationDictionaryDTO { NotificationDictionary = dictionary });
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };

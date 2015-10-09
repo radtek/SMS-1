@@ -31,7 +31,7 @@ $(function () {
                         field: "OrganisationAdminLastName",
                         title: "Organisation Administrator",
                         template: function (dataItem) {
-                            return kendo.htmlEncode(dataItem.RegOrganisationAdminSalutation || "") + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminFirstName || "") + " " + kendo.htmlEncode(dataItem.RegOrganisationAdminLastName || "");
+                            return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
                         }
                     },
                     {

@@ -59,20 +59,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewGeneratePin(Guid orgId)
+        public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
+            ViewBag.uaoId = uaoId;
             ViewBag.companyName = org.Name;
             return PartialView("_GeneratePin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GeneratePin(Guid orgId, string notes)
+        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
         {
-            var uaoId = await OrganisationClient.AddNewOrganisationAdministratorAsync(orgId);
             await UserLogicClient.GeneratePinAsync(uaoId, false, false);
             
             //set org status
