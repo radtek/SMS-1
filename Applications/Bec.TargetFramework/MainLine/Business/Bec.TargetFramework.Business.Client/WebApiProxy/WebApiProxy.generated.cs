@@ -502,14 +502,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
 
-		/// <param name="organisationId"></param>
-		/// <returns></returns>
-		Task<Guid> AddNewOrganisationAdministratorAsync(Guid organisationId);
-
-		/// <param name="organisationId"></param>
-		/// <returns></returns>
-		Guid AddNewOrganisationAdministrator(Guid organisationId);
-
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
 		/// <param name="username"></param>
@@ -2649,27 +2641,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync?organisationType=" + organisationType, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationId"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> AddNewOrganisationAdministratorAsync(Guid organisationId)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddNewOrganisationAdministrator?organisationId=" + organisationId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationId"></param>
-		public virtual Guid AddNewOrganisationAdministrator(Guid organisationId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddNewOrganisationAdministrator?organisationId=" + organisationId, null, _user)).Result;
 		}
 
 		/// <summary>

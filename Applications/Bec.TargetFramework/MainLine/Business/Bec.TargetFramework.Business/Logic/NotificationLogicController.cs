@@ -187,7 +187,8 @@ namespace Bec.TargetFramework.Business.Logic
                 // load org construct include module and notification constructs direct
                 // deterimne users or organisations
                 if (organisationID.HasValue)
-                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.OrganisationID == organisationID.Value).ToDto();
+                    // todo: ZM the return type of that method should by List<> and in this case we potentially have the collection of entries
+                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.First(s => s.OrganisationID == organisationID.Value).ToDto();
                else
                     return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value).ToDto();
             }

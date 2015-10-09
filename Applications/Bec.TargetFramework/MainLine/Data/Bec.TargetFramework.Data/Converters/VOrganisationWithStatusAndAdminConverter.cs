@@ -41,11 +41,6 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationAdminLastName = source.OrganisationAdminLastName;
             target.OrganisationAdminTelephone = source.OrganisationAdminTelephone;
             target.OrganisationAdminEmail = source.OrganisationAdminEmail;
-            target.RegOrganisationAdminSalutation = source.RegOrganisationAdminSalutation;
-            target.RegOrganisationAdminFirstName = source.RegOrganisationAdminFirstName;
-            target.RegOrganisationAdminLastName = source.RegOrganisationAdminLastName;
-            target.RegOrganisationAdminTelephone = source.RegOrganisationAdminTelephone;
-            target.RegOrganisationAdminEmail = source.RegOrganisationAdminEmail;
             target.Regulator = source.Regulator;
             target.RegulatorOther = source.RegulatorOther;
             target.RegulatorNumber = source.RegulatorNumber;
@@ -96,11 +91,6 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationAdminLastName = source.OrganisationAdminLastName;
             target.OrganisationAdminTelephone = source.OrganisationAdminTelephone;
             target.OrganisationAdminEmail = source.OrganisationAdminEmail;
-            target.RegOrganisationAdminSalutation = source.RegOrganisationAdminSalutation;
-            target.RegOrganisationAdminFirstName = source.RegOrganisationAdminFirstName;
-            target.RegOrganisationAdminLastName = source.RegOrganisationAdminLastName;
-            target.RegOrganisationAdminTelephone = source.RegOrganisationAdminTelephone;
-            target.RegOrganisationAdminEmail = source.RegOrganisationAdminEmail;
             target.Regulator = source.Regulator;
             target.RegulatorOther = source.RegulatorOther;
             target.RegulatorNumber = source.RegulatorNumber;

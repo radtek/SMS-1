@@ -9658,11 +9658,6 @@
           <Property Name="OrganisationAdminLastName" Type="varchar" MaxLength="100" />
           <Property Name="OrganisationAdminTelephone" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationAdminEmail" Type="varchar" MaxLength="100" />
-          <Property Name="RegOrganisationAdminSalutation" Type="varchar" MaxLength="100" />
-          <Property Name="RegOrganisationAdminFirstName" Type="varchar" MaxLength="100" />
-          <Property Name="RegOrganisationAdminLastName" Type="varchar" MaxLength="50" />
-          <Property Name="RegOrganisationAdminTelephone" Type="varchar" MaxLength="200" />
-          <Property Name="RegOrganisationAdminEmail" Type="varchar" MaxLength="100" />
           <Property Name="Regulator" Type="varchar" MaxLength="500" />
           <Property Name="RegulatorOther" Type="varchar" MaxLength="500" />
           <Property Name="RegulatorNumber" Type="varchar" MaxLength="50" />
@@ -28672,11 +28667,6 @@
           <Property Name="OrganisationAdminLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e8665290-880d-47ad-9eef-7e80f41574d4" />
           <Property Name="OrganisationAdminTelephone" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="29718c63-92bb-4a04-a9ce-bcb7fdef332b" />
           <Property Name="OrganisationAdminEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="2e173aee-d49c-41e6-8ecc-0f71d7cb18d8" />
-          <Property Name="RegOrganisationAdminSalutation" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="33299d38-4b1a-4124-97c2-a271d6386d34" />
-          <Property Name="RegOrganisationAdminFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="4c8cc678-ca7a-46c9-be5e-a0459b25d1d4" />
-          <Property Name="RegOrganisationAdminLastName" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="a2d6ca7b-b706-4573-923c-a68b5daff423" />
-          <Property Name="RegOrganisationAdminTelephone" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="259e2210-275c-441f-8fb5-129bb4b9575c" />
-          <Property Name="RegOrganisationAdminEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e04a7841-ac62-4aa0-bc81-e2fa6a75912a" />
           <Property Name="Regulator" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="33eb5ef9-04d5-4442-9b95-eab160b499f4" />
           <Property Name="RegulatorOther" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5f68dd2d-591e-4678-bc78-45444dfbd422" />
           <Property Name="RegulatorNumber" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="030e6770-5305-4e5d-b042-c181054afa21" />
@@ -43201,11 +43191,6 @@
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="RegulatorNumber" ColumnName="RegulatorNumber" />
-                <ScalarProperty Name="RegOrganisationAdminSalutation" ColumnName="RegOrganisationAdminSalutation" />
-                <ScalarProperty Name="RegOrganisationAdminFirstName" ColumnName="RegOrganisationAdminFirstName" />
-                <ScalarProperty Name="RegOrganisationAdminLastName" ColumnName="RegOrganisationAdminLastName" />
-                <ScalarProperty Name="RegOrganisationAdminTelephone" ColumnName="RegOrganisationAdminTelephone" />
-                <ScalarProperty Name="RegOrganisationAdminEmail" ColumnName="RegOrganisationAdminEmail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
