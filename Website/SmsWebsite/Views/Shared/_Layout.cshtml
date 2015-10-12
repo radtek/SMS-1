@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@ViewBag.Meta">
+    <title>@ViewBag.Title - Safe Move Scheme - Protecting you from Property Fraud</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+        <div class="top navbar square-bottom-right">
+            <a href="@Url.Action("Index", "Home")">
+                <img class="brand-img" src="~/images/SMS-logo.png" />
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="navbar navbar-default square-top-right">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand heading-toggle" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ThreatsExplained", "BuyersAtRisk", "ConveyancersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fraud Threat <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")">@Html.ActionLink("Threats Explained", "ThreatsExplained", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")">@Html.ActionLink("Buyers at Risk", "BuyersAtRisk", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")">@Html.ActionLink("Conveyancers At Risk", "ConveyancersAtRisk", "Home")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "SafeBuyerProduct", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Conveyancing Products <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "SafeBuyerProduct")">@Html.ActionLink("Safe Buyer Product", "SafeBuyerProduct", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")">@Html.ActionLink("Safe Buyer Specification", "SafeBuyerSpecification", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")">@Html.ActionLink("Safe Move Scheme Benefits", "SafeMoveSchemeBenefits", "Home")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "NewAMLSolution")">@Html.ActionLink("New AML Solution", "NewAMLSolution", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")">@Html.ActionLink("Conveyancer's Compliance", "ConveyancersCompliance", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "LendersCompliance")">@Html.ActionLink("Lender's Compliance", "LendersCompliance", "Home")</li>
+                            <li><a target="_blank" href="https://sms.safemovescheme.co.uk/Account/RegisterAdmin">Conveyancing Firm Registration</a></li>
+                        </ul>
+                    </li>
+                    <li class="@Html.Conditional("selected", "action", "ForThePublic")">@Html.ActionLink("For the Public", "ForThePublic", "Home")</li>
+                    <li class="@Html.Conditional("selected", "action", "AboutUs")">@Html.ActionLink("About us", "AboutUs", "Home")</li>
+              
+                    <li class="nav-login"><a target="_blank" href="https://sms.safemovescheme.co.uk/Account/Login">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year Safe Move Scheme. All Rights Reserved.<br /></p>
+            <p><a href="PDF/SMS-T%26C's.pdf" target="_blank">Terms of Use & Privacy Policy</a>&nbsp;|&nbsp;@Html.ActionLink("Contact us", "ContactUs", "Home")</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
