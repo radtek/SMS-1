@@ -85,6 +85,13 @@ namespace SmsWebsite.Controllers
             return View();
         }
 
+        public ActionResult ConveyancingFirmRegistration()
+        {
+            ViewBag.Title = "Conveyancing Firm Registration";
+            ViewBag.Meta = "Register your conveyancing firm for the Safe Move Scheme here.";
+            return View();
+        }
+
         public ActionResult ForThePublic()
         {
             ViewBag.Title = "For the Public";

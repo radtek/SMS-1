@@ -1,5 +1,4 @@
 ﻿body {
-    //padding-top: 150px;
     padding-bottom: 20px;
 }
 
@@ -236,6 +235,40 @@ i.fa.fa-linkedin {
     background-color: #1f86c2;
 }
 
+
+.reg p{
+    text-align:center;
+}
+
+.reg img{
+    max-width:100px;
+}
+
+.post-arrow::after {
+    content: url(../images/icon-arrow-tb.png);
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    display:inline-block;
+}
+
+@media(min-width:992px) {
+    .post-arrow::after {
+        content: url(../images/icon-arrow-lr.png);
+        position: absolute;
+        left: 80px;
+        top:-3px;
+    }
+}
+
+@media(min-width:1200px) {
+    .post-arrow::after {
+        content: url(../images/icon-arrow-lr.png);
+        position: absolute;
+        left: 100px;
+        top:3px;
+    }
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

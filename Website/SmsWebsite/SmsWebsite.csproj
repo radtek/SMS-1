@@ -144,9 +144,11 @@
     <Content Include="images\header-bg2.png" />
     <Content Include="images\home-main-img.png" />
     <Content Include="images\home-strapline-bg.png" />
-    <Content Include="images\icon-arrow.png" />
+    <Content Include="images\icon-arrow-lr.png" />
+    <Content Include="images\icon-arrow-tb.png" />
     <Content Include="images\icon-email.png" />
     <Content Include="images\icon-login.png" />
+    <Content Include="images\icon-mag.png" />
     <Content Include="images\icon-phone.png" />
     <Content Include="images\icon-tick.png" />
     <Content Include="images\icon-www.png" />
@@ -217,6 +219,7 @@
     <Content Include="SmsWebsite.nuspec" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\SafeBuyerProduct.cshtml" />
+    <Content Include="Views\Home\ConveyancingFirmRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
