@@ -144,33 +144,51 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
-            return organisationID;
-        }
-
-        public async Task<Guid> AddNewOrganisationAdministrator(Guid organisationId)
-        {
-            ContactDTO contactDto;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                contactDto = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == organisationId).ToDto();
-            }
-
             var randomUsername = RandomPasswordGenerator.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
-                Telephone1 = contactDto.Telephone1,
-                FirstName = contactDto.FirstName,
-                LastName = contactDto.LastName,
-                EmailAddress1 = contactDto.EmailAddress1,
-                Salutation = contactDto.Salutation,
+                Telephone1 = dto.OrganisationAdminTelephone,
+                FirstName = dto.OrganisationAdminFirstName,
+                LastName = dto.OrganisationAdminLastName,
+                EmailAddress1 = dto.OrganisationAdminEmail,
+                Salutation = dto.OrganisationAdminSalutation,
                 CreatedBy = UserNameService.UserName
             };
 
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationId, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, true, true);
-            Ensure.That(uaoDto).IsNotNull();
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, false, true);
 
-            return uaoDto.UserAccountOrganisationID;
+            await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
+
+            // send welcome email
+            SendAdminWelcomeMessage(uaoDto.UserAccountOrganisationID, dto);
+
+            return organisationID;
+        }
+
+        private async Task SendAdminWelcomeMessage(Guid uaoId, AddCompanyDTO addCompanyDto)
+        {
+            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
+            var adminWelcomeMessageDto = new AdminWelcomeMessageDTO
+            {
+                UserAccountOrganisationId = uaoId,
+                Salutation = addCompanyDto.OrganisationAdminSalutation,
+                FirstName = addCompanyDto.OrganisationAdminFirstName,
+                LastName = addCompanyDto.OrganisationAdminLastName,
+                ProductName = commonSettings.ProductName
+            };
+
+            string payLoad = JsonHelper.SerializeData(new object[] { adminWelcomeMessageDto });
+
+            var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
+            {
+                EventName = "AdminWelcomeMessage",
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0001",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(dto);
         }
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)

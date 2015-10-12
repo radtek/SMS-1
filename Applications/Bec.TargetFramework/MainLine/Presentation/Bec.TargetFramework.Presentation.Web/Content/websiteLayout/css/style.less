@@ -1,6 +1,16 @@
 
 @text-color: #747474;
-@primary-color: #b7d24f;
+@primary-color: #92AE37;
+
+/* Mixin */
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+	background-color: @start;
+	background-image: -webkit-linear-gradient(@origin, @start, @stop);
+	background-image: -moz-linear-gradient(@origin, @start, @stop);
+	background-image: -o-linear-gradient(@origin, @start, @stop);
+	background-image: -ms-linear-gradient(@origin, @start, @stop);
+	background-image: linear-gradient(@origin, @start, @stop);
+}
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -848,9 +858,9 @@ form {
 }
 
 .btn-primary {
-    background-color: @primary-color;
+    .gradient(top, lighten(@primary-color, 10%), @primary-color);
     border: 1px solid @primary-color;
-
+    font-weight: 900;
     &:hover {
         border: 1px solid @primary-color;
         background-color: darken(@primary-color, 5%);
@@ -860,7 +870,7 @@ form {
     &:focus,
     &:visited {
         border: 1px solid @primary-color !important;
-        background-color: darken(@primary-color, 5%) !important;
+        background-color: lighten(@primary-color, 2%) !important;
     }
 
     &[disabled] {

@@ -1,4 +1,5 @@
-﻿html,
+﻿/* Mixin */
+html,
 body,
 div,
 span,
@@ -230,7 +231,7 @@ h3 {
   padding-left: 5px;
 }
 .headerTop .headerEmail a:hover {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .headerLogin {
   float: right;
@@ -287,7 +288,7 @@ i.fa.fa-linkedin {
 }
 .headerLogin:hover i,
 .headerLogin:hover span {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.subPage h1 {
   font-size: 36px;
@@ -303,10 +304,10 @@ i.fa.fa-linkedin {
   line-height: 30px;
 }
 .container.subPage h1 span {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.subPage a {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.subPage ul li {
   margin-left: 45px;
@@ -352,7 +353,7 @@ nav ul li a {
 }
 nav ul li a:hover,
 nav ul li#selected a {
-  color: #b7d24f;
+  color: #92ae37;
   font-family: 'CenturyGothic', Helvetica, sans-serif;
 }
 /* Burger Menu
@@ -451,7 +452,7 @@ nav ul li#selected a {
   margin-bottom: 3rem;
 }
 .container.home h1 span {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.home img {
   width: 100%;
@@ -493,7 +494,7 @@ nav ul li#selected a {
   margin-left: 25px;
 }
 .container.buyers .seven.columns div p span {
-  color: #b7d24f;
+  color: #92ae37;
   cursor: pointer;
 }
 .container.buyers .seven.columns div p::before {
@@ -501,7 +502,7 @@ nav ul li#selected a {
   font-family: FontAwesome;
   margin-left: -25px;
   position: absolute;
-  color: #b7d24f;
+  color: #92ae37;
   cursor: pointer;
 }
 .container.buyers .seven.columns div p.min::before {
@@ -511,7 +512,7 @@ nav ul li#selected a {
 }
 .container.buyers .seven.columns div ul li {
   list-style-type: disc;
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.buyers .seven.columns div ul li:before {
   content: none;
@@ -551,7 +552,7 @@ nav ul li#selected a {
 }
 .container.property .six.columns p span,
 .container.property .six.columns ul li p span {
-  color: #b7d24f;
+  color: #92ae37;
   cursor: pointer;
 }
 .container.property .six.columns p::before {
@@ -559,7 +560,7 @@ nav ul li#selected a {
   font-family: FontAwesome;
   margin-left: -25px;
   position: absolute;
-  color: #b7d24f;
+  color: #92ae37;
   cursor: pointer;
 }
 .container.property .six.columns p.min::before {
@@ -569,7 +570,7 @@ nav ul li#selected a {
 }
 .container.property .six.columns ul li {
   list-style-type: disc;
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.property .six.columns ul li:before {
   content: none;
@@ -668,12 +669,12 @@ nav ul li#selected a {
   color: #747474;
 }
 .container.contact a:hover {
-  color: #b7d24f;
+  color: #92ae37;
 }
 .container.contact p.email::before {
   content: "\f0e0";
   margin-left: -50px;
-  color: #b7d24f;
+  color: #92ae37;
   font-size: 1.7em;
   position: absolute;
   font-family: FontAwesome;
@@ -685,7 +686,7 @@ nav ul li#selected a {
 .container.contact p.phone::before {
   content: "\f095";
   margin-left: -50px;
-  color: #b7d24f;
+  color: #92ae37;
   font-size: 2em;
   position: absolute;
   font-family: FontAwesome;
@@ -697,7 +698,7 @@ nav ul li#selected a {
 .container.contact p.map::before {
   content: "\f041";
   margin-left: -50px;
-  color: #b7d24f;
+  color: #92ae37;
   font-size: 3em;
   position: absolute;
   font-family: FontAwesome;
@@ -709,7 +710,7 @@ nav ul li#selected a {
 .container.contact p.globe::before {
   content: "\f0ac";
   margin-left: -50px;
-  color: #b7d24f;
+  color: #92ae37;
   font-size: 2em;
   position: absolute;
   font-family: FontAwesome;
@@ -741,7 +742,7 @@ footer a {
   color: #747474;
 }
 footer a:hover {
-  color: #b7d24f;
+  color: #92ae37;
 }
 /*Zenon changes*/
 form input[type='text'].form-control,
@@ -786,22 +787,28 @@ form select.form-control {
   -moz-appearance: none !important;
 }
 .btn-primary {
-  background-color: #b7d24f;
-  border: 1px solid #b7d24f;
+  background-color: #acc850;
+  background-image: -webkit-linear-gradient(top, #acc850, #92ae37);
+  background-image: -moz-linear-gradient(top, #acc850, #92ae37);
+  background-image: -o-linear-gradient(top, #acc850, #92ae37);
+  background-image: -ms-linear-gradient(top, #acc850, #92ae37);
+  background-image: linear-gradient(top, #acc850, #92ae37);
+  border: 1px solid #92ae37;
+  font-weight: 900;
 }
 .btn-primary:hover {
-  border: 1px solid #b7d24f;
-  background-color: #afcd3b;
+  border: 1px solid #92ae37;
+  background-color: #829b31;
 }
 .btn-primary:active,
 .btn-primary:focus,
 .btn-primary:visited {
-  border: 1px solid #b7d24f !important;
-  background-color: #afcd3b !important;
+  border: 1px solid #92ae37 !important;
+  background-color: #99b639 !important;
 }
 .btn-primary[disabled] {
-  background-color: #b7d24f !important;
-  border-color: #a0be30 !important;
+  background-color: #92ae37 !important;
+  border-color: #71872b !important;
 }
 .state-error input,
 .state-error select,

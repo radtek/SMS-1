@@ -328,4 +328,4 @@ VALUES (
   true,
   false,
   null
-);
+); 
