@@ -38,6 +38,7 @@
             this.numericUpDownDays = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.addDefaultUsers = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
@@ -72,14 +73,18 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxInviteEmail = new System.Windows.Forms.TextBox();
+            this.buttonInvite = new System.Windows.Forms.Button();
+            this.textBoxInviteUsername = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -196,6 +201,18 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Add new user";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(294, 185);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(39, 20);
+            this.numericUpDown1.TabIndex = 19;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
             // addDefaultUsers
             // 
@@ -350,7 +367,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(424, 396);
+            this.button7.Location = new System.Drawing.Point(381, 368);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
             this.button7.TabIndex = 10;
@@ -516,7 +533,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(602, 379);
+            this.button8.Location = new System.Drawing.Point(488, 368);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(106, 23);
             this.button8.TabIndex = 11;
@@ -524,23 +541,50 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // numericUpDown1
+            // groupBox4
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(294, 185);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown1.TabIndex = 19;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            this.groupBox4.Controls.Add(this.textBoxInviteUsername);
+            this.groupBox4.Controls.Add(this.buttonInvite);
+            this.groupBox4.Controls.Add(this.textBoxInviteEmail);
+            this.groupBox4.Location = new System.Drawing.Point(381, 409);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(392, 134);
+            this.groupBox4.TabIndex = 12;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "groupBox4";
+            // 
+            // textBoxInviteEmail
+            // 
+            this.textBoxInviteEmail.Location = new System.Drawing.Point(9, 45);
+            this.textBoxInviteEmail.Name = "textBoxInviteEmail";
+            this.textBoxInviteEmail.Size = new System.Drawing.Size(216, 20);
+            this.textBoxInviteEmail.TabIndex = 0;
+            this.textBoxInviteEmail.Text = "k.howie@beconsultancy.co.uk";
+            // 
+            // buttonInvite
+            // 
+            this.buttonInvite.Location = new System.Drawing.Point(9, 71);
+            this.buttonInvite.Name = "buttonInvite";
+            this.buttonInvite.Size = new System.Drawing.Size(75, 23);
+            this.buttonInvite.TabIndex = 3;
+            this.buttonInvite.Text = "Hijack";
+            this.buttonInvite.UseVisualStyleBackColor = true;
+            this.buttonInvite.Click += new System.EventHandler(this.buttonInvite_Click);
+            // 
+            // textBoxInviteUsername
+            // 
+            this.textBoxInviteUsername.Location = new System.Drawing.Point(9, 19);
+            this.textBoxInviteUsername.Name = "textBoxInviteUsername";
+            this.textBoxInviteUsername.Size = new System.Drawing.Size(216, 20);
+            this.textBoxInviteUsername.TabIndex = 4;
+            this.textBoxInviteUsername.Text = "MattG1975";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 479);
+            this.ClientSize = new System.Drawing.Size(789, 578);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label15);
@@ -561,9 +605,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDays)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,6 +662,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button buttonInvite;
+        private System.Windows.Forms.TextBox textBoxInviteEmail;
+        private System.Windows.Forms.TextBox textBoxInviteUsername;
     }
 }
 
