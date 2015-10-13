@@ -74,13 +74,13 @@
             this.label15 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.button9 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBoxInviteEmail = new System.Windows.Forms.TextBox();
-            this.buttonInvite = new System.Windows.Forms.Button();
             this.textBoxInviteUsername = new System.Windows.Forms.TextBox();
+            this.buttonInvite = new System.Windows.Forms.Button();
+            this.textBoxInviteEmail = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -551,12 +551,30 @@
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.button9);
-            this.groupBox4.Location = new System.Drawing.Point(381, 417);
+            this.groupBox4.Location = new System.Drawing.Point(21, 480);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(248, 75);
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Create lots of data";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(184, 33);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(41, 13);
+            this.label17.TabIndex = 2;
+            this.label17.Text = "label17";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(128, 33);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "label16";
             // 
             // button9
             // 
@@ -568,7 +586,6 @@
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // label16
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.textBoxInviteUsername);
@@ -581,31 +598,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "groupBox5";
             // 
-            // textBoxInviteEmail
+            // textBoxInviteUsername
             // 
-            this.textBoxInviteEmail.Location = new System.Drawing.Point(9, 45);
-            this.textBoxInviteEmail.Name = "textBoxInviteEmail";
-            this.textBoxInviteEmail.Size = new System.Drawing.Size(216, 20);
-            this.textBoxInviteEmail.TabIndex = 0;
-            this.textBoxInviteEmail.Text = "k.howie@beconsultancy.co.uk";
+            this.textBoxInviteUsername.Location = new System.Drawing.Point(9, 19);
+            this.textBoxInviteUsername.Name = "textBoxInviteUsername";
+            this.textBoxInviteUsername.Size = new System.Drawing.Size(216, 20);
+            this.textBoxInviteUsername.TabIndex = 4;
+            this.textBoxInviteUsername.Text = "MattG1975";
             // 
             // buttonInvite
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(128, 33);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(41, 13);
-            this.label16.TabIndex = 1;
-            this.label16.Text = "label16";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(184, 33);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(41, 13);
-            this.label17.TabIndex = 2;
-            this.label17.Text = "label17";
             this.buttonInvite.Location = new System.Drawing.Point(9, 71);
             this.buttonInvite.Name = "buttonInvite";
             this.buttonInvite.Size = new System.Drawing.Size(75, 23);
@@ -614,13 +616,13 @@
             this.buttonInvite.UseVisualStyleBackColor = true;
             this.buttonInvite.Click += new System.EventHandler(this.buttonInvite_Click);
             // 
-            // textBoxInviteUsername
+            // textBoxInviteEmail
             // 
-            this.textBoxInviteUsername.Location = new System.Drawing.Point(9, 19);
-            this.textBoxInviteUsername.Name = "textBoxInviteUsername";
-            this.textBoxInviteUsername.Size = new System.Drawing.Size(216, 20);
-            this.textBoxInviteUsername.TabIndex = 4;
-            this.textBoxInviteUsername.Text = "MattG1975";
+            this.textBoxInviteEmail.Location = new System.Drawing.Point(9, 45);
+            this.textBoxInviteEmail.Name = "textBoxInviteEmail";
+            this.textBoxInviteEmail.Size = new System.Drawing.Size(216, 20);
+            this.textBoxInviteEmail.TabIndex = 0;
+            this.textBoxInviteEmail.Text = "k.howie@beconsultancy.co.uk";
             // 
             // Form1
             // 
