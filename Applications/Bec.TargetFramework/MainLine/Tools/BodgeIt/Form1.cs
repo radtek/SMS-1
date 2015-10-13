@@ -78,10 +78,10 @@ namespace BodgeIt
             //{
             //    MessageBox.Show(ex.Message);
             //}
-            var x = await client.SendAsync(req);
-            // x.EnsureSuccessStatusCode();
+                var x = await client.SendAsync(req);
+           // x.EnsureSuccessStatusCode();
             return x;
-        }
+            }
 
         private async Task<JObject> joSendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
         {
@@ -436,6 +436,26 @@ namespace BodgeIt
 
                 con.Close();
             }
+        }
+
+        private async void buttonInvite_Click(object sender, EventArgs e)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+
+            int conIndex = (int)comboDB.SelectedValue;
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
+            {
+                con.Open();
+                //first move any accounts with the given email address to one side
+                _scriptRunner.RunScript(con, string.Format("update \"UserAccounts\" set \"Email\" = concat(\"Email\" , random()) where \"Email\" = '{0}'", textBoxInviteEmail.Text));
+                //change user's email address
+                _scriptRunner.RunScript(con, string.Format("update \"UserAccounts\" set \"Email\" = '{0}' where\"Username\" = '{1}'", textBoxInviteEmail.Text, textBoxInviteUsername.Text));
+                con.Close();
+            }
+
+            //post password reset request
+            var r = await SendAsync<object>(client, string.Format("api/UserLogic/SendPasswordResetNotificationAsync?username={0}&siteUrl={1}", textBoxInviteUsername.Text, "/Account/Forgot/Reset?resetId={0}&expire={1}"), HttpMethod.Post, "user", null);
+            var s = await r.Content.ReadAsStringAsync();
         }
     }
 }
