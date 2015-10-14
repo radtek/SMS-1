@@ -132,7 +132,6 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             DefaultOrganisationDTO defaultOrganisation = null;
-            Guid orgRoleID;
             // get status type for professional organisation
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -160,36 +159,9 @@ namespace Bec.TargetFramework.Business.Logic
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
-            // send welcome email
-            SendAdminWelcomeMessage(uaoDto.UserAccountOrganisationID, dto);
-
             return organisationID;
         }
 
-        private async Task SendAdminWelcomeMessage(Guid uaoId, AddCompanyDTO addCompanyDto)
-        {
-            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
-            var adminWelcomeMessageDto = new AdminWelcomeMessageDTO
-            {
-                UserAccountOrganisationId = uaoId,
-                Salutation = addCompanyDto.OrganisationAdminSalutation,
-                FirstName = addCompanyDto.OrganisationAdminFirstName,
-                LastName = addCompanyDto.OrganisationAdminLastName,
-                ProductName = commonSettings.ProductName
-            };
-
-            string payLoad = JsonHelper.SerializeData(new object[] { adminWelcomeMessageDto });
-
-            var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-            {
-                EventName = "AdminWelcomeMessage",
-                EventSource = AppDomain.CurrentDomain.FriendlyName,
-                EventReference = "0001",
-                PayloadAsJson = payLoad
-            };
-
-            await EventPublishClient.PublishEventAsync(dto);
-        }
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
