@@ -10,6 +10,13 @@ namespace Bec.TargetFramework.Presentation.Web
         {
             bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css").Include("~/content/site.css"));
 
+            bundles.Add(new StyleBundle("~/content/websitelayout/css/style").Include(
+                "~/content/bootstrap.css",
+                "~/content/websitelayout/css/style.css",
+                "~/content/css/font-awesome.min.css"
+                ));
+
+
             bundles.Add(new ScriptBundle("~/Scripts/smartadmin").Include(
                 "~/Scripts/app.config.js",
                 "~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
@@ -30,6 +37,12 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
                 "~/Scripts/Libs/accounting.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Scripts/websitelayout").Include(
+                "~/Scripts/bootstrap/bootstrap.min.js",
+                "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
+                "~/Scripts/site.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(
@@ -81,6 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/site").Include(
+                "~/Scripts/admin.js",
                 "~/Scripts/site.js",
                 "~/Scripts/jquery.unobtrusive-ajax.min.js",
                 "~/Scripts/kendo/kendo.core.min.js",

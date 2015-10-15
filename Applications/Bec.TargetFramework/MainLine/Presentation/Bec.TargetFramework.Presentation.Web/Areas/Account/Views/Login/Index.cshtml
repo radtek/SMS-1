@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
         <form action="@Url.Action("Index", "Login",new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ReturnUrl)
@@ -22,6 +22,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="@Html.IdFor(m => m.Username)">Username</label>
+                                        <i class="icon-append fa fa-user"></i>
                                         @Html.TextBoxFor(m => m.Username, new { autocomplete = "off", @class = "form-control" })
                                     </div>
                                 </div>
@@ -40,6 +41,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="@Html.IdFor(m => m.Password)">Password</label>
+                                        <i class="icon-append fa fa-lock"></i>
                                         @Html.PasswordFor(m => m.Password, new { autocomplete = "off", @class = "form-control" })
                                     </div>
                                 </div>

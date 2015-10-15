@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.CompanyName)">Organisation/Practice Name</label>
                     @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control" })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.RegulatorNumber)">SRA ID/MIS Number</label>
                     @Html.TextBoxFor(m => m.RegulatorNumber, new { maxlength = 50, tabindex = 4, @class = "form-control", data_url = Url.Action("Check", "CompanyDuplicateCheck", new { Area = "" }) })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Line1)">Address Line 1</label>
                     @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "8", maxlength = 50, @class = "form-control" })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -118,7 +118,7 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.PostalCode)">Postcode</label>
                     @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control" })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Town)">Town/City</label>
                     @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control" })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
         </div>
@@ -150,13 +150,13 @@
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminFirstName)">First Name</label>
                     @Html.TextBoxFor(m => m.OrganisationAdminFirstName, new { tabindex = "14", maxlength = 50, @class = "form-control" })
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
             <div class="col-sm-5">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminLastName)">Last Name</label>
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                     @Html.TextBoxFor(m => m.OrganisationAdminLastName, new { tabindex = "15", maxlength = 50, @class = "form-control" })
                 </div>
             </div>
@@ -165,14 +165,14 @@
             <div class="col-sm-7">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminEmail)">Email</label>
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                     @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { autocomplete = "off", tabindex = "16", maxlength = 100, type = "email", data_url = Url.Action("CheckForAdminRegistration", "EmailCheck", new { Area = "" }), @class = "form-control", })
                 </div>
             </div>
             <div class="col-sm-5">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.OrganisationAdminTelephone)">Phone Number</label>
-                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                    <i class="icon-append fa fa-asterisk" ></i>
                     @Html.TextBoxFor(m => m.OrganisationAdminTelephone, new { tabindex = "17", maxlength = 20, @class = "form-control" })
                 </div>
             </div>

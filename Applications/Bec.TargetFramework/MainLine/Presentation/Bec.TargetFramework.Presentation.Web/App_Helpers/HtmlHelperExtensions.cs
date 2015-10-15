@@ -239,5 +239,13 @@ namespace Bec.TargetFramework.Presentation.Web
 
             return timeSpan.Days > 365 ? String.Format("{0} years ago", timeSpan.Days / 365) : "about a year ago";
         }
+
+        public static string Conditional(this HtmlHelper htmlHelper, string output, string key, params string[] rh)
+        {
+            if (rh.Contains(htmlHelper.ViewContext.RouteData.Values[key].ToString()))
+                return output;
+            else
+                return "";
+        }
     }
 }

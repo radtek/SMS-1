@@ -1,10 +1,4 @@
-﻿//from SmartAdmin template
-$(document).ready(function () {
-    pageSetUp();
-    drawBreadCrumb();
-});
-
-//checks for a json redirect response instruction
+﻿//checks for a json redirect response instruction
 function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }

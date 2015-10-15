@@ -26,144 +26,87 @@
     <link rel="apple-touch-startup-image" href="~/content/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
     <link rel="apple-touch-startup-image" href="~/content/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    @Styles.Render("~/content/websitelayout/css/style")
 
-    <link rel="stylesheet" href="~/Content/websiteLayout/css/style.css">
-    <link rel="stylesheet" href="~/Content/websiteLayout/css/media.css">
-    <link rel="stylesheet" href="~/Content/websiteLayout/css/slidebars.css">
-    <link rel="stylesheet" href="~/Content/websiteLayout/css/normalize.css">
-    <link rel="stylesheet" href="~/Content/websiteLayout/css/skeleton.css">
-
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
-    <script src="~/Content/websiteLayout/js/hoverIntent.js"></script>
-    <script src="~/Content/websiteLayout/js/slidebars.js"></script>
-    <script src="~/Content/websiteLayout/js/libs/modernizr-2.5.3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="~/Content/websiteLayout/js/jquery.smooth-scroll.min.js"></script>
-    <script src="~/Content/websiteLayout/js/scroll.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <script>
-        (function ($) {
-            jQuery(document).ready(function () {
-                jQuery.slidebars();
-            });
-        })(jQuery);
-    </script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
-    @Scripts.Render("~/Scripts/site")
     @RenderSection("Scripts", false)
 </head>
 <body class="@ViewBag.PageClass @Settings.CurrentTheme @Html.RouteIf("hidden-menu","AcceptTCs", "Index")">
 
-        <!-- Header Layout
-        末末末末末末末末末末末末末末末末末末末末末末末末末 -->
-        <div class="sb-slidebar sb-left">
-            <ul class="sb-menu">
-                <li><a href="">About</a></li>
-                <li><a href="">Products</a></li>
-                <li><a href="">For Professionals </a></li>
-                <li><a href="">For Buyers</a></li>
-                <li id="selected"><a href="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })">Submit Details</a></li>
-                <li><a href="">Contact</a></li>
-            </ul>
+    <div class="container">
+        <div class="top navbar square-bottom-right">
+            <a href="@Url.Action("Index", "Home")">
+                <img class="brand-img" src="~/content/websitelayout/images/SMS-logo.png" />
+            </a>
         </div>
-        <div id="sb-site">
-            <header>
-                <div id="" class="fade-in-top header twelve columns">
-                    <div id="navigation">
-                        <div class="headerTop">
-                            <div class="container">
-                                <div class="headerEmail">
-                                    <i class="fa fa-envelope"></i>
-                                    <p><a href="mailto:enquiries@safemovescheme.co.uk">enquiries@safemovescheme.co.uk</a></p>
-                                </div>
-                                <div class="headerLogin">
-                                    <a href="@Url.Action("Index", "Login", new { Area = "Account" })">
-                                        <span>Login</span>
-                                        <i class="fa fa-sign-in"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="headerBottom">
-                            <div class="container">
-                                <div class="navbar">
-                                    <div class="sb-toggle-left navbar-left">
-                                        <div class="navicon-line"></div>
-                                        <div class="navicon-line"></div>
-                                        <div class="navicon-line"></div>
-                                    </div>
-                                </div>
-                                <div id="logo" class="content">
-                                    <a href="/"><img id="logoimg" src="~/Content/websiteLayout/images/SMS-logo.png" alt="Safe Move Scheme - Prevents Property Fraud"></a>
-                                </div>
-                                <nav>
-                                    <ul>
-                                        <li><a href="">About</a></li>
-                                        <li><a href="">Products</a></li>
-                                        <li><a href="">For Professionals </a></li>
-                                        <li><a href="">For Buyers</a></li>
-                                        <li id="selected"><a href="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })">Submit Details</a></li>
-                                        <li><a href="">Contact</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header><div class="clearfix"></div>
-            <div class="strapline">
-                <div class="container">
-                    <h1>@ViewBag.Title</h1>
-                </div>
+    </div>
+    <div class="container">
+        <nav class="navbar navbar-default square-top-right">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand heading-toggle" })
             </div>
-            <div class="container submit subPage">
-                <div class="row">
-                    <div class="twelve columns">
-                        <div class="row">
-                            <div class="col-12">
-                                @RenderBody()
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sponsors">
-                <div class="container">
-                    <div class="four columns">
-                        <a href="https://www.cml.org.uk/home/" target="_blank">
-                            <img src="~/Content/websiteLayout/images/cml-logo.jpg" alt="Safe Move Scheme - CML Associate" title="Safe Move Scheme - CML Associate">
-                        </a>
-                    </div>
-                    <div class="four columns">
-                        <a href="https://www.experian.co.uk/" target="_blank">
-                            <img src="~/Content/websiteLayout/images/experian-logo.JPG" alt="Safe Move Scheme - Experian" title="Safe Move Scheme - Experian">
-                        </a>
-                    </div>
-                    <div class="four columns">
-                        <a href="https://www.gov.uk/government/organisations/land-registry/" target="_blank">
-                            <img src="~/Content/websiteLayout/images/Land-Registry-logo.jpg" alt="Safe Move Scheme - Land Registry" title="Safe Move Scheme - Land Registry">
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ThreatsExplained", "BuyersAtRisk", "ConveyancersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fraud Threat <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")">@Html.ActionLink("Threats Explained", "ThreatsExplained", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")">@Html.ActionLink("Buyers at Risk", "BuyersAtRisk", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")">@Html.ActionLink("Conveyancers At Risk", "ConveyancersAtRisk", "Home")</li>
+                        </ul>
+                    </li>
 
-            <footer>
-                <div class="container">
-                    <div class="row">
-                        <p class="copyright">&copy; 2015 Safe Move Scheme. All Rights Reserved.<br>Built and maintained to ISO27001 data security standards.</p>
-                        <p class="t&c"><a href="~/Content/websiteLayout/SafeMoveSchemeTCs.pdf" target="_blank">Terms of Use & Privacy Policy</a></p>
-                    </div>
-                </div>
-            </footer>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "HowItWorks", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Safe Buyer Product <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "HowItWorks")">@Html.ActionLink("How It Works", "HowItWorks", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")">@Html.ActionLink("Safe Buyer Specification", "SafeBuyerSpecification", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")">@Html.ActionLink("Safe Move Scheme Benefits", "SafeMoveSchemeBenefits", "Home")</li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "FreeTrial")">@Html.ActionLink("** Free Safe Buyer Trial **", "FreeTrial", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "NewAMLSolution")">@Html.ActionLink("New AML Solution", "NewAMLSolution", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")">@Html.ActionLink("Conveyancer's Compliance", "ConveyancersCompliance", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "LendersCompliance")">@Html.ActionLink("Lender's Compliance", "LendersCompliance", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancingFirmRegistration")">@Html.ActionLink("Conveyancing Firm Registration", "ConveyancingFirmRegistration", "Home")</li>
+                        </ul>
+                    </li>
+                    <li class="@Html.Conditional("selected", "action", "ForThePublic")">@Html.ActionLink("For the Public", "ForThePublic", "Home")</li>
+                    <li class="@Html.Conditional("selected", "action", "AboutUs")">@Html.ActionLink("About us", "AboutUs", "Home")</li>
+
+                    <li class="nav-login"><a target="_blank" href="https://sms.safemovescheme.co.uk/Account/Login">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="header-social">
+                <a target="_blank" href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
+                <a target="_blank" href="https://www.twitter.com"><i class="fa fa-twitter"></i></a>
+                <a target="_blank" href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
+                <a target="_blank" href="https://www.linkedin.com"><i class="fa fa-linkedin"></i></a>
+            </div>
+            <p>&copy; @DateTime.Now.Year Safe Move Scheme. All Rights Reserved.<br /></p>
+            <p><a href="~/PDF/SMS-T%26C's.pdf" target="_blank">Terms of Use & Privacy Policy</a>&nbsp;|&nbsp;@Html.ActionLink("Contact us", "ContactUs", "Home")</p>
+
         </div>
-        @Scripts.Render("~/scripts/smartadmin")
+    </footer>
+        @Scripts.Render("~/scripts/websitelayout")
 
     </body>
 </html>
