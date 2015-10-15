@@ -43,9 +43,9 @@ namespace SmsWebsite.Controllers
             return View();
         }
 
-        public ActionResult SafeBuyerProduct()
+        public ActionResult HowItWorks()
         {
-            ViewBag.Title = "Safe Buyer Product";
+            ViewBag.Title = "How It Works";
             ViewBag.Meta = "The Safe Buyer product reduces the risk of criminals stealing the money that a buyer puts towards the price of their property purchase.";
             return View();
         }
@@ -54,6 +54,13 @@ namespace SmsWebsite.Controllers
         {
             ViewBag.Title = "Safe Buyer Specification";
             ViewBag.Meta = "Check bank account details securely. Protect Additional buyers and giftors. Comply with the latest AML regulations.";
+            return View();
+        }
+
+        public ActionResult FreeTrial()
+        {
+            ViewBag.Title = "Free Safe Buyer Product Trial Until 31st Jan 2016";
+            ViewBag.Meta = "Free Safe Buyer Product Trial Until 31st Jan 2016";
             return View();
         }
 

@@ -39,17 +39,18 @@
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "SafeBuyerProduct", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Conveyancing Products <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "HowItWorks", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Safe Buyer Product <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "SafeBuyerProduct")">@Html.ActionLink("Safe Buyer Product", "SafeBuyerProduct", "Home")</li>
+                            <li class="@Html.Conditional("selected", "action", "HowItWorks")">@Html.ActionLink("How It Works", "HowItWorks", "Home")</li>
                             <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")">@Html.ActionLink("Safe Buyer Specification", "SafeBuyerSpecification", "Home")</li>
                             <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")">@Html.ActionLink("Safe Move Scheme Benefits", "SafeMoveSchemeBenefits", "Home")</li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li class="@Html.Conditional("selected", "action", "FreeTrial")">@Html.ActionLink("** Free Safe Buyer Trial **", "FreeTrial", "Home")</li>
                             <li class="@Html.Conditional("selected", "action", "NewAMLSolution")">@Html.ActionLink("New AML Solution", "NewAMLSolution", "Home")</li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")">@Html.ActionLink("Conveyancer's Compliance", "ConveyancersCompliance", "Home")</li>
                             <li class="@Html.Conditional("selected", "action", "LendersCompliance")">@Html.ActionLink("Lender's Compliance", "LendersCompliance", "Home")</li>

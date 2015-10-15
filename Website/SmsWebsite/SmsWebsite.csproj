@@ -219,8 +219,9 @@
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="SmsWebsite.nuspec" />
     <Content Include="Views\Home\AboutUs.cshtml" />
-    <Content Include="Views\Home\SafeBuyerProduct.cshtml" />
+    <Content Include="Views\Home\HowItWorks.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmRegistration.cshtml" />
+    <Content Include="Views\Home\FreeTrial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
