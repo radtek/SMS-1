@@ -72,6 +72,8 @@
         });
     }
 
-    makeDatePicker("#birthDateInput");
+    makeDatePicker("#birthDateInput", {
+        maxDate: new Date()
+    });
     setupForm();
 });
