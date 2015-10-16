@@ -99,6 +99,9 @@
                 required: function () {
                     return grecaptcha.getResponse() == '';
                 }
+            },
+            checkSecPol: {
+                required: true
             }
         },
         // Do not change code below

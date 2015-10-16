@@ -908,6 +908,7 @@
     <Content Include="Content\websiteLayout\SafeMoveSchemeTCs.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
