@@ -156,6 +156,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Helpers\CaptchaService.cs" />
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Areas\Account\Controllers\ForgotController.cs" />
     <Compile Include="Areas\Account\Controllers\LoginController.cs" />
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
+    <Compile Include="Areas\Account\Controllers\RegisterAdminController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -189,6 +191,9 @@
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsController.cs" />
+    <Compile Include="Controllers\CompanyDuplicateCheckController.cs" />
+    <Compile Include="Controllers\EmailCheckController.cs" />
+    <Compile Include="Controllers\PostcodeLookupController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
@@ -221,6 +226,7 @@
     <Content Include="Areas\Account\Views\Forgot\Reset.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
     <Content Include="Areas\Account\Views\Register\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
@@ -228,7 +234,6 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
-    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
@@ -264,7 +269,6 @@
     <Content Include="Content\ajax\notify\tasks.html" />
     <Content Include="Content\ajax\website-template.html" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\demo.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
@@ -735,9 +739,77 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\websiteLayout\css\media.css" />
+    <Content Include="Content\websiteLayout\css\normalize.css" />
+    <Content Include="Content\websiteLayout\css\skeleton.css" />
+    <Content Include="Content\websiteLayout\css\slidebars.css" />
+    <Content Include="Content\websiteLayout\css\style.css.map">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
+    <None Include="Content\websiteLayout\css\style.less" />
+    <Content Include="Content\websiteLayout\css\style.css">
+      <DependentUpon>style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\websiteLayout\css\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\websiteLayout\js\hoverIntent.js" />
+    <Content Include="Content\websiteLayout\js\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="Content\websiteLayout\js\jquery.smooth-scroll.min.js" />
+    <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
+    <Content Include="Content\websiteLayout\js\scroll.js" />
+    <Content Include="Content\websiteLayout\js\slidebars.js" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\websiteLayout\images\AML icon.png" />
+    <Content Include="Content\websiteLayout\images\Bank Icon - green.png" />
+    <Content Include="Content\websiteLayout\images\BBC Video - Mrs Gabb.PNG" />
+    <Content Include="Content\websiteLayout\images\be icons.png" />
+    <Content Include="Content\websiteLayout\images\BEC-logo-strapline.png" />
+    <Content Include="Content\websiteLayout\images\business-logo.png" />
+    <Content Include="Content\websiteLayout\images\buyer-img.png" />
+    <Content Include="Content\websiteLayout\images\cml-logo.jpg" />
+    <Content Include="Content\websiteLayout\images\Compliance icon.png" />
+    <Content Include="Content\websiteLayout\images\Conveyancing Firm Registration page.jpg" />
+    <Content Include="Content\websiteLayout\images\experian-logo.JPG" />
+    <Content Include="Content\websiteLayout\images\favicon.png" />
+    <Content Include="Content\websiteLayout\images\footer-bg.jpg" />
+    <Content Include="Content\websiteLayout\images\footer-bg.png" />
+    <Content Include="Content\websiteLayout\images\header-bg.jpg" />
+    <Content Include="Content\websiteLayout\images\header-bg2.png" />
+    <Content Include="Content\websiteLayout\images\home-main-img.png" />
+    <Content Include="Content\websiteLayout\images\home-strapline-bg.png" />
+    <Content Include="Content\websiteLayout\images\icon-arrow-lr.png" />
+    <Content Include="Content\websiteLayout\images\icon-arrow-tb.png" />
+    <Content Include="Content\websiteLayout\images\icon-email.png" />
+    <Content Include="Content\websiteLayout\images\icon-login.png" />
+    <Content Include="Content\websiteLayout\images\icon-mag.png" />
+    <Content Include="Content\websiteLayout\images\icon-phone.png" />
+    <Content Include="Content\websiteLayout\images\icon-tick.png" />
+    <Content Include="Content\websiteLayout\images\icon-www.png" />
+    <Content Include="Content\websiteLayout\images\image-home-img.png" />
+    <Content Include="Content\websiteLayout\images\Land-Registry-logo.jpg" />
+    <Content Include="Content\websiteLayout\images\li-icon.png" />
+    <Content Include="Content\websiteLayout\images\Login-icon.png" />
+    <Content Include="Content\websiteLayout\images\pros-temp-vid.jpg" />
+    <Content Include="Content\websiteLayout\images\Protection icon.png" />
+    <Content Include="Content\websiteLayout\images\safe-move-logo.jpg" />
+    <Content Include="Content\websiteLayout\images\safe-move-logo.png" />
+    <Content Include="Content\websiteLayout\images\Safemove-Icon.png" />
+    <Content Include="Content\websiteLayout\images\sgs-logo.png" />
+    <Content Include="Content\websiteLayout\images\shield-icon.png" />
+    <Content Include="Content\websiteLayout\images\SMS Benefits icon.png" />
+    <Content Include="Content\websiteLayout\images\sms-home.jpg" />
+    <Content Include="Content\websiteLayout\images\SMS-logo.png" />
+    <Content Include="Content\websiteLayout\images\sms-tick-2.png" />
+    <Content Include="Content\websiteLayout\images\sms-tick.png" />
+    <Content Include="Content\websiteLayout\images\software-logo.png" />
+    <Content Include="Content\websiteLayout\images\Solution icon.png" />
+    <Content Include="Content\websiteLayout\images\strapline-new.jpg" />
+    <Content Include="Content\websiteLayout\images\tape-measure-icon.png" />
+    <Content Include="Content\websiteLayout\images\theft-icon.png" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\autoNumeric.js" />
@@ -767,7 +839,6 @@
     <Content Include="Areas\Admin\Views\Company\Provisional.cshtml" />
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
-    <Content Include="Areas\Admin\Views\Shared\_AddTempCompany.cshtml" />
     <Content Include="Areas\Account\Views\Login\SessionExpired.cshtml" />
     <Content Include="Areas\Account\Views\Login\LoggedOutByAnother.cshtml" />
     <Content Include="Bec.TargetFramework.Presentation.Web.nuspec" />
@@ -779,10 +850,10 @@
     <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
     <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\Libs\lodash.js" />
+    <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Duplicates.cshtml" />
     <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Views\Shared\_ResendLogins.cshtml" />
@@ -830,6 +901,15 @@
     <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.cshtml" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
+    <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
+    <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
+    <Content Include="Content\websiteLayout\fonts\CenturyGothic.woff" />
+    <Content Include="Content\websiteLayout\SafeMoveSchemeTCs.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
+    <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1927,6 +2007,7 @@
     <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Views\Shared\_Captcha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

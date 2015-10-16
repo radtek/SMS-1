@@ -37,6 +37,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.OrganisationDefaultLogoID = source.OrganisationDefaultLogoID;
             target.OrganisationLegalBlurb = source.OrganisationLegalBlurb;
+            target.TradingName = source.TradingName;
 
             // Navigation Properties
             if (level > 0) {
@@ -66,6 +67,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.OrganisationDefaultLogoID = source.OrganisationDefaultLogoID;
             target.OrganisationLegalBlurb = source.OrganisationLegalBlurb;
+            target.TradingName = source.TradingName;
 
             // User-defined partial method
             OnEntityCreating(source, target);

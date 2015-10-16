@@ -15,6 +15,7 @@ using EnsureThat;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.ServiceModel;
@@ -87,7 +88,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                 m_NotificationDictionaryDto = mutator.MutateNotification();
             }
 
-            return reportGenerator.GenerateReport(m_NotificationContainerDto.NotificationSetting, m_NotificationConstructDto, m_NotificationDictionaryDto);
+            return reportGenerator.GenerateReport(m_NotificationConstructDto, m_NotificationDictionaryDto);
         }
 
         private NotificationDTO CreateNotificationDTO()
@@ -223,6 +224,12 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         Guid eventStatusID = Guid.Empty;
                         if (busMessage != null && !string.IsNullOrEmpty(busMessage.EventReference))
                             Guid.TryParse(busMessage.EventReference, out eventStatusID);
+
+                        foreach (var attachment in m_NotificationConstructDto.NotificationConstructData.Where(x => !(x.UsesBusinessObjects ?? false)))
+                        {
+                            //the way this uses the disposable stream is somewhat counterintuitive
+                            message.Attachments.Add(new Attachment(new MemoryStream(attachment.NotificationData), attachment.NotificationDataFileName, attachment.NotificationDataMimeType));
+                        }
 
                         try
                         {

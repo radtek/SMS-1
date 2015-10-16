@@ -1,78 +1,100 @@
 ﻿@using Bec.TargetFramework.Entities
 @model Bec.TargetFramework.Presentation.Web.Models.CreatePermanentLoginModel
 @{
-    ViewBag.PageId = "extr-page";
+    ViewBag.Title = "Welcome to Safe Move Scheme";
 }
 
-<div id="content" class="container" data-url="@Url.Action("SessionExpired", "Login", new { Area = "Account" })">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-            <div class="well no-padding">
-                <form action="@Url.Action("Index", "Register", new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form" data-checkuser="@Url.Action("UsernameAvailable", "Register", new { Area = "Account" })">
-                    <header>
-                        Create Account
-                    </header>
-                    @Html.AntiForgeryToken()
+<div id="content" class="row" data-url="@Url.Action("SessionExpired", "Login", new { Area = "Account" })">
+    <div class="col-lg-8 col-lg-offset-2">
+        <form action="@Url.Action("Index", "Register", new { area = "Account"})" method="POST" id="login-form" class="client-form well no-padding" data-checkuser="@Url.Action("UsernameAvailable", "Register", new { Area = "Account" })">
+            @Html.AntiForgeryToken()
+            <header>
+                <h1>Create Account</h1>
+            </header>
+            @if (ViewBag.PinExpired == null || !ViewBag.PinExpired)
+            {
+                <section class="fields">
                     @Html.ValidationBootstrap()
-                    @if (ViewBag.PinExpired == null || !ViewBag.PinExpired)
-                    {
-                        <fieldset>
-                            @if (ViewBag.PINRequired)
-                            {
-                                <section>
-                                    <strong>Welcome </strong>
-                                    <label class="label">Please enter your PIN as provided by Safe Move Scheme</label>
-                                    <label class="input">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <strong>Welcome</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @if (ViewBag.PINRequired)
+                                    {
+                                        <label for="@Html.IdFor(m => m.Pin)">Please enter your PIN as provided by Safe Move Scheme</label>
+                                        @Html.TextBoxFor(m => m.Pin, new { maxlength = 20, autocomplete = "off", @class = "form-control" })
                                         <i class="icon-append fa fa-asterisk"></i>
-                                        @Html.TextBoxFor(m => m.Pin, new { maxlength = 20 })
-                                    </label>
-                                </section>
-                            }
-                            <section>
-                                @if (ViewBag.PINRequired)
-                                {
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewBag.PINRequired)
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <strong>Create Account</strong>
-                                }
-                                <label class="label">Please choose a unique username and password to create your account.</label>
-                                <label class="label">Username</label>
-                                <label class="input">
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Please choose a unique username and password to create your account.</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="@Html.IdFor(m => m.NewUsername)">Username</label>
+                                    @Html.TextBoxFor(m => m.NewUsername, new { autocomplete = "off", @class = "form-control" })
                                     <i class="icon-append fa fa-user"></i>
-                                    @Html.TextBoxFor(m => m.NewUsername, new { autocomplete = "off" })
-                                </label>
-                            </section>
-                            <section>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
                                 <strong>Choose a New Password</strong>
-                                <label class="label">Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
-                                <label class="label">Password</label>
-                                <label class="input">
+                                <label>Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="@Html.IdFor(m => m.NewPassword)">Password</label>
+                                    @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25, autocomplete = "off", @class = "form-control" })
                                     <i class="icon-append fa fa-lock"></i>
-                                    @Html.PasswordFor(m => m.NewPassword, new { maxlength = 25, autocomplete = "off" })
-                                </label>
-                                <label class="label">Confirm password</label>
-                                <label class="input">
-                                    <i class="icon-append fa fa-lock"></i>
-                                    @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25, autocomplete = "off" })
-                                </label>
-                            </section>
-                        </fieldset>
-                        <footer>
-                            <button type="submit" id="formSubmit" class="btn btn-primary">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="@Html.IdFor(m => m.ConfirmNewPassword)">Confirm password</label>
+                                @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25, autocomplete = "off", @class = "form-control" })
+                                <i class="icon-append fa fa-lock"></i>
+                            </div>
+                        </div>
+                    </fieldset>
+                </section>
+
+                <footer>
+                    <div class="row">
+                        <div class="col-sm-offset-8 col-sm-4">
+                            <button type="submit" id="formSubmit" class="btn btn-primary btn-block">
                                 Create Account
                             </button>
-                        </footer>
-                    }
-                    @*
-                    else
-                    {
-                        <footer>
-                            <a href="@ViewBag.PublicWebsiteUrl" class="btn btn-primary btn-sm">Return to Website</a>
-                        </footer>
-                    }*@
-                </form>
-            </div>
-        </div>
+                        </div>
+                    </div>
+                </footer>
+            }
+        </form>
     </div>
 </div>
+
 @section Scripts {
     <script async src="@Scripts.Url("~/Scripts/Account/Register/Index")"></script>
 }

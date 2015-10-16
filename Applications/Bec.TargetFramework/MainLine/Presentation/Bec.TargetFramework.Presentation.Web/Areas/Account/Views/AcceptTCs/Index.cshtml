@@ -1,42 +1,60 @@
 ﻿@model Guid
 @{
-    ViewBag.Title = "extr-page";
+    ViewBag.Title = "Welcome to Safe Move Scheme";
 }
+<div class="row">
+    <div class="col-lg-12">
+        <form action="@Url.Action("Done", "AcceptTCs", new { area = "Account"})" method="POST" id="login-form" class="client-form well no-padding">
+            @Html.ValidationBootstrap()
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="notificationID" value="@ViewBag.NotificationID" />
+            <header>
+                <h1>Terms and Conditions</h1>
+            </header>
+            <section class="fields">
+                <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
 
-<div id="content" class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="well no-padding">
-                <form action="@Url.Action("Done", "AcceptTCs", new { area = "Account"})" method="POST" id="login-form" class="smart-form client-form">
-                    <header>
-                        Terms and Conditions
-                    </header>
-                    <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationBootstrap()
-                    <input type="hidden" name="notificationID" value="@ViewBag.NotificationID" />
-                    <fieldset>
-                        <label>Please read the following Terms and Conditions, once you are happy <strong>please check the checkbox at the bottom of the Terms and Conditions</strong> to confirm you have read, understood and accept the Terms and Conditions <strong>before you click 'Continue'.</strong><br /><br /></label>
-                    </fieldset>
-                    <div style="height:400px;overflow-y:scroll">
-                        <fieldset>
-                            @foreach (var line in ViewBag.Lines)
-                            {
-                                @line<br />
-                            }
-                            <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
-                            <br />
-                            <input type="checkbox" id="tc" autocomplete="off" class="margin-right-10" />
-                            <label for="tc">I have read, understood and accept the Terms and Conditions</label>
-                        </fieldset>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Please read the following Terms and Conditions, once you are happy <strong>please check the checkbox at the bottom of the Terms and Conditions</strong> to confirm you have read, understood and accept the Terms and Conditions <strong>before you click 'Continue'.</strong><br /><br /></label>
+                        </div>
                     </div>
-                    <footer>
-                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-sm btn-default pull-left", id = "download-btn" })
-                        <input type="submit" id="formSubmit" class="btn btn-primary" value="Continue" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", title = "Accept Terms and Conditions", message = "Please read the terms and conditions then accept them by ticking the box at the bottom of the document.", button = "Close" })" />
-                    </footer>
-                </form>
-            </div>
-        </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div style="height:400px;overflow-y:scroll">
+                                <fieldset>
+                                    @foreach (var line in ViewBag.Lines)
+                                    {
+                                        @line<br />
+                                    }
+                                    <img src="~/Content/SMS Master Screen.png" style="width:400px;" />
+                                    <br />
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="tc" autocomplete="off" class="margin-right-10" />
+                                            I have read, understood and accept the Terms and Conditions
+                                        </label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+            <footer>
+                <div class="row">
+                    <div class="col-sm-3">
+                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-default btn-block", id = "download-btn" })
+                    </div>
+                    <div class="col-sm-offset-5 col-xs-4">
+                        <button type="submit" id="formSubmit" class="btn btn-primary btn-block" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", title = "Accept Terms and Conditions", message = "Please read the terms and conditions then accept them by ticking the box at the bottom of the document.", button = "Close" })">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </form>
     </div>
 </div>
 

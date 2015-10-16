@@ -56,7 +56,9 @@ namespace Bec.TargetFramework.Infrastructure
         /// <returns>Result string</returns>
         public static string GenerateRandomDigitCode(int length)
         {
-            var random = new Random();
+            var randomNumberBuffer = new byte[10];
+            new RNGCryptoServiceProvider().GetBytes(randomNumberBuffer);
+            var random = new Random(BitConverter.ToInt32(randomNumberBuffer, 0));
             string str = string.Empty;
             for (int i = 0; i < length; i++)
                 str = String.Concat(str, random.Next(10).ToString());

@@ -1,15 +1,18 @@
-﻿function captchaClick() {
-    $('#formSubmit').prop('disabled', false);
-}
-
+﻿
 $(function () {
     // Validation
     $("#username-form").validate({
+        ignore: '.skip',
         // Rules for form validation
         rules: {
             email: {
                 required: true,
                 email: true
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
             }
         },
 

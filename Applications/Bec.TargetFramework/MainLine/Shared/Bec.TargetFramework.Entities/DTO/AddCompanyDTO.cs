@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bec.TargetFramework.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,11 +14,11 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string CompanyName { get; set; }
         [DataMember]
+        public string TradingName { get; set; }
+        [DataMember]
         public string Line1 { get; set; }
         [DataMember]
         public string Line2 { get; set; }
-        [DataMember]
-        public string AdditionalAddressInformation { get; set; }
         [DataMember]
         public string Town { get; set; }
         [DataMember]
@@ -42,5 +43,7 @@ namespace Bec.TargetFramework.Entities
         public string RegulatorNumber { get; set; }
         [DataMember]
         public bool Manual { get; set; }
+        [DataMember]
+        public OrganisationRecommendationSource? OrganisationRecommendationSource { get; set; }
     }
 }

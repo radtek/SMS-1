@@ -191,6 +191,7 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function unverifiedChange(dataItem) {
+    console.log(dataItem);
     $("p#dduCompanyName").text(dataItem.Name || "");
     $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
     $("p#dduCompanyCounty").text(dataItem.County || "");
@@ -198,10 +199,9 @@ function unverifiedChange(dataItem) {
     $("p#dduCompanyTownCity").text(dataItem.Town || "");
     $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
     $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#dduAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-    $("p#dduSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
@@ -211,7 +211,6 @@ function unverifiedChange(dataItem) {
     //update links
     $("#rejectButton").data('href', $("#rejectButton").data("url") + "?orgId=" + dataItem.OrganisationID);
     $("#pinButton").data('href', $("#pinButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
-    $("#uEmailLogButton").data('href', $("#uEmailLogButton").data("url") + "?orgId=" + dataItem.OrganisationID);
 }
 
 function verifiedChange(dataItem) {
@@ -222,10 +221,9 @@ function verifiedChange(dataItem) {
     $("p#ddvCompanyTownCity").text(dataItem.Town || "");
     $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#ddvAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
-    $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation || "" + " " + dataItem.OrganisationAdminFirstName || "" + " " + dataItem.OrganisationAdminLastName || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
@@ -248,7 +246,6 @@ function rejectedChange(dataItem) {
     $("p#ddrCompanyTownCity").text(dataItem.Town || "");
     $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
-    $("p#ddrAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);

@@ -2918,6 +2918,14 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
           </AssociationSet>
+          <AssociationSet Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Association="Bec.TargetFramework.Data.Store.Organisation_ClassificationType_OrganisationRecSrc_fk">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="Organisation" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalOrganisationDetails_Organisation" Association="Bec.TargetFramework.Data.Store.fk_LegalOrganisationDetails_Organisation">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="LegalOrganisationDetails" EntitySet="LegalOrganisationDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -5078,6 +5086,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="OrganisationDefaultLogoID" Type="uuid" />
           <Property Name="OrganisationLegalBlurb" Type="varchar" />
+          <Property Name="TradingName" Type="varchar" />
         </EntityType>
         <EntityType Name="DefaultOrganisationGroupRole">
           <Key>
@@ -9624,6 +9633,7 @@
           <Property Name="IsCompanyVerified" Type="boolean" DefaultValue="false" />
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
+          <Property Name="OrganisationRecommendationSourceID" Type="int" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -17941,6 +17951,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Organisation_ClassificationType_OrganisationRecSrc_fk">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.Store.ClassificationType" Multiplicity="0..1" />
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="Organisation">
+              <PropertyRef Name="OrganisationRecommendationSourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalOrganisationDetails_Organisation">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Store.Organisation" Multiplicity="1" />
+          <End Role="LegalOrganisationDetails" Type="Bec.TargetFramework.Data.Store.LegalOrganisationDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="LegalOrganisationDetails">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -17960,8 +17994,10 @@
           <Parameter Name="defaultorganisationid" Type="uuid" Mode="In" />
           <Parameter Name="organisationversionnumber" Type="int" Mode="In" />
           <Parameter Name="organisationname" Type="varchar" Mode="In" />
+          <Parameter Name="tradingname" Type="varchar" Mode="In" />
           <Parameter Name="organisationdescription" Type="varchar" Mode="In" />
           <Parameter Name="createdby" Type="varchar" Mode="In" />
+          <Parameter Name="organisationrecommendationsourceid" Type="int" Mode="In" />
         </Function>
       </Schema>
     </edmx:StorageModels>
@@ -20806,6 +20842,14 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="SmsUserAccountOrganisationTransactions" EntitySet="SmsUserAccountOrganisationTransactions" />
           </AssociationSet>
+          <AssociationSet Name="Organisation_ClassificationType_OrganisationRecSrc_fkSet" Association="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk">
+            <End Role="ClassificationType" EntitySet="ClassificationTypes" />
+            <End Role="Organisations" EntitySet="Organisations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalOrganisationDetails_OrganisationSet" Association="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation">
+            <End Role="Organisation" EntitySet="Organisations" />
+            <End Role="LegalOrganisationDetail" EntitySet="LegalOrganisationDetails" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -20825,8 +20869,10 @@
             <Parameter Name="defaultorganisationid" Mode="In" Type="Guid" />
             <Parameter Name="organisationversionnumber" Mode="In" Type="Int32" />
             <Parameter Name="organisationname" Mode="In" Type="String" />
+            <Parameter Name="tradingname" Mode="In" Type="String" />
             <Parameter Name="organisationdescription" Mode="In" Type="String" />
             <Parameter Name="createdby" Mode="In" Type="String" />
+            <Parameter Name="organisationrecommendationsourceid" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -23470,6 +23516,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2209aecf-a377-4af9-9c21-7c0087609ffd" />
           <Property Name="OrganisationDefaultLogoID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d52f7a47-b4ec-4ecd-8459-860cfbb11b13" />
           <Property Name="OrganisationLegalBlurb" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="b44f68cc-795b-4076-918d-907272a876f1" />
+          <Property Name="TradingName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="5443deaf-646a-40b5-bdb0-499e34ffdb79" />
           <NavigationProperty Name="AttachmentDetail" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_OrganisationDefaultLogo" FromRole="OrganisationDetails" ToRole="AttachmentDetail" ed:Guid="e43dfc37-6e35-4b25-9f4d-abc88dd652fe" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_Organisation_1" FromRole="OrganisationDetails" ToRole="Organisation" ed:Guid="92ee0e51-09d2-4f5d-8e4c-81782fb99e0d" />
         </EntityType>
@@ -25423,6 +25470,7 @@
           <NavigationProperty Name="ClassificationTypeCategory_ClassificationTypeCategoryID" Relationship="Bec.TargetFramework.Data.FK_ClassificationType_ClassificationTypeCategory" FromRole="ClassificationTypes_ClassificationTypeCategoryID" ToRole="ClassificationTypeCategory_ClassificationTypeCategoryID" ed:Guid="39c942a6-b0ed-42c9-924e-bb9e39831824" />
           <NavigationProperty Name="ClassificationTypeCategory_ParentClassificationTypeCategoryID" Relationship="Bec.TargetFramework.Data.FK_ClassificationType_ClassificationTypeCategory2" FromRole="ClassificationTypes_ParentClassificationTypeCategoryID" ToRole="ClassificationTypeCategory_ParentClassificationTypeCategoryID" ed:Guid="e910cfa0-ce95-40f8-a9df-e0eb17e713f6" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_ClassificationType_ClassificationTypeID" FromRole="ClassificationType" ToRole="UserAccountArchives" ed:Guid="01fc26b5-d9b3-4bf3-86b9-c2139dac5ae7" />
+          <NavigationProperty Name="Organisations" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="ClassificationType" ToRole="Organisations" ed:Guid="be6b1a4b-11e8-4e7a-b458-275ade79b40b" />
         </EntityType>
         <EntityType Name="PluginTemplate" ed:Guid="83beeb84-1c59-40c0-93d2-bc4364ec7474">
           <Key>
@@ -27440,6 +27488,7 @@
           <Property Name="MonthlyCompletionsCount" Type="Int32" ed:ValidateRequired="False" ed:Guid="c61093e3-e39e-4247-96e9-1151ed3ffbbc" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="c59aa3d9-544e-432c-b6de-ace5162c0890" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6d23df35-2dd9-422d-b218-5d33e35baf4e" />
+          <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="LegalOrganisationDetail" ToRole="Organisation" ed:Guid="02d56264-9393-4b00-bcf3-fe0b2997f808" />
         </EntityType>
         <EntityType Name="OrganisationFinancialDetail" ed:Guid="ce6ec3cb-8006-46a8-8208-f6c6bd961491">
           <Key>
@@ -28553,6 +28602,7 @@
           <Property Name="IsCompanyVerified" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="68784b8d-18ec-443c-a157-dd76c237f2ff" />
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
+          <Property Name="OrganisationRecommendationSourceID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1f4d262c-7e42-4f67-88b6-4800c5480646" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -28591,6 +28641,8 @@
           <NavigationProperty Name="OrganisationGroups" Relationship="Bec.TargetFramework.Data.fk_Group_Organisation" FromRole="Organisation" ToRole="OrganisationGroups" ed:Guid="fb2a81f0-330e-4682-b7cd-f5e07f0c74b7" />
           <NavigationProperty Name="OrganisationRoleClaims" Relationship="Bec.TargetFramework.Data.fk_OrganisationRoleClaim_Organisation" FromRole="Organisation" ToRole="OrganisationRoleClaims" ed:Guid="a4f393fe-0d0d-46f6-a479-fb3b5806be58" />
           <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="Organisation" ToRole="SmsTransactions" ed:Guid="407e3ad1-f64a-4ac7-8f99-0ef11fbf274a" />
+          <NavigationProperty Name="ClassificationType" Relationship="Bec.TargetFramework.Data.Organisation_ClassificationType_OrganisationRecSrc_fk" FromRole="Organisations" ToRole="ClassificationType" ed:Guid="851eadd4-06e9-46cc-bfe5-2c235bf9a4e5" />
+          <NavigationProperty Name="LegalOrganisationDetail" Relationship="Bec.TargetFramework.Data.fk_LegalOrganisationDetails_Organisation" FromRole="Organisation" ToRole="LegalOrganisationDetail" ed:Guid="7835c877-7c6b-490a-83ad-13c637567b3b" />
         </EntityType>
         <EntityType Name="VOrganisationWithStatusAndAdmin" ed:Guid="bfc8d9b7-97cf-4558-9215-bbe4a81f5d25">
           <Key>
@@ -36583,6 +36635,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Organisation_ClassificationType_OrganisationRecSrc_fk" ed:Guid="9efa7df9-f19d-4b85-9120-3556cc15dbfe">
+          <End Role="ClassificationType" Type="Bec.TargetFramework.Data.ClassificationType" Multiplicity="0..1" />
+          <End Role="Organisations" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassificationType">
+              <PropertyRef Name="ClassificationTypeID" />
+            </Principal>
+            <Dependent Role="Organisations">
+              <PropertyRef Name="OrganisationRecommendationSourceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalOrganisationDetails_Organisation" ed:Guid="d6b31cc4-bf90-4278-a465-47ee15ac94c6">
+          <End Role="Organisation" Type="Bec.TargetFramework.Data.Organisation" Multiplicity="1" />
+          <End Role="LegalOrganisationDetail" Type="Bec.TargetFramework.Data.LegalOrganisationDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Organisation">
+              <PropertyRef Name="OrganisationID" />
+            </Principal>
+            <Dependent Role="LegalOrganisationDetail">
+              <PropertyRef Name="OrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -38742,6 +38818,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="OrganisationDefaultLogoID" ColumnName="OrganisationDefaultLogoID" />
                 <ScalarProperty Name="OrganisationLegalBlurb" ColumnName="OrganisationLegalBlurb" />
+                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43072,6 +43149,7 @@
                 <ScalarProperty Name="IsCompanyVerified" ColumnName="IsCompanyVerified" />
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="OrganisationRecommendationSourceID" ColumnName="OrganisationRecommendationSourceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -264,6 +264,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for OrganisationRecommendationSourceID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> OrganisationRecommendationSourceID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -606,6 +616,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsTransactions in the schema.
         /// </summary>
         public virtual ICollection<SmsTransaction> SmsTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for ClassificationType in the schema.
+        /// </summary>
+        public virtual ClassificationType ClassificationType
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for LegalOrganisationDetail in the schema.
+        /// </summary>
+        public virtual LegalOrganisationDetail LegalOrganisationDetail
         {
             get;
             set;

@@ -81,12 +81,16 @@
     </Compile>
     <Compile Include="Logic\ScriptProvider.cs" />
     <Compile Include="Logic\ScriptRunner.cs" />
+    <Compile Include="TestDTOs\AddCompanyDTO.cs" />
+    <Compile Include="TestDTOs\AddressDTO.cs" />
+    <Compile Include="TestDTOs\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="TestDTOs\ODataHelperTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDTOs\DataMember.cs" />
     <Compile Include="TestDTOs\OrganisationBankAccountDTO.cs" />
     <Compile Include="TestDTOs\OrganisationBankAccountStatusDTO.cs" />
+    <Compile Include="TestDTOs\SmsTransactionDTO.cs" />
     <Compile Include="TestDTOs\StatusTypeValueDTO.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

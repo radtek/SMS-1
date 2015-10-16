@@ -1,10 +1,4 @@
-﻿//from SmartAdmin template
-$(document).ready(function () {
-    pageSetUp();
-    drawBreadCrumb();
-});
-
-//checks for a json redirect response instruction
+﻿//checks for a json redirect response instruction
 function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }
@@ -432,7 +426,11 @@ var findAddress = function (opts) {
 
             ajaxWrapper({
                 url: self.findAddressButton.data('url'),
-                data: { postcode: pc }
+                data: {
+                    postcode: pc,
+                    __RequestVerificationToken: self.findAddressButton.data('requestverificationtoken')
+                },
+                type: 'POST'
             })
             .always(function () {
                 self.resList.empty();
@@ -498,9 +496,10 @@ var findAddress = function (opts) {
     }
 }
 
-function makeDatePicker(inputSelector) {
+function makeDatePicker(inputSelector, settings) {
     var inp = $(inputSelector);
-    inp.datepicker({
+
+    var defaultSettings = {
         dateFormat: "yy-mm-ddT00:00:00.0000000",
         changeMonth: true,
         changeYear: true,
@@ -514,7 +513,11 @@ function makeDatePicker(inputSelector) {
             $(this).valid();
         },
         showOn: ''
-    });
+    };
+
+    var settings = _.extend({}, defaultSettings, settings);
+
+    inp.datepicker(settings);
     var fullVal = inp.val();
     inp.data("val", fullVal);
     inp.val(dateStringNoTime(fullVal));

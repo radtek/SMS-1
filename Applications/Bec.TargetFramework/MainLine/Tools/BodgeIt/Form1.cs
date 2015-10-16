@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -81,6 +82,13 @@ namespace BodgeIt
            // x.EnsureSuccessStatusCode();
             return x;
             }
+
+        private async Task<JObject> joSendAsync<T>(HttpClient client, string requestUri, HttpMethod method, string user, T value)
+        {
+            var r = await SendAsync(client, requestUri, method, user, value);
+            var s = await r.Content.ReadAsStringAsync();
+            return JObject.Parse(s);
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -242,6 +250,190 @@ namespace BodgeIt
             {
                 con.Open();
                 _scriptRunner.RunScript(con, sb.ToString());
+                con.Close();
+            }
+        }
+
+        private async void button9_Click(object sender, EventArgs e)
+        {
+            int conIndex = (int)comboDB.SelectedValue;
+            string sal = "Mr";
+            string fn = "asdf{0}";
+            string ln = "asdf{0}";
+            string em = "asdf{0}@asdf.asdf";
+            DateTime bd = new DateTime(2000, 1, 1);
+
+            Guid orgID, uaoID;
+            HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+
+            var t = await createConveyancingOrg("Ana", conIndex);
+
+            orgID = t.Item1;
+            uaoID = t.Item2;
+
+            var prod = await joSendAsync<object>(client, "api/ProductLogic/GetBankAccountCheckProduct", HttpMethod.Get, "user", null);
+            int counter = 0, counter0=0, max = 50;
+
+            SemaphoreSlim _syncLock = new SemaphoreSlim(1);
+
+            Parallel.For(0, max, async i =>
+            {
+                Guid transID;
+                var r1 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddSmsClient?orgID={0}&uaoID={1}&salutation={2}&firstName={3}&lastName={4}&email={5}&birthDate={6}", orgID, uaoID, sal, string.Format(fn, i), string.Format(ln, i), string.Format(em, i), bd.ToString("O")), HttpMethod.Post, "user", null);
+                var userUaoID = await r1.Content.ReadAsAsync<Guid>();
+                SmsTransactionDTO trans = new SmsTransactionDTO
+                {
+                    Reference = "Ref",
+                    Address = new AddressDTO
+                    {
+                        Line1 = "Line 1",
+                        Line2 = "Line 2",
+                        Town = "Town",
+                        County = "County",
+                        PostalCode = "PO5T COD3"
+                    }
+                };
+
+                Interlocked.Increment(ref counter0);
+                Invoke((MethodInvoker)delegate
+                {
+                    label16.Text = counter0.ToString();
+                });
+
+                await _syncLock.WaitAsync();
+                try
+                {
+                    var r2 = await SendAsync<object>(client, string.Format("api/OrganisationLogic/PurchaseProduct?orgID={0}&uaoID={1}&buyerUaoID={2}&productID={3}&productVersion={4}", orgID, uaoID, userUaoID, prod["ProductID"], prod["ProductVersionID"]), HttpMethod.Post, "user", trans);
+                    transID = await r2.Content.ReadAsAsync<Guid>();
+                }
+                finally
+                {
+                    _syncLock.Release();
+                }
+                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+                {
+                    UaoID = userUaoID,
+                    TransactionID = transID,
+                    AssigningByOrganisationID = orgID,
+                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+                };
+
+                await SendAsync(client, "api/OrganisationLogic/AssignSmsClientToTransaction", HttpMethod.Post, "user", assignSmsClientToTransactionDto);
+
+                //register becky
+                Guid beckyOrgID;
+                getUser(userUaoID, out beckyOrgID, conIndex);
+
+                await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?orgID={0}&tempUaoId={1}&username=BeckyTest{2}&password={3}", beckyOrgID, userUaoID, i, "Testing123£"), HttpMethod.Post, "user", null);
+
+                Interlocked.Increment(ref counter);
+                Invoke((MethodInvoker)delegate
+                {
+                    label17.Text = counter.ToString();
+                });
+            });
+        }
+
+        private async Task<Tuple<Guid, Guid>> createConveyancingOrg(string username, int conIndex)
+        {
+            HttpClient client = new HttpClient { BaseAddress = new Uri(comboAddress.Text) };
+
+            var dto = new AddCompanyDTO
+            {
+                CompanyName = "The Tailor's Chalk",
+                Line1 = "Line 1",
+                Line2 = "Line 2",
+                Town = "Town",
+                County = "County",
+                PostalCode = "DA14 6ED",
+                OrganisationAdminSalutation = "Mr",
+                OrganisationAdminFirstName = "Fist Name",
+                OrganisationAdminLastName = "Last Name",
+                OrganisationAdminTelephone = "1234",
+                OrganisationAdminEmail = "asdf@qwer.zxcv",
+                Regulator = "SRA",
+                RegulatorNumber = "1234"
+            };
+
+            var r1 = await SendAsync(client, string.Format("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync?organisationType={0}", OrganisationTypeEnum.Professional), HttpMethod.Post, "user", dto);
+            var orgID = await r1.Content.ReadAsAsync<Guid>();
+            Guid uaoID;
+            getUserFromOrg(orgID, out uaoID, conIndex);
+
+            await SendAsync<object>(client, string.Format("api/UserLogic/GeneratePinAsync?uaoID={0}&blank=false&overwriteExisting=false", uaoID), HttpMethod.Post, "user", null);
+
+            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?orgID={0}&tempUaoId={1}&username={2}&password={3}", orgID, uaoID, username, "Testing123£"), HttpMethod.Post, "user", null);
+
+            //at this point uaoID is stil the temp user. It's not used for anything important from here on in though.
+            return Tuple.Create(orgID, uaoID);
+        }
+
+        private void getUser(string name, out Guid orgID, out Guid uaoID, int conIndex)
+        {
+            Guid userID = Guid.Empty;
+            orgID = uaoID = Guid.Empty;
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
+            {
+                con.Open();
+
+                var c = con.CreateCommand();
+                c.CommandText = "select \"ID\" from \"UserAccounts\" where \"Username\" = '" + name + "' limit 1";
+                using (var r = c.ExecuteReader())
+                {
+                    if (r.Read())
+                        userID = r.GetGuid(0);
+                }
+
+                c = con.CreateCommand();
+                c.CommandText = "select \"UserAccountOrganisationID\", \"OrganisationID\" from \"UserAccountOrganisation\" where \"UserID\" = '" + userID.ToString() + "' limit 1";
+                using (var r = c.ExecuteReader())
+                {
+                    if (r.Read())
+                    {
+                        uaoID = r.GetGuid(0);
+                        orgID = r.GetGuid(1);
+                    }
+                }
+
+                con.Close();
+            }
+        }
+
+        private void getUser(Guid uaoID, out Guid orgID, int conIndex)
+        {
+            Guid userID = Guid.Empty;
+            orgID = Guid.Empty;
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
+            {
+                con.Open();
+
+                var c = con.CreateCommand();
+                c.CommandText = "select \"OrganisationID\" from \"UserAccountOrganisation\" where \"UserAccountOrganisationID\" = '" + uaoID.ToString() + "' limit 1";
+                using (var r = c.ExecuteReader())
+                {
+                    if (r.Read())
+                        orgID = r.GetGuid(0);
+                }
+
+                con.Close();
+            }
+        }
+
+        private void getUserFromOrg(Guid orgID, out Guid uaoID, int conIndex)
+        {
+            uaoID = Guid.Empty;
+            using (PgSqlConnection con = new PgSqlConnection(Constants.TfCons[conIndex]))
+            {
+                con.Open();
+
+                var c = con.CreateCommand();
+                c.CommandText = "select \"UserAccountOrganisationID\" from \"UserAccountOrganisation\" where \"OrganisationID\" = '" + orgID.ToString() + "' limit 1";
+                using (var r = c.ExecuteReader())
+                {
+                    if (r.Read())
+                       uaoID = r.GetGuid(0);
+                }
+
                 con.Close();
             }
         }

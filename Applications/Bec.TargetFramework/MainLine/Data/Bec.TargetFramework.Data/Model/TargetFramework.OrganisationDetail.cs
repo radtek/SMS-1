@@ -108,6 +108,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for TradingName in the schema.
+        /// </summary>
+        public virtual string TradingName
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

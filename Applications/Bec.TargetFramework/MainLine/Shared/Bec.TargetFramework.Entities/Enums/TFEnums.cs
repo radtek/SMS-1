@@ -1116,4 +1116,12 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("Leasehold")]
         Leasehold = 5234
     }
+
+    public enum OrganisationRecommendationSource
+    {
+        [StringValue("Bold Legal Group")]
+        Bold_Legal_Group = 801949,
+        [StringValue("None of the above")]
+        Other = 802000
+    }
 }

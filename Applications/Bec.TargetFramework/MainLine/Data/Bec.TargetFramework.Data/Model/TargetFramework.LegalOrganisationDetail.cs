@@ -142,6 +142,19 @@ namespace Bec.TargetFramework.Data
 
 
         #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// There are no comments for Organisation in the schema.
+        /// </summary>
+        public virtual Organisation Organisation
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 
 }

@@ -2111,7 +2111,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for FnCreateOrganisationFromDefault in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string organisationdescription, string createdby)
+        public virtual global::System.Nullable<System.Guid> FnCreateOrganisationFromDefault (global::System.Nullable<int> organisationtypeid, global::System.Nullable<System.Guid> defaultorganisationid, global::System.Nullable<int> organisationversionnumber, string organisationname, string tradingname, string organisationdescription, string createdby, global::System.Nullable<int> organisationrecommendationsourceid)
         {
             EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
             bool needClose = false;
@@ -2145,6 +2145,10 @@ namespace Bec.TargetFramework.Data
                 if (organisationname != null)
                     organisationnameParameter.Value = organisationname;
                 command.Parameters.Add(organisationnameParameter);
+                EntityParameter tradingnameParameter = new EntityParameter("tradingname", System.Data.DbType.String);
+                if (tradingname != null)
+                    tradingnameParameter.Value = tradingname;
+                command.Parameters.Add(tradingnameParameter);
                 EntityParameter organisationdescriptionParameter = new EntityParameter("organisationdescription", System.Data.DbType.String);
                 if (organisationdescription != null)
                     organisationdescriptionParameter.Value = organisationdescription;
@@ -2153,6 +2157,10 @@ namespace Bec.TargetFramework.Data
                 if (createdby != null)
                     createdbyParameter.Value = createdby;
                 command.Parameters.Add(createdbyParameter);
+                EntityParameter organisationrecommendationsourceidParameter = new EntityParameter("organisationrecommendationsourceid", System.Data.DbType.Int32);
+                if (organisationrecommendationsourceid.HasValue)
+                    organisationrecommendationsourceidParameter.Value = organisationrecommendationsourceid;
+                command.Parameters.Add(organisationrecommendationsourceidParameter);
                 result = (global::System.Nullable<System.Guid>)command.ExecuteScalar();
               }
             }

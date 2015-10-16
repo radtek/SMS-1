@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bec.TargetFramework.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -11,10 +12,7 @@ namespace Bec.TargetFramework.Security
     {
         public static string GenerateRandomName()
         {
-            Random r = new Random();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 8; i++) sb.Append(r.Next(10));
-            return sb.ToString();
+            return CommonHelper.GenerateRandomDigitCode(8);
         }
 
         // Define default min and max password lengths.

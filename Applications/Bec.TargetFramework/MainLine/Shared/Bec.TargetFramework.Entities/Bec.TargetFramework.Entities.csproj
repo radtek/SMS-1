@@ -1850,6 +1850,8 @@
     <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
+    <Compile Include="DTO\OrganisationDetailDTO.cs" />
+    <Compile Include="DTO\Notification\AdminWelcomeMessageDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
     <Compile Include="DTO\RegistrationValidationErrorDTO.cs" />

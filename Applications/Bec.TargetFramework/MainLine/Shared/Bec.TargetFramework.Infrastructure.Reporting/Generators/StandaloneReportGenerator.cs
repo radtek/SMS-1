@@ -53,22 +53,14 @@ namespace Bec.TargetFramework.Infrastructure.Reporting.Generators
             return LoadAndExportReport();
         }
 
-        public byte[] GenerateReport(NotificationSettingDTO dto, NotificationConstructDTO constructDto, NotificationDictionaryDTO dictionary)
-        {
-            InitialiseData(constructDto, dictionary);
-
-            Ensure.That(this.m_NotificationDTO.NotificationConstructData).IsNotNull();
-            Ensure.That(Enumerable.First(this.m_NotificationDTO.NotificationConstructData).NotificationData).IsNotNull();
-
-            return LoadAndExportReport();
-        }
-
         private StiReport LoadAndCompileReport()
         {
             StiReport report = new StiReport();
 
             // load report file
-            report.Load(Enumerable.First(this.m_NotificationDTO.NotificationConstructData).NotificationData);
+            var rep = this.m_NotificationDTO.NotificationConstructData.Single(x => x.UsesBusinessObjects ?? false);
+            Ensure.That(rep).IsNotNull();
+            report.Load(rep.NotificationData);
 
             report.Compile();
 
