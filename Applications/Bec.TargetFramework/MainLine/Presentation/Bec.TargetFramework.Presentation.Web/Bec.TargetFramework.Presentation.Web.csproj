@@ -909,6 +909,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
+    <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

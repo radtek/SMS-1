@@ -37,7 +37,7 @@
 
     <div class="container">
         <div class="top navbar square-bottom-right">
-            <a href="@Url.Action("Index", "Home")">
+            <a href="http://www.safemovescheme.co.uk/">
                 <img class="brand-img" src="~/content/websitelayout/images/SMS-logo.png" />
             </a>
         </div>
@@ -50,14 +50,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand heading-toggle" })
+                <a class="navbar-brand heading-toggle" href="http://www.safemovescheme.co.uk/">Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ThreatsExplained", "BuyersAtRisk", "ConveyancersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fraud Threat <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")"><a href="http://www.safemovescheme.co.uk/Home/ThreatsExplained">Threats Explained</a)</li>
+                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")"><a href="http://www.safemovescheme.co.uk/Home/ThreatsExplained">Threats Explained</a></li>
                             <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")"><a href="http://www.safemovescheme.co.uk/Home/BuyersAtRisk">Buyers at Risk</a></li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")"><a href="http://www.safemovescheme.co.uk/Home/ConveyancersAtRisk">Conveyancers At Risk</a></li>
                         </ul>
@@ -85,7 +85,7 @@
                     <li class="@Html.Conditional("selected", "action", "ForThePublic")"><a href="http://www.safemovescheme.co.uk/Home/ForThePublic">For the Public</a></li>
                     <li class="@Html.Conditional("selected", "action", "AboutUs")"><a href="http://www.safemovescheme.co.uk/Home/AboutUs">About us</a></li>
 
-                    <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="/Account/Login">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
+                    <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="@Url.Action("Index", "Login", new { Area = "Account" })">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
                 </ul>
             </div>
         </nav>
