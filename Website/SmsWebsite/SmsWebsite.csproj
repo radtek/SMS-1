@@ -180,6 +180,7 @@
     <Content Include="fonts\CenturyGothic.eot" />
     <Content Include="fonts\CenturyGothic.ttf" />
     <Content Include="fonts\CenturyGothic.woff" />
+    <Content Include="PDF\SMS Pre-Registration - Next Steps.pdf" />
     <None Include="Properties\PublishProfiles\Custom.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

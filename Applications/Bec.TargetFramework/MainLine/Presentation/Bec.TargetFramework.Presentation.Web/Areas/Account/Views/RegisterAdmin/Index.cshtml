@@ -191,15 +191,20 @@
     </fieldset>
     <fieldset>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-9">
                 @Html.Partial("_Captcha")
+            </div>
+            <div class="col-sm-3">
+                <input id="checkSecPol" name="checkSecPol" type="checkbox" tabindex="19" />
+                <label style="display:inline;" for="checkSecPol">I have read and understood the <a download="SMS Login Security Policy.pdf" href="~/Content/websiteLayout/SMS Login Security Policy.pdf">SMS Login Security Policy</a></label>
             </div>
         </div>
     </fieldset>
     <div class="row">
-        <div class="col-sm-offset-9 col-sm-3">
+        
+        <div class="col-lg-offset-9 col-sm-3">
             <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary" id="formSubmit" tabindex="19">Register</button>
+                <button type="submit" class="btn btn-block btn-primary" id="formSubmit" tabindex="20">Register</button>
             </div>
         </div>
     </div>
