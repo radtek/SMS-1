@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username.Trim(), EncodePassword(model.Password.Trim()));
+                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Email.Trim(), EncodePassword(model.Password.Trim()));
                 var msg = loginValidationResult.validationMessage;
 
                 if (loginValidationResult.valid)
@@ -90,7 +90,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                         }
                     }
                     else
-                        msg = "Invalid Username or Password";
+                        msg = "Invalid E-mail or Password";
                 }
 
                 ModelState.AddModelError("", msg);

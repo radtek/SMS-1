@@ -94,7 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
+            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, contact.EmailAddress1, RandomPasswordGenerator.Generate(), true, false, false, roles, contact);
             await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
 
             TempData["UserId"] = uao.UserID;

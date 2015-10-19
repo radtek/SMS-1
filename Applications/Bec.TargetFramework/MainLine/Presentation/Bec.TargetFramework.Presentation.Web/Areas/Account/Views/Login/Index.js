@@ -32,7 +32,39 @@
         },
 
         submitHandler: function (form) {
-            $('#formSubmit').prop('disabled', true);
+            $('#loginFormSubmit').prop('disabled', true);
+            form.submit();
+        }
+    });
+
+    $("#register-form").validate({
+        // Rules for form validation
+        rules: {
+            RegistrationEmail: {
+                required: true,
+                email: true,
+                remote: {
+                    url: $('#RegistrationEmail').data("url"),
+                    data: {
+                        email: function () {
+                            return $('#RegistrationEmail').val();
+                        },
+                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
+                }
+            }
+        },
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        },
+
+        submitHandler: function (form) {
+            $('#registerFormSubmit').prop('disabled', true);
             form.submit();
         }
     });

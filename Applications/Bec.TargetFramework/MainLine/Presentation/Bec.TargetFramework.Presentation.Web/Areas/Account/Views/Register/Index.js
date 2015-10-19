@@ -48,6 +48,11 @@
             },
             ConfirmNewPassword: {
                 equalTo: '#NewPassword'
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
             }
         },
 
@@ -67,8 +72,10 @@
         },
 
         submitHandler: function (form) {
-            $('#formSubmit').prop('disabled', true);
-            form.submit();
+            if (grecaptcha.getResponse().length > 0) {
+                $('#formSubmit').prop('disabled', true);
+                form.submit();
+            }
         }
     });
 });

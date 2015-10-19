@@ -7,67 +7,104 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
-        <form action="@Url.Action("Index", "Login",new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.ReturnUrl)
-            <header>
-                <h1>Sign In</h1>
-            </header>
-            <section class="fields">
-                @Html.ValidationBootstrap()
-                <fieldset>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="@Html.IdFor(m => m.Username)">Username</label>
-                                        <i class="icon-append fa fa-user"></i>
-                                        @Html.TextBoxFor(m => m.Username, new { autocomplete = "off", @class = "form-control" })
+        <div class="tabbable custom-tabs shadow">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#loginPanel" data-toggle="tab" class="active"><i class="fa fa-lock margin-right-10"></i><span>Sign In</span></a></li>
+                <li class=""><a href="#registerPanel" data-toggle="tab"><i class="fa fa-user margin-right-10"></i><span>Create Login</span></a></li>
+            </ul>
+            <div class="tab-content ">
+                <div class="tab-pane active" id="loginPanel">
+                    <form action="@Url.Action("Index", "Login",new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.ReturnUrl)
+                        <section class="fields">
+                            @Html.ValidationBootstrap()
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="@Html.IdFor(m => m.Email)">E-mail</label>
+                                                    <i class="icon-append fa fa-user"></i>
+                                                    @Html.TextBoxFor(m => m.Email, new { autocomplete = "off", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Username</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <a href="@Url.Action("Username", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Username</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for="@Html.IdFor(m => m.Password)">Password</label>
-                                        <i class="icon-append fa fa-lock"></i>
-                                        @Html.PasswordFor(m => m.Password, new { autocomplete = "off", @class = "form-control" })
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="@Html.IdFor(m => m.Password)">Password</label>
+                                                    <i class="icon-append fa fa-lock"></i>
+                                                    @Html.PasswordFor(m => m.Password, new { autocomplete = "off", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </fieldset>
+                        </section>
+                        <footer>
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <a href="@Url.Action("Password", "Forgot", new { Area = "Account" })" class="pull-right" tabindex="-1">Forgotten Password</a>
+                                <div class="col-xs-8">
+                                    <label class="version">Version @TempData["version"]</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="submit" id="loginFormSubmit" class="btn btn-primary btn-block">
+                                        Sign In
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </fieldset>
-            </section>
-            <footer>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <label class="version">Version @TempData["version"]</label>
-                    </div>
-                    <div class="col-xs-4">
-                        <button type="submit" id="formSubmit" class="btn btn-primary btn-block">
-                            Sign In
-                        </button>
-                    </div>
+                        </footer>
+                    </form>
                 </div>
-            </footer>
-        </form>
+                <div class="tab-pane" id="registerPanel">
+                    <form action="@Url.Action("Index", "Register", new { area = "Account" })" id="register-form" method="GET" class="client-form well no-padding">
+                        <section class="fields">
+                            @Html.ValidationBootstrap()
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="RegistrationEmail">Provided E-mail</label>
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input type="email" name="RegistrationEmail" id="RegistrationEmail" class="form-control" autocomplete="off" data-url="@Url.Action("EmailCanBeRegistered", "Register", new { area = "Account" })" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </section>
+                        <footer>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <label class="version">Version @TempData["version"]</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="submit" id="registerFormSubmit" class="btn btn-primary btn-block">
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">

@@ -783,36 +783,23 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
+        public async Task RegisterUserAsync(Guid tempUaoId, string password)
         {
-            Guid[] roles;
-            UserTypeEnum userType;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                //copy roles from temp user
-                roles = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
-                var oldUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
-                userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUao.UserTypeID.ToString()).Value;
-            }
-            var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
-
-            //has to be called outside of transaction.
-            var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false, false, roles);
-
             using (var scope = DbContextScopeFactory.Create())
             {
                 var vStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
-                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
 
+                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
                 //progress status to 'active' if it's only 'verified'
                 if (currentStatus.StatusTypeID == vStatus.StatusTypeID && currentStatus.StatusTypeValueID == vStatus.StatusTypeValueID)
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
 
-                //delete original temp user account
-                await LockUserTemporaryAccountAsync(uao.UserID);
+                await LockOrUnlockUserAsync(uao.UserID, false);
+                await ResetUserPassword(uao.UserID, password);
+                await OrganisationLogic.UpdateSmsTransactionUaoAsync(tempUaoId, uao.UserAccountOrganisationID);
 
-                await OrganisationLogic.UpdateSmsTransactionUaoAsync(tempUaoId, newUaoDto.UserAccountOrganisationID);
+                uao.UserAccount.IsTemporaryAccount = false;
 
                 await scope.SaveChangesAsync();
             }

@@ -1,36 +1,34 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.Infrastructure.Settings;
-using Bec.TargetFramework.Presentation.Web.Base;
-using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Models;
 using BrockAllen.MembershipReboot;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
-    [Authorize]
-    [SessionExpireFilter]
+    [AllowAnonymous]
     public class RegisterController : Controller
     {
+        private readonly CaptchaService _captchaService;
         public AuthenticationService AuthSvc { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
-        public async Task<ActionResult> Index()
+
+        public RegisterController()
         {
-            var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
-            if (!uaDTO.IsTemporaryAccount)
+            _captchaService = new CaptchaService();
+        }
+
+        public async Task<ActionResult> Index(string registrationEmail)
+        {
+            var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(registrationEmail);
+            if (!CanContinueRegistration(uaDTO))
             {
                 LoginController.logout(this, AuthSvc);
                 return RedirectToAction("Index", "Login", new { area = "Account" });
@@ -39,7 +37,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             {
                 var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(uaDTO.ID)).Single();
                 ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
-                return View();
+                var model = new CreatePermanentLoginModel
+                {
+                    Email = registrationEmail
+                };
+                return View(model);
             }
         }
 
@@ -47,15 +49,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CreatePermanentLoginModel model)
         {
-            //check for any subsequent locking of this account
-            var tempua = await UserLogicClient.GetBAUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
-            if (!tempua.IsLoginAllowed) return RedirectToAction("Index", "Login", new { area = "Account" });
-
-            if (string.IsNullOrWhiteSpace(model.NewUsername) || await UserLogicClient.IsUserExistAsync(model.NewUsername))
+            var response = await _captchaService.ValidateCaptcha(Request);
+            if (!response.success)
             {
-                ModelState.AddModelError("", "This username is unavailable, please chose another");
+                ModelState.AddModelError("", "Captcha was not validated.");
                 return View(model);
             }
+
+            //check for any subsequent locking of this account
+            var tempua = await UserLogicClient.GetUserAccountByUsernameAsync(model.Email);
+            if (!CanContinueRegistration(tempua)) return RedirectToAction("Index", "Login", new { area = "Account" });
 
             if (model.NewPassword != model.ConfirmNewPassword)
             {
@@ -82,22 +85,42 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View(model);
             }
 
-            await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, model.NewUsername, model.NewPassword);
+            await UserLogicClient.RegisterUserAsync(userAccountOrg.UserAccountOrganisationID, model.NewPassword);
 
             LoginController.logout(this, AuthSvc);
-            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);
+            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.Email);
             await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 
-
-        //used by client validation
-        public async Task<ActionResult> UsernameAvailable(string username)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EmailCanBeRegistered(string email)
         {
-            if (string.IsNullOrWhiteSpace(username) || await UserLogicClient.IsUserExistAsync(username))
-                return Json("This username is unavailable, please chose another", JsonRequestBehavior.AllowGet);
+            var canRegister = false;
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(email);
+                canRegister = CanContinueRegistration(uaDTO);
+            }
+            
+            if (!canRegister)
+            {
+                return Json("This e-mail cannot be registered at the moment.", JsonRequestBehavior.AllowGet);
+            }
             else
+            {
                 return Json("true", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private bool CanContinueRegistration(UserAccountDTO uaDTO)
+        {
+            return 
+                uaDTO != null && 
+                uaDTO.IsLoginAllowed && 
+                uaDTO.IsTemporaryAccount && 
+                !Request.IsAuthenticated;
         }
     }
 }
