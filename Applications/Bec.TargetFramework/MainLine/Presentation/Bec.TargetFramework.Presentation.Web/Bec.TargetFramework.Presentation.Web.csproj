@@ -462,7 +462,6 @@
     <Content Include="Content\img\violate.jpg" />
     <Content Include="Content\img\voicecommand\active-btn.gif" />
     <Content Include="Content\img\vt-menu.png" />
-    <Content Include="Content\SchemeLogo.png" />
     <Content Include="Content\SMS Master Screen.png" />
     <Content Include="Content\sound\bigbox.mp3" />
     <Content Include="Content\sound\license.txt" />
@@ -752,9 +751,6 @@
     <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
-    <Content Include="Content\WelcomePack.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -768,6 +764,7 @@
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\websiteLayout\js\scroll.js" />
     <Content Include="Content\websiteLayout\js\slidebars.js" />
+    <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -918,6 +915,8 @@
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

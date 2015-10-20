@@ -43,10 +43,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var cd = codecs.First(codec => codec.FormatID == format.Guid);
             var ext = cd.FilenameExtension.Split(';').First().Trim('*');
 
-            var img = Image.FromFile(Server.MapPath("~/content/SchemeLogo.png"));
+            var img = Image.FromFile(Server.MapPath("~/content/WelcomePack/SMS Member Logo.jpg"));
             using (var gr = Graphics.FromImage(img))
             {
-                gr.DrawString(sid.ToString(), new Font("Century Gothic", 144), Brushes.Black, new RectangleF(1700, 1080, 900, 350));
+                gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                gr.DrawString(sid.ToString(), new Font("Tahoma", 32), Brushes.White, new RectangleF(427, 278, 700, 380));
                 using (var stream = new MemoryStream())
                 {
                     img.Save(stream, format);
@@ -62,9 +63,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return codecs.First(codec => codec.FormatID == imageFormat.Guid).MimeType;
         }
 
-        public ActionResult WelcomePack()
+        public ActionResult HowToUse()
         {
-            return File(Server.MapPath("~/content/WelcomePack.pdf"), "application/pdf", "WelcomePack.pdf");
+            return File(Server.MapPath("~/content/WelcomePack/How To Use the Safe Move Scheme a Guide For Firms.pdf"), "application/pdf", "How To Use the Safe Move Scheme a Guide For Firms.pdf");
+        }
+
+        public ActionResult LogoUsageGuidelines()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Logo Usage Guidelines.pdf"), "application/pdf", "Logo Usage Guide.pdf");
         }
     }
 }
