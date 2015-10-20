@@ -1,0 +1,15 @@
+﻿@using System.Drawing.Imaging
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-download margin-right-10"></i>Downloads</h2>
+        <div class="col-sm-12">
+            <div class="well well-light">
+                <ul>
+                    <li><p>@Html.ActionLink("Welcome Pack", "WelcomePack")</p></li>
+                    <li><p>Scheme Logo: @Html.ActionLink("PNG", "SchemeLogo", new { format = ImageFormat.Png }), @Html.ActionLink("JPG", "SchemeLogo", new { format = ImageFormat.Jpeg })</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

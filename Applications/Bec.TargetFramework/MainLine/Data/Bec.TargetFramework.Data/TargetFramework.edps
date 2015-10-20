@@ -1713,36 +1713,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationCategoryID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsBranch" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsHeadOffice" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsActive" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsUserOrganisation" Table="public.Organisation" Type="Column" />
-      <Exclude Name="CreatedOn" Table="public.Organisation" Type="Column" />
-      <Exclude Name="CreatedBy" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationSubCategoryID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="DefaultOrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ParentID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ParentOrganisationID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsPaymentProvider" Table="public.Organisation" Type="Column" />
-      <Exclude Name="PrimaryContactID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsCompanyVerified" Table="public.Organisation" Type="Column" />
-      <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
-      <Exclude Name="ReturnUrl" Table="public.Organisation" Type="Column" />
-      <Exclude Name="RowVersion" Table="public.Organisation" Type="Column" />
-      <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
-      <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="BalanceOn" Table="public.OrganisationLedgerTransaction" Type="Column" />
@@ -1750,9 +1720,9 @@
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
