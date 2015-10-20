@@ -31,6 +31,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
+    @Scripts.Render("~/scripts/websitelayout")
+
     @RenderSection("Scripts", false)
 </head>
 <body class="@ViewBag.PageClass @Settings.CurrentTheme @Html.RouteIf("hidden-menu","AcceptTCs", "Index")">
@@ -105,8 +107,7 @@
             <p><a href="http://www.safemovescheme.co.uk/PDF/SMS-T%26C's.pdf" target="_blank">Terms of Use & Privacy Policy</a>&nbsp;|&nbsp;<a href="http://www.safemovescheme.co.uk/Home/ContactUs">Contact us</a></p>
 
         </div>
-    </footer>
-        @Scripts.Render("~/scripts/websitelayout")
+    </footer>       
 
     </body>
 </html>
