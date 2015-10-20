@@ -24,6 +24,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public IProductLogicClient prodClient { get; set; }
         public IUserLogicClient userClient { get; set; }
 
+        public ActionResult Welcome()
+        {
+            return PartialView();
+        }
+
         public ActionResult Index(Guid? selectedTransactionID)
         {
             if (selectedTransactionID.HasValue)

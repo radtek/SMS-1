@@ -53,6 +53,7 @@ namespace Bec.TargetFramework.Entities
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
+            target.SchemeID = source.SchemeID;
 
             // Navigation Properties
             if (level > 0) {
@@ -136,6 +137,7 @@ namespace Bec.TargetFramework.Entities
             target.ReturnUrl = source.ReturnUrl;
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
+            target.SchemeID = source.SchemeID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

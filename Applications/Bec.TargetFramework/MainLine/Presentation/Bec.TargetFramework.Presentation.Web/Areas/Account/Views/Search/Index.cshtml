@@ -1,0 +1,39 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model OrganisationDTO
+
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
+    <form data-url="@Url.Action("Index", "Search", new { area = "Account" })" id="search-form">
+        @Html.ValidationBootstrap()
+        @Html.AntiForgeryToken()
+        <h1>Search the Register</h1>
+        <p class="form-info">Enter a conveyancing firm's Scheme Number to retrieve their details.</p>
+
+        <fieldset>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="schemeID">Registered Scheme Number</label>
+                        <input type="text" tabindex="1" maxlength=50 class="form-control" name="schemeID" id="schemeID" autocomplete="off" />
+                        <i class="icon-append fa fa-asterisk"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <button class="btn btn-block btn-primary" id="formSubmit" tabindex="20">Search</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </form>
+
+    <div id="searchResult"></div>
+
+</div>
+@section Scripts{
+    <script src="@Scripts.Url("~/Scripts/Account/Search/Index")"></script>
+}

@@ -22,6 +22,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
+                TempData["WelcomeMessage"] = TempData["JustRegistered"];
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
             }
             else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))

@@ -95,6 +95,7 @@
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -170,6 +171,7 @@
     <Compile Include="Areas\Account\Controllers\ForgotController.cs" />
     <Compile Include="Areas\Account\Controllers\LoginController.cs" />
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
+    <Compile Include="Areas\Account\Controllers\SearchController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterAdminController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
@@ -230,6 +233,7 @@
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
     <Content Include="Areas\Account\Views\Register\Index.js" />
+    <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
@@ -751,6 +755,9 @@
     </Content>
     <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Search\Index.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -764,6 +771,7 @@
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\websiteLayout\js\scroll.js" />
     <Content Include="Content\websiteLayout\js\slidebars.js" />
+    <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -914,6 +922,8 @@
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

@@ -208,6 +208,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
             await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+
+            TempData["JustRegistered"] = true;
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 

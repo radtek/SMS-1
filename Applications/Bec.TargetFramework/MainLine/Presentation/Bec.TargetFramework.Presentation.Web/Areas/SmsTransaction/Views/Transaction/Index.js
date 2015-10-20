@@ -75,6 +75,10 @@ $(function () {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });
 
+    if ($('#content').data("welcome")) {
+        handleModal({ url: $('#content').data("welcomeurl") }, null, true);
+    }
+
 });
 
 //data binding for the panes beneath each grid
