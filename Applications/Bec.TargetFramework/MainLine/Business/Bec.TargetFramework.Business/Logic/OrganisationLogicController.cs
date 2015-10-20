@@ -143,7 +143,6 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
-            //var randomUsername = RandomPasswordGenerator.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
@@ -159,6 +158,9 @@ namespace Bec.TargetFramework.Business.Logic
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
+            //create Ts & Cs notification
+            await CreateTsAndCsNotificationAsync(uaoDto.UserAccountOrganisationID, NotificationConstructEnum.TcFirmConveyancing);
+            
             return organisationID;
         }
 
@@ -222,8 +224,8 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
-            if (!isTemporary && orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
+            if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+            if (orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
 
             if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
@@ -509,7 +511,6 @@ namespace Bec.TargetFramework.Business.Logic
                 OrganisationAdminLastName = lastName,
                 OrganisationAdminEmail = email
             };
-            var tempUsername = RandomPasswordGenerator.GenerateRandomName();
             var tempPassword = RandomPasswordGenerator.Generate(10);
             var contactDTO = new ContactDTO
             {
@@ -521,7 +522,7 @@ namespace Bec.TargetFramework.Business.Logic
                 CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, false, true);
+            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, email, tempPassword, true, false, true);
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true);
             return buyerUaoDto.UserAccountOrganisationID;
         }

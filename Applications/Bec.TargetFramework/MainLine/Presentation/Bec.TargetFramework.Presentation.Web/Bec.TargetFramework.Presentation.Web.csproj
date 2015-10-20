@@ -172,6 +172,7 @@
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterAdminController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
     <Compile Include="Filters\RedirectHelper.cs" />
     <Compile Include="Filters\SessionExpireFilter.cs" />
+    <Compile Include="Filters\PersonalDetailsFilterAttribute.cs" />
     <Compile Include="Filters\TermsAndConditionsFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,7 +216,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ButtonDefinition.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
-    <Compile Include="Models\CreatePermanentLoginModel.cs" />
+    <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -236,6 +238,7 @@
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
+    <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
@@ -747,6 +750,7 @@
       <DependentUpon>style.css</DependentUpon>
     </Content>
     <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Verify.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

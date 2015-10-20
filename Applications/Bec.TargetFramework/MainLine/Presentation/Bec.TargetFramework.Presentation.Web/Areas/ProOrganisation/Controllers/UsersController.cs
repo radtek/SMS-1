@@ -101,27 +101,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewResendLogins(Guid uaoId, string label)
-        {
-            ViewBag.uaoId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Users";
-            ViewBag.RedirectArea = "ProOrganisation";
-            return PartialView("_ResendLogins");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoId)
-        {
-            var uao = await userClient.ResendLoginsAsync(uaoId);
-
-            TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 0;
-            return RedirectToAction("Invited");
-        }
-
         public ActionResult ViewRevokeInvite(Guid uaoId, string label)
         {
             ViewBag.uaoId = uaoId;

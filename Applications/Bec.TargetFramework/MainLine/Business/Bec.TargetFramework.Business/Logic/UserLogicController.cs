@@ -562,7 +562,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<BrockAllen.MembershipReboot.UserAccount> CreateTemporaryAccountAsync(string email, string password, bool temporaryAccount, Guid userId)
         {
-            return await UaService.CreateAccountAsync(RandomPasswordGenerator.GenerateRandomName(), password, email, temporaryAccount, userId);
+            return await UaService.CreateAccountAsync(email, password, email, temporaryAccount, userId);
         }
 
         public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, bool temporaryAccount, Guid userId)

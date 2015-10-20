@@ -303,7 +303,8 @@ li {
 a,
 em,
 label,
-small {
+small,
+legend {
   font-family: 'CenturyGothic', Helvetica, sans-serif;
 }
 h1 {

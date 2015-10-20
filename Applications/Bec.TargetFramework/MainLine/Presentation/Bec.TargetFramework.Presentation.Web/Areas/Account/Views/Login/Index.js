@@ -6,10 +6,10 @@
     $("#login-form").validate({
         // Rules for form validation
         rules: {
-            Username: {
+            "LoginDTO.Username": {
                 required: true
             },
-            Password: {
+            "LoginDTO.Password": {
                 required: true,
                 minlength: 3,
                 maxlength: 20
@@ -18,10 +18,10 @@
 
         // Messages for form validation
         messages: {
-            Username: {
+            "LoginDTO.Username": {
                 required: 'Please enter your username'
             },
-            Password: {
+            "LoginDTO.Password": {
                 required: 'Please enter your password'
             }
         },
@@ -37,17 +37,36 @@
         }
     });
 
+    // Registration tab
+
+    $.validator.addMethod("pwcheck",
+        function (value, element) {
+            return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
+        }, 'Your password must contain 1 number, 1 uppercase character and 1 symbol');
+
+    $.validator.addMethod("lettersanddigits",
+        function (value, element) {
+            return /^[a-z0-9]+$/i.test(value);
+        }, 'Your username must contain only letters and digits');
+
+    $.validator.addMethod("nospace",
+        function (value, element) {
+            return value.indexOf(" ") < 0;
+        }, 'Spaces are not allowed');
+
+    // Validation
     $("#register-form").validate({
+        ignore: '.skip',
         // Rules for form validation
         rules: {
-            RegistrationEmail: {
+            "CreatePermanentLoginModel.RegistrationEmail": {
                 required: true,
                 email: true,
                 remote: {
-                    url: $('#RegistrationEmail').data("url"),
+                    url: $('#CreatePermanentLoginModel_RegistrationEmail').data("url"),
                     data: {
                         email: function () {
-                            return $('#RegistrationEmail').val();
+                            return $('#CreatePermanentLoginModel_RegistrationEmail').val();
                         },
                         __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                     },
@@ -55,6 +74,33 @@
                     dataType: 'json',
                     error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                 }
+            },
+            //"CreatePermanentLoginModel.Pin": {
+            //    required: true
+            //},
+            "CreatePermanentLoginModel.NewPassword": {
+                required: true,
+                minlength: 10,
+                pwcheck: true,
+                nospace: true
+            },
+            "CreatePermanentLoginModel.ConfirmNewPassword": {
+                equalTo: '#CreatePermanentLoginModel_NewPassword'
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
+            }
+        },
+
+        // Messages for form validation
+        messages: {
+            "CreatePermanentLoginModel.NewPassword": {
+                pwcheck: 'Your password must contain 1 number, 1 uppercase character and 1 symbol'
+            },
+            "CreatePermanentLoginModel.ConfirmNewPassword": {
+                equalTo: 'Passwords do not match'
             }
         },
 
@@ -64,8 +110,13 @@
         },
 
         submitHandler: function (form) {
-            $('#registerFormSubmit').prop('disabled', true);
-            form.submit();
+            if (grecaptcha.getResponse().length > 0) {
+                $('#registerFormSubmit').prop('disabled', true);
+                form.submit();
+            }
         }
     });
+
+    var selectedTab = $('#loginTabs').data('selected');
+    $('#' + selectedTab).tab('show');
 });

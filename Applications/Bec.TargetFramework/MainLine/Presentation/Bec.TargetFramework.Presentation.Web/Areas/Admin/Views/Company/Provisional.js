@@ -191,7 +191,6 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function unverifiedChange(dataItem) {
-    console.log(dataItem);
     $("p#dduCompanyName").text(dataItem.Name || "");
     $("p#dduCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
     $("p#dduCompanyCounty").text(dataItem.County || "");
@@ -210,7 +209,7 @@ function unverifiedChange(dataItem) {
 
     //update links
     $("#rejectButton").data('href', $("#rejectButton").data("url") + "?orgId=" + dataItem.OrganisationID);
-    $("#pinButton").data('href', $("#pinButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
+    $("#verifyButton").data('href', $("#verifyButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
 }
 
 function verifiedChange(dataItem) {
@@ -235,8 +234,13 @@ function verifiedChange(dataItem) {
     $("p#ddvLoginsSent").text(dateString(dataItem.OrganisationAdminCreated));
 
     //update links
-    $("#resendButton").data('href', $("#resendButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Name));
-    $("#vEmailLogButton").data('href', $("#vEmailLogButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+    $("#pinButton").data('href', $("#pinButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
+
+    // toggle visibility
+    $("p#ddvPINNumber").toggle(!!dataItem.PinCode);
+    $("p#ddvPINNumber").parent().prev().toggle(!!dataItem.PinCode);
+    $("p#ddvPINCreatedOn").toggle(!!dataItem.PinCreated);
+    $("p#ddvPINCreatedOn").parent().prev().toggle(!!dataItem.PinCreated);
 }
 
 function rejectedChange(dataItem) {

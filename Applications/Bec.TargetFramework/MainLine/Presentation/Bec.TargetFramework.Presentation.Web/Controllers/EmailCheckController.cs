@@ -1,5 +1,7 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
     public class EmailCheckController : Controller
     {
         public IQueryLogicClient QueryClient { get; set; }
+        public ITFSettingsLogicClient SettingsClient { get; set; }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CheckForAdminRegistration(string email)
@@ -25,9 +28,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccount.Email.ToLower() == email);
             var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
 
-            // todo: ZM use settings to get the number
+            var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
+
             if (contactAsync.Any() || uaoAsync.Any())
-                return Json("The email address is already registered in Safe Move Scheme. Call us at 020 3598 0150 if this concerns you.", JsonRequestBehavior.AllowGet);
+                return Json(string.Format("The email address is already registered in Safe Move Scheme. Call us at {0} if this concerns you.", commonSettings.SupportTelephoneNumber), JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }
