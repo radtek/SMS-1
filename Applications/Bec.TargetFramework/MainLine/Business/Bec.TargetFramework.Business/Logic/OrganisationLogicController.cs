@@ -158,12 +158,8 @@ namespace Bec.TargetFramework.Business.Logic
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
-            //create Ts & Cs notification
-            await CreateTsAndCsNotificationAsync(uaoDto.UserAccountOrganisationID, NotificationConstructEnum.TcFirmConveyancing);
-            
             return organisationID;
         }
-
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
