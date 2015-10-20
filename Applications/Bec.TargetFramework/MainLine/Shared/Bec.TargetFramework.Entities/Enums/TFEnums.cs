@@ -1121,6 +1121,10 @@ namespace Bec.TargetFramework.Entities.Enums
     {
         [StringValue("Bold Legal Group")]
         Bold_Legal_Group = 801949,
+        [StringValue("Conveyancing Data Services")]
+        Conveyancing_Data_Services = 801969,
+        [StringValue("Search Acumen")]
+        Search_Acumen = 801979,
         [StringValue("None of the above")]
         Other = 802000
     }
