@@ -86,6 +86,7 @@
                     </li>
                     <li class="@Html.Conditional("selected", "action", "ForThePublic")"><a href="http://www.safemovescheme.co.uk/Home/ForThePublic">For the Public</a></li>
                     <li class="@Html.Conditional("selected", "action", "AboutUs")"><a href="http://www.safemovescheme.co.uk/Home/AboutUs">About us</a></li>
+                    <li class="@Html.Conditional("selected", "controller", "Search")"><a href="@Url.Action("Index", "Search", new { Area = "Account" })">Search the Register</a></li>
 
                     <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="@Url.Action("Index", "Login", new { Area = "Account" })">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
                 </ul>
