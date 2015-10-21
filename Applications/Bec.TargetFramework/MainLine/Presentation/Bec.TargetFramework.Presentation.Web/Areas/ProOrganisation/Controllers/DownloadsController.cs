@@ -19,7 +19,7 @@ using System.IO;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
-    [ClaimsRequired("Add", "ProUsers", Order = 1000)]
+    [ClaimsRequired("View", "Products", Order = 1000)]
     public class DownloadsController : ApplicationControllerBase
     {
         public IOrganisationLogicClient orgClient { get; set; }
