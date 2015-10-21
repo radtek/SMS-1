@@ -524,6 +524,22 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
 
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Boolean RequiresPersonalDetails(Guid uaoId);
+
 		/// <param name="userOrgID"></param>
 		/// <param name="type"></param>
 		/// <returns></returns>
@@ -2676,6 +2692,48 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual Boolean RequiresPersonalDetails(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user)).Result;
 		}
 
 		/// <summary>

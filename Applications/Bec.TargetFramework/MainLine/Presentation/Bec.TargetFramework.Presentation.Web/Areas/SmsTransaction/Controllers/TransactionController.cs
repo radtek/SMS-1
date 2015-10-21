@@ -145,34 +145,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
         }
 
-        public async Task<ActionResult> ViewResendLogins(Guid txID, string label)
-        {
-            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => 
-                x.SmsTransactionID == txID &&
-                x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-
-            ViewBag.txID = txID;
-            ViewBag.uaoID = res.First().UserAccountOrganisationID;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Transaction";
-            ViewBag.RedirectArea = "SmsTransaction";
-            return PartialView("_ResendLogins");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoID, Guid txID)
-        {
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.ResendLoginsAsync(uaoID);
-            TempData["SmsTransactionID"] = txID;
-            return RedirectToAction("Index");
-        }
-
         internal static async Task EnsureSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient client)
         {
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });

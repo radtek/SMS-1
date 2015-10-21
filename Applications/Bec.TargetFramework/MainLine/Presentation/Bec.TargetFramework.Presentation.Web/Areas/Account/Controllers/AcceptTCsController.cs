@@ -19,7 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
+            var userObject = WebUserHelper.GetWebUserObject(HttpContext);
             var result = await NotificationLogicClient.GetTcAndCsTextAsync(userObject.UserID);
             if (result == null)
             {
@@ -35,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         public async Task<ActionResult> GetPDF(Guid ncID, int version)
         {
-            var userObject = Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
+            var userObject = WebUserHelper.GetWebUserObject(HttpContext);
             return File(await NotificationLogicClient.GetTcAndCsDataAsync(ncID, version), "application/pdf", "TermsAndConditions.pdf");
         }
 
@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public async Task<ActionResult> Done(Guid notificationID)
         {
             //mark as read: update session
-            WebUserObject userObject = HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
+            var userObject = WebUserHelper.GetWebUserObject(HttpContext);
             if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
 
             //update database

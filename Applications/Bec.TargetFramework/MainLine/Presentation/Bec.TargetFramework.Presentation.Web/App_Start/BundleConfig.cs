@@ -51,8 +51,38 @@ namespace Bec.TargetFramework.Presentation.Web
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/websitelayout").Include(
+                "~/Scripts/Libs/lodash.js",
                 "~/Scripts/bootstrap/bootstrap.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
+
+                //"~/Scripts/jquery.unobtrusive-ajax.min.js",
+                //"~/Scripts/kendo/kendo.core.min.js",
+                //"~/Scripts/kendo/kendo.data.min.js",
+                //"~/Scripts/kendo/kendo.data.odata.min.js",
+                //"~/Scripts/kendo/kendo.columnsorter.min.js",
+                //"~/Scripts/kendo/kendo.pager.min.js",
+                //"~/Scripts/kendo/kendo.userevents.min.js",
+                //"~/Scripts/kendo/kendo.selectable.min.js",
+                //"~/Scripts/kendo/kendo.grid.min.js",
+                //"~/Scripts/kendo/kendo.aspnetmvc.min.js",
+
+                //"~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
+
+                //"~/Scripts/app.config.js",
+                //"~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
+                //"~/Scripts/notification/SmartNotification.min.js",
+                //"~/Scripts/smartwidgets/jarvis.widget.min.js",
+                //"~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
+                //"~/Scripts/plugin/masked-input/jquery.maskedinput.min.js",
+                //"~/Scripts/plugin/select2/select2.min.js",
+                //"~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
+                //"~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
+                //"~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
+                //"~/Scripts/plugin/fastclick/fastclick.min.js",
+                //"~/Scripts/plugin/moment/moment.min.js",
+
+                //"~/Scripts/app.min.js",
+
                 "~/Scripts/site.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
                 "~/Scripts/Libs/handlebars-helper-x.js"
@@ -122,6 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/Account/AcceptTCs/Index").Include("~/Areas/Account/Views/AcceptTCs/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/PersonalDetails/Index").Include("~/Areas/Account/Views/PersonalDetails/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Login/Index").Include("~/Areas/Account/Views/Login/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Password").Include("~/Areas/Account/Views/Forgot/Password.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Reset").Include("~/Areas/Account/Views/Forgot/Reset.js"));
