@@ -664,4 +664,10 @@ body {
 .ui-datepicker .ui-datepicker-today {
   background-color: #def2ff;
 }
+.form-control.hasDatepicker[disabled],
+.form-control.hasDatepicker[readonly],
+fieldset[disabled] .form-control.hasDatepicker {
+  cursor: default;
+  background-color: #fff;
+}
 /*# sourceMappingURL=style.css.map */

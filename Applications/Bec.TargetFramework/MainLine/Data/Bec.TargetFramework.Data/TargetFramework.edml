@@ -9744,6 +9744,7 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="Confirmed" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
           <Key>
@@ -28754,6 +28755,7 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="f5cd91a3-2036-4630-b231-33d3eb1afb40" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
@@ -43253,6 +43255,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -32,6 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 buyerCity = x.Address.City,
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
+                x.SmsTransaction.Confirmed,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
@@ -53,6 +54,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             ViewBag.index = index;
+            ViewBag.txID = txID;
+
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
                 x.SmsTransactionID,
@@ -62,6 +65,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 buyerCity = x.Address.City,
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
+                x.SmsTransaction.Confirmed,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
@@ -86,7 +90,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.First();
 
-            return PartialView("_ConfirmDetails", model);
+            ViewBag.orgID = model.SmsTransaction.OrganisationID;
+
+            if(model.SmsTransaction.Confirmed)
+                return PartialView("_CheckBankAccount");
+            else
+                return PartialView("_ConfirmDetails", model);
         }
 
         [HttpPost]
@@ -106,5 +115,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Json(new { result = matches.Any(), index = index, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode, Guid txID, Guid orgID, int index)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            //check bank account
+            string safe = BankAccountStatusEnum.Safe.GetStringValue();
+            var select2 = ODataHelper.Select<VOrganisationBankAccountsWithStatusDTO>(x => new { x.OrganisationBankAccountID }, false);
+            var filter2 = ODataHelper.Filter<VOrganisationBankAccountsWithStatusDTO>(x => x.BankAccountNumber == accountNumber && x.SortCode == sortCode && x.Status == safe && x.OrganisationID == orgID);
+
+            var matches = await QueryClient.QueryAsync<VOrganisationBankAccountsWithStatusDTO>("VOrganisationBankAccountsWithStatus", select2 + filter2);
+            return Json(new { result = matches.Any(), index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
+          this.Confirmed = false;
         }
 
         #region Properties
@@ -173,6 +174,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ModifiedBy in the schema.
         /// </summary>
         public virtual string ModifiedBy
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Confirmed in the schema.
+        /// </summary>
+        public virtual bool Confirmed
         {
             get;
             set;
