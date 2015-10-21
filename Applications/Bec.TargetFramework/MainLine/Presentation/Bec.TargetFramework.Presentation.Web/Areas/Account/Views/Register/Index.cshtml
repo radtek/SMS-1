@@ -1,4 +1,6 @@
-﻿@using Bec.TargetFramework.Entities
+﻿@*todo: ZM delete*@
+
+@*@using Bec.TargetFramework.Entities
 @model Bec.TargetFramework.Presentation.Web.Models.CreatePermanentLoginModel
 @{
     ViewBag.Title = "Welcome to Safe Move Scheme";
@@ -8,6 +10,7 @@
     <div class="col-lg-8 col-lg-offset-2">
         <form action="@Url.Action("Index", "Register", new { area = "Account"})" method="POST" id="login-form" class="client-form well no-padding" data-checkuser="@Url.Action("UsernameAvailable", "Register", new { Area = "Account" })">
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Email)
             <header>
                 <h1>Create Account</h1>
             </header>
@@ -21,40 +24,18 @@
                                 <strong>Welcome</strong>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    @if (ViewBag.PINRequired)
-                                    {
-                                        <label for="@Html.IdFor(m => m.Pin)">Please enter your PIN as provided by Safe Move Scheme</label>
-                                        @Html.TextBoxFor(m => m.Pin, new { maxlength = 20, autocomplete = "off", @class = "form-control" })
-                                        <i class="icon-append fa fa-asterisk"></i>
-                                    }
-                                </div>
-                            </div>
-                        </div>
                         @if (ViewBag.PINRequired)
                         {
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <strong>Create Account</strong>
+                                    <div class="form-group">
+                                        <label for="@Html.IdFor(m => m.Pin)">Please enter your PIN as provided by Safe Move Scheme</label>
+                                        @Html.TextBoxFor(m => m.Pin, new { maxlength = 20, autocomplete = "off", @class = "form-control" })
+                                        <i class="icon-append fa fa-asterisk"></i>
+                                    </div>
                                 </div>
                             </div>
                         }
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label>Please choose a unique username and password to create your account.</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="@Html.IdFor(m => m.NewUsername)">Username</label>
-                                    @Html.TextBoxFor(m => m.NewUsername, new { autocomplete = "off", @class = "form-control" })
-                                    <i class="icon-append fa fa-user"></i>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <strong>Choose a New Password</strong>
@@ -69,13 +50,21 @@
                                     <i class="icon-append fa fa-lock"></i>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <label for="@Html.IdFor(m => m.ConfirmNewPassword)">Confirm password</label>
                                 @Html.PasswordFor(m => m.ConfirmNewPassword, new { maxlength = 25, autocomplete = "off", @class = "form-control" })
                                 <i class="icon-append fa fa-lock"></i>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @Html.Partial("_Captcha")
                             </div>
                         </div>
                     </fieldset>
@@ -97,4 +86,4 @@
 
 @section Scripts {
     <script async src="@Scripts.Url("~/Scripts/Account/Register/Index")"></script>
-}
+}*@

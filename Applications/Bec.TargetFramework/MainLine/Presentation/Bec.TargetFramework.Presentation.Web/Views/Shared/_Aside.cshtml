@@ -49,7 +49,7 @@
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("active", "Account", "index")">
-                        <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">View My Bank Accounts</span></a>
+                        <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Manage Bank Accounts</span></a>
                     </li>
                 }
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Configure", "BankAccount"))

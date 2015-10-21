@@ -18,6 +18,9 @@
 .bg-color-transparent {
   background: transparent !important;
 }
+.inline-heading {
+  display: inline-block;
+}
 .padding-top-0 {
   padding-top: 0 !important;
 }
@@ -97,6 +100,9 @@
 #header #logo-group .ajax-dropdown {
   width: 430px;
 }
+#header #logo-group #logo {
+  margin-top: 0;
+}
 #header #logo-group #logo img {
   width: 106px !important;
   height: 38px !important;
@@ -147,6 +153,10 @@
 }
 .smart-form fieldset + fieldset {
   border-top: none !important;
+}
+.smart-form fieldset {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .dl-horizontal dt {
   width: 175px;

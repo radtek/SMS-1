@@ -1291,19 +1291,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IncrementInvalidPIN(Guid uaoID);
 
-		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password);
+		Task RegisterUserAsync(Guid tempUaoId,String password);
 
-		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password);
+		void RegisterUser(Guid tempUaoId,String password);
 
 		/// <param name="uaoId"></param>
 		/// <returns></returns>
@@ -4710,32 +4706,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public virtual Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password)
+		public virtual Task RegisterUserAsync(Guid tempUaoId,String password)
 		{
-			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user);
+			return PostAsync<object>("api/UserLogic/RegisterUserAsync?tempUaoId=" + tempUaoId + "&password=" + password, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
 		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
 		/// <param name="password"></param>
-		public virtual void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password)
+		public virtual void RegisterUser(Guid tempUaoId,String password)
 		{
-			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?tempUaoId=" + tempUaoId + "&password=" + password, null, _user)).Wait();
 		}
 
 		/// <summary>

@@ -27,35 +27,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             _captchaService = new CaptchaService();
         }
 
-        public ActionResult Username()
-        {
-            return View();
-        }
-
         public ActionResult Password()
         {
             return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Username(string email)
-        {
-            var response = await _captchaService.ValidateCaptcha(Request);
-            //send email if the email address is found
-            if (response.success)
-            {
-                await UserLogicClient.SendUsernameReminderAsync(email);
-
-                ViewBag.Message = "Thank you. The registered Username has been sent to the specified email address.";
-                ViewBag.Link = true;
-                return View("ForgotDone");
-            }
-            else
-            {
-                ViewBag.Message = string.Join(Environment.NewLine, response.error_codes ?? new List<string> { "Error" });
-                return View("ForgotDone");
-            }
         }
 
         [HttpPost]

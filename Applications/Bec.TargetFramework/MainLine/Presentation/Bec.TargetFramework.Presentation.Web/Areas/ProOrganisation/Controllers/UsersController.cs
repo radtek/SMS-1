@@ -94,31 +94,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
+            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, contact.EmailAddress1, RandomPasswordGenerator.Generate(), true, false, false, roles, contact);
             await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
 
             TempData["UserId"] = uao.UserID;
-            return RedirectToAction("Invited");
-        }
-
-        public ActionResult ViewResendLogins(Guid uaoId, string label)
-        {
-            ViewBag.uaoId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Users";
-            ViewBag.RedirectArea = "ProOrganisation";
-            return PartialView("_ResendLogins");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoId)
-        {
-            var uao = await userClient.ResendLoginsAsync(uaoId);
-
-            TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 

@@ -59,6 +59,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
+        public async Task<ActionResult> ViewVerify(Guid orgId)
+        {
+            var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
+            if (org == null) return new HttpNotFoundResult("Organisation not found");
+            ViewBag.orgId = orgId;
+            ViewBag.companyName = org.Name;
+            return PartialView("_Verify");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Verify(Guid orgId, string notes)
+        {
+            //set org status
+            await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
+
+            TempData["VerifiedCompanyId"] = orgId;
+            TempData["tabIndex"] = 1;
+            return RedirectToAction("Provisional");
+        }
+
         public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
@@ -71,43 +92,40 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, string notes)
+        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId)
         {
-            await UserLogicClient.GeneratePinAsync(uaoId, false, false);
-            //set org status
-            await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
-            await UserLogicClient.ResendLoginsAsync(uaoId);
+            await UserLogicClient.GeneratePinAsync(uaoId, false, true);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
             return RedirectToAction("Provisional");
         }
 
-        public ActionResult ViewResendLogins(Guid uaoId, string label)
-        {
-            ViewBag.uaoId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Company";
-            ViewBag.RedirectArea = "Admin";
-            return PartialView("_ResendLogins");
-        }
+        //public ActionResult ViewResendLogins(Guid uaoId, string label)
+        //{
+        //    ViewBag.uaoId = uaoId;
+        //    ViewBag.label = label;
+        //    ViewBag.RedirectAction = "ResendLogins";
+        //    ViewBag.RedirectController = "Company";
+        //    ViewBag.RedirectArea = "Admin";
+        //    return PartialView("_ResendLogins");
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoId)
-        {
-            var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> ResendLogins(Guid uaoId)
+        //{
+        //    var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
 
-            TempData["VerifiedCompanyId"] = uao.OrganisationID;
-            TempData["tabIndex"] = 1;
-            return RedirectToAction("Provisional");
-        }
+        //    TempData["VerifiedCompanyId"] = uao.OrganisationID;
+        //    TempData["tabIndex"] = 1;
+        //    return RedirectToAction("Provisional");
+        //}
 
-        public async Task<ActionResult> ViewEmailLog(Guid orgId)
-        {
-            return PartialView("_EmailLog", await NotificationClient.GetEventStatusAsync("TestEvent", orgId.ToString()));
-        }
+        //public async Task<ActionResult> ViewEmailLog(Guid orgId)
+        //{
+        //    return PartialView("_EmailLog", await NotificationClient.GetEventStatusAsync("TestEvent", orgId.ToString()));
+        //}
 
         public async Task<ActionResult> ViewEditCompany(Guid orgID)
         {

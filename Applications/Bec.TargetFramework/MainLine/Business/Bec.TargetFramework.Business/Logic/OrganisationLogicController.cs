@@ -143,7 +143,6 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
-            var randomUsername = RandomPasswordGenerator.GenerateRandomName();
             var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
@@ -155,13 +154,12 @@ namespace Bec.TargetFramework.Business.Logic
                 CreatedBy = UserNameService.UserName
             };
 
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, randomUsername, randomPassword, true, false, true);
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, dto.OrganisationAdminEmail, randomPassword, true, false, true);
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
             return organisationID;
         }
-
 
         public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
@@ -222,8 +220,8 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (!isTemporary && userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
-            if (!isTemporary && orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
+            if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+            if (orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
 
             if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
@@ -509,7 +507,6 @@ namespace Bec.TargetFramework.Business.Logic
                 OrganisationAdminLastName = lastName,
                 OrganisationAdminEmail = email
             };
-            var tempUsername = RandomPasswordGenerator.GenerateRandomName();
             var tempPassword = RandomPasswordGenerator.Generate(10);
             var contactDTO = new ContactDTO
             {
@@ -521,7 +518,7 @@ namespace Bec.TargetFramework.Business.Logic
                 CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, tempUsername, tempPassword, true, true, true);
+            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, email, tempPassword, true, false, true);
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true);
             return buyerUaoDto.UserAccountOrganisationID;
         }

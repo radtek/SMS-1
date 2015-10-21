@@ -1,105 +1,124 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Entities.Enums;
-using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Extensions;
-using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.Infrastructure.Settings;
-using Bec.TargetFramework.Presentation.Web.Base;
-using Bec.TargetFramework.Presentation.Web.Filters;
-using Bec.TargetFramework.Presentation.Web.Models;
-using BrockAllen.MembershipReboot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿// todo: ZM delete
+////using Bec.TargetFramework.Business.Client.Interfaces;
+////using Bec.TargetFramework.Entities;
+////using Bec.TargetFramework.Infrastructure;
+////using Bec.TargetFramework.Infrastructure.Settings;
+////using Bec.TargetFramework.Presentation.Web.Models;
+////using BrockAllen.MembershipReboot;
+////using System.Linq;
+////using System.Threading.Tasks;
+////using System.Web.Mvc;
 
-namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
-{
-    [Authorize]
-    [SessionExpireFilter]
-    public class RegisterController : Controller
-    {
-        public AuthenticationService AuthSvc { get; set; }
-        public IUserLogicClient UserLogicClient { get; set; }
-        public ITFSettingsLogicClient SettingsClient { get; set; }
-        public INotificationLogicClient NotificationLogicClient { get; set; }
-        public IOrganisationLogicClient orgClient { get; set; }
-        public async Task<ActionResult> Index()
-        {
-            var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
-            if (!uaDTO.IsTemporaryAccount)
-            {
-                LoginController.logout(this, AuthSvc);
-                return RedirectToAction("Index", "Login", new { area = "Account" });
-            }
-            else
-            {
-                var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(uaDTO.ID)).Single();
-                ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
-                return View();
-            }
-        }
+////namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
+////{
+////    [AllowAnonymous]
+////    public class RegisterController : Controller
+////    {
+////        private readonly CaptchaService _captchaService;
+////        public AuthenticationService AuthSvc { get; set; }
+////        public IUserLogicClient UserLogicClient { get; set; }
+////        public ITFSettingsLogicClient SettingsClient { get; set; }
+////        public INotificationLogicClient NotificationLogicClient { get; set; }
+////        public IOrganisationLogicClient orgClient { get; set; }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(CreatePermanentLoginModel model)
-        {
-            //check for any subsequent locking of this account
-            var tempua = await UserLogicClient.GetBAUserAccountByUsernameAsync(HttpContext.User.Identity.Name);
-            if (!tempua.IsLoginAllowed) return RedirectToAction("Index", "Login", new { area = "Account" });
+////        public RegisterController()
+////        {
+////            _captchaService = new CaptchaService();
+////        }
 
-            if (string.IsNullOrWhiteSpace(model.NewUsername) || await UserLogicClient.IsUserExistAsync(model.NewUsername))
-            {
-                ModelState.AddModelError("", "This username is unavailable, please chose another");
-                return View(model);
-            }
+////        //public async Task<ActionResult> Index(string registrationEmail)
+////        //{
+////        //    var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(registrationEmail);
+////        //    if (!CanContinueRegistration(uaDTO))
+////        //    {
+////        //        LoginController.logout(this, AuthSvc);
+////        //        return RedirectToAction("Index", "Login", new { area = "Account" });
+////        //    }
+////        //    else
+////        //    {
+////        //        var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(uaDTO.ID)).Single();
+////        //        ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
+////        //        var model = new CreatePermanentLoginModel
+////        //        {
+////        //            Email = registrationEmail
+////        //        };
+////        //        return View(model);
+////        //    }
+////        //}
 
-            if (model.NewPassword != model.ConfirmNewPassword)
-            {
-                ModelState.AddModelError("", "Passwords do not match");
-                return View(model);
-            }
+////        [HttpPost]
+////        [ValidateAntiForgeryToken]
+////        public async Task<ActionResult> Index(CreatePermanentLoginModel model)
+////        {
+////            var response = await _captchaService.ValidateCaptcha(Request);
+////            if (!response.success)
+////            {
+////                ModelState.AddModelError("", "Captcha was not validated.");
+////                return View("Login/Index", model);
+////            }
 
-            var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
-            ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
-            if (model.Pin != userAccountOrg.PinCode)
-            {
-                //increment invalid pin count.
-                //if pincount >=3, expire organisation
-                if (await UserLogicClient.IncrementInvalidPINAsync(userAccountOrg.UserAccountOrganisationID))
-                {
-                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
-                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
-                    ViewBag.PinExpired = true;
-                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
-                }
-                else
-                    ModelState.AddModelError("", "Invalid PIN");
+////            //check for any subsequent locking of this account
+////            var tempua = await UserLogicClient.GetUserAccountByUsernameAsync(model.Email);
+////            if (!CanContinueRegistration(tempua)) return RedirectToAction("Index", "Login", new { area = "Account" });
 
-                return View(model);
-            }
+////            if (model.NewPassword != model.ConfirmNewPassword)
+////            {
+////                ModelState.AddModelError("", "Passwords do not match");
+////                return View("Login/Index", model);
+////            }
 
-            await UserLogicClient.RegisterUserAsync(userAccountOrg.OrganisationID, userAccountOrg.UserAccountOrganisationID, model.NewUsername, model.NewPassword);
+////            var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
+////            ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
+////            if (model.Pin != userAccountOrg.PinCode)
+////            {
+////                //increment invalid pin count.
+////                //if pincount >=3, expire organisation
+////                if (await UserLogicClient.IncrementInvalidPINAsync(userAccountOrg.UserAccountOrganisationID))
+////                {
+////                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
+////                    ModelState.AddModelError("", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
+////                    ViewBag.PinExpired = true;
+////                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
+////                }
+////                else
+////                    ModelState.AddModelError("", "Invalid PIN");
 
-            LoginController.logout(this, AuthSvc);
-            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);
-            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+////                return View("Login/Index", model);
+////            }
 
-            TempData["JustRegistered"] = true;
-            return RedirectToAction("Index", "Home", new { area = "" });
-        }
+////            await UserLogicClient.RegisterUserAsync(userAccountOrg.UserAccountOrganisationID, model.NewPassword);
 
+////            LoginController.logout(this, AuthSvc);
+////            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.Email);
+////            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+////            return RedirectToAction("Index", "Home", new { area = "" });
+////        }
 
-        //used by client validation
-        public async Task<ActionResult> UsernameAvailable(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username) || await UserLogicClient.IsUserExistAsync(username))
-                return Json("This username is unavailable, please chose another", JsonRequestBehavior.AllowGet);
-            else
-                return Json("true", JsonRequestBehavior.AllowGet);
-        }
-    }
-}
+//            LoginController.logout(this, AuthSvc);
+//            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.NewUsername);
+//            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+
+//            TempData["JustRegistered"] = true;
+//            return RedirectToAction("Index", "Home", new { area = "" });
+//        }
+
+////            if (!canRegister)
+////            {
+////                return Json("This e-mail cannot be registered at the moment.", JsonRequestBehavior.AllowGet);
+////            }
+////            else
+////            {
+////                return Json("true", JsonRequestBehavior.AllowGet);
+////            }
+////        }
+
+////        private bool CanContinueRegistration(UserAccountDTO uaDTO)
+////        {
+////            return 
+////                uaDTO != null && 
+////                uaDTO.IsLoginAllowed && 
+////                uaDTO.IsTemporaryAccount && 
+////                !Request.IsAuthenticated;
+////        }
+////    }
+////}

@@ -97,4 +97,8 @@ function activeChange(dataItem) {
 
     //update reject & generate links
     $("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+
+    // toggle fields
+    $("p#ddaCompanyCreatedBy").toggle(!!dataItem.CreatedBy);
+    $("p#ddaCompanyCreatedBy").parent().prev().toggle(!!dataItem.CreatedBy);
 }
