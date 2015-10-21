@@ -1,0 +1,64 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model SmsUserAccountOrganisationTransactionDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="confirmDetailsLabel">Check Bank Account</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("CheckBankAccount", "Buyer", new { area = "SmsTransaction" })" data-index="@ViewBag.index">
+                        @Html.ValidationBootstrap()
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("txID", (object)ViewBag.txID)
+                        @Html.Hidden("orgID", (object)ViewBag.orgID)
+                        @Html.Hidden("index", (object)ViewBag.index)
+                        <section class="col-xs-12">
+                            <fieldset>
+                                <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
+                                    <p>
+                                        This part of the Safe Move Scheme confirms whether the bank account details you have been given, to pay money to your conveyancing firm, actually belong to that firm.
+                                    </p>
+                                    <p>
+                                        Please enter the Account Number and Sort Code of the bank account you have received from the above firm.
+                                    </p>
+                                    <p>
+                                        This system will check whether these bank account details match those validated by the Safe Move Scheme. Please note this system will not perform a transfer of funds.
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            <input type="text" name="accountNumber" id="accountNumber" placeholder="Account Number" maxlength="8" autocomplete="off" />
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-sm-12">
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            <input type="text" name="sortCode" id="sortCode" placeholder="Sort Code" maxlength="6" autocomplete="off" />
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                        </section>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" id="footer">
+                <button type="button" id="cancelAddTransaction" class="btn btn-default" data-dismiss="modal" tabindex="28">Cancel</button>
+                <button type="button" id="submitAddTransaction" class="btn btn-primary" tabindex="30">Check<i class="fa fa-check margin-left-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Buyer/_CheckBankAccount")"></script>

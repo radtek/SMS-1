@@ -610,6 +610,7 @@ namespace Bec.TargetFramework.Business.Logic
                     tx.Contact.RowVersion != dto.Contact.RowVersion)
                     throw new Exception("The details have been updated by another user. Please go back and try again");
 
+                tx.SmsTransaction.Confirmed = true;
                 tx.SmsTransaction.Address = await checkAddress(tx.SmsTransaction.Address, dto.SmsTransaction.Address, tx.ContactID);
                 tx.Address = await checkAddress(tx.Address, dto.Address, tx.ContactID);
 
