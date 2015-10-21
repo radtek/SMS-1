@@ -19,7 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/content/css/smartadmin-skins.min.css",
                 "~/content/css/smartadmin-rtl.min.css",
                 "~/content/css/your_style.min.css",
-                "~/content/css/site.css"
+                "~/content/site.css"
                 ));
 
             bundles.Add(new StyleBundle("~/content/websitelayout/css/style").Include(
