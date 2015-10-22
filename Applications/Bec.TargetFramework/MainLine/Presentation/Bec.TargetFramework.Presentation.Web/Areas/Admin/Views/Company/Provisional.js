@@ -231,8 +231,7 @@ function verifiedChange(dataItem) {
 
     $("p#ddvPINNumber").text(dataItem.PinCode);
     $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));
-    $("p#ddvLoginsSent").text(dateString(dataItem.OrganisationAdminCreated));
-
+    
     //update links
     $("#pinButton").data('href', $("#pinButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
 

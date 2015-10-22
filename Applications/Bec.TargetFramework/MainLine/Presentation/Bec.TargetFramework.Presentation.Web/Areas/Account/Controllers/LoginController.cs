@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Entities.Injections;
@@ -134,7 +135,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             asvc.SignIn(ua, false, additionalClaims);
             bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, false);
+            bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
+
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
 
             return true;
@@ -163,6 +166,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             TempData["version"] = Settings.OctoVersion;
             model.IsRegistration = true;
+
             var response = await _captchaService.ValidateCaptcha(Request);
             if (!response.success)
             {
@@ -185,7 +189,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
-            //ViewBag.PINRequired = !string.IsNullOrEmpty(userAccountOrg.PinCode);
             if (model.CreatePermanentLoginModel.Pin != userAccountOrg.PinCode)
             {
                 //increment invalid pin count.
@@ -194,7 +197,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
                     ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
-                    //ViewBag.PinExpired = true;
                     ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using Bec.TargetFramework.Aop.Aspects;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Aop.Aspects;
 using Bec.TargetFramework.Data;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.DTO.Notification;
@@ -83,7 +84,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var unverifiedStatusName = ProfessionalOrganisationStatusEnum.Unverified.GetStringValue();
                 // TODO ZM: Consider the change of database collation to do Case Insensitive string comparison
                 var query = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins
-                    .Where(item => 
+                    .Where(item =>
                         item.RegulatorNumber.ToLower() == regulatorNumber.Trim().ToLower() &&
                         item.StatusValueName != rejectedStatusName &&
                         item.StatusValueName != unverifiedStatusName);
@@ -228,6 +229,55 @@ namespace Bec.TargetFramework.Business.Logic
             return uaoDto;
         }
 
+        public async Task AddPersonalDetails(Guid uaoId, AddPersonalDetailsDTO addPersonalDetailsDto)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var existingUserContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Single(c => c.ParentID == uaoId);
+                existingUserContact.BirthDate = addPersonalDetailsDto.BirthDate;
+
+                var address = new Address
+                {
+                    AddressID = Guid.NewGuid(),
+                    ParentID = existingUserContact.ContactID,
+                    Line1 = addPersonalDetailsDto.Line1,
+                    Line2 = addPersonalDetailsDto.Line2,
+                    Town = addPersonalDetailsDto.Town,
+                    County = addPersonalDetailsDto.County,
+                    PostalCode = addPersonalDetailsDto.PostalCode,
+                    AddressTypeID = AddressTypeIDEnum.Home.GetIntValue(),
+                    Name = String.Empty,
+                    IsPrimaryAddress = true,
+                    CreatedBy = UserNameService.UserName
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> RequiresPersonalDetails(Guid uaoId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var requiresPersonalDetails = false;
+
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(c => c.UserAccountOrganisationID == uaoId);
+                Ensure.That(uao).IsNotNull();
+
+                if (uao.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue())
+                {
+                    var existingUserContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == uaoId);
+                    Ensure.That(existingUserContact).IsNotNull();
+                    var existingAddress = scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.FirstOrDefault(c => c.ParentID == existingUserContact.ContactID);
+
+                    requiresPersonalDetails = existingAddress == null;
+                }
+
+                return requiresPersonalDetails;
+            }
+        }
+
         public async Task CreateTsAndCsNotificationAsync(Guid userOrgID, NotificationConstructEnum type)
         {
             var nc = NotificationLogic.GetLatestNotificationConstructIdFromName(type.GetStringValue());
@@ -285,7 +335,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         organisationName = "The " + Constants.SmsTeamName;
                     }
-                    else 
+                    else
                     {
                         var org = organisationDetails.ToDto();
                         organisationName = org.DisplayName;
@@ -669,7 +719,7 @@ namespace Bec.TargetFramework.Business.Logic
                 Ensure.That(transaction).IsNotNull();
                 if (transaction.OrganisationID != assignSmsClientToTransactionDTO.AssigningByOrganisationID)
                 {
-                    Logger.Fatal("The organisation with id: {0} is trying to assign sms client to the transaction with id: {1}. Sms Client UaoID: {2}", 
+                    Logger.Fatal("The organisation with id: {0} is trying to assign sms client to the transaction with id: {1}. Sms Client UaoID: {2}",
                         assignSmsClientToTransactionDTO.AssigningByOrganisationID, assignSmsClientToTransactionDTO.TransactionID, assignSmsClientToTransactionDTO.UaoID);
                     throw new InvalidOperationException("The transaction does not belong to the organisation that the user is part of.");
                 }
@@ -754,7 +804,7 @@ namespace Bec.TargetFramework.Business.Logic
                     foreach (var h in item.History)
                     {
                         h.StatusTypeValue = scope.DbContexts.Get<TargetFrameworkEntities>().StatusTypeValues.Single(s => s.StatusTypeValueID == h.StatusTypeValueID).ToDto();
-                        if(!includeNotes) h.Notes = "";
+                        if (!includeNotes) h.Notes = "";
                     }
                 }
             }

@@ -87,12 +87,6 @@ function txChange(dataItem) {
     $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
 
     $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID);
-    $("#resendButton").data('href', $("#resendButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&label=" +
-        encodeURIComponent(
-        (dataItem.Contact.Salutation || "") + " " +
-        (dataItem.Contact.FirstName || "") + " " +
-        (dataItem.Contact.LastName || "")));
-    $("#resendButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);

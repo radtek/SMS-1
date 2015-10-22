@@ -46,16 +46,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return PartialView("_Cancel");
         }
 
-        public ActionResult ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
-        {
-            ViewBag.orgId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = redirectAction;
-            ViewBag.RedirectController = redirectController;
-            ViewBag.RedirectArea = redirectArea;
-            return PartialView("_ResendLogins");
-        }
-
         public async Task<ActionResult> FindAddress(string postcode)
         {
             var list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);

@@ -100,7 +100,6 @@ function nChange(dataItem) {
     $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
 
-    $("#resendButton").data('href', $("#resendButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
     $("#revokeButton1").data('href', $("#revokeButton1").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }
 function eChange(dataItem) {

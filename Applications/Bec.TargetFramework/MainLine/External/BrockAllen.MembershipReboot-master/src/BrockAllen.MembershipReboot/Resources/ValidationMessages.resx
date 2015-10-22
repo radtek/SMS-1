@@ -232,7 +232,7 @@
     <value>Tenant is required.</value>
   </data>
   <data name="UsernameAlreadyInUse" xml:space="preserve">
-    <value>Username already in use.</value>
+    <value>E-mail already in use.</value>
   </data>
   <data name="UsernameCannotContainAtSign" xml:space="preserve">
     <value>Username cannot contain the '@' character.</value>

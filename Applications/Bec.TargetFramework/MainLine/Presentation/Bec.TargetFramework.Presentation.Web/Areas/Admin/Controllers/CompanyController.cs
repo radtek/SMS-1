@@ -101,32 +101,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        //public ActionResult ViewResendLogins(Guid uaoId, string label)
-        //{
-        //    ViewBag.uaoId = uaoId;
-        //    ViewBag.label = label;
-        //    ViewBag.RedirectAction = "ResendLogins";
-        //    ViewBag.RedirectController = "Company";
-        //    ViewBag.RedirectArea = "Admin";
-        //    return PartialView("_ResendLogins");
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> ResendLogins(Guid uaoId)
-        //{
-        //    var uao = await UserLogicClient.ResendLoginsAsync(uaoId);
-
-        //    TempData["VerifiedCompanyId"] = uao.OrganisationID;
-        //    TempData["tabIndex"] = 1;
-        //    return RedirectToAction("Provisional");
-        //}
-
-        //public async Task<ActionResult> ViewEmailLog(Guid orgId)
-        //{
-        //    return PartialView("_EmailLog", await NotificationClient.GetEventStatusAsync("TestEvent", orgId.ToString()));
-        //}
-
         public async Task<ActionResult> ViewEditCompany(Guid orgID)
         {
             ViewBag.orgID = orgID;

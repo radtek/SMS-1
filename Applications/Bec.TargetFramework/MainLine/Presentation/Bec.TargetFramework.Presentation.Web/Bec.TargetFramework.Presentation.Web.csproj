@@ -167,13 +167,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\PersonalDetailsController.cs" />
     <Compile Include="Areas\Account\Controllers\AcceptTCsController.cs" />
     <Compile Include="Areas\Account\Controllers\ForgotController.cs" />
     <Compile Include="Areas\Account\Controllers\LoginController.cs" />
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
     <Compile Include="Areas\Account\Controllers\SearchController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterAdminController.cs" />
-    <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -227,13 +228,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\PersonalDetails\Index.js" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
     <Content Include="Areas\Account\Views\Forgot\Reset.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
-    <Content Include="Areas\Account\Views\Register\Index.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
@@ -757,6 +758,7 @@
     <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
     <Content Include="Areas\Account\Views\Search\Index.cshtml" />
+    <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\_CheckBankAccount.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
@@ -862,7 +864,6 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
-    <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Views\Shared\_ResendLogins.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />

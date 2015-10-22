@@ -7,7 +7,6 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.SB.Client.Interfaces;
-using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
 using EnsureThat;
