@@ -200,6 +200,7 @@
     <Compile Include="Controllers\PostcodeLookupController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\ClaimsRequiredAttribute.cs" />
@@ -2024,6 +2025,21 @@
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
+    <Content Include="Views\Sms\AboutUs.cshtml" />
+    <Content Include="Views\Sms\BuyersAtRisk.cshtml" />
+    <Content Include="Views\Sms\ContactUs.cshtml" />
+    <Content Include="Views\Sms\ConveyancersAtRisk.cshtml" />
+    <Content Include="Views\Sms\ConveyancersCompliance.cshtml" />
+    <Content Include="Views\Sms\ConveyancingFirmRegistration.cshtml" />
+    <Content Include="Views\Sms\ForThePublic.cshtml" />
+    <Content Include="Views\Sms\FreeTrial.cshtml" />
+    <Content Include="Views\Sms\HowItWorks.cshtml" />
+    <Content Include="Views\Sms\Index.cshtml" />
+    <Content Include="Views\Sms\LendersCompliance.cshtml" />
+    <Content Include="Views\Sms\NewAMLSolution.cshtml" />
+    <Content Include="Views\Sms\SafeBuyerSpecification.cshtml" />
+    <Content Include="Views\Sms\SafeMoveSchemeBenefits.cshtml" />
+    <Content Include="Views\Sms\ThreatsExplained.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
