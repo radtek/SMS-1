@@ -1,16 +1,16 @@
 ﻿var template = Handlebars.compile('<dl class="dl-horizontal">'+
-    '<dt>Company Name:</dt>'+
+    '<dt><p>Company Name:</p></dt>' +
     '<dd><p>{{Name}}</p></dd>'+
-    '<dt>Address:</dt>'+
+    '<dt><p>Address:</p></dt>' +
     '<dd>'+
         '<p>{{Line1}}</p>'+
         '<p>{{Town}}</p>'+
         '<p>{{County}}</p>'+
         '<p>{{PostalCode}}</p>'+
     '</dd>'+
-    '<dt>Regulator:</dt>' +
+    '<dt><p>Regulator:</p></dt>' +
     '<dd><p>{{Regulator}}</p></dd>' +
-    '<dt>Regulator Number:</dt>' +
+    '<dt><p>Regulator Number:</p></dt>' +
     '<dd><p>{{RegulatorNumber}}</p></dd>' +
 '</dl>');
 
@@ -39,7 +39,7 @@ $(function () {
             }).done(function (res) {
                 if (res.message) {
                     $('#searchResult').empty();
-                    $('#searchResult').append('<p class="alert alert-info">' + res.message + '</p>');
+                    $('#searchResult').append('<p><strong>' + res.message + '</strong></p>');
                 }
                 else {
                     showSearchResult(res);
