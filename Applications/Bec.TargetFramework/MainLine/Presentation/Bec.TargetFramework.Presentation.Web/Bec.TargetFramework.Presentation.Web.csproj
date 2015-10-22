@@ -748,10 +748,7 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\websiteLayout\css\media.css" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
-    <Content Include="Content\websiteLayout\css\skeleton.css" />
-    <Content Include="Content\websiteLayout\css\slidebars.css" />
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
@@ -768,12 +765,8 @@
     <Content Include="Content\websiteLayout\css\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="Content\websiteLayout\js\hoverIntent.js" />
     <Content Include="Content\websiteLayout\js\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="Content\websiteLayout\js\jquery.smooth-scroll.min.js" />
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
-    <Content Include="Content\websiteLayout\js\scroll.js" />
-    <Content Include="Content\websiteLayout\js\slidebars.js" />
     <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -927,6 +920,7 @@
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
     <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
+    <Content Include="Content\websiteLayout\SMS-T&amp;C%27s.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

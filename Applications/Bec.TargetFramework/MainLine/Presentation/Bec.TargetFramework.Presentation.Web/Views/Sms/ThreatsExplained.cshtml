@@ -1,4 +1,5 @@
 ﻿@{
+    Layout = "~/Areas/Account/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Threats Explained";
     ViewBag.Meta = "It has never been a more dangerous time to buy or sell a property as criminals are targeting property transactions to steal large amounts of money from buyers and lenders.";
 }
@@ -7,9 +8,9 @@
     <div class="col-md-7">
         <p>It has never been a more dangerous time to buy or sell a property as criminals are targeting property transactions to steal large amounts of money from buyers and lenders. The Financial Fraud Action UK (FFA), the body which co-ordinates the financial industry's response to cyber crime, reported that UK financial fraud losses rose 6% to £325m in the first six months of 2015. The cost of these threats are catastrophic financial loss that can be life changing for the buyers and sellers.</p>
         <p>Conveyancers are responsible for preventing cybercrime and, as we have seen recently with some well-established firms, they risk being put out of business by losing their professional indemnity insurance if they make a large claim.</p>
-        <p>Find out more about how @Html.ActionLink("buyers", "BuyersAtRisk") and @Html.ActionLink("conveyancers", "ConveyancersAtRisk") are at risk from the threat of cybercrime.</p>
+        <p>Find out more about how @Html.ActionLink("buyers", "BuyersAtRisk", "Sms") and @Html.ActionLink("conveyancers", "ConveyancersAtRisk", "Sms") are at risk from the threat of cybercrime.</p>
     </div>
     <div class="col-md-5">
-        <img src="~/images/theft-icon.png" alt="Safe Buyer" />
+        <img src="~/Content/websiteLayout/images/theft-icon.png" alt="Safe Buyer" />
     </div>
 </div>
