@@ -151,9 +151,14 @@ form {
         box-sizing: border-box;
         outline: 0 none;
         -moz-appearance: none !important;
+        -webkit-appearance: none;
+        &::-ms-expand {
+            display: none;
+        }
     }
 
     .select {
+        
         i {
             position: absolute;
             top: 36px;

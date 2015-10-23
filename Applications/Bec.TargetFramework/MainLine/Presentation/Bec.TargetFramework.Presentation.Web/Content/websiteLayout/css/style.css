@@ -93,6 +93,10 @@ form select.form-control {
   box-sizing: border-box;
   outline: 0 none;
   -moz-appearance: none !important;
+  -webkit-appearance: none;
+}
+form select.form-control::-ms-expand {
+  display: none;
 }
 form .select i {
   position: absolute;
