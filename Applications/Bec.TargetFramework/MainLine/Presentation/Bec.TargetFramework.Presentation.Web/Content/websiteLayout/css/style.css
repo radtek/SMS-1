@@ -94,6 +94,29 @@ form select.form-control {
   outline: 0 none;
   -moz-appearance: none !important;
 }
+form .select i {
+  position: absolute;
+  top: 36px;
+  right: 26px;
+  width: 5px;
+  height: 11px;
+}
+form .select i::before {
+  top: 0px;
+  border-bottom: 4px solid #404040;
+}
+form .select i::before,
+form .select i::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+form .select i::after {
+  bottom: 0px;
+  border-top: 4px solid #404040;
+}
 .btn-primary {
   background-color: #a1c324;
   border: 1px solid #a1c324;
