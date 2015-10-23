@@ -217,6 +217,9 @@ em.invalid {
   padding: 0 !important;
 }
 /*keith's crap*/
+video {
+  width: 100%;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
   padding-left: 15px;
