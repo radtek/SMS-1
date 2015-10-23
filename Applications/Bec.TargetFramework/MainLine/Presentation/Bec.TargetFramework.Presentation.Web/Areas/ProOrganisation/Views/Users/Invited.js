@@ -107,5 +107,5 @@ function eChange(dataItem) {
     $("p#ddeName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
 
-    $("#reinstateButton").data('href', $("#reinstateButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
+    $("#reinstateButton").data('href', $("#reinstateButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserAccount.ID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }

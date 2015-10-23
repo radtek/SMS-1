@@ -210,7 +210,7 @@ namespace BrockAllen.MembershipReboot
                     // verification is disabled then we need to be very confident that the external provider has
                     // provided us with a verified email
                     //Added temporary account parameter as false. This can be changed if we are using this functionality
-                    account = await UserAccountService.CreateAccountAsync(tenant, name, null, email, false, Guid.NewGuid());
+                    account = await UserAccountService.CreateAccountAsync(tenant, name, null, email, Guid.NewGuid());
                 }
             }
 

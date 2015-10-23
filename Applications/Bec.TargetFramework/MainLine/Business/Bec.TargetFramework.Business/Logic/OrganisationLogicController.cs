@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
+                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => !x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
                 {
                     var testDate = uao.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
                     if (testDate < DateTime.Now) await ExpireUserAccountOrganisationAsync(uao.UserAccountOrganisationID);
@@ -144,7 +144,6 @@ namespace Bec.TargetFramework.Business.Logic
             // add organisation
             var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
 
-            var randomPassword = RandomPasswordGenerator.Generate(10);
             var userContactDto = new ContactDTO
             {
                 Telephone1 = dto.OrganisationAdminTelephone,
@@ -154,20 +153,19 @@ namespace Bec.TargetFramework.Business.Logic
                 Salutation = dto.OrganisationAdminSalutation,
                 CreatedBy = UserNameService.UserName
             };
-
-            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, dto.OrganisationAdminEmail, randomPassword, true, false, true);
+            var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, true);
 
             await UserLogic.LockOrUnlockUserAsync(uaoDto.UserID, true);
 
             return organisationID;
         }
 
-        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, string username, string password, bool isTemporary, bool sendEmail, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
+        public async Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID, ContactDTO userContactDto, UserTypeEnum userTypeValue, bool addDefaultRoles, [System.Web.Http.FromUri]params Guid[] roles)
         {
             string orgTypeName;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
-            var ua = await UserLogic.CreateAccountAsync(username, password, userContactDto.EmailAddress1, isTemporary, Guid.NewGuid());
+            var ua = await UserLogic.CreateAccountAsync(userContactDto.EmailAddress1, RandomPasswordGenerator.Generate(10), userContactDto.EmailAddress1, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
             using (var scope = DbContextScopeFactory.Create())
@@ -223,8 +221,6 @@ namespace Bec.TargetFramework.Business.Logic
             //create Ts & Cs notification
             if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
             if (orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
-
-            if (sendEmail) await SendNewUserEmailAsync(username, password, uaoDto.UserAccountOrganisationID, userContactDto, organisationID, userTypeValue);
 
             return uaoDto;
         }
@@ -296,78 +292,6 @@ namespace Bec.TargetFramework.Business.Logic
             notificationDto.NotificationRecipients = new List<NotificationRecipientDTO> { new NotificationRecipientDTO { UserAccountOrganisationID = userOrgID } };
 
             await NotificationLogic.SaveNotificationAsync(notificationDto);
-        }
-
-        internal async Task SendNewUserEmailAsync(string username, string password, Guid userAccountOrganisationID, ContactDTO contact, Guid organisationID, UserTypeEnum userType)
-        {
-            string eventName = "TestEvent";
-            switch (userType)
-            {
-                case UserTypeEnum.User:
-                    eventName = "NewUser";
-                    break;
-            }
-
-            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
-            var tempDto = new Bec.TargetFramework.Entities.AddNewCompanyAndAdministratorDTO
-            {
-                Salutation = contact.Salutation,
-                FirstName = contact.FirstName,
-                LastName = contact.LastName,
-                Username = username,
-                Password = password,
-                UserAccountOrganisationID = userAccountOrganisationID,
-                ProductName = commonSettings.ProductName,
-                WebsiteURL = commonSettings.PublicWebsiteUrl
-            };
-
-            //add entry to EventStatus table
-            EventStatus es;
-            string payLoad;
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var executingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccount.Username == UserNameService.UserName);
-                if (executingUao != null && executingUao.Contact != null)
-                {
-                    string organisationName;
-                    var organisationDetails = executingUao.Organisation.OrganisationDetails.FirstOrDefault();
-                    if (organisationDetails == null || executingUao.Organisation.OrganisationType.Name == "Administration")
-                    {
-                        organisationName = "The " + Constants.SmsTeamName;
-                    }
-                    else
-                    {
-                        var org = organisationDetails.ToDto();
-                        organisationName = org.DisplayName;
-                    }
-                    tempDto.InviterOrganisationName = organisationName;
-                    tempDto.InviterSalutation = executingUao.Contact.Salutation;
-                    tempDto.InviterFirstName = executingUao.Contact.FirstName;
-                    tempDto.InviterLastName = executingUao.Contact.LastName;
-                }
-                payLoad = JsonHelper.SerializeData(new object[] { tempDto });
-
-                es = new EventStatus()
-                {
-                    EventStatusID = Guid.NewGuid(),
-                    EventName = eventName,
-                    EventReference = organisationID.ToString(),
-                    Status = "Pending",
-                    Created = DateTime.Now
-                };
-                scope.DbContexts.Get<TargetFrameworkEntities>().EventStatus.Add(es);
-                await scope.SaveChangesAsync();
-            }
-
-            var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-            {
-                EventName = eventName,
-                EventSource = AppDomain.CurrentDomain.FriendlyName,
-                EventReference = es.EventStatusID.ToString(),
-                PayloadAsJson = payLoad
-            };
-
-            await EventPublishClient.PublishEventAsync(dto);
         }
 
         private async Task<Guid?> AddOrganisationAsync(int organisationTypeID, DefaultOrganisationDTO defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
@@ -557,7 +481,6 @@ namespace Bec.TargetFramework.Business.Logic
                 OrganisationAdminLastName = lastName,
                 OrganisationAdminEmail = email
             };
-            var tempPassword = RandomPasswordGenerator.Generate(10);
             var contactDTO = new ContactDTO
             {
                 Salutation = salutation,
@@ -568,8 +491,8 @@ namespace Bec.TargetFramework.Business.Logic
                 CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
-            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, email, tempPassword, true, false, true);
-            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true);
+            var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, true);
+            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true); // for now it is set to blank
             return buyerUaoDto.UserAccountOrganisationID;
         }
 
@@ -636,17 +559,6 @@ namespace Bec.TargetFramework.Business.Logic
 
                 await scope.SaveChangesAsync();
                 return tx.SmsTransactionID;
-            }
-        }
-
-        public async Task UpdateSmsTransactionUaoAsync(Guid oldUaoID, Guid newUaoID)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                foreach (var smsTx in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Where(x => x.UserAccountOrganisationID == oldUaoID))
-                    smsTx.UserAccountOrganisationID = newUaoID;
-
-                await scope.SaveChangesAsync();
             }
         }
 

@@ -489,11 +489,11 @@ namespace BrockAllen.MembershipReboot
             return (UserLogic.GetBAUserAccountByEmailAndNotID(email, account.ID) != null);
         }
 
-        public virtual async Task<TAccount> CreateAccountAsync(string username, string password, string email, bool temporaryAccount, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string username, string password, string email, Guid userId)
         {
-            return await CreateAccountAsync(null, username, password, email, temporaryAccount, userId);
+            return await CreateAccountAsync(null, username, password, email, userId);
         }
-        public virtual async Task<TAccount> CreateAccountAsync(string tenant, string username, string password, string email, bool temporaryAccount, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string tenant, string username, string password, string email, Guid userId)
         {
             if (Configuration.EmailIsUsername)
             {
@@ -510,9 +510,9 @@ namespace BrockAllen.MembershipReboot
             Tracing.Information("[UserAccountService.CreateAccount] called: {0}, {1}, {2}", tenant, username, email);
 
             TAccount account = UserLogic.CreateUserAccount() as TAccount;
-            Init(account, tenant, username, password, email, temporaryAccount, userId);
+            Init(account, tenant, username, password, email, userId);
 
-           // ValidateEmail(account, email); //Don't want to throw error when email already exists because temp account and permanent account can have same email id
+            ValidateEmail(account, email); 
             ValidateUsername(account, username);
             ValidatePassword(account, password);
 
@@ -525,7 +525,7 @@ namespace BrockAllen.MembershipReboot
             return account;
         }
 
-        protected void Init(TAccount account, string tenant, string username, string password, string email, bool temporaryAccount, Guid userId)
+        protected void Init(TAccount account, string tenant, string username, string password, string email, Guid userId)
         {
             Tracing.Information("[UserAccountService.Init] called");
 
@@ -574,15 +574,14 @@ namespace BrockAllen.MembershipReboot
             account.HashedPassword = password != null ?
                 Configuration.Crypto.HashPassword(password, this.Configuration.PasswordHashingIterationCount) : null;
             account.PasswordChanged = password != null ? account.Created : (DateTime?)null;
-            account.IsAccountVerified = false;
             account.AccountTwoFactorAuthMode = (int)TwoFactorAuthMode.None;
             account.CurrentTwoFactorAuthStatus = (int)TwoFactorAuthMode.None;
-            account.IsLoginAllowed = !temporaryAccount && Configuration.AllowLoginAfterAccountCreation; //temp logins disabled until pin created
-            account.IsTemporaryAccount = temporaryAccount;
+            account.IsLoginAllowed = false; 
+            account.IsTemporaryAccount = true; // when the user is registered then it is changed to false
             account.IsAccountVerified = true; //No verification method exists for accounts once created. Use isApproved for approvals on account
             account.IsActive = true;
             account.IsForgotPasswordRequestAllowed = true;
-            account.IsForgotUsernameRequestAllowed = true;
+            account.IsForgotUsernameRequestAllowed = false; // the username is e-mail and you cannot recover it if you forgot
             Tracing.Verbose("[UserAccountService.CreateAccount] SecuritySettings.AllowLoginAfterAccountCreation is set to: {0}", account.IsLoginAllowed);
             
             if (!String.IsNullOrWhiteSpace(account.Email))
@@ -889,51 +888,52 @@ namespace BrockAllen.MembershipReboot
             }
         }
 
-        //public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string userNameOrEmail, string password, out TAccount account)
-        //{
-        //    return AuthenticateWithUsernameOrEmail(null, userNameOrEmail, password, out account);
-        //}
+        public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string userNameOrEmail, string password, out TAccount account)
+        {
+            return AuthenticateWithUsernameOrEmail(null, userNameOrEmail, password, out account);
+        }
 
-        //public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string tenant, string userNameOrEmail, string password, out TAccount account)
-        //{
-        //    account = null;
-        //    UserLoginValidation result = new UserLoginValidation();
-        //    if (!Configuration.MultiTenant)
-        //    {
-        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] applying default tenant");
-        //        tenant = Configuration.DefaultTenant;
-        //    }
+        public virtual UserLoginValidation AuthenticateWithUsernameOrEmail(string tenant, string userNameOrEmail, string password, out TAccount account)
+        {
+            account = null;
+            UserLoginValidation result = new UserLoginValidation();
+            if (!Configuration.MultiTenant)
+            {
+                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] applying default tenant");
+                tenant = Configuration.DefaultTenant;
+            }
 
-        //    Tracing.Information("[UserAccountService.AuthenticateWithUsernameOrEmail] called {0}, {1}", tenant, userNameOrEmail);
+            Tracing.Information("[UserAccountService.AuthenticateWithUsernameOrEmail] called {0}, {1}", tenant, userNameOrEmail);
 
-        //    if (String.IsNullOrWhiteSpace(tenant)) {
-        //        result.valid = false;
-        //        return result; 
-        //    }
-        //    if (String.IsNullOrWhiteSpace(userNameOrEmail))
-        //    {
-        //        result.valid = false;
-        //        return result;
-        //    }
-        //    if (String.IsNullOrWhiteSpace(password))
-        //    {
-        //        Tracing.Error("[UserAccountService.AuthenticateWithUsernameOrEmail] failed -- empty password");
-        //        result.valid = false;
-        //        result.validationMessage = "Empty password";
-        //        return result;
-        //    }
+            if (String.IsNullOrWhiteSpace(tenant))
+            {
+                result.valid = false;
+                return result;
+            }
+            if (String.IsNullOrWhiteSpace(userNameOrEmail))
+            {
+                result.valid = false;
+                return result;
+            }
+            if (String.IsNullOrWhiteSpace(password))
+            {
+                Tracing.Error("[UserAccountService.AuthenticateWithUsernameOrEmail] failed -- empty password");
+                result.valid = false;
+                result.validationMessage = "Empty password";
+                return result;
+            }
 
-        //    if (!Configuration.EmailIsUsername && userNameOrEmail.Contains("@"))
-        //    {
-        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] email detected");
-        //        return AuthenticateWithEmail(tenant, userNameOrEmail, password, out account);
-        //    }
-        //    else
-        //    {
-        //        Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] username detected");
-        //        return Authenticate(tenant, userNameOrEmail, password, out account);
-        //    }
-        //}
+            if (!Configuration.EmailIsUsername && userNameOrEmail.Contains("@"))
+            {
+                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] email detected");
+                return AuthenticateWithEmail(tenant, userNameOrEmail, password, out account);
+            }
+            else
+            {
+                Tracing.Verbose("[UserAccountService.AuthenticateWithUsernameOrEmail] username detected");
+                return Authenticate(account, tenant, userNameOrEmail, password);
+            }
+        }
 
         /// <summary>
         ///  Authe
@@ -1667,15 +1667,15 @@ namespace BrockAllen.MembershipReboot
             await UpdateAsync(account);
         }
 
-        public virtual async Task ChangeUsernameAsync(Guid accountID, string newUsername)
+        public virtual async Task ChangeUsernameAndEmailAsync(Guid accountID, string newUsername)
         {
             Tracing.Information("[UserAccountService.ChangeUsername] called account id: {0}, new username: {1}", accountID, newUsername);
 
-            if (Configuration.EmailIsUsername)
-            {
-                Tracing.Error("[UserAccountService.ChangeUsername] failed -- SecuritySettings.EmailIsUsername is true, use ChangeEmail API instead");
-                throw new Exception("EmailIsUsername is enabled in SecuritySettings -- use ChangeEmail APIs instead.");
-            }
+            //if (Configuration.EmailIsUsername)
+            //{
+            //    Tracing.Error("[UserAccountService.ChangeUsername] failed -- SecuritySettings.EmailIsUsername is true, use ChangeEmail API instead");
+            //    throw new Exception("EmailIsUsername is enabled in SecuritySettings -- use ChangeEmail APIs instead.");
+            //}
 
             if (String.IsNullOrWhiteSpace(newUsername))
             {
@@ -1686,11 +1686,13 @@ namespace BrockAllen.MembershipReboot
             var account = this.GetByID(accountID);
             if (account == null) throw new ArgumentException("Invalid AccountID");
 
+            ValidateEmail(account, newUsername);
             ValidateUsername(account, newUsername);
 
             Tracing.Verbose("[UserAccountService.ChangeUsername] success");
 
             account.Username = newUsername;
+            account.Email = newUsername;
 
             this.AddEvent(new UsernameChangedEvent<TAccount> { Account = account });
 
@@ -1716,6 +1718,7 @@ namespace BrockAllen.MembershipReboot
                 Tracing.Verbose("[UserAccountService.ChangeEmailRequest] RequireAccountVerification false, changing email");
                 account.IsAccountVerified = false;
                 account.Email = newEmail;
+
                 this.AddEvent(new EmailChangedEvent<TAccount> { Account = account, OldEmail = oldEmail, VerificationKey = key });
             }
             else

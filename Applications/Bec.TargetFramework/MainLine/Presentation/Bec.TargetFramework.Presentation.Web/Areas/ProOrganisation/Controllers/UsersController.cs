@@ -94,7 +94,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, contact.EmailAddress1, RandomPasswordGenerator.Generate(), true, false, false, roles, contact);
+            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, false, roles, contact);
             await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
 
             TempData["UserId"] = uao.UserID;
@@ -117,21 +117,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewReinstate(Guid uaoId, string label)
+        public ActionResult ViewReinstate(Guid uaoId, Guid userId, string label)
         {
             ViewBag.uaoId = uaoId;
+            ViewBag.userId = userId;
             ViewBag.fullName = label;
             return PartialView("_Reinstate");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reinstate(Guid uaoId)
+        public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
             await userClient.GeneratePinAsync(uaoId, true, true);
-            var uao = await userClient.ResendLoginsAsync(uaoId);
-            TempData["UserId"] = uao.UserID;
+            TempData["UserId"] = userId;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }

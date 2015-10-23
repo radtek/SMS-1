@@ -121,6 +121,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+                
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
                     "Contact.Salutation",
@@ -132,6 +133,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     "UserAccountOrganisation.UserAccount.RowVersion");
 
                 await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
+
+                var isUserRegistered = await userClient.IsUserAccountRegisteredAsync(uaoID);
+                if (!isUserRegistered)
+                {
+                    await userClient.ChangeUsernameAndEmailAsync(uaoID, Request.Form["Model.UserAccountOrganisation.UserAccount.Email"]);
+                }
+
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -144,7 +152,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
+      
         internal static async Task EnsureSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient client)
         {
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });

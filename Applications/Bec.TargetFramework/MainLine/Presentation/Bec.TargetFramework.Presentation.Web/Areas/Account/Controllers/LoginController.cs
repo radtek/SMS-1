@@ -91,18 +91,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
                     if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
                     {
-                        if (ua.IsTemporaryAccount)
-                        {
-                            return RedirectToAction("Index", "Register", new { area = "Account" });
-                        }
-                        else
-                        {
-                            // the final landing page is decided inside the Home controller
-                            return RedirectToAction("Index", "Home", new { area = "" });
-                        }
+                        // the final landing page is decided inside the Home controller
+                        return RedirectToAction("Index", "Home", new { area = "" });
                     }
                     else
+                    {
                         msg = "Invalid E-mail or Password";
+                    }
                 }
 
                 ModelState.AddModelError("", msg);
@@ -175,8 +170,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
 
             //check for any subsequent locking of this account
-            var tempua = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
-            if (!CanContinueRegistration(tempua))
+            var userAccount = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
+            if (!CanContinueRegistration(userAccount))
             {
                 ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This e-mail cannot be registered at the moment.");
                 return View("Index", model);
@@ -188,24 +183,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View("Index", model);
             }
 
-            var userAccountOrg = (await UserLogicClient.GetUserAccountOrganisationAsync(tempua.ID)).Single();
-            if (model.CreatePermanentLoginModel.Pin != userAccountOrg.PinCode)
+            var uaoDto = (await UserLogicClient.GetUserAccountOrganisationAsync(userAccount.ID)).Single();
+            if (!IsPinValid(uaoDto, model.CreatePermanentLoginModel.Pin))
             {
                 //increment invalid pin count.
                 //if pincount >=3, expire organisation
-                if (await UserLogicClient.IncrementInvalidPINAsync(userAccountOrg.UserAccountOrganisationID))
+                if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
                 {
                     var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
                     ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
                     ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
                 }
                 else
+                {
                     ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Invalid PIN");
+                }
 
                 return View("Index", model);
             }
 
-            await UserLogicClient.RegisterUserAsync(userAccountOrg.UserAccountOrganisationID, model.CreatePermanentLoginModel.NewPassword);
+            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.NewPassword);
 
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
@@ -213,6 +210,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             TempData["JustRegistered"] = true;
             return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)
+        {
+            return
+                // only organisation admin requires the PIN
+                uaoDto.UserTypeID != UserTypeEnum.OrganisationAdministrator.GetGuidValue() ||
+                // make sure the PIN was generated and it matches the input
+                (!string.IsNullOrWhiteSpace(uaoDto.PinCode) && pin == uaoDto.PinCode);
         }
 
         [AllowAnonymous]

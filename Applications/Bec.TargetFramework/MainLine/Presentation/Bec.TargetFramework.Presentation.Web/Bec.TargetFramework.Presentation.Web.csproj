@@ -871,7 +871,6 @@
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
-    <Content Include="Views\Shared\_ResendLogins.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
@@ -1865,7 +1864,6 @@
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Shared\_ResendLogins.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

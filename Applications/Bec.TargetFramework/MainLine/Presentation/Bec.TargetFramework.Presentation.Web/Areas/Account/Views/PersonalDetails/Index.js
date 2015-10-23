@@ -41,6 +41,7 @@
     });
    
     function validateSubmit(form) {
+        var formData = $("#personal-details-form").serializeArray();
         fixDate(formData, 'BirthDate', "#birthDateInput");
         form.submit();
     }
