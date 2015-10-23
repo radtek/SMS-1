@@ -36,6 +36,10 @@ $(function () {
                         field: "UserAccount.Created",
                         title: "Invite Created",
                         template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
+                    },
+                    {
+                        field: "PinCode",
+                        title: "PIN"
                     }
             ]
         });
@@ -99,6 +103,7 @@ function nChange(dataItem) {
     $("p#ddnSal").text(dataItem.Contact.Salutation || "");
     $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
+    $("p#ddnPIN").text(dataItem.PinCode || "");
 
     $("#revokeButton1").data('href', $("#revokeButton1").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }

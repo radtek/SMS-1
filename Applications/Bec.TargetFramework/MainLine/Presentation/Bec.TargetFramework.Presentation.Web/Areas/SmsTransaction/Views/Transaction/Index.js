@@ -75,7 +75,7 @@ $(function () {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });
 
-    if ($('#content').data("welcome")) {
+    if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
 

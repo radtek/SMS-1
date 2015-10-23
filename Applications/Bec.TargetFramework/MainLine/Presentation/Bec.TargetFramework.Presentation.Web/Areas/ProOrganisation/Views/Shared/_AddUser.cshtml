@@ -56,12 +56,12 @@
                                 <section>
                                     <label class="label">Roles</label>
                                     <input type="hidden" name="rolecheck" id="rolecheck" />
-                                    @foreach (Tuple<OrganisationRoleDTO, string> role in ViewBag.Roles)
+                                    @foreach (OrganisationRoleDTO role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" id="role-@role.Item1.OrganisationRoleID" name="role-@role.Item1.OrganisationRoleID" class="role-checkbox" @role.Item2 />
+                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" class="role-checkbox" onclick="countRoles()" />
                                             <i></i>
-                                            <label for="role-@role.Item1.OrganisationRoleID">@role.Item1.RoleName</label>
+                                            <label for="role-@role.OrganisationRoleID">@role.RoleName</label>
                                         </label>
                                     }
                                     
