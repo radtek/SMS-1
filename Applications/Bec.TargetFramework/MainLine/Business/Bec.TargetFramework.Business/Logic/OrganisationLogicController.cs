@@ -492,7 +492,7 @@ namespace Bec.TargetFramework.Business.Logic
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, true);
-            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, true); // for now it is set to blank
+            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false);
             return buyerUaoDto.UserAccountOrganisationID;
         }
 

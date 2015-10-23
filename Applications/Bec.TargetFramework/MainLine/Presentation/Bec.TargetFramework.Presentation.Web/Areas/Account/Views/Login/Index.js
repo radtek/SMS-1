@@ -75,9 +75,9 @@
                     error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
                 }
             },
-            //"CreatePermanentLoginModel.Pin": {
-            //    required: true
-            //},
+            "CreatePermanentLoginModel.Pin": {
+                required: true
+            },
             "CreatePermanentLoginModel.NewPassword": {
                 required: true,
                 minlength: 10,
