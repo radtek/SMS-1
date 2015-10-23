@@ -61,6 +61,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountOrganisation.UserAccount.Created,
+                x.UserAccountOrganisation.PinCode
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -159,6 +160,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
             dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
+        }
+
+        public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email)
+        {
+            ViewBag.txID = txID;
+            ViewBag.uaoID = uaoID;
+            ViewBag.email = email;
+            return PartialView("_ViewGeneratePIN");
+        }
+
+        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID)
+        {
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID &&
+                x.SmsTransactionID == txID &&
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount == true);
+
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null) throw new AccessViolationException("Operation failed");
+
+            await userClient.GeneratePinAsync(uaoID, false, true);
+
+            return RedirectToAction("Index");
         }
     }
 }

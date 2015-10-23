@@ -263,6 +263,7 @@
     <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.js" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
@@ -762,6 +763,7 @@
     <Content Include="Areas\Account\Views\Search\Index.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\_CheckBankAccount.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

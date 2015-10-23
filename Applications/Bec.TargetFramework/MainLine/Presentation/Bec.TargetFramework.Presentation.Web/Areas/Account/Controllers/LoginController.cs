@@ -214,11 +214,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)
         {
-            return
-                // only organisation admin requires the PIN
-                uaoDto.UserTypeID != UserTypeEnum.OrganisationAdministrator.GetGuidValue() ||
-                // make sure the PIN was generated and it matches the input
-                (!string.IsNullOrWhiteSpace(uaoDto.PinCode) && pin == uaoDto.PinCode);
+            return !string.IsNullOrWhiteSpace(uaoDto.PinCode) && pin == uaoDto.PinCode;
         }
 
         [AllowAnonymous]

@@ -71,16 +71,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", select + filter + orderby)).ToList();
 
-            //remove once multiple admins are allowed:
-            var r = new List<Tuple<OrganisationRoleDTO, string>>();
-            for (int i = 0; i < allRoles.Count; i++)
-            {
-                var v = allRoles[i];
-                bool disabled = v.RoleName == "Organisation Administrator";
-                if (disabled) v.RoleName += " (unavailable)";
-                r.Add(Tuple.Create(v, disabled ? "onclick=ignore(event)" : "onclick=countRoles()"));
-            }
-            ViewBag.roles = r;
+            ViewBag.roles = allRoles;
             return PartialView("_AddUser");
         }
 
@@ -95,7 +86,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
             var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, false, roles, contact);
-            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
+            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, false, false);
 
             TempData["UserId"] = uao.UserID;
             return RedirectToAction("Invited");
@@ -130,7 +121,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.GeneratePinAsync(uaoId, true, true);
+            await userClient.GeneratePinAsync(uaoId, false, true);
             TempData["UserId"] = userId;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
@@ -165,15 +156,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var v = allRoles[i];
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                //reinstate once multiple admins are allowed:
-                bool disabled = v.RoleName == "Organisation Administrator";// && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
-                if (disabled)
-                {
-                    if(check)
-                        v.RoleName += " (locked)";
-                    else
-                        v.RoleName += " (unavailable)";
-                }
+                bool disabled = v.RoleName == "Organisation Administrator" && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                if (disabled) v.RoleName += " (locked)";
+                
                 r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleName));
             }
             ViewBag.Roles = r;

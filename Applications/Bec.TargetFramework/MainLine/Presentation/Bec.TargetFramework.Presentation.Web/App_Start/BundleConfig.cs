@@ -195,6 +195,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/_CheckBankAccount").Include("~/Areas/SmsTransaction/Views/Buyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));

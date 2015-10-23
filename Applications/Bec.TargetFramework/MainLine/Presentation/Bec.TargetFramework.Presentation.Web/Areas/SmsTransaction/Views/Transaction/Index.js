@@ -75,7 +75,7 @@ $(function () {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });
 
-    if ($('#content').data("welcome")) {
+    if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
 
@@ -87,6 +87,9 @@ function txChange(dataItem) {
     $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
 
     $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID);
+
+    $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email);
+    $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);
