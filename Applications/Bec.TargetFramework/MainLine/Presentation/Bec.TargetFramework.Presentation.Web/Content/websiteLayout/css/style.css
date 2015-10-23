@@ -317,7 +317,8 @@ label,
 small,
 legend,
 input,
-textarea {
+textarea,
+button {
   font-family: 'CenturyGothic', Helvetica, sans-serif;
 }
 h1 {
