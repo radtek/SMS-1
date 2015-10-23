@@ -97,8 +97,8 @@ $(function () {
                     }
                 },
                 {
-                    field: "OrganisationAdminTelephone",
-                    title: "Telephone Number"
+                    field: "Notes",
+                    title: "Verified Phone Number"
                 },
                 {
                     field: "OrganisationAdminEmail",
@@ -221,7 +221,9 @@ function verifiedChange(dataItem) {
     $("p#ddvCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+    $("p#ddvVerifiedPhoneNumber").text(dataItem.Notes || "");
     $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+    
     $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation || "" + " " + dataItem.OrganisationAdminFirstName || "" + " " + dataItem.OrganisationAdminLastName || "");
 
     var regulatorName = dataItem.Regulator || "";
