@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("CheckBankAccount", "Buyer", new { area = "SmsTransaction" })" data-index="@ViewBag.index">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("CheckBankAccount", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.Hidden("txID", (object)ViewBag.txID)
@@ -61,4 +61,4 @@
     </div>
 </div>
 
-<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Buyer/_CheckBankAccount")"></script>
+<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount")"></script>

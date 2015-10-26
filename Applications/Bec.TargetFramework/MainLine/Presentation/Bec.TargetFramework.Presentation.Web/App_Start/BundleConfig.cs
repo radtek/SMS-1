@@ -190,13 +190,15 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/AdditionalBuyer/_AddAdditionalBuyer").Include("~/Areas/SmsTransaction/Views/AdditionalBuyer/_AddAdditionalBuyer.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Giftor/_AddGiftor").Include("~/Areas/SmsTransaction/Views/Giftor/_AddGiftor.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/Index").Include("~/Areas/SmsTransaction/Views/Buyer/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/_ConfirmDetails").Include("~/Areas/SmsTransaction/Views/Buyer/_ConfirmDetails.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Buyer/_CheckBankAccount").Include("~/Areas/SmsTransaction/Views/Buyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_EditSmsTransaction").Include("~/Areas/SmsTransaction/Views/Shared/_EditSmsTransaction.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_Purchase").Include("~/Areas/SmsTransaction/Views/Shared/_Purchase.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Shared/_ViewGeneratePIN").Include("~/Areas/SmsTransaction/Views/Shared/_ViewGeneratePIN.js"));
             bundles.Add(new ScriptBundle("~/Scripts/SmsTransaction/Transaction/Index").Include("~/Areas/SmsTransaction/Views/Transaction/Index.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails").Include("~/Areas/Buyer/Views/SafeBuyer/_ConfirmDetails.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
+            
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
 

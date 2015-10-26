@@ -1,4 +1,6 @@
 ﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
 @{
     int i = 0;
     string aclass = "";
@@ -21,6 +23,8 @@
                     <div class="panel-group smart-accordion-default" id="accordion">
                         @foreach (var tx in Model)
                         {
+                            var personaName = ((UserAccountOrganisationTransactionType)tx.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -40,8 +44,8 @@
                                     <div class="panel-body no-padding">
                                         <form class="smart-form">
                                             <fieldset>
-                                                <div id="detailsRow-@i" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(tx.Confirmed? "normal" : "none")">
-                                                    <div class="col-sm-6">
+                                                <div id="detailsRow-@i" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(tx.Confirmed? "block" : "none")">
+                                                    <div id="detailsRowTransactionAddress-@i" class="col-sm-6" style="display:@(!string.IsNullOrWhiteSpace(tx.SmsTransaction.Address.Line1) ? "block" : "none")">
                                                         <dl>
                                                             <dt>Transaction Address:</dt>
                                                             <dd>
@@ -51,16 +55,16 @@
                                                                 <p id="txPostalCode-@i">@tx.SmsTransaction.Address.PostalCode</p>
                                                             </dd>
                                                             <dt>Mortgage Lender:</dt>
-                                                            <dd><p id="mortgageLender-@i">@tx.SmsTransaction.LenderName</p></dd>
+                                                            <dd><p id="mortgageLender-@i">@(tx.SmsTransaction.LenderName ?? "None")</p></dd>
                                                             <dt>Mortgage App. Number:</dt>
-                                                            <dd><p id="mortgageAppNumber-@i">@tx.SmsTransaction.MortgageApplicationNumber</p></dd>
+                                                            <dd><p id="mortgageAppNumber-@i">@(tx.SmsTransaction.MortgageApplicationNumber ?? "None")</p></dd>
                                                             <dt>Price:</dt>
                                                             <dd><p id="purchasePrice-@i" class=format-number data-val="@tx.SmsTransaction.Price"></p></dd>
                                                         </dl>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <dl>
-                                                            <dt>Buyer's Home Address:</dt>
+                                                            <dt>@personaName's Home Address:</dt>
                                                             <dd>
                                                                 <p id="bLine1-@i">@(tx.Address == null ? "" : tx.Address.Line1)</p>
                                                                 <p id="bTown-@i">@(tx.Address == null ? "" : tx.Address.Town)</p>
@@ -95,17 +99,19 @@
                                             </fieldset>
 
                                             <footer>
-                                                <a id="conf" data-modallink="true" class="btn btn-primary" data-href="@Url.Action("ViewConfirmDetails", "Buyer" , new { area = "SmsTransaction", txID = tx.SmsTransactionID, index = i })">
+                                                <a id="conf" data-modallink="true" class="btn btn-primary" data-href="@Url.Action("ViewConfirmDetails", "SafeBuyer" , new { area = "Buyer", txID = tx.SmsTransactionID, index = i })">
                                                     Check Bank Account
                                                 </a>
+
                                             </footer>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
-                                                i++;
-                                                aclass = "collapsed";
-                                                ain = "";
+                            i++;
+                            aclass = "collapsed";
+                            ain = "";
                         }
                     </div>
                 </div>
@@ -115,5 +121,5 @@
 </div>
 
 @section Scripts {
-    <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Buyer/Index")"></script>
+    <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/Index")"></script>
 }

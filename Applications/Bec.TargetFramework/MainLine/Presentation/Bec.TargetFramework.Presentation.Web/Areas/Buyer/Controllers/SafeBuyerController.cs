@@ -12,9 +12,9 @@ using System.Linq.Expressions;
 using Bec.TargetFramework.Entities.DTO;
 using System.Collections.Generic;
 
-namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
+namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 {
-    public class BuyerController : ApplicationControllerBase
+    public class SafeBuyerController : ApplicationControllerBase
     {
         public IAddressLogicClient AddressClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
@@ -26,12 +26,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
-                buyerLine1 = x.Address.Line1,
-                buyerLine2 = x.Address.Line2,
-                buyerTown = x.Address.Town,
-                buyerCity = x.Address.City,
-                buyerCounty = x.Address.County,
-                buyerPostalCode = x.Address.PostalCode,
+                personaLine1 = x.Address.Line1,
+                personaLine2 = x.Address.Line2,
+                personaTown = x.Address.Town,
+                personaCity = x.Address.City,
+                personaCounty = x.Address.County,
+                personaPostalCode = x.Address.PostalCode,
+                x.Contact.BirthDate,
                 x.Confirmed,
                 x.SmsTransactionID,
                 x.SmsTransaction.Price,
@@ -44,6 +45,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.City,
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
+                x.SmsUserAccountOrganisationTransactionTypeID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name, y.TradingName })
             });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
@@ -78,6 +80,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsUserAccountOrganisationTransactionID,
+                x.SmsUserAccountOrganisationTransactionTypeID,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
