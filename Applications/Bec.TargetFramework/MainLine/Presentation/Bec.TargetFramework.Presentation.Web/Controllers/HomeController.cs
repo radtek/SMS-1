@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Buyer", new { area = "SmsTransaction" });
+                return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer" });
             }
         }
 

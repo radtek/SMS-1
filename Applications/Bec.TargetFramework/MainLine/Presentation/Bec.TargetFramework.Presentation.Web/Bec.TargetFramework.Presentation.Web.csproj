@@ -184,13 +184,14 @@
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
+    <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
@@ -258,9 +259,9 @@
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.js" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_CheckBankAccount.js" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.js" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
@@ -762,9 +763,11 @@
     <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
     <Content Include="Areas\Account\Views\Search\Index.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_CheckBankAccount.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.cshtml" />
     <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Buyer\Views\web.config" />
+    <Content Include="Areas\Buyer\Views\_ViewStart.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -911,13 +914,13 @@
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
     <Content Include="Views\Shared\_relatedPartiesTmpl.cshtml" />
     <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
@@ -2029,6 +2032,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Buyer\Models\" />
+    <Folder Include="Areas\Buyer\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
