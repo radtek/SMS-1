@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
                 x.Confirmed,
+                x.SmsTransactionID,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
