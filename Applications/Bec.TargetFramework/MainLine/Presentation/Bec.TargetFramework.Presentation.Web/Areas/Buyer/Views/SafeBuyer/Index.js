@@ -2,7 +2,7 @@
     findModalLinks();
 
     $('.format-date').each(function () {
-        $(this).text(dateString($(this).data("val")));
+        $(this).text(dateStringNoTime($(this).data("val")));
     });
 
     $('.format-number').each(function () {
