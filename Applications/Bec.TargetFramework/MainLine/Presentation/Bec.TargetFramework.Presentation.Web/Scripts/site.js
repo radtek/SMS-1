@@ -102,9 +102,10 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
 }
 
 
-//for 'fire and forget' modal links, where no result is captured
+// for 'fire and forget' modal links, where no result is captured
+// for dynamically added html (e.g. handlebars) the modallink binding will work using: $('body').on('click', 'a[data-modallink]', function (e) {
 function findModalLinks() {
-    $('a[data-modallink]').on('click', function (e) {
+    $('body').on('click', 'a[data-modallink]', function (e) {
         if (!$(e.target).prop('disabled')) {
             $(e.target).prop('disabled', true);
             e.preventDefault();

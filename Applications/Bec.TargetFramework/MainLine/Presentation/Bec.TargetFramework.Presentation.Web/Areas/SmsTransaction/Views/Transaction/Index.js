@@ -137,6 +137,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
             return _.extend({}, item, {
                 fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                 elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
+                transactionId: item.SmsTransactionID,
                 formattedBirthDate: dateStringNoTime(contact.BirthDate)
             });
         });

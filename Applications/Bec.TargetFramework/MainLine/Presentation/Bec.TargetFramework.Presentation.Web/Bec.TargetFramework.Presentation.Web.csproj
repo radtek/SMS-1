@@ -764,6 +764,7 @@
     <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Buyer\_CheckBankAccount.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.cshtml" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
