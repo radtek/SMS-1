@@ -568,17 +568,20 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == dto.SmsTransactionID);
 
-                if (tx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion ||
-                    tx.Contact.RowVersion != dto.Contact.RowVersion)
+                if (tx.SmsTransaction.RowVersion != dto.SmsTransaction.RowVersion || tx.Contact.RowVersion != dto.Contact.RowVersion)
                     throw new Exception("The details have been updated by another user. Please go back and try again");
 
-                tx.SmsTransaction.Confirmed = true;
-                tx.SmsTransaction.Address = await checkAddress(tx.SmsTransaction.Address, dto.SmsTransaction.Address, tx.ContactID);
-                tx.Address = await checkAddress(tx.Address, dto.Address, tx.ContactID);
+                tx.Confirmed = true;
 
-                tx.SmsTransaction.Price = dto.SmsTransaction.Price;
-                tx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
-                tx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
+                if (tx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
+                {
+                    tx.SmsTransaction.Address = await checkAddress(tx.SmsTransaction.Address, dto.SmsTransaction.Address, tx.ContactID);
+                    tx.SmsTransaction.Price = dto.SmsTransaction.Price;
+                    tx.SmsTransaction.LenderName = dto.SmsTransaction.LenderName;
+                    tx.SmsTransaction.MortgageApplicationNumber = dto.SmsTransaction.MortgageApplicationNumber;
+                }
+
+                tx.Address = await checkAddress(tx.Address, dto.Address, tx.ContactID);
 
                 tx.Contact.Salutation = dto.Contact.Salutation;
                 tx.Contact.FirstName = dto.Contact.FirstName;

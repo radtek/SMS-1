@@ -1712,26 +1712,5 @@
         </AttributeType>
       </AttributeAssembly>
     </AttributeAssemblies>
-    <UpdateFromDatabaseExcludes>
-      <Exclude Name="SmsUserAccountOrganisationTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="AddressID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ContactID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsActive" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_pkey" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Address_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Contact_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-    </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>
