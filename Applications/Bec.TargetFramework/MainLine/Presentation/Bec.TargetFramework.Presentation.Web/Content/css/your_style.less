@@ -12,15 +12,15 @@
 
 @color-primary: #BAD64D;
 
-.color-primary{
+.color-primary {
     color: @color-primary;
 }
 
-.bg-color-primary{
+.bg-color-primary {
     background-color: @color-primary;
 }
 
-.bg-color-transparent{
+.bg-color-transparent {
     background: transparent !important;
 }
 
@@ -75,6 +75,14 @@
 
         &-5 {
             margin-top: 5px !important;
+        }
+
+        &-10 {
+            margin-top: 10px !important;
+        }
+
+        &-20 {
+            margin-top: 20px !important;
         }
     }
 
@@ -144,17 +152,20 @@
     }
 }
 
-#header{
+#header {
     background-image: none !important;
     background-color: #fbfbfb !important;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-    #logo-group{
-        .ajax-dropdown{
+
+    #logo-group {
+        .ajax-dropdown {
             width: 430px;
         }
-        #logo{
+
+        #logo {
             margin-top: 0;
-            img{
+
+            img {
                 width: 106px !important;
                 height: 38px !important;
                 margin-left: 16px !important;
@@ -167,7 +178,8 @@
 #extr-page #header #logo {
     margin-top: 10px !important;
     margin-left: 40px !important;
-    img{
+
+    img {
         width: 118px !important;
         height: 42px !important;
         margin-left: 16px !important;
@@ -175,10 +187,10 @@
     }
 }
 
-.twitter-typeahead{
+.twitter-typeahead {
     width: 100%;
 
-    .tt-suggestion, .empty-message{
+    .tt-suggestion, .empty-message {
         padding: 8px 12px;
         border-bottom: 1px solid #ddd;
     }
@@ -191,16 +203,17 @@
     width: 10px;
     right: 24px;
     top: 7px;
-    display:none;
+    display: none;
 }
 
 .search-form,
-.smart-form{
+.smart-form {
     input.invalid {
         border: 1px solid #a90329;
         background-color: #fff0f0;
     }
-    em.invalid{
+
+    em.invalid {
         display: block;
         margin-top: 0;
         padding: 0 1px;
@@ -211,23 +224,31 @@
     }
 }
 
-.smart-form fieldset+fieldset {
+.smart-form fieldset + fieldset {
     border-top: none !important;
 }
 
 .dl-horizontal {
-    dt{
+    dt {
         width: 175px;
     }
+
     dd {
         margin-left: 195px;
     }
 }
 
-.header-btn-text{
-    font-size:14px !important;
-    font-weight:normal;
-    line-height:13px !important;
-    margin-left:6px;
-    margin-right:6px;
+.header-btn-text {
+    font-size: 14px !important;
+    font-weight: normal;
+    line-height: 13px !important;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.modal-dialog {
+    .modal-body {
+        padding-top: 15px;
+        padding-bottom: 20px;
+    }
 }
