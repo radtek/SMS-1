@@ -48,10 +48,6 @@ $(function () {
                         template: function (dataItem) {
                             return dateString(dataItem.CreatedOn);
                         }
-                    },
-                    {
-                        field: "CreatedBy",
-                        title: "Created By"
                     }
             ]
         });

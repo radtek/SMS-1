@@ -40,8 +40,12 @@ $(function () {
             },
             {
                 field: "SmsTransaction.CreatedOn",
-                title: "Created",
+                title: "Created On",
                 template: function (dataItem) { return dateString(dataItem.SmsTransaction.CreatedOn); }
+            },
+            {
+                field: "SmsTransaction.CreatedBy",
+                title: "Created By"
             },
             {
                 field: "UserAccountOrganisation.UserAccount.Created",
