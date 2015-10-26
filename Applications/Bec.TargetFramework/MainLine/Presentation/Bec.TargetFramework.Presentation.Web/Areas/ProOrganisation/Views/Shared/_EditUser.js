@@ -29,19 +29,6 @@ $("#editUser-form").validate({
         'Model.Contact.LastName': {
             required: true
         },
-        'Model.UserAccount.Email': {
-            required: true,
-            email: true,
-            remote: {
-                url: $('#Model_UserAccount_Email').data("url"),
-                data: {
-                    email: function () { return $('#Model_UserAccount_Email').val(); },
-                    uaoID: function () { return $('#uaoID').val(); }
-                },
-                dataType: 'json',
-                error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
-            }
-        },
         rolecheck: {
             required: true,
             min: 1

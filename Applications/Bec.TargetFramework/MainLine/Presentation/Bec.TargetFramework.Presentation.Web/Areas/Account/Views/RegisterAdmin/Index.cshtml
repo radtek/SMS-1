@@ -30,7 +30,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.Regulator)">Regulator</label>
                     @Html.DropDownListFor(m => m.Regulator, new SelectList(regulators, "Value", "Text"), "Please Select", new { tabindex = "3", @class = "form-control" })
                     <i></i>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="form-group">
+                <div class="form-group select">
                     <label>Found Addresses</label>
                     <select id="addressResults" tabindex="7" class="form-control"></select>
                     <i></i>
@@ -135,9 +135,10 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.OrganisationAdminSalutation)">Title</label>
                     @Html.DropDownListFor(m => m.OrganisationAdminSalutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { @class = "form-control", tabindex = "13" })
+                    <i></i>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -176,9 +177,10 @@
     <fieldset>
         <div class="row">
             <div class="col-sm-12">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.OrganisationRecommendationSource)">Where Did You Hear About Safe Move Scheme Pre-Registration?</label>
                     @Html.DropDownListFor(m => m.OrganisationRecommendationSource, Html.EnumListString<OrganisationRecommendationSource>(), "Please Select", new { tabindex = "18", @class = "form-control" })
+                    <i></i>
                 </div>
             </div>
         </div>

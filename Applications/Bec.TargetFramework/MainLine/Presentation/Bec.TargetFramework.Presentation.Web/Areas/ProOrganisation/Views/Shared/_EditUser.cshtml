@@ -30,7 +30,7 @@
                                 <section>
                                     <label class="label">Title</label>
                                     <label class="select">
-                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "13" })
+                                        @Html.DropDownListFor(m => m.Model.Contact.Salutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { tabindex = "1" })
                                         <i></i>
                                     </label>
                                 </section>
@@ -38,23 +38,17 @@
                                     <label class="label">First Name</label>
                                     <label class="input ">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.Contact.FirstName, new { tabindex = "1", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.Model.Contact.FirstName, new { tabindex = "2", maxlength = 50 })
                                     </label>
                                 </section>
                                 <section>
                                     <label class="label">Last Name</label>
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.Contact.LastName, new { tabindex = "2", maxlength = 50 })
+                                        @Html.TextBoxFor(m => m.Model.Contact.LastName, new { tabindex = "3", maxlength = 50 })
                                     </label>
                                 </section>
-                                <section>
-                                    <label class="label">Email Address</label>
-                                    <label class="input ">
-                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                        @Html.TextBoxFor(m => m.Model.UserAccount.Email, new { tabindex = "3", type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
-                                    </label>
-                                </section>
+                                
                                 @if (Context.GetWebUserObject().UaoID != ViewBag.uaoID)
                                 {
                                     <section>

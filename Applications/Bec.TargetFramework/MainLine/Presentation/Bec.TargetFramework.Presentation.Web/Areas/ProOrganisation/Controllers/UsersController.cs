@@ -135,7 +135,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
             {
                 x.UserAccountOrganisationID,
-                x.UserAccount.Email,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -178,7 +177,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 "Contact.FirstName",
                 "Contact.LastName",
                 "Contact.RowVersion",
-                "UserAccount.Email",
                 "UserAccount.IsActive",
                 "UserAccount.RowVersion",
                 "UserAccountOrganisationRoles[].Selected",

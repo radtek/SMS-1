@@ -224,7 +224,7 @@ function verifiedChange(dataItem) {
     $("p#ddvVerifiedPhoneNumber").text(dataItem.Notes || "");
     $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     
-    $("p#ddvSystemAdminName").text(dataItem.OrganisationAdminSalutation || "" + " " + dataItem.OrganisationAdminFirstName || "" + " " + dataItem.OrganisationAdminLastName || "");
+    $("p#ddvSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;

@@ -69,10 +69,13 @@ namespace BodgeIt.Logic
                 Salutation = "Mr"
             };
             HttpClient client = new HttpClient { BaseAddress = new Uri(server) };
-            var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&username={1}&password={2}&isTemporary=false&sendEmail=false&addDefaultRoles=true",
-                orgID, lastName, WebUtility.UrlEncode(password)), HttpMethod.Post, "user", contact);
+            var x = await SendAsync<object>(client, string.Format("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID={0}&userTypeValue=Administrator&addDefaultRoles=true",
+                orgID), HttpMethod.Post, "user", contact);
             var s = await x.Content.ReadAsStringAsync();
-            Guid g = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
+            Guid uaoId = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
+
+            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?uaoId={0}&password={1}",
+                uaoId, WebUtility.UrlEncode(password)), HttpMethod.Post, "user", null);
         }
 
         public Guid GetCurrentOrganisationId(string connectionString)

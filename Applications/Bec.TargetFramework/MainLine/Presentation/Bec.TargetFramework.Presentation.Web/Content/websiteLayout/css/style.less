@@ -151,6 +151,39 @@ form {
         box-sizing: border-box;
         outline: 0 none;
         -moz-appearance: none !important;
+        -webkit-appearance: none;
+        &::-ms-expand {
+            display: none;
+        }
+    }
+
+    .select {
+        
+        i {
+            position: absolute;
+            top: 36px;
+            right: 26px;
+            width: 5px;
+            height: 11px;
+
+            &::before {
+                top: 0px;
+                border-bottom: 4px solid #404040;
+            }
+
+            &::before, &::after {
+                content: "";
+                position: absolute;
+                right: 0px;
+                border-right: 4px solid transparent;
+                border-left: 4px solid transparent;
+            }
+
+            &::after {
+                bottom: 0px;
+                border-top: 4px solid #404040;
+            }
+        }
     }
 }
 
@@ -296,9 +329,10 @@ em.invalid {
 
 .modal-dialog {
     .modal-body {
-        .smart-form{
+        .smart-form {
             padding: 5px 20px;
         }
+
         .label {
             color: @text-color;
             white-space: normal;
@@ -817,20 +851,20 @@ body {
         }
 
         button.ui-priority-secondary {
-
         }
     }
 
     .ui-datepicker-days-cell-over {
         .ui-datepicker-current-day !important;
-    }   
-    .ui-datepicker-today{
-        background-color: #def2ff; 
+    }
+
+    .ui-datepicker-today {
+        background-color: #def2ff;
     }
 }
 
-.form-control.hasDatepicker[disabled], 
-.form-control.hasDatepicker[readonly], 
+.form-control.hasDatepicker[disabled],
+.form-control.hasDatepicker[readonly],
 fieldset[disabled] .form-control.hasDatepicker {
     cursor: default;
     background-color: #fff;
