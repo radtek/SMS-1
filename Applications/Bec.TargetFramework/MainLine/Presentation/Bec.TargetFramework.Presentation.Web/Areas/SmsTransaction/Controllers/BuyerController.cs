@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 buyerCity = x.Address.City,
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
-                x.SmsTransaction.Confirmed,
+                x.Confirmed,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
@@ -65,7 +65,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 buyerCity = x.Address.City,
                 buyerCounty = x.Address.County,
                 buyerPostalCode = x.Address.PostalCode,
-                x.SmsTransaction.Confirmed,
+                x.Confirmed,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             ViewBag.orgID = model.SmsTransaction.OrganisationID;
 
-            if(model.SmsTransaction.Confirmed)
+            if(model.Confirmed)
                 return PartialView("_CheckBankAccount");
             else
                 return PartialView("_ConfirmDetails", model);
