@@ -2067,6 +2067,7 @@ namespace BrockAllen.MembershipReboot
             account.HashedPassword = Configuration.Crypto.HashPassword(password, this.Configuration.PasswordHashingIterationCount);
             account.PasswordChanged = DateTime.Now;
             account.RequiresPasswordReset = false;
+            account.FailedLoginCount = 0;
 
             this.AddEvent(new PasswordChangedEvent<UserAccount> { Account = account, NewPassword = password });
         }
