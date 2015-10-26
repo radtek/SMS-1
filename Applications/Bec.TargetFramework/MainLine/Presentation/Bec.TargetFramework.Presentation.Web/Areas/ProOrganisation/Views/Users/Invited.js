@@ -20,13 +20,9 @@ $(function () {
                         hidden: true,
                     },
                     {
-                        field: "Contact.Salutation",
-                        title: "Title"
-                    },
-                    {
                         field: "Contact.LastName",
                         title: "Name",
-                        template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        template: function (dataItem) { return dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
                     },
                     {
                         field: "UserAccount.Email",
@@ -62,13 +58,9 @@ $(function () {
                         hidden: true,
                     },
                     {
-                        field: "Contact.Salutation",
-                        title: "Title"
-                    },
-                    {
                         field: "Contact.LastName",
                         title: "Name",
-                        template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        template: function (dataItem) { return dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
                     },
                     {
                         field: "UserAccount.Email",
@@ -100,16 +92,14 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function nChange(dataItem) {
-    $("p#ddnSal").text(dataItem.Contact.Salutation || "");
-    $("p#ddnName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+    $("p#ddnName").text(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddnEmail").text(dataItem.UserAccount.Email || "");
     $("p#ddnPIN").text(dataItem.PinCode || "");
 
     $("#revokeButton1").data('href', $("#revokeButton1").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));
 }
 function eChange(dataItem) {
-    $("p#ddeSal").text(dataItem.Contact.Salutation || "");
-    $("p#ddeName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+    $("p#ddeName").text(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddeEmail").text(dataItem.UserAccount.Email || "");
 
     $("#reinstateButton").data('href', $("#reinstateButton").data("url") + "?uaoId=" + dataItem.UserAccountOrganisationID + "&userId=" + dataItem.UserAccount.ID + "&label=" + encodeURIComponent(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName));

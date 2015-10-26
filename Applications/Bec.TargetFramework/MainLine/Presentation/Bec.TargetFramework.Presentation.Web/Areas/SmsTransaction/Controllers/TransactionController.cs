@@ -53,6 +53,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.SmsTransaction.CreatedOn,
+                x.SmsTransaction.CreatedBy,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
