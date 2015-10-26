@@ -151,7 +151,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(u => u.UserAccountOrganisationID == uaoId && u.UserAccount.IsTemporaryAccount).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(u => u.UserAccountOrganisationID == uaoId && !u.UserAccount.IsTemporaryAccount).Count() > 0;
             }
         }
 
