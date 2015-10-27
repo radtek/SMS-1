@@ -284,14 +284,24 @@
     <Content Include="Content\css\demo.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\invoice.min.css" />
+    <Content Include="Content\kendo\kendo.metro.css">
+      <DependentUpon>kendo.metro.less</DependentUpon>
+    </Content>
+    <Content Include="Content\kendo\kendo.metro.min.css">
+      <DependentUpon>kendo.metro.css</DependentUpon>
+    </Content>
     <Content Include="Content\css\lockscreen.min.css" />
     <Content Include="Content\css\smartadmin-production-plugins.min.css" />
     <Content Include="Content\css\smartadmin-production.min.css" />
     <Content Include="Content\css\smartadmin-rtl.backup.min.css" />
     <Content Include="Content\css\smartadmin-rtl.min.css" />
     <Content Include="Content\css\smartadmin-skins.min.css" />
-    <Content Include="Content\css\your_style.css" />
-    <Content Include="Content\css\your_style.min.css" />
+    <Content Include="Content\css\your_style.css">
+      <DependentUpon>your_style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\your_style.min.css">
+      <DependentUpon>your_style.css</DependentUpon>
+    </Content>
     <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\ajax-loader.gif" />
@@ -604,8 +614,8 @@
     <Content Include="Content\kendo\kendo.material.mobile.min.css" />
     <Content Include="Content\kendo\kendo.materialblack.min.css" />
     <Content Include="Content\kendo\kendo.materialblack.mobile.min.css" />
-    <Content Include="Content\kendo\kendo.metro.min.css" />
-    <Content Include="Content\kendo\kendo.metro.mobile.min.css" />
+    <Content Include="Content\kendo\original.kendo.metro.min.css" />
+    <Content Include="Content\kendo\original.kendo.metro.mobile.min.css" />
     <Content Include="Content\kendo\kendo.metroblack.min.css" />
     <Content Include="Content\kendo\kendo.metroblack.mobile.min.css" />
     <Content Include="Content\kendo\kendo.mobile.all.min.css" />
@@ -768,6 +778,12 @@
     <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
     <Content Include="Areas\Buyer\Views\web.config" />
     <Content Include="Areas\Buyer\Views\_ViewStart.cshtml" />
+    <Content Include="Content\kendo\kendo.metro.less" />
+    <Content Include="Content\kendo\theme-template.less" />
+    <Content Include="Content\kendo\type-metro.less" />
+    <Content Include="Content\kendo\kendo.metro.css.map">
+      <DependentUpon>kendo.metro.css</DependentUpon>
+    </Content>
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

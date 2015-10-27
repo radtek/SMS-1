@@ -59,7 +59,7 @@ button.inline-heading {
   line-height: 30px;
   border: 1px solid #aaa;
   outline: none;
-  padding: 0px 12px;
+  padding: 0 12px;
 }
 
 .typeahead {
@@ -111,18 +111,22 @@ button.inline-heading {
   margin: 0;
 }
 
-.help-vert{
+.help-vert {
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
     cursor: pointer;
 }
 
-.help{
+.help {
     z-index: -1;
     position: absolute;
     -webkit-transition-duration: 0.3s;
     -moz-transition-duration: 0.3s;
-    transition-duration: 0.3s;
     -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
 }
 
 .help-container {
@@ -138,7 +142,7 @@ button.inline-heading {
 
 .help-inner {
     left: -250px;
-    top: 0px;
+    top: 0;
     background: white;
     width: 250px;
     padding: 10px;
