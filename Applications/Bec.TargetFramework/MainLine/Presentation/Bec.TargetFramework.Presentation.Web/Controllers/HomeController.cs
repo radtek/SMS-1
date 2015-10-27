@@ -20,10 +20,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public ActionResult Index()
         {
+            TempData["WelcomeMessage"] = TempData["JustRegistered"];
+            TempData["JustRegistered"] = false;
+
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
-                TempData["WelcomeMessage"] = TempData["JustRegistered"];
-                TempData["JustRegistered"] = false;
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
             }
             else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
