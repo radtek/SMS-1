@@ -174,4 +174,7 @@
   padding-top: 15px;
   padding-bottom: 20px;
 }
+.btn-header > :first-child > a {
+  cursor: pointer !important;
+}
 /*# sourceMappingURL=your_style.css.map */

@@ -65,7 +65,7 @@ form .icon-append,
 form .icon-prepend {
   color: #a2a2a2;
   position: absolute;
-  top: 32px;
+  top: 31px;
   width: 28px;
   height: 20px;
   line-height: 21px;
@@ -108,8 +108,10 @@ form .select i {
   position: absolute;
   top: 36px;
   right: 26px;
-  width: 5px;
+  width: 18px;
   height: 11px;
+  background-color: #fff;
+  box-shadow: 0 0 0 9px #fff;
 }
 form .select i::before {
   top: 0px;
@@ -219,7 +221,6 @@ em.invalid {
   padding: 20px 0;
 }
 .client-form .fields label {
-  /*margin-top: 5px;*/
   font-weight: normal !important;
 }
 .client-form .fields strong {
@@ -707,6 +708,18 @@ body {
 }
 .ui-datepicker .ui-datepicker-today {
   background-color: #def2ff;
+}
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: #fff;
+  border: 1px solid #eee;
+  box-shadow: none;
+}
+.form-control[disabled] + i,
+.form-control[readonly] + i,
+fieldset[disabled] .form-control + i {
+  color: #ddd;
 }
 .form-control.hasDatepicker[disabled],
 .form-control.hasDatepicker[readonly],
