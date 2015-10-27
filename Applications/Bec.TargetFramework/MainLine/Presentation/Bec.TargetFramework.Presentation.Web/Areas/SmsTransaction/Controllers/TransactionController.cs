@@ -29,13 +29,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return PartialView();
         }
 
-        public ActionResult Index(Guid? selectedTransactionID)
+        public ActionResult Index()
         {
-            if (selectedTransactionID.HasValue)
-            {
-                TempData["SmsTransactionID"] = selectedTransactionID;
-            }
             return View();
+        }
+        public ActionResult Selected(Guid selectedTransactionID, int pageNumber)
+        {
+            TempData["SmsTransactionID"] = selectedTransactionID;
+            TempData["pageNumber"] = pageNumber;
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> GetSmsTransactions(string search)
@@ -93,10 +95,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID)
+        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
         {
             ViewBag.txId = txID;
             ViewBag.uaoId = uaoID;
+            ViewBag.pageNumber = pageNumber;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
                 x.SmsUserAccountOrganisationTransactionID,
@@ -176,16 +179,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             if ((bool)ret.Items.First.Confirmed) throw new AccessViolationException("Operation failed");
         }
 
-        public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email)
+        public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
         {
             ViewBag.txID = txID;
             ViewBag.uaoID = uaoID;
             ViewBag.email = email;
+            ViewBag.pageNumber = pageNumber;
             return PartialView("_ViewGeneratePIN");
         }
 
-        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID)
+        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
         {
+            TempData["SmsTransactionID"] = txID;
+            TempData["pageNumber"] = pageNumber;
+
             await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
