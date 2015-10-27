@@ -3,7 +3,7 @@
 <div id="content" data-showmessage="@TempData["ShowMessage"]" data-url="@Url.Action("ViewMessage", "Message", new { Area = "", })">
     <div class="row">
 
-        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-bank margin-right-10"></i>Manage Bank Accounts</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>Manage Bank Accounts</h2>
         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
         {
             <a data-href="@Url.Action("ViewAddBankAccount", "Account", new { area  = "BankAccount" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Bank Account</a>
