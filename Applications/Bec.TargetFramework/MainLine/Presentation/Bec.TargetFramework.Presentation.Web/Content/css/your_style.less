@@ -281,9 +281,15 @@
 }
 
 //smart admin has quite a specific bg-colour for this in #logo-group
-.badge {
-    background: @primary-color !important;
+#activity {
+    .badge{
+        background: @primary-color !important;
+    }
+    &.active .badge{
+        background: darken(@primary-color, 5%) !important;
+    }
 }
+
 
 //smart admin specifies -webkit
 .nav-tabs > li.active > a {

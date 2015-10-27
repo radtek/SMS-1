@@ -195,8 +195,11 @@
   background-color: #a1c324 !important;
   border-color: #7d981c !important;
 }
-.badge {
+#activity .badge {
   background: #a1c324 !important;
+}
+#activity.active .badge {
+  background: #8fad20 !important;
 }
 .nav-tabs > li.active > a {
   -webkit-box-shadow: 0 -2px 0 #a1c324;
