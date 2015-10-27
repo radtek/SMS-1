@@ -14,6 +14,7 @@ $(function () {
         defaultSort: { field: "SmsTransaction.CreatedOn", dir: "desc" },
         panels: ['rPanel'],
         jumpToId: $('#txGrid').data("jumpto"),
+        jumpToPage: $('#txGrid').data("jumptopage"),
         change: txChange,
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
@@ -87,13 +88,13 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function txChange(dataItem) {
-    $("#addAdditionalBuyerButton").data('href', $("#addAdditionalBuyerButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
-    $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID);
+    $("#addAdditionalBuyerButton").data('href', $("#addAdditionalBuyerButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+    $("#addGiftorButton").data('href', $("#addGiftorButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
-    $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID);
+    $("#editButton").data('href', $("#editButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#editButton").attr("disabled", dataItem.Confirmed);
 
-    $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email);
+    $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
 
     showTransactionDetails(dataItem);
@@ -104,7 +105,8 @@ function txChange(dataItem) {
 
 function showTransactionDetails(dataItem) {
     var data = _.extend({}, dataItem, {
-        purchasePrice: formatCurrency(dataItem.SmsTransaction.Price)
+        purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
+        pageNumber:  txGrid.grid.dataSource.page()
     });
     transactionDetailsTemplatePromise.done(function (template) {
         var html = template(data);
@@ -116,7 +118,8 @@ function showPrimaryBuyerDetails(dataItem) {
     var contact = dataItem.Contact;
     var data = _.extend({}, dataItem, {
         fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
-        formattedBirthDate: dateStringNoTime(contact.BirthDate)
+        formattedBirthDate: dateStringNoTime(contact.BirthDate),
+        pageNumber:  txGrid.grid.dataSource.page()
     });
 
     primaryBuyerTemplatePromise.done(function (template) {
@@ -149,7 +152,8 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
         var templateData = {
             accordionId: accordionId,
             isEmpty: items.length === 0,
-            items: items
+            items: items,
+            pageNumber: txGrid.grid.dataSource.page()
         };
 
         relatedPartiesTemplatePromise.done(function (template) {

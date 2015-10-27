@@ -43,8 +43,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public ActionResult ViewAddGiftor(Guid txID)
+        public ActionResult ViewAddGiftor(Guid txID, int pageNumber)
         {
+            ViewBag.pageNumber = pageNumber;
             var model = new AddSmsClientDTO
             {
                 TransactionID = txID

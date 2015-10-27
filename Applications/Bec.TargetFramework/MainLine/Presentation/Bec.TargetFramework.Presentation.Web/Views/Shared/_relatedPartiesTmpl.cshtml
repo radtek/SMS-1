@@ -15,7 +15,7 @@
                 {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
                 <div class="pull-right">
                     <a class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN"
-                       data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID={{transactionId}}&uaoID={{UserAccountOrganisation.UserAccountOrganisationID}}&email={{UserAccountOrganisation.UserAccount.Email}}">
+                       data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID={{transactionId}}&uaoID={{UserAccountOrganisation.UserAccountOrganisationID}}&email={{UserAccountOrganisation.UserAccount.Email}}&pageNumber={{@@root.pageNumber}}">
                         <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
                     </a>
                 </div>

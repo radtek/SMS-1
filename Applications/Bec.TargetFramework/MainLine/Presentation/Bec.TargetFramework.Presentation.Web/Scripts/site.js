@@ -293,6 +293,11 @@ var gridItem = function (options) {
         var gridData = self.grid.dataSource.data();
         if (gridData.length == 0) return;
 
+        if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
+            self.grid.dataSource.page(self.options.jumpToPage);
+            self.options.jumpToPage = null;
+        }
+
         if (self.options.jumpToId != null && self.options.jumpToId != "") {
             for (var i = 0; i < gridData.length; i++) {
                 if (self.options.jumpToId == gridData[i][self.options.schema.model.id] || self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {

@@ -15,6 +15,7 @@
                             <fieldset>
                                 <input type="hidden" name="txId" value="@ViewBag.txID" />
                                 <input type="hidden" name="uaoId" value="@ViewBag.uaoID" />
+                                @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
 
                                 <div class="row">
                                     <section class="col">
