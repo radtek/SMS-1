@@ -54,6 +54,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.SmsTransaction.CreatedOn,
                 x.SmsTransaction.CreatedBy,
+                x.SmsTransaction.LenderName,
+                x.SmsTransaction.MortgageApplicationNumber,
+                x.SmsTransaction.Price,
+                x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -123,6 +127,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+                await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, queryClient);
                 
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
@@ -161,6 +166,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
             dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
+        }
+
+        internal static async Task EnsureSmsTransactionIsNotConfirmed(Guid txID, Guid uaoId, IQueryLogicClient client)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.Confirmed });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
+            dynamic ret = await client.QueryAsync("SmsUserAccountOrganisationTransactions", select + filter);
+            if ((bool)ret.Items.First.Confirmed) throw new AccessViolationException("Operation failed");
         }
 
         public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email)

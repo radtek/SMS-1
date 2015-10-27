@@ -221,72 +221,14 @@
 .nav-pills li.active a:visited {
   background-color: #a1c324;
 }
-.ui-datepicker {
-  /*.ui-datepicker-calendar {
-        table-layout: fixed;
-        width: 100%;
-
-        td {
-            border-radius: 4px;
-            -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
-            -moz-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
-            -o-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
-            transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
-
-            a {
-                text-decoration: none;
-                color: darken(@text-color, 20%);
-            }
-        }
-
-        td:hover {
-            background-color: #eee;
-            cursor: pointer;
-        }
-
-        .ui-datepicker-unselectable {
-            color: lighten(@text-color, 20%);
-
-            &:hover {
-                background-color: #fff;
-                cursor: default;
-            }
-        }
-    }
-
-    .ui-datepicker-current-day {
-        background-color: lighten(@primary-color, 20%);
-
-        a {
-            color: #fff;
-        }
-    }
-
-    a,
-    a:hover {
-        text-decoration: none;
-    }
-
-    a:hover,
-    td:hover a {
-        color: darken(@primary-color, 10%);
-        -webkit-transition: color 0.1s ease-in-out;
-        -moz-transition: color 0.1s ease-in-out;
-        -o-transition: color 0.1s ease-in-out;
-        transition: color 0.1s ease-in-out;
-    }
-
-    .ui-datepicker-calendar th,
-    .ui-datepicker-calendar td {
-        text-align: center;
-        padding: 4px 0;
-    }*/
-}
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   color: #a1c324;
 }
 .ui-datepicker td .ui-state-hover {
   background: #a1c324;
+}
+.btn-header > :first-child > a {
+  cursor: pointer !important;
 }
 /*# sourceMappingURL=your_style.css.map */

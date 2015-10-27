@@ -805,14 +805,17 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task ChangeUsernameAndEmail(Guid uaoId, string newUsername)
         {
-            Guid userAccountId;
+            UserAccountDTO userAccountDto;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
-                userAccountId = uao.UserAccount.ID;
+                userAccountDto = uao.UserAccount.ToDto();
             }
 
-            await UaService.ChangeUsernameAndEmailAsync(userAccountId, newUsername);
+            if (!userAccountDto.Username.Trim().Equals(newUsername.Trim(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                await UaService.ChangeUsernameAndEmailAsync(userAccountDto.ID, newUsername);
+            }
         }
     }
 }
