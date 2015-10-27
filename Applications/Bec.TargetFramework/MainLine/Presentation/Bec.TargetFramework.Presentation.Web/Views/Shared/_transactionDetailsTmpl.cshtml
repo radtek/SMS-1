@@ -24,6 +24,23 @@
     <dd><p>{{SmsTransaction.Address.PostalCode}}</p></dd>
     {{/if}}
 </dl>
+{{#xif "this.SmsTransaction.LenderName || this.SmsTransaction.MortgageApplicationNumber || this.SmsTransaction.Price"}}
+<h5>Other Details</h5>
+{{/xif}}
+<dl class="dl-horizontal">
+    {{#if SmsTransaction.LenderName}}
+    <dt>Mortgage Lender:</dt>
+    <dd><p>{{SmsTransaction.LenderName}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.MortgageApplicationNumber}}
+    <dt>Mortgage Application No:</dt>
+    <dd><p>{{SmsTransaction.MortgageApplicationNumber}}</p></dd>
+    {{/if}}
+    {{#if SmsTransaction.Price}}
+    <dt>Purchase Price:</dt>
+    <dd><p>{{purchasePrice}}</p></dd>
+    {{/if}}
+</dl>
 <h5>Product</h5>
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>
