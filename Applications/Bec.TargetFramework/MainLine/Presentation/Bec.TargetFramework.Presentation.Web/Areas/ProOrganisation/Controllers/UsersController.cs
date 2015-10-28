@@ -71,16 +71,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleName });
             var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", select + filter + orderby)).ToList();
 
-            //remove once multiple admins are allowed:
-            var r = new List<Tuple<OrganisationRoleDTO, string>>();
-            for (int i = 0; i < allRoles.Count; i++)
-            {
-                var v = allRoles[i];
-                bool disabled = v.RoleName == "Organisation Administrator";
-                if (disabled) v.RoleName += " (unavailable)";
-                r.Add(Tuple.Create(v, disabled ? "onclick=ignore(event)" : "onclick=countRoles()"));
-            }
-            ViewBag.roles = r;
+            ViewBag.roles = allRoles;
             return PartialView("_AddUser");
         }
 
@@ -94,31 +85,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
 
-            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, RandomPasswordGenerator.GenerateRandomName(), RandomPasswordGenerator.Generate(), true, true, false, roles, contact);
-            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, true, false);
+            var uao = await orgClient.AddNewUserToOrganisationAsync(orgID, Entities.Enums.UserTypeEnum.User, false, roles, contact);
+            await userClient.GeneratePinAsync(uao.UserAccountOrganisationID, false, false);
 
             TempData["UserId"] = uao.UserID;
-            return RedirectToAction("Invited");
-        }
-
-        public ActionResult ViewResendLogins(Guid uaoId, string label)
-        {
-            ViewBag.uaoId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Users";
-            ViewBag.RedirectArea = "ProOrganisation";
-            return PartialView("_ResendLogins");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoId)
-        {
-            var uao = await userClient.ResendLoginsAsync(uaoId);
-
-            TempData["UserId"] = uao.UserID;
-            TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
 
@@ -138,21 +108,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return RedirectToAction("Invited");
         }
 
-        public ActionResult ViewReinstate(Guid uaoId, string label)
+        public ActionResult ViewReinstate(Guid uaoId, Guid userId, string label)
         {
             ViewBag.uaoId = uaoId;
+            ViewBag.userId = userId;
             ViewBag.fullName = label;
             return PartialView("_Reinstate");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reinstate(Guid uaoId)
+        public async Task<ActionResult> Reinstate(Guid uaoId, Guid userId)
         {
             await EnsureUserInOrg(uaoId, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.GeneratePinAsync(uaoId, true, true);
-            var uao = await userClient.ResendLoginsAsync(uaoId);
-            TempData["UserId"] = uao.UserID;
+            await userClient.GeneratePinAsync(uaoId, false, true);
+            TempData["UserId"] = userId;
             TempData["tabIndex"] = 0;
             return RedirectToAction("Invited");
         }
@@ -165,7 +135,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new
             {
                 x.UserAccountOrganisationID,
-                x.UserAccount.Email,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -186,15 +155,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var v = allRoles[i];
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                //reinstate once multiple admins are allowed:
-                bool disabled = v.RoleName == "Organisation Administrator";// && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
-                if (disabled)
-                {
-                    if(check)
-                        v.RoleName += " (locked)";
-                    else
-                        v.RoleName += " (unavailable)";
-                }
+                bool disabled = v.RoleName == "Organisation Administrator" && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                if (disabled) v.RoleName += " (locked)";
+                
                 r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleName));
             }
             ViewBag.Roles = r;
@@ -214,7 +177,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 "Contact.FirstName",
                 "Contact.LastName",
                 "Contact.RowVersion",
-                "UserAccount.Email",
                 "UserAccount.IsActive",
                 "UserAccount.RowVersion",
                 "UserAccountOrganisationRoles[].Selected",

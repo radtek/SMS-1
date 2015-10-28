@@ -10,20 +10,20 @@
  * unique to you with each update of SmartAdmin.
  */
 
-@color-primary: #BAD64D;
+@primary-color: #a1c324;
+@text-color:black;
 
-.color-primary{
-    color: @color-primary;
+.color-primary {
+    color: @primary-color;
 }
 
-.bg-color-primary{
-    background-color: @color-primary;
+.bg-color-primary {
+    background-color: @primary-color;
 }
 
-.bg-color-transparent{
+.bg-color-transparent {
     background: transparent !important;
 }
-
 
 // Boxmodel
 .padding {
@@ -76,6 +76,14 @@
 
         &-5 {
             margin-top: 5px !important;
+        }
+
+        &-10 {
+            margin-top: 10px !important;
+        }
+
+        &-20 {
+            margin-top: 20px !important;
         }
     }
 
@@ -145,16 +153,20 @@
     }
 }
 
-#header{
+#header {
     background-image: none !important;
     background-color: #fbfbfb !important;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
-    #logo-group{
-        .ajax-dropdown{
+
+    #logo-group {
+        .ajax-dropdown {
             width: 430px;
         }
-        #logo{
-            img{
+
+        #logo {
+            margin-top: 0;
+
+            img {
                 width: 106px !important;
                 height: 38px !important;
                 margin-left: 16px !important;
@@ -167,7 +179,8 @@
 #extr-page #header #logo {
     margin-top: 10px !important;
     margin-left: 40px !important;
-    img{
+
+    img {
         width: 118px !important;
         height: 42px !important;
         margin-left: 16px !important;
@@ -175,10 +188,10 @@
     }
 }
 
-.twitter-typeahead{
+.twitter-typeahead {
     width: 100%;
 
-    .tt-suggestion, .empty-message{
+    .tt-suggestion, .empty-message {
         padding: 8px 12px;
         border-bottom: 1px solid #ddd;
     }
@@ -191,16 +204,17 @@
     width: 10px;
     right: 24px;
     top: 7px;
-    display:none;
+    display: none;
 }
 
 .search-form,
-.smart-form{
+.smart-form {
     input.invalid {
         border: 1px solid #a90329;
         background-color: #fff0f0;
     }
-    em.invalid{
+
+    em.invalid {
         display: block;
         margin-top: 0;
         padding: 0 1px;
@@ -211,23 +225,121 @@
     }
 }
 
-.smart-form fieldset+fieldset {
+.smart-form fieldset + fieldset {
     border-top: none !important;
 }
 
 .dl-horizontal {
-    dt{
+    dt {
         width: 175px;
     }
+
     dd {
         margin-left: 195px;
     }
 }
 
-.header-btn-text{
-    font-size:14px !important;
-    font-weight:normal;
-    line-height:13px !important;
-    margin-left:6px;
-    margin-right:6px;
+.header-btn-text {
+    font-size: 14px !important;
+    font-weight: normal;
+    line-height: 13px !important;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.modal-dialog {
+    .modal-body {
+        padding-top: 15px;
+        padding-bottom: 20px;
+    }
+}
+
+.btn {
+    box-shadow: none;
+}
+
+.btn-primary {
+    background-color: @primary-color;
+    border: 1px solid @primary-color;
+
+    &:hover {
+        border: 1px solid @primary-color;
+        background-color: darken(@primary-color, 5%);
+    }
+
+    &:active,
+    &:focus,
+    &:visited {
+        border: 1px solid @primary-color !important;
+        background-color: lighten(@primary-color, 2%) !important;
+    }
+
+    &[disabled] {
+        background-color: @primary-color !important;
+        border-color: darken(@primary-color, 10%) !important;
+    }
+}
+
+//smart admin has quite a specific bg-colour for this in #logo-group
+#activity {
+    .badge{
+        background: @primary-color !important;
+    }
+    &.active .badge{
+        background: darken(@primary-color, 5%) !important;
+    }
+}
+
+
+//smart admin specifies -webkit
+.nav-tabs > li.active > a {
+    -webkit-box-shadow: 0 -2px 0 @primary-color;
+    -moz-box-shadow: 0 -2px 0 @primary-color;
+    box-shadow: 0 -2px 0 @primary-color;
+}
+
+.smart-form {
+    .checkbox {
+        input+i {
+            &:after{
+                color: @primary-color;
+            }
+            border-color:#bdbdbd !important;
+        }
+    }
+}
+
+.nav-pills {
+    li{
+        a{
+             color:darken(@primary-color,20%);
+        }
+    }
+    li.active {
+        a {
+            background-color:@primary-color;
+            &:hover,
+            &:active,
+            &:focus,
+            &:visited{
+                background-color:@primary-color;
+            }
+        }
+    }
+}
+
+// DatePicker styles
+.ui-datepicker {
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+        color: @primary-color;
+    }
+
+    td .ui-state-hover {
+        background: @primary-color;
+    }
+}
+
+.btn-header > :first-child > a {
+    cursor: pointer !important;
 }

@@ -2,8 +2,7 @@
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-
-        <h2 class="row-seperator-header inline-heading">View Bank Accounts</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>View Bank Accounts</h2>
         <div class="col-sm-12">
 
             <div class="row">
@@ -19,9 +18,9 @@
                     <!-- well -->
                     <div class="well">
                         
-                        <a id="markPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.PotentialFraud">Mark Potential Fraud</a>
-                        <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe">Mark Safe</a>
-                        <a id="markSafeKillDupesButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe&killDuplicates=true">Mark Safe and Mark all Duplicates as Potential Fraud</a>
+                        <a id="markPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.PotentialFraud"><i class="fa fa-exclamation margin-right-5"></i>Mark Potential Fraud</a>
+                        <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe"><i class="fa fa-check margin-right-5"></i>Mark Safe</a>
+                        <a id="markSafeKillDupesButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Finance", new { area = "Admin" })?status=@BankAccountStatusEnum.Safe&killDuplicates=true"><i class="fa fa-check margin-right-5"></i>Mark Safe and Mark all Duplicates as Potential Fraud</a>
 
                         <h5>Selected Bank Account</h5>
                         <dl class="dl-horizontal">

@@ -1,31 +1,25 @@
-﻿using System;
-using Bec.TargetFramework.Infrastructure.IOC;
-using Quartz;
-using Bec.TargetFramework.Infrastructure.Log;
-using Bec.TargetFramework.SB.Infrastructure.Quartz.Base;
-using Autofac;
-using Bec.TargetFramework.SB.Interfaces;
-using Bec.TargetFramework.SB.Client.Clients;
+﻿using Autofac;
 using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure.Log;
 using Bec.TargetFramework.SB.Client.Interfaces;
-
+using Bec.TargetFramework.SB.Infrastructure.Quartz.Base;
+using Quartz;
 
 namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
 {
-
     public class ExpireOrganisationsScheduledTask : BaseBusTask
     {
-        public IOrganisationLogicClient m_OrgLogic;
+        private readonly IOrganisationLogicClient _orgLogic;
 
         public ExpireOrganisationsScheduledTask(ILifetimeScope container, ILogger logger, IBusTaskLogicClient taskClient, IEventPublishLogicClient eventClient, IOrganisationLogicClient orgClient)
             : base(container,logger,taskClient,eventClient)
         {
-            m_OrgLogic = orgClient;
+            _orgLogic = orgClient;
         }
 
         public override void ExecuteTask(IJobExecutionContext context)
         {
-            m_OrgLogic.ExpireTemporaryLogins(7, 0, 0);
+            _orgLogic.ExpireTemporaryLogins(28, 0, 0);
         }
     }
 }

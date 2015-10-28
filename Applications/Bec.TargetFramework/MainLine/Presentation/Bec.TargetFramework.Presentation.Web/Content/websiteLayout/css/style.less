@@ -3,12 +3,108 @@
 
 /* Mixin */
 .gradient (@origin: left, @start: #ffffff, @stop: #000000) {
-	background-color: @start;
-	background-image: -webkit-linear-gradient(@origin, @start, @stop);
-	background-image: -moz-linear-gradient(@origin, @start, @stop);
-	background-image: -o-linear-gradient(@origin, @start, @stop);
-	background-image: -ms-linear-gradient(@origin, @start, @stop);
-	background-image: linear-gradient(@origin, @start, @stop);
+    background-color: @start;
+    background-image: -webkit-linear-gradient(@origin, @start, @stop);
+    background-image: -moz-linear-gradient(@origin, @start, @stop);
+    background-image: -o-linear-gradient(@origin, @start, @stop);
+    background-image: -ms-linear-gradient(@origin, @start, @stop);
+    background-image: linear-gradient(@origin, @start, @stop);
+}
+
+// Boxmodel
+.padding {
+    &-top {
+        &-0 {
+            padding-top: 0 !important;
+        }
+
+        &-5 {
+            padding-top: 5px !important;
+        }
+    }
+
+    &-bottom {
+        &-0 {
+            padding-bottom: 0 !important;
+        }
+
+        &-5 {
+            padding-bottom: 5px !important;
+        }
+    }
+
+    &-left {
+        &-5 {
+            padding-left: 5px !important;
+        }
+
+        &-10 {
+            padding-left: 10px !important;
+        }
+    }
+
+    &-right {
+        &-5 {
+            padding-right: 5px !important;
+        }
+
+        &-10 {
+            padding-right: 10px !important;
+        }
+    }
+}
+
+.margin {
+    &-top {
+        &-0 {
+            margin-top: 0 !important;
+        }
+
+        &-5 {
+            margin-top: 5px !important;
+        }
+
+        &-10 {
+            margin-top: 10px !important;
+        }
+        &-20 {
+            margin-top: 20px !important;
+        }
+    }
+
+    &-bottom {
+        &-0 {
+            margin-bottom: 0 !important;
+        }
+
+        &-5 {
+            margin-bottom: 5px !important;
+        }
+    }
+
+    &-left {
+        &-5 {
+            margin-left: 5px !important;
+        }
+
+        &-10 {
+            margin-left: 10px !important;
+        }
+    }
+
+    &-right {
+        &-5 {
+            margin-right: 5px !important;
+        }
+
+        &-10 {
+            margin-right: 10px !important;
+        }
+
+        &-15 {
+            margin-right: 15px !important;
+        }
+    }
 }
 
 /*Zenon changes*/
@@ -22,13 +118,14 @@ form {
     .icon-prepend {
         color: #a2a2a2;
         position: absolute;
-        top: 33px;
+        top: 31px;
         width: 28px;
         height: 20px;
         line-height: 21px;
         text-align: center;
-        &.fa-asterisk{
-            font-size:10px;
+
+        &.fa-asterisk {
+            font-size: 10px;
         }
     }
 
@@ -58,16 +155,49 @@ form {
     }
 
     select.form-control {
-        
         box-sizing: border-box;
         outline: 0 none;
         -moz-appearance: none !important;
+        -webkit-appearance: none;
+        &::-ms-expand {
+            display: none;
+        }
+    }
+
+    .select {
+        i {
+            position: absolute;
+            top: 36px;
+            right: 26px;
+            width: 18px;
+            height: 11px;
+            background-color: #fff;
+            box-shadow: 0 0 0 9px #fff;
+            &::before {
+                top: 0px;
+                border-bottom: 4px solid #404040;
+            }
+
+            &::before, &::after {
+                content: "";
+                position: absolute;
+                right: 0px;
+                border-right: 4px solid transparent;
+                border-left: 4px solid transparent;
+            }
+
+            &::after {
+                bottom: 0px;
+                border-top: 4px solid #404040;
+            }
+        }
     }
 }
 
 .btn-primary {
     background-color: @primary-color;
     border: 1px solid @primary-color;
+
     &:hover {
         border: 1px solid @primary-color;
         background-color: darken(@primary-color, 5%);
@@ -85,6 +215,7 @@ form {
         border-color: darken(@primary-color, 10%) !important;
     }
 }
+
 
 .state-error input,
 .state-error select,
@@ -109,9 +240,9 @@ em.invalid {
     color: #fff;
     background-color: #c26565;
     text-shadow: none;
-    li{
+
+    li {
         color: #fff;
-        
     }
 }
 
@@ -132,9 +263,10 @@ em.invalid {
         line-height: 20px;
     }
 
-    ul{
+    ul {
         margin-bottom: 0;
     }
+
     li {
         margin-left: 25px !important;
         margin-bottom: 0;
@@ -148,7 +280,6 @@ em.invalid {
         left: 30px !important;
         margin: 0 !important;
     }
-
 }
 
 .client-form {
@@ -170,9 +301,9 @@ em.invalid {
 
     .fields {
         background-color: white;
+        padding: 20px 0;
 
         label {
-            /*margin-top: 5px;*/
             font-weight: normal !important;
         }
 
@@ -184,7 +315,7 @@ em.invalid {
 
     fieldset {
         margin: 0;
-        padding: 30px;
+        padding: 10px 30px;
     }
 
     .captcha {
@@ -202,10 +333,21 @@ em.invalid {
     }
 }
 
-.modal-dialog{
-    .modal-body{
-        .label{
+.modal-dialog {
+    .modal-body {
+        .smart-form {
+            padding: 5px 15px;
+        }
+
+        .label {
             color: @text-color;
+            white-space: normal;
+            font-weight: normal;
+            text-indent: 0;
+            font-size: 1.1em;
+            line-height: 2;
+            text-align: left;
+            padding: 0;
         }
     }
 }
@@ -251,7 +393,7 @@ em.invalid {
     display: block;
 }
 
-@media(max-width:992px){
+@media(max-width:992px) {
     .body-content img {
         max-width: 200px;
     }
@@ -315,7 +457,7 @@ h1, h2, h3, h4, h5, h6, p, li {
     color: #636363;
 }
 
-a, em, label, small {
+a, em, label, small, legend, input, textarea, button {
     font-family: 'CenturyGothic', Helvetica, sans-serif;
 }
 
@@ -432,7 +574,7 @@ p.globe {
 }
 
 .header-social i:hover {
-    padding-top:0.2rem;
+    padding-top: 0.2rem;
     font-size: 2.5rem;
 }
 
@@ -453,20 +595,20 @@ i.fa.fa-linkedin {
 }
 
 
-.reg p{
-    text-align:center;
+.reg p {
+    text-align: center;
 }
 
-.reg img{
-    max-width:100px;
+.reg img {
+    max-width: 100px;
 }
 
 .post-arrow::after {
     content: url(../images/icon-arrow-tb.png);
-    width:100%;
-    margin-left:auto;
-    margin-right:auto;
-    display:inline-block;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
 }
 
 @media(min-width:992px) {
@@ -474,7 +616,7 @@ i.fa.fa-linkedin {
         content: url(../images/icon-arrow-lr.png);
         position: absolute;
         left: 80px;
-        top:-3px;
+        top: -3px;
     }
 }
 
@@ -483,7 +625,7 @@ i.fa.fa-linkedin {
         content: url(../images/icon-arrow-lr.png);
         position: absolute;
         left: 100px;
-        top:3px;
+        top: 3px;
     }
 }
 /* Sticky footer styles
@@ -515,4 +657,232 @@ body {
     .footer {
         height: 60px;
     }
+}
+
+
+.tabbable.custom-tabs {
+    & > .nav-tabs,
+    & > .nav-tabs > li,
+    & > .nav-tabs > li > a {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: none;
+        background-color: none;
+        background-image: none;
+        top: 1px;
+    }
+
+    & > .nav-tabs > li > a:hover {
+        border: none;
+        background-color: #efefef;
+    }
+
+    & > .nav-tabs > li.active > a {
+        border: 1px solid rgb(227,227,227);
+        border-bottom: none;
+        background-color: #fff;
+        color: #696969;
+        box-shadow: none;
+        text-shadow: 0 1px 1px #fff 1px 1px #fff;
+    }
+
+    & > .nav-tabs > li > a {
+        padding: 20px 25px;
+        margin-right: 3px;
+        background-color: #e6e6e6;
+        color: #737373;
+        text-shadow: 0 1px 1px #fff 1px 1px #fff;
+        box-shadow: inset 0 -8px 7px -9px rgba(0,0,0,.2);
+        -moz-transition-duration: .15s;
+        -o-transition-duration: .15s;
+        -webkit-transition-duration: .15s;
+        transition-duration: .15s;
+    }
+}
+
+// DatePicker styles
+.ui-datepicker {
+    background-color: #fff;
+    border: 1px solid lighten(@text-color, 10%);
+    border-radius: 4px;
+    box-shadow: 0 0 8px lighten(@text-color, 20%);
+    display: none;
+    margin-top: 4px;
+    padding: 10px;
+    width: 240px;
+
+    .ui-datepicker-header {
+        margin-bottom: 4px;
+        text-align: center;
+    }
+
+    .ui-datepicker-title {
+        font-weight: 700;
+    }
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+        color: @primary-color;
+        cursor: pointer;
+        font-family: 'FontAwesome';
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-weight: normal;
+        height: 20px;
+        line-height: 1;
+        margin-top: 2px;
+        width: 30px;
+    }
+
+    .ui-datepicker-prev {
+        float: left;
+        text-align: left;
+    }
+
+    .ui-datepicker-next {
+        float: right;
+        text-align: right;
+    }
+
+    .ui-datepicker-prev:before {
+        content: "\f053";
+    }
+
+    .ui-datepicker-next:before {
+        content: "\f054";
+    }
+
+    .ui-icon {
+        display: none;
+    }
+
+    .ui-datepicker-calendar {
+        table-layout: fixed;
+        width: 100%;
+
+        td {
+            border-radius: 4px;
+            -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            -moz-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            -o-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+
+            a {
+                text-decoration: none;
+                color: darken(@text-color, 20%);
+            }
+        }
+
+        td:hover {
+            background-color: #eee;
+            cursor: pointer;
+        }
+
+        .ui-datepicker-unselectable {
+            color: lighten(@text-color, 20%);
+
+            &:hover {
+                background-color: #fff;
+                cursor: default;
+            }
+        }
+    }
+
+    .ui-datepicker-current-day {
+        background-color: lighten(@primary-color, 20%);
+
+        a {
+            color: #fff;
+        }
+    }
+
+    a,
+    a:hover {
+        text-decoration: none;
+    }
+
+    a:hover,
+    td:hover a {
+        color: darken(@primary-color, 10%);
+        -webkit-transition: color 0.1s ease-in-out;
+        -moz-transition: color 0.1s ease-in-out;
+        -o-transition: color 0.1s ease-in-out;
+        transition: color 0.1s ease-in-out;
+    }
+
+    .ui-datepicker-calendar th,
+    .ui-datepicker-calendar td {
+        text-align: center;
+        padding: 4px 0;
+    }
+
+    .ui-datepicker-buttonpane {
+        background-image: none;
+        margin: .7em 0 0 0;
+        padding: 0 .2em;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+
+        button {
+            float: right;
+            margin: .5em .2em .4em;
+            cursor: pointer;
+            width: auto;
+            overflow: visible;
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        button.ui-datepicker-current {
+            float: left;
+        }
+
+        button.ui-priority-primary {
+            .btn-primary;
+            color: #fff;
+        }
+
+        button.ui-priority-secondary {
+        }
+    }
+
+    .ui-datepicker-days-cell-over {
+        .ui-datepicker-current-day !important;
+    }
+
+    .ui-datepicker-today {
+        background-color: #def2ff;
+    }
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control{
+    background-color: #fff;
+    border: 1px solid #eee;
+    box-shadow: none;
+    & + i {
+        color: #ddd;
+    }
+}
+
+.form-control.hasDatepicker[disabled],
+.form-control.hasDatepicker[readonly],
+fieldset[disabled] .form-control.hasDatepicker {
+    cursor: default;
+    background-color: #fff;
 }

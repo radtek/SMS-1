@@ -29,7 +29,10 @@
     @Styles.Render("~/content/websitelayout/css/style")
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    @Scripts.Render("~/scripts/websitelayout")
 
     @RenderSection("Scripts", false)
 </head>
@@ -84,6 +87,7 @@
                     </li>
                     <li class="@Html.Conditional("selected", "action", "ForThePublic")"><a href="http://www.safemovescheme.co.uk/Home/ForThePublic">For the Public</a></li>
                     <li class="@Html.Conditional("selected", "action", "AboutUs")"><a href="http://www.safemovescheme.co.uk/Home/AboutUs">About us</a></li>
+                    <li class="@Html.Conditional("selected", "controller", "Search")"><a href="@Url.Action("Index", "Search", new { Area = "Account" })">Search the Register</a></li>
 
                     <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="@Url.Action("Index", "Login", new { Area = "Account" })">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
                 </ul>
@@ -106,7 +110,6 @@
 
         </div>
     </footer>
-        @Scripts.Render("~/scripts/websitelayout")
 
-    </body>
+</body>
 </html>

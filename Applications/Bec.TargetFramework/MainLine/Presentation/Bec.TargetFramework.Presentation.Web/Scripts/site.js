@@ -102,9 +102,10 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
 }
 
 
-//for 'fire and forget' modal links, where no result is captured
+// for 'fire and forget' modal links, where no result is captured
+// for dynamically added html (e.g. handlebars) the modallink binding will work using: $('body').on('click', 'a[data-modallink]', function (e) {
 function findModalLinks() {
-    $('a[data-modallink]').on('click', function (e) {
+    $('body').on('click', 'a[data-modallink]', function (e) {
         if (!$(e.target).prop('disabled')) {
             $(e.target).prop('disabled', true);
             e.preventDefault();
@@ -291,6 +292,11 @@ var gridItem = function (options) {
 
         var gridData = self.grid.dataSource.data();
         if (gridData.length == 0) return;
+
+        if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
+            self.grid.dataSource.page(self.options.jumpToPage);
+            self.options.jumpToPage = null;
+        }
 
         if (self.options.jumpToId != null && self.options.jumpToId != "") {
             for (var i = 0; i < gridData.length; i++) {

@@ -1,0 +1,128 @@
+﻿@model Bec.TargetFramework.Entities.AddPersonalDetailsDTO
+@{
+    ViewBag.Title = "Welcome to Safe Move Scheme";
+}
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+        <form action="@Url.Action("Index", "PersonalDetails", new { area = "Account"})" method="POST" id="personal-details-form" class="client-form well no-padding">
+            @Html.AntiForgeryToken()
+            <header>
+                <h1>Personal Details</h1>
+            </header>
+            <section class="fields">
+                @Html.ValidationBootstrap()
+                
+                <fieldset>
+                    <legend>Home Address</legend>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="postcodeLookup">Lookup Postcode</label>
+                                <input id="postcodeLookup" type="text" tabindex="1" maxlength="10" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button id="findAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-block" tabindex="2">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group select">
+                                <label>Found Addresses</label>
+                                <select id="addressResults" tabindex="3" class="form-control"></select>
+                                <i></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="noMatch">
+                            <em style="color:#d56161">No matches found, please enter address below</em>
+                        </div>
+                    </div>
+
+                    <div class="row" id="manAddRow">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.Manual, new { id = "manualAddress" })
+                                    Edit Address Details
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.Line1)">Address Line 1</label>
+                                @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "4", maxlength = 50, @class = "form-control" })
+                                <i class="icon-append fa fa-asterisk"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.County)">County</label>
+                                @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", tabindex = "11", maxlength = 50, @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.Line2)">Address Line 2</label>
+                                @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", tabindex = "5", maxlength = 50, @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.PostalCode)">Postcode</label>
+                                @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control" })
+                                <i class="icon-append fa fa-asterisk"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.Town)">Town/City</label>
+                                @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control" })
+                                <i class="icon-append fa fa-asterisk"></i>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Other Details</legend>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="@Html.IdFor(m => m.BirthDate)">Date of Birth</label>
+                                @Html.TextBoxFor(m => m.BirthDate, "{0:O}", new { @class = "form-control", tabindex = "5", id = "birthDateInput", @readonly = true })
+                                <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </section>
+
+            <footer>
+                <div class="row">
+                    <div class="col-sm-2 col-sm-offset-10">
+                        <button type="submit" id="personalDetailsFormSubmit" class="btn btn-primary btn-block">
+                            Continue
+                            <i class="fa fa-chevron-right margin-left-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script async src="@Scripts.Url("~/Scripts/Account/PersonalDetails/Index")"></script>
+}

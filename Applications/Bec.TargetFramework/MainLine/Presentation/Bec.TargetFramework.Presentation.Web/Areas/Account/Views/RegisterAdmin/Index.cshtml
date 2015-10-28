@@ -11,7 +11,7 @@
     ViewBag.Title = "Submit Registration Details";
 }
 
-<form action="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })" method="POST" id="addCompany-form">
+<form action="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })" method="POST" id="addCompanyForm">
     @Html.ValidationBootstrap()
     @Html.AntiForgeryToken()
     <h1>Register your Conveyancing Firm</h1>
@@ -30,7 +30,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.Regulator)">Regulator</label>
                     @Html.DropDownListFor(m => m.Regulator, new SelectList(regulators, "Value", "Text"), "Please Select", new { tabindex = "3", @class = "form-control" })
                     <i></i>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="form-group">
+                <div class="form-group select">
                     <label>Found Addresses</label>
                     <select id="addressResults" tabindex="7" class="form-control"></select>
                     <i></i>
@@ -90,14 +90,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Line1)">Address Line 1</label>
-                    @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "8", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "8", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
                     <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.County)">County</label>
-                    @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", tabindex = "11", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", tabindex = "11", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
                 </div>
             </div>
         </div>
@@ -105,13 +105,13 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Line2)">Address Line 2</label>
-                    @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", tabindex = "9", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", tabindex = "9", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.PostalCode)">Postcode</label>
-                    @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
                     <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
@@ -120,7 +120,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="@Html.IdFor(m => m.Town)">Town/City</label>
-                    @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
                     <i class="icon-append fa fa-asterisk" ></i>
                 </div>
             </div>
@@ -135,9 +135,10 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.OrganisationAdminSalutation)">Title</label>
                     @Html.DropDownListFor(m => m.OrganisationAdminSalutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { @class = "form-control", tabindex = "13" })
+                    <i></i>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -176,9 +177,10 @@
     <fieldset>
         <div class="row">
             <div class="col-sm-12">
-                <div class="form-group">
+                <div class="form-group select">
                     <label for="@Html.IdFor(m => m.OrganisationRecommendationSource)">Where Did You Hear About Safe Move Scheme Pre-Registration?</label>
                     @Html.DropDownListFor(m => m.OrganisationRecommendationSource, Html.EnumListString<OrganisationRecommendationSource>(), "Please Select", new { tabindex = "18", @class = "form-control" })
+                    <i></i>
                 </div>
             </div>
         </div>

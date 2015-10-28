@@ -9634,6 +9634,7 @@
           <Property Name="ReturnUrl" Type="varchar" MaxLength="250" devart:DefaultValue="''" DefaultValue="" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
           <Property Name="OrganisationRecommendationSourceID" Type="int" />
+          <Property Name="SchemeID" Type="int" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -9851,6 +9852,7 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="Confirmed" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -28603,6 +28605,7 @@
           <Property Name="ReturnUrl" Type="String" DefaultValue="''" MaxLength="250" Unicode="true" ed:ValidateMaxLength="250" ed:ValidateRequired="False" ed:Guid="2deca725-9f04-4382-a5ec-1e6c429b8c11" />
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <Property Name="OrganisationRecommendationSourceID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1f4d262c-7e42-4f67-88b6-4800c5480646" />
+          <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="7999df8c-98f3-4a6f-b89c-84983e4c3799" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -28870,6 +28873,7 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="d8134039-a199-409c-bdd6-c74854476ab6" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="b918e258-f61e-4ac1-8935-ea4f2ee7dd5e" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="22a5f1eb-c7bf-41dc-a453-dc453ef4da06" />
           <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
@@ -43150,6 +43154,7 @@
                 <ScalarProperty Name="ReturnUrl" ColumnName="ReturnUrl" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="OrganisationRecommendationSourceID" ColumnName="OrganisationRecommendationSourceID" />
+                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43352,6 +43357,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

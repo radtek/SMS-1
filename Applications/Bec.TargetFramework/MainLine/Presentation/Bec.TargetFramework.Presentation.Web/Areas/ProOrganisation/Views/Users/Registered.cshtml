@@ -1,7 +1,7 @@
 ﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-        <h2 class="row-seperator-header">View Registered Users</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-user margin-right-10"></i>View Registered Users</h2>
         <div class="col-sm-12">
 
             <div class="row">
@@ -16,15 +16,13 @@
                 <div class="col-sm-6">
                     <!-- well -->
                     <div class="well">
-                        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditUser", "Users", new { area = "ProOrganisation" })">Edit User</a>
+                        <a id="editButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditUser", "Users", new { area = "ProOrganisation" })"><i class="fa fa-pencil margin-right-5"></i>Edit User</a>
                         <h5>Selected User</h5>
                         <dl class="dl-horizontal">
                             <dt>Name:</dt>
                             <dd><p id="ddName"></p></dd>
                             <dt>Email:</dt>
                             <dd><p id="ddEmail"></p></dd>
-                            <dt>Username:</dt>
-                            <dd><p id="ddUsername"></p></dd>
                         </dl>
                     </div>
                 </div>

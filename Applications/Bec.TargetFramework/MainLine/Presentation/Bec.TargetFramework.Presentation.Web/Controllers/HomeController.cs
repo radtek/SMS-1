@@ -20,6 +20,9 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public ActionResult Index()
         {
+            TempData["WelcomeMessage"] = TempData["JustRegistered"];
+            TempData["JustRegistered"] = false;
+
             if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
             {
                 return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
@@ -28,9 +31,13 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return RedirectToAction("OutstandingBankAccounts", "Finance", new { area = "Admin" });
             }
+            else if (ClaimsHelper.UserHasClaim("Add", "Company"))
+            {
+                return RedirectToAction("Provisional", "Company", new { area = "Admin" });
+            }
             else
             {
-                return RedirectToAction("Index", "Buyer", new { area = "SmsTransaction" });
+                return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer" });
             }
         }
 
@@ -42,16 +49,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         public ActionResult ViewCancel()
         {
             return PartialView("_Cancel");
-        }
-
-        public ActionResult ViewResendLogins(Guid uaoId, string label, string redirectAction, string redirectController, string redirectArea)
-        {
-            ViewBag.orgId = uaoId;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = redirectAction;
-            ViewBag.RedirectController = redirectController;
-            ViewBag.RedirectArea = redirectArea;
-            return PartialView("_ResendLogins");
         }
 
         public async Task<ActionResult> FindAddress(string postcode)

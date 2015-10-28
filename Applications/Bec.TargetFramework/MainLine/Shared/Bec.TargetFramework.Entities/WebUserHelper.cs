@@ -34,7 +34,7 @@ namespace Bec.TargetFramework.Entities
             return userObject;
         }
 
-        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, UserAccount ua, Guid orgID, Guid uaoID, string orgName, bool needsTc)
+        public static WebUserObject CreateWebUserObjectInSession(HttpContextBase context, UserAccount ua, Guid orgID, Guid uaoID, string orgName, bool needsTc, bool needsPersonalDetails)
         {
             Ensure.NotNull(context);
             Ensure.NotNull(context.Request);
@@ -51,6 +51,7 @@ namespace Bec.TargetFramework.Entities
                 UaoID = uaoID,
                 IsTemporaryUser = ua.IsTemporaryAccount,
                 NeedsTCs = needsTc,
+                NeedsPersonalDetails = needsPersonalDetails,
                 OrganisationName = orgName
             };
 
@@ -85,6 +86,7 @@ namespace Bec.TargetFramework.Entities
 
         public bool IsTemporaryUser { get; set; }
         public bool NeedsTCs { get; set; }
+        public bool NeedsPersonalDetails { get; set; }
         public Guid OrganisationID { get; set; }
         public Guid UaoID { get; set; }
         public string OrganisationName { get; set; }

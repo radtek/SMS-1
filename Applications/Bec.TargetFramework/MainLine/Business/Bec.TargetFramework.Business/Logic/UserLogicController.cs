@@ -7,7 +7,6 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.SB.Client.Interfaces;
-using Bec.TargetFramework.SB.Interfaces;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
 using EnsureThat;
@@ -51,7 +50,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, true, Guid.NewGuid());
+                var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, Guid.NewGuid());
 
                 //user contact
                 userContact.InjectFrom<NullableInjection>(dto);
@@ -145,6 +144,14 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(u => u.Email.ToLower() == email.ToLower() && !u.IsAccountClosed && u.IsActive).Count() > 0;
+            }
+        }
+
+        public bool IsUserAccountRegistered(Guid uaoId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(u => u.UserAccountOrganisationID == uaoId && !u.UserAccount.IsTemporaryAccount).Count() > 0;
             }
         }
 
@@ -518,23 +525,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task LockUserTemporaryAccountAsync(Guid tempUserId)
-        {
-            var tempAccount = UaService.GetByID(tempUserId);
 
-            tempAccount.IsActive = false;
-            tempAccount.IsDeleted = true;
-            tempAccount.IsAccountClosed = true;
-            tempAccount.IsLoginAllowed = false;
-
-            await UaService.UpdateAsync(tempAccount);
-        }
-
-        public bool DoesUserExist(Guid userID, bool isTemporary)
+        public bool DoesUserExist(Guid userID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Any(s => s.ID == userID && s.IsTemporaryAccount == isTemporary);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Any(s => s.ID == userID);
             }
         }
 
@@ -560,14 +556,9 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateTemporaryAccountAsync(string email, string password, bool temporaryAccount, Guid userId)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, Guid userId)
         {
-            return await UaService.CreateAccountAsync(RandomPasswordGenerator.GenerateRandomName(), password, email, temporaryAccount, userId);
-        }
-
-        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, bool temporaryAccount, Guid userId)
-        {
-            return await UaService.CreateAccountAsync(userName, password, email, temporaryAccount, userId);
+            return await UaService.CreateAccountAsync(userName, password, email, userId);
         }
 
         public async Task CreateContactAsync(ContactDTO contactDTO)
@@ -783,79 +774,25 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid orgID, Guid tempUaoId, string username, string password)
+        public async Task RegisterUserAsync(Guid uaoId, string password)
         {
-            Guid[] roles;
-            UserTypeEnum userType;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                //copy roles from temp user
-                roles = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == tempUaoId).Select(r => r.OrganisationRoleID).ToArray();
-                var oldUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
-                userType = EnumExtensions.GetEnumValue<UserTypeEnum>(oldUao.UserTypeID.ToString()).Value;
-            }
-            var contactDTO = GetUserAccountOrganisationPrimaryContact(tempUaoId);
-
-            //has to be called outside of transaction.
-            var newUaoDto = await OrganisationLogic.AddNewUserToOrganisationAsync(orgID, contactDTO, userType, username, password, false, false, false, roles);
-
             using (var scope = DbContextScopeFactory.Create())
             {
                 var vStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == tempUaoId);
-                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
 
+                var currentStatus = uao.Organisation.OrganisationStatus.OrderByDescending(s => s.StatusChangedOn).First();
                 //progress status to 'active' if it's only 'verified'
                 if (currentStatus.StatusTypeID == vStatus.StatusTypeID && currentStatus.StatusTypeValueID == vStatus.StatusTypeValueID)
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
 
-                //delete original temp user account
-                await LockUserTemporaryAccountAsync(uao.UserID);
+                await LockOrUnlockUserAsync(uao.UserID, false);
+                await ResetUserPassword(uao.UserID, password);
 
-                await OrganisationLogic.UpdateSmsTransactionUaoAsync(tempUaoId, newUaoDto.UserAccountOrganisationID);
+                uao.UserAccount.IsTemporaryAccount = false;
 
                 await scope.SaveChangesAsync();
             }
-        }
-
-        public async Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
-        {
-            string username;
-            UserAccountOrganisationDTO uaoDTO;
-            ContactDTO contactDTO;
-            UserTypeEnum userTypeValue;
-
-            //generate new password
-            var newPassword = RandomPasswordGenerator.Generate(10);
-
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
-                uaoDTO = uao.ToDto();
-                username = uao.UserAccount.Username;
-                contactDTO = uao.Contact.ToDto();
-
-                var orgInfo = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.SingleOrDefault(x => x.OrganisationID == uaoDTO.OrganisationID); //will be null if org type != professional
-                if (orgInfo != null)
-                {
-                    var verifiedStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Verified.GetStringValue());
-                    var activeStatus = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), ProfessionalOrganisationStatusEnum.Active.GetStringValue());
-                    if (orgInfo.StatusTypeValueID != verifiedStatus.StatusTypeValueID && orgInfo.StatusTypeValueID != activeStatus.StatusTypeValueID)
-                        throw new Exception(string.Format("Cannot resend logins for a company of status '{0}'. Please go back and try again.", orgInfo.StatusValueName));
-                }
-            }
-
-            await ResetUserPassword(uaoDTO.UserID, newPassword);
-
-            var userType = EnumExtensions.GetEnumValue<UserTypeEnum>(uaoDTO.UserTypeID.ToString()).Value;
-
-            //email user again
-            await OrganisationLogic.SendNewUserEmailAsync(username, newPassword, uaoDTO.UserAccountOrganisationID, contactDTO, uaoDTO.OrganisationID, userType);
-
-            await GeneratePinAsync(uaoDTO.UserAccountOrganisationID, string.IsNullOrEmpty(uaoDTO.PinCode), true);
-
-            await OrganisationLogic.UpdateSmsTransactionUaoAsync(uaoId, uaoDTO.UserAccountOrganisationID);
-            return uaoDTO;
         }
 
         public async Task<List<UserAccountOrganisationRoleDTO>> GetRoles(Guid uaoID, int withRelatedLevel)
@@ -863,6 +800,21 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles.Where(x => x.UserAccountOrganisationID == uaoID).ToDtosWithRelated(withRelatedLevel);
+            }
+        }
+
+        public async Task ChangeUsernameAndEmail(Guid uaoId, string newUsername)
+        {
+            UserAccountDTO userAccountDto;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoId);
+                userAccountDto = uao.UserAccount.ToDto();
+            }
+
+            if (!userAccountDto.Username.Trim().Equals(newUsername.Trim(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                await UaService.ChangeUsernameAndEmailAsync(userAccountDto.ID, newUsername);
             }
         }
     }

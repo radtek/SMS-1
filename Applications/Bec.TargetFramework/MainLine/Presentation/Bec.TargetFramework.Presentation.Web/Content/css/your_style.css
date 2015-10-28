@@ -10,10 +10,10 @@
  * unique to you with each update of SmartAdmin.
  */
 .color-primary {
-  color: #bad64d;
+  color: #a1c324;
 }
 .bg-color-primary {
-  background-color: #bad64d;
+  background-color: #a1c324;
 }
 .bg-color-transparent {
   background: transparent !important;
@@ -47,6 +47,12 @@
 }
 .margin-top-5 {
   margin-top: 5px !important;
+}
+.margin-top-10 {
+  margin-top: 10px !important;
+}
+.margin-top-20 {
+  margin-top: 20px !important;
 }
 .margin-bottom-0 {
   margin-bottom: 0 !important;
@@ -96,6 +102,9 @@
 }
 #header #logo-group .ajax-dropdown {
   width: 430px;
+}
+#header #logo-group #logo {
+  margin-top: 0;
 }
 #header #logo-group #logo img {
   width: 106px !important;
@@ -160,5 +169,69 @@
   line-height: 13px !important;
   margin-left: 6px;
   margin-right: 6px;
+}
+.modal-dialog .modal-body {
+  padding-top: 15px;
+  padding-bottom: 20px;
+}
+.btn {
+  box-shadow: none;
+}
+.btn-primary {
+  background-color: #a1c324;
+  border: 1px solid #a1c324;
+}
+.btn-primary:hover {
+  border: 1px solid #a1c324;
+  background-color: #8fad20;
+}
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:visited {
+  border: 1px solid #a1c324 !important;
+  background-color: #a8cc26 !important;
+}
+.btn-primary[disabled] {
+  background-color: #a1c324 !important;
+  border-color: #7d981c !important;
+}
+#activity .badge {
+  background: #a1c324 !important;
+}
+#activity.active .badge {
+  background: #8fad20 !important;
+}
+.nav-tabs > li.active > a {
+  -webkit-box-shadow: 0 -2px 0 #a1c324;
+  -moz-box-shadow: 0 -2px 0 #a1c324;
+  box-shadow: 0 -2px 0 #a1c324;
+}
+.smart-form .checkbox input + i {
+  border-color: #bdbdbd !important;
+}
+.smart-form .checkbox input + i:after {
+  color: #a1c324;
+}
+.nav-pills li a {
+  color: #5a6d14;
+}
+.nav-pills li.active a {
+  background-color: #a1c324;
+}
+.nav-pills li.active a:hover,
+.nav-pills li.active a:active,
+.nav-pills li.active a:focus,
+.nav-pills li.active a:visited {
+  background-color: #a1c324;
+}
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+  color: #a1c324;
+}
+.ui-datepicker td .ui-state-hover {
+  background: #a1c324;
+}
+.btn-header > :first-child > a {
+  cursor: pointer !important;
 }
 /*# sourceMappingURL=your_style.css.map */

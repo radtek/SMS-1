@@ -1,5 +1,6 @@
 ﻿@using Bec.TargetFramework.Presentation.Web.Controllers
 @using Bec.TargetFramework.Presentation.Web.Models
+
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,15 +8,18 @@
                 <h4 class="modal-title" id="addModalLabel">@ViewBag.title</h4>
             </div>
             <div class="modal-body">
-                <br />
-                <form class="smart-form">
-                    <label class="label">@ViewBag.message</label>
-                </form>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form class="smart-form">
+                            <label class="label">@ViewBag.message</label>
+                        </form>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 @if (ViewBag.Buttons == null)

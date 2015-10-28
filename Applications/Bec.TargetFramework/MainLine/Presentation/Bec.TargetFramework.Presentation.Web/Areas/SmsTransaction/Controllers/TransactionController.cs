@@ -24,13 +24,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public IProductLogicClient prodClient { get; set; }
         public IUserLogicClient userClient { get; set; }
 
-        public ActionResult Index(Guid? selectedTransactionID)
+        public ActionResult Welcome()
         {
-            if (selectedTransactionID.HasValue)
-            {
-                TempData["SmsTransactionID"] = selectedTransactionID;
-            }
+            return PartialView();
+        }
+
+        public ActionResult Index()
+        {
             return View();
+        }
+        public ActionResult Selected(Guid selectedTransactionID, int pageNumber)
+        {
+            TempData["SmsTransactionID"] = selectedTransactionID;
+            TempData["pageNumber"] = pageNumber;
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> GetSmsTransactions(string search)
@@ -48,6 +55,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsTransaction.Address.AdditionalAddressInformation,
                 x.SmsTransaction.CreatedOn,
+                x.SmsTransaction.CreatedBy,
+                x.SmsTransaction.LenderName,
+                x.SmsTransaction.MortgageApplicationNumber,
+                x.SmsTransaction.Price,
+                x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
@@ -56,6 +68,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountOrganisation.UserAccount.Created,
+                x.UserAccountOrganisation.PinCode
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -82,10 +95,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID)
+        public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
         {
             ViewBag.txId = txID;
             ViewBag.uaoId = uaoID;
+            ViewBag.pageNumber = pageNumber;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
                 x.SmsUserAccountOrganisationTransactionID,
@@ -116,6 +130,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             try
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+                await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, queryClient);
+                
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
                     "Contact.Salutation",
@@ -127,6 +143,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     "UserAccountOrganisation.UserAccount.RowVersion");
 
                 await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
+
+                var isUserRegistered = await userClient.IsUserAccountRegisteredAsync(uaoID);
+                if (!isUserRegistered)
+                {
+                    await userClient.ChangeUsernameAndEmailAsync(uaoID, Request.Form["Model.UserAccountOrganisation.UserAccount.Email"]);
+                }
+
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -139,41 +162,52 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        public async Task<ActionResult> ViewResendLogins(Guid txID, string label)
-        {
-            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => 
-                x.SmsTransactionID == txID &&
-                x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-
-            ViewBag.txID = txID;
-            ViewBag.uaoID = res.First().UserAccountOrganisationID;
-            ViewBag.label = label;
-            ViewBag.RedirectAction = "ResendLogins";
-            ViewBag.RedirectController = "Transaction";
-            ViewBag.RedirectArea = "SmsTransaction";
-            return PartialView("_ResendLogins");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResendLogins(Guid uaoID, Guid txID)
-        {
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await userClient.ResendLoginsAsync(uaoID);
-            TempData["SmsTransactionID"] = txID;
-            return RedirectToAction("Index");
-        }
-
+      
         internal static async Task EnsureSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient client)
         {
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });
             var filter = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == txID);
             dynamic ret = await client.QueryAsync("SmsTransactions", select + filter);
             if (ret.Items.First.OrganisationID != orgID) throw new AccessViolationException("Operation failed");
+        }
+
+        internal static async Task EnsureSmsTransactionIsNotConfirmed(Guid txID, Guid uaoId, IQueryLogicClient client)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.Confirmed });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
+            dynamic ret = await client.QueryAsync("SmsUserAccountOrganisationTransactions", select + filter);
+            if ((bool)ret.Items.First.Confirmed) throw new AccessViolationException("Operation failed");
+        }
+
+        public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
+        {
+            ViewBag.txID = txID;
+            ViewBag.uaoID = uaoID;
+            ViewBag.email = email;
+            ViewBag.pageNumber = pageNumber;
+            return PartialView("_ViewGeneratePIN");
+        }
+
+        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
+        {
+            TempData["SmsTransactionID"] = txID;
+            TempData["pageNumber"] = pageNumber;
+
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID &&
+                x.SmsTransactionID == txID &&
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount == true);
+
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null) throw new AccessViolationException("Operation failed");
+
+            await userClient.GeneratePinAsync(uaoID, false, true);
+
+            return RedirectToAction("Index");
         }
     }
 }

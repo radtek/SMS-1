@@ -95,6 +95,7 @@
       <HintPath>..\..\References\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -166,12 +167,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\PersonalDetailsController.cs" />
     <Compile Include="Areas\Account\Controllers\AcceptTCsController.cs" />
     <Compile Include="Areas\Account\Controllers\ForgotController.cs" />
     <Compile Include="Areas\Account\Controllers\LoginController.cs" />
     <Compile Include="Areas\Account\Controllers\LogoutController.cs" />
+    <Compile Include="Areas\Account\Controllers\SearchController.cs" />
     <Compile Include="Areas\Account\Controllers\RegisterAdminController.cs" />
-    <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
+    <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
@@ -180,12 +184,14 @@
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
+    <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\GiftorController.cs" />
-    <Compile Include="Areas\SmsTransaction\Controllers\BuyerController.cs" />
+    <Compile Include="Areas\Buyer\Controllers\SafeBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\AdditionalBuyerController.cs" />
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
@@ -204,6 +210,7 @@
     <Compile Include="Filters\PreventMultipleSubmitsActionFilter.cs" />
     <Compile Include="Filters\RedirectHelper.cs" />
     <Compile Include="Filters\SessionExpireFilter.cs" />
+    <Compile Include="Filters\PersonalDetailsFilterAttribute.cs" />
     <Compile Include="Filters\TermsAndConditionsFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,20 +221,21 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ButtonDefinition.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
-    <Compile Include="Models\CreatePermanentLoginModel.cs" />
+    <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\PersonalDetails\Index.js" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
     <Content Include="Areas\Account\Views\Forgot\Reset.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
-    <Content Include="Areas\Account\Views\Register\Index.js" />
+    <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
@@ -236,6 +244,7 @@
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
+    <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
@@ -250,10 +259,12 @@
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.js" />
     <Content Include="Areas\ProOrganisation\Views\Users\Registered.js" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.js" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.js" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Index.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.js" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
@@ -273,14 +284,24 @@
     <Content Include="Content\css\demo.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\invoice.min.css" />
+    <Content Include="Content\kendo\kendo.metro.css">
+      <DependentUpon>kendo.metro.less</DependentUpon>
+    </Content>
+    <Content Include="Content\kendo\kendo.metro.min.css">
+      <DependentUpon>kendo.metro.css</DependentUpon>
+    </Content>
     <Content Include="Content\css\lockscreen.min.css" />
     <Content Include="Content\css\smartadmin-production-plugins.min.css" />
     <Content Include="Content\css\smartadmin-production.min.css" />
     <Content Include="Content\css\smartadmin-rtl.backup.min.css" />
     <Content Include="Content\css\smartadmin-rtl.min.css" />
     <Content Include="Content\css\smartadmin-skins.min.css" />
-    <Content Include="Content\css\your_style.css" />
-    <Content Include="Content\css\your_style.min.css" />
+    <Content Include="Content\css\your_style.css">
+      <DependentUpon>your_style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\your_style.min.css">
+      <DependentUpon>your_style.css</DependentUpon>
+    </Content>
     <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\ajax-loader.gif" />
@@ -593,8 +614,8 @@
     <Content Include="Content\kendo\kendo.material.mobile.min.css" />
     <Content Include="Content\kendo\kendo.materialblack.min.css" />
     <Content Include="Content\kendo\kendo.materialblack.mobile.min.css" />
-    <Content Include="Content\kendo\kendo.metro.min.css" />
-    <Content Include="Content\kendo\kendo.metro.mobile.min.css" />
+    <Content Include="Content\kendo\original.kendo.metro.min.css" />
+    <Content Include="Content\kendo\original.kendo.metro.mobile.min.css" />
     <Content Include="Content\kendo\kendo.metroblack.min.css" />
     <Content Include="Content\kendo\kendo.metroblack.mobile.min.css" />
     <Content Include="Content\kendo\kendo.mobile.all.min.css" />
@@ -747,6 +768,22 @@
       <DependentUpon>style.css</DependentUpon>
     </Content>
     <Content Include="Areas\Account\Views\RegisterAdmin\RegistrationSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Verify.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\Welcome.cshtml" />
+    <Content Include="Areas\ProOrganisation\Views\Downloads\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Search\Index.cshtml" />
+    <Content Include="Areas\Account\Views\PersonalDetails\Index.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_CheckBankAccount.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.cshtml" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Buyer\Views\web.config" />
+    <Content Include="Areas\Buyer\Views\_ViewStart.cshtml" />
+    <Content Include="Content\kendo\kendo.metro.less" />
+    <Content Include="Content\kendo\theme-template.less" />
+    <Content Include="Content\kendo\type-metro.less" />
+    <Content Include="Content\kendo\kendo.metro.css.map">
+      <DependentUpon>kendo.metro.css</DependentUpon>
+    </Content>
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -760,6 +797,7 @@
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
     <Content Include="Content\websiteLayout\js\scroll.js" />
     <Content Include="Content\websiteLayout\js\slidebars.js" />
+    <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -854,9 +892,7 @@
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
-    <Content Include="Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
-    <Content Include="Views\Shared\_ResendLogins.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
@@ -894,13 +930,13 @@
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\Index.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
     <Content Include="Views\Shared\_relatedPartiesTmpl.cshtml" />
     <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
-    <Content Include="Areas\SmsTransaction\Views\Buyer\_ConfirmDetails.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
@@ -910,6 +946,8 @@
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1848,7 +1886,6 @@
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
     <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Shared\_ResendLogins.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2011,6 +2048,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Buyer\Models\" />
+    <Folder Include="Areas\Buyer\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

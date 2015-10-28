@@ -13,10 +13,11 @@
             <div class="modal-body">
                 <div class="row">
                     <section class="col-12">
-                        <form id="addAdditionalBuyer-form" class="smart-form" data-url="@Url.Action("AddAdditionalBuyer", "AdditionalBuyer", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionID })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
+                        <form id="addAdditionalBuyer-form" class="smart-form" data-url="@Url.Action("AddAdditionalBuyer", "AdditionalBuyer", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Selected", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.TransactionID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.TransactionID)
+                            @Html.Hidden("pageNumber", (object)ViewBag.pageNumber)
                             <fieldset>
                                 <legend>Additional Buyer Details</legend>
                                 <div class="row">
@@ -68,7 +69,7 @@
                     Cancel
                 </button>
                 <button type="button" id="submitAddAdditionalBuyer" class="btn btn-primary" tabindex="17">
-                    <small><i class="fa fa-plus margin-right-5"></i></small>Add
+                    Add
                 </button>
             </div>
         </div>

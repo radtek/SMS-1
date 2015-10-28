@@ -12,10 +12,14 @@
         </div>
         <div class="panel-collapse collapse" aria-expanded="false" id="{{elementId}}">
             <div class="panel-body">
+                {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
                 <div class="pull-right">
-                    @*<a href="#" class="btn btn-primary"><i class="fa fa-edit"></i> Edit </a>
-                        <a href="#" class="btn btn-primary"><i class="fa fa-remove"></i> Delete </a>*@
+                    <a class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN"
+                       data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID={{transactionId}}&uaoID={{UserAccountOrganisation.UserAccountOrganisationID}}&email={{UserAccountOrganisation.UserAccount.Email}}&pageNumber={{@@root.pageNumber}}">
+                        <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
+                    </a>
                 </div>
+                {{/if}}
                 <dl class="dl-horizontal pull-left">
                     <dt>Full Name:</dt>
                     <dd><p>{{fullName}}</p></dd>
@@ -24,6 +28,10 @@
                     {{#if formattedBirthDate}}
                     <dt>Date of Birth:</dt>
                     <dd><p>{{formattedBirthDate}}</p></dd>
+                    {{/if}}
+                    {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
+                    <dt>PIN:</dt>
+                    <dd><p>{{UserAccountOrganisation.PinCode}}</p></dd>
                     {{/if}}
                 </dl>
             </div>

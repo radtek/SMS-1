@@ -18,13 +18,9 @@ $(function () {
                         hidden: true,
                     },
                     {
-                        field: "Contact.Salutation",
-                        title: "Title"
-                    },
-                    {
                         field: "Contact.LastName",
                         title: "Name",
-                        template: function (dataItem) { return dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
+                        template: function (dataItem) { return dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName; }
                     },
                     {
                         field: "UserAccount.Email",
@@ -49,7 +45,7 @@ $(function () {
 
 //data binding for the panes beneath each grid
 function rChange(dataItem) {
-    $("p#ddName").text(dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
+    $("p#ddName").text(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddEmail").text(dataItem.UserAccount.Email || "");
     $("p#ddUsername").text(dataItem.UserAccount.Username || "");
 

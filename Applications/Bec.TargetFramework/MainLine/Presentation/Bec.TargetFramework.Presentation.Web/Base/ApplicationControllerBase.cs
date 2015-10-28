@@ -24,6 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Base
     [PreventMultipleLoginsActionFilter(Order = 100)]
     [SessionExpireFilter(Order = 200)]
     [TermsAndConditionsFilter(Order = 300)]
+    [PersonalDetailsFilterAttribute(Order = 400)]
     //[AuditActionFilter(AuditingLevel = 1)]
     //[PreventMultipleSubmitsActionFilter]
 

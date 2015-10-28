@@ -3,10 +3,10 @@
 <div id="content" data-showmessage="@TempData["ShowMessage"]" data-url="@Url.Action("ViewMessage", "Message", new { Area = "", })">
     <div class="row">
 
-        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-bank margin-right-10"></i>View My Bank Accounts</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>Manage Bank Accounts</h2>
         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
         {
-            <a data-href="@Url.Action("ViewAddBankAccount", "Account", new { area  = "BankAccount" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Add Bank Account</a>
+            <a data-href="@Url.Action("ViewAddBankAccount", "Account", new { area  = "BankAccount" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-plus margin-right-5"></i>Add Bank Account</a>
         }
         <div class="col-sm-12">
 
@@ -23,15 +23,15 @@
                     <!-- well -->
                     <div class="well">
 
-                        <a id="markFraudSuspiciousButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.FraudSuspicion">Mark as Fraud Suspicious</a>
+                        <a id="markFraudSuspiciousButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.FraudSuspicion"><i class="fa fa-exclamation margin-right-5"></i>Mark as Fraud Suspicious</a>
                         @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "BankAccount"))
                         {
-                            <a id="confirmPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.PotentialFraud">Confirm Potential Fraud</a>
-                            <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.Safe">Mark Safe</a>
+                            <a id="confirmPotentialButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.PotentialFraud"><i class="fa fa-exclamation margin-right-5"></i>Confirm Potential Fraud</a>
+                            <a id="markSafeButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewStatus", "Account", new { area = "BankAccount" })?status=@BankAccountStatusEnum.Safe"><i class="fa fa-check margin-right-5"></i>Mark Safe</a>
                             <br />
                             <br />
-                            <a id="activateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })">Activate</a>
-                            <a id="deactivateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })">Deactivate</a>
+                            <a id="activateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })"><i class="fa fa-arrow-circle-up margin-right-5"></i>Activate</a>
+                            <a id="deactivateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewToggleActive", "Account", new { area = "BankAccount" })"><i class="fa fa-arrow-circle-down margin-right-5"></i>Deactivate</a>
                         }
 
                         <h5>Selected Bank Account</h5>

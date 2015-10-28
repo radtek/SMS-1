@@ -44,12 +44,13 @@
             </section>
             <footer>
                 <div class="row">
-                    <div class="col-sm-3">
-                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-default btn-block", id = "download-btn" })
+                    <div class="col-sm-2">
+                        @Html.ActionLink("Save as PDF", "GetPDF", new { area = "Account", ncID = @ViewBag.NotificationConstructID, version = @ViewBag.NotificationConstructVersionNumber }, new { @class = "btn btn-primary btn-block", id = "download-btn" })
                     </div>
-                    <div class="col-sm-offset-5 col-xs-4">
+                    <div class="col-sm-offset-8 col-sm-2">
                         <button type="submit" id="formSubmit" class="btn btn-primary btn-block" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", title = "Accept Terms and Conditions", message = "Please read the terms and conditions then accept them by ticking the box at the bottom of the document.", button = "Close" })">
                             Continue
+                            <i class="fa fa-chevron-right margin-left-5"></i>
                         </button>
                     </div>
                 </div>

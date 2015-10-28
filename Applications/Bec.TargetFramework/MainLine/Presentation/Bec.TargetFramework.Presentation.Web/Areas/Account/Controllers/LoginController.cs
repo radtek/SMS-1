@@ -1,9 +1,12 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.Presentation.Web.Areas.Account.Models;
+using Bec.TargetFramework.Presentation.Web.Models;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
 using Omu.ValueInjecter;
@@ -21,11 +24,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     [Authorize]
     public class LoginController : Controller
     {
+        private readonly CaptchaService _captchaService;
         public AuthenticationService AuthSvc { get; set; }
         public IUserLogicClient UserLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
+
+        public LoginController()
+        {
+            _captchaService = new CaptchaService();
+        }
 
         [AllowAnonymous]
         public ActionResult LoggedOutByAnother(string returnUrl)
@@ -49,7 +58,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             TempData["version"] = Settings.OctoVersion;
             // We do not want to use any existing identity information
             EnsureLoggedOut();
-            return View(new LoginDTO { ReturnUrl = returnUrl });
+            var model = new LoginModel
+            {
+                LoginDTO = new LoginDTO { ReturnUrl = returnUrl }
+            };
+            return View(model);
         }
 
         private string EncodePassword(string password)
@@ -63,14 +76,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(LoginDTO model)
+        public async Task<ActionResult> Index(LoginModel model)
         {
-            var commonSettings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
             TempData["version"] = Settings.OctoVersion;
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.Username.Trim(), EncodePassword(model.Password.Trim()));
+                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.LoginDTO.Email.Trim(), EncodePassword(model.LoginDTO.Password.Trim()));
                 var msg = loginValidationResult.validationMessage;
 
                 if (loginValidationResult.valid)
@@ -79,18 +91,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
                     if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
                     {
-                        if (ua.IsTemporaryAccount)
-                        {
-                            return RedirectToAction("Index", "Register", new { area = "Account" });
-                        }
-                        else
-                        {
-                            // the final landing page is decided inside the Home controller
-                            return RedirectToAction("Index", "Home", new { area = "" });
-                        }
+                        // the final landing page is decided inside the Home controller
+                        return RedirectToAction("Index", "Home", new { area = "" });
                     }
                     else
-                        msg = "Invalid Username or Password";
+                    {
+                        msg = "Invalid E-mail or Password";
+                    }
                 }
 
                 ModelState.AddModelError("", msg);
@@ -123,7 +130,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             asvc.SignIn(ua, false, additionalClaims);
             bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
-            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc);
+            bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
+
+            var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
             await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
 
             return true;
@@ -143,6 +152,102 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             controller.HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
             controller.Response.Cookies[FormsAuthentication.FormsCookieName].Expires = DateTime.Now.AddYears(-1);
         }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(LoginModel model)
+        {
+            TempData["version"] = Settings.OctoVersion;
+            model.IsRegistration = true;
+
+            var response = await _captchaService.ValidateCaptcha(Request);
+            if (!response.success)
+            {
+                ModelState.AddModelError("hiddenRecaptcha", "Captcha was not validated.");
+                return View("Index", model);
+            }
+
+            //check for any subsequent locking of this account
+            var userAccount = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
+            if (!CanContinueRegistration(userAccount))
+            {
+                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This e-mail cannot be registered at the moment.");
+                return View("Index", model);
+            }
+
+            if (model.CreatePermanentLoginModel.NewPassword != model.CreatePermanentLoginModel.ConfirmNewPassword)
+            {
+                ModelState.AddModelError("CreatePermanentLoginModel.ConfirmNewPassword", "Passwords do not match");
+                return View("Index", model);
+            }
+
+            var uaoDto = (await UserLogicClient.GetUserAccountOrganisationAsync(userAccount.ID)).Single();
+            if (!IsPinValid(uaoDto, model.CreatePermanentLoginModel.Pin))
+            {
+                //increment invalid pin count.
+                //if pincount >=3, expire organisation
+                if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
+                {
+                    var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
+                    ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
+                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
+                }
+                else
+                {
+                    ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Invalid PIN");
+                }
+
+                return View("Index", model);
+            }
+
+            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.NewPassword);
+
+            LoginController.logout(this, AuthSvc);
+            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
+            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+
+            TempData["JustRegistered"] = true;
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)
+        {
+            return !string.IsNullOrWhiteSpace(uaoDto.PinCode) && pin == uaoDto.PinCode;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EmailCanBeRegistered(string email)
+        {
+            var canRegister = false;
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                var uaDTO = await UserLogicClient.GetUserAccountByUsernameAsync(email);
+                canRegister = CanContinueRegistration(uaDTO);
+            }
+
+            if (!canRegister)
+            {
+                return Json("This e-mail cannot be registered at the moment.", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("true", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private bool CanContinueRegistration(UserAccountDTO uaDTO)
+        {
+            return
+                uaDTO != null &&
+                uaDTO.IsLoginAllowed &&
+                uaDTO.IsTemporaryAccount &&
+                !Request.IsAuthenticated;
+        }
+
 
         private void EnsureLoggedOut()
         {

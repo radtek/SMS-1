@@ -504,25 +504,33 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <param name="isTemporary"></param>
-		/// <param name="sendEmail"></param>
 		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <param name="isTemporary"></param>
-		/// <param name="sendEmail"></param>
 		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+		UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Boolean RequiresPersonalDetails(Guid uaoId);
 
 		/// <param name="userOrgID"></param>
 		/// <param name="type"></param>
@@ -609,16 +617,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="productVersion"></param>
 		/// <returns></returns>
 		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
-
-		/// <param name="oldUaoID"></param>
-		/// <param name="newUaoID"></param>
-		/// <returns></returns>
-		Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID);
-
-		/// <param name="oldUaoID"></param>
-		/// <param name="newUaoID"></param>
-		/// <returns></returns>
-		void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID);
 
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
@@ -943,6 +941,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IsEmailExist(String email);
 
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Task<Boolean> IsUserAccountRegisteredAsync(Guid uaoId);
+
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		Boolean IsUserAccountRegistered(Guid uaoId);
+
 		/// <param name="contactID"></param>
 		/// <returns></returns>
 		Task<IEnumerable<AddressDTO>> GetUserAddressesAsync(Guid contactID);
@@ -1137,23 +1143,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void SaveUserAccountLoginSessionData(Guid userId,String sessionId,Dictionary<String, String> requestData);
 
-		/// <param name="tempUserId"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		Task LockUserTemporaryAccountAsync(Guid tempUserId);
-
-		/// <param name="tempUserId"></param>
-		/// <returns></returns>
-		void LockUserTemporaryAccount(Guid tempUserId);
+		Task<Boolean> DoesUserExistAsync(Guid userID);
 
 		/// <param name="userID"></param>
-		/// <param name="isTemporary"></param>
 		/// <returns></returns>
-		Task<Boolean> DoesUserExistAsync(Guid userID,Boolean isTemporary);
-
-		/// <param name="userID"></param>
-		/// <param name="isTemporary"></param>
-		/// <returns></returns>
-		Boolean DoesUserExist(Guid userID,Boolean isTemporary);
+		Boolean DoesUserExist(Guid userID);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1171,35 +1167,19 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid GetPersonalUserAccountOrganisation(Guid userId);
 
-		/// <param name="email"></param>
+		/// <param name="userName"></param>
 		/// <param name="password"></param>
-		/// <param name="temporaryAccount"></param>
+		/// <param name="email"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		Task<UserAccount> CreateTemporaryAccountAsync(String email,String password,Boolean temporaryAccount,Guid userId);
-
-		/// <param name="email"></param>
-		/// <param name="password"></param>
-		/// <param name="temporaryAccount"></param>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		UserAccount CreateTemporaryAccount(String email,String password,Boolean temporaryAccount,Guid userId);
+		Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Guid userId);
 
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
-		/// <param name="temporaryAccount"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Boolean temporaryAccount,Guid userId);
-
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="temporaryAccount"></param>
-		/// <param name="userId"></param>
-		/// <returns></returns>
-		UserAccount CreateAccount(String userName,String password,String email,Boolean temporaryAccount,Guid userId);
+		UserAccount CreateAccount(String userName,String password,String email,Guid userId);
 
 		/// <returns></returns>
 		Task CreateContactAsync(ContactDTO contactDTO);
@@ -1291,27 +1271,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean IncrementInvalidPIN(Guid uaoID);
 
-		/// <param name="orgID"></param>
-		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password);
+		Task RegisterUserAsync(Guid uaoId,String password);
 
-		/// <param name="orgID"></param>
-		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
-		Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId);
-
-		/// <param name="uaoId"></param>
-		/// <returns></returns>
-		UserAccountOrganisationDTO ResendLogins(Guid uaoId);
+		void RegisterUser(Guid uaoId,String password);
 
 		/// <param name="uaoID"></param>
 		/// <param name="withRelatedLevel"></param>
@@ -1322,6 +1290,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="withRelatedLevel"></param>
 		/// <returns></returns>
 		List<UserAccountOrganisationRoleDTO> GetRoles(Guid uaoID,Int32 withRelatedLevel);
+
+		/// <param name="uaoId"></param>
+		/// <param name="newUsername"></param>
+		/// <returns></returns>
+		Task ChangeUsernameAndEmailAsync(Guid uaoId,String newUsername);
+
+		/// <param name="uaoId"></param>
+		/// <param name="newUsername"></param>
+		/// <returns></returns>
+		void ChangeUsernameAndEmail(Guid uaoId,String newUsername);
 	}
 
 }
@@ -2648,19 +2626,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <param name="isTemporary"></param>
-		/// <param name="sendEmail"></param>
 		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual Task<UserAccountOrganisationDTO> AddNewUserToOrganisationAsync(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
 		{
-			username = username.UrlEncode();
-			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user);
+			return PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user);
 		}
 
 		/// <summary>
@@ -2668,18 +2640,54 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		/// <param name="isTemporary"></param>
-		/// <param name="sendEmail"></param>
 		/// <param name="addDefaultRoles"></param>
 		/// <param name="roles"></param>
-		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,String username,String password,Boolean isTemporary,Boolean sendEmail,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
+		public virtual UserAccountOrganisationDTO AddNewUserToOrganisation(Guid organisationID,UserTypeEnum userTypeValue,Boolean addDefaultRoles,Guid[] roles,ContactDTO userContactDto)
 		{
-			username = username.UrlEncode();
-			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&username=" + username + "&password=" + password + "&isTemporary=" + isTemporary + "&sendEmail=" + sendEmail + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
+			return Task.Run(() => PostAsync<ContactDTO, UserAccountOrganisationDTO>("api/OrganisationLogic/AddNewUserToOrganisationAsync?organisationID=" + organisationID + "&userTypeValue=" + userTypeValue + "&addDefaultRoles=" + addDefaultRoles + mapArray("roles", roles), userContactDto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task AddPersonalDetailsAsync(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual void AddPersonalDetails(Guid uaoId,AddPersonalDetailsDTO addPersonalDetailsDto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<AddPersonalDetailsDTO>("api/OrganisationLogic/AddPersonalDetails?uaoId=" + uaoId, addPersonalDetailsDto, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> RequiresPersonalDetailsAsync(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual Boolean RequiresPersonalDetails(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/RequiresPersonalDetails?uaoId=" + uaoId, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2869,29 +2877,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, dto, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="oldUaoID"></param>
-		/// <param name="newUaoID"></param>
-		/// <returns></returns>
-		public virtual Task UpdateSmsTransactionUaoAsync(Guid oldUaoID,Guid newUaoID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="oldUaoID"></param>
-		/// <param name="newUaoID"></param>
-		public virtual void UpdateSmsTransactionUao(Guid oldUaoID,Guid newUaoID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/UpdateSmsTransactionUaoAsync?oldUaoID=" + oldUaoID + "&newUaoID=" + newUaoID, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3804,6 +3789,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> IsUserAccountRegisteredAsync(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/UserLogic/IsUserAccountRegistered?uaoId=" + uaoId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		public virtual Boolean IsUserAccountRegistered(Guid uaoId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsUserAccountRegistered?uaoId=" + uaoId, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="contactID"></param>
 		/// <returns></returns>
 		public virtual Task<IEnumerable<AddressDTO>> GetUserAddressesAsync(Guid contactID)
@@ -4319,45 +4325,22 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="tempUserId"></param>
+		/// <param name="userID"></param>
 		/// <returns></returns>
-		public virtual Task LockUserTemporaryAccountAsync(Guid tempUserId)
+		public virtual Task<Boolean> DoesUserExistAsync(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/LockUserTemporaryAccountAsync?tempUserId=" + tempUserId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="tempUserId"></param>
-		public virtual void LockUserTemporaryAccount(Guid tempUserId)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/LockUserTemporaryAccountAsync?tempUserId=" + tempUserId, null, _user)).Wait();
+			return PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="userID"></param>
-		/// <param name="isTemporary"></param>
-		/// <returns></returns>
-		public virtual Task<Boolean> DoesUserExistAsync(Guid userID,Boolean isTemporary)
+		public virtual Boolean DoesUserExist(Guid userID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID + "&isTemporary=" + isTemporary, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userID"></param>
-		/// <param name="isTemporary"></param>
-		public virtual Boolean DoesUserExist(Guid userID,Boolean isTemporary)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID + "&isTemporary=" + isTemporary, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/DoesUserExist?userID=" + userID, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4405,32 +4388,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="email"></param>
+		/// <param name="userName"></param>
 		/// <param name="password"></param>
-		/// <param name="temporaryAccount"></param>
+		/// <param name="email"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccount> CreateTemporaryAccountAsync(String email,String password,Boolean temporaryAccount,Guid userId)
+		public virtual Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Guid userId)
 		{
-			email = email.UrlEncode();
+			userName = userName.UrlEncode();
 			password = password.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccountAsync?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="password"></param>
-		/// <param name="temporaryAccount"></param>
-		/// <param name="userId"></param>
-		public virtual UserAccount CreateTemporaryAccount(String email,String password,Boolean temporaryAccount,Guid userId)
-		{
 			email = email.UrlEncode();
-			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateTemporaryAccountAsync?email=" + email + "&password=" + password + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
+			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&userId=" + userId, null, _user);
 		}
 
 		/// <summary>
@@ -4439,33 +4408,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
-		/// <param name="temporaryAccount"></param>
 		/// <param name="userId"></param>
-		/// <returns></returns>
-		public virtual Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Boolean temporaryAccount,Guid userId)
+		public virtual UserAccount CreateAccount(String userName,String password,String email,Guid userId)
 		{
 			userName = userName.UrlEncode();
 			password = password.UrlEncode();
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <param name="temporaryAccount"></param>
-		/// <param name="userId"></param>
-		public virtual UserAccount CreateAccount(String userName,String password,String email,Boolean temporaryAccount,Guid userId)
-		{
-			userName = userName.UrlEncode();
-			password = password.UrlEncode();
-			email = email.UrlEncode();
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&temporaryAccount=" + temporaryAccount + "&userId=" + userId, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&userId=" + userId, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4710,53 +4660,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public virtual Task RegisterUserAsync(Guid orgID,Guid tempUaoId,String username,String password)
+		public virtual Task RegisterUserAsync(Guid uaoId,String password)
 		{
-			username = username.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="tempUaoId"></param>
-		/// <param name="username"></param>
-		/// <param name="password"></param>
-		public virtual void RegisterUser(Guid orgID,Guid tempUaoId,String username,String password)
-		{
-			username = username.UrlEncode();
-			password = password.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?orgID=" + orgID + "&tempUaoId=" + tempUaoId + "&username=" + username + "&password=" + password, null, _user)).Wait();
+			return PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&password=" + password, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
-		/// <returns></returns>
-		public virtual Task<UserAccountOrganisationDTO> ResendLoginsAsync(Guid uaoId)
+		/// <param name="password"></param>
+		public virtual void RegisterUser(Guid uaoId,String password)
 		{
+			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccountOrganisationDTO>("api/UserLogic/ResendLoginsAsync?uaoId=" + uaoId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoId"></param>
-		public virtual UserAccountOrganisationDTO ResendLogins(Guid uaoId)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccountOrganisationDTO>("api/UserLogic/ResendLoginsAsync?uaoId=" + uaoId, null, _user)).Result;
+			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&password=" + password, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4780,6 +4703,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<UserAccountOrganisationRoleDTO>>("api/UserLogic/GetRoles?uaoID=" + uaoID + "&withRelatedLevel=" + withRelatedLevel, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="newUsername"></param>
+		/// <returns></returns>
+		public virtual Task ChangeUsernameAndEmailAsync(Guid uaoId,String newUsername)
+		{
+			newUsername = newUsername.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/UserLogic/ChangeUsernameAndEmail?uaoId=" + uaoId + "&newUsername=" + newUsername, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoId"></param>
+		/// <param name="newUsername"></param>
+		public virtual void ChangeUsernameAndEmail(Guid uaoId,String newUsername)
+		{
+			newUsername = newUsername.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/ChangeUsernameAndEmail?uaoId=" + uaoId + "&newUsername=" + newUsername, null, _user)).Wait();
 		}
 
 		#endregion

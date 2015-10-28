@@ -1,9 +1,8 @@
 ﻿<!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-        
-        <h2 class="row-seperator-header inline-heading">View Invited Users</h2>
-        <a data-href="@Url.Action("ViewAddUser", "Users", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Invite User</a>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-user margin-right-10"></i>View Invited Users</h2>
+        <a data-href="@Url.Action("ViewAddUser", "Users", new { area  = "ProOrganisation" })" class="btn btn-primary btn-sm inline-heading" data-modallink="true"><i class="fa fa-user-plus margin-right-5"></i>Invite User</a>
 
         <div class="col-sm-12">
 
@@ -26,14 +25,15 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="resendButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Users", new { area = "ProOrganisation" })">Resend Login Details</a>
-                                <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })">Revoke Invite</a>
+                                <a id="revokeButton1" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRevokeInvite", "Users", new { area = "ProOrganisation" })"><i class="fa fa-times margin-right-5"></i>Revoke Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>
                                     <dd><p id="ddnName"></p></dd>
                                     <dt>Email:</dt>
                                     <dd><p id="ddnEmail"></p></dd>
+                                    <dt>PIN:</dt>
+                                    <dd><p id="ddnPIN"></p></dd>
                                 </dl>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
-                                <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })">Reinstate Invite</a>
+                                <a id="reinstateButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewReinstate", "Users", new { area = "ProOrganisation" })"><i class="fa fa-repeat margin-right-5"></i>Reinstate Invite</a>
                                 <h5>Selected Invite</h5>
                                 <dl class="dl-horizontal">
                                     <dt>Name:</dt>

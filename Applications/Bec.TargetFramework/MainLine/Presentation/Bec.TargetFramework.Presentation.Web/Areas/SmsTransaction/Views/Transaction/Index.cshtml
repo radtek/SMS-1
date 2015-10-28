@@ -1,8 +1,8 @@
 ﻿@using Bec.TargetFramework.Entities.Enums
 <!-- MAIN CONTENT -->
-<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
     <div class="row">
-        <h2 class="row-seperator-header inline-heading txt-color-blueDark"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-building-o margin-right-10"></i>View Transactions</h2>
         <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
         <input class="inline-heading pull-right" type="text" id="gridSearchInput" />
 
@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="well">
-                        <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]"></div>
+                        <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]" data-jumptopage="@TempData["pageNumber"]"></div>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                             Personal Details
                             <span class="pull-right">
                                 <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                                <a id="resendButton" class="btn btn-sm btn-primary" data-modallink="true" data-url="@Url.Action("ViewResendLogins", "Transaction", new {area = "SmsTransaction"})"><i class="fa fa-envelope margin-right-5"></i>Resend Login Details</a>
+                                <a id="pinButton" class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN" data-url="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-repeat margin-right-5"></i>Regenerate PIN</a>
                             </span>
                         </h5>
                         <div id="primaryBuyer"></div>
