@@ -24,13 +24,14 @@
                         @foreach (var tx in Model)
                         {
                             var personaName = ((UserAccountOrganisationTransactionType)tx.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
-
+                            var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                            
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@i" class="@aclass">
                                             <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                            Safe Buyer ordered by @tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName
+                                            Safe Buyer ordered by @companyName
                                             <span id="heading-@i">
                                                 @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
                                                 {
@@ -83,14 +84,14 @@
 
                                                 <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-match-@i">
                                                     <h4 class="alert alert-heading"><i class="fa fa-check-square-o"></i> Match</h4>
-                                                    <p>The bank account with account number <strong><span id="accountNumberMatch-@i"></span></strong> and sort code <strong><span id="sortCodeMatch-@i"></span></strong> genuinely belongs to <strong>@tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName</strong>.</p>
+                                                    <p>The bank account with account number <strong><span id="accountNumberMatch-@i"></span></strong> and sort code <strong><span id="sortCodeMatch-@i"></span></strong> genuinely belongs to <strong>@companyName</strong>.</p>
                                                 </div>
 
                                                 <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-no-match-@i">
                                                     <h4 class="alert alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
                                                     <p>The bank account with account number <strong><span id="accountNumberNoMatch-@i"></span></strong> and sort code <strong><span id="sortCodeNoMatch-@i"></span></strong> isn't a registered bank account on The Safe Move Scheme.</p>
                                                     <p>If you have made a mistake, please correct the details and check again.</p>
-                                                    <p>Otherwise, please contact @tx.SmsTransaction.Organisation.OrganisationDetails.First().DisplayName immediately.</p>
+                                                    <p>Otherwise, please contact @companyName immediately.</p>
                                                 </div>
 
                                                 <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
