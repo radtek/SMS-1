@@ -686,7 +686,7 @@ namespace Bec.TargetFramework.Business.Logic
             c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
             var response = await c.PostAsync("messagedispatcher", new System.Net.Http.StringContent(m));
-            response.EnsureSuccessStatusCode();
+            if (response.StatusCode != System.Net.HttpStatusCode.OK) throw new Exception("An error has occured");
         }
 
         public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)
