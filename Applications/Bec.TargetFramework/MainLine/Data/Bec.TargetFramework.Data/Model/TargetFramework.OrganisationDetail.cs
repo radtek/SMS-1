@@ -110,9 +110,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for TradingName in the schema.
+        /// There are no comments for RegisteredAsName in the schema.
         /// </summary>
-        public virtual string TradingName
+        public virtual string RegisteredAsName
         {
             get;
             set;

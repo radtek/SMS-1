@@ -5086,7 +5086,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="OrganisationDefaultLogoID" Type="uuid" />
           <Property Name="OrganisationLegalBlurb" Type="varchar" />
-          <Property Name="TradingName" Type="varchar" />
+          <Property Name="RegisteredAsName" Type="varchar" />
         </EntityType>
         <EntityType Name="DefaultOrganisationGroupRole">
           <Key>
@@ -23518,7 +23518,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2209aecf-a377-4af9-9c21-7c0087609ffd" />
           <Property Name="OrganisationDefaultLogoID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d52f7a47-b4ec-4ecd-8459-860cfbb11b13" />
           <Property Name="OrganisationLegalBlurb" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="b44f68cc-795b-4076-918d-907272a876f1" />
-          <Property Name="TradingName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="5443deaf-646a-40b5-bdb0-499e34ffdb79" />
+          <Property Name="RegisteredAsName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="686ab2d5-54c9-4003-a5c2-ba9c8e782246" />
           <NavigationProperty Name="AttachmentDetail" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_OrganisationDefaultLogo" FromRole="OrganisationDetails" ToRole="AttachmentDetail" ed:Guid="e43dfc37-6e35-4b25-9f4d-abc88dd652fe" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_Organisation_1" FromRole="OrganisationDetails" ToRole="Organisation" ed:Guid="92ee0e51-09d2-4f5d-8e4c-81782fb99e0d" />
         </EntityType>
@@ -38822,7 +38822,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="OrganisationDefaultLogoID" ColumnName="OrganisationDefaultLogoID" />
                 <ScalarProperty Name="OrganisationLegalBlurb" ColumnName="OrganisationLegalBlurb" />
-                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+                <ScalarProperty Name="RegisteredAsName" ColumnName="RegisteredAsName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

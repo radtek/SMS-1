@@ -4,6 +4,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,10 +71,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Verify(Guid orgId, string notes)
+        public async Task<ActionResult> Verify(Guid orgId, string notes, string name)
         {
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
+
+            //update RegisteredAsName
+            var filter = ODataHelper.Filter<OrganisationDetailDTO>(x => x.OrganisationID == orgId); //this is enough to retrieve the one detail record.
+            var data = JObject.FromObject(new { Name = name });
+            await queryClient.UpdateGraphAsync("OrganisationDetails", data, filter);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
