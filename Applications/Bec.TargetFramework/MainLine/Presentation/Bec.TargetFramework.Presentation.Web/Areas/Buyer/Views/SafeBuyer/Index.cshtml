@@ -51,6 +51,7 @@
                                                             <dt>Transaction Address:</dt>
                                                             <dd>
                                                                 <p id="txLine1-@i">@tx.SmsTransaction.Address.Line1</p>
+                                                                <p id="txLine2-@i">@tx.SmsTransaction.Address.Line2</p>
                                                                 <p id="txTown-@i">@tx.SmsTransaction.Address.Town</p>
                                                                 <p id="txCounty-@i">@tx.SmsTransaction.Address.County</p>
                                                                 <p id="txPostalCode-@i">@tx.SmsTransaction.Address.PostalCode</p>
@@ -68,6 +69,7 @@
                                                             <dt>@personaName's Home Address:</dt>
                                                             <dd>
                                                                 <p id="bLine1-@i">@(tx.Address == null ? "" : tx.Address.Line1)</p>
+                                                                <p id="bLine2-@i">@(tx.Address == null ? "" : tx.Address.Line2)</p>
                                                                 <p id="bTown-@i">@(tx.Address == null ? "" : tx.Address.Town)</p>
                                                                 <p id="bCounty-@i">@(tx.Address == null ? "" : tx.Address.County)</p>
                                                                 <p id="bPostalCode-@i">@(tx.Address == null ? "" : tx.Address.PostalCode)</p>
