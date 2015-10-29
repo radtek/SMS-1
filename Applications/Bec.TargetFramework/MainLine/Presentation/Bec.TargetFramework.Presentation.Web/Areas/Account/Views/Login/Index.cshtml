@@ -93,6 +93,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Please enter your personal mobile phone number for account security purposes.</label>
+                                            @Html.TextBoxFor(m => m.CreatePermanentLoginModel.PhoneNumber, new { maxlength = 11, autocomplete = "off", @class = "form-control" })
+                                            <i class="icon-append fa fa-asterisk"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
                                         <strong>Choose a Password</strong>
                                         <label>Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
                                     </div>

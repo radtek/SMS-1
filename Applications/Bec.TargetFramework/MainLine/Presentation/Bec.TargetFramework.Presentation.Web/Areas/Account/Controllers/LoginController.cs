@@ -202,7 +202,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View("Index", model);
             }
 
-            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.NewPassword);
+            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.PhoneNumber, model.CreatePermanentLoginModel.NewPassword);
 
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
