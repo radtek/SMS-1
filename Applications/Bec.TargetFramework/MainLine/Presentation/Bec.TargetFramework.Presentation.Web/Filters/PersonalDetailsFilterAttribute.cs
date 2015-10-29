@@ -11,6 +11,9 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             WebUserObject userObject = filterContext.HttpContext.Session[WebUserHelper.m_WEBUSEROBJECTSESSIONKEY] as WebUserObject;
             if (userObject != null && userObject.NeedsPersonalDetails)
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "Area", "Account" }, { "Controller", "PersonalDetails" }, { "Action", "Index" } });
+
+            if (userObject != null && userObject.NeedsMobileNumber)
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "Area", "Account" }, { "Controller", "PersonalDetails" }, { "Action", "AddMobileNumber" } });
             base.OnActionExecuting(filterContext);
         }
     }

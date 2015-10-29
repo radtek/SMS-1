@@ -79,14 +79,19 @@ namespace Bec.TargetFramework.Business.Logic
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="newPassword"></param>
-        public async Task ResetUserPassword(Guid userID, string newPassword)
+        public async Task ResetUserPassword(Guid userID, string newPassword, bool registering, string pin)
         {
             var userAccount = UaService.GetByID(userID);
 
-            if (userAccount.IsTemporaryAccount)
-                await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
+            if (userAccount != null && (registering || (!string.IsNullOrEmpty(userAccount.MobileCode) && userAccount.MobileCode == pin && ValidPINExists(userAccount.MobileCodeSent))))
+            {
+                if (userAccount.IsTemporaryAccount)
+                    await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
+                else
+                    await UaService.SetPasswordAsync(userID, newPassword);
+            }
             else
-                await UaService.SetPasswordAsync(userID, newPassword);
+                throw new Exception("An error has occured");
         }
 
         /// <summary>
@@ -249,7 +254,7 @@ namespace Bec.TargetFramework.Business.Logic
                         var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
                         if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
                     }
-                        
+
                 }
             }
             return ua;
@@ -630,86 +635,59 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SendPasswordResetNotificationAsync(string username, string siteUrl)
+        public async Task CreatePasswordResetRequestAsync(string username)
         {
             //check user exists
-            Data.UserAccount user = null;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
-            }
-            if (user != null)
-            {
-                var resetGuid = Guid.NewGuid();
-                using (var scope = DbContextScopeFactory.Create())
-                {
-                    var pr = new PasswordResetRequest();
-                    pr.RequestID = resetGuid;
-                    pr.UserID = user.ID;
-                    pr.CreatedDateTime = DateTime.Now;
-                    pr.Expired = false;
-                    scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.Add(pr);
-                    await scope.SaveChangesAsync();
-                }
-                var uao = GetUserAccountOrganisation(user.ID).First();
-                var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
-
-                var tempDto = new ForgotPasswordDTO
-                {
-                    UserID = user.ID,
-                    Salutation = primaryContact.Salutation,
-                    FirstName = primaryContact.FirstName,
-                    LastName = primaryContact.LastName,
-                    UserAccountOrganisationID = uao.UserAccountOrganisationID,
-                    Url = string.Format(siteUrl, resetGuid, false),
-                    ExpireUrl = string.Format(siteUrl, resetGuid, true)
-                };
-                string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
-
-                var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-                {
-                    EventName = "ForgotPasswordEvent",
-                    EventSource = AppDomain.CurrentDomain.FriendlyName,
-                    EventReference = "0002",
-                    PayloadAsJson = payLoad
-                };
-
-                await EventPublishClient.PublishEventAsync(dto);
-            }
-        }
-
-        public async Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
-        {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var rr = GetResetRequest(scope, requestID);
-                if (rr != null) rr.Expired = true;
+                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
+                
+                if(user == null) throw new Exception("An error has occured");
+                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
+
+                user.MobileCode = CreatePin(4);
+                user.MobileCodeSent = DateTime.Now;
+                await SendTextMessage(user.MobilePhoneNumber, user.MobileCode);
+
                 await scope.SaveChangesAsync();
-
-                if (rr == null)
-                    return Guid.Empty;
-                else
-                    return rr.UserID;
             }
         }
 
-        public bool IsPasswordResetRequestValid(Guid requestID)
+        private bool ValidPINExists(DateTime? dt)
         {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                return GetResetRequest(scope, requestID) != null;
-            }
+            return dt.HasValue && (DateTime.Now - dt.Value).TotalMinutes < 10;
         }
 
-        private PasswordResetRequest GetResetRequest(IDbContextReadOnlyScope scope, Guid requestID)
+        private async Task SendTextMessage(string phoneNumber, string pin)
         {
-            var rr = scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.SingleOrDefault(r => r.RequestID == requestID && !r.Expired);
-            if (rr != null && (DateTime.Now - rr.CreatedDateTime).TotalMinutes < 10)
-                return rr;
-            else
-                return null;
-        }
+            var message = string.Format("You, or someone else, has requested to reset your password. PIN: {0}", pin);
 
+            //implementation specific
+            var account = "EX0194398";
+            string m = "<?xml version='1.0' encoding='UTF-8'?>" +
+                "<messages>  " +
+                "<accountreference>" +
+                account +
+                "</accountreference>" +
+                 "<message>" +
+                  "<to>" +
+                  phoneNumber +
+                  "</to>" +
+                  "<body>" +
+                  message +
+                  "</body>" +
+                 "</message>" +
+                "</messages>";
+
+            System.Net.Http.HttpClient c = new System.Net.Http.HttpClient();
+            c.BaseAddress = new Uri("https://api.esendex.com/v1.0/");
+
+            var byteArray = Encoding.ASCII.GetBytes("k.howie@beconsultancy.co.uk:YDueg0xvqjzw");
+            c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+            var response = await c.PostAsync("messagedispatcher", new System.Net.Http.StringContent(m));
+            if (response.StatusCode != System.Net.HttpStatusCode.OK) throw new Exception("An error has occured");
+        }
 
         public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)
         {
@@ -774,7 +752,7 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid uaoId, string password)
+        public async Task RegisterUserAsync(Guid uaoId, string phoneNumber, string password)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -787,9 +765,10 @@ namespace Bec.TargetFramework.Business.Logic
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
 
                 await LockOrUnlockUserAsync(uao.UserID, false);
-                await ResetUserPassword(uao.UserID, password);
+                await ResetUserPassword(uao.UserID, password, true, null);
 
                 uao.UserAccount.IsTemporaryAccount = false;
+                uao.UserAccount.MobilePhoneNumber = phoneNumber;
 
                 await scope.SaveChangesAsync();
             }

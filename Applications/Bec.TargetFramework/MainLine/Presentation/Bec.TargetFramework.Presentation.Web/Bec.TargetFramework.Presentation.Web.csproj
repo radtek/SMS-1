@@ -228,10 +228,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.js" />
     <Content Include="Areas\Account\Views\PersonalDetails\Index.js" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
-    <Content Include="Areas\Account\Views\Forgot\Reset.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
@@ -784,6 +784,8 @@
     <Content Include="Content\kendo\kendo.metro.css.map">
       <DependentUpon>kendo.metro.css</DependentUpon>
     </Content>
+    <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
+    <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -896,8 +898,6 @@
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
-    <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
-    <Content Include="Areas\Account\Views\Forgot\Reset.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\web.config" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.cshtml" />
