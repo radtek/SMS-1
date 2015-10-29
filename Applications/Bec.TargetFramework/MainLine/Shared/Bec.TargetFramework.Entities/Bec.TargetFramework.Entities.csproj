@@ -981,9 +981,6 @@
       <DependentUpon>PackageTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\PasswordResetRequestDTO.cs" />
-    <Compile Include="Boo\PasswordResetRequestDTO.Generated.cs">
-      <DependentUpon>PasswordResetRequestDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\PasswordResetSecretDTO.cs" />
     <Compile Include="Boo\PasswordResetSecretDTO.Generated.cs">
       <DependentUpon>PasswordResetSecretDTO.cs</DependentUpon>

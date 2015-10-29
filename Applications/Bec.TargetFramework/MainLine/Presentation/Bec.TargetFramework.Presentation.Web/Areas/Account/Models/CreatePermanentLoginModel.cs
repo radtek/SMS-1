@@ -11,5 +11,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Models
         public string Pin { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmNewPassword { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

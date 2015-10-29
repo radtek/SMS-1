@@ -52,6 +52,7 @@ namespace Bec.TargetFramework.Entities
                 IsTemporaryUser = ua.IsTemporaryAccount,
                 NeedsTCs = needsTc,
                 NeedsPersonalDetails = needsPersonalDetails,
+                NeedsMobileNumber = string.IsNullOrEmpty(ua.MobilePhoneNumber),
                 OrganisationName = orgName
             };
 
@@ -87,6 +88,7 @@ namespace Bec.TargetFramework.Entities
         public bool IsTemporaryUser { get; set; }
         public bool NeedsTCs { get; set; }
         public bool NeedsPersonalDetails { get; set; }
+        public bool NeedsMobileNumber { get; set; }
         public Guid OrganisationID { get; set; }
         public Guid UaoID { get; set; }
         public string OrganisationName { get; set; }
