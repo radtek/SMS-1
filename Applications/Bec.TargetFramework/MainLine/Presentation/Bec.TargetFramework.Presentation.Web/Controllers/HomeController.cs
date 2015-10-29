@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -98,7 +99,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             search = search.ToLower();
             if (string.IsNullOrWhiteSpace(search)) return null;
-
             var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
             var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
             JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
