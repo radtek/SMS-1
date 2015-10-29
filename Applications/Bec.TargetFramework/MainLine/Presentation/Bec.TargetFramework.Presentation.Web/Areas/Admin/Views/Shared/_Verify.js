@@ -10,6 +10,9 @@ $("#verify-form").validate({
     rules: {
         notes: {
             required: true
+        },
+        name: {
+            required: true
         }
     },
 

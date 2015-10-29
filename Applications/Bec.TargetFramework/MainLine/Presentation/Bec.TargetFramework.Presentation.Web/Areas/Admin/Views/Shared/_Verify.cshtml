@@ -16,11 +16,12 @@
                                 <input type="hidden" name="orgId" value="@ViewBag.orgId" />
 
                                 <div class="row">
-                                    <section class="col col-7">
+                                    <section class="col col-12">
                                         <label class="label">Please enter the phone number, shown on the <strong>regulator's website</strong> that you are about to contact the company on.</label>
                                     </section>
-
-                                    <section class="col col-5">
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
                                         <label class="label">Phone Number</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -30,8 +31,17 @@
                                 </div>
 
                                 <div class="row">
-                                    <section class="col">
-                                        <label class="label">Are you sure you wish to verify the details of @ViewBag.companyName?</label>
+                                    <section class="col col-12">
+                                        <label class="label">Please enter the organisation name, as shown on the <strong>regulator's website</strong>.</label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Organisation Name</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            <input type="text" name="name" maxlength="500" />
+                                        </label>
                                     </section>
                                 </div>
                             </fieldset>

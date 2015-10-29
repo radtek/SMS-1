@@ -307,7 +307,7 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.CompanyName,
-                    dto.TradingName,
+                    dto.CompanyName,
                     "",
                     UserNameService.UserName,
                     dto.OrganisationRecommendationSource != null
