@@ -4,14 +4,14 @@
 }
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-        <form action="@Url.Action("Index", "PersonalDetails", new { area = "Account"})" method="POST" id="personal-details-form" class="client-form well no-padding">
+        <form action="@Url.Action("Index", "PersonalDetails", new { area = "Account" })" method="POST" id="personalDetailsForm" class="client-form well no-padding">
             @Html.AntiForgeryToken()
             <header>
                 <h1>Personal Details</h1>
             </header>
             <section class="fields">
                 @Html.ValidationBootstrap()
-                
+
                 <fieldset>
                     <legend>Home Address</legend>
                     <div class="row">
@@ -101,7 +101,8 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="@Html.IdFor(m => m.BirthDate)">Date of Birth</label>
-                                @Html.TextBoxFor(m => m.BirthDate, "{0:O}", new { @class = "form-control", tabindex = "5", id = "birthDateInput", @readonly = true })
+                                <input type="text" id="birthDateInput" tabindex="5" class="form-control" readonly="readonly"/>
+                                @Html.HiddenFor(m => m.BirthDate)
                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                             </div>
                         </div>

@@ -13,7 +13,7 @@
         findAddressButton: '#findAddressButton'
     }).setup();
 
-    $("#personal-details-form").validate({
+    $("#personalDetailsForm").validate({
         ignore: '.skip',
         // Rules for form validation
         rules: {
@@ -36,17 +36,15 @@
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
         },
-
-        submitHandler: validateSubmit
     });
    
-    function validateSubmit(form) {
-        var formData = $("#personal-details-form").serializeArray();
-        fixDate(formData, 'BirthDate', "#birthDateInput");
-        form.submit();
-    }
-
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
+    }, {
+        onSelect: function (date, inst) {
+            var birthDateField = $('#BirthDate');
+            birthDateField.val(inst.input.data("val"));
+            birthDateField.valid();
+        }
     });
 });
