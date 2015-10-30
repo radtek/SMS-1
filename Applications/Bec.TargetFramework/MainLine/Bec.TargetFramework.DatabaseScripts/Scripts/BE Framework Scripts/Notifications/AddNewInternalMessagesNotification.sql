@@ -38,7 +38,7 @@ VALUES (
   'New Internal Messages Notification',
   4989,
   4992,
-  'New Messages' ,
+  'New Notifications',
   'Test',
   '0001',
   'Bec.TargetFramework.SB.Notifications.Mutators.NewInternalMessagesMutator, Bec.TargetFramework.SB.Notifications',
@@ -144,7 +144,7 @@ VALUES (
           <Brush>Transparent</Brush>
           <CanGrow>True</CanGrow>
           <CanShrink>True</CanShrink>
-          <ClientRectangle>0,0,30,4.4</ClientRectangle>
+          <ClientRectangle>0,0,38,9.4</ClientRectangle>
           <Conditions isList="true" count="0" />
           <Font>Calibri,11.25,Regular,Point,False,0</Font>
           <GrowToHeight>True</GrowToHeight>
@@ -153,8 +153,8 @@ VALUES (
           <Name>Text</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;p&gt;Hi,&lt;/p&gt;
-&lt;p&gt;You have {NewInternalMessagesNotificationDTO.Count} new message(s) in the Safe Move Scheme.&lt;/p&gt;
+          <Text>&lt;p&gt;You have {NewInternalMessagesNotificationDTO.Count} new notification(s) in the {NewInternalMessagesNotificationDTO.ProductName}.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Please log into the Safe Move Scheme secure website portal as described in the Safe Move Scheme Login Security Policy.&lt;/b&gt;&lt;/p&gt;
 &lt;p&gt;Kind regards,&lt;/p&gt;
 &lt;p&gt;The {NewInternalMessagesNotificationDTO.ProductName} team&lt;/p&gt;</Text>
           <TextBrush>Black</TextBrush>
@@ -166,9 +166,11 @@ VALUES (
       <Guid>3f4c07272ec54ccaae2496d9fb03c747</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
       <PageHeight>29.7</PageHeight>
-      <PageWidth>21</PageWidth>
+      <PageWidth>40</PageWidth>
       <Report isRef="0" />
+      <StretchToPrintArea>True</StretchToPrintArea>
       <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
@@ -187,10 +189,10 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>10/30/2015 11:36:16 AM</ReportChanged>
+  <ReportChanged>10/30/2015 12:06:23 PM</ReportChanged>
   <ReportCreated>9/28/2015 10:50:12 AM</ReportCreated>
   <ReportFile>AddNewInternalMessagesNotification.mrt</ReportFile>
-  <ReportGuid>367e5337c1eb46efa90be6324a59c092</ReportGuid>
+  <ReportGuid>300413c090cc4841b190b03878091ce5</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2014.3.0</ReportVersion>

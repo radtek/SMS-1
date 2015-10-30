@@ -1736,10 +1736,10 @@
       <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
       <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="Organisation_SchemeID_key" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.OrganisationLedgerTransaction" Type="Column" />
@@ -1748,9 +1748,9 @@
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />

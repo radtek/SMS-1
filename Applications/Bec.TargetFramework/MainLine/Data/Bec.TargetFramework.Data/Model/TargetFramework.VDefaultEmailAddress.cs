@@ -106,6 +106,46 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationIsActive in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<bool> UserAccountOrganisationIsActive
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for OrganisationIsActive in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<bool> OrganisationIsActive
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsLoginAllowed in the schema.
+        /// </summary>
+        public virtual bool IsLoginAllowed
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsTemporaryAccount in the schema.
+        /// </summary>
+        public virtual bool IsTemporaryAccount
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

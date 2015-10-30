@@ -321,6 +321,11 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
             var recipientAddresses = notificationDto.NotificationRecipients
                 .SelectMany(item => m_NotificationLogic.RecipientAddressDetail(item.OrganisationID, item.UserAccountOrganisationID))
+                .Where(x => 
+                    x.IsLoginAllowed && 
+                    x.OrganisationIsActive == true && 
+                    x.UserAccountOrganisationIsActive == true && 
+                    !x.IsTemporaryAccount)
                 .Select(x => x.Email)
                 .Distinct()
                 .Select(x => new MailAddress(x))

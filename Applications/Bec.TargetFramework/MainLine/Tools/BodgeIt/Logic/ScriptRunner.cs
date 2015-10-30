@@ -75,7 +75,7 @@ namespace BodgeIt.Logic
             var s = await x.Content.ReadAsStringAsync();
             Guid uaoId = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
 
-            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?uaoId={0}&password={1}",
+            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?uaoId={0}&password={1}&phoneNumber=0777777",
                 uaoId, WebUtility.UrlEncode(password)), HttpMethod.Post, "user", null);
         }
 

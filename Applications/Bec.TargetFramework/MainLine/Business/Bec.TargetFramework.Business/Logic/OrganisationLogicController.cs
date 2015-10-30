@@ -759,7 +759,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID && x.OrganisationID == bankAccountStatusChangeRequest.OrganisationID).ToDto();
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus
+                    .Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
 
                 var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
                 if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;
@@ -770,7 +771,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                 {
-                    OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                    OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                     BankAccountID = bankAccountStatusChangeRequest.BankAccountID,
                     BankAccountOrganisationID = bankAccount.OrganisationID,
                     StatusTypeID = statusType.StatusTypeID,
@@ -789,7 +790,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         var dupeBankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                         {
-                            OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                            OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                             BankAccountID = dupe.OrganisationBankAccountID,
                             BankAccountOrganisationID = dupe.OrganisationID,
                             StatusTypeID = statusType.StatusTypeID,

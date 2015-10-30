@@ -62,7 +62,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var bankAccountStateChangeDto = new OrganisationBankAccountStateChangeDTO
             {
-                OrganisationID = orgID,
+                RequestedByOrganisationID = orgID,
                 BankAccountID = baID,
                 BankAccountStatus = status,
                 Notes = notes,
