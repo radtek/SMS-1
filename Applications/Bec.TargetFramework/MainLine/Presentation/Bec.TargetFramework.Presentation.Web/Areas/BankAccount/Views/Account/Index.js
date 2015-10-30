@@ -58,6 +58,8 @@ function txChange(dataItem) {
     $("p#ddSortCode").text(dataItem.SortCode || "");
     $("p#ddCreated").text(dateString(dataItem.Created));
     $("p#ddStatus").text(dataItem.Description || "");
+    $("p#ddName").text(dataItem.AccountName || "");
+    $("p#ddAddress").text(dataItem.Address || "");
 
     $("#markFraudSuspiciousButton").data('href', $("#markFraudSuspiciousButton").data("url") + "&baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Mark as Fraud Suspicious") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account as Fraud Suspicious?"));
     $("#confirmPotentialButton").data('href', $("#confirmPotentialButton").data("url") + "&baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Confirm Potential Fraud") + "&message=" + encodeURIComponent("Are you sure that you wish to confirm this account as Potential Fraud?"));

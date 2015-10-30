@@ -9771,6 +9771,8 @@
           <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Notes" Type="text" />
+          <Property Name="AccountName" Type="varchar" />
+          <Property Name="Address" Type="varchar" />
         </EntityType>
         <EntityType Name="OrganisationLedgerTransaction">
           <Key>
@@ -28781,6 +28783,8 @@
           <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="da596a9a-9315-4e1a-b165-5bacad2348cd" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
+          <Property Name="AccountName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="ab341a3d-2bb7-4cf0-af54-4183870e470f" />
+          <Property Name="Address" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="949c44b1-4306-4708-81d6-719b480361c6" />
         </EntityType>
         <EntityType Name="OrganisationLedgerTransaction" ed:Guid="82cd0056-63fd-44f2-91c2-2e1885483081">
           <Key>
@@ -43266,6 +43270,8 @@
                 <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
                 <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
