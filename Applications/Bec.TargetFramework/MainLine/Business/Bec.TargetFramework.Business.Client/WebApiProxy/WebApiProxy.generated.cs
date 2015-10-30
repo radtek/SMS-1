@@ -334,12 +334,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		Task<VDefaultEmailAddressDTO> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
+		Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
+		IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
@@ -432,6 +432,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="eventReference"></param>
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
+
+		/// <returns></returns>
+		Task PublishNewInternalMessagesNotificationEventAsync(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO);
+
+		/// <returns></returns>
+		void PublishNewInternalMessagesNotificationEvent(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2177,10 +2183,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		public virtual Task<VDefaultEmailAddressDTO> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
+		public virtual Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user);
+			return PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user);
 		}
 
 		/// <summary>
@@ -2188,10 +2194,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
-		public virtual VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
+		public virtual IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2413,6 +2419,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			eventReference = eventReference.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task PublishNewInternalMessagesNotificationEventAsync(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<NewInternalMessagesNotificationDTO>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", newInternalMessagesNotificationDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void PublishNewInternalMessagesNotificationEvent(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<NewInternalMessagesNotificationDTO>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", newInternalMessagesNotificationDTO, _user)).Wait();
 		}
 
 		#endregion

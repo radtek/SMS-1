@@ -7,6 +7,9 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Reporting.Generators;
+using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.SB.Entities;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -18,7 +21,9 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogicController : LogicBase
     {
+        public TFSettingsLogicController Settings { get; set; }
         public StandaloneReportGenerator StandaloneReportGenerator { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
 
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
@@ -180,17 +185,27 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public VDefaultEmailAddressDTO RecipientAddressDetail(Guid? organisationID, Guid? userAccountOrganisationID)
+        public IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Guid? organisationID, Guid? userAccountOrganisationID)
         {
+            if (!organisationID.HasValue && !userAccountOrganisationID.HasValue)
+            {
+                throw new ArgumentException("Either organisationID or userAccountOrganisationID is required.");
+            }
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // load org construct include module and notification constructs direct
                 // deterimne users or organisations
+                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.AsQueryable();
                 if (organisationID.HasValue)
-                    // todo: ZM the return type of that method should by List<> and in this case we potentially have the collection of entries
-                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.First(s => s.OrganisationID == organisationID.Value).ToDto();
-               else
-                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value).ToDto();
+                {
+                    query = query.Where(s => s.OrganisationID == organisationID.Value);
+                }
+                else
+                {
+                    query = query.Where(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value);
+                }
+
+                return query.ToDtos();
             }
         }
 
@@ -347,6 +362,23 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().EventStatus.Where(x => x.EventName == eventName && x.EventReference == eventReference).ToDtos();
             }
+        }
+
+        public async Task PublishNewInternalMessagesNotificationEvent(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO)
+        {
+            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
+            newInternalMessagesNotificationDTO.ProductName = commonSettings.ProductName;
+
+            string payLoad = JsonHelper.SerializeData(new object[] { newInternalMessagesNotificationDTO });
+            var eventPayloadDto = new EventPayloadDTO
+            {
+                EventName = NotificationConstructEnum.NewInternalMessages.GetStringValue(),
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0003",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(eventPayloadDto);
         }
     }
 }

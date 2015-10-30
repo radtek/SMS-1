@@ -1,4 +1,5 @@
 ﻿--Run Operation script first
+-- Run ExternalNotification and ExternalBatchNotification first
 
 --0001 Notification
 DO $$
@@ -33,14 +34,14 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'BankAccountMarkedAsFraudSuspicious',
-  'Bank Account Marked as Fraud Suspicious Notification',
-  4989, -- HTML
-  4993, -- System
-  'Bank Account Marked as Fraud Suspicious' ,
+  'NewInternalMessages',
+  'New Internal Messages Notification',
+  4989,
+  4992,
+  'New Messages' ,
   'Test',
   '0001',
-  'Bec.TargetFramework.SB.Notifications.Mutators.BankAccountMarkedAsFraudSuspiciousMutator, Bec.TargetFramework.SB.Notifications',
+  'Bec.TargetFramework.SB.Notifications.Mutators.NewInternalMessagesMutator, Bec.TargetFramework.SB.Notifications',
   false
 );
 
@@ -87,53 +88,47 @@ VALUES (
   NcTVN,
   E'<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StiSerializer version="1.02" type="Net" application="StiReport">
-  <CacheAllData>True</CacheAllData>
   <Dictionary Ref="1" type="Dictionary" isKey="true">
     <BusinessObjects isList="true" count="2">
       <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
         <Alias>NotificationSettingDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="10">
+        <Columns isList="true" count="11">
           <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>LoginRoute,System.String</value>
           <value>NotificationConstructID,System.Guid</value>
           <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificationFromEmailAddress,System.String</value>
           <value>NotificiationSentFromParentID,System.Guid</value>
           <value>ServerLogoImageFileNameWithExtension,System.String</value>
           <value>ServerNotificationImageContentURLFolder,System.String</value>
           <value>ServerURL,System.String</value>
-          <value>LoginRoute,System.String</value>
           <value>Subject,System.String</value>
           <value>Title,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>af4abf77a08a413fba97a142ac3d403b</Guid>
+        <Guid>1926f055d4144572b36e7a96e6843d70</Guid>
         <Name>NotificationSettingDTO</Name>
       </NotificationSettingDTO>
-      <BankAccountMarkedAsFraudSuspiciousNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
-        <Alias>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Alias>
+      <NewInternalMessagesNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NewInternalMessagesNotificationDTO</Alias>
         <BusinessObjects isList="true" count="0" />
         <Category>General</Category>
-        <Columns isList="true" count="6">
-          <value>AccountNumber,System.String</value>
-          <value>DetailsUrl,System.String</value>
-          <value>MarkedBy,System.String</value>
-          <value>Reason,System.String</value>
-          <value>SortCode,System.String</value>
-          <value>UserAccountOrganisationIds,System.Collections.Generic.IEnumerable`1[System.Guid]</value>
+        <Columns isList="true" count="2">
+          <value>Count,System.Int32</value>
+          <value>ProductName,System.String</value>
         </Columns>
         <Dictionary isRef="1" />
-        <Guid>52a0e19226cf4087a42d060c394e8503</Guid>
-        <Name>BankAccountMarkedAsFraudSuspiciousNotificationDTO</Name>
-      </BankAccountMarkedAsFraudSuspiciousNotificationDTO>
+        <Guid>9c462515737f4adeb65f3562c03c20d5</Guid>
+        <Name>NewInternalMessagesNotificationDTO</Name>
+      </NewInternalMessagesNotificationDTO>
     </BusinessObjects>
     <Databases isList="true" count="0" />
     <DataSources isList="true" count="0" />
     <Relations isList="true" count="0" />
     <Report isRef="0" />
-    <Variables isList="true" count="1">
-      <value>General</value>
-    </Variables>
+    <Variables isList="true" count="0" />
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0" />
@@ -142,173 +137,45 @@ VALUES (
     <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="9">
-        <TextContent Ref="5" type="Text" isKey="true">
+      <Components isList="true" count="1">
+        <Text Ref="5" type="Text" isKey="true">
           <AllowHtmlTags>True</AllowHtmlTags>
+          <AutoWidth>True</AutoWidth>
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,0,13.2,0.6</ClientRectangle>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,0,30,4.4</ClientRectangle>
           <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,11</Font>
+          <Font>Calibri,11.25,Regular,Point,False,0</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Guid>aec152f25a8e4fdbb05d29af446e8573</Guid>
           <Margins>0,0,0,0</Margins>
-          <Name>TextContent</Name>
+          <Name>Text</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Text>&lt;h2&gt;&lt;line-height="1.5"&gt;The following bank account was Marked as Fraud Suspicious&lt;/line-height&gt;&lt;/h2&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
+          <Text>&lt;p&gt;Hi,&lt;/p&gt;
+&lt;p&gt;You have {NewInternalMessagesNotificationDTO.Count} new message(s) in the Safe Move Scheme.&lt;/p&gt;
+&lt;p&gt;Kind regards,&lt;/p&gt;
+&lt;p&gt;The {NewInternalMessagesNotificationDTO.ProductName} team&lt;/p&gt;</Text>
+          <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
-        </TextContent>
-        <Text1 Ref="6" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0.4,1,3.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>ebcb4cd1ff9248ecb0d71fac524e64c2</Guid>
-          <HorAlignment>Right</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text1</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Account Number:&lt;/line-height&gt;&lt;/b&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text1>
-        <Text2 Ref="7" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0.4,1.8,3.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>33e0aa711397490c80cb73e979bf78e2</Guid>
-          <HorAlignment>Right</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text2</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Sort Code:&lt;/line-height&gt;&lt;/b&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text2>
-        <Text3 Ref="8" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0.4,2.6,3.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>6c399a13d2c84d6693f2b15a61d189d8</Guid>
-          <HorAlignment>Right</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text3</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Changed By:&lt;/line-height&gt;&lt;/b&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text3>
-        <Text5 Ref="9" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0.4,3.4,3.6,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>5a73b08d29294c05a09a905e156e3560</Guid>
-          <HorAlignment>Right</HorAlignment>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text5</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;b&gt;&lt;line-height="1.5"&gt;Link to Details:&lt;/line-height&gt;&lt;/b&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text5>
-        <Text6 Ref="10" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>4.6,1,10.2,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>d666cef6f51441dda0b39d364072a5a3</Guid>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text6</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.AccountNumber}&lt;/line-height&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text6>
-        <Text7 Ref="11" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>4.6,1.8,10.2,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>a43d44a16c9f455fb005c85e01288a46</Guid>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text7</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.SortCode}&lt;/line-height&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text7>
-        <Text8 Ref="12" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>4.6,2.6,10.2,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10</Font>
-          <Guid>f5dc17c70f1a40e8a4d0080105b86861</Guid>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text8</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;line-height="1.5"&gt;{BankAccountMarkedAsFraudSuspiciousNotificationDTO.MarkedBy}&lt;/line-height&gt;</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-        </Text8>
-        <Text10 Ref="13" type="Text" isKey="true">
-          <AllowHtmlTags>True</AllowHtmlTags>
-          <Brush>Transparent</Brush>
-          <ClientRectangle>4.6,3.4,10.2,0.6</ClientRectangle>
-          <Conditions isList="true" count="0" />
-          <Font>Microsoft Sans Serif,10,Underline</Font>
-          <Guid>229a1094c32f475bb527a9678a572f42</Guid>
-          <Hyperlink>{BankAccountMarkedAsFraudSuspiciousNotificationDTO.DetailsUrl}</Hyperlink>
-          <Margins>0,0,0,0</Margins>
-          <Name>Text10</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-          <Text>&lt;line-height="1.5"&gt;Click Here&lt;/line-height&gt;
-</Text>
-          <TextBrush>[51:51:51]</TextBrush>
-          <TextQuality>Wysiwyg</TextQuality>
-          <Type>Expression</Type>
-          <VertAlignment>Center</VertAlignment>
-        </Text10>
+        </Text>
       </Components>
       <Conditions isList="true" count="0" />
-      <Guid>1b83758dda4046518274d0b090f93e62</Guid>
-      <Hyperlink>#{NotificationSettingDTO.ServerURL}{NotificationSettingDTO.LoginRoute}</Hyperlink>
+      <Guid>3f4c07272ec54ccaae2496d9fb03c747</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
-      <PageHeight>10</PageHeight>
-      <PageWidth>17</PageWidth>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="14" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="15" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="7" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -320,13 +187,13 @@ VALUES (
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>9/29/2015 10:39:46 AM</ReportChanged>
-  <ReportCreated>9/29/2014 8:17:02 AM</ReportCreated>
-  <ReportFile>f.mrt</ReportFile>
-  <ReportGuid>3e434a44c2dd4ee5bbe1aefbedb5a66f</ReportGuid>
+  <ReportChanged>10/30/2015 11:36:16 AM</ReportChanged>
+  <ReportCreated>9/28/2015 10:50:12 AM</ReportCreated>
+  <ReportFile>AddNewInternalMessagesNotification.mrt</ReportFile>
+  <ReportGuid>367e5337c1eb46efa90be6324a59c092</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
-  <ReportVersion>2015.1.8</ReportVersion>
+  <ReportVersion>2014.3.0</ReportVersion>
   <Script>using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -411,10 +278,10 @@ INSERT INTO
 VALUES (
   NcTID,
   NcTVN,
-  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
-  'Bec.TargetFramework.Entities.DTO.Notification.BankAccountMarkedAsFraudSuspiciousNotificationDTO, Bec.TargetFramework.Entities',
-  'BankAccountMarkedAsFraudSuspiciousNotificationDTO',
-  'Bec.TargetFramework.Entities.DTO.Notification',
+  'NewInternalMessagesNotificationDTO',
+  'Bec.TargetFramework.Entities.NewInternalMessagesNotificationDTO, Bec.TargetFramework.Entities',
+  'NewInternalMessagesNotificationDTO',
+  'Bec.TargetFramework.Entities',
   'Bec.TargetFramework.Entities',
   true,
   true,
@@ -431,21 +298,20 @@ INSERT INTO
   "ResourceDescription",
   "IsActive",
   "IsDeleted",
-  "ParentID",
-  "ResourceTypeID"
+  "ParentID"
 )
 VALUES (
   NcResID,
-  'BankAccountMarkedAsFraudSuspicious',
-  'BankAccountMarkedAsFraudSuspicious Notification Resource',
+  'NewInternalMessages Notification',
+  'NewInternalMessages Resource',
   true,
   false,
-  null,
-  123 -- Notification
+  null
 );
 
 -- Operations for Notification View/Edit/Send/Configure/MarkAsRead/MarkAsUnRead/Edit MUST EXIST FIRST
--- OrganisationTypeId = 31 - Professional
+
+-- For
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -641,6 +507,9 @@ INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
   (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),31,UserUserTypeID);
+
+
+-- add claims to role so that
 
 -- Add to DOT for specific org type
 

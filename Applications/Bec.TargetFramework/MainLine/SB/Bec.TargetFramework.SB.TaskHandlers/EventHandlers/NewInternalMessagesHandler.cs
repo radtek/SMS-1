@@ -14,32 +14,24 @@ using System.Collections.Generic;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 {
-    public class BankAccountMarkedAsSafeHandler : BaseEventHandler<BankAccountMarkedAsSafeEvent>
+    public class NewInternalMessagesHandler : BaseEventHandler<NewInternalMessagesEvent>
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
-        public override void HandleMessage(BankAccountMarkedAsSafeEvent handlerEvent)
+        public override void HandleMessage(NewInternalMessagesEvent handlerEvent)
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsSafe.GetStringValue());
+                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.NewInternalMessages.GetStringValue());
 
                 var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("BankAccountMarkedAsSafeNotificationDTO", handlerEvent.BankAccountMarkedAsSafeNotificationDto);
-
-                var recipients = new List<NotificationRecipientDTO> 
-                {
-                    new NotificationRecipientDTO 
-                    {
-                        OrganisationID = handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId
-                    }
-                };
+                dictionary.TryAdd("NewInternalMessagesNotificationDTO", handlerEvent.NewInternalMessagesNotificationDTO);
 
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
-                    recipients,
+                    handlerEvent.NewInternalMessagesNotificationDTO.NotificationRecipientDtos,
                     new NotificationDictionaryDTO
                     {
                         NotificationDictionary = dictionary
@@ -53,13 +45,6 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
 
                 Bus.Publish(notificationMessage);
-
-                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(
-                    new NewInternalMessagesNotificationDTO
-                    {
-                        Count = 1,
-                        NotificationRecipientDtos = recipients
-                    });
 
                 LogMessageAsCompleted();
             }
