@@ -45,6 +45,8 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.Created = source.Created;
             target.IsDirectDebtAccount = source.IsDirectDebtAccount;
+            target.Name = source.Name;
+            target.Address = source.Address;
 
             // Navigation Properties
             if (level > 0) {
@@ -83,6 +85,8 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.Created = source.Created;
             target.IsDirectDebtAccount = source.IsDirectDebtAccount;
+            target.Name = source.Name;
+            target.Address = source.Address;
 
             // User-defined partial method
             OnEntityCreating(source, target);

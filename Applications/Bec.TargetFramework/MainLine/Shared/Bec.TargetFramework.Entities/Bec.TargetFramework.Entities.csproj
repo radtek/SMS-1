@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
     </Reference>
@@ -1652,6 +1656,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\CertificateDetailsDTO.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
@@ -1821,6 +1826,7 @@
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\DTOMap.cs" />
     <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ColpNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\NotificationRenderDTO.cs" />

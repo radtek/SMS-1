@@ -8346,6 +8346,8 @@
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
           <Property Name="Created" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="IsDirectDebtAccount" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Name" Type="varchar" />
+          <Property Name="Address" Type="varchar" />
         </EntityType>
         <EntityType Name="OrganisationInsuranceDetails">
           <Key>
@@ -27195,6 +27197,8 @@
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="f64fa8c1-f47b-48b1-aa96-07de7297a4b0" />
           <Property Name="Created" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7153e550-a145-4dfc-9b85-6af59dc8b720" />
           <Property Name="IsDirectDebtAccount" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6a7b9c81-1494-4123-b83a-53869918153b" />
+          <Property Name="Name" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="bef9ff80-812f-4eaf-a18e-dcb1cb62befc" />
+          <Property Name="Address" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="2b327351-9e44-4707-a1c4-a275a0f20190" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccount_Organisation" FromRole="OrganisationBankAccounts" ToRole="Organisation" ed:Guid="c2c8ee4f-c97a-44a7-bfd1-102c4841b751" />
           <NavigationProperty Name="OrganisationPaymentMethods" Relationship="Bec.TargetFramework.Data.OrganisationPaymentMethod_fk" FromRole="OrganisationBankAccount" ToRole="OrganisationPaymentMethods" ed:Guid="74f86d36-6724-4982-b004-f3e054860600" />
           <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccount" ToRole="OrganisationBankAccountStatus" ed:Guid="cabddf83-0668-41d1-b7c1-c96c6b2c9141" />
@@ -41877,6 +41881,8 @@
                 <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -302,12 +302,12 @@ namespace Bec.TargetFramework.Business.Logic
             };
         }
 
-        public byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
+        public byte[] RetrieveNotificationConstructData(Guid notificationConstructID, int versionNumber, DTOMap data)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return StandaloneReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+                return StandaloneReportGenerator.GenerateReport(construct, data.ToNotificationDictionaryDTO(), NotificationExportFormatIDEnum.PDF);
             }
         }
 

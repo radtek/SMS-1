@@ -64,7 +64,7 @@ function txChange(dataItem) {
     $("#markSafeButton").data('href', $("#markSafeButton").data("url") + "&baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Mark Safe") + "&message=" + encodeURIComponent("Are you sure that you wish to mark this account Safe?"));
     $("#activateButton").data('href', $("#activateButton").data("url") + "?baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Activate Account") + "&message=" + encodeURIComponent("Are you sure that you wish to activate this account?") + "&isactive=true");
     $("#deactivateButton").data('href', $("#deactivateButton").data("url") + "?baId=" + dataItem.OrganisationBankAccountID + "&title=" + encodeURIComponent("Deactivate Account") + "&message=" + encodeURIComponent("Are you sure that you wish to deactivate this account?") + "&isactive=false");
-
+    $("#certButton").attr('href', $("#certButton").data("url") + "?baId=" + dataItem.OrganisationBankAccountID);
 
     $("#markFraudButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Safe");
     $("#markFraudSuspiciousButton").attr("disabled", dataItem.Status != "Safe");
@@ -72,6 +72,7 @@ function txChange(dataItem) {
     $("#markSafeButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Fraud Suspicion");
     $("#activateButton").attr("disabled", dataItem.IsActive || dataItem.Status != "Safe");
     $("#deactivateButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Safe");
+    $("#certButton").attr("disabled", !dataItem.IsActive || dataItem.Status != "Safe");
 
     showHistory('#history', dataItem);
 

@@ -392,12 +392,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber);
+		Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber);
+		Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationID"></param>
 		/// <returns></returns>
@@ -2313,10 +2313,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		public virtual Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber)
+		public virtual Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user);
+			return PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user);
 		}
 
 		/// <summary>
@@ -2324,10 +2324,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
-		public virtual Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber)
+		public virtual Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
+			return Task.Run(() => PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user)).Result;
 		}
 
 		/// <summary>

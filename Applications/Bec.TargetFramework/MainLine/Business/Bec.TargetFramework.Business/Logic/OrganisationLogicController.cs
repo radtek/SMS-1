@@ -759,7 +759,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID).ToDto();
+                var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus.Single(x => x.OrganisationBankAccountID == bankAccountStatusChangeRequest.BankAccountID && x.OrganisationID == bankAccountStatusChangeRequest.OrganisationID).ToDto();
 
                 var currentStatus = EnumExtensions.GetEnumValue<BankAccountStatusEnum>(bankAccount.Status).Value;
                 if (bankAccountStatusChangeRequest.BankAccountStatus == currentStatus) return;
@@ -885,7 +885,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts
-                    .Single(x => x.OrganisationBankAccountID == baID);
+                    .Single(x => x.OrganisationBankAccountID == baID && x.OrganisationID == orgID);
                 var accountStatus = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus
                     .Where(x => x.OrganisationBankAccountID == baID)
                     .OrderByDescending(x => x.StatusChangedOn)
