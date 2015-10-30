@@ -9683,6 +9683,7 @@
           <Property Name="VerifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="VerifiedNotes" Type="text" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="RegisteredAsName" Type="varchar" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -28686,6 +28687,7 @@
           <Property Name="VerifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f704e80e-c51b-4898-b332-7cf186093594" />
           <Property Name="VerifiedNotes" Type="String" ed:ValidateRequired="False" ed:Guid="63ab2b1c-2919-4365-a7d6-d1270d6297f1" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9e7bbaa8-4241-4e19-814f-1a53b486de98" />
+          <Property Name="RegisteredAsName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="2186d44d-2686-403a-87ed-fbb830ecaa22" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -43182,6 +43184,7 @@
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="RegulatorNumber" ColumnName="RegulatorNumber" />
+                <ScalarProperty Name="RegisteredAsName" ColumnName="RegisteredAsName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -226,6 +226,7 @@ function verifiedChange(dataItem) {
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
     $("p#ddvRegulator").text(regulatorName);
     $("p#ddvRegulatorNumber").text(dataItem.RegulatorNumber || "");
+    $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
 
     $("p#ddvPINNumber").text(dataItem.PinCode);
     $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));

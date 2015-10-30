@@ -89,6 +89,7 @@ function activeChange(dataItem) {
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
     $("p#ddaRegulator").text(regulatorName);
     $("p#ddaRegulatorNumber").text(dataItem.RegulatorNumber);
+    $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
 
     $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
     $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
