@@ -68,7 +68,7 @@
           <Text>&lt;p&gt;You have {NewInternalMessagesNotificationDTO.Count} new notification(s) in the {NewInternalMessagesNotificationDTO.ProductName}.&lt;/p&gt;
 &lt;p&gt;&lt;b&gt;Please log into the Safe Move Scheme secure website portal as described in the Safe Move Scheme Login Security Policy.&lt;/b&gt;&lt;/p&gt;
 &lt;p&gt;Kind regards,&lt;/p&gt;
-&lt;p&gt;The {NewInternalMessagesNotificationDTO.ProductName} team&lt;/p&gt;</Text>
+&lt;p&gt;The {NewInternalMessagesNotificationDTO.ProductName}&lt;/p&gt;</Text>
           <TextBrush>Black</TextBrush>
           <TextQuality>Wysiwyg</TextQuality>
           <Type>Expression</Type>
