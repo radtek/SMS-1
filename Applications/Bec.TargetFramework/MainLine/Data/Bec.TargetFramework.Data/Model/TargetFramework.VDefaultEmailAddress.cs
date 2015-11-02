@@ -128,6 +128,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for UserAccountIsActive in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<bool> UserAccountIsActive
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for IsLoginAllowed in the schema.
         /// </summary>
         public virtual bool IsLoginAllowed

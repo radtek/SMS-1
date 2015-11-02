@@ -52,12 +52,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                 Bus.Publish(notificationMessage);
 
-                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(
-                    new NewInternalMessagesNotificationDTO
-                    {
-                        Count = 1,
-                        NotificationRecipientDtos = recipients
-                    });
+                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(1, handlerEvent.BankAccountMarkedAsFraudSuspiciousNotificationDto.OrganisationId, 
+                    NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious);
 
                 LogMessageAsCompleted();
             }

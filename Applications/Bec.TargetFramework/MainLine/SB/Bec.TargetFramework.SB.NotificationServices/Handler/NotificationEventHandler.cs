@@ -325,6 +325,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                     x.IsLoginAllowed && 
                     x.OrganisationIsActive == true && 
                     x.UserAccountOrganisationIsActive == true && 
+                    x.UserAccountIsActive == true &&
                     !x.IsTemporaryAccount)
                 .Select(x => x.Email)
                 .Distinct()

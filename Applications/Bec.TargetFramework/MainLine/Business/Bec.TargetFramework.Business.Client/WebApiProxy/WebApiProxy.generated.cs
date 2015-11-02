@@ -433,11 +433,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
 
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		Task PublishNewInternalMessagesNotificationEventAsync(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO);
+		Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
 
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		void PublishNewInternalMessagesNotificationEvent(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO);
+		void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2424,20 +2430,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		public virtual Task PublishNewInternalMessagesNotificationEventAsync(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO)
+		public virtual Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<NewInternalMessagesNotificationDTO>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", newInternalMessagesNotificationDTO, _user);
+			return PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void PublishNewInternalMessagesNotificationEvent(NewInternalMessagesNotificationDTO newInternalMessagesNotificationDTO)
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
+		public virtual void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<NewInternalMessagesNotificationDTO>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", newInternalMessagesNotificationDTO, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user)).Wait();
 		}
 
 		#endregion

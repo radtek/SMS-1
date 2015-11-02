@@ -54,12 +54,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 
                 Bus.Publish(notificationMessage);
 
-                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(
-                    new NewInternalMessagesNotificationDTO
-                    {
-                        Count = 1,
-                        NotificationRecipientDtos = recipients
-                    });
+                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(1, handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId,
+                    NotificationConstructEnum.BankAccountMarkedAsSafe);
 
                 LogMessageAsCompleted();
             }

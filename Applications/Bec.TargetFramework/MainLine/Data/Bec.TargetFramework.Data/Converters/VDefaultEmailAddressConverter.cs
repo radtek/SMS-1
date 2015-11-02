@@ -39,6 +39,7 @@ namespace Bec.TargetFramework.Entities
             target.EmailAddress1 = source.EmailAddress1;
             target.UserAccountOrganisationIsActive = source.UserAccountOrganisationIsActive;
             target.OrganisationIsActive = source.OrganisationIsActive;
+            target.UserAccountIsActive = source.UserAccountIsActive;
             target.IsLoginAllowed = source.IsLoginAllowed;
             target.IsTemporaryAccount = source.IsTemporaryAccount;
 
@@ -66,6 +67,7 @@ namespace Bec.TargetFramework.Entities
             target.EmailAddress1 = source.EmailAddress1;
             target.UserAccountOrganisationIsActive = source.UserAccountOrganisationIsActive;
             target.OrganisationIsActive = source.OrganisationIsActive;
+            target.UserAccountIsActive = source.UserAccountIsActive;
             target.IsLoginAllowed = source.IsLoginAllowed;
             target.IsTemporaryAccount = source.IsTemporaryAccount;
 
