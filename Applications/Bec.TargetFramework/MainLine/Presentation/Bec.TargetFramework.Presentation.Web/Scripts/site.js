@@ -517,7 +517,7 @@ function makeDatePicker(inputSelector, settings, onEvents) {
             inp.data("val", date);
             inp.val(dateStringNoTime(date));
             $(this).valid();
-            if (onEvents.onSelect) {
+            if (onEvents && onEvents.onSelect) {
                 onEvents.onSelect(date, inst);
             }
         },
