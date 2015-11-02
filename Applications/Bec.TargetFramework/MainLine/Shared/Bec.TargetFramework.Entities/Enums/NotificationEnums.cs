@@ -36,5 +36,7 @@ namespace Bec.TargetFramework.Entities.Enums
         TcFirmConveyancing = 14,
         [StringValue("BankAccountCertificate")]
         BankAccountCertificate = 15,
+        [StringValue("NewInternalMessages")]
+        NewInternalMessages = 16
     }
 }

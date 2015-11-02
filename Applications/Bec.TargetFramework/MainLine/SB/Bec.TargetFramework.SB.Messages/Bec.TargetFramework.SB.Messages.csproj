@@ -92,6 +92,7 @@
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="EndpointConfig.cs" />
     <Compile Include="Events\AddNewUserEvent.cs" />
+    <Compile Include="Events\NewInternalMessagesEvent.cs" />
     <Compile Include="Events\CreditAdjustmentEvent.cs" />
     <Compile Include="Events\BankAccountMarkedAsSafeEvent.cs" />
     <Compile Include="Events\BankAccountMarkedAsFraudSuspiciousEvent.cs" />

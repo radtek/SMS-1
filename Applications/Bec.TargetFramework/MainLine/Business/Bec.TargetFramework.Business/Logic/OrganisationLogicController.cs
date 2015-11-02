@@ -770,7 +770,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                 {
-                    OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                    OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                     BankAccountID = bankAccountStatusChangeRequest.BankAccountID,
                     BankAccountOrganisationID = bankAccount.OrganisationID,
                     StatusTypeID = statusType.StatusTypeID,
@@ -789,7 +789,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         var dupeBankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                         {
-                            OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                            OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                             BankAccountID = dupe.OrganisationBankAccountID,
                             BankAccountOrganisationID = dupe.OrganisationID,
                             StatusTypeID = statusType.StatusTypeID,

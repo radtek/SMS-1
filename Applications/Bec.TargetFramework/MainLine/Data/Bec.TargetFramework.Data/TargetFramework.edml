@@ -7712,6 +7712,11 @@
           <Property Name="BranchEmailAddress" Type="varchar" MaxLength="200" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="EmailAddress1" Type="varchar" MaxLength="200" />
+          <Property Name="UserAccountOrganisationIsActive" Type="boolean" />
+          <Property Name="OrganisationIsActive" Type="boolean" />
+          <Property Name="UserAccountIsActive" Type="boolean" />
+          <Property Name="IsLoginAllowed" Type="boolean" Nullable="false" />
+          <Property Name="IsTemporaryAccount" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vNotificationConstruct">
           <Key>
@@ -26600,6 +26605,11 @@
           <Property Name="BranchEmailAddress" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="df93623e-3065-4b61-b82e-e03c7049dde4" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d3c46fc-0bc7-4c49-af69-b5c7d0f3eb3b" />
           <Property Name="EmailAddress1" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="36bd63b7-fb1e-448e-a38d-daadced3b9f1" />
+          <Property Name="UserAccountOrganisationIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="809bab44-62d9-4d58-aaf5-6e76e48a1059" />
+          <Property Name="OrganisationIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="a1f9edaa-98dc-4f73-815b-59d217b8d3c3" />
+          <Property Name="UserAccountIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="92c0477c-dce3-4774-8db4-e9e1aa963216" />
+          <Property Name="IsLoginAllowed" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="833c5d3c-c585-4698-a00e-2e75cb2f281f" />
+          <Property Name="IsTemporaryAccount" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="6c351ab4-9a03-4d7a-a194-a59329975d81" />
         </EntityType>
         <EntityType Name="VNotificationConstruct" ed:Guid="639bdacd-fe43-41a6-bcab-8f000adaf5fa">
           <Key>
@@ -41381,6 +41391,11 @@
                 <ScalarProperty Name="BranchEmailAddress" ColumnName="BranchEmailAddress" />
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="EmailAddress1" ColumnName="EmailAddress1" />
+                <ScalarProperty Name="UserAccountOrganisationIsActive" ColumnName="UserAccountOrganisationIsActive" />
+                <ScalarProperty Name="OrganisationIsActive" ColumnName="OrganisationIsActive" />
+                <ScalarProperty Name="IsLoginAllowed" ColumnName="IsLoginAllowed" />
+                <ScalarProperty Name="IsTemporaryAccount" ColumnName="IsTemporaryAccount" />
+                <ScalarProperty Name="UserAccountIsActive" ColumnName="UserAccountIsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
