@@ -49,9 +49,9 @@ $(function () {
                 title: "Created By"
             },
             {
-                field: "UserAccountOrganisation.UserAccount.Created",
-                title: "Logged in Date",
-                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.Created); }
+                field: "UserAccountOrganisation.UserAccount.LastLogin",
+                title: "Last Logged in",
+                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin); }
             }
         ]
     });
