@@ -6,6 +6,7 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
@@ -28,6 +29,7 @@ namespace Bec.TargetFramework.Business.Logic
         public AuthenticationService AuthSvc { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public OrganisationLogicController OrganisationLogic { get; set; }
+        public TFSettingsLogicController Settings { get; set; }
 
         public UserLoginValidation AuthenticateUser(string username, string password)
         {
@@ -660,33 +662,22 @@ namespace Bec.TargetFramework.Business.Logic
 
         private async Task SendTextMessage(string phoneNumber, string pin)
         {
-            var message = string.Format("You, or someone else, has requested to reset your password. PIN: {0}", pin);
-
-            //implementation specific
-            var account = "EX0194398";
-            string m = "<?xml version='1.0' encoding='UTF-8'?>" +
-                "<messages>  " +
-                "<accountreference>" +
-                account +
-                "</accountreference>" +
-                 "<message>" +
-                  "<to>" +
-                  phoneNumber +
-                  "</to>" +
-                  "<body>" +
-                  message +
-                  "</body>" +
-                 "</message>" +
-                "</messages>";
-
-            System.Net.Http.HttpClient c = new System.Net.Http.HttpClient();
-            c.BaseAddress = new Uri("https://api.esendex.com/v1.0/");
-
-            var byteArray = Encoding.ASCII.GetBytes("k.howie@beconsultancy.co.uk:YDueg0xvqjzw");
-            c.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
-            var response = await c.PostAsync("messagedispatcher", new System.Net.Http.StringContent(m));
-            if (response.StatusCode != System.Net.HttpStatusCode.OK) throw new Exception("An error has occured");
+            var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", pin);
+            var key = Settings.GetSettings().AsSettings<CommonSettings>().MessageBirdKey;
+            var originator = Settings.GetSettings().AsSettings<CommonSettings>().SMSOriginator;
+            var mbClient = MessageBird.Client.CreateDefault(key);
+            long number = 0;
+            if (!long.TryParse("44" + phoneNumber.TrimStart('0'), out number)) throw new Exception("The phone number provided is not numeric.");
+            long[] msisdns = new[] { number };
+            try
+            {
+                var msg = mbClient.SendMessage(originator, message, msisdns);
+            }
+            catch (MessageBird.Exceptions.ErrorException ex)
+            {
+                Logger.Error(ex);
+                throw new Exception("An error occured sending the message. Please try again.");
+            }
         }
 
         public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)

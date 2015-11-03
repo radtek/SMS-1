@@ -47,5 +47,9 @@ namespace Bec.TargetFramework.Infrastructure.Settings
         public string ProductName { get; set; }
 
         public string SupportTelephoneNumber { get; set; }
+
+        public string MessageBirdKey { get; set; }
+
+        public string SMSOriginator { get; set; }
     }
 }
