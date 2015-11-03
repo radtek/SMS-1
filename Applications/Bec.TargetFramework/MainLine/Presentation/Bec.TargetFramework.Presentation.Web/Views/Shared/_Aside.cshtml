@@ -104,6 +104,12 @@
                         </ul>
                     </li>
                 }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                {
+                    <li class="@Html.RouteIf("active", "Reporting", "index")">
+                        <a href="@Url.Action("index", "Reporting", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Reports</span></a>
+                    </li>
+                }
             </ul>
         </nav>
         <span class="minifyme" data-action="minifyMenu">

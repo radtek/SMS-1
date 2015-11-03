@@ -168,6 +168,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/CreditHistory").Include("~/Areas/Admin/Views/Finance/CreditHistory.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/InternalNotifications/Index").Include("~/Areas/Admin/Views/InternalNotifications/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Index").Include("~/Areas/Admin/Views/Reporting/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddTempCompany").Include("~/Areas/Admin/Views/Shared/_AddTempCompany.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditCompany").Include("~/Areas/Admin/Views/Shared/_EditCompany.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EmailLog").Include("~/Areas/Admin/Views/Shared/_EmailLog.js"));

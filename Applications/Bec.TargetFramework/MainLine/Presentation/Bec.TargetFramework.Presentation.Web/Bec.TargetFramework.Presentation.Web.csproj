@@ -177,6 +177,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
@@ -242,6 +243,7 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
+    <Content Include="Areas\Admin\Views\Reporting\Index.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
@@ -786,6 +788,7 @@
     </Content>
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
+    <Content Include="Areas\Admin\Views\Reporting\Index.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
