@@ -94,6 +94,7 @@ form fieldset {
 form fieldset legend {
   font-size: 1.2em;
   color: #676767;
+  margin-bottom: 5px;
 }
 form select.form-control {
   box-sizing: border-box;

@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -61,7 +62,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public async Task<ActionResult> CheckEmail(string email, Guid? uaoID)
         {
-            email = email.ToLower();
             string select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccountOrganisationID });
             Expression filter;
             if (uaoID.HasValue)
@@ -72,14 +72,15 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                 var uao = uaoAsync.FirstOrDefault();
                 var uaoEmail = uao.UserAccount.Email;
 
-                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x =>
-                    x.UserAccount.Email != uaoEmail &&
-                    x.UserAccountOrganisationID != uaoID &&
-                    x.UserAccount.Email.ToLower() == email);
+                var exp1 = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID != uaoID);
+                var exp2 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetNotUaoWithEmail(uaoEmail));
+                var exp3 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
+
+                filter = Expression.AndAlso(Expression.AndAlso(exp1, exp2), exp3);
             }
             else
             {
-                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccount.Email.ToLower() == email);
+                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
             }
 
             var res = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + ODataHelper.Filter(filter));
@@ -97,12 +98,22 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public async Task<ActionResult> SearchLenders(string search)
         {
-            search = search.ToLower();
+            search = search.ToLower().Trim();
             if (string.IsNullOrWhiteSpace(search)) return null;
             var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
             var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
             JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
+        }
+
+        private Expression<Func<UserAccountOrganisationDTO, bool>> GetUaoWithEmail(string email)
+        {
+            return p => p.UserAccount.Email.ToLower() == email.Trim().ToLower();
+        }
+
+        private Expression<Func<UserAccountOrganisationDTO, bool>> GetNotUaoWithEmail(string email)
+        {
+            return p => p.UserAccount.Email.ToLower() != email.Trim().ToLower();
         }
     }
 }
