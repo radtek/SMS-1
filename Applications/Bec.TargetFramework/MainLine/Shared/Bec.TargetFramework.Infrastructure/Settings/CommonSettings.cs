@@ -51,5 +51,7 @@ namespace Bec.TargetFramework.Infrastructure.Settings
         public string MessageBirdKey { get; set; }
 
         public string SMSOriginator { get; set; }
+
+        public string SupportEmailAddress { get; set; }
     }
 }
