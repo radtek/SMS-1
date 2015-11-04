@@ -1,119 +1,86 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
-using Bec.TargetFramework.Entities;
-using Bec.TargetFramework.Presentation.Web.Base;
-using Bec.TargetFramework.Presentation.Web.Helpers;
-using Bec.TargetFramework.Security;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
-using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
-    public class HomeController : ApplicationControllerBase
+    public class HomeController : Controller
     {
-        public IAddressLogicClient AddressClient { get; set; }
-        public IQueryLogicClient QueryClient { get; set; }
-
         public ActionResult Index()
         {
-            TempData["WelcomeMessage"] = TempData["JustRegistered"];
-            TempData["JustRegistered"] = false;
-
-            if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
-            {
-                return RedirectToAction("Index", "Transaction", new {area = "SmsTransaction"});
-            }
-            else if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
-            {
-                return RedirectToAction("OutstandingBankAccounts", "Finance", new { area = "Admin" });
-            }
-            else if (ClaimsHelper.UserHasClaim("Add", "Company"))
-            {
-                return RedirectToAction("Provisional", "Company", new { area = "Admin" });
-            }
-            else
-            {
-                return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer" });
-            }
+            return View();
         }
 
-        public ActionResult Denied()
+        public ActionResult ContactUs()
         {
-            return View("Denied");
+            return View();
         }
 
-        public ActionResult ViewCancel()
+        public ActionResult ThreatsExplained()
         {
-            return PartialView("_Cancel");
+            return View();
         }
 
-        public async Task<ActionResult> FindAddress(string postcode)
+        public ActionResult BuyersAtRisk()
         {
-            var list = await AddressClient.FindAddressesByPostCodeAsync(postcode, null);
-
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        public async Task<ActionResult> CheckEmail(string email, Guid? uaoID)
+        public ActionResult ConveyancersAtRisk()
         {
-            string select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccountOrganisationID });
-            Expression filter;
-            if (uaoID.HasValue)
-            {
-                var selectUao = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccount.Email });
-                var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-                var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
-                var uao = uaoAsync.FirstOrDefault();
-                var uaoEmail = uao.UserAccount.Email;
-
-                var exp1 = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID != uaoID);
-                var exp2 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetNotUaoWithEmail(uaoEmail));
-                var exp3 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
-
-                filter = Expression.AndAlso(Expression.AndAlso(exp1, exp2), exp3);
-            }
-            else
-            {
-                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
-            }
-
-            var res = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + ODataHelper.Filter(filter));
-
-            if (res.Any())
-                return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
-            else
-                return Json("true", JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        public ActionResult GetTemplate(string view)
+        public ActionResult HowItWorks()
         {
-            return PartialView(view);
+            return View();
         }
 
-        public async Task<ActionResult> SearchLenders(string search)
+        public ActionResult SafeBuyerSpecification()
         {
-            search = search.ToLower().Trim();
-            if (string.IsNullOrWhiteSpace(search)) return null;
-            var select = ODataHelper.Select<LenderDTO>(x => new { x.Name });
-            var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
-            JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
-            return Content(res.ToString(Formatting.None), "application/json");
+            return View();
         }
 
-        private Expression<Func<UserAccountOrganisationDTO, bool>> GetUaoWithEmail(string email)
+        public ActionResult FreeTrial()
         {
-            return p => p.UserAccount.Email.ToLower() == email.Trim().ToLower();
+            return View();
         }
 
-        private Expression<Func<UserAccountOrganisationDTO, bool>> GetNotUaoWithEmail(string email)
+        public ActionResult SafeMoveSchemeBenefits()
         {
-            return p => p.UserAccount.Email.ToLower() != email.Trim().ToLower();
+            return View();
+        }
+
+        public ActionResult NewAMLSolution()
+        {
+            return View();
+        }
+
+        public ActionResult ConveyancersCompliance()
+        {
+            return View();
+        }
+
+        public ActionResult LendersCompliance()
+        {
+            return View();
+        }
+
+        public ActionResult ConveyancingFirmRegistration()
+        {
+            return View();
+        }
+
+        public ActionResult ForThePublic()
+        {
+            return View();
+        }
+
+        public ActionResult AboutUs()
+        {
+            return View();
         }
     }
 }

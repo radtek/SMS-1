@@ -46,7 +46,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     //change password
                     await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
                     await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
-                    return RedirectToAction("Index", "Home", new { area = "" });
+                    return RedirectToAction("Index", "App", new { area = "" });
                 }
                 catch
                 {

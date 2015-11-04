@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (result == null)
             {
                 userObject.NeedsTCs = false;
-                return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "App", new { area = "" });
             }
             ViewBag.NotificationID = result.NotificationID;
             ViewBag.NotificationConstructID = result.NotificationConstructID;
@@ -49,7 +49,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             //update database
             await NotificationLogicClient.MarkAcceptedAsync(notificationID);
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
     }
 }

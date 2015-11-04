@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Search the Register";
 }
-<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <form data-url="@Url.Action("Index", "Search", new { area = "Account" })" id="search-form">
         @Html.ValidationBootstrap()
         @Html.AntiForgeryToken()

@@ -102,7 +102,7 @@
 
                                                 <section class="col">
                                                     <label class="label">&nbsp;</label>
-                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "Home", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="7">Find Address</button>
+                                                    <button id="primaryBuyerFindAddressButton" data-url="@Url.Action("FindAddress", "App", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="7">Find Address</button>
                                                 </section>
                                             </div>
 
@@ -180,7 +180,7 @@
 
                                                     <section class="col">
                                                         <label class="label">&nbsp;</label>
-                                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "Home", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
+                                                        <button id="sms_findaddressbutton" data-url="@Url.Action("FindAddress", "App", new {Area = ""})" type="button" class="btn btn-primary btn-sm" tabindex="16">Find Address</button>
                                                     </section>
                                                 </div>
 
@@ -262,7 +262,7 @@
                                                         <label class="label">Mortgage Lender</label>
                                                         <label class="input">
                                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "Home", new { Area = "" }) })
+                                                            @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
                                                             <span class="typeahead-spinner required-field"><i class="fa fa-spin fa-spinner"></i></span>
                                                         </label>
                                                     </section>

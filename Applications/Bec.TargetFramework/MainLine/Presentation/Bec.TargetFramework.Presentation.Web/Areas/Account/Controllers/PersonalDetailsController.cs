@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (!requiresPersonalDetails)
             {
                 userObject.NeedsPersonalDetails = false;
-                return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "App", new { area = "" });
             }
 
             return View();
@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var requiresPersonalDetails = await OrganisationLogicClient.RequiresPersonalDetailsAsync(userObject.UaoID);
             userObject.NeedsPersonalDetails = requiresPersonalDetails;
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
 
         public ActionResult AddMobileNumber()
@@ -65,7 +65,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var data = JObject.FromObject(new { MobilePhoneNumber = mobileNumber });
             await queryClient.UpdateGraphAsync("UserAccounts", data, filter);
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
     }
 }

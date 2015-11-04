@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
                     {
                         // the final landing page is decided inside the Home controller
-                        return RedirectToAction("Index", "Home", new { area = "" });
+                        return RedirectToAction("Index", "App", new { area = "" });
                     }
                     else
                     {
@@ -209,7 +209,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
 
             TempData["JustRegistered"] = true;
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
 
         private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)

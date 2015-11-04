@@ -42,7 +42,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
         public void Check(ActionExecutingContext filterContext, string action, params string[] resources)
         {
             if (!ClaimsAuthorization.CheckAccess(action, resources))
-                filterContext.JsonFriendlyRedirect("", "Home", "Denied");
+                filterContext.JsonFriendlyRedirect("", "App", "Denied");
         }
     }
 }
