@@ -243,7 +243,9 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
-    <Content Include="Areas\Admin\Views\Reporting\Index.js" />
+    <Content Include="Areas\Admin\Views\Reporting\Users.js" />
+    <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
+    <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
@@ -788,7 +790,9 @@
     </Content>
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
-    <Content Include="Areas\Admin\Views\Reporting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Reporting\Transactions.cshtml" />
+    <Content Include="Areas\Admin\Views\Reporting\Firms.cshtml" />
+    <Content Include="Areas\Admin\Views\Reporting\Users.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
