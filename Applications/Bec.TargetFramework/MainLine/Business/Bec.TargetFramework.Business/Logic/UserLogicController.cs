@@ -17,6 +17,7 @@ using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -141,7 +142,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(x => x.Username.ToLower() == userName.ToLower()).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(GetWithUsername(userName)).Count() > 0;
             }
         }
 
@@ -241,7 +242,8 @@ namespace Bec.TargetFramework.Business.Logic
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == username);
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
+                    .SingleOrDefault(GetWithUsername(username));
 
                 if (uaDb != null)
                 {
@@ -276,7 +278,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == userName).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(GetWithUsername(userName)).ToDto();
             }
         }
 
@@ -610,7 +612,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email == email && x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
+                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                    .Where(GetWithEmail(email))
+                    .Where(x => x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
                 {
                     var tempDto = new UsernameReminderDTO
                     {
@@ -642,7 +646,9 @@ namespace Bec.TargetFramework.Business.Logic
             //check user exists
             using (var scope = DbContextScopeFactory.Create())
             {
-                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
+                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
+                    .Where(GetWithUsername(username))
+                    .FirstOrDefault(s => !s.IsTemporaryAccount);
                 
                 if(user == null) throw new Exception("An error has occured");
                 if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
@@ -782,10 +788,20 @@ namespace Bec.TargetFramework.Business.Logic
                 userAccountDto = uao.UserAccount.ToDto();
             }
 
-            if (!userAccountDto.Username.Trim().Equals(newUsername.Trim(), StringComparison.InvariantCultureIgnoreCase))
+            if (!userAccountDto.Username.EqualsCaseInsensitive(newUsername))
             {
                 await UaService.ChangeUsernameAndEmailAsync(userAccountDto.ID, newUsername);
             }
+        }
+
+        private Expression<Func<Data.UserAccount, bool>> GetWithUsername(string username)
+        {
+            return p => p.Username.ToLower() == username.Trim().ToLower();
+        }
+
+        private Expression<Func<Data.UserAccountOrganisation, bool>> GetWithEmail(string email)
+        {
+            return p => p.UserAccount.Email.ToLower() == email.Trim().ToLower();
         }
     }
 }
