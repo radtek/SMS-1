@@ -1,7 +1,7 @@
 ﻿@model Bec.TargetFramework.Presentation.Web.Areas.Account.Models.LoginModel
 @{
     ViewBag.PageClass = "animated fadeInDown";
-    ViewBag.Title = "Welcome to Safe Move Scheme";
+    ViewBag.Title = "Login";
     var selectedTabBtn = Model.IsRegistration
         ? "registerPanelBtn"
         : "loginPanelBtn";
@@ -16,7 +16,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="loginPanel">
-                    <form action="@Url.Action("Index", "Login",new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
+                    <form action="@Url.Action("Index", "Login", new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.LoginDTO.ReturnUrl)
                         <section class="fields">

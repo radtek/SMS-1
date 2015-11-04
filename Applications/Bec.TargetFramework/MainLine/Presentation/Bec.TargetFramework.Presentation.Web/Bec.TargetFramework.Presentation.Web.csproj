@@ -202,6 +202,7 @@
     <Compile Include="Controllers\PostcodeLookupController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
     <Compile Include="Filters\ClaimsRequiredAttribute.cs" />
@@ -760,10 +761,7 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\websiteLayout\css\media.css" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
-    <Content Include="Content\websiteLayout\css\skeleton.css" />
-    <Content Include="Content\websiteLayout\css\slidebars.css" />
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
@@ -793,12 +791,10 @@
     <Content Include="Content\websiteLayout\css\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="Content\websiteLayout\js\hoverIntent.js" />
     <Content Include="Content\websiteLayout\js\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="Content\websiteLayout\js\jquery.smooth-scroll.min.js" />
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
-    <Content Include="Content\websiteLayout\js\scroll.js" />
-    <Content Include="Content\websiteLayout\js\slidebars.js" />
+    <Content Include="Content\websiteLayout\video\video1.jpg" />
+    <Content Include="Content\websiteLayout\video\video1.mp4" />
     <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -850,6 +846,7 @@
     <Content Include="Content\websiteLayout\images\strapline-new.jpg" />
     <Content Include="Content\websiteLayout\images\tape-measure-icon.png" />
     <Content Include="Content\websiteLayout\images\theft-icon.png" />
+    <Content Include="googlef4879a4b763f597d.html" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\autoNumeric.js" />
@@ -892,6 +889,7 @@
     <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
@@ -948,6 +946,7 @@
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
     <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
+    <Content Include="Content\websiteLayout\SMS-TsCs.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -2045,6 +2044,21 @@
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
+    <Content Include="Views\Sms\AboutUs.cshtml" />
+    <Content Include="Views\Sms\BuyersAtRisk.cshtml" />
+    <Content Include="Views\Sms\ContactUs.cshtml" />
+    <Content Include="Views\Sms\ConveyancersAtRisk.cshtml" />
+    <Content Include="Views\Sms\ConveyancersCompliance.cshtml" />
+    <Content Include="Views\Sms\ConveyancingFirmRegistration.cshtml" />
+    <Content Include="Views\Sms\ForThePublic.cshtml" />
+    <Content Include="Views\Sms\FreeTrial.cshtml" />
+    <Content Include="Views\Sms\HowItWorks.cshtml" />
+    <Content Include="Views\Sms\Index.cshtml" />
+    <Content Include="Views\Sms\LendersCompliance.cshtml" />
+    <Content Include="Views\Sms\NewAMLSolution.cshtml" />
+    <Content Include="Views\Sms\SafeBuyerSpecification.cshtml" />
+    <Content Include="Views\Sms\SafeMoveSchemeBenefits.cshtml" />
+    <Content Include="Views\Sms\ThreatsExplained.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

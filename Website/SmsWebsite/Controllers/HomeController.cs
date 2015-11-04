@@ -10,8 +10,8 @@ namespace SmsWebsite.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home";
-            ViewBag.Meta = "The Safe Move Scheme makes it easier to reduce risk from property transactions and helps prevent fraud.";
+            //ViewBag.Title = "Home";
+            //ViewBag.Meta = "The Safe Move Scheme makes it easier to reduce risk from property transactions and helps prevent fraud.";
             return View();
         }
 
