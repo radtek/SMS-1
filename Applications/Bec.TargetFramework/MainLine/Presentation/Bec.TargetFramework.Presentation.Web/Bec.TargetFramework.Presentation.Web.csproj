@@ -925,7 +925,7 @@
     <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
     <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
-    <Content Include="Content\websiteLayout\SMS-T&amp;C%27s.pdf" />
+    <Content Include="Content\websiteLayout\SMS-TsCs.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
