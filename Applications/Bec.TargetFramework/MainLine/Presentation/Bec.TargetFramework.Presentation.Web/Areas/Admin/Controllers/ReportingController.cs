@@ -163,7 +163,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var ret = data.GroupBy(getGroup).Select(g => new
             {
                 Id = i++,
-                Name = string.IsNullOrEmpty(group) ? g.First().OrganisationName : g.Key,
+                Name = !string.IsNullOrEmpty(group) ? g.First().OrganisationName : g.Key,
                 Total = g.Count(),
                 LoggedIn = g.Count(loggedinFunc),
                 Time = timeFunc(g)
