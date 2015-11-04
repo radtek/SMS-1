@@ -53,6 +53,10 @@
         }
     });
     $('#genRequest').on('click', function () {
+        if (!$('#username').valid()) {
+            return false;
+        }
+
         $('#genRequest').prop('disabled', true);
         ajaxWrapper({
             url: $('#genRequest').data("url"),
