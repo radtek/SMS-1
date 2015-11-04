@@ -50,7 +50,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 }
                 catch
                 {
-                    ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
+                    ViewBag.Message = string.Format("An error has occured. Please contact support at ");
+                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
                     return View("ForgotDone");
                 }
             }
