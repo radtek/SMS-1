@@ -10,7 +10,8 @@
         // Rules for form validation
         rules: {
             Username: {
-                required: true
+                required: true,
+                email: true
             },
             PIN: {
                 required: true
