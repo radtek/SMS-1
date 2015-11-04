@@ -156,7 +156,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 SchemeID = ba.Organisation.SchemeID ?? 0,
                 StartDate = ba.Organisation.CreatedOn.ToLongDateString(),
                 BankAccountName = string.IsNullOrEmpty(ba.Name) ? "Not supplied" : ba.Name,
-                BankAddress = string.IsNullOrEmpty(ba.Address) ? "Not supplied" : ba.Address,
+                BankAddress = string.IsNullOrEmpty(ba.Address) ? "Not supplied" : threeLines(ba.Address),
                 AccountNumber = ba.BankAccountNumber,
                 SortCode = ba.SortCode
             });
@@ -165,6 +165,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             var data = await nClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
 
             return File(data, "application/pdf", string.Format("BankAccountCertificate.pdf"));
+        }
+
+        private string threeLines(string s)
+        {
+            var bits = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            if (bits.Length > 3)
+                return string.Join(Environment.NewLine, bits[0], bits[1], string.Join(", ", bits.Skip(2)));
+            else
+                return string.Join(Environment.NewLine, bits);
         }
 
         private async Task<bool> BankAccountIsSafeAndActive(Guid baID)
