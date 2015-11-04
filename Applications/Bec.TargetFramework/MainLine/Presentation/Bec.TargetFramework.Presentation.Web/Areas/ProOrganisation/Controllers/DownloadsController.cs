@@ -16,6 +16,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Drawing;
 using System.IO;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -26,8 +28,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IQueryLogicClient queryClient { get; set; }
 
         // GET: ProOrganisation/Users
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
+            {
+                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+                var accs = await orgClient.GetOrganisationBankAccountsAsync(orgID);
+                ViewBag.BankAccounts = accs.Where(x => x.IsActive && x.Status == BankAccountStatusEnum.Safe.GetStringValue());
+            }
             return View();
         }
 
