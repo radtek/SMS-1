@@ -50,8 +50,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         public ActionResult AddMobileNumber()
         {
-            var userObject = WebUserHelper.GetWebUserObject(HttpContext);
-            userObject.NeedsMobileNumber = false; //allow users to skip
             return View();
         }
 
@@ -60,6 +58,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public async Task<ActionResult> AddMobileNumber(string mobileNumber)
         {
             var userObject = WebUserHelper.GetWebUserObject(HttpContext);
+            userObject.NeedsMobileNumber = false;
             var uid = userObject.UserID;
 
             var filter = ODataHelper.Filter<UserAccountDTO>(x => x.ID == uid);
