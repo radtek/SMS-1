@@ -761,6 +761,8 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\video\video1.jpg" />
+    <Content Include="Content\video\video1.mp4" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
