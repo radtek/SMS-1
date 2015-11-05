@@ -53,7 +53,7 @@
                                             @if (ViewBag.IsTemporaryUser)
                                             {
                                                 <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "Home", new { Area = "" }) })
+                                                @Html.TextBoxFor(m => m.Model.UserAccountOrganisation.UserAccount.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "App", new { Area = "" }) })
                                             }
                                             else
                                             {

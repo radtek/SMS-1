@@ -64,6 +64,7 @@ namespace Bec.TargetFramework.Entities
             target.VerifiedBy = source.VerifiedBy;
             target.VerifiedNotes = source.VerifiedNotes;
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.RegisteredAsName = source.RegisteredAsName;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -114,6 +115,7 @@ namespace Bec.TargetFramework.Entities
             target.VerifiedBy = source.VerifiedBy;
             target.VerifiedNotes = source.VerifiedNotes;
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.RegisteredAsName = source.RegisteredAsName;
 
             // User-defined partial method
             OnEntityCreating(source, target);

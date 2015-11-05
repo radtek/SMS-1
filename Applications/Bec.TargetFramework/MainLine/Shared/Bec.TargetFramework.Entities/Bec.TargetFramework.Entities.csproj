@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\Fabrik.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Omu.ValueInjecter">
       <HintPath>..\..\packages\valueinjecter.2.3.3\lib\net35\Omu.ValueInjecter.dll</HintPath>
     </Reference>
@@ -981,9 +985,6 @@
       <DependentUpon>PackageTemplateDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\PasswordResetRequestDTO.cs" />
-    <Compile Include="Boo\PasswordResetRequestDTO.Generated.cs">
-      <DependentUpon>PasswordResetRequestDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\PasswordResetSecretDTO.cs" />
     <Compile Include="Boo\PasswordResetSecretDTO.Generated.cs">
       <DependentUpon>PasswordResetSecretDTO.cs</DependentUpon>
@@ -1655,6 +1656,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\CertificateDetailsDTO.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
     <Compile Include="Boo\ShoppingCartItemProductAttributeDTO.cs" />
@@ -1820,10 +1822,12 @@
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />
+    <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsSafeNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountMarkedAsFraudSuspiciousNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\DTOMap.cs" />
     <Compile Include="DTO\Notification\UserNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ColpNextStepsNotificationDTO.cs" />
     <Compile Include="DTO\Notification\NotificationRenderDTO.cs" />
@@ -1851,7 +1855,6 @@
     <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />
-    <Compile Include="DTO\OrganisationDetailDTO.cs" />
     <Compile Include="DTO\Notification\AdminWelcomeMessageDTO.cs" />
     <Compile Include="DTO\UsernameReminderDTO.cs" />
     <Compile Include="DTO\VerfiedUnverifiedCompaniesDTO.cs" />
@@ -1896,6 +1899,7 @@
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
+    <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />

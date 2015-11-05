@@ -6,7 +6,15 @@
 <div id="content" class="container">
     <div class="row">
         <div class="col-lg-12">
-            <p>@ViewBag.Message</p>
+            @if (ViewBag.Email != null)
+            {
+                <p>@ViewBag.Message <a href="mailto:@ViewBag.Email">@ViewBag.Email</a></p>
+            }
+            else
+            {
+                <p>@ViewBag.Message</p>
+            }
+            
             @if (ViewBag.Link != null)
             {
                 <p>Proceed to <a href="~/Account/Login">Log in</a></p>

@@ -34,17 +34,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Password(string username)
+        public async Task<ActionResult> Password(ResetPasswordModel model)
         {
-
             var response = await _captchaService.ValidateCaptcha(Request);
             if (response.success)
             {
-                //send email if the username is found
-                await UserLogicClient.SendPasswordResetNotificationAsync(username, Request.Url.OriginalString.Replace("/Password", "/Reset") + "?resetId={0}&expire={1}");
-
-                ViewBag.Message = "Thank you. Instructions to reset your password have been sent to your registered email address.";
-                return View("ForgotDone");
+                //check username matches the reset request
+                var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.Username);
+                try
+                {
+                    //change password
+                    await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
+                    await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+                    return RedirectToAction("Index", "App", new { area = "" });
+                }
+                catch
+                {
+                    ViewBag.Message = string.Format("An error has occured. Please contact support at ");
+                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
+                    return View("ForgotDone");
+                }
             }
             else
             {
@@ -53,54 +62,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             }
         }
 
-        public async Task<ActionResult> Reset(Guid resetID, bool expire)
-        {
-            if (expire)
-            {
-                await UserLogicClient.ExpirePasswordResetRequestAsync(resetID);
-                ViewBag.Message = "The request to reset your password has been revoked.";
-                ViewBag.Link = true;
-                return View("ForgotDone");
-            }
-            else
-            {
-                //TODO: check whether the reset request is still valid
-                if (await UserLogicClient.IsPasswordResetRequestValidAsync(resetID))
-                {
-                    ViewBag.RequestID = resetID;
-                    return View();
-                }
-                else
-                {
-                    //invalid guid
-                    ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
-                    return View("ForgotDone");
-                }
-            }
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reset(ResetPasswordModel model)
+        public async Task<ActionResult> GenerateRequest(string username)
         {
+            if (string.IsNullOrEmpty(username)) return Json(new { message = "Please enter your email address" }, JsonRequestBehavior.AllowGet);
 
-            //expire the reset request
-            var requestUserID = await UserLogicClient.ExpirePasswordResetRequestAsync(model.RequestID);
-
-            //check username matches the reset request
-            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.Username);
-            if (ua != null && ua.ID == requestUserID)
+            try
             {
-                //change password
-                await UserLogicClient.ResetUserPasswordAsync(requestUserID, model.NewPassword);
-                await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
-
-                return RedirectToAction("Index", "Home", new { area = "" });
+                await UserLogicClient.CreatePasswordResetRequestAsync(username);
+                return Json(new { message = "The verification code has been sent" }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch(Exception ex)
             {
-                ViewBag.Message = string.Format("An error has occured. Please contact support on {0}", SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportTelephoneNumber);
-                return View("ForgotDone");
+                return Json(new { message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

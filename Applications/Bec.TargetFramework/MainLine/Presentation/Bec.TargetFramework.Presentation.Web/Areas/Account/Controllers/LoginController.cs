@@ -92,7 +92,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
                     {
                         // the final landing page is decided inside the Home controller
-                        return RedirectToAction("Index", "Home", new { area = "" });
+                        return RedirectToAction("Index", "App", new { area = "" });
                     }
                     else
                     {
@@ -191,8 +191,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
                 {
                     var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
-                    ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
-                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
+                    ViewBag.Message = string.Format("Your PIN has now expired due to three invalid attempts. Please contact support at ");
+                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
+                    return View("PINExpired");
                 }
                 else
                 {
@@ -202,14 +203,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 return View("Index", model);
             }
 
-            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.NewPassword);
+            await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.PhoneNumber, model.CreatePermanentLoginModel.NewPassword);
 
             LoginController.logout(this, AuthSvc);
             var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
             await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
 
             TempData["JustRegistered"] = true;
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
 
         private bool IsPinValid(UserAccountOrganisationDTO uaoDto, string pin)

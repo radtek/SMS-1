@@ -63,7 +63,7 @@ namespace Bec.TargetFramework.Data.Infrastructure.Linq
         {
             return ApplyOrdering(source, propertyName, ThenByDescendingMethod);
         }
-
+        
         //public static T[] ApplySortingPaging<T>(this IOrderedQueryable<T> query, SortingPagingDto sortingPaging)
         //{
         //    var firstPass = true;

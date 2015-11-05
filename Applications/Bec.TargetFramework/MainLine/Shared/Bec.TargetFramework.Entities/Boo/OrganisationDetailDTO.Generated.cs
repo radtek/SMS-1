@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationDetailDTO() {
         }
 
-        public OrganisationDetailDTO(global::System.Guid organisationDetailID, global::System.Guid organisationID, string name, string description, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> organisationDefaultLogoID, string organisationLegalBlurb, string tradingName, AttachmentDetailDTO attachmentDetail, OrganisationDTO organisation) {
+        public OrganisationDetailDTO(global::System.Guid organisationDetailID, global::System.Guid organisationID, string name, string description, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> organisationDefaultLogoID, string organisationLegalBlurb, string registeredAsName, AttachmentDetailDTO attachmentDetail, OrganisationDTO organisation) {
 
           this.OrganisationDetailID = organisationDetailID;
           this.OrganisationID = organisationID;
@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.OrganisationDefaultLogoID = organisationDefaultLogoID;
           this.OrganisationLegalBlurb = organisationLegalBlurb;
-          this.TradingName = tradingName;
+          this.RegisteredAsName = registeredAsName;
           this.AttachmentDetail = attachmentDetail;
           this.Organisation = organisation;
         }
@@ -66,7 +66,7 @@ namespace Bec.TargetFramework.Entities
         public string OrganisationLegalBlurb { get; set; }
 
         [DataMember]
-        public string TradingName { get; set; }
+        public string RegisteredAsName { get; set; }
 
         #endregion
 

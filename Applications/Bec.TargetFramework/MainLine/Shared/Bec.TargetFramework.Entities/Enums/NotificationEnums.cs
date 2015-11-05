@@ -34,5 +34,9 @@ namespace Bec.TargetFramework.Entities.Enums
         CreditAdjustment = 13,
         [StringValue("TcFirmConveyancing")]
         TcFirmConveyancing = 14,
+        [StringValue("BankAccountCertificate")]
+        BankAccountCertificate = 15,
+        [StringValue("NewInternalMessages")]
+        NewInternalMessages = 16
     }
 }

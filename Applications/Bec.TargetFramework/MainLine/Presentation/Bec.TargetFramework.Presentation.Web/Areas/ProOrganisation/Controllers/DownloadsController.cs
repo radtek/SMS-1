@@ -16,6 +16,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Drawing;
 using System.IO;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 {
@@ -26,8 +28,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IQueryLogicClient queryClient { get; set; }
 
         // GET: ProOrganisation/Users
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
+            {
+                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+                var accs = await orgClient.GetOrganisationBankAccountsAsync(orgID);
+                ViewBag.BankAccounts = accs.Where(x => x.IsActive && x.Status == BankAccountStatusEnum.Safe.GetStringValue());
+            }
             return View();
         }
 
@@ -71,6 +79,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public ActionResult LogoUsageGuidelines()
         {
             return File(Server.MapPath("~/content/WelcomePack/Logo Usage Guidelines.pdf"), "application/pdf", "Logo Usage Guide.pdf");
+        }
+
+        public ActionResult QuickStart()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Quick Start Guide for Professionals.pdf"), "application/pdf", "Quick Start guide for Professional Users.pdf");
+        }
+
+        public ActionResult CreatingAccount()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS Professional Users - Creating Your Account.pdf"), "application/pdf", "SMS - Creating a new account.pdf");
+        }
+
+        public ActionResult Faq()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS Frequently Asked Questions.pdf"), "application/pdf", "SMS Frequently Asked Questions.pdf");
+        }
+
+        public ActionResult BuyersAndSMS()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Buyers and the SMS.pdf"), "application/pdf", "Buyers and the SMS.pdf");
+        }
+
+        public ActionResult SafeBuyer()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
         }
     }
 }

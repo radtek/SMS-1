@@ -89,6 +89,7 @@ function activeChange(dataItem) {
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
     $("p#ddaRegulator").text(regulatorName);
     $("p#ddaRegulatorNumber").text(dataItem.RegulatorNumber);
+    $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
 
     $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
     $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
@@ -96,7 +97,8 @@ function activeChange(dataItem) {
     $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
 
     //update reject & generate links
-    $("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
+    // todo: ZM ucomment when enable login comes back to life
+    //$("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
 
     // toggle fields
     $("p#ddaCompanyCreatedBy").toggle(!!dataItem.CreatedBy);

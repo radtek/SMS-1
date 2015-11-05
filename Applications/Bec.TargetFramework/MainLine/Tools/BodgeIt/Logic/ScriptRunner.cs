@@ -41,6 +41,7 @@ namespace BodgeIt.Logic
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsFraudSuspiciousNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddBankAccountMarkedAsSafeNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddCreditAdjustmentNotification.sql")));
+                RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "AddNewInternalMessagesNotification.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "Notifications", "PromoteNotifications.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("BE Framework Scripts", "ProductInitial.sql")));
                 RunScript(con, _scriptProvider.GetScriptContent(Path.Combine("Creation Scripts", "Product", "CreditTopUp.sql")));
@@ -74,7 +75,7 @@ namespace BodgeIt.Logic
             var s = await x.Content.ReadAsStringAsync();
             Guid uaoId = (Guid)JObject.Parse(s)["UserAccountOrganisationID"];
 
-            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?uaoId={0}&password={1}",
+            await SendAsync<object>(client, string.Format("api/UserLogic/RegisterUserAsync?uaoId={0}&password={1}&phoneNumber=0777777",
                 uaoId, WebUtility.UrlEncode(password)), HttpMethod.Post, "user", null);
         }
 

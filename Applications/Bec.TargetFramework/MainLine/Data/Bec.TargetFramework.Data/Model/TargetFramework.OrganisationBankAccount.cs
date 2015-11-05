@@ -190,6 +190,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for Name in the schema.
+        /// </summary>
+        public virtual string Name
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Address in the schema.
+        /// </summary>
+        public virtual string Address
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

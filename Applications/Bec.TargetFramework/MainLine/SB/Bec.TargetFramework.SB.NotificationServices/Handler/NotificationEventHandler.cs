@@ -314,28 +314,23 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
 
         private List<MailAddress> GetReceiptAddresses(NotificationDTO notificationDto)
         {
-            List<MailAddress> recipientAddresses = new List<MailAddress>();
-
-            List<VDefaultEmailAddressDTO> emailAddresses = new List<VDefaultEmailAddressDTO>();
-
-            notificationDto.NotificationRecipients.ForEach(item =>
-                {
-                    var emailAddress = m_NotificationLogic.RecipientAddressDetail(item.OrganisationID,item.UserAccountOrganisationID);
-
-                    emailAddresses.Add(emailAddress);
-                });
-
-            if (notificationDto.NotificationRecipients != null && notificationDto.NotificationRecipients.Any())
+            if (notificationDto.NotificationRecipients == null || !notificationDto.NotificationRecipients.Any())
             {
-                notificationDto.NotificationRecipients
-                    .ForEach(
-                        item =>
-                        {
-                            string emailAddress = emailAddresses.Single(p => p.UserAccountOrganisationID.Equals(item.UserAccountOrganisationID)).Email;
-
-                            recipientAddresses.Add(new MailAddress(emailAddress));
-                        });
+                return new List<MailAddress>(0);
             }
+
+            var recipientAddresses = notificationDto.NotificationRecipients
+                .SelectMany(item => m_NotificationLogic.RecipientAddressDetail(item.OrganisationID, item.UserAccountOrganisationID))
+                .Where(x => 
+                    x.IsLoginAllowed && 
+                    x.OrganisationIsActive == true && 
+                    x.UserAccountOrganisationIsActive == true && 
+                    x.UserAccountIsActive == true &&
+                    !x.IsTemporaryAccount)
+                .Select(x => x.Email)
+                .Distinct()
+                .Select(x => new MailAddress(x))
+                .ToList();
 
             return recipientAddresses;
         }

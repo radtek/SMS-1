@@ -47,7 +47,7 @@ function validateSubmit(form) {
         type: "POST",
         data: formData
     }).done(function (res) {
-        showDetails(res.data, res.accountNumber, res.sortCode);
+        showDetails(res.data, res.accountNumber, res.sortCode, index);
         if (res.result == true)
             matchDiv.show();
         else
@@ -62,7 +62,9 @@ function validateSubmit(form) {
     });
 }
 
-function showDetails(data, an, sc) {
-    $('.accountNumber').text(an);
-    $('.sortCode').text(sc);
+function showDetails(data, an, sc, index) {
+    $('#accountNumberMatch-' + index).text(an);
+    $('#sortCodeMatch-' + index).text(sc);
+    $('#accountNumberNoMatch-' + index).text(an);
+    $('#sortCodeNoMatch-' + index).text(sc);
 }

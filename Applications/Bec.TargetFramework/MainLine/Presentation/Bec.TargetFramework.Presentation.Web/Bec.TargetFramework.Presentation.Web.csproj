@@ -201,6 +201,7 @@
     <Compile Include="Controllers\EmailCheckController.cs" />
     <Compile Include="Controllers\PostcodeLookupController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\AjaxFriendlyAuthorizeFilter.cs" />
     <Compile Include="Filters\AuditActionFilter.cs" />
@@ -228,10 +229,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.js" />
     <Content Include="Areas\Account\Views\PersonalDetails\Index.js" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.js" />
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
-    <Content Include="Areas\Account\Views\Forgot\Reset.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
@@ -760,10 +761,9 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\websiteLayout\css\media.css" />
+    <Content Include="Content\video\video1.jpg" />
+    <Content Include="Content\video\video1.mp4" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
-    <Content Include="Content\websiteLayout\css\skeleton.css" />
-    <Content Include="Content\websiteLayout\css\slidebars.css" />
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
@@ -784,6 +784,9 @@
     <Content Include="Content\kendo\kendo.metro.css.map">
       <DependentUpon>kendo.metro.css</DependentUpon>
     </Content>
+    <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
+    <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
+    <Content Include="Areas\Account\Views\Login\PINExpired.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -791,12 +794,10 @@
     <Content Include="Content\websiteLayout\css\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="Content\websiteLayout\js\hoverIntent.js" />
     <Content Include="Content\websiteLayout\js\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="Content\websiteLayout\js\jquery.smooth-scroll.min.js" />
     <Content Include="Content\websiteLayout\js\libs\modernizr-2.5.3.min.js" />
-    <Content Include="Content\websiteLayout\js\scroll.js" />
-    <Content Include="Content\websiteLayout\js\slidebars.js" />
+    <Content Include="Content\websiteLayout\video\video1.jpg" />
+    <Content Include="Content\websiteLayout\video\video1.mp4" />
     <Content Include="Content\WelcomePack\SMS Member Logo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -848,6 +849,7 @@
     <Content Include="Content\websiteLayout\images\strapline-new.jpg" />
     <Content Include="Content\websiteLayout\images\tape-measure-icon.png" />
     <Content Include="Content\websiteLayout\images\theft-icon.png" />
+    <Content Include="googlef4879a4b763f597d.html" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\autoNumeric.js" />
@@ -890,14 +892,13 @@
     <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="sitemap.txt" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
     <Content Include="Areas\Account\Views\AcceptTCs\Index.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Username.cshtml" />
     <Content Include="Areas\Account\Views\Forgot\Password.cshtml" />
-    <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
-    <Content Include="Areas\Account\Views\Forgot\Reset.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\web.config" />
     <Content Include="Areas\ProOrganisation\Views\Users\Invited.cshtml" />
@@ -945,9 +946,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
-    <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
-    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
+    <Content Include="Content\websiteLayout\SMS-TsCs.pdf" />
+    <Content Include="Content\websiteLayout\SMS - Next Steps After Registration.pdf" />
+    <Content Include="Content\WelcomePack\Buyers and the SMS.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Quick Start Guide for Professionals.pdf" />
+    <Content Include="Content\WelcomePack\SMS - Safe Buyer.pdf" />
+    <Content Include="Content\WelcomePack\SMS Frequently Asked Questions.pdf" />
+    <Content Include="Content\WelcomePack\SMS Professional Users - Creating Your Account.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -1899,7 +1906,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -2040,11 +2046,26 @@
     <Content Include="Scripts\kendo\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
-    <Content Include="Views\Home\Denied.cshtml" />
+    <Content Include="Views\App\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Home\BuyersAtRisk.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\ConveyancersAtRisk.cshtml" />
+    <Content Include="Views\Home\ConveyancersCompliance.cshtml" />
+    <Content Include="Views\Home\ConveyancingFirmRegistration.cshtml" />
+    <Content Include="Views\Home\ForThePublic.cshtml" />
+    <Content Include="Views\Home\FreeTrial.cshtml" />
+    <Content Include="Views\Home\HowItWorks.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\LendersCompliance.cshtml" />
+    <Content Include="Views\Home\NewAMLSolution.cshtml" />
+    <Content Include="Views\Home\SafeBuyerSpecification.cshtml" />
+    <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
+    <Content Include="Views\Home\ThreatsExplained.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

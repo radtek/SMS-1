@@ -6,12 +6,12 @@
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
     <div class="modal-dialog">
 
-        <div class="help help-container help-sm">
+        @*<div class="help help-container help-sm">
             <div class="help-vert">HELP</div>
             <div class="help help-inner">
                 <div>Help goes here</div>
             </div>
-        </div>
+        </div>*@
 
         <div class="modal-content">
             <div class="modal-header">
@@ -61,7 +61,7 @@
                                 }
 
                                 <section>
-                                    <label class="label">Roles</label>
+                                    <label class="label">Permissions</label>
                                     <input type="hidden" name="rolecheck" id="rolecheck" value="@ViewBag.SelectedRoleCount" />
                                     @foreach (var role in ViewBag.Roles)
                                     {

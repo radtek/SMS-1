@@ -24,7 +24,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (result == null)
             {
                 userObject.NeedsTCs = false;
-                return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "App", new { area = "" });
             }
             ViewBag.NotificationID = result.NotificationID;
             ViewBag.NotificationConstructID = result.NotificationConstructID;
@@ -36,7 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public async Task<ActionResult> GetPDF(Guid ncID, int version)
         {
             var userObject = WebUserHelper.GetWebUserObject(HttpContext);
-            return File(await NotificationLogicClient.GetTcAndCsDataAsync(ncID, version), "application/pdf", "TermsAndConditions.pdf");
+            return File(await NotificationLogicClient.RetrieveNotificationConstructDataAsync(ncID, version, null), "application/pdf", "TermsAndConditions.pdf");
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             //update database
             await NotificationLogicClient.MarkAcceptedAsync(notificationID);
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Index", "App", new { area = "" });
         }
     }
 }

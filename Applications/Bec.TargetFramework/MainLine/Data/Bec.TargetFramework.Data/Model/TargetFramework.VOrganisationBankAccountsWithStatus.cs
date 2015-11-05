@@ -146,6 +146,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for AccountName in the schema.
+        /// </summary>
+        public virtual string AccountName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Address in the schema.
+        /// </summary>
+        public virtual string Address
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

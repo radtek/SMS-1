@@ -6,14 +6,14 @@ Declare NcTID uuid;
 Declare NcTVN integer;
 Declare NcResID uuid;
 Declare OrgEmployeeRoleID uuid;
-Declare UserUserTypeID uuid;
+Declare OrgEmployeeUserTypeID uuid;
 Begin
-
+ 
 NcTVN := 1;
 NcTID := (select uuid_generate_v1());
 NcResID := (select uuid_generate_v1());
-OrgEmployeeRoleID := (select "RoleID" from "Role" where "RoleName" = 'Organisation Administrator' limit 1);
-UserUserTypeID := (select "UserTypeID" from "UserType" where "Name" = 'Organisation Administrator' limit 1);
+OrgEmployeeRoleID := (select "RoleID" from "Role" where "RoleName" = 'Organisation Employee' limit 1);
+OrgEmployeeUserTypeID := (select "UserTypeID" from "UserType" where "Name" = 'Organisation Employee' limit 1);
 
 INSERT INTO
   public."NotificationConstructTemplate"
@@ -61,7 +61,32 @@ VALUES (
   NcTID,
   NcTVN,
   null,
-  UserUserTypeID,
+  OrgEmployeeUserTypeID,
+  true,
+  false,
+  true,
+  true,
+  false
+);
+
+INSERT INTO
+  public."NotificationConstructTargetTemplate"
+(
+  "NotificationConstructTemplateID",
+  "NotificationConstructTemplateVersionNumber",
+  "OrganisationTypeID",
+  "UserTypeID",
+  "IsSingleUser",
+  "IsOrganisationBranchOnly",
+  "IsDefaultTarget",
+  "IsActive",
+  "IsDeleted"
+)
+VALUES (
+  NcTID,
+  NcTVN,
+  null,
+  OrgEmployeeUserTypeID,
   true,
   false,
   true,
@@ -446,6 +471,7 @@ VALUES (
 
 -- Operations for Notification View/Edit/Send/Configure/MarkAsRead/MarkAsUnRead/Edit MUST EXIST FIRST
 -- OrganisationTypeId = 31 - Professional
+-- NotificationConstructClaimTemplate for OrgEmployee - View
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -476,9 +502,10 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'View' limit 1),31,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'View' limit 1),31,OrgEmployeeUserTypeID);
 
-INSERT INTO
+-- NotificationConstructClaimTemplate for OrgEmployee - MarkAsRead
+  INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
   "NotificationConstructTemplateID",
@@ -508,9 +535,9 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsRead' limit 1),31,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsRead' limit 1),31,OrgEmployeeUserTypeID);
 
-
+-- NotificationConstructClaimTemplate for OrgEmployee - MarkAsUnread 
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -541,9 +568,9 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnread' limit 1),31,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'MarkAsUnread' limit 1),31,OrgEmployeeUserTypeID);
 
-
+-- NotificationConstructClaimTemplate for OrgEmployee - Send 
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -574,9 +601,9 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Send' limit 1),31,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Send' limit 1),31,OrgEmployeeUserTypeID);
 
-
+-- NotificationConstructClaimTemplate for OrgEmployee - Configure 
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -607,9 +634,9 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Configure' limit 1),31,UserUserTypeID);
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Configure' limit 1),31,OrgEmployeeUserTypeID);
 
-
+-- NotificationConstructClaimTemplate for OrgEmployee - Edit 
 INSERT INTO
   public."NotificationConstructClaimTemplate"
 (
@@ -640,10 +667,11 @@ VALUES (
 INSERT INTO
   public."ResourceOperationTarget"("ResourceID", "OperationID", "OrganisationTypeID", "UserTypeID")
 VALUES
-  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),31,UserUserTypeID);
-
+  (NcResID,(select "OperationID" from "Operation" where "OperationName" = 'Edit' limit 1),31,OrgEmployeeUserTypeID);
+  
 -- Add to DOT for specific org type
 
+-- DefaultOrganisationNotificationConstructTemplate OrgAdmin
 INSERT INTO
   public."DefaultOrganisationNotificationConstructTemplate"
 (

@@ -4,6 +4,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,10 +71,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Verify(Guid orgId, string notes)
+        public async Task<ActionResult> Verify(Guid orgId, string notes, string name)
         {
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
+
+            //update RegisteredAsName
+            var filter = ODataHelper.Filter<OrganisationDetailDTO>(x => x.OrganisationID == orgId); //this is enough to retrieve the one detail record.
+            var data = JObject.FromObject(new { Name = name });
+            await queryClient.UpdateGraphAsync("OrganisationDetails", data, filter);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
@@ -101,25 +107,27 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewEditCompany(Guid orgID)
-        {
-            ViewBag.orgID = orgID;
-            var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
-            var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
-            return PartialView("_EditCompany", Edit.MakeModel(res.First()));
-        }
+        // todo: ZM ucomment when enable login comes back to life
+        //public async Task<ActionResult> ViewEditCompany(Guid orgID)
+        //{
+        //    ViewBag.orgID = orgID;
+        //    var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID, x.IsActive }, true);
+        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
+        //    var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
+        //    return PartialView("_EditCompany", Edit.MakeModel(res.First()));
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditCompany(Guid orgID)
-        {
-            var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var data = Edit.fromD(Request.Form,
-                "IsActive",
-                "RowVersion");
-            await queryClient.UpdateGraphAsync("Organisations", data, filter);
-            return RedirectToAction("Qualified");
-        }
+        // todo: ZM ucomment when enable login comes back to life
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> EditCompany(Guid orgID)
+        //{
+        //    var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
+        //    var data = Edit.fromD(Request.Form,
+        //        "IsActive",
+        //        "RowVersion");
+        //    await queryClient.UpdateGraphAsync("Organisations", data, filter);
+        //    return RedirectToAction("Qualified");
+        //}
     }
 }

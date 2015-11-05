@@ -28,19 +28,33 @@
 <h5>Other Details</h5>
 {{/xif}}
 <dl class="dl-horizontal">
-    {{#if SmsTransaction.LenderName}}
+    {{#if Confirmed}}
     <dt>Mortgage Lender:</dt>
-    <dd><p>{{SmsTransaction.LenderName}}</p></dd>
-    {{/if}}
-    {{#if SmsTransaction.MortgageApplicationNumber}}
+    <dd>
+        <p>
+            {{#if SmsTransaction.LenderName}}
+                {{SmsTransaction.LenderName}}
+            {{else}}
+                None
+            {{/if}}
+        </p>
+    </dd>
     <dt>Mortgage Application No:</dt>
-    <dd><p>{{SmsTransaction.MortgageApplicationNumber}}</p></dd>
-    {{/if}}
+    <dd>
+        <p>
+            {{#if SmsTransaction.MortgageApplicationNumber}}
+                {{SmsTransaction.MortgageApplicationNumber}}
+            {{else}}
+                None
+            {{/if}}
+        </p>
+    </dd>
     {{#if SmsTransaction.Price}}
     <dt>Purchase Price:</dt>
     <dd><p>{{purchasePrice}}</p></dd>
     {{/if}}
 </dl>
+{{/if}}
 <h5>Product</h5>
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>

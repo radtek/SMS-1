@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Areas/Account/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Free Safe Buyer Product Trial Until 31st Jan 2016";
+    ViewBag.Meta = "Free Safe Buyer Product Trial Until 31st Jan 2016";
+}
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-7">
+        <p>The Safe Buyer product is free for conveyancers to use until 31st Jan 2016 without any costs or commitments whatsoever – we want you to see how easy it is to protect your customers, lenders and ultimately your firm from cybercrime.</p>
+        <p>To order Safe Buyer products, join the Safe Move Scheme today by completing an online application on behalf of your conveyancing firm (must be completed by the SRO). Your annual membership is free and without obligation. Once applications have been approved, member firms are entitled to use their unique Safe Move Scheme membership logo, which displays their Scheme Number which can be used to search our online Register. Being listed on the Safe Move Scheme Register reassures consumers and fellow professionals alike that they are dealing with a member firm, whose authenticity can be confirmed via the Safe Buyer product on our secure portal.</p>
+        <p>No one can prevent criminals replicating your firm's identity to your client but the Safe Move Scheme can prevent them stealing money from one of your transactions.</p>
+        <br />
+        <p><a class="btn btn-primary" href="@Url.Action("ConveyancingFirmRegistration", "Home")">Click here for registration info</a></p>
+        <br />
+        <p class="alert alert-info">Note: We believe the right way to build trust with our member firms is to show openness and transparency at every step. So, after the Safe Buyer Product Trial has finished, this product will be available to member firms to purchase for buyers as a conveyancing disbursement. The trial product features will form just part of a wider Safe Buyer product with other new and unique features that will keep buyers safe. The price of Safe Buyer will be akin to a chancel liability policy and will represent excellent value for money.</p>
+    </div>
+    <div class="col-md-5">
+        <img src="~/Content/websiteLayout/images/Protection icon.png" alt="Protection." />
+    </div>
+</div>

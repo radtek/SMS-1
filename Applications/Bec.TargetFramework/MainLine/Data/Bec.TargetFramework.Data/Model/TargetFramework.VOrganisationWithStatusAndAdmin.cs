@@ -376,6 +376,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for RegisteredAsName in the schema.
+        /// </summary>
+        public virtual string RegisteredAsName
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

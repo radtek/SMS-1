@@ -334,12 +334,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		Task<VDefaultEmailAddressDTO> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
+		Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
+		IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
@@ -392,12 +392,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber);
+		Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber);
+		Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data);
 
 		/// <param name="notificationID"></param>
 		/// <returns></returns>
@@ -432,6 +432,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="eventReference"></param>
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
+
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
+		/// <returns></returns>
+		Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
+
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
+		/// <returns></returns>
+		void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -899,13 +911,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
+		/// <param name="registering"></param>
+		/// <param name="pin"></param>
 		/// <returns></returns>
-		Task ResetUserPasswordAsync(Guid userID,String newPassword);
+		Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean registering,String pin);
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
+		/// <param name="registering"></param>
+		/// <param name="pin"></param>
 		/// <returns></returns>
-		void ResetUserPassword(Guid userID,String newPassword);
+		void ResetUserPassword(Guid userID,String newPassword,Boolean registering,String pin);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -1226,30 +1242,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void SendUsernameReminder(String email);
 
 		/// <param name="username"></param>
-		/// <param name="siteUrl"></param>
 		/// <returns></returns>
-		Task SendPasswordResetNotificationAsync(String username,String siteUrl);
+		Task CreatePasswordResetRequestAsync(String username);
 
 		/// <param name="username"></param>
-		/// <param name="siteUrl"></param>
 		/// <returns></returns>
-		void SendPasswordResetNotification(String username,String siteUrl);
-
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID);
-
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		Guid ExpirePasswordResetRequest(Guid requestID);
-
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		Task<Boolean> IsPasswordResetRequestValidAsync(Guid requestID);
-
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		Boolean IsPasswordResetRequestValid(Guid requestID);
+		void CreatePasswordResetRequest(String username);
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
@@ -1272,14 +1270,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Boolean IncrementInvalidPIN(Guid uaoID);
 
 		/// <param name="uaoId"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		Task RegisterUserAsync(Guid uaoId,String password);
+		Task RegisterUserAsync(Guid uaoId,String phoneNumber,String password);
 
 		/// <param name="uaoId"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		void RegisterUser(Guid uaoId,String password);
+		void RegisterUser(Guid uaoId,String phoneNumber,String password);
 
 		/// <param name="uaoID"></param>
 		/// <param name="withRelatedLevel"></param>
@@ -2189,10 +2189,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
 		/// <returns></returns>
-		public virtual Task<VDefaultEmailAddressDTO> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
+		public virtual Task<IEnumerable<VDefaultEmailAddressDTO>> RecipientAddressDetailAsync(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user);
+			return PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user);
 		}
 
 		/// <summary>
@@ -2200,10 +2200,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="organisationID"></param>
 		/// <param name="userAccountOrganisationID"></param>
-		public virtual VDefaultEmailAddressDTO RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
+		public virtual IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Nullable<Guid> organisationID,Nullable<Guid> userAccountOrganisationID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, VDefaultEmailAddressDTO>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, IEnumerable<VDefaultEmailAddressDTO>>("api/NotificationLogic/RecipientAddressDetail?organisationID=" + organisationID + "&userAccountOrganisationID=" + userAccountOrganisationID, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2325,10 +2325,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
 		/// <returns></returns>
-		public virtual Task<Byte[]> GetTcAndCsDataAsync(Guid notificationConstructID,Int32 versionNumber)
+		public virtual Task<Byte[]> RetrieveNotificationConstructDataAsync(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user);
+			return PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user);
 		}
 
 		/// <summary>
@@ -2336,10 +2336,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="notificationConstructID"></param>
 		/// <param name="versionNumber"></param>
-		public virtual Byte[] GetTcAndCsData(Guid notificationConstructID,Int32 versionNumber)
+		public virtual Byte[] RetrieveNotificationConstructData(Guid notificationConstructID,Int32 versionNumber,DTOMap data)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<Byte[]>("api/NotificationLogic/GetTcAndCsData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, _user)).Result;
+			return Task.Run(() => PostAsync<DTOMap, Byte[]>("api/NotificationLogic/RetrieveNotificationConstructData?notificationConstructID=" + notificationConstructID + "&versionNumber=" + versionNumber, data, _user)).Result;
 		}
 
 		/// <summary>
@@ -2425,6 +2425,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			eventReference = eventReference.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<EventStatusDTO>>("api/NotificationLogic/GetEventStatus?eventName=" + eventName + "&eventReference=" + eventReference, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
+		/// <returns></returns>
+		public virtual Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="count"></param>
+		/// <param name="organisationId"></param>
+		/// <param name="notificationConstructEnum"></param>
+		public virtual void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user)).Wait();
 		}
 
 		#endregion
@@ -3676,12 +3701,15 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
+		/// <param name="registering"></param>
+		/// <param name="pin"></param>
 		/// <returns></returns>
-		public virtual Task ResetUserPasswordAsync(Guid userID,String newPassword)
+		public virtual Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean registering,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
+			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword, null, _user);
+			return PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&registering=" + registering + "&pin=" + pin, null, _user);
 		}
 
 		/// <summary>
@@ -3689,11 +3717,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
-		public virtual void ResetUserPassword(Guid userID,String newPassword)
+		/// <param name="registering"></param>
+		/// <param name="pin"></param>
+		public virtual void ResetUserPassword(Guid userID,String newPassword,Boolean registering,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
+			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&registering=" + registering + "&pin=" + pin, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4546,69 +4577,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="username"></param>
-		/// <param name="siteUrl"></param>
 		/// <returns></returns>
-		public virtual Task SendPasswordResetNotificationAsync(String username,String siteUrl)
+		public virtual Task CreatePasswordResetRequestAsync(String username)
 		{
 			username = username.UrlEncode();
-			siteUrl = siteUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/SendPasswordResetNotificationAsync?username=" + username + "&siteUrl=" + siteUrl, null, _user);
+			return PostAsync<object>("api/UserLogic/CreatePasswordResetRequestAsync?username=" + username, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="username"></param>
-		/// <param name="siteUrl"></param>
-		public virtual void SendPasswordResetNotification(String username,String siteUrl)
+		public virtual void CreatePasswordResetRequest(String username)
 		{
 			username = username.UrlEncode();
-			siteUrl = siteUrl.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/SendPasswordResetNotificationAsync?username=" + username + "&siteUrl=" + siteUrl, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequestAsync?requestID=" + requestID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestID"></param>
-		public virtual Guid ExpirePasswordResetRequest(Guid requestID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/UserLogic/ExpirePasswordResetRequestAsync?requestID=" + requestID, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestID"></param>
-		/// <returns></returns>
-		public virtual Task<Boolean> IsPasswordResetRequestValidAsync(Guid requestID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/UserLogic/IsPasswordResetRequestValid?requestID=" + requestID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requestID"></param>
-		public virtual Boolean IsPasswordResetRequestValid(Guid requestID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/IsPasswordResetRequestValid?requestID=" + requestID, null, _user)).Result;
+			Task.Run(() => PostAsync<object>("api/UserLogic/CreatePasswordResetRequestAsync?username=" + username, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4661,25 +4646,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
 		/// <returns></returns>
-		public virtual Task RegisterUserAsync(Guid uaoId,String password)
+		public virtual Task RegisterUserAsync(Guid uaoId,String phoneNumber,String password)
 		{
+			phoneNumber = phoneNumber.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&password=" + password, null, _user);
+			return PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&phoneNumber=" + phoneNumber + "&password=" + password, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoId"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="password"></param>
-		public virtual void RegisterUser(Guid uaoId,String password)
+		public virtual void RegisterUser(Guid uaoId,String phoneNumber,String password)
 		{
+			phoneNumber = phoneNumber.UrlEncode();
 			password = password.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&password=" + password, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/RegisterUserAsync?uaoId=" + uaoId + "&phoneNumber=" + phoneNumber + "&password=" + password, null, _user)).Wait();
 		}
 
 		/// <summary>

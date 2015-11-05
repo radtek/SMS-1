@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VDefaultEmailAddressDTO() {
         }
 
-        public VDefaultEmailAddressDTO(global::System.Guid userID, string username, string email, global::System.Guid userAccountOrganisationID, global::System.Nullable<System.Guid> branchOrganisationID, string branchEmailAddress, global::System.Guid organisationID, string emailAddress1) {
+        public VDefaultEmailAddressDTO(global::System.Guid userID, string username, string email, global::System.Guid userAccountOrganisationID, global::System.Nullable<System.Guid> branchOrganisationID, string branchEmailAddress, global::System.Guid organisationID, string emailAddress1, global::System.Nullable<bool> userAccountOrganisationIsActive, global::System.Nullable<bool> organisationIsActive, global::System.Nullable<bool> userAccountIsActive, bool isLoginAllowed, bool isTemporaryAccount) {
 
           this.UserID = userID;
           this.Username = username;
@@ -32,6 +32,11 @@ namespace Bec.TargetFramework.Entities
           this.BranchEmailAddress = branchEmailAddress;
           this.OrganisationID = organisationID;
           this.EmailAddress1 = emailAddress1;
+          this.UserAccountOrganisationIsActive = userAccountOrganisationIsActive;
+          this.OrganisationIsActive = organisationIsActive;
+          this.UserAccountIsActive = userAccountIsActive;
+          this.IsLoginAllowed = isLoginAllowed;
+          this.IsTemporaryAccount = isTemporaryAccount;
         }
 
         #endregion
@@ -61,6 +66,21 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string EmailAddress1 { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<bool> UserAccountOrganisationIsActive { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<bool> OrganisationIsActive { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<bool> UserAccountIsActive { get; set; }
+
+        [DataMember]
+        public bool IsLoginAllowed { get; set; }
+
+        [DataMember]
+        public bool IsTemporaryAccount { get; set; }
 
         #endregion
     }

@@ -1,7 +1,7 @@
 ﻿@model Bec.TargetFramework.Presentation.Web.Areas.Account.Models.LoginModel
 @{
     ViewBag.PageClass = "animated fadeInDown";
-    ViewBag.Title = "Welcome to Safe Move Scheme";
+    ViewBag.Title = "Login";
     var selectedTabBtn = Model.IsRegistration
         ? "registerPanelBtn"
         : "loginPanelBtn";
@@ -16,7 +16,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="loginPanel">
-                    <form action="@Url.Action("Index", "Login",new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
+                    <form action="@Url.Action("Index", "Login", new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.LoginDTO.ReturnUrl)
                         <section class="fields">
@@ -87,6 +87,15 @@
                                         <div class="form-group">
                                             <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.Pin)">Please enter your PIN as provided by Safe Move Scheme</label>
                                             @Html.TextBoxFor(m => m.CreatePermanentLoginModel.Pin, new { maxlength = 20, autocomplete = "off", @class = "form-control" })
+                                            <i class="icon-append fa fa-asterisk"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Please enter your personal mobile phone number for account security purposes.</label>
+                                            @Html.TextBoxFor(m => m.CreatePermanentLoginModel.PhoneNumber, new { maxlength = 11, autocomplete = "off", @class = "form-control" })
                                             <i class="icon-append fa fa-asterisk"></i>
                                         </div>
                                     </div>

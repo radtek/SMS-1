@@ -20,5 +20,11 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
                         .Replace("\t", replacement)
                         .Replace("\n", replacement).Trim();
         }
+
+        // string comparison in Entity Framework is limited hence that method
+        public static bool EqualsCaseInsensitive(this string value, string other)
+        {
+            return value.Equals(other.Trim(), StringComparison.InvariantCultureIgnoreCase);
+        }
     }
 }

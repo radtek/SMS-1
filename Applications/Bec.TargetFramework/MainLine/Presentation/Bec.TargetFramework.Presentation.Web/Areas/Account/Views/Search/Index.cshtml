@@ -2,8 +2,10 @@
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
 @model OrganisationDTO
-
-<div id="content" data-templateurl="@Url.Action("GetTemplate", "Home", new { area = "" })">
+@{
+    ViewBag.Title = "Search the Register";
+}
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <form data-url="@Url.Action("Index", "Search", new { area = "Account" })" id="search-form">
         @Html.ValidationBootstrap()
         @Html.AntiForgeryToken()

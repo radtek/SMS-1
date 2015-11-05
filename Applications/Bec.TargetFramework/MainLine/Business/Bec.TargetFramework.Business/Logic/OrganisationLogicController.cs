@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => !x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
+                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.IsTemporaryAccount && x.PinCreated != null))
                 {
                     var testDate = uao.PinCreated.Value.AddDays(days).AddHours(hours).AddMinutes(minutes);
                     if (testDate < DateTime.Now) await ExpireUserAccountOrganisationAsync(uao.UserAccountOrganisationID);
@@ -307,7 +307,7 @@ namespace Bec.TargetFramework.Business.Logic
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.CompanyName,
-                    dto.TradingName,
+                    dto.CompanyName,
                     "",
                     UserNameService.UserName,
                     dto.OrganisationRecommendationSource != null
@@ -770,7 +770,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var bankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                 {
-                    OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                    OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                     BankAccountID = bankAccountStatusChangeRequest.BankAccountID,
                     BankAccountOrganisationID = bankAccount.OrganisationID,
                     StatusTypeID = statusType.StatusTypeID,
@@ -789,7 +789,7 @@ namespace Bec.TargetFramework.Business.Logic
                     {
                         var dupeBankAccountAddStatus = new OrganisationBankAccountAddStatusDTO
                         {
-                            OrganisationID = bankAccountStatusChangeRequest.OrganisationID,
+                            OrganisationID = bankAccountStatusChangeRequest.RequestedByOrganisationID,
                             BankAccountID = dupe.OrganisationBankAccountID,
                             BankAccountOrganisationID = dupe.OrganisationID,
                             StatusTypeID = statusType.StatusTypeID,
@@ -885,7 +885,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var bankAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccounts
-                    .Single(x => x.OrganisationBankAccountID == baID);
+                    .Single(x => x.OrganisationBankAccountID == baID && x.OrganisationID == orgID);
                 var accountStatus = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationBankAccountStatus
                     .Where(x => x.OrganisationBankAccountID == baID)
                     .OrderByDescending(x => x.StatusChangedOn)

@@ -41,6 +41,8 @@ namespace Bec.TargetFramework.Entities
             target.StatusChangedOn = source.StatusChangedOn;
             target.StatusChangedBy = source.StatusChangedBy;
             target.Notes = source.Notes;
+            target.AccountName = source.AccountName;
+            target.Address = source.Address;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -68,6 +70,8 @@ namespace Bec.TargetFramework.Entities
             target.StatusChangedOn = source.StatusChangedOn;
             target.StatusChangedBy = source.StatusChangedBy;
             target.Notes = source.Notes;
+            target.AccountName = source.AccountName;
+            target.Address = source.Address;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -6,6 +6,7 @@ using Bec.TargetFramework.Entities.Injections;
 using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
+using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.Security;
 using BrockAllen.MembershipReboot;
@@ -16,6 +17,7 @@ using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +30,7 @@ namespace Bec.TargetFramework.Business.Logic
         public AuthenticationService AuthSvc { get; set; }
         public IEventPublishLogicClient EventPublishClient { get; set; }
         public OrganisationLogicController OrganisationLogic { get; set; }
+        public TFSettingsLogicController Settings { get; set; }
 
         public UserLoginValidation AuthenticateUser(string username, string password)
         {
@@ -79,14 +82,19 @@ namespace Bec.TargetFramework.Business.Logic
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="newPassword"></param>
-        public async Task ResetUserPassword(Guid userID, string newPassword)
+        public async Task ResetUserPassword(Guid userID, string newPassword, bool registering, string pin)
         {
             var userAccount = UaService.GetByID(userID);
 
-            if (userAccount.IsTemporaryAccount)
-                await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
+            if (userAccount != null && (registering || (!string.IsNullOrEmpty(userAccount.MobileCode) && userAccount.MobileCode == pin && ValidPINExists(userAccount.MobileCodeSent))))
+            {
+                if (userAccount.IsTemporaryAccount)
+                    await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
+                else
+                    await UaService.SetPasswordAsync(userID, newPassword);
+            }
             else
-                await UaService.SetPasswordAsync(userID, newPassword);
+                throw new Exception("An error has occured");
         }
 
         /// <summary>
@@ -134,7 +142,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(x => x.Username.ToLower() == userName.ToLower()).Count() > 0;
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.Where(GetWithUsername(userName)).Count() > 0;
             }
         }
 
@@ -234,7 +242,8 @@ namespace Bec.TargetFramework.Business.Logic
             BrockAllen.MembershipReboot.UserAccount ua = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == username);
+                var uaDb = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
+                    .SingleOrDefault(GetWithUsername(username));
 
                 if (uaDb != null)
                 {
@@ -249,7 +258,7 @@ namespace Bec.TargetFramework.Business.Logic
                         var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
                         if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
                     }
-                        
+
                 }
             }
             return ua;
@@ -269,7 +278,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(s => s.Username == userName).ToDto();
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.SingleOrDefault(GetWithUsername(userName)).ToDto();
             }
         }
 
@@ -603,7 +612,9 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x => x.UserAccount.Email == email && x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
+                foreach (var uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                    .Where(GetWithEmail(email))
+                    .Where(x => x.IsActive && !x.IsDeleted && !x.UserAccount.IsTemporaryAccount))
                 {
                     var tempDto = new UsernameReminderDTO
                     {
@@ -630,86 +641,50 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SendPasswordResetNotificationAsync(string username, string siteUrl)
+        public async Task CreatePasswordResetRequestAsync(string username)
         {
             //check user exists
-            Data.UserAccount user = null;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts.FirstOrDefault(s => s.Username == username && !s.IsTemporaryAccount);
-            }
-            if (user != null)
-            {
-                var resetGuid = Guid.NewGuid();
-                using (var scope = DbContextScopeFactory.Create())
-                {
-                    var pr = new PasswordResetRequest();
-                    pr.RequestID = resetGuid;
-                    pr.UserID = user.ID;
-                    pr.CreatedDateTime = DateTime.Now;
-                    pr.Expired = false;
-                    scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.Add(pr);
-                    await scope.SaveChangesAsync();
-                }
-                var uao = GetUserAccountOrganisation(user.ID).First();
-                var primaryContact = GetUserAccountOrganisationPrimaryContact(uao.UserAccountOrganisationID);
-
-                var tempDto = new ForgotPasswordDTO
-                {
-                    UserID = user.ID,
-                    Salutation = primaryContact.Salutation,
-                    FirstName = primaryContact.FirstName,
-                    LastName = primaryContact.LastName,
-                    UserAccountOrganisationID = uao.UserAccountOrganisationID,
-                    Url = string.Format(siteUrl, resetGuid, false),
-                    ExpireUrl = string.Format(siteUrl, resetGuid, true)
-                };
-                string payLoad = JsonHelper.SerializeData(new object[] { tempDto });
-
-                var dto = new Bec.TargetFramework.SB.Entities.EventPayloadDTO
-                {
-                    EventName = "ForgotPasswordEvent",
-                    EventSource = AppDomain.CurrentDomain.FriendlyName,
-                    EventReference = "0002",
-                    PayloadAsJson = payLoad
-                };
-
-                await EventPublishClient.PublishEventAsync(dto);
-            }
-        }
-
-        public async Task<Guid> ExpirePasswordResetRequestAsync(Guid requestID)
-        {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var rr = GetResetRequest(scope, requestID);
-                if (rr != null) rr.Expired = true;
+                var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
+                    .Where(GetWithUsername(username))
+                    .FirstOrDefault(s => !s.IsTemporaryAccount);
+
+                if (user == null || string.IsNullOrEmpty(user.MobilePhoneNumber)) throw new Exception("An error has occured");
+                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
+
+                user.MobileCode = CreatePin(4);
+                user.MobileCodeSent = DateTime.Now;
+                SendTextMessage(user.MobilePhoneNumber, user.MobileCode);
+
                 await scope.SaveChangesAsync();
-
-                if (rr == null)
-                    return Guid.Empty;
-                else
-                    return rr.UserID;
             }
         }
 
-        public bool IsPasswordResetRequestValid(Guid requestID)
+        private bool ValidPINExists(DateTime? dt)
         {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            return dt.HasValue && (DateTime.Now - dt.Value).TotalMinutes < 10;
+        }
+
+        private void SendTextMessage(string phoneNumber, string pin)
+        {
+            var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", pin);
+            var key = Settings.GetSettings().AsSettings<CommonSettings>().MessageBirdKey;
+            var originator = Settings.GetSettings().AsSettings<CommonSettings>().SMSOriginator;
+            var mbClient = MessageBird.Client.CreateDefault(key);
+            long number = 0;
+            if (!long.TryParse("44" + phoneNumber.TrimStart('0'), out number)) throw new Exception("An error has occured");
+            long[] msisdns = new[] { number };
+            try
             {
-                return GetResetRequest(scope, requestID) != null;
+                var msg = mbClient.SendMessage(originator, message, msisdns);
+            }
+            catch (MessageBird.Exceptions.ErrorException ex)
+            {
+                Logger.Error(ex);
+                throw new Exception("An error occured sending the message. Please try again.");
             }
         }
-
-        private PasswordResetRequest GetResetRequest(IDbContextReadOnlyScope scope, Guid requestID)
-        {
-            var rr = scope.DbContexts.Get<TargetFrameworkEntities>().PasswordResetRequests.SingleOrDefault(r => r.RequestID == requestID && !r.Expired);
-            if (rr != null && (DateTime.Now - rr.CreatedDateTime).TotalMinutes < 10)
-                return rr;
-            else
-                return null;
-        }
-
 
         public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)
         {
@@ -774,7 +749,7 @@ namespace Bec.TargetFramework.Business.Logic
             return ret;
         }
 
-        public async Task RegisterUserAsync(Guid uaoId, string password)
+        public async Task RegisterUserAsync(Guid uaoId, string phoneNumber, string password)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -787,9 +762,10 @@ namespace Bec.TargetFramework.Business.Logic
                     await OrganisationLogic.ActivateOrganisationAsync(uao.OrganisationID);
 
                 await LockOrUnlockUserAsync(uao.UserID, false);
-                await ResetUserPassword(uao.UserID, password);
+                await ResetUserPassword(uao.UserID, password, true, null);
 
                 uao.UserAccount.IsTemporaryAccount = false;
+                uao.UserAccount.MobilePhoneNumber = phoneNumber;
 
                 await scope.SaveChangesAsync();
             }
@@ -812,10 +788,20 @@ namespace Bec.TargetFramework.Business.Logic
                 userAccountDto = uao.UserAccount.ToDto();
             }
 
-            if (!userAccountDto.Username.Trim().Equals(newUsername.Trim(), StringComparison.InvariantCultureIgnoreCase))
+            if (!userAccountDto.Username.EqualsCaseInsensitive(newUsername))
             {
                 await UaService.ChangeUsernameAndEmailAsync(userAccountDto.ID, newUsername);
             }
+        }
+
+        private Expression<Func<Data.UserAccount, bool>> GetWithUsername(string username)
+        {
+            return p => p.Username.ToLower() == username.Trim().ToLower();
+        }
+
+        private Expression<Func<Data.UserAccountOrganisation, bool>> GetWithEmail(string email)
+        {
+            return p => p.UserAccount.Email.ToLower() == email.Trim().ToLower();
         }
     }
 }

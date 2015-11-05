@@ -44,6 +44,11 @@
             return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
         }, 'Your password must contain 1 number, 1 uppercase character and 1 symbol');
 
+    $.validator.addMethod("ukmobile",
+        function (value, element) {
+            return /07[0-9]+/.test(value);
+        }, 'Please enter a valid UK mobile number');
+
     $.validator.addMethod("lettersanddigits",
         function (value, element) {
             return /^[a-z0-9]+$/i.test(value);
@@ -77,6 +82,13 @@
             },
             "CreatePermanentLoginModel.Pin": {
                 required: true
+            },
+            "CreatePermanentLoginModel.PhoneNumber": {
+                required: true,
+                digits: true,
+                minlength: 11,
+                maxlength: 11,
+                ukmobile: true
             },
             "CreatePermanentLoginModel.NewPassword": {
                 required: true,

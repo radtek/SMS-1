@@ -35,7 +35,7 @@ $("#editUser-form").validate({
         }
     },
     messages: {
-        rolecheck: 'Please select one or more roles'
+        rolecheck: 'Please select one or more permissions'
     },
 
     // Do not change code below

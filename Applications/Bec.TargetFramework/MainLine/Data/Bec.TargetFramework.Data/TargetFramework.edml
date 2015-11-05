@@ -395,7 +395,6 @@
           <EntitySet Name="Organisations" EntityType="Bec.TargetFramework.Data.Store.Organisation" store:Type="Tables" Schema="public" Table="Organisation" />
           <EntitySet Name="vOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.Store.vOrganisationWithStatusAndAdmin" store:Type="Views" Schema="public" Table="vOrganisationWithStatusAndAdmin" />
           <EntitySet Name="vNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.Store.vNotificationInternalUnread" store:Type="Views" Schema="public" Table="vNotificationInternalUnread" />
-          <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.Store.PasswordResetRequest" store:Type="Tables" Schema="public" Table="PasswordResetRequest" />
           <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.Store.EventStatus" store:Type="Tables" Schema="public" Table="EventStatus" />
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsTransaction" store:Type="Tables" Schema="sms" Table="SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.Store.OrganisationBankAccountStatus" store:Type="Tables" Schema="public" Table="OrganisationBankAccountStatus" />
@@ -5086,7 +5085,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="OrganisationDefaultLogoID" Type="uuid" />
           <Property Name="OrganisationLegalBlurb" Type="varchar" />
-          <Property Name="TradingName" Type="varchar" />
+          <Property Name="RegisteredAsName" Type="varchar" />
         </EntityType>
         <EntityType Name="DefaultOrganisationGroupRole">
           <Key>
@@ -7713,6 +7712,11 @@
           <Property Name="BranchEmailAddress" Type="varchar" MaxLength="200" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="EmailAddress1" Type="varchar" MaxLength="200" />
+          <Property Name="UserAccountOrganisationIsActive" Type="boolean" />
+          <Property Name="OrganisationIsActive" Type="boolean" />
+          <Property Name="UserAccountIsActive" Type="boolean" />
+          <Property Name="IsLoginAllowed" Type="boolean" Nullable="false" />
+          <Property Name="IsTemporaryAccount" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vNotificationConstruct">
           <Key>
@@ -8347,6 +8351,8 @@
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
           <Property Name="Created" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
           <Property Name="IsDirectDebtAccount" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Name" Type="varchar" />
+          <Property Name="Address" Type="varchar" />
         </EntityType>
         <EntityType Name="OrganisationInsuranceDetails">
           <Key>
@@ -9682,6 +9688,7 @@
           <Property Name="VerifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="VerifiedNotes" Type="text" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="RegisteredAsName" Type="varchar" />
         </EntityType>
         <EntityType Name="vNotificationInternalUnread">
           <Key>
@@ -9702,15 +9709,6 @@
           <Property Name="NotificationConstructVersionNumber" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="300" />
           <Property Name="UserID" Type="uuid" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PasswordResetRequest">
-          <Key>
-            <PropertyRef Name="RequestID" />
-          </Key>
-          <Property Name="RequestID" Type="uuid" Nullable="false" />
-          <Property Name="UserID" Type="uuid" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="timestamptz" Nullable="false" />
-          <Property Name="Expired" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EventStatus">
           <Key>
@@ -9778,6 +9776,8 @@
           <Property Name="StatusChangedOn" Type="timestamptz" Nullable="false" />
           <Property Name="StatusChangedBy" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="Notes" Type="text" />
+          <Property Name="AccountName" Type="varchar" />
+          <Property Name="Address" Type="varchar" />
         </EntityType>
         <EntityType Name="OrganisationLedgerTransaction">
           <Key>
@@ -18381,7 +18381,6 @@
           <EntitySet Name="Organisations" EntityType="Bec.TargetFramework.Data.Organisation" />
           <EntitySet Name="VOrganisationWithStatusAndAdmins" EntityType="Bec.TargetFramework.Data.VOrganisationWithStatusAndAdmin" />
           <EntitySet Name="VNotificationInternalUnreads" EntityType="Bec.TargetFramework.Data.VNotificationInternalUnread" />
-          <EntitySet Name="PasswordResetRequests" EntityType="Bec.TargetFramework.Data.PasswordResetRequest" />
           <EntitySet Name="EventStatus" EntityType="Bec.TargetFramework.Data.EventStatus" />
           <EntitySet Name="SmsTransactions" EntityType="Bec.TargetFramework.Data.SmsTransaction" />
           <EntitySet Name="OrganisationBankAccountStatus" EntityType="Bec.TargetFramework.Data.OrganisationBankAccountStatus" />
@@ -23518,7 +23517,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="2209aecf-a377-4af9-9c21-7c0087609ffd" />
           <Property Name="OrganisationDefaultLogoID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d52f7a47-b4ec-4ecd-8459-860cfbb11b13" />
           <Property Name="OrganisationLegalBlurb" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="b44f68cc-795b-4076-918d-907272a876f1" />
-          <Property Name="TradingName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="5443deaf-646a-40b5-bdb0-499e34ffdb79" />
+          <Property Name="RegisteredAsName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="686ab2d5-54c9-4003-a5c2-ba9c8e782246" />
           <NavigationProperty Name="AttachmentDetail" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_OrganisationDefaultLogo" FromRole="OrganisationDetails" ToRole="AttachmentDetail" ed:Guid="e43dfc37-6e35-4b25-9f4d-abc88dd652fe" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationDetail_Organisation_1" FromRole="OrganisationDetails" ToRole="Organisation" ed:Guid="92ee0e51-09d2-4f5d-8e4c-81782fb99e0d" />
         </EntityType>
@@ -26606,6 +26605,11 @@
           <Property Name="BranchEmailAddress" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="df93623e-3065-4b61-b82e-e03c7049dde4" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="3d3c46fc-0bc7-4c49-af69-b5c7d0f3eb3b" />
           <Property Name="EmailAddress1" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="36bd63b7-fb1e-448e-a38d-daadced3b9f1" />
+          <Property Name="UserAccountOrganisationIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="809bab44-62d9-4d58-aaf5-6e76e48a1059" />
+          <Property Name="OrganisationIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="a1f9edaa-98dc-4f73-815b-59d217b8d3c3" />
+          <Property Name="UserAccountIsActive" Type="Boolean" ed:ValidateRequired="False" ed:Guid="92c0477c-dce3-4774-8db4-e9e1aa963216" />
+          <Property Name="IsLoginAllowed" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="833c5d3c-c585-4698-a00e-2e75cb2f281f" />
+          <Property Name="IsTemporaryAccount" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="6c351ab4-9a03-4d7a-a194-a59329975d81" />
         </EntityType>
         <EntityType Name="VNotificationConstruct" ed:Guid="639bdacd-fe43-41a6-bcab-8f000adaf5fa">
           <Key>
@@ -27206,6 +27210,8 @@
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="f64fa8c1-f47b-48b1-aa96-07de7297a4b0" />
           <Property Name="Created" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="7153e550-a145-4dfc-9b85-6af59dc8b720" />
           <Property Name="IsDirectDebtAccount" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="6a7b9c81-1494-4123-b83a-53869918153b" />
+          <Property Name="Name" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="bef9ff80-812f-4eaf-a18e-dcb1cb62befc" />
+          <Property Name="Address" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="2b327351-9e44-4707-a1c4-a275a0f20190" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccount_Organisation" FromRole="OrganisationBankAccounts" ToRole="Organisation" ed:Guid="c2c8ee4f-c97a-44a7-bfd1-102c4841b751" />
           <NavigationProperty Name="OrganisationPaymentMethods" Relationship="Bec.TargetFramework.Data.OrganisationPaymentMethod_fk" FromRole="OrganisationBankAccount" ToRole="OrganisationPaymentMethods" ed:Guid="74f86d36-6724-4982-b004-f3e054860600" />
           <NavigationProperty Name="OrganisationBankAccountStatus" Relationship="Bec.TargetFramework.Data.fk_OrganisationBankAccountStatus_OrganisationBankAccount" FromRole="OrganisationBankAccount" ToRole="OrganisationBankAccountStatus" ed:Guid="cabddf83-0668-41d1-b7c1-c96c6b2c9141" />
@@ -28693,6 +28699,7 @@
           <Property Name="VerifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f704e80e-c51b-4898-b332-7cf186093594" />
           <Property Name="VerifiedNotes" Type="String" ed:ValidateRequired="False" ed:Guid="63ab2b1c-2919-4365-a7d6-d1270d6297f1" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9e7bbaa8-4241-4e19-814f-1a53b486de98" />
+          <Property Name="RegisteredAsName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="2186d44d-2686-403a-87ed-fbb830ecaa22" />
         </EntityType>
         <EntityType Name="VNotificationInternalUnread" ed:Guid="3b0fcde2-57a4-46ea-8cad-824161f44eb6">
           <Key>
@@ -28713,15 +28720,6 @@
           <Property Name="NotificationConstructVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="38b25970-c0eb-4faf-8c55-f74a6b438a32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="True" ed:Guid="4d94e24e-b8c5-4f58-8386-827835e3db61" />
           <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="5a66ea90-3de6-4ff9-a6cf-886f1b58ecac" />
-        </EntityType>
-        <EntityType Name="PasswordResetRequest" ed:Guid="abce9466-0525-4cc0-a496-857108aea8de">
-          <Key>
-            <PropertyRef Name="RequestID" />
-          </Key>
-          <Property Name="RequestID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a2646421-b294-45dc-b08b-4d60f461e78f" />
-          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0cf2fb87-5be7-4141-96ae-9e94bd446edc" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="9ff98311-db23-4ef2-964f-225412196a3e" />
-          <Property Name="Expired" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="580793e9-0e39-4d91-954a-4e3ca8cc5a20" />
         </EntityType>
         <EntityType Name="EventStatus" ed:Guid="e137709b-7d17-45a4-ae18-b6e9ea0d57b1">
           <Key>
@@ -28795,6 +28793,8 @@
           <Property Name="StatusChangedOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="da596a9a-9315-4e1a-b165-5bacad2348cd" />
           <Property Name="StatusChangedBy" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="c2922234-690d-4f80-9c72-6ace98b46b76" />
           <Property Name="Notes" Type="String" ed:ValidateRequired="False" ed:Guid="68ce4697-0c71-41a3-9fd6-5d3082b2fe02" />
+          <Property Name="AccountName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="ab341a3d-2bb7-4cf0-af54-4183870e470f" />
+          <Property Name="Address" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="949c44b1-4306-4708-81d6-719b480361c6" />
         </EntityType>
         <EntityType Name="OrganisationLedgerTransaction" ed:Guid="82cd0056-63fd-44f2-91c2-2e1885483081">
           <Key>
@@ -38822,7 +38822,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="OrganisationDefaultLogoID" ColumnName="OrganisationDefaultLogoID" />
                 <ScalarProperty Name="OrganisationLegalBlurb" ColumnName="OrganisationLegalBlurb" />
-                <ScalarProperty Name="TradingName" ColumnName="TradingName" />
+                <ScalarProperty Name="RegisteredAsName" ColumnName="RegisteredAsName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -41391,6 +41391,11 @@
                 <ScalarProperty Name="BranchEmailAddress" ColumnName="BranchEmailAddress" />
                 <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
                 <ScalarProperty Name="EmailAddress1" ColumnName="EmailAddress1" />
+                <ScalarProperty Name="UserAccountOrganisationIsActive" ColumnName="UserAccountOrganisationIsActive" />
+                <ScalarProperty Name="OrganisationIsActive" ColumnName="OrganisationIsActive" />
+                <ScalarProperty Name="IsLoginAllowed" ColumnName="IsLoginAllowed" />
+                <ScalarProperty Name="IsTemporaryAccount" ColumnName="IsTemporaryAccount" />
+                <ScalarProperty Name="UserAccountIsActive" ColumnName="UserAccountIsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -41897,6 +41902,8 @@
                 <ScalarProperty Name="OrganisationBankAccountID" ColumnName="OrganisationBankAccountID" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43196,6 +43203,7 @@
                 <ScalarProperty Name="VerifiedNotes" ColumnName="VerifiedNotes" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="RegulatorNumber" ColumnName="RegulatorNumber" />
+                <ScalarProperty Name="RegisteredAsName" ColumnName="RegisteredAsName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43210,16 +43218,6 @@
                 <ScalarProperty Name="NotificationConstructVersionNumber" ColumnName="NotificationConstructVersionNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PasswordResetRequests">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.PasswordResetRequest">
-              <MappingFragment StoreEntitySet="PasswordResetRequests">
-                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
-                <ScalarProperty Name="Expired" ColumnName="Expired" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43287,6 +43285,8 @@
                 <ScalarProperty Name="StatusChangedOn" ColumnName="StatusChangedOn" />
                 <ScalarProperty Name="StatusChangedBy" ColumnName="StatusChangedBy" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

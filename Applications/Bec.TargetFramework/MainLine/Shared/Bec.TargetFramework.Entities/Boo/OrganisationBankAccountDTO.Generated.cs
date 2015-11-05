@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationBankAccountDTO() {
         }
 
-        public OrganisationBankAccountDTO(global::System.Guid organisationBankAccountID, global::System.Nullable<System.Guid> organisationID, int bankAccountTypeID, string sortCode, string bankAccountNumber, string iBANNumber, string swiftCode, int bankAccountDurationTypeID, global::System.Nullable<int> bankAccountOpeningYear, global::System.Nullable<int> bankAccountOpeningMonth, bool isPrimary, bool isActive, bool isDeleted, global::System.Nullable<long> rowVersion, global::System.DateTime created, bool isDirectDebtAccount, OrganisationDTO organisation, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationBankAccountStatusDTO> organisationBankAccountStatus) {
+        public OrganisationBankAccountDTO(global::System.Guid organisationBankAccountID, global::System.Nullable<System.Guid> organisationID, int bankAccountTypeID, string sortCode, string bankAccountNumber, string iBANNumber, string swiftCode, int bankAccountDurationTypeID, global::System.Nullable<int> bankAccountOpeningYear, global::System.Nullable<int> bankAccountOpeningMonth, bool isPrimary, bool isActive, bool isDeleted, global::System.Nullable<long> rowVersion, global::System.DateTime created, bool isDirectDebtAccount, string name, string address, OrganisationDTO organisation, List<OrganisationPaymentMethodDTO> organisationPaymentMethods, List<OrganisationBankAccountStatusDTO> organisationBankAccountStatus) {
 
           this.OrganisationBankAccountID = organisationBankAccountID;
           this.OrganisationID = organisationID;
@@ -40,6 +40,8 @@ namespace Bec.TargetFramework.Entities
           this.RowVersion = rowVersion;
           this.Created = created;
           this.IsDirectDebtAccount = isDirectDebtAccount;
+          this.Name = name;
+          this.Address = address;
           this.Organisation = organisation;
           this.OrganisationPaymentMethods = organisationPaymentMethods;
           this.OrganisationBankAccountStatus = organisationBankAccountStatus;
@@ -96,6 +98,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsDirectDebtAccount { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string Address { get; set; }
 
         #endregion
 

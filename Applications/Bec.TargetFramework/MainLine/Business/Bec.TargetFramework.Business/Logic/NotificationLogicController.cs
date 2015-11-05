@@ -7,6 +7,9 @@ using Bec.TargetFramework.Infrastructure;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Infrastructure.Reporting.Generators;
+using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.SB.Client.Interfaces;
+using Bec.TargetFramework.SB.Entities;
 using EnsureThat;
 using System;
 using System.Collections.Generic;
@@ -18,7 +21,9 @@ namespace Bec.TargetFramework.Business.Logic
     [Trace(TraceExceptionsOnly = true)]
     public class NotificationLogicController : LogicBase
     {
+        public TFSettingsLogicController Settings { get; set; }
         public StandaloneReportGenerator StandaloneReportGenerator { get; set; }
+        public IEventPublishLogicClient EventPublishClient { get; set; }
 
         public bool HasNotificationAlreadyBeenSentInTheLastTimePeriod(Guid? uaoID, Guid? organisationId, Guid notifcationConstructID,
             int notificationConstructVersion, Guid? notificationParentID, bool isRead, TimeSpan sentInLast)
@@ -180,17 +185,27 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public VDefaultEmailAddressDTO RecipientAddressDetail(Guid? organisationID, Guid? userAccountOrganisationID)
+        public IEnumerable<VDefaultEmailAddressDTO> RecipientAddressDetail(Guid? organisationID, Guid? userAccountOrganisationID)
         {
+            if (!organisationID.HasValue && !userAccountOrganisationID.HasValue)
+            {
+                throw new ArgumentException("Either organisationID or userAccountOrganisationID is required.");
+            }
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 // load org construct include module and notification constructs direct
                 // deterimne users or organisations
+                var query = scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.AsQueryable();
                 if (organisationID.HasValue)
-                    // todo: ZM the return type of that method should by List<> and in this case we potentially have the collection of entries
-                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.First(s => s.OrganisationID == organisationID.Value).ToDto();
-               else
-                    return scope.DbContexts.Get<TargetFrameworkEntities>().VDefaultEmailAddresses.Single(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value).ToDto();
+                {
+                    query = query.Where(s => s.OrganisationID == organisationID.Value);
+                }
+                else
+                {
+                    query = query.Where(s => s.UserAccountOrganisationID == userAccountOrganisationID.Value);
+                }
+
+                return query.ToDtos();
             }
         }
 
@@ -302,12 +317,14 @@ namespace Bec.TargetFramework.Business.Logic
             };
         }
 
-        public byte[] GetTcAndCsData(Guid notificationConstructID, int versionNumber)
+        public byte[] RetrieveNotificationConstructData(Guid notificationConstructID, int versionNumber, DTOMap data)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+                NotificationDictionaryDTO dict = null;
+                if (data != null) dict = data.ToNotificationDictionaryDTO();
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return StandaloneReportGenerator.GenerateReport(construct, null, NotificationExportFormatIDEnum.PDF);
+                return StandaloneReportGenerator.GenerateReport(construct, dict, NotificationExportFormatIDEnum.PDF);
             }
         }
 
@@ -347,6 +364,54 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().EventStatus.Where(x => x.EventName == eventName && x.EventReference == eventReference).ToDtos();
             }
+        }
+
+        public async Task PublishNewInternalMessagesNotificationEvent(int count, Guid organisationId, NotificationConstructEnum notificationConstructEnum)
+        {
+            var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
+            var notificationConstructName = notificationConstructEnum.GetStringValue();
+            var filteredRecipientUaoIds = new List<Guid>();
+
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var notificationResourceTypeId = ResourceTypeIDEnum.Notification.GetIntValue();
+                var operationName = OperationEnum.View.ToString();
+                filteredRecipientUaoIds =
+                    (from nc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
+                    join ncc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructClaims on nc.NotificationConstructID equals ncc.NotificationConstructID
+                    join r in scope.DbContexts.Get<TargetFrameworkEntities>().Resources on ncc.ResourceID equals r.ResourceID
+                    join o in scope.DbContexts.Get<TargetFrameworkEntities>().Operations on ncc.OperationID equals o.OperationID
+                    join orc in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoleClaims on new { r.ResourceID, o.OperationID } equals new { ResourceID = orc.ResourceID.Value, OperationID = orc.OperationID.Value }
+                    join orgr in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles on orc.OrganisationRoleID equals orgr.OrganisationRoleID
+                    join uaor in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles on orc.OrganisationRoleID equals uaor.OrganisationRoleID
+                    join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaor.UserAccountOrganisationID equals uao.UserAccountOrganisationID
+                    where
+                        uao.OrganisationID == organisationId &&
+                        r.ResourceTypeID == notificationResourceTypeId &&
+                        o.OperationName == operationName &&
+                        nc.Name == notificationConstructName
+                    select uao.UserAccountOrganisationID).ToList();
+            }
+
+            var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO 
+            {
+                Count = count,
+                ProductName = commonSettings.ProductName,
+                NotificationRecipientDtos = filteredRecipientUaoIds
+                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x })
+                    .ToList()
+            };
+
+            string payLoad = JsonHelper.SerializeData(new object[] { newInternalMessagesNotificationDTO });
+            var eventPayloadDto = new EventPayloadDTO
+            {
+                EventName = NotificationConstructEnum.NewInternalMessages.GetStringValue(),
+                EventSource = AppDomain.CurrentDomain.FriendlyName,
+                EventReference = "0003",
+                PayloadAsJson = payLoad
+            };
+
+            await EventPublishClient.PublishEventAsync(eventPayloadDto);
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -16,6 +18,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
     {
         public IOrganisationLogicClient orgClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
+        public INotificationLogicClient nClient { get; set; }
 
         public ActionResult Index(Guid? selectedBankAccountId)
         {
@@ -70,7 +73,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 
             var bankAccountStateChangeDto = new OrganisationBankAccountStateChangeDTO
             {
-                OrganisationID = orgID,
+                RequestedByOrganisationID = orgID,
                 BankAccountID = baID,
                 BankAccountStatus = status,
                 Notes = notes,
@@ -117,6 +120,72 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 return Json("This account number and sort code have already been entered", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> DownloadCertificate(Guid baID)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var name = NotificationConstructEnum.BankAccountCertificate.GetStringValue();
+
+            if (!await BankAccountIsSafeAndActive(baID)) throw new Exception("A certificate can only produced for bank accounts which are active and marked safe");
+
+            var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new
+            {
+                x.OrganisationBankAccountID,
+                x.BankAccountNumber,
+                x.SortCode,
+                x.Name,
+                x.Address,
+                x.Organisation.SchemeID,
+                x.Organisation.CreatedOn,
+                Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name })
+            });
+            var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.OrganisationBankAccountID == baID);
+            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+            var ba = accounts.Single();
+
+            var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
+            var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == name);
+            var ncs = await queryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var nc = ncs.Single();
+
+            var dtomap = new DTOMap();
+            dtomap.Add("CertificateDetailsDTO", new CertificateDetailsDTO
+            {
+                OrganisationName = ba.Organisation.OrganisationDetails.First().Name,
+                SchemeID = ba.Organisation.SchemeID ?? 0,
+                StartDate = ba.Organisation.CreatedOn.ToLongDateString(),
+                BankAccountName = string.IsNullOrEmpty(ba.Name) ? "Not supplied" : ba.Name,
+                BankAddress = string.IsNullOrEmpty(ba.Address) ? "Not supplied" : threeLines(ba.Address),
+                AccountNumber = ba.BankAccountNumber,
+                SortCode = ba.SortCode
+            });
+            dtomap.Add("NotificationSettingDTO", new NotificationSettingDTO());
+
+            var data = await nClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
+
+            return File(data, "application/pdf", string.Format("BankAccountCertificate.pdf"));
+        }
+
+        private string threeLines(string s)
+        {
+            var bits = s.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            if (bits.Length > 3)
+                return string.Join(Environment.NewLine, bits[0], bits[1], string.Join(", ", bits.Skip(2)));
+            else
+                return string.Join(Environment.NewLine, bits);
+        }
+
+        private async Task<bool> BankAccountIsSafeAndActive(Guid baID)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+
+            var select = ODataHelper.Select<OrganisationBankAccountStatusDTO>(x => new { x.StatusTypeValue.Name, x.WasActive });
+            var filter = ODataHelper.Filter<OrganisationBankAccountStatusDTO>(x => x.OrganisationBankAccountID == baID && x.OrganisationBankAccount.OrganisationID == orgID);
+            var order = ODataHelper.OrderBy<OrganisationBankAccountStatusDTO>(x => new { x.StatusChangedOn });
+            var recs = await queryClient.QueryAsync<OrganisationBankAccountStatusDTO>("OrganisationBankAccountStatus", select + filter + order);
+            var s = recs.Last();
+            return s.WasActive && s.StatusTypeValue.Name == BankAccountStatusEnum.Safe.GetStringValue();
         }
     }
 }

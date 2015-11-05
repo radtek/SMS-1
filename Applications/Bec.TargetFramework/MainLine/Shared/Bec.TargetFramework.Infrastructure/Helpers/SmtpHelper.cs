@@ -27,7 +27,6 @@ namespace Bec.TargetFramework.Infrastructure.Helpers
                 var emailIntercept = System.Configuration.ConfigurationManager.AppSettings["emailintercept"];
                 if (!string.IsNullOrEmpty(emailIntercept))
                 {
-                    message.Subject = "BEF: " + message.Subject;
                     message.To.Clear();
                     message.To.Add(emailIntercept);
                 }

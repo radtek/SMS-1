@@ -502,7 +502,7 @@ var findAddress = function (opts) {
     }
 }
 
-function makeDatePicker(inputSelector, settings) {
+function makeDatePicker(inputSelector, settings, onEvents) {
     var inp = $(inputSelector);
 
     var defaultSettings = {
@@ -517,6 +517,9 @@ function makeDatePicker(inputSelector, settings) {
             inp.data("val", date);
             inp.val(dateStringNoTime(date));
             $(this).valid();
+            if (onEvents && onEvents.onSelect) {
+                onEvents.onSelect(date, inst);
+            }
         },
         showOn: ''
     };

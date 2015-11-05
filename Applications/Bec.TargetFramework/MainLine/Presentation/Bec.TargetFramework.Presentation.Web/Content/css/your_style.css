@@ -130,6 +130,12 @@
   padding: 8px 12px;
   border-bottom: 1px solid #ddd;
 }
+.twitter-typeahead input::-ms-clear {
+  display: none;
+}
+.icon-append + .twitter-typeahead input {
+  padding-right: 37px;
+}
 .typeahead-spinner {
   position: absolute;
   z-index: 1000;
@@ -138,6 +144,9 @@
   right: 24px;
   top: 7px;
   display: none;
+}
+.typeahead-spinner.required-field {
+  right: 38px;
 }
 .search-form input.invalid,
 .smart-form input.invalid {
@@ -233,5 +242,8 @@
 }
 .btn-header > :first-child > a {
   cursor: pointer !important;
+}
+.icon-append {
+  z-index: 9999;
 }
 /*# sourceMappingURL=your_style.css.map */

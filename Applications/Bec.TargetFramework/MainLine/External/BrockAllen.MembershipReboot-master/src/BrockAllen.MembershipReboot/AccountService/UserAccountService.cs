@@ -2069,6 +2069,9 @@ namespace BrockAllen.MembershipReboot
             account.RequiresPasswordReset = false;
             account.FailedLoginCount = 0;
 
+            account.MobileCode = "";
+            account.MobileCodeSent = null;
+
             this.AddEvent(new PasswordChangedEvent<UserAccount> { Account = account, NewPassword = password });
         }
 

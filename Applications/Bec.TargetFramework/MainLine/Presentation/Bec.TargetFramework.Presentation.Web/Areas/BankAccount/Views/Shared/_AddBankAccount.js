@@ -40,6 +40,12 @@ $("#addBankAccount-form").validate({
                     checkRedirect(xhr.responseJSON);
                 }
             }
+        },
+        Name: {
+            required: true
+        },
+        Address: {
+            required: true
         }
     },
 

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en-us" id="@ViewBag.PageId" class="@Settings.CurrentTheme">
 <head>
-    <title>Submit Details - Safe Move Scheme</title>
+    <title>@ViewBag.Title - Safe Move Scheme - Protecting you from Property Fraud</title>
     <meta name="description" content="">
     <meta name="keywords" content="Safe Move Scheme, property transactions, manage risk, Prevent property fraud, property fraud, buyers, Reduce risk, lenders, conveyancers, Safe Seller, Safe buyer">
 
@@ -40,7 +40,7 @@
 
     <div class="container">
         <div class="top navbar square-bottom-right">
-            <a href="http://www.safemovescheme.co.uk/">
+            <a href="@Url.Action("Index", "Home", new { Area = "" })">
                 <img class="brand-img" src="~/content/websitelayout/images/SMS-logo.png" />
             </a>
         </div>
@@ -53,40 +53,40 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand heading-toggle" href="http://www.safemovescheme.co.uk/">Home</a>
+                <a class="navbar-brand heading-toggle" href="@Url.Action("Index", "Home", new { Area = "" })">Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "ThreatsExplained", "BuyersAtRisk", "ConveyancersAtRisk")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fraud Threat <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")"><a href="http://www.safemovescheme.co.uk/Home/ThreatsExplained">Threats Explained</a></li>
-                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")"><a href="http://www.safemovescheme.co.uk/Home/BuyersAtRisk">Buyers at Risk</a></li>
-                            <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")"><a href="http://www.safemovescheme.co.uk/Home/ConveyancersAtRisk">Conveyancers At Risk</a></li>
+                            <li class="@Html.Conditional("selected", "action", "ThreatsExplained")">@Html.ActionLink("Threats Explained", "ThreatsExplained", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "BuyersAtRisk")">@Html.ActionLink("Buyers at Risk", "BuyersAtRisk", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersAtRisk")">@Html.ActionLink("Conveyancers At Risk", "ConveyancersAtRisk", new { Area = "", Controller = "Home" })</li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "HowItWorks", "SafeBuyerSpecification", "SafeMoveSchemeBenefits")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Safe Buyer Product <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "HowItWorks")"><a href="http://www.safemovescheme.co.uk/Home/HowItWorks">How It Works</a></li>
-                            <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")"><a href="http://www.safemovescheme.co.uk/Home/SafeBuyerSpecification">Safe Buyer Specification</a></li>
-                            <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")"><a href="http://www.safemovescheme.co.uk/Home/SafeMoveSchemeBenefits">Safe Move Scheme Benefits</a></li>
+                            <li class="@Html.Conditional("selected", "action", "HowItWorks")">@Html.ActionLink("How It Works", "HowItWorks", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeBuyerSpecification")">@Html.ActionLink("Safe Buyer Specification", "SafeBuyerSpecification", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "SafeMoveSchemeBenefits")">@Html.ActionLink("Safe Move Scheme Benefits", "SafeMoveSchemeBenefits", new { Area = "", Controller = "Home" })</li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@Html.Conditional("selected", "action", "FreeTrial")"><a href="http://www.safemovescheme.co.uk/Home/FreeTrial">** Free Safe Buyer Trial **</a></li>
-                            <li class="@Html.Conditional("selected", "action", "NewAMLSolution")"><a href="http://www.safemovescheme.co.uk/Home/NewAMLSolution">New AML Solution</a></li>
-                            <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")"><a href="http://www.safemovescheme.co.uk/Home/ConveyancersCompliance">Conveyancer's Compliance</a></li>
-                            <li class="@Html.Conditional("selected", "action", "LendersCompliance")"><a href="http://www.safemovescheme.co.uk/Home/LendersCompliance">Lender's Compliance</a></li>
-                            <li class="@Html.Conditional("selected", "action", "ConveyancingFirmRegistration")"><a href="http://www.safemovescheme.co.uk/Home/ConveyancingFirmRegistration">Conveyancing Firm Registration</a></li>
+                            <li class="@Html.Conditional("selected", "action", "FreeTrial")">@Html.ActionLink("** Free Safe Buyer Trial **", "FreeTrial", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "NewAMLSolution")">@Html.ActionLink("New AML Solution", "NewAMLSolution", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")">@Html.ActionLink("Conveyancer's Compliance", "ConveyancersCompliance", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "LendersCompliance")">@Html.ActionLink("Lender's Compliance", "LendersCompliance", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "ConveyancingFirmRegistration")">@Html.ActionLink("Conveyancing Firm Registration", "ConveyancingFirmRegistration", new { Area = "", Controller = "Home" })</li>
                         </ul>
                     </li>
-                    <li class="@Html.Conditional("selected", "action", "ForThePublic")"><a href="http://www.safemovescheme.co.uk/Home/ForThePublic">For the Public</a></li>
-                    <li class="@Html.Conditional("selected", "action", "AboutUs")"><a href="http://www.safemovescheme.co.uk/Home/AboutUs">About us</a></li>
+                    <li class="@Html.Conditional("selected", "action", "ForThePublic")">@Html.ActionLink("For the Public", "ForThePublic", new { Area = "", Controller = "Home" })</li>
+                    <li class="@Html.Conditional("selected", "action", "AboutUs")">@Html.ActionLink("About us", "AboutUs", new { Area = "", Controller = "Home" })</li>
                     <li class="@Html.Conditional("selected", "controller", "Search")"><a href="@Url.Action("Index", "Search", new { Area = "Account" })">Search the Register</a></li>
 
                     <li class="@Html.Conditional("selected", "controller", "Login") nav-login"><a href="@Url.Action("Index", "Login", new { Area = "Account" })">Login&nbsp;<i class="fa fa-sign-in"></i></a></li>
@@ -100,13 +100,13 @@
     <footer class="footer">
         <div class="container">
             <div class="header-social">
-                <a target="_blank" href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
-                <a target="_blank" href="https://www.twitter.com"><i class="fa fa-twitter"></i></a>
-                <a target="_blank" href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
-                <a target="_blank" href="https://www.linkedin.com"><i class="fa fa-linkedin"></i></a>
+                <a href="https://www.facebook.com/safemovescheme"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/SafeMoveScheme"><i class="fa fa-twitter"></i></a>
+                <a href="https://www.youtube.com/channel/UCSXu9Ktqq9pFq17vPMMI0ow/feed"><i class="fa fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/company/the-safe-move-scheme"><i class="fa fa-linkedin"></i></a>
             </div>
             <p>&copy; @DateTime.Now.Year Safe Move Scheme. All Rights Reserved.<br /></p>
-            <p><a href="http://www.safemovescheme.co.uk/PDF/SMS-T%26C's.pdf" target="_blank">Terms of Use & Privacy Policy</a>&nbsp;|&nbsp;<a href="http://www.safemovescheme.co.uk/Home/ContactUs">Contact us</a></p>
+            <p><a href="~/Content/websiteLayout/SMS-TsCs.pdf" target="_blank">Terms of Use & Privacy Policy</a>&nbsp;|&nbsp;@Html.ActionLink("Contact us", "ContactUs", new { Area = "", Controller = "Home" })</p>
 
         </div>
     </footer>

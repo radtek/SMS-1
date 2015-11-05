@@ -46,7 +46,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsUserAccountOrganisationTransactionTypeID,
-                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name, y.TradingName })
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name })
             });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);

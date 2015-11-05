@@ -9,7 +9,7 @@ namespace Bec.TargetFramework.Entities
     public class OrganisationBankAccountStateChangeDTO
     {
         [DataMember]
-        public Guid OrganisationID { get; set; }
+        public Guid RequestedByOrganisationID { get; set; }
         [DataMember]
         public Guid BankAccountID { get; set; }
         [DataMember]

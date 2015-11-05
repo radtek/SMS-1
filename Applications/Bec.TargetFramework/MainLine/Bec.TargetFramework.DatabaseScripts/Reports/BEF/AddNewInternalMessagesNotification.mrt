@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="2">
+      <NotificationSettingDTO Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NotificationSettingDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="11">
+          <value>ExportFormat,System.Nullable`1[System.Int32]</value>
+          <value>LoginRoute,System.String</value>
+          <value>NotificationConstructID,System.Guid</value>
+          <value>NotificationConstructVersionNumber,System.Int32</value>
+          <value>NotificationFromEmailAddress,System.String</value>
+          <value>NotificiationSentFromParentID,System.Guid</value>
+          <value>ServerLogoImageFileNameWithExtension,System.String</value>
+          <value>ServerNotificationImageContentURLFolder,System.String</value>
+          <value>ServerURL,System.String</value>
+          <value>Subject,System.String</value>
+          <value>Title,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>1926f055d4144572b36e7a96e6843d70</Guid>
+        <Name>NotificationSettingDTO</Name>
+      </NotificationSettingDTO>
+      <NewInternalMessagesNotificationDTO Ref="3" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>NewInternalMessagesNotificationDTO</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>General</Category>
+        <Columns isList="true" count="2">
+          <value>Count,System.Int32</value>
+          <value>ProductName,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>9c462515737f4adeb65f3562c03c20d5</Guid>
+        <Name>NewInternalMessagesNotificationDTO</Name>
+      </NewInternalMessagesNotificationDTO>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <Text Ref="5" type="Text" isKey="true">
+          <AllowHtmlTags>True</AllowHtmlTags>
+          <AutoWidth>True</AutoWidth>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,0,38,9.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Calibri,11.25,Regular,Point,False,0</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Guid>aec152f25a8e4fdbb05d29af446e8573</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Text>&lt;p&gt;You have {NewInternalMessagesNotificationDTO.Count} new notification(s) in the {NewInternalMessagesNotificationDTO.ProductName}.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Please log into the Safe Move Scheme secure website portal as described in the Safe Move Scheme Login Security Policy.&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;Kind regards,&lt;/p&gt;
+&lt;p&gt;The {NewInternalMessagesNotificationDTO.ProductName}&lt;/p&gt;</Text>
+          <TextBrush>Black</TextBrush>
+          <TextQuality>Wysiwyg</TextQuality>
+          <Type>Expression</Type>
+        </Text>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>3f4c07272ec54ccaae2496d9fb03c747</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>40</PageWidth>
+      <Report isRef="0" />
+      <StretchToPrintArea>True</StretchToPrintArea>
+      <Watermark Ref="6" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="7" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>10/30/2015 12:06:23 PM</ReportChanged>
+  <ReportCreated>9/28/2015 10:50:12 AM</ReportCreated>
+  <ReportFile>AddNewInternalMessagesNotification.mrt</ReportFile>
+  <ReportGuid>300413c090cc4841b190b03878091ce5</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2014.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>
