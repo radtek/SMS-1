@@ -321,8 +321,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
+                NotificationDictionaryDTO dict = null;
+                if (data != null) dict = data.ToNotificationDictionaryDTO();
                 var construct = GetNotificationConstruct(notificationConstructID, versionNumber);
-                return StandaloneReportGenerator.GenerateReport(construct, data.ToNotificationDictionaryDTO(), NotificationExportFormatIDEnum.PDF);
+                return StandaloneReportGenerator.GenerateReport(construct, dict, NotificationExportFormatIDEnum.PDF);
             }
         }
 
