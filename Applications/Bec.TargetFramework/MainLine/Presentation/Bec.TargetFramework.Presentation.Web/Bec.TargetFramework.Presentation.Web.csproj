@@ -761,6 +761,8 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\video\video1.jpg" />
+    <Content Include="Content\video\video1.mp4" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
     <Content Include="Content\websiteLayout\css\style.css.map">
       <DependentUpon>style.css</DependentUpon>
@@ -784,6 +786,7 @@
     </Content>
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
+    <Content Include="Areas\Account\Views\Login\PINExpired.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -943,10 +946,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
-    <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
-    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
     <Content Include="Content\websiteLayout\SMS-TsCs.pdf" />
+    <Content Include="Content\websiteLayout\SMS - Next Steps After Registration.pdf" />
+    <Content Include="Content\WelcomePack\Buyers and the SMS.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Quick Start Guide for Professionals.pdf" />
+    <Content Include="Content\WelcomePack\SMS - Safe Buyer.pdf" />
+    <Content Include="Content\WelcomePack\SMS Frequently Asked Questions.pdf" />
+    <Content Include="Content\WelcomePack\SMS Professional Users - Creating Your Account.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />

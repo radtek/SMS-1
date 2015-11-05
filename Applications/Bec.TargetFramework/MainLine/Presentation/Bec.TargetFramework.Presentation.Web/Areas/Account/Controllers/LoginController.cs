@@ -191,8 +191,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 if (await UserLogicClient.IncrementInvalidPINAsync(uaoDto.UserAccountOrganisationID))
                 {
                     var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
-                    ModelState.AddModelError("CreatePermanentLoginModel.Pin", "Your PIN has now expired due to three invalid attempts. Please contact support on " + commonSettings.SupportTelephoneNumber);
-                    ViewBag.PublicWebsiteUrl = commonSettings.PublicWebsiteUrl;
+                    ViewBag.Message = string.Format("Your PIN has now expired due to three invalid attempts. Please contact support at ");
+                    ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
+                    return View("PINExpired");
                 }
                 else
                 {
