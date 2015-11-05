@@ -80,5 +80,30 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             return File(Server.MapPath("~/content/WelcomePack/Logo Usage Guidelines.pdf"), "application/pdf", "Logo Usage Guide.pdf");
         }
+
+        public ActionResult QuickStart()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Quick Start Guide for Professionals.pdf"), "application/pdf", "Quick Start guide for Professional Users.pdf");
+        }
+
+        public ActionResult CreatingAccount()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS Professional Users - Creating Your Account.pdf"), "application/pdf", "SMS - Creating a new account.pdf");
+        }
+
+        public ActionResult Faq()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS Frequently Asked Questions.pdf"), "application/pdf", "SMS Frequently Asked Questions.pdf");
+        }
+
+        public ActionResult BuyersAndSMS()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/Buyers and the SMS.pdf"), "application/pdf", "Buyers and the SMS.pdf");
+        }
+
+        public ActionResult SafeBuyer()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
+        }
     }
 }

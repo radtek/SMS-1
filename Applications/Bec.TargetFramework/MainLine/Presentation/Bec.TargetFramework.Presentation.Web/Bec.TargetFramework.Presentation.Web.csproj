@@ -943,10 +943,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\websiteLayout\SMS Login Security Policy.pdf" />
-    <Content Include="Content\websiteLayout\SMS Pre-Registration - Next Steps.pdf" />
-    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
     <Content Include="Content\WelcomePack\Logo Usage Guidelines.pdf" />
     <Content Include="Content\websiteLayout\SMS-TsCs.pdf" />
+    <Content Include="Content\websiteLayout\SMS - Next Steps After Registration.pdf" />
+    <Content Include="Content\WelcomePack\Buyers and the SMS.pdf" />
+    <Content Include="Content\WelcomePack\How To Use the Safe Move Scheme a Guide For Firms.pdf" />
+    <Content Include="Content\WelcomePack\Quick Start Guide for Professionals.pdf" />
+    <Content Include="Content\WelcomePack\SMS - Safe Buyer.pdf" />
+    <Content Include="Content\WelcomePack\SMS Frequently Asked Questions.pdf" />
+    <Content Include="Content\WelcomePack\SMS Professional Users - Creating Your Account.pdf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
