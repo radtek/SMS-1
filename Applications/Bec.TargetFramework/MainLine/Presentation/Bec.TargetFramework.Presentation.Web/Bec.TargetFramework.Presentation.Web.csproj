@@ -786,6 +786,7 @@
     </Content>
     <Content Include="Areas\Account\Views\Forgot\ForgotDone.cshtml" />
     <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
+    <Content Include="Areas\Account\Views\Login\PINExpired.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
