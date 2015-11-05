@@ -149,7 +149,7 @@ namespace Bec.TargetFramework.Presentation.Web
             var sb = new StringBuilder();
 
             sb.AppendFormat("<div class=\"alert alert-{0} alert-block\">", alertType);
-            sb.Append("<button class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
+            sb.Append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>");
 
             if (!string.IsNullOrWhiteSpace(heading))
             {
