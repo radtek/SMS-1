@@ -649,13 +649,13 @@ namespace Bec.TargetFramework.Business.Logic
                 var user = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccounts
                     .Where(GetWithUsername(username))
                     .FirstOrDefault(s => !s.IsTemporaryAccount);
-                
-                if(user == null) throw new Exception("An error has occured");
+
+                if (user == null || string.IsNullOrEmpty(user.MobilePhoneNumber)) throw new Exception("An error has occured");
                 if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
 
                 user.MobileCode = CreatePin(4);
                 user.MobileCodeSent = DateTime.Now;
-                await SendTextMessage(user.MobilePhoneNumber, user.MobileCode);
+                SendTextMessage(user.MobilePhoneNumber, user.MobileCode);
 
                 await scope.SaveChangesAsync();
             }
@@ -666,14 +666,14 @@ namespace Bec.TargetFramework.Business.Logic
             return dt.HasValue && (DateTime.Now - dt.Value).TotalMinutes < 10;
         }
 
-        private async Task SendTextMessage(string phoneNumber, string pin)
+        private void SendTextMessage(string phoneNumber, string pin)
         {
             var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", pin);
             var key = Settings.GetSettings().AsSettings<CommonSettings>().MessageBirdKey;
             var originator = Settings.GetSettings().AsSettings<CommonSettings>().SMSOriginator;
             var mbClient = MessageBird.Client.CreateDefault(key);
             long number = 0;
-            if (!long.TryParse("44" + phoneNumber.TrimStart('0'), out number)) throw new Exception("The phone number provided is not numeric.");
+            if (!long.TryParse("44" + phoneNumber.TrimStart('0'), out number)) throw new Exception("An error has occured");
             long[] msisdns = new[] { number };
             try
             {
