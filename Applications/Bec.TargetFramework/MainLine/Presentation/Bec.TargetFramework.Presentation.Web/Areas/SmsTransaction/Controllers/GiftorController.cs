@@ -29,7 +29,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
-                x.Contact.BirthDate
+                x.Contact.BirthDate,
+                x.LatestBankAccountCheck.CheckedOn
             });
             var giftorTypeID = UserAccountOrganisationTransactionType.Giftor.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 

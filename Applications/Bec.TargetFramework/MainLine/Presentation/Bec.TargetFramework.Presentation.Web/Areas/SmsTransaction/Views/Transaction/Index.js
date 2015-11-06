@@ -119,6 +119,7 @@ function showPrimaryBuyerDetails(dataItem) {
     var data = _.extend({}, dataItem, {
         fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
         formattedBirthDate: dateStringNoTime(contact.BirthDate),
+        formattedLatestBankAccountCheckOn: dataItem.LatestBankAccountCheck ? dateString(dataItem.LatestBankAccountCheck.CheckedOn) : null,
         pageNumber:  txGrid.grid.dataSource.page()
     });
 
@@ -146,7 +147,8 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
                 fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                 elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
                 transactionId: item.SmsTransactionID,
-                formattedBirthDate: dateStringNoTime(contact.BirthDate)
+                formattedBirthDate: dateStringNoTime(contact.BirthDate),
+                formattedLatestBankAccountCheckOn: item.LatestBankAccountCheck ? dateString(item.LatestBankAccountCheck.CheckedOn) : null,
             });
         });
         var templateData = {

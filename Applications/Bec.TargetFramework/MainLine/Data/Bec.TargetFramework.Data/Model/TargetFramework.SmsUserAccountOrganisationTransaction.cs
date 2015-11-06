@@ -229,9 +229,9 @@ namespace Bec.TargetFramework.Data
         }
     
         /// <summary>
-        /// There are no comments for SmsBankAccountCheck_LatestBankAccountCheckID in the schema.
+        /// There are no comments for LatestBankAccountCheck in the schema.
         /// </summary>
-        public virtual SmsBankAccountCheck SmsBankAccountCheck_LatestBankAccountCheckID
+        public virtual SmsBankAccountCheck LatestBankAccountCheck
         {
             get;
             set;

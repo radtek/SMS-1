@@ -33,6 +33,10 @@
                     <dt>PIN:</dt>
                     <dd><p>{{UserAccountOrganisation.PinCode}}</p></dd>
                     {{/if}}
+                    {{#if formattedLatestBankAccountCheckOn}}
+                    <dt>Bank Account Checked On:</dt>
+                    <dd><p>{{formattedLatestBankAccountCheckOn}}</p></dd>
+                    {{/if}}
                 </dl>
             </div>
         </div>

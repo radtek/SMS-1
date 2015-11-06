@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool confirmed, global::System.Nullable<System.Guid> latestBankAccountCheckID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks_SmsUserAccountOrganisationTransactionID, SmsBankAccountCheckDTO smsBankAccountCheck_LatestBankAccountCheckID) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool confirmed, global::System.Nullable<System.Guid> latestBankAccountCheckID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks_SmsUserAccountOrganisationTransactionID, SmsBankAccountCheckDTO latestBankAccountCheck) {
 
           this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
           this.UserAccountOrganisationID = userAccountOrganisationID;
@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Entities
           this.Contact = contact;
           this.UserAccountOrganisation = userAccountOrganisation;
           this.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID = smsBankAccountChecks_SmsUserAccountOrganisationTransactionID;
-          this.SmsBankAccountCheck_LatestBankAccountCheckID = smsBankAccountCheck_LatestBankAccountCheckID;
+          this.LatestBankAccountCheck = latestBankAccountCheck;
         }
 
         #endregion
@@ -116,7 +116,7 @@ namespace Bec.TargetFramework.Entities
         public List<SmsBankAccountCheckDTO> SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID { get; set; }
 
         [DataMember]
-        public SmsBankAccountCheckDTO SmsBankAccountCheck_LatestBankAccountCheckID { get; set; }
+        public SmsBankAccountCheckDTO LatestBankAccountCheck { get; set; }
 
         #endregion
     }
