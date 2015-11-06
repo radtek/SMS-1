@@ -103,6 +103,7 @@
     <Compile Include="Extensions\DeductionHelper.cs" />
     <Compile Include="IOC\DependencyRegistrar.cs" />
     <Compile Include="Logic\InvoiceLogicController.cs" />
+    <Compile Include="Logic\BankAccountLogicController.cs" />
     <Compile Include="Logic\PaymentLogicController.cs" />
     <Compile Include="Logic\ProductLogicController.cs" />
     <Compile Include="Logic\QueryLogicController.cs" />

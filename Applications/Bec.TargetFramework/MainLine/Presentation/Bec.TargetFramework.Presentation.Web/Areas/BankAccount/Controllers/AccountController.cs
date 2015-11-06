@@ -16,9 +16,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
     [ClaimsRequired("View", "BankAccount", Order = 1000)]
     public class AccountController : ApplicationControllerBase
     {
-        public IOrganisationLogicClient orgClient { get; set; }
-        public IQueryLogicClient queryClient { get; set; }
-        public INotificationLogicClient nClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         public ActionResult Index(Guid? selectedBankAccountId)
         {
@@ -30,7 +30,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> GetBankAccounts()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var list = await orgClient.GetOrganisationBankAccountsAsync(orgID);
+            var list = await BankAccountClient.GetOrganisationBankAccountsAsync(orgID);
             
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -47,7 +47,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> AddBankAccount(OrganisationBankAccountDTO dto)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            TempData["OrganisationBankAccountID"] = await orgClient.AddBankAccountAsync(orgID, dto);
+            TempData["OrganisationBankAccountID"] = await BankAccountClient.AddBankAccountAsync(orgID, dto);
             TempData["ShowMessage"] = true;
             return RedirectToAction("Index");
         }
@@ -82,7 +82,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };
 
-            await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
+            await BankAccountClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
@@ -104,7 +104,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
         public async Task<ActionResult> ToggleActive(Guid baID, bool isactive, string notes)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            await orgClient.ToggleBankAccountActiveAsync(orgID, baID, isactive, notes);
+            await BankAccountClient.ToggleBankAccountActiveAsync(orgID, baID, isactive, notes);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("Index");
         }
@@ -114,7 +114,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.OrganisationBankAccountID });
             var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
-            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+            var accounts = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
 
             if (accounts.Any())
                 return Json("This account number and sort code have already been entered", JsonRequestBehavior.AllowGet);
@@ -141,12 +141,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 Names = x.Organisation.OrganisationDetails.Select(y => new { y.Name })
             });
             var filter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.OrganisationBankAccountID == baID);
-            var accounts = await queryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
+            var accounts = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", select + filter);
             var ba = accounts.Single();
 
             var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
             var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == name);
-            var ncs = await queryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var ncs = await QueryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
             var nc = ncs.Single();
 
             var dtomap = new DTOMap();
@@ -162,7 +162,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             });
             dtomap.Add("NotificationSettingDTO", new NotificationSettingDTO());
 
-            var data = await nClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
+            var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
 
             return File(data, "application/pdf", string.Format("BankAccountCertificate.pdf"));
         }
@@ -174,7 +174,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
             var select = ODataHelper.Select<OrganisationBankAccountStatusDTO>(x => new { x.StatusTypeValue.Name, x.WasActive });
             var filter = ODataHelper.Filter<OrganisationBankAccountStatusDTO>(x => x.OrganisationBankAccountID == baID && x.OrganisationBankAccount.OrganisationID == orgID);
             var order = ODataHelper.OrderBy<OrganisationBankAccountStatusDTO>(x => new { x.StatusChangedOn });
-            var recs = await queryClient.QueryAsync<OrganisationBankAccountStatusDTO>("OrganisationBankAccountStatus", select + filter + order);
+            var recs = await QueryClient.QueryAsync<OrganisationBankAccountStatusDTO>("OrganisationBankAccountStatus", select + filter + order);
             var s = recs.Last();
             return s.WasActive && s.StatusTypeValue.Name == BankAccountStatusEnum.Safe.GetStringValue();
         }

@@ -42,6 +42,7 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.Confirmed = source.Confirmed;
+            target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
 
             // Navigation Properties
             if (level > 0) {
@@ -50,6 +51,8 @@ namespace Bec.TargetFramework.Entities
               target.Address = source.Address.ToDtoWithRelated(level - 1);
               target.Contact = source.Contact.ToDtoWithRelated(level - 1);
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
+              target.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID = source.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID.ToDtosWithRelated(level - 1);
+              target.SmsBankAccountCheck_LatestBankAccountCheckID = source.SmsBankAccountCheck_LatestBankAccountCheckID.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -79,6 +82,7 @@ namespace Bec.TargetFramework.Entities
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
             target.Confirmed = source.Confirmed;
+            target.LatestBankAccountCheckID = source.LatestBankAccountCheckID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

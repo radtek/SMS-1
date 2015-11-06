@@ -351,6 +351,7 @@
     <Compile Include="Converters\ShoppingCartItemConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
+    <Compile Include="Converters\SmsBankAccountCheckConverter.cs" />
     <Compile Include="Converters\SmsTransactionConverter.cs" />
     <Compile Include="Converters\SmsUserAccountOrganisationTransactionConverter.cs" />
     <Compile Include="Converters\SmsUserAccountOrganisationTransactionTypeConverter.cs" />
@@ -736,6 +737,7 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItem.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
+    <Compile Include="Model\TargetFramework.SmsBankAccountCheck.cs" />
     <Compile Include="Model\TargetFramework.SmsTransaction.cs" />
     <Compile Include="Model\TargetFramework.SmsUserAccountOrganisationTransaction.cs" />
     <Compile Include="Model\TargetFramework.SmsUserAccountOrganisationTransactionType.cs" />

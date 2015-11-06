@@ -14,7 +14,7 @@
                     <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("CheckBankAccount", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("txID", (object)ViewBag.txID)
+                        @Html.Hidden("smsUserAccountOrganisationTransactionID", (object)ViewBag.smsUserAccountOrganisationTransactionID)
                         @Html.Hidden("orgID", (object)ViewBag.orgID)
                         @Html.Hidden("index", (object)ViewBag.index)
                         <section class="col-xs-12">
