@@ -35,10 +35,6 @@ $(function () {
                         }
                     },
                     {
-                        field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
-                    },
-                    {
                         field: "OrganisationAdminEmail",
                         title: "Email"
                     },
@@ -195,7 +191,6 @@ function unverifiedChange(dataItem) {
     $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
     $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
     $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
     var regulatorName = dataItem.Regulator || "";
@@ -218,7 +213,6 @@ function verifiedChange(dataItem) {
     $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddvVerifiedPhoneNumber").text(dataItem.Notes || "");
-    $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     
     $("p#ddvSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
@@ -249,7 +243,6 @@ function rejectedChange(dataItem) {
     $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
 
     var regulatorName = dataItem.Regulator || "";
