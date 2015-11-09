@@ -10,6 +10,11 @@ CREATE TABLE sms."SmsBankAccountCheck" (
   "IsMatch" BOOLEAN NOT NULL,
   PRIMARY KEY("SmsBankAccountCheckID")
 );
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON sms."SmsBankAccountCheck" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON sms."SmsBankAccountCheck" TO bef;
+
 ALTER TABLE sms."SmsBankAccountCheck"
   ADD CONSTRAINT "SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FOREIGN KEY ("SmsUserAccountOrganisationTransactionID")
     REFERENCES sms."SmsUserAccountOrganisationTransaction"("SmsUserAccountOrganisationTransactionID")
