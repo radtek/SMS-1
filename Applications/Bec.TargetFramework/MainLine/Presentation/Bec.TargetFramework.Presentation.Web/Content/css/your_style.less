@@ -82,6 +82,10 @@
             margin-top: 10px !important;
         }
 
+        &-15 {
+            margin-top: 15px !important;
+        }
+
         &-20 {
             margin-top: 20px !important;
         }
@@ -104,6 +108,14 @@
 
         &-10 {
             margin-left: 10px !important;
+        }
+
+        &-15 {
+            margin-left: 15px !important;
+        }
+
+        &-20 {
+            margin-left: 20px !important;
         }
     }
 
@@ -165,11 +177,10 @@
 
         #logo {
             margin-top: 0;
-
+            width: 128px;
             img {
                 width: 106px !important;
                 height: 38px !important;
-                margin-left: 16px !important;
                 margin-top: 6px !important;
             }
         }
@@ -302,6 +313,10 @@
     }
 }
 
+.dropdown-menu>li>a:focus, 
+.dropdown-menu>li>a:hover {
+    background-color: lighten(@primary-color, 10%);
+}
 
 //smart admin specifies -webkit
 .nav-tabs > li.active > a {
@@ -360,3 +375,24 @@
     z-index: 9999;
 }
 
+#userMenu{
+    color: #7d7d7d;
+    padding: 2px 12px;
+    font-size: 1.5em;
+
+    & + .dropdown-menu{
+        li{
+            a{
+                padding: 8px 18px;
+            }
+        }
+    }
+}
+
+.menu-toggle{
+    a{
+        color: #7d7d7d;
+        font-size: 16px;
+        display: inline-block;
+    }
+}

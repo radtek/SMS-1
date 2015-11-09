@@ -51,6 +51,9 @@
 .margin-top-10 {
   margin-top: 10px !important;
 }
+.margin-top-15 {
+  margin-top: 15px !important;
+}
 .margin-top-20 {
   margin-top: 20px !important;
 }
@@ -65,6 +68,12 @@
 }
 .margin-left-10 {
   margin-left: 10px !important;
+}
+.margin-left-15 {
+  margin-left: 15px !important;
+}
+.margin-left-20 {
+  margin-left: 20px !important;
 }
 .margin-right-5 {
   margin-right: 5px !important;
@@ -105,11 +114,11 @@
 }
 #header #logo-group #logo {
   margin-top: 0;
+  width: 128px;
 }
 #header #logo-group #logo img {
   width: 106px !important;
   height: 38px !important;
-  margin-left: 16px !important;
   margin-top: 6px !important;
 }
 #extr-page #header #logo {
@@ -210,6 +219,10 @@
 #activity.active .badge {
   background: #8fad20 !important;
 }
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+  background-color: #badb3f;
+}
 .nav-tabs > li.active > a {
   -webkit-box-shadow: 0 -2px 0 #a1c324;
   -moz-box-shadow: 0 -2px 0 #a1c324;
@@ -245,5 +258,18 @@
 }
 .icon-append {
   z-index: 9999;
+}
+#userMenu {
+  color: #7d7d7d;
+  padding: 2px 12px;
+  font-size: 1.5em;
+}
+#userMenu + .dropdown-menu li a {
+  padding: 8px 18px;
+}
+.menu-toggle a {
+  color: #7d7d7d;
+  font-size: 16px;
+  display: inline-block;
 }
 /*# sourceMappingURL=your_style.css.map */
