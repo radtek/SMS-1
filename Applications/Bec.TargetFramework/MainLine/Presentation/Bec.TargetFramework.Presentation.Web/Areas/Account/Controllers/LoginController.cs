@@ -65,13 +65,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             return View(model);
         }
 
-        private string EncodePassword(string password)
+        private static string EncodePassword(string password)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(password);
 
             return System.Convert.ToBase64String(plainTextBytes);
         }
-
 
         [AllowAnonymous]
         [HttpPost]
@@ -82,58 +81,68 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (ModelState.IsValid)
             {
-                var loginValidationResult = await UserLogicClient.AuthenticateUserAsync(model.LoginDTO.Email.Trim(), EncodePassword(model.LoginDTO.Password.Trim()));
-                var msg = loginValidationResult.validationMessage;
-
-                if (loginValidationResult.valid)
+                string errorMessage;
+                if (TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
                 {
-                    var ua = new BrockAllen.MembershipReboot.UserAccount();
-                    ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
-                    if (await login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient))
-                    {
                         // the final landing page is decided inside the Home controller
                         return RedirectToAction("Index", "App", new { area = "" });
                     }
                     else
                     {
-                        msg = "Invalid E-mail or Password";
+                    if (string.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        errorMessage = "Invalid E-mail or Password";
                     }
-                }
 
-                ModelState.AddModelError("", msg);
+                    ModelState.AddModelError("", errorMessage);
+            }
             }
 
             return View(model);
         }
 
-        internal static async Task<bool> login(Controller controller, UserAccount ua, AuthenticationService asvc, IUserLogicClient ulc, INotificationLogicClient nlc, IOrganisationLogicClient olc)
+        internal static bool TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc, 
+            INotificationLogicClient nlc, IOrganisationLogicClient olc, out string errorMessage)
         {
-            Guid orgID;
-            Guid uaoID;
-            List<Claim> additionalClaims = new List<Claim>();
-            List<VUserAccountOrganisationUserTypeOrganisationTypeDTO> orgs = await ulc.GetUserAccountOrganisationWithUserTypeAndOrgTypeAsync(ua.ID);
+            errorMessage = string.Empty;
+            var loginValidationResult = ulc.AuthenticateUser(username.Trim(), EncodePassword(password.Trim()));
+            if (!loginValidationResult.valid)
+            {
+                errorMessage = loginValidationResult.validationMessage;
+                return false;
+            }
+            var ua = new BrockAllen.MembershipReboot.UserAccount();
+            ua.InjectFrom<NullableInjection>(loginValidationResult.UserAccount);
 
+            var orgs = ulc.GetUserAccountOrganisationWithUserTypeAndOrgType(ua.ID);
             //take the first org for now, in time we may allow user to switch between associated orgs.
             var org = orgs.First();
 
-            orgID = org.OrganisationID;
-            uaoID = org.UserAccountOrganisationID;
+            var orgID = org.OrganisationID;
+            var uaoID = org.UserAccountOrganisationID;
+            if (orgID == null)
+            {
+                throw new Exception("User not associated with any organisation");
+            }
 
-            var o = await olc.GetOrganisationDTOAsync(orgID);
-            if (!o.IsActive) return false;
+            var o = olc.GetOrganisationDTO(orgID);
+            if (!o.IsActive)
+            {
+                return false;
+            }
 
-            foreach (var item in await ulc.GetUserClaimsAsync(ua.ID, orgID))
-                additionalClaims.Add(new Claim(item.Type, item.Value));
-
-            if (orgID == null) throw new Exception("User not associated with any organisation");
             string orgName = olc.GetOrganisationDTO(orgID).Name;
 
+            var additionalClaims = ulc.GetUserClaims(ua.ID, orgID)
+                .Select(uc => new Claim(uc.Type, uc.Value))
+                .ToList();
+
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (await nlc.GetUnreadNotificationsAsync(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
+            bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
-            await ulc.SaveUserAccountLoginSessionAsync(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
+            ulc.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
 
             return true;
         }
@@ -206,8 +215,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             await UserLogicClient.RegisterUserAsync(uaoDto.UserAccountOrganisationID, model.CreatePermanentLoginModel.PhoneNumber, model.CreatePermanentLoginModel.NewPassword);
 
             LoginController.logout(this, AuthSvc);
-            var ua = await UserLogicClient.GetBAUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
-            await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+
+            string errorMessage;
+            if (!TryLogin(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword,
+                UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
+            {
+                throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
+            }
 
             TempData["JustRegistered"] = true;
             return RedirectToAction("Index", "App", new { area = "" });

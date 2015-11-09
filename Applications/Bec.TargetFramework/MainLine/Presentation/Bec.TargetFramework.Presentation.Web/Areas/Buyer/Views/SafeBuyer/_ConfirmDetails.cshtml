@@ -18,6 +18,7 @@
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.SmsTransactionID)
+                        @Html.HiddenFor(m => m.SmsUserAccountOrganisationTransactionID)
                         @Html.HiddenFor(m => m.SmsTransaction.RowVersion)
                         @Html.HiddenFor(m => m.Contact.RowVersion)
                         @Html.Hidden("orgID", (object)Model.SmsTransaction.OrganisationID)

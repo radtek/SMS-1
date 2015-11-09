@@ -24,8 +24,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     [ClaimsRequired("View", "Products", Order = 1000)]
     public class DownloadsController : ApplicationControllerBase
     {
-        public IOrganisationLogicClient orgClient { get; set; }
-        public IQueryLogicClient queryClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }
 
         // GET: ProOrganisation/Users
         public async Task<ActionResult> Index()
@@ -33,7 +33,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
             {
                 var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-                var accs = await orgClient.GetOrganisationBankAccountsAsync(orgID);
+                var accs = await BankAccountClient.GetOrganisationBankAccountsAsync(orgID);
                 ViewBag.BankAccounts = accs.Where(x => x.IsActive && x.Status == BankAccountStatusEnum.Safe.GetStringValue());
             }
             return View();
@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.SchemeID });
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var ret = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
+            var ret = await QueryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
             var sid = ret.First().SchemeID;
 
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();

@@ -81,6 +81,73 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		GoogleGeoCodeResponse GeoCodePostcode(String postCode);
 	}
 
+	public partial interface IBankAccountLogicClient : IClientBase	{	
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
+
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		Boolean HasOrganisationAnySafeBankAccount(Guid organisationID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID);
+
+		/// <returns></returns>
+		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync();
+
+		/// <returns></returns>
+		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts();
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
+
+		/// <returns></returns>
+		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
+
+		/// <returns></returns>
+		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
+
+		/// <param name="organisationId"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		Task<Boolean> CheckBankAccountAsync(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+
+		/// <param name="organisationId"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		Boolean CheckBankAccount(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes);
+
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
+	}
+
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
 
 		/// <returns></returns>
@@ -448,14 +515,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
 
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
-		Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID);
-
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
-		Boolean HasOrganisationAnySafeBankAccount(Guid organisationID);
-
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
@@ -647,48 +706,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <returns></returns>
 		void AssignSmsClientToTransaction(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID);
-
-		/// <returns></returns>
-		Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync();
-
-		/// <returns></returns>
-		List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts();
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO);
-
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO);
-
-		/// <returns></returns>
-		Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
-
-		/// <returns></returns>
-		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
-
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
-		Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes);
-
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
-		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
 
 		/// <param name="orgID"></param>
 		/// <param name="transactionOrderID"></param>
@@ -1512,6 +1529,189 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			postCode = postCode.UrlEncode();
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, GoogleGeoCodeResponse>("api/AddressLogic/GeoCodePostcodeAsync?postCode=" + postCode, null, _user)).Result;
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class BankAccountLogicClient : ClientBase, Interfaces.IBankAccountLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public BankAccountLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public BankAccountLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/BankAccountLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationID"></param>
+		public virtual Boolean HasOrganisationAnySafeBankAccount(Guid organisationID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync()
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOutstandingBankAccounts", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/BankAccountLogic/GetOutstandingBankAccounts", _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<OrganisationBankAccountDTO, Guid>("api/BankAccountLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<OrganisationBankAccountDTO, Guid>("api/BankAccountLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/BankAccountLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/BankAccountLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationId"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> CheckBankAccountAsync(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?organisationId=" + organisationId + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="organisationId"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		public virtual Boolean CheckBankAccount(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?organisationId=" + organisationId + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/BankAccountLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="baID"></param>
+		/// <param name="active"></param>
+		/// <param name="notes"></param>
+		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/BankAccountLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion
@@ -2477,27 +2677,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationID"></param>
-		/// <returns></returns>
-		public virtual Task<Boolean> HasOrganisationAnySafeBankAccountAsync(Guid organisationID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="organisationID"></param>
-		public virtual Boolean HasOrganisationAnySafeBankAccount(Guid organisationID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/HasOrganisationAnySafeBankAccount?organisationID=" + organisationID, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="days"></param>
 		/// <param name="hours"></param>
 		/// <param name="minutes"></param>
@@ -2950,115 +3129,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<AssignSmsClientToTransactionDTO>("api/OrganisationLogic/AssignSmsClientToTransaction", assignSmsClientToTransactionDTO, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOrganisationBankAccountsAsync(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOrganisationBankAccounts(Guid orgID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOrganisationBankAccounts?orgID=" + orgID, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task<List<VOrganisationBankAccountsWithStatusDTO>> GetOutstandingBankAccountsAsync()
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOutstandingBankAccounts", _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual List<VOrganisationBankAccountsWithStatusDTO> GetOutstandingBankAccounts()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VOrganisationBankAccountsWithStatusDTO>>("api/OrganisationLogic/GetOutstandingBankAccounts", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <returns></returns>
-		public virtual Task<Guid> AddBankAccountAsync(Guid orgID,OrganisationBankAccountDTO accountDTO)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<OrganisationBankAccountDTO, Guid>("api/OrganisationLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		public virtual Guid AddBankAccount(Guid orgID,OrganisationBankAccountDTO accountDTO)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrganisationBankAccountDTO, Guid>("api/OrganisationLogic/AddBankAccount?orgID=" + orgID, accountDTO, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task AddBankAccountStatusAsync(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<OrganisationBankAccountStateChangeDTO>("api/OrganisationLogic/AddBankAccountStatusAsync", bankAccountStatusChangeRequest, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		/// <returns></returns>
-		public virtual Task ToggleBankAccountActiveAsync(Guid orgID,Guid baID,Boolean active,String notes)
-		{
-			notes = notes.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="baID"></param>
-		/// <param name="active"></param>
-		/// <param name="notes"></param>
-		public virtual void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes)
-		{
-			notes = notes.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		/// <summary>

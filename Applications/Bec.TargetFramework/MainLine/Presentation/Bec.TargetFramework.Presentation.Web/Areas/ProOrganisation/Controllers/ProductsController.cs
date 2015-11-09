@@ -22,11 +22,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IOrganisationLogicClient orgClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
 
         public async Task<ActionResult> Index()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            ViewBag.HasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
+            ViewBag.HasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
             var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
             var filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == orgID);
             var orgs = await queryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
@@ -68,7 +69,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public ActionResult ViewAddSmsTransaction()
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            var hasOrganisationAnySafeBankAccounts = orgClient.HasOrganisationAnySafeBankAccount(orgID);
+            var hasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
             if (!hasOrganisationAnySafeBankAccounts)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);

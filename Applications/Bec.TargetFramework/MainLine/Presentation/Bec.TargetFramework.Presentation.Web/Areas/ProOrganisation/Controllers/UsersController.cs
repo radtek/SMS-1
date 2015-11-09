@@ -46,7 +46,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.PinCreated,
                 x.UserAccount.ID,
                 x.UserAccount.Email,
-                x.UserAccount.Username,
                 x.UserAccount.Created,
                 x.Contact.Salutation,
                 x.Contact.FirstName,

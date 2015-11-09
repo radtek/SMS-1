@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public ITransactionOrderLogicClient txClient { get; set; }
         public IProductLogicClient prodClient { get; set; }
         public IPaymentLogicClient PaymentLogicClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
         
         public ActionResult OutstandingBankAccounts()
         {
@@ -34,7 +35,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> GetBankAccounts()
         {
-            var list = await orgClient.GetOutstandingBankAccountsAsync();
+            var list = await BankAccountClient.GetOutstandingBankAccountsAsync();
 
             var jsonData = new { total = list.Count, list };
             return Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -71,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 DetailsUrl = Url.Action("Index", "Account", new { area = "BankAccount", selectedBankAccountId = baID }, Request.Url.Scheme)
             };
 
-            await orgClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
+            await BankAccountClient.AddBankAccountStatusAsync(bankAccountStateChangeDto);
             TempData["OrganisationBankAccountID"] = baID;
             return RedirectToAction("OutstandingBankAccounts");
         }

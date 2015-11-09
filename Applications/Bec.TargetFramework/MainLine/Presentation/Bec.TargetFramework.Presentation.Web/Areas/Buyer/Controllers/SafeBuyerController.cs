@@ -18,8 +18,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
     {
         public IAddressLogicClient AddressClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
-
-        public IOrganisationLogicClient orgClient { get; set; }
+        public IOrganisationLogicClient OrganisationClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
 
         public async Task<ActionResult> Index()
         {
@@ -95,7 +95,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var model = res.First();
 
             ViewBag.orgID = model.SmsTransaction.OrganisationID;
-
+            ViewBag.smsUserAccountOrganisationTransactionID = model.SmsUserAccountOrganisationTransactionID;
+            
             if(model.Confirmed)
                 return PartialView("_CheckBankAccount");
             else
@@ -108,29 +109,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             
             //update tx
-            await orgClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
-
+            await OrganisationClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
             //check bank account
-            string safe = BankAccountStatusEnum.Safe.GetStringValue();
-            var select2 = ODataHelper.Select<VOrganisationBankAccountsWithStatusDTO>(x => new { x.OrganisationBankAccountID }, false);
-            var filter2 = ODataHelper.Filter<VOrganisationBankAccountsWithStatusDTO>(x => x.BankAccountNumber == accountNumber && x.SortCode == sortCode && x.Status == safe && x.OrganisationID == orgID);
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
 
-            var matches = await QueryClient.QueryAsync<VOrganisationBankAccountsWithStatusDTO>("VOrganisationBankAccountsWithStatus", select2 + filter2);
-            return Json(new { result = matches.Any(), index = index, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = isMatch, index = index, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CheckBankAccount(string accountNumber, string sortCode, Guid txID, Guid orgID, int index)
+        public async Task<ActionResult> CheckBankAccount(Guid orgID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode, int index)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             //check bank account
-            string safe = BankAccountStatusEnum.Safe.GetStringValue();
-            var select2 = ODataHelper.Select<VOrganisationBankAccountsWithStatusDTO>(x => new { x.OrganisationBankAccountID }, false);
-            var filter2 = ODataHelper.Filter<VOrganisationBankAccountsWithStatusDTO>(x => x.BankAccountNumber == accountNumber && x.SortCode == sortCode && x.Status == safe && x.OrganisationID == orgID);
-
-            var matches = await QueryClient.QueryAsync<VOrganisationBankAccountsWithStatusDTO>("VOrganisationBankAccountsWithStatus", select2 + filter2);
-            return Json(new { result = matches.Any(), index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
+            return Json(new { result = isMatch, index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
     }
 }

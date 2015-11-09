@@ -26,10 +26,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
+                x.UserAccountOrganisation.UserAccount.LastLogin,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
-                x.Contact.BirthDate
+                x.Contact.BirthDate,
+                x.LatestBankAccountCheck.CheckedOn
             });
             var additionalBuyerTypeID = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 

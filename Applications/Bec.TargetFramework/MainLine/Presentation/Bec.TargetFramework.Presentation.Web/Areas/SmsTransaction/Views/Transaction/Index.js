@@ -49,9 +49,9 @@ $(function () {
                 title: "Created By"
             },
             {
-                field: "UserAccountOrganisation.UserAccount.Created",
-                title: "Logged in Date",
-                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.Created); }
+                field: "UserAccountOrganisation.UserAccount.LastLogin",
+                title: "Last Logged in",
+                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin); }
             }
         ]
     });
@@ -119,6 +119,8 @@ function showPrimaryBuyerDetails(dataItem) {
     var data = _.extend({}, dataItem, {
         fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
         formattedBirthDate: dateStringNoTime(contact.BirthDate),
+        formattedLastLogin: dataItem.UserAccountOrganisation.UserAccount.LastLogin ? dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin) : null,
+        formattedLatestBankAccountCheckOn: dataItem.LatestBankAccountCheck ? dateString(dataItem.LatestBankAccountCheck.CheckedOn) : null,
         pageNumber:  txGrid.grid.dataSource.page()
     });
 
@@ -146,7 +148,9 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
                 fullName: contact.Salutation + " " + contact.FirstName + " " + contact.LastName,
                 elementId: 'id' + item.SmsUserAccountOrganisationTransactionID,
                 transactionId: item.SmsTransactionID,
-                formattedBirthDate: dateStringNoTime(contact.BirthDate)
+                formattedBirthDate: dateStringNoTime(contact.BirthDate),
+                formattedLastLogin: item.UserAccountOrganisation.UserAccount.LastLogin ? dateString(item.UserAccountOrganisation.UserAccount.LastLogin) : null,
+                formattedLatestBankAccountCheckOn: item.LatestBankAccountCheck ? dateString(item.LatestBankAccountCheck.CheckedOn) : null,
             });
         });
         var templateData = {

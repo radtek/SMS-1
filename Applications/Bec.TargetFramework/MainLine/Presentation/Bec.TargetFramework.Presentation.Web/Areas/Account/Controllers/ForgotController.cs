@@ -5,10 +5,7 @@ using Bec.TargetFramework.Presentation.Web.Models;
 using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
@@ -45,7 +42,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 {
                     //change password
                     await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
-                    await LoginController.login(this, ua, AuthSvc, UserLogicClient, NotificationLogicClient, orgClient);
+                    string errorMessage;
+                    if (!LoginController.TryLogin(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
+                    {
+                        throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
+                    }
                     return RedirectToAction("Index", "App", new { area = "" });
                 }
                 catch
