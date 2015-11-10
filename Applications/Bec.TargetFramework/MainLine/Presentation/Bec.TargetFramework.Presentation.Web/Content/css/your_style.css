@@ -282,6 +282,9 @@
 #userMenu + .dropdown-menu li a {
   padding: 8px 18px;
 }
+#logout a {
+  font-size: 1.05em;
+}
 .menu-toggle a {
   color: #7d7d7d;
   font-size: 16px;

@@ -7,6 +7,10 @@
             <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-bars"></i></a>
         </span>
     }
+
+    <div id="logout" class="margin-top-10 margin-left-10 pull-right">
+        <a href="@Url.Action("Index", "Logout", new {area = "Account"})" class="btn btn-default" title="Logout">Log out<i class="fa fa-sign-out margin-left-10"></i></a>
+    </div>
     
     <div class="dropdown pull-right margin-top-10">
         <button class="btn btn-default dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -19,10 +23,6 @@
             </li>
             <li>
                 <a href="@Url.Action("ChangePassword", "MyAccount", new {area = "Account", ReturnUrl = Request.Url.PathAndQuery })" title="Change Password"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
-            </li>
-            <li role="separator" class="divider"></li>
-            <li>
-                <a href="@Url.Action("Index", "Logout", new {area = "Account"})" title="Logout"><i class="fa fa-sign-out"></i><span class="header-btn-text">Log out</span></a>
             </li>
         </ul>
     </div>
