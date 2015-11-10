@@ -27,7 +27,7 @@
                                         <div class="form-group">
                                             <label for="@Html.IdFor(m => m.LoginDTO.Email)">E-mail</label>
                                             <i class="icon-append fa fa-user"></i>
-                                            @Html.TextBoxFor(m => m.LoginDTO.Email, new { autocomplete = "off", @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.LoginDTO.Email, new { autocomplete = "off", type = "email", @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>

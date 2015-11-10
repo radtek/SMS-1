@@ -928,17 +928,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
-		/// <param name="registering"></param>
+		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
 		/// <returns></returns>
-		Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean registering,String pin);
+		Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
 
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
-		/// <param name="registering"></param>
+		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
 		/// <returns></returns>
-		void ResetUserPassword(Guid userID,String newPassword,Boolean registering,String pin);
+		void ResetUserPassword(Guid userID,String newPassword,Boolean doNotRequirePin,String pin);
 
 		/// <param name="userID"></param>
 		/// <returns></returns>
@@ -3771,15 +3771,15 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
-		/// <param name="registering"></param>
+		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
 		/// <returns></returns>
-		public virtual Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean registering,String pin)
+		public virtual Task ResetUserPasswordAsync(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
 			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&registering=" + registering + "&pin=" + pin, null, _user);
+			return PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user);
 		}
 
 		/// <summary>
@@ -3787,14 +3787,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userID"></param>
 		/// <param name="newPassword"></param>
-		/// <param name="registering"></param>
+		/// <param name="doNotRequirePin"></param>
 		/// <param name="pin"></param>
-		public virtual void ResetUserPassword(Guid userID,String newPassword,Boolean registering,String pin)
+		public virtual void ResetUserPassword(Guid userID,String newPassword,Boolean doNotRequirePin,String pin)
 		{
 			newPassword = newPassword.UrlEncode();
 			pin = pin.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&registering=" + registering + "&pin=" + pin, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/UserLogic/ResetUserPassword?userID=" + userID + "&newPassword=" + newPassword + "&doNotRequirePin=" + doNotRequirePin + "&pin=" + pin, null, _user)).Wait();
 		}
 
 		/// <summary>

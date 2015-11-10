@@ -46,6 +46,7 @@ namespace Bec.TargetFramework.Entities
                 SessionIdentifier = Guid.NewGuid().ToString(),
                 URLAccessed = context.Request.RawUrl,
                 UserName = ua.FullName,
+                Email = ua.Email,
                 UserID = ua.ID,
                 OrganisationID = orgID,
                 UaoID = uaoID,
@@ -82,6 +83,7 @@ namespace Bec.TargetFramework.Entities
         public string URLAccessed { get; set; }
 
         public string UserName { get; set; }
+        public string Email { get; set; }
 
         public Guid UserID { get; set; }
 
