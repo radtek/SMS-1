@@ -766,6 +766,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 uao.UserAccount.IsTemporaryAccount = false;
                 uao.UserAccount.MobilePhoneNumber = phoneNumber;
+                uao.UserAccount.AccountCreated = DateTime.Now;
 
                 await scope.SaveChangesAsync();
             }

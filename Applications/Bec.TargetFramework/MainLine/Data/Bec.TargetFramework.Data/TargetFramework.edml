@@ -6648,6 +6648,7 @@
           <Property Name="LastForgotUsernameFailedAttempt" Type="timestamptz" />
           <Property Name="LastForgotPasswordFailedAttempt" Type="timestamptz" />
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" StoreGeneratedPattern="Computed" />
+          <Property Name="AccountCreated" Type="timestamptz" />
         </EntityType>
         <EntityType Name="UserClaims">
           <Key>
@@ -25448,6 +25449,7 @@
           <Property Name="LastForgotUsernameFailedAttempt" Type="DateTime" ed:ValidateRequired="False" ed:Guid="52a3acc5-1212-40f7-afbd-34ca56bed7d0" />
           <Property Name="LastForgotPasswordFailedAttempt" Type="DateTime" ed:ValidateRequired="False" ed:Guid="0d87856f-8d31-4d4b-9fef-f34650008e68" />
           <Property Name="RowVersion" Type="Int64" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" ed:ValidateRequired="False" ed:Guid="4bbd1af4-6bee-424a-b93f-c4ab5263c22f" />
+          <Property Name="AccountCreated" Type="DateTime" ed:ValidateRequired="False" ed:Guid="40f840f5-7c74-4740-bb2f-0bbdfc1beaeb" />
           <NavigationProperty Name="UserAccountOrganisations" Relationship="Bec.TargetFramework.Data.fk_UserAccunts" FromRole="UserAccount" ToRole="UserAccountOrganisations" ed:Guid="c39943f8-5f9a-438e-b3e4-86ddf99de0ea" />
           <NavigationProperty Name="UserCertificates" Relationship="Bec.TargetFramework.Data.FK_dboUserCertificates_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserCertificates" ed:Guid="69b0e6c5-989f-4181-8099-9ea339bc489b" />
           <NavigationProperty Name="UserAccountLedgerAccounts" Relationship="Bec.TargetFramework.Data.fk_UserAccountLedgerAccount_UserAccounts" FromRole="UserAccount" ToRole="UserAccountLedgerAccounts" ed:Guid="98bac6d9-6562-4e27-91a2-f4af29fce520" />
@@ -40502,6 +40504,7 @@
                 <ScalarProperty Name="LastForgotUsernameFailedAttempt" ColumnName="LastForgotUsernameFailedAttempt" />
                 <ScalarProperty Name="LastForgotPasswordFailedAttempt" ColumnName="LastForgotPasswordFailedAttempt" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="AccountCreated" ColumnName="AccountCreated" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

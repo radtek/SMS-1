@@ -321,7 +321,7 @@ var gridItem = function (options) {
                     $('#' + self.options.panels[p]).removeClass("hidden");
                 }
             }
-            self.options.change(dataItem); //any custom data binding
+            if (self.options.change) self.options.change(dataItem); //any custom data binding
         }
     };
 
