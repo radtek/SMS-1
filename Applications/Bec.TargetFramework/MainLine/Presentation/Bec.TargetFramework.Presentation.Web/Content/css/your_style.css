@@ -88,21 +88,25 @@
 #extr-page h4.paragraph-header {
   width: auto;
 }
-#extr-page .smart-form .alert {
-  margin: 4px;
-}
-#extr-page .smart-form .alert li {
+#extr-page .smart-form .alert li,
+#content .smart-form .alert li {
   margin-left: 14px;
   list-style: none;
 }
-#extr-page .smart-form .alert li:before {
+#extr-page .smart-form .alert li:before,
+#content .smart-form .alert li:before {
   content: "\f071";
   font-family: FontAwesome;
   position: absolute;
-  left: 14px;
+  left: 25px;
 }
-#extr-page .smart-form div + fieldset {
+#extr-page .smart-form div + fieldset,
+#content .smart-form div + fieldset {
   padding-top: 15px;
+}
+#extr-page .smart-form footer .btn,
+#content .smart-form footer .btn {
+  font-size: 1em;
 }
 #header {
   background-image: none !important;
@@ -271,5 +275,8 @@
   color: #7d7d7d;
   font-size: 16px;
   display: inline-block;
+}
+.validation-summary-errors ul li {
+  list-style: none;
 }
 /*# sourceMappingURL=your_style.css.map */

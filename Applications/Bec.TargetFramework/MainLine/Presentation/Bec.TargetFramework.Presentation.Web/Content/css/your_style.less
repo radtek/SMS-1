@@ -141,26 +141,31 @@
             width: auto;
         }
     }
+}
 
-    .smart-form {
-        .alert {
-            margin: 4px;
+#extr-page .smart-form,
+#content .smart-form {
+    .alert {
+        li {
+            margin-left: 14px;
+            list-style: none;
 
-            li {
-                margin-left: 14px;
-                list-style: none;
-
-                &:before {
-                    content: "\f071";
-                    font-family: FontAwesome;
-                    position: absolute;
-                    left: 14px;
-                }
+            &:before {
+                content: "\f071";
+                font-family: FontAwesome;
+                position: absolute;
+                left: 25px;
             }
         }
+    }
 
-        div + fieldset {
-            padding-top: 15px;
+    div + fieldset {
+        padding-top: 15px;
+    }
+
+    footer {
+        .btn{
+            font-size: 1em;
         }
     }
 }
@@ -394,5 +399,11 @@
         color: #7d7d7d;
         font-size: 16px;
         display: inline-block;
+    }
+}
+
+.validation-summary-errors{
+    ul li{
+        list-style: none;
     }
 }

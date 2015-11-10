@@ -6,8 +6,9 @@
     $("#login-form").validate({
         // Rules for form validation
         rules: {
-            "LoginDTO.Username": {
-                required: true
+            "LoginDTO.Email": {
+                required: true,
+                email: true
             },
             "LoginDTO.Password": {
                 required: true,
@@ -18,8 +19,8 @@
 
         // Messages for form validation
         messages: {
-            "LoginDTO.Username": {
-                required: 'Please enter your username'
+            "LoginDTO.Email": {
+                required: 'Please enter your e-mail'
             },
             "LoginDTO.Password": {
                 required: 'Please enter your password'

@@ -8,7 +8,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="userMenu">
             <li>
-                <a href="@Url.Action("Index", "Logout", new {area = "Account"})" title="Change Password"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
+                <a href="@Url.Action("ChangePassword", "MyAccount", new {area = "Account", ReturnUrl = Request.Url.PathAndQuery })" title="Change Password"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
             </li>
             <li role="separator" class="divider"></li>
             <li>

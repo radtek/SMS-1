@@ -36,7 +36,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             BrockAllen.MembershipReboot.UserAccount account = this.GetBAUserAccountByUsername(username);
 
-            var decodedPassword = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(password));
+            var decodedPassword = EncodingHelper.Base64Decode(password);
 
             UserLoginValidation result = UaService.AuthenticateWithUsername(account, username, decodedPassword);
 
@@ -82,11 +82,11 @@ namespace Bec.TargetFramework.Business.Logic
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="newPassword"></param>
-        public async Task ResetUserPassword(Guid userID, string newPassword, bool registering, string pin)
+        public async Task ResetUserPassword(Guid userID, string newPassword, bool doNotRequirePin, string pin)
         {
             var userAccount = UaService.GetByID(userID);
 
-            if (userAccount != null && (registering || (!string.IsNullOrEmpty(userAccount.MobileCode) && userAccount.MobileCode == pin && ValidPINExists(userAccount.MobileCodeSent))))
+            if (userAccount != null && (doNotRequirePin || (!string.IsNullOrEmpty(userAccount.MobileCode) && userAccount.MobileCode == pin && ValidPINExists(userAccount.MobileCodeSent))))
             {
                 if (userAccount.IsTemporaryAccount)
                     await UaService.SetPasswordAndClearVerificationKeyAsync(userID, newPassword);
