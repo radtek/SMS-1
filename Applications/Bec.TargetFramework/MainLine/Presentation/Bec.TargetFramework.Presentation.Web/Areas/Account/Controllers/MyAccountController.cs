@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             //change password
             await UserLogicClient.ResetUserPasswordAsync(uaValidation.UserAccount.ID, model.NewPassword, true, string.Empty);
 
-            this.AddToastMessage("Success", "Your password has been changed.", ToastType.Success);
+            this.AddToastMessage("Success", "Your password has been changed.", ToastType.Success, true);
 
             return Redirect(model.ReturnUrl ?? "");
         }

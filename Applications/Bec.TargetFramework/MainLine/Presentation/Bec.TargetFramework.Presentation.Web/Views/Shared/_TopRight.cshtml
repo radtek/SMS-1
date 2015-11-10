@@ -1,6 +1,13 @@
 ﻿@using Bec.TargetFramework.Entities
 @if (Request.IsAuthenticated)
 {
+    if (!Html.RouteMatches("AcceptTCs", "Index"))
+    {
+        <span class="menu-toggle margin-left-15 margin-right-10 margin-top-15 pull-right">
+            <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-bars"></i></a>
+        </span>
+    }
+    
     <div class="dropdown pull-right margin-top-10">
         <button class="btn btn-default dropdown-toggle" type="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="fa fa-user"></i>

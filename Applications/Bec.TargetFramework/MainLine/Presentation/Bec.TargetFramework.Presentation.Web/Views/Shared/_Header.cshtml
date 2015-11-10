@@ -14,14 +14,7 @@
 }
 <!-- HEADER -->
 <header id="header">
-
     <div id="logo-group">
-        @if (Request.IsAuthenticated && !Html.RouteMatches("AcceptTCs", "Index"))
-        {
-            <span class="menu-toggle margin-left-20 margin-top-15">
-                <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-bars"></i></a>
-            </span>
-        }
         <span id="logo" class="margin-left-5">
             <img src="~/Content/img/sms-logo-118x42.png" />
         </span>

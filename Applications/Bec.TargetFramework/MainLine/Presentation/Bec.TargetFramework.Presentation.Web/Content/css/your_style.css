@@ -118,12 +118,13 @@
 }
 #header #logo-group #logo {
   margin-top: 0;
-  width: 128px;
+  width: 175px;
 }
 #header #logo-group #logo img {
   width: 106px !important;
   height: 38px !important;
   margin-top: 6px !important;
+  margin-left: 16px !important;
 }
 #extr-page #header #logo {
   margin-top: 10px !important;
@@ -138,6 +139,11 @@
 @media only screen and (max-width: 479px) and (min-width: 320px) {
   #logo-group {
     width: inherit !important;
+  }
+}
+@media only screen and (min-width: 980px) {
+  .menu-toggle {
+    display: none;
   }
 }
 .twitter-typeahead {
