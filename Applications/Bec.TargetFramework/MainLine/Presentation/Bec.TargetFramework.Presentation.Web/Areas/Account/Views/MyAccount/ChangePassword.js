@@ -14,8 +14,7 @@
         // Rules for form validation
         rules: {
             "OldPassword": {
-                required: true,
-                minlength: 3,
+                required: true
             },
             "NewPassword": {
                 required: true,
