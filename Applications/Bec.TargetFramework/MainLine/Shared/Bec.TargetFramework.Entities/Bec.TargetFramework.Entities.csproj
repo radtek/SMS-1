@@ -1872,7 +1872,6 @@
     <Compile Include="DTO\GoogleDTO.cs" />
     <Compile Include="DTO\AddressDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationGroupDTO.cs" />
-    <Compile Include="DTO\Organisation\OrganisationRoleDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationUnitDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationDetailDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationDTO.cs" />

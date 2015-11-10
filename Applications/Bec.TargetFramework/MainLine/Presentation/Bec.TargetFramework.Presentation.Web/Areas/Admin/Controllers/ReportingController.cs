@@ -59,7 +59,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 Names = x.Organisation.OrganisationDetails.Select(b => new { b.Name }),
                 x.UserAccount.Created,
-                x.UserAccount.AccountCreated
+                x.UserAccount.AccountCreated,
+                Roles = x.UserAccountOrganisationRoles.Select(r => new { r.OrganisationRole.RoleName })
             });
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.Organisation.OrganisationTypeID == proOrgType);
             var allUsers = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
@@ -79,6 +80,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 Id = i++,
                 Name = x.Key,
                 Total = x.Count(),
+                Admins = x.Count(r => r.UserAccountOrganisationRoles.Any(z => z.OrganisationRole.RoleName == "Organisation Administrator")),
+                Users = x.Count(r => r.UserAccountOrganisationRoles.All(z => z.OrganisationRole.RoleName != "Organisation Administrator")),
                 Time = timeFunc(x)
             });
 
@@ -127,10 +130,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             });
 
             var alltx = await queryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", select);
-            int i = 0;
             var data = alltx.Select(d => new TxDataItem
             {
-                Id = i++,
                 OrganisationName = d.Organisation.OrganisationDetails.First().Name,
                 PrimaryBuyer = d.SmsUserAccountOrganisationTransactions.FirstOrDefault(x => x.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
             });
@@ -149,18 +150,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     return new TimeDetails { Value = 0, Text = "-" };
             };
 
-            Func<TxDataItem, string> getGroup = x =>
-            {
-                if (group == "[all]")
-                    return x.Id.ToString();
-                else if (group == "Firm")
-                    return x.OrganisationName;
-                else
-                    return "(All Firms)";
-            };
-
-            i = 0;
-            var ret = data.GroupBy(getGroup).Select(g => new
+            int i = 0;
+            var ret = data.GroupBy(x => group == "Firm" ? x.OrganisationName : "(All Firms)").Select(g => new
             {
                 Id = i++,
                 Name = !string.IsNullOrEmpty(group) ? g.First().OrganisationName : g.Key,

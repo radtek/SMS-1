@@ -13,7 +13,15 @@ $(function () {
                     },
                     {
                         field: "Total",
-                        title: "Total"
+                        title: "Total Users"
+                    },
+                    {
+                        field: "Admins",
+                        title: "Admins"
+                    },
+                    {
+                        field: "Users",
+                        title: "Standard Users"
                     },
                     {
                         field: "Time.Value",
@@ -37,7 +45,15 @@ $(function () {
                     },
                     {
                         field: "Total",
-                        title: "Total"
+                        title: "Total Users"
+                    },
+                    {
+                        field: "Admins",
+                        title: "Admins"
+                    },
+                    {
+                        field: "Users",
+                        title: "Standard Users"
                     },
                     {
                         field: "Time.Value",
