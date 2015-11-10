@@ -78,24 +78,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 string errorMessage;
                 if (TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
                 {
-                        // the final landing page is decided inside the Home controller
-                        return RedirectToAction("Index", "App", new { area = "" });
-                    }
-                    else
-                    {
+                    // the final landing page is decided inside the Home controller
+                    return RedirectToAction("Index", "App", new { area = "" });
+                }
+                else
+                {
                     if (string.IsNullOrWhiteSpace(errorMessage))
                     {
                         errorMessage = "Invalid E-mail or Password";
                     }
 
                     ModelState.AddModelError("", errorMessage);
-            }
+                }
             }
 
             return View(model);
         }
 
-        internal static bool TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc, 
+        internal static bool TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
             INotificationLogicClient nlc, IOrganisationLogicClient olc, out string errorMessage)
         {
             errorMessage = string.Empty;

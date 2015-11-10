@@ -161,6 +161,7 @@
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
+    <Compile Include="App_Helpers\ControllerExtensions.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -227,6 +228,9 @@
     <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ToastrNotification\ToastMessage.cs" />
+    <Compile Include="Models\ToastrNotification\Toastr.cs" />
+    <Compile Include="Models\ToastrNotification\ToastType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -764,6 +768,8 @@
     <Content Include="Content\kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\css\toastr.css" />
+    <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\video\video1.jpg" />
     <Content Include="Content\video\video1.mp4" />
     <Content Include="Content\websiteLayout\css\normalize.css" />
@@ -791,6 +797,7 @@
     <Content Include="Areas\Account\Views\PersonalDetails\AddMobileNumber.cshtml" />
     <Content Include="Areas\Account\Views\Login\PINExpired.cshtml" />
     <Content Include="Areas\Account\Views\MyAccount\ChangePassword.cshtml" />
+    <Content Include="Content\css\toastr.less" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -895,8 +902,11 @@
     <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\Libs\toastr.js" />
+    <Content Include="Scripts\Libs\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="sitemap.txt" />
+    <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
     <Content Include="Areas\Admin\Views\Company\Qualified.cshtml" />
@@ -2067,9 +2077,9 @@
     <Content Include="Views\Home\SafeBuyerSpecification.cshtml" />
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
+    <Content Include="Views\Shared\_Toastr.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Buyer\Models\" />
     <Folder Include="Areas\Buyer\Views\Shared\" />
   </ItemGroup>

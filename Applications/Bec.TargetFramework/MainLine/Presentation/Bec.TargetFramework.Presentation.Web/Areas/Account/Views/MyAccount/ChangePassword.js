@@ -41,5 +41,10 @@
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
         },
+
+        submitHandler: function (form) {
+            $('#changePasswordSubmit').prop('disabled', true);
+            form.submit();
+        }
     });
 });

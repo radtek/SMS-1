@@ -15,6 +15,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 ));
 
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
+                "~/content/css/toastr.min.css",
                 "~/content/css/smartadmin-production.min.css",
                 "~/content/css/smartadmin-skins.min.css",
                 "~/content/css/smartadmin-rtl.min.css",
@@ -47,7 +48,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
-                "~/Scripts/Libs/accounting.js"
+                "~/Scripts/Libs/accounting.js",
+                "~/Scripts/Libs/toastr.min.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/websitelayout").Include(
@@ -200,9 +202,10 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails").Include("~/Areas/Buyer/Views/SafeBuyer/_ConfirmDetails.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
-            
+
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));            

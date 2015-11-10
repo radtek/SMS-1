@@ -7,6 +7,9 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="userMenu">
+            <li class="dropdown-header visible-xs">
+                <span>@Context.GetUserName()</span>
+            </li>
             <li>
                 <a href="@Url.Action("ChangePassword", "MyAccount", new {area = "Account", ReturnUrl = Request.Url.PathAndQuery })" title="Change Password"><i class="fa fa-key"></i><span class="header-btn-text">Change Password</span></a>
             </li>
@@ -17,7 +20,7 @@
         </ul>
     </div>
 
-    <div id="welcome-message" class="pull-right margin-top-15 margin-right-15">
+    <div id="welcome-message" class="pull-right margin-top-15 margin-right-15 hidden-xs">
         <span>Welcome @Context.GetUserName()</span>
     </div>
 }
