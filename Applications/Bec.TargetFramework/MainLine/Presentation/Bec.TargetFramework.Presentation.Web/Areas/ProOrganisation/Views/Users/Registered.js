@@ -27,10 +27,6 @@ $(function () {
                         title: "Email"
                     },
                     {
-                        field: "UserAccount.Username",
-                        title: "Username"
-                    },
-                    {
                         field: "UserAccount.Created",
                         title: "Invite Created",
                         template: function (dataItem) { return dateString(dataItem.UserAccount.Created); }
@@ -47,7 +43,6 @@ $(function () {
 function rChange(dataItem) {
     $("p#ddName").text(dataItem.Contact.Salutation + " " + dataItem.Contact.FirstName + " " + dataItem.Contact.LastName);
     $("p#ddEmail").text(dataItem.UserAccount.Email || "");
-    $("p#ddUsername").text(dataItem.UserAccount.Username || "");
 
     $("#editButton").data('href', $("#editButton").data("url") + "?uaoID=" + dataItem.UserAccountOrganisationID);
 }

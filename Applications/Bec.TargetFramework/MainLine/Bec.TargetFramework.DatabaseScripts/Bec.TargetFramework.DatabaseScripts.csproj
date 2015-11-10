@@ -37,6 +37,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Development\1.3.47-national-pilot-4-firms\TFCore_combined.sql" />
+    <None Include="Development\1.3.47-national-pilot-4-firms\TF_combined.sql" />
+    <None Include="Development\1.3.48-national-pilot-all-firms\01_AddSmsBankAccountCheck.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />
