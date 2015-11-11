@@ -386,6 +386,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for OrganisationRecommendationSourceID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> OrganisationRecommendationSourceID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for SchemeID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> SchemeID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

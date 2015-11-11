@@ -84,6 +84,8 @@ function activeChange(dataItem) {
     $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    $("p#ddaReferrer").text(dataItem.Referrer || "");
+    $("p#ddaSchemeID").text(dataItem.SchemeID || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
