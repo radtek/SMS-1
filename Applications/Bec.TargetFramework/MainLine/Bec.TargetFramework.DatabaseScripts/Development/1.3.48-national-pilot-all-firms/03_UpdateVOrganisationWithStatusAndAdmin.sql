@@ -1,4 +1,7 @@
 --reports
+
+ALTER TABLE public."Organisation" ADD COLUMN "FilesPerMonth" INTEGER DEFAULT 0 NOT NULL;
+
 ALTER TABLE public."UserAccounts" ADD COLUMN "AccountCreated" TIMESTAMP(0) WITH TIME ZONE;
 update "UserAccounts" set "AccountCreated" = "PasswordChanged" where "IsTemporaryAccount" = false;
 update "UserAccounts" a set "Created" = (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email") where a."IsTemporaryAccount" = false and EXISTS (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email");
