@@ -1,7 +1,7 @@
--- =======================================================================
--- 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
--- =======================================================================
---add columns to vorg view
+--reports
+ALTER TABLE public."UserAccounts" ADD COLUMN "AccountCreated" TIMESTAMP(0) WITH TIME ZONE;
+update "UserAccounts" set "AccountCreated" = "PasswordChanged" where "IsTemporaryAccount" = false;
+update "UserAccounts" a set "Created" = (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email") where a."IsTemporaryAccount" = false and EXISTS (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email");
 
 -- object recreation
 DROP VIEW public."vOrganisationWithStatusAndAdmin";
@@ -44,7 +44,8 @@ CREATE VIEW public."vOrganisationWithStatusAndAdmin"(
     "UserAccountOrganisationID",
     "RegisteredAsName",
     "OrganisationRecommendationSourceID",
-    "SchemeID")
+    "SchemeID",
+    "FilesPerMonth")
 AS
   SELECT org."OrganisationID",
          orgd."Name",
@@ -86,7 +87,8 @@ AS
          uao."UserAccountOrganisationID",
          orgd."RegisteredAsName",
          org."OrganisationRecommendationSourceID",
-         org."SchemeID"
+         org."SchemeID",
+         org."FilesPerMonth"
   FROM "Organisation" org
        LEFT JOIN "OrganisationDetail" orgd ON orgd."OrganisationID" =
          org."OrganisationID"
@@ -150,6 +152,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vOrganisationWithStatusAndAdmin" TO bef;
 
--- =======================================================================
--- END - 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
--- =======================================================================
+
+
+ALTER TABLE public."Organisation" ADD COLUMN "FilesPerMonth" INTEGER DEFAULT 0 NOT NULL;

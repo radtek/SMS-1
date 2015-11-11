@@ -194,6 +194,7 @@ function unverifiedChange(dataItem) {
     $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
     $("p#dduReferrer").text(dataItem.Referrer || "");
     $("p#dduSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddufpm").text(dataItem.FilesPerMonth || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
@@ -217,6 +218,7 @@ function verifiedChange(dataItem) {
     $("p#ddvVerifiedPhoneNumber").text(dataItem.Notes || "");
     $("p#ddvReferrer").text(dataItem.Referrer || "");
     $("p#ddvSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddvfpm").text(dataItem.FilesPerMonth || "");
     
     $("p#ddvSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
@@ -250,6 +252,7 @@ function rejectedChange(dataItem) {
     $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
     $("p#ddrReferrer").text(dataItem.Referrer || "");
     $("p#ddrSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddrfpm").text(dataItem.FilesPerMonth || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;

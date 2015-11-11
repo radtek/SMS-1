@@ -406,6 +406,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for FilesPerMonth in the schema.
+        /// </summary>
+        public virtual int FilesPerMonth
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

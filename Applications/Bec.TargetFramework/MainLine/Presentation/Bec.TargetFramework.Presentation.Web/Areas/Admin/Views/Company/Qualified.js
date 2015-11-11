@@ -86,6 +86,7 @@ function activeChange(dataItem) {
     $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
     $("p#ddaReferrer").text(dataItem.Referrer || "");
     $("p#ddaSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddafpm").text(dataItem.FilesPerMonth || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
