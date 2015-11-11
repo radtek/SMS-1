@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> IsOrganisationInSystem(string regulatorNumber)
+        public async Task<bool> IsOrganisationInSystem(Guid? orgID, string regulatorNumber)
         {
             Ensure.That(regulatorNumber).IsNotNullOrWhiteSpace();
 
@@ -78,7 +78,7 @@ namespace Bec.TargetFramework.Business.Logic
                         item.RegulatorNumber.ToLower() == regulatorNumber.Trim().ToLower() &&
                         item.StatusValueName != rejectedStatusName &&
                         item.StatusValueName != unverifiedStatusName);
-
+                if (orgID.HasValue) query = query.Where(x => x.OrganisationID != orgID.Value);
                 return query.Count() > 0;
             }
         }
@@ -388,6 +388,14 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisations.Single(item => item.OrganisationID == id).ToDto();
+            }
+        }
+
+        public VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdmin(Guid id)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Single(item => item.OrganisationID == id).ToDto();
             }
         }
 
@@ -721,6 +729,24 @@ namespace Bec.TargetFramework.Business.Logic
                     return 0;
                 else
                     return record.Balance;
+            }
+        }
+
+        public async Task VerifyOrganisation(Guid orgID, string orgName, int filesPerMonth, string regulatorNumber)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == orgID);
+                org.FilesPerMonth = filesPerMonth;
+
+                var detail = org.OrganisationDetails.FirstOrDefault();
+                if (detail != null) detail.Name = orgName;
+
+                var contact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == orgID);
+                var cReg = contact.ContactRegulators.FirstOrDefault();
+                if (cReg != null) cReg.RegulatorNumber = regulatorNumber;
+
+                await scope.SaveChangesAsync();
             }
         }
     }

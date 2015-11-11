@@ -535,13 +535,15 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void ExpireUserAccountOrganisation(Guid uaoID);
 
+		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Task<Boolean> IsOrganisationInSystemAsync(String regulatorNumber);
+		Task<Boolean> IsOrganisationInSystemAsync(Nullable<Guid> orgID,String regulatorNumber);
 
+		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Boolean IsOrganisationInSystem(String regulatorNumber);
+		Boolean IsOrganisationInSystem(Nullable<Guid> orgID,String regulatorNumber);
 
 		/// <returns></returns>
 		Task RejectOrganisationAsync(RejectCompanyDTO dto);
@@ -626,6 +628,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="id"></param>
 		/// <returns></returns>
 		VOrganisationDTO GetOrganisationDTO(Guid id);
+
+		/// <param name="id"></param>
+		/// <returns></returns>
+		Task<VOrganisationWithStatusAndAdminDTO> GetOrganisationWithStatusAndAdminAsync(Guid id);
+
+		/// <param name="id"></param>
+		/// <returns></returns>
+		VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdmin(Guid id);
 
 		/// <param name="orgID"></param>
 		/// <param name="enumType"></param>
@@ -748,6 +758,20 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="date"></param>
 		/// <returns></returns>
 		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
+
+		/// <param name="orgID"></param>
+		/// <param name="orgName"></param>
+		/// <param name="filesPerMonth"></param>
+		/// <param name="regulatorNumber"></param>
+		/// <returns></returns>
+		Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+
+		/// <param name="orgID"></param>
+		/// <param name="orgName"></param>
+		/// <param name="filesPerMonth"></param>
+		/// <param name="regulatorNumber"></param>
+		/// <returns></returns>
+		void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -2723,24 +2747,26 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		public virtual Task<Boolean> IsOrganisationInSystemAsync(String regulatorNumber)
+		public virtual Task<Boolean> IsOrganisationInSystemAsync(Nullable<Guid> orgID,String regulatorNumber)
 		{
 			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?regulatorNumber=" + regulatorNumber, null, _user);
+			return PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?orgID=" + orgID + "&regulatorNumber=" + regulatorNumber, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="orgID"></param>
 		/// <param name="regulatorNumber"></param>
-		public virtual Boolean IsOrganisationInSystem(String regulatorNumber)
+		public virtual Boolean IsOrganisationInSystem(Nullable<Guid> orgID,String regulatorNumber)
 		{
 			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?regulatorNumber=" + regulatorNumber, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/OrganisationLogic/IsOrganisationInSystem?orgID=" + orgID + "&regulatorNumber=" + regulatorNumber, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -2955,6 +2981,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<VOrganisationDTO>("api/OrganisationLogic/GetOrganisationDTO?id=" + id, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public virtual Task<VOrganisationWithStatusAndAdminDTO> GetOrganisationWithStatusAndAdminAsync(Guid id)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<VOrganisationWithStatusAndAdminDTO>("api/OrganisationLogic/GetOrganisationWithStatusAndAdmin?id=" + id, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		public virtual VOrganisationWithStatusAndAdminDTO GetOrganisationWithStatusAndAdmin(Guid id)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<VOrganisationWithStatusAndAdminDTO>("api/OrganisationLogic/GetOrganisationWithStatusAndAdmin?id=" + id, _user)).Result;
 		}
 
 		/// <summary>
@@ -3223,6 +3270,37 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Decimal>("api/OrganisationLogic/GetBalanceAsAt?accountID=" + accountID + "&date=" + date.ToString("O"), _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="orgName"></param>
+		/// <param name="filesPerMonth"></param>
+		/// <param name="regulatorNumber"></param>
+		/// <returns></returns>
+		public virtual Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		{
+			orgName = orgName.UrlEncode();
+			regulatorNumber = regulatorNumber.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="orgName"></param>
+		/// <param name="filesPerMonth"></param>
+		/// <param name="regulatorNumber"></param>
+		public virtual void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		{
+			orgName = orgName.UrlEncode();
+			regulatorNumber = regulatorNumber.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user)).Wait();
 		}
 
 		#endregion

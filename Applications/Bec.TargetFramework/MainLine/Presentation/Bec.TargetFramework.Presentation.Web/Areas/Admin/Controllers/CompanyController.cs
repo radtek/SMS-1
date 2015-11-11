@@ -62,24 +62,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<ActionResult> ViewVerify(Guid orgId)
         {
-            var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
+            var org = await OrganisationClient.GetOrganisationWithStatusAndAdminAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
             ViewBag.companyName = org.Name;
+            ViewBag.regNumber = org.RegulatorNumber;
             return PartialView("_Verify");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Verify(Guid orgId, string notes, string name)
+        public async Task<ActionResult> Verify(Guid orgId, string notes, string name, int filesPerMonth, string regulatorNumber)
         {
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
-
-            //update RegisteredAsName
-            var filter = ODataHelper.Filter<OrganisationDetailDTO>(x => x.OrganisationID == orgId); //this is enough to retrieve the one detail record.
-            var data = JObject.FromObject(new { Name = name });
-            await queryClient.UpdateGraphAsync("OrganisationDetails", data, filter);
+            await OrganisationClient.VerifyOrganisationAsync(orgId, name, filesPerMonth, regulatorNumber);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;

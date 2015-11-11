@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Data
           this.IsPaymentProvider = false;
           this.IsCompanyVerified = false;
           this.ReturnUrl = @"";
+          this.FilesPerMonth = 0;
         }
 
         #region Properties
@@ -279,6 +280,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SchemeID in the schema.
         /// </summary>
         public virtual global::System.Nullable<int> SchemeID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FilesPerMonth in the schema.
+        /// </summary>
+        public virtual int FilesPerMonth
         {
             get;
             set;

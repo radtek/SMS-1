@@ -9651,6 +9651,7 @@
           <Property Name="RowVersion" Type="bigint" devart:DefaultValue="nextval('rvsequence'::regclass)" />
           <Property Name="OrganisationRecommendationSourceID" Type="int" />
           <Property Name="SchemeID" Type="int" />
+          <Property Name="FilesPerMonth" Type="int" Nullable="false" DefaultValue="0" />
         </EntityType>
         <EntityType Name="vOrganisationWithStatusAndAdmin">
           <Key>
@@ -28668,6 +28669,7 @@
           <Property Name="RowVersion" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ebb2e06-f571-4621-adb9-93df1df3c4ed" />
           <Property Name="OrganisationRecommendationSourceID" Type="Int32" ed:ValidateRequired="False" ed:Guid="1f4d262c-7e42-4f67-88b6-4800c5480646" />
           <Property Name="SchemeID" Type="Int32" ed:ValidateRequired="False" ed:Guid="7999df8c-98f3-4a6f-b89c-84983e4c3799" />
+          <Property Name="FilesPerMonth" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="2619b439-89fc-441d-a64e-68cad6ed6553" />
           <NavigationProperty Name="Contact" Relationship="Bec.TargetFramework.Data.fk_Organisation_Contact" FromRole="Organisations" ToRole="Contact" ed:Guid="b6e2939f-bf26-4b96-8947-5d85c5c326e9" />
           <NavigationProperty Name="DefaultOrganisation" Relationship="Bec.TargetFramework.Data.fk_Organisation_DefaultOrganisation" FromRole="Organisations" ToRole="DefaultOrganisation" ed:Guid="fc64c38c-a98e-4413-9c3f-5fad1c826f6b" />
           <NavigationProperty Name="OrganisationType" Relationship="Bec.TargetFramework.Data.fk_Organisation_OrganisationType" FromRole="Organisations" ToRole="OrganisationType" ed:Guid="225b1679-ada9-478c-b51a-cf9324e9bb73" />
@@ -43259,6 +43261,7 @@
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
                 <ScalarProperty Name="OrganisationRecommendationSourceID" ColumnName="OrganisationRecommendationSourceID" />
                 <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
+                <ScalarProperty Name="FilesPerMonth" ColumnName="FilesPerMonth" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
