@@ -213,6 +213,9 @@
         $('#bPostalCode-' + index).text(data.Address.PostalCode);
 
         $('#detailsRow-' + index).show();
+
+        $('#post-no-match-' + index).hide();
+        $('#notify-button-' + index).show();
     }
 
     function initLenderSearch() {

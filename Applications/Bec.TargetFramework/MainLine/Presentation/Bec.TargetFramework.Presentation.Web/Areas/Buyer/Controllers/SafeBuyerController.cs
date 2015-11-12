@@ -1,16 +1,16 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using Bec.TargetFramework.Business.Client.Interfaces;
-using Bec.TargetFramework.Infrastructure.Extensions;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.DTO.Event;
+using Bec.TargetFramework.Entities.DTO.Notification;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
-using Bec.TargetFramework.Entities.Enums;
-using System.Linq.Expressions;
-using Bec.TargetFramework.Entities.DTO;
-using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 {
@@ -46,7 +46,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsUserAccountOrganisationTransactionTypeID,
-                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name })
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
+                Status = x.SmsTransaction.Organisation.OrganisationStatus.Select(z => new { z.Notes, z.StatusTypeValue.Name })
             });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
@@ -124,6 +125,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             //check bank account
             var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> NotifyOrganisationNoMatch(Guid txID, string accountNumber, string sortCode)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await BankAccountClient.PublishCheckNoMatchNotificationAsync(uaoID, txID, accountNumber, sortCode);
+            return null;
         }
     }
 }

@@ -25,6 +25,7 @@
                         {
                             var personaName = ((UserAccountOrganisationTransactionType)tx.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
                             var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                            var tel = tx.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
                             
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -93,7 +94,11 @@
                                                     <h4 class="alert alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds.</h4>
                                                     <p>The bank account with account number <strong><span id="accountNumberNoMatch-@i"></span></strong> and sort code <strong><span id="sortCodeNoMatch-@i"></span></strong> isn't a registered bank account on The Safe Move Scheme.</p>
                                                     <p>If you have made a mistake, please correct the details and check again.</p>
-                                                    <p>Otherwise, please contact @companyName immediately.</p>
+                                                    <p>Otherwise, please disregard any information you have been given regarding to these account details.</p>
+                                                    <br />
+                                                    <a id="notify-button-@i" class="btn btn-danger btn-lg notify-button" data-index="@i" data-href="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer", txID = tx.SmsTransactionID })">Click here to contact @companyName immediately</a>
+                                             
+                                                    <div style="display:none;" id="post-no-match-@i"><h4 class="alert">Please call <strong>@companyName</strong> on <strong>@tel</strong> straight away and inform them that the bank account details you have checked do not match those on our system.</h4></div>
                                                 </div>
 
                                                 <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">

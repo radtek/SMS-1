@@ -333,5 +333,33 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
             }
         }
+
+        public async Task PublishCheckNoMatchNotification(Guid uaoID, Guid txID, string accountNumber, string sortCode)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+
+                var notificationDto = new BankAccountCheckNoMatchNotificationDTO
+                {
+                    OrganisationId = tx.OrganisationID,
+                    AccountNumber = accountNumber,
+                    SortCode = sortCode,
+                    MarkedBy = uao.UserAccount.Email
+                };
+                string payLoad = JsonHelper.SerializeData(new object[] { notificationDto });
+
+                var dto = new EventPayloadDTO
+                {
+                    EventName = NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue(),
+                    EventSource = AppDomain.CurrentDomain.FriendlyName,
+                    EventReference = "0005",
+                    PayloadAsJson = payLoad
+                };
+
+                await EventPublishClient.PublishEventAsync(dto);
+            }
+        }
     }
 }

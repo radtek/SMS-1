@@ -146,6 +146,20 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notes"></param>
 		/// <returns></returns>
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
+
+		/// <param name="uaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid txID,String accountNumber,String sortCode);
+
+		/// <param name="uaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		void PublishCheckNoMatchNotification(Guid uaoID,Guid txID,String accountNumber,String sortCode);
 	}
 
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
@@ -1736,6 +1750,37 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			notes = notes.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/BankAccountLogic/ToggleBankAccountActive?orgID=" + orgID + "&baID=" + baID + "&active=" + active + "&notes=" + notes, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		public virtual Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid txID,String accountNumber,String sortCode)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&txID=" + txID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="txID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		public virtual void PublishCheckNoMatchNotification(Guid uaoID,Guid txID,String accountNumber,String sortCode)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&txID=" + txID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Wait();
 		}
 
 		#endregion

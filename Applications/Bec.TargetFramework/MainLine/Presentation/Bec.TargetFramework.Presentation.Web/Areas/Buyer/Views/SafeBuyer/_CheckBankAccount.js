@@ -67,4 +67,7 @@ function showDetails(data, an, sc, index) {
     $('#sortCodeMatch-' + index).text(sc);
     $('#accountNumberNoMatch-' + index).text(an);
     $('#sortCodeNoMatch-' + index).text(sc);
+
+    $('#post-no-match-' + index).hide();
+    $('#notify-button-' + index).show();
 }

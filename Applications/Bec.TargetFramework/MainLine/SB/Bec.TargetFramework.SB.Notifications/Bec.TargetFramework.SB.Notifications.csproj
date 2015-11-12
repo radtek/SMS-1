@@ -89,6 +89,7 @@
     <Compile Include="Base\IBaseNotificationMutator.cs" />
     <Compile Include="Mutators\AddNewUserTempDetailsMutator.cs" />
     <Compile Include="Mutators\AddCompanyAdministratorTempDetailsMutator.cs" />
+    <Compile Include="Mutators\BankAccountCheckNoMatchMutator.cs" />
     <Compile Include="Mutators\NewInternalMessagesMutator.cs" />
     <Compile Include="Mutators\CreditAdjustmentMutator.cs" />
     <Compile Include="Mutators\BankAccountMarkedAsSafeMutator.cs" />
