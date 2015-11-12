@@ -15,6 +15,7 @@
                     <li><p>@Html.ActionLink("SMS - Safe Buyer", "SafeBuyer")</p></li>
                     <li><p>@Html.ActionLink("Logo Usage Guidelines", "LogoUsageGuidelines")</p></li>
                     <li><p>Scheme Logo: @Html.ActionLink("PNG", "SchemeLogo", new { format = ImageFormat.Png }), @Html.ActionLink("JPG", "SchemeLogo", new { format = ImageFormat.Jpeg })</p></li>
+                    <li><p>@Html.ActionLink("Client Terms and Conditions", "ClientTsCs")</p></li>
                 </ul>
 
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))

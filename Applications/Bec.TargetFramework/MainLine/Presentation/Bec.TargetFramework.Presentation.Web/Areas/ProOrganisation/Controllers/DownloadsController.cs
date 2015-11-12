@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
     {
         public IBankAccountLogicClient BankAccountClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         // GET: ProOrganisation/Users
         public async Task<ActionResult> Index()
@@ -104,6 +105,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public ActionResult SafeBuyer()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
+        }
+
+        public async Task<ActionResult> ClientTsCs()
+        {
+            var name = NotificationConstructEnum.TcPublic.GetStringValue();
+            var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
+            var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == name);
+            var ncs = await QueryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var nc = ncs.OrderByDescending(n => n.NotificationConstructVersionNumber).First();
+
+            var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, null);
+
+            return File(data, "application/pdf", string.Format("SMS Client Terms And Conditions.pdf"));
         }
     }
 }
