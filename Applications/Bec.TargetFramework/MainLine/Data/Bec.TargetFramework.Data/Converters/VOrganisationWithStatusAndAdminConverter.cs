@@ -68,6 +68,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
+            target.ActiveSafeAccounts = source.ActiveSafeAccounts;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -122,6 +123,7 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
+            target.ActiveSafeAccounts = source.ActiveSafeAccounts;
 
             // User-defined partial method
             OnEntityCreating(source, target);
