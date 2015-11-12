@@ -69,7 +69,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountOrganisation.UserAccount.LastLogin,
                 x.UserAccountOrganisation.PinCode,
-                x.LatestBankAccountCheck.CheckedOn
+                x.LatestBankAccountCheck.CheckedOn,
+                x.SrcFundsBankAccountNumber,
+                x.SrcFundsBankAccountSortCode
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();

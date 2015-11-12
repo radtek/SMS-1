@@ -9868,6 +9868,8 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="Confirmed" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="LatestBankAccountCheckID" Type="uuid" />
+          <Property Name="SrcFundsBankAccountSortCode" Type="varchar" Nullable="false" MaxLength="10" devart:DefaultValue="''" DefaultValue="" />
+          <Property Name="SrcFundsBankAccountNumber" Type="varchar" Nullable="false" MaxLength="20" devart:DefaultValue="''" DefaultValue="" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -28937,6 +28939,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="22a5f1eb-c7bf-41dc-a453-dc453ef4da06" />
           <Property Name="LatestBankAccountCheckID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a0c391f2-2c6b-4575-92cc-eb0895cb5ce1" />
+          <Property Name="SrcFundsBankAccountSortCode" Type="String" Nullable="false" DefaultValue="''" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="True" ed:Guid="8511ea46-9c75-4e30-a08f-b9b3b77a7cda" />
+          <Property Name="SrcFundsBankAccountNumber" Type="String" Nullable="false" DefaultValue="''" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="True" ed:Guid="825eea1e-4c7a-4f9d-bfa4-21ca2bfa8bc9" />
           <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
@@ -43464,6 +43468,8 @@
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
                 <ScalarProperty Name="LatestBankAccountCheckID" ColumnName="LatestBankAccountCheckID" />
+                <ScalarProperty Name="SrcFundsBankAccountSortCode" ColumnName="SrcFundsBankAccountSortCode" />
+                <ScalarProperty Name="SrcFundsBankAccountNumber" ColumnName="SrcFundsBankAccountNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

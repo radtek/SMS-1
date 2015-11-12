@@ -77,6 +77,16 @@
                         return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
                     }
                 }
+            },
+            "SrcFundsBankAccountNumber": {
+                required: true,
+                digits: true,
+                minlength: 8
+            },
+            "SrcFundsBankAccountSortCode": {
+                required: true,
+                digits: true,
+                minlength: 6
             }
         };
 

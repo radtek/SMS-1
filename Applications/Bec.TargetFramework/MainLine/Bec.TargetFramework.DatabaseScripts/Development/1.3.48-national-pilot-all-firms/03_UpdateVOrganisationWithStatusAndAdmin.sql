@@ -1,11 +1,6 @@
---reports
-
-ALTER TABLE public."Organisation" ADD COLUMN "FilesPerMonth" INTEGER DEFAULT 0 NOT NULL;
-
-ALTER TABLE public."UserAccounts" ADD COLUMN "AccountCreated" TIMESTAMP(0) WITH TIME ZONE;
-update "UserAccounts" set "AccountCreated" = "PasswordChanged" where "IsTemporaryAccount" = false;
-update "UserAccounts" a set "Created" = (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email") where a."IsTemporaryAccount" = false and EXISTS (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email");
-
+-- =======================================================================
+-- 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
+-- =======================================================================
 -- object recreation
 DROP VIEW public."vOrganisationWithStatusAndAdmin";
 
@@ -155,6 +150,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vOrganisationWithStatusAndAdmin" TO bef;
 
-
-
-ALTER TABLE public."Organisation" ADD COLUMN "FilesPerMonth" INTEGER DEFAULT 0 NOT NULL;
+-- =======================================================================
+-- END - 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
+-- =======================================================================

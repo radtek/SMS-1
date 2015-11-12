@@ -42,6 +42,7 @@
     <None Include="Development\1.3.48-national-pilot-all-firms\01_AddSmsBankAccountCheck.sql" />
     <None Include="Development\1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin.sql" />
     <None Include="Development\1.3.48-national-pilot-all-firms\02_AddAccountCreatedColumn.sql" />
+    <None Include="Development\1.3.48-national-pilot-all-firms\04_BankAccountForBuyers.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />

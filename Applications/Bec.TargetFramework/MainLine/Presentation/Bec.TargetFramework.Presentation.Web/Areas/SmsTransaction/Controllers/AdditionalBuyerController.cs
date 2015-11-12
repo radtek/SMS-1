@@ -31,7 +31,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.Contact.FirstName,
                 x.Contact.LastName,
                 x.Contact.BirthDate,
-                x.LatestBankAccountCheck.CheckedOn
+                x.LatestBankAccountCheck.CheckedOn,
+                x.SmsUserAccountOrganisationTransactionID,
+                x.SrcFundsBankAccountNumber,
+                x.SrcFundsBankAccountSortCode
             });
             var additionalBuyerTypeID = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 

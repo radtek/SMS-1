@@ -164,6 +164,29 @@
                                                     </label>
                                                 </section>
                                             </div>
+
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Source of Funds</legend>
+                                            <div class="alert alert-info fade in">
+                                                <p>Please enter the bank account details you will be sending the money from.</p>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-6">
+                                                    <label class="label">Account Number</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SrcFundsBankAccountNumber, new { tabindex = "15", maxlength = 8 })
+                                                    </label>
+                                                </section>
+                                                <section class="col col-6">
+                                                    <label class="label">Sort Code</label>
+                                                    <label class="input">
+                                                        <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                                        @Html.TextBoxFor(m => m.SrcFundsBankAccountSortCode, new { tabindex = "16", maxlength = 6 })
+                                                    </label>
+                                                </section>
+                                            </div>
                                         </fieldset>
                                     </div>
                                     @if (canEditTransactionDetails)

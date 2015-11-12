@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsUserAccountOrganisationTransactionDTO() {
         }
 
-        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool confirmed, global::System.Nullable<System.Guid> latestBankAccountCheckID, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks_SmsUserAccountOrganisationTransactionID, SmsBankAccountCheckDTO latestBankAccountCheck) {
+        public SmsUserAccountOrganisationTransactionDTO(global::System.Guid smsUserAccountOrganisationTransactionID, global::System.Guid userAccountOrganisationID, global::System.Guid smsTransactionID, int smsUserAccountOrganisationTransactionTypeID, global::System.Nullable<System.Guid> addressID, global::System.Guid contactID, bool isActive, bool isDeleted, global::System.DateTime createdOn, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool confirmed, global::System.Nullable<System.Guid> latestBankAccountCheckID, string srcFundsBankAccountSortCode, string srcFundsBankAccountNumber, SmsTransactionDTO smsTransaction, SmsUserAccountOrganisationTransactionTypeDTO smsUserAccountOrganisationTransactionType, AddressDTO address, ContactDTO contact, UserAccountOrganisationDTO userAccountOrganisation, List<SmsBankAccountCheckDTO> smsBankAccountChecks_SmsUserAccountOrganisationTransactionID, SmsBankAccountCheckDTO latestBankAccountCheck) {
 
           this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
           this.UserAccountOrganisationID = userAccountOrganisationID;
@@ -38,6 +38,8 @@ namespace Bec.TargetFramework.Entities
           this.ModifiedBy = modifiedBy;
           this.Confirmed = confirmed;
           this.LatestBankAccountCheckID = latestBankAccountCheckID;
+          this.SrcFundsBankAccountSortCode = srcFundsBankAccountSortCode;
+          this.SrcFundsBankAccountNumber = srcFundsBankAccountNumber;
           this.SmsTransaction = smsTransaction;
           this.SmsUserAccountOrganisationTransactionType = smsUserAccountOrganisationTransactionType;
           this.Address = address;
@@ -92,6 +94,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> LatestBankAccountCheckID { get; set; }
+
+        [DataMember]
+        public string SrcFundsBankAccountSortCode { get; set; }
+
+        [DataMember]
+        public string SrcFundsBankAccountNumber { get; set; }
 
         #endregion
 
