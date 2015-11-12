@@ -1,0 +1,10 @@
+In order to use the WebsiteOffline tool it is required to setup the target environment in a specific way:
+
+1. Copy the 'Offline' directory next to the SMS website directory. 
+2. Make sure that the SMS website in IIS is called 'Default'.
+3. Create new IIS website called 'Offline' with the :443 on https and with the same certificate as the 'Default' website.
+4. Point that to the 'Offline' directory.
+5. Copy 'PS' directory and PutWebsiteUnderMaintanance.bat and SwitchWebsiteOn.bat files to X:\Tools for easy access.
+
+To have Under Maintanance page run PutWebsiteUnderMaintanance.bat as an Administrator.
+To get the website back, use SwitchWebsiteOn.bat.
