@@ -280,20 +280,35 @@
     function initAddBankAccounts() {
         var index = 1;
         var srcFundBankAccountTemplatePromise = $.Deferred();
+        var addNextBankAccountBtn = $('#addNextBankAccountBtn');
+        var addNextBankAccountRow = $('#addNextBankAccountRow');
         ajaxWrapper({
-            url: $('#addNextBankAccountRow').data("templateurl")
+            url: addNextBankAccountRow.data("templateurl")
         }).done(function (res) {
             srcFundBankAccountTemplatePromise.resolve(Handlebars.compile(res));
         });
         
-        $('#addNextBankAccountBtn').click(function (event) {
-            var templateData = {
-                index: index++
+        addNextBankAccountBtn.click(function (event) {
+            var getLastBankAccount = function () {
+                return {
+                    accountNumber: $('input[name="SmsSrcFundsBankAccounts[' + (index - 1) + '].AccountNumber'),
+                    sortCode: $('input[name="SmsSrcFundsBankAccounts[' + (index - 1) + '].SortCode')
+                };
             };
-            srcFundBankAccountTemplatePromise.done(function (template) {
-                var html = template(templateData);
-                $('#addNextBankAccountRow').before(html);
-            });
+
+            var lastBankAccount = getLastBankAccount();
+            if (lastBankAccount.accountNumber.val() && lastBankAccount.sortCode.val()) {
+                var templateData = {
+                    index: index++
+                };
+                srcFundBankAccountTemplatePromise.done(function (template) {
+                    var html = template(templateData);
+                    addNextBankAccountRow.before(html);
+
+                    var newBankAccount = getLastBankAccount();
+                    newBankAccount.accountNumber.focus();
+                });
+            }
 
             event.preventDefault();
             return false;
@@ -306,9 +321,44 @@
                 .addClass('red-bg')
                 .fadeOut(500, function () {
                     parentToRemove.remove();
+                    renumberInputs('input[name$="AccountNumber"]', 'SmsSrcFundsBankAccounts');
+                    renumberInputs('input[name$="SortCode"]', 'SmsSrcFundsBankAccounts');
+                    reindexElementAttr('[id^="bankAccountRow"]', 'bankAccountRow', 'id');
+                    reindexElementAttr('[data-parent-id^="bankAccountRow"', 'bankAccountRow', 'data-parent-id');
+                    //reindexPrentIds('[data-parent-id^="bankAccountRow"]', 'bankAccountRow');
+                    index--;
                 });
             event.preventDefault();
             return false;
         });
     }
+
+    function renumberInputs(inputsSelector, prefix) {
+        $(inputsSelector).each(function (index) {
+            var prefixWithIndex = prefix + "[" + index + "]";
+            var regExp = new RegExp(prefix + '\\[\\d+\\]');
+            this.name = this.name.replace(regExp, prefixWithIndex);
+        });
+    }
+
+    function reindexElementAttr(selector, prefix, attrName) {
+        $(selector).each(function (index) {
+            var prefixWithIndex = prefix + index;
+            var regExp = new RegExp(prefix + '\\d+');
+            var newValue = $(this).attr(attrName).replace(regExp, prefixWithIndex);
+            $(this).attr(attrName, newValue);
+
+            //this.id = this.id.replace(regExp, prefixWithIndex);
+        });
+    }
+
+    // !!! check parent ids !!!!
+
+    //function reindexPrentIds(selector, prefix) {
+    //    $(selector).each(function (index) {
+    //        var prefixWithIndex = prefix + index;
+    //        var regExp = new RegExp(prefix + '\\d+');
+    //        $(this).data('parent-id', $(this).data('parent-id').replace(regExp, prefixWithIndex));
+    //    });
+    //}
 });
