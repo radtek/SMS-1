@@ -406,6 +406,7 @@
           <EntitySet Name="SmsUserAccountOrganisationTransactions" EntityType="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" store:Type="Tables" Schema="sms" Table="SmsUserAccountOrganisationTransaction" />
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Store.Lender" store:Type="Tables" Schema="public" Table="Lender" />
           <EntitySet Name="SmsBankAccountChecks" EntityType="Bec.TargetFramework.Data.Store.SmsBankAccountCheck" store:Type="Tables" Schema="sms" Table="SmsBankAccountCheck" />
+          <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount" store:Type="Tables" Schema="sms" Table="SmsSrcFundsBankAccount" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2933,6 +2934,10 @@
           <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" Association="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk">
             <End Role="SmsBankAccountCheck" EntitySet="SmsBankAccountChecks" />
             <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsSrcFundsBankAccount_SmsUaot_fk" Association="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount_SmsUaot_fk">
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+            <End Role="SmsSrcFundsBankAccount" EntitySet="SmsSrcFundsBankAccounts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -9869,8 +9874,6 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="Confirmed" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="LatestBankAccountCheckID" Type="uuid" />
-          <Property Name="SrcFundsBankAccountSortCode" Type="varchar" Nullable="false" MaxLength="10" devart:DefaultValue="''" DefaultValue="" />
-          <Property Name="SrcFundsBankAccountNumber" Type="varchar" Nullable="false" MaxLength="20" devart:DefaultValue="''" DefaultValue="" />
         </EntityType>
         <EntityType Name="Lender">
           <Key>
@@ -9887,6 +9890,15 @@
           <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
           <Property Name="CheckedOn" Type="timestamptz" Nullable="false" />
           <Property Name="IsMatch" Type="boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SmsSrcFundsBankAccount">
+          <Key>
+            <PropertyRef Name="SmsSrcFundsBankAccountID" />
+          </Key>
+          <Property Name="SmsSrcFundsBankAccountID" Type="uuid" Nullable="false" />
+          <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="SortCode" Type="varchar" Nullable="false" MaxLength="10" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18028,6 +18040,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsSrcFundsBankAccount_SmsUaot_fk">
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.Store.SmsUserAccountOrganisationTransaction" Multiplicity="1" />
+          <End Role="SmsSrcFundsBankAccount" Type="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+            </Principal>
+            <Dependent Role="SmsSrcFundsBankAccount">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18443,6 +18467,7 @@
           <EntitySet Name="SmsUserAccountOrganisationTransactions" EntityType="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" />
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Lender" />
           <EntitySet Name="SmsBankAccountChecks" EntityType="Bec.TargetFramework.Data.SmsBankAccountCheck" />
+          <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.SmsSrcFundsBankAccount" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -20910,6 +20935,10 @@
           <AssociationSet Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fkSet" Association="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk">
             <End Role="LatestBankAccountCheck" EntitySet="SmsBankAccountChecks" />
             <End Role="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" EntitySet="SmsUserAccountOrganisationTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="SmsSrcFundsBankAccount_SmsUaot_fkSet" Association="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk">
+            <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
+            <End Role="SmsSrcFundsBankAccounts" EntitySet="SmsSrcFundsBankAccounts" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -28941,8 +28970,6 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="555dbde7-5dc1-441c-86c2-87f6de85936e" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="22a5f1eb-c7bf-41dc-a453-dc453ef4da06" />
           <Property Name="LatestBankAccountCheckID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a0c391f2-2c6b-4575-92cc-eb0895cb5ce1" />
-          <Property Name="SrcFundsBankAccountSortCode" Type="String" Nullable="false" DefaultValue="''" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="True" ed:Guid="8511ea46-9c75-4e30-a08f-b9b3b77a7cda" />
-          <Property Name="SrcFundsBankAccountNumber" Type="String" Nullable="false" DefaultValue="''" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="True" ed:Guid="825eea1e-4c7a-4f9d-bfa4-21ca2bfa8bc9" />
           <NavigationProperty Name="SmsTransaction" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsTransaction" ed:Guid="9ffe38ae-e45b-4556-9674-ea7f0b226303" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactionType" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="SmsUserAccountOrganisationTransactionType" ed:Guid="9fdc3040-736e-4bd0-a00e-260837db38e9" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_Address_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="Address" ed:Guid="8935e715-92aa-485a-ba4c-720eb05fb917" />
@@ -28950,6 +28977,7 @@
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="SmsUserAccountOrganisationTransactions" ToRole="UserAccountOrganisation" ed:Guid="6d6a0671-ad57-4a27-9029-7729497aca06" />
           <NavigationProperty Name="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ToRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ed:Guid="5b652779-bdc4-4316-9b58-22553b54ffe5" />
           <NavigationProperty Name="LatestBankAccountCheck" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ToRole="LatestBankAccountCheck" ed:Guid="85c62da9-9178-40eb-b13c-e31dc8e6d7f7" />
+          <NavigationProperty Name="SmsSrcFundsBankAccounts" Relationship="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk" FromRole="SmsUserAccountOrganisationTransaction" ToRole="SmsSrcFundsBankAccounts" ed:Guid="76590f11-ff18-489d-a7b3-744feb2e6be6" />
         </EntityType>
         <EntityType Name="Lender" ed:Guid="653a38da-926c-4632-8530-3af67e1fc6e6">
           <Key>
@@ -28968,6 +28996,16 @@
           <Property Name="IsMatch" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="1f84cb37-c6f5-4531-9bb7-69c83e318190" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" Relationship="Bec.TargetFramework.Data.SmsBankAccountCheck_SmsUserAccountOrganisationTransaction_fk" FromRole="SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID" ToRole="SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID" ed:Guid="b9fb9028-06fd-4805-93c7-289d3722352c" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" FromRole="LatestBankAccountCheck" ToRole="SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID" ed:Guid="82eb70ec-db58-4dd9-bde4-c3e81e101419" />
+        </EntityType>
+        <EntityType Name="SmsSrcFundsBankAccount" ed:Guid="163a17e2-997d-4f43-bef8-bf8d7b1c1dbc">
+          <Key>
+            <PropertyRef Name="SmsSrcFundsBankAccountID" />
+          </Key>
+          <Property Name="SmsSrcFundsBankAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="c42f42ed-f983-471d-b11a-4bd039e6b7e3" />
+          <Property Name="SmsUserAccountOrganisationTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1938df3a-9c88-41f2-8d9f-df84315d0e0d" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="True" ed:Guid="f412e92c-98db-4cdd-97a5-4f2719d083a3" />
+          <Property Name="SortCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="True" ed:Guid="2db5540a-a5f6-40a7-9bde-44f8bb286875" />
+          <NavigationProperty Name="SmsUserAccountOrganisationTransaction" Relationship="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk" FromRole="SmsSrcFundsBankAccounts" ToRole="SmsUserAccountOrganisationTransaction" ed:Guid="cfe89f81-3a8b-4a34-9aeb-a8ce45b1047d" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -36769,6 +36807,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsSrcFundsBankAccount_SmsUaot_fk" ed:Guid="52ea41b4-ecfd-4c45-a275-7c33912abcfa">
+          <End Role="SmsUserAccountOrganisationTransaction" Type="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction" Multiplicity="1" />
+          <End Role="SmsSrcFundsBankAccounts" Type="Bec.TargetFramework.Data.SmsSrcFundsBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmsUserAccountOrganisationTransaction">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+            </Principal>
+            <Dependent Role="SmsSrcFundsBankAccounts">
+              <PropertyRef Name="SmsUserAccountOrganisationTransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43471,8 +43521,6 @@
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
                 <ScalarProperty Name="LatestBankAccountCheckID" ColumnName="LatestBankAccountCheckID" />
-                <ScalarProperty Name="SrcFundsBankAccountSortCode" ColumnName="SrcFundsBankAccountSortCode" />
-                <ScalarProperty Name="SrcFundsBankAccountNumber" ColumnName="SrcFundsBankAccountNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43491,6 +43539,16 @@
                 <ScalarProperty Name="SmsUserAccountOrganisationTransactionID" ColumnName="SmsUserAccountOrganisationTransactionID" />
                 <ScalarProperty Name="CheckedOn" ColumnName="CheckedOn" />
                 <ScalarProperty Name="IsMatch" ColumnName="IsMatch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmsSrcFundsBankAccounts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SmsSrcFundsBankAccount">
+              <MappingFragment StoreEntitySet="SmsSrcFundsBankAccounts">
+                <ScalarProperty Name="SmsUserAccountOrganisationTransactionID" ColumnName="SmsUserAccountOrganisationTransactionID" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="SortCode" ColumnName="SortCode" />
+                <ScalarProperty Name="SmsSrcFundsBankAccountID" ColumnName="SmsSrcFundsBankAccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

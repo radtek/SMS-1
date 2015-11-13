@@ -20,16 +20,28 @@
     <dd><p>{{formattedLatestBankAccountCheckOn}}</p></dd>
     {{/if}}
 </dl>
-{{#xif "this.SrcFundsBankAccountNumber || this.SrcFundsBankAccountSortCode"}}
-    <h5>Source of Funds</h5>
-    <dl class="dl-horizontal">
-        {{#if SrcFundsBankAccountNumber}}
-        <dt>Account Number:</dt>
-        <dd><p>{{SrcFundsBankAccountNumber}}</p></dd>
-        {{/if}}
-        {{#if SrcFundsBankAccountSortCode}}
-        <dt>Sort Code:</dt>
-        <dd><p>{{SrcFundsBankAccountSortCode}}</p></dd>
-        {{/if}}
-    </dl>
-{{/xif}}
+{{#if srcFundsBankAccounts.length}}
+<h5>Source of Funds</h5>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Sort Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each srcFundsBankAccounts}}
+                    <tr>
+                        <td>{{AccountNumber}}</td>
+                        <td>{{SortCode}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{{/if}}

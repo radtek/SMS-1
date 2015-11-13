@@ -70,8 +70,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.UserAccount.LastLogin,
                 x.UserAccountOrganisation.PinCode,
                 x.LatestBankAccountCheck.CheckedOn,
-                x.SrcFundsBankAccountNumber,
-                x.SrcFundsBankAccountSortCode
+                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();

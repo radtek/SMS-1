@@ -4,6 +4,7 @@
     initLenderSearch();
     initPrimaryBuyerPostcodeLookup();
     initTransactionPostcodeLookup();
+    initAddBankAccounts();
     setupForm();
     setupWizard();
 
@@ -77,16 +78,6 @@
                         return $("#BuyingWithMortgageSelect").find("option:selected").val() != 0;
                     }
                 }
-            },
-            "SrcFundsBankAccountNumber": {
-                required: true,
-                digits: true,
-                minlength: 8
-            },
-            "SrcFundsBankAccountSortCode": {
-                required: true,
-                digits: true,
-                minlength: 6
             }
         };
 
@@ -284,5 +275,40 @@
             noMatch: '#sms_noMatch',
             findAddressButton: '#sms_findaddressbutton'
         }).setup();
+    }
+
+    function initAddBankAccounts() {
+        var index = 1;
+        var srcFundBankAccountTemplatePromise = $.Deferred();
+        ajaxWrapper({
+            url: $('#addNextBankAccountRow').data("templateurl")
+        }).done(function (res) {
+            srcFundBankAccountTemplatePromise.resolve(Handlebars.compile(res));
+        });
+        
+        $('#addNextBankAccountBtn').click(function (event) {
+            var templateData = {
+                index: index++
+            };
+            srcFundBankAccountTemplatePromise.done(function (template) {
+                var html = template(templateData);
+                $('#addNextBankAccountRow').before(html);
+            });
+
+            event.preventDefault();
+            return false;
+        });
+
+        $('body').on('click', '.delete-entry', function (event) {
+            var parentRowId = $(this).data('parent-id');
+            var parentToRemove = $('#' + parentRowId);
+            parentToRemove
+                .addClass('red-bg')
+                .fadeOut(500, function () {
+                    parentToRemove.remove();
+                });
+            event.preventDefault();
+            return false;
+        });
     }
 });

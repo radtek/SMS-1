@@ -2092,6 +2092,7 @@
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
+    <Content Include="Views\Shared\_srcFundsBankAccountTmpl.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

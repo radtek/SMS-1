@@ -574,8 +574,12 @@ namespace Bec.TargetFramework.Business.Logic
                     throw new Exception("The details have been updated by another user. Please go back and try again");
 
                 tx.Confirmed = true;
-                tx.SrcFundsBankAccountNumber = dto.SrcFundsBankAccountNumber;
-                tx.SrcFundsBankAccountSortCode = dto.SrcFundsBankAccountSortCode;
+                foreach (var bankAccount in dto.SmsSrcFundsBankAccounts)
+                {
+                    bankAccount.SmsSrcFundsBankAccountID = Guid.NewGuid();
+                    bankAccount.SmsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID;
+                    scope.DbContexts.Get<TargetFrameworkEntities>().SmsSrcFundsBankAccounts.Add(bankAccount.ToEntity());
+                }
 
                 if (tx.SmsUserAccountOrganisationTransactionTypeID == UserAccountOrganisationTransactionType.Buyer.GetIntValue())
                 {

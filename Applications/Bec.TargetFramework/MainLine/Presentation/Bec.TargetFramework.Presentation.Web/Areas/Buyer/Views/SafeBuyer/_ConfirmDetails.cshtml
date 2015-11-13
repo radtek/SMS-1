@@ -169,22 +169,27 @@
                                         <fieldset>
                                             <legend>Source of Funds</legend>
                                             <div class="alert alert-info fade in">
-                                                <p>Please enter the bank account details you will be sending the money from.</p>
+                                                <p>Please enter the bank account details of all bank accounts you will be sending the money from.</p>
                                             </div>
                                             <div class="row">
                                                 <section class="col col-6">
                                                     <label class="label">Account Number</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SrcFundsBankAccountNumber, new { tabindex = "15", maxlength = 8 })
+                                                        <input type="text" name="SmsSrcFundsBankAccounts[0].AccountNumber" maxlength="8" data-rule-required="true" data-rule-digits="true" data-rule-minlength="8" />
                                                     </label>
                                                 </section>
-                                                <section class="col col-6">
+                                                <section class="col col-5">
                                                     <label class="label">Sort Code</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.SrcFundsBankAccountSortCode, new { tabindex = "16", maxlength = 6 })
+                                                        <input type="text" name="SmsSrcFundsBankAccounts[0].SortCode" maxlength="6" data-rule-required="true" data-rule-digits="true" data-rule-minlength="6" />
                                                     </label>
+                                                </section>
+                                            </div>
+                                            <div id="addNextBankAccountRow" class="row" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "", view = "_srcFundsBankAccountTmpl" })">
+                                                <section class="col col-5">
+                                                    <a id="addNextBankAccountBtn" href="#" class="add-next-bank-account"><i class="fa fa-plus margin-right-10"></i>Add Next Bank Account</a>
                                                 </section>
                                             </div>
                                         </fieldset>

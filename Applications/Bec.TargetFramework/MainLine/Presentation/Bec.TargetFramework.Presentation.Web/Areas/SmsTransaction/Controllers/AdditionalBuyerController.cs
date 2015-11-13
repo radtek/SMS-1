@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
@@ -33,8 +34,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.Contact.BirthDate,
                 x.LatestBankAccountCheck.CheckedOn,
                 x.SmsUserAccountOrganisationTransactionID,
-                x.SrcFundsBankAccountNumber,
-                x.SrcFundsBankAccountSortCode
+                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
             var additionalBuyerTypeID = UserAccountOrganisationTransactionType.AdditionalBuyer.GetIntValue();
             var where = ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => 

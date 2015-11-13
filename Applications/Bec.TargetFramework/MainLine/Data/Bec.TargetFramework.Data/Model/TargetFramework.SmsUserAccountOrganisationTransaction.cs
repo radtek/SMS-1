@@ -26,8 +26,6 @@ namespace Bec.TargetFramework.Data
           this.IsActive = true;
           this.IsDeleted = false;
           this.Confirmed = false;
-          this.SrcFundsBankAccountSortCode = @"";
-          this.SrcFundsBankAccountNumber = @"";
         }
 
         #region Properties
@@ -171,26 +169,6 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
-    
-        /// <summary>
-        /// There are no comments for SrcFundsBankAccountSortCode in the schema.
-        /// </summary>
-        public virtual string SrcFundsBankAccountSortCode
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for SrcFundsBankAccountNumber in the schema.
-        /// </summary>
-        public virtual string SrcFundsBankAccountNumber
-        {
-            get;
-            set;
-        }
-
 
         #endregion
 
@@ -254,6 +232,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for LatestBankAccountCheck in the schema.
         /// </summary>
         public virtual SmsBankAccountCheck LatestBankAccountCheck
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SmsSrcFundsBankAccounts in the schema.
+        /// </summary>
+        public virtual ICollection<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts
         {
             get;
             set;
