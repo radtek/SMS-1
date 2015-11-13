@@ -341,12 +341,19 @@ namespace Bec.TargetFramework.Business.Logic
                 var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
 
+                var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uaoID);
+                
+                string details = "";
+                if (c != null) details = c.FirstName + " " + c.LastName + Environment.NewLine + Environment.NewLine;
+                if (tx.Address != null) details += string.Join(Environment.NewLine, tx.Address.Line1, tx.Address.Town, tx.Address.County, tx.Address.PostalCode);
+                
                 var notificationDto = new BankAccountCheckNoMatchNotificationDTO
                 {
                     OrganisationId = tx.OrganisationID,
                     AccountNumber = accountNumber,
                     SortCode = sortCode,
-                    MarkedBy = uao.UserAccount.Email
+                    MarkedBy = uao.UserAccount.Email,
+                    Reason = details
                 };
                 string payLoad = JsonHelper.SerializeData(new object[] { notificationDto });
 
