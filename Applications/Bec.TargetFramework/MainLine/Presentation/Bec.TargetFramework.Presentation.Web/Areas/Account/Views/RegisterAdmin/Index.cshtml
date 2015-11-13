@@ -164,13 +164,6 @@
                     @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { autocomplete = "off", tabindex = "16", maxlength = 100, type = "email", data_url = Url.Action("CheckForAdminRegistration", "EmailCheck", new { Area = "" }), @class = "form-control", })
                 </div>
             </div>
-            <div class="col-sm-5">
-                <div class="form-group">
-                    <label for="@Html.IdFor(m => m.OrganisationAdminTelephone)">Phone Number</label>
-                    <i class="icon-append fa fa-asterisk" ></i>
-                    @Html.TextBoxFor(m => m.OrganisationAdminTelephone, new { tabindex = "17", maxlength = 20, @class = "form-control" })
-                </div>
-            </div>
         </div>
 
     </fieldset>
