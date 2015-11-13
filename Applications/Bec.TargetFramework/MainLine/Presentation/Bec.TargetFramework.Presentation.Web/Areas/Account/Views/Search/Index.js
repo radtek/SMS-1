@@ -12,6 +12,7 @@
     '<dd><p>{{Regulator}}</p></dd>' +
     '<dt><p>Regulator Number:</p></dt>' +
     '<dd><p>{{RegulatorNumber}}</p></dd>' +
+    '<p><a class="btn btn-primary" href="mailto:[please enter your conveyancers email address]?subject=Name:&body=The above named client has expressed their interest in using the Safe Move Scheme to reduce the risk of cybercrime affecting them during their property transaction. If your Firm is already a member of the Safe Move Scheme you will be able to login to order products.%0D%0A%0D%0AIf your Firm is new to the Safe Move Scheme you can register via our website – for security reasons please search ‘Safe Move Scheme’ via Google to find our website to avoid hackers from redirecting you to a bogus site.%0D%0A%0D%0AKind Regards%0D%0A%0D%0AThe Safe Move Scheme">Click here to contact your conveyancer</a></p>' +
 '</dl>');
 
 $(function () {
