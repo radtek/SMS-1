@@ -416,6 +416,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for ActiveSafeAccounts in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> ActiveSafeAccounts
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

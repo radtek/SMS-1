@@ -1,6 +1,11 @@
--- =======================================================================
--- 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
--- =======================================================================
+--reports
+
+ALTER TABLE public."Organisation" ADD COLUMN "FilesPerMonth" INTEGER DEFAULT 0 NOT NULL;
+
+ALTER TABLE public."UserAccounts" ADD COLUMN "AccountCreated" TIMESTAMP(0) WITH TIME ZONE;
+update "UserAccounts" set "AccountCreated" = "PasswordChanged" where "IsTemporaryAccount" = false;
+update "UserAccounts" a set "Created" = (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email") where a."IsTemporaryAccount" = false and EXISTS (select "Created" from "UserAccounts" b where b."IsTemporaryAccount" = true and b."Email" = a."Email");
+
 -- object recreation
 DROP VIEW public."vOrganisationWithStatusAndAdmin";
 
@@ -43,7 +48,8 @@ CREATE VIEW public."vOrganisationWithStatusAndAdmin"(
     "RegisteredAsName",
     "OrganisationRecommendationSourceID",
     "SchemeID",
-    "FilesPerMonth")
+    "FilesPerMonth",
+    "ActiveSafeAccounts")
 AS
   SELECT org."OrganisationID",
          orgd."Name",
@@ -86,7 +92,8 @@ AS
          orgd."RegisteredAsName",
          org."OrganisationRecommendationSourceID",
          org."SchemeID",
-         org."FilesPerMonth"
+         org."FilesPerMonth",
+         COALESCE(sb."ActiveSafeAccounts", 0::bigint) AS "ActiveSafeAccounts"
   FROM "Organisation" org
        LEFT JOIN "OrganisationDetail" orgd ON orgd."OrganisationID" =
          org."OrganisationID"
@@ -140,6 +147,25 @@ AS
          verifiedstatus."StatusTypeValueID" = verifiedjoin."StatusTypeValueID"
          AND verifiedstatus."StatusTypeVersionNumber" =
          verifiedjoin."StatusTypeVersionNumber"
+       LEFT JOIN 
+       (
+         SELECT ba."OrganisationID",
+                count(ba."OrganisationBankAccountID") AS "ActiveSafeAccounts"
+         FROM "OrganisationBankAccount" ba
+         WHERE ba."IsActive" = true AND
+               (((
+                   SELECT st."Name"
+                   FROM "OrganisationBankAccountStatus" s
+                        LEFT JOIN "StatusTypeValue" st ON st."StatusTypeID" =
+                          s."StatusTypeID" AND st."StatusTypeValueID" =
+                          s."StatusTypeValueID"
+                   WHERE s."OrganisationBankAccountID" =
+                     ba."OrganisationBankAccountID"
+                   ORDER BY s."StatusChangedOn" DESC
+                   LIMIT 1
+               ))::text) = 'Safe'::text
+         GROUP BY ba."OrganisationID"
+       ) sb ON sb."OrganisationID" = org."OrganisationID"
   WHERE orgt."Name"::text ~~ 'Professional'::text AND
         orgc."ContactID" IS NOT NULL AND
         (ua."IsDeleted" IS NULL OR
@@ -149,7 +175,3 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vOrganisationWithStatusAndAdmin" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vOrganisationWithStatusAndAdmin" TO bef;
-
--- =======================================================================
--- END - 1.3.48-national-pilot-all-firms\03_UpdateVOrganisationWithStatusAndAdmin
--- =======================================================================
