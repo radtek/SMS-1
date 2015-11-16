@@ -77,6 +77,37 @@
                                                             <dt>Date of Birth:</dt>
                                                             <dd><p id="bDateOfBirth" class="format-date" data-val="@((tx.Contact != null && tx.Contact.BirthDate != null) ? tx.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
                                                         </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                Personal Bank Account(s):
+                                                                <a href="" id="personalBankAccountsBtn" data-show-text="Show" data-hide-text="Hide">
+                                                                    <span>Show</span>
+                                                                    <i class="fa fa-caret-down"></i>
+                                                                    <i class="fa fa-caret-up" style="display: none;"></i>
+                                                                </a>
+                                                            </dt>
+                                                            <dd id="personalBankAccountsTable" style="display:none;">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Account Number</th>
+                                                                                <th>Sort Code</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var item in tx.SmsSrcFundsBankAccounts)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td>@item.AccountNumber</td>
+                                                                                    <td>@item.SortCode</td>
+                                                                                </tr>
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
                                                     </div>
                                                 </div>
                                                 <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">

@@ -212,6 +212,13 @@
 
         $('#detailsRow-' + index).show();
 
+        var personalBankAccountTemplate = Handlebars.compile('<tr><td>{{AccountNumber}}</td><td>{{SortCode}}</td>');
+        _.map(data.SmsSrcFundsBankAccounts, function (item) {
+            return personalBankAccountTemplate(item);
+        }).forEach(function (html) {
+            $('#personalBankAccountsTable tbody').append(html);
+        });
+
         $('#post-no-match-' + index).hide();
         $('#notify-button-' + index).show();
     }
@@ -325,7 +332,6 @@
                     renumberInputs('input[name$="SortCode"]', 'SmsSrcFundsBankAccounts');
                     reindexElementAttr('[id^="bankAccountRow"]', 'bankAccountRow', 'id');
                     reindexElementAttr('[data-parent-id^="bankAccountRow"', 'bankAccountRow', 'data-parent-id');
-                    //reindexPrentIds('[data-parent-id^="bankAccountRow"]', 'bankAccountRow');
                     index--;
                 });
             event.preventDefault();
@@ -347,18 +353,6 @@
             var regExp = new RegExp(prefix + '\\d+');
             var newValue = $(this).attr(attrName).replace(regExp, prefixWithIndex);
             $(this).attr(attrName, newValue);
-
-            //this.id = this.id.replace(regExp, prefixWithIndex);
         });
     }
-
-    // !!! check parent ids !!!!
-
-    //function reindexPrentIds(selector, prefix) {
-    //    $(selector).each(function (index) {
-    //        var prefixWithIndex = prefix + index;
-    //        var regExp = new RegExp(prefix + '\\d+');
-    //        $(this).data('parent-id', $(this).data('parent-id').replace(regExp, prefixWithIndex));
-    //    });
-    //}
 });
