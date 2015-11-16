@@ -53,6 +53,7 @@ namespace Bec.TargetFramework.Entities
               target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
               target.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID = source.SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID.ToDtosWithRelated(level - 1);
               target.LatestBankAccountCheck = source.LatestBankAccountCheck.ToDtoWithRelated(level - 1);
+              target.SmsSrcFundsBankAccounts = source.SmsSrcFundsBankAccounts.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
