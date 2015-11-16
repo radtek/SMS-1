@@ -2094,10 +2094,9 @@
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
+    <Content Include="Views\Shared\_srcFundsBankAccountTmpl.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Buyer\Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -2105,7 +2104,6 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Bec.TargetFramework.Business.Client\Bec.TargetFramework.Business.Client.csproj">

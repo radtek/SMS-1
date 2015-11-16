@@ -390,6 +390,7 @@
         <File Name="TargetFramework.SmsUserAccountOrganisationTransaction.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.Lender.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsBankAccountCheck.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.SmsSrcFundsBankAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1161,6 +1162,8 @@
         <File Name="LenderDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="SmsBankAccountCheckDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="SmsBankAccountCheckDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="SmsSrcFundsBankAccountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="SmsSrcFundsBankAccountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1548,6 +1551,7 @@
         <File Name="SmsUserAccountOrganisationTransactionConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="LenderConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsBankAccountCheckConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="SmsSrcFundsBankAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1712,48 +1716,5 @@
         </AttributeType>
       </AttributeAssembly>
     </AttributeAssemblies>
-    <UpdateFromDatabaseExcludes>
-      <Exclude Name="SmsTransactionID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="AddressID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="Price" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="Reference" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="IsActive" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="OrganisationID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="TenureTypeID" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="RowVersion" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="MortgageApplicationNumber" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="LenderName" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="CreatedBy" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="pkSmsTransaction" Table="sms.SmsTransaction" Type="Constraint" />
-      <Exclude Name="fk_SmsTransaction_Address" Table="sms.SmsTransaction" Type="Constraint" />
-      <Exclude Name="fk_SmsTransaction_Organisation" Table="sms.SmsTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsTransactionID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="AddressID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ContactID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsActive" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="IsDeleted" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="CreatedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedOn" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="ModifiedBy" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="Confirmed" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="LatestBankAccountCheckID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_pkey" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsTransaction_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsUaoTransactionType_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_SmsBankAccountCheck_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Address_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_Contact_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" Table="sms.SmsUserAccountOrganisationTransaction" Type="Constraint" />
-      <Exclude Name="RowVersion" Table="sms.SmsTransaction" Type="Column" />
-      <Exclude Name="SmsUserAccountOrganisationTransactionTypeID" Table="sms.SmsUserAccountOrganisationTransaction" Type="Column" />
-    </UpdateFromDatabaseExcludes>
   </ModelSettings>
 </EntityDeveloper>

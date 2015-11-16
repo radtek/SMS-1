@@ -121,7 +121,8 @@ function showPrimaryBuyerDetails(dataItem) {
         formattedBirthDate: dateStringNoTime(contact.BirthDate),
         formattedLastLogin: dataItem.UserAccountOrganisation.UserAccount.LastLogin ? dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin) : null,
         formattedLatestBankAccountCheckOn: dataItem.LatestBankAccountCheck ? dateString(dataItem.LatestBankAccountCheck.CheckedOn) : null,
-        pageNumber:  txGrid.grid.dataSource.page()
+        pageNumber: txGrid.grid.dataSource.page(),
+        srcFundsBankAccounts: _.toArray(dataItem.SmsSrcFundsBankAccounts)
     });
 
     primaryBuyerTemplatePromise.done(function (template) {
@@ -151,6 +152,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
                 formattedBirthDate: dateStringNoTime(contact.BirthDate),
                 formattedLastLogin: item.UserAccountOrganisation.UserAccount.LastLogin ? dateString(item.UserAccountOrganisation.UserAccount.LastLogin) : null,
                 formattedLatestBankAccountCheckOn: item.LatestBankAccountCheck ? dateString(item.LatestBankAccountCheck.CheckedOn) : null,
+                srcFundsBankAccounts: _.toArray(item.SmsSrcFundsBankAccounts)
             });
         });
         var templateData = {

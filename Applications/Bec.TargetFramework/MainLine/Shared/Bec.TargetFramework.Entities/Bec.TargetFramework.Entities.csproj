@@ -1350,6 +1350,10 @@
     <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
       <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsSrcFundsBankAccountDTO.cs" />
+    <Compile Include="Boo\SmsSrcFundsBankAccountDTO.Generated.cs">
+      <DependentUpon>SmsSrcFundsBankAccountDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SmsTransactionDTO.cs" />
     <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
       <DependentUpon>SmsTransactionDTO.cs</DependentUpon>

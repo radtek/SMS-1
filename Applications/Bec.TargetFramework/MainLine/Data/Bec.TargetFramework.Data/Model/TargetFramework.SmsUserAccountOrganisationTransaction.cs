@@ -236,6 +236,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for SmsSrcFundsBankAccounts in the schema.
+        /// </summary>
+        public virtual ICollection<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts
+        {
+            get;
+            set;
+        }
 
         #endregion
     }
