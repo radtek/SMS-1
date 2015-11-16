@@ -66,6 +66,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for BankAccountNumber in the schema.
+        /// </summary>
+        public virtual string BankAccountNumber
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for SortCode in the schema.
+        /// </summary>
+        public virtual string SortCode
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 

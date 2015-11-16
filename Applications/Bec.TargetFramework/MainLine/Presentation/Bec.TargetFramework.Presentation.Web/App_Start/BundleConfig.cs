@@ -205,7 +205,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails").Include("~/Areas/Buyer/Views/SafeBuyer/_ConfirmDetails.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
-
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));

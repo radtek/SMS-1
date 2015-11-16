@@ -121,19 +121,20 @@
             matchDiv.hide();
             noMatchDiv.hide();
             serverErrorDiv.hide();
-
+            
             ajaxWrapper({
                 url: confirmDetailsForm.data("url"),
                 type: "POST",
                 data: formData
             }).done(function (res) {
                 showDetails(res.data, res.accountNumber, res.sortCode, index);
+                hideCurrentModal();
 
                 if (res.result == true)
-                    matchDiv.show();
+                    showAudit(index);
                 else
-                    noMatchDiv.show();
-                hideCurrentModal();
+                    handleModal({ url: $('#collapse-' + index).data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
                     console.log(e);
@@ -185,10 +186,6 @@
     }
 
     function showDetails(data, an, sc, index) {
-        $('#accountNumberMatch-' + index).text(an);
-        $('#sortCodeMatch-' + index).text(sc);
-        $('#accountNumberNoMatch-' + index).text(an);
-        $('#sortCodeNoMatch-' + index).text(sc);
 
         if (data.SmsTransaction.Address) {
             $('#addressHeading-' + index).text(data.SmsTransaction.Address.Line1 + " " + data.SmsTransaction.Address.PostalCode);

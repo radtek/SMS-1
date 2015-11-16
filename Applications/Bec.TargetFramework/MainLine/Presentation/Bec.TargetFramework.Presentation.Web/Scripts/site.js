@@ -82,9 +82,9 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
             mdiv.modal({
                 backdrop: 'static',
                 keyboard: false
-            }).one('shown.bs.modal', function () {
+            }).one('show.bs.modal', function () {
                 if (shownFunction) shownFunction();
-            }).one('hidden.bs.modal', function (e) {
+            }).one('hide.bs.modal', function (e) {
                 if (fixScroll) $('body').addClass('modal-open');
 
                 for (var id in handlers) {
@@ -122,7 +122,7 @@ function findModalLinks() {
                 mdiv.modal({
                     backdrop: 'static',
                     keyboard: false
-                }).on('hidden.bs.modal', function () {
+                }).on('hide.bs.modal', function () {
                     tempDiv.remove(); //remove all elements which were added
                     modalStack.pop();
                 });

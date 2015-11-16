@@ -21,7 +21,7 @@
                         @Html.HiddenFor(m => m.SmsUserAccountOrganisationTransactionID)
                         @Html.HiddenFor(m => m.SmsTransaction.RowVersion)
                         @Html.HiddenFor(m => m.Contact.RowVersion)
-                        @Html.Hidden("orgID", (object)Model.SmsTransaction.OrganisationID)
+                        @Html.Hidden("orgID", Model.SmsTransaction.OrganisationID)
                         @Html.Hidden("index", (object)ViewBag.index)
                         <section class="col-xs-12">
                             <div id="confirmDetailsWizard">

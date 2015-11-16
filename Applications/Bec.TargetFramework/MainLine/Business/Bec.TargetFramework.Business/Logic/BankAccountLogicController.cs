@@ -164,42 +164,49 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<bool> CheckBankAccount(Guid organisationId, Guid smsUserAccountOrganisationTransactionId, string accountNumber, string sortCode)
+        public async Task<bool> CheckBankAccount(Guid orgID, Guid uaoID, Guid smsUserAccountOrganisationTransactionId, string accountNumber, string sortCode)
         {
-            bool isMatch;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            using (var scope = DbContextScopeFactory.Create())
             {
                 string safe = BankAccountStatusEnum.Safe.GetStringValue();
-                isMatch = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus
-                    .Where(x => 
+                var isMatch = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationBankAccountsWithStatus
+                    .Where(x =>
                         x.BankAccountNumber == accountNumber &&
                         x.SortCode == sortCode &&
                         x.Status == safe &&
-                        x.OrganisationID == organisationId)
+                        x.OrganisationID == orgID)
                     .Any();
+                if (isMatch) await WriteCheckAudit(uaoID, smsUserAccountOrganisationTransactionId, accountNumber, sortCode, true);
+                await scope.SaveChangesAsync();
+                return isMatch;
             }
+        }
 
+        public async Task WriteCheckAudit(Guid uaoID, Guid smsUserAccountOrganisationTransactionId, string accountNumber, string sortCode, bool isMatch)
+        {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var smsBankAccountCheck = new SmsBankAccountCheck
+                //check for ownership via uao ID
+                var uaot = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(s => s.SmsUserAccountOrganisationTransactionID == smsUserAccountOrganisationTransactionId && s.UserAccountOrganisationID == uaoID);
+                if (uaot != null)
                 {
-                    SmsBankAccountCheckID = Guid.NewGuid(),
-                    CheckedOn = DateTime.Now,
-                    IsMatch = isMatch,
-                    SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionId
-                };
-                scope.DbContexts.Get<TargetFrameworkEntities>().SmsBankAccountChecks.Add(smsBankAccountCheck);
+                    var smsBankAccountCheck = new SmsBankAccountCheck
+                    {
+                        SmsBankAccountCheckID = Guid.NewGuid(),
+                        CheckedOn = DateTime.Now,
+                        IsMatch = isMatch,
+                        SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionId,
+                        BankAccountNumber = accountNumber,
+                        SortCode = sortCode
+                    };
+                    scope.DbContexts.Get<TargetFrameworkEntities>().SmsBankAccountChecks.Add(smsBankAccountCheck);
 
-                var uaot = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(s => s.SmsUserAccountOrganisationTransactionID == smsUserAccountOrganisationTransactionId);
-                uaot.LatestBankAccountCheckID = smsBankAccountCheck.SmsBankAccountCheckID;
-                uaot.ModifiedOn = DateTime.Now;
-                uaot.ModifiedBy = UserNameService.UserName;
-
-                // deliberately not awaiting
-                scope.SaveChangesAsync();
+                    uaot.LatestBankAccountCheckID = smsBankAccountCheck.SmsBankAccountCheckID;
+                    uaot.ModifiedOn = DateTime.Now;
+                    uaot.ModifiedBy = UserNameService.UserName;
+                }
+                await scope.SaveChangesAsync();
             }
-
-            return isMatch;
         }
 
         private static bool CheckStatusChange(OrganisationBankAccountStateChangeDTO change, BankAccountStatusEnum currentStatus)
@@ -334,22 +341,23 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PublishCheckNoMatchNotification(Guid uaoID, Guid txID, string accountNumber, string sortCode)
+        public async Task PublishCheckNoMatchNotification(Guid uaoID, Guid uaotxID, string accountNumber, string sortCode)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Single(x => x.SmsTransactionID == txID);
-                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
+                var usertx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Single(x => x.SmsUserAccountOrganisationTransactionID == uaotxID && x.UserAccountOrganisationID == uaoID);
+                if (usertx == null) throw new Exception("User and transaction combination not found");
 
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
                 var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uaoID);
                 
                 string details = "";
                 if (c != null) details = c.FirstName + " " + c.LastName + Environment.NewLine + Environment.NewLine;
-                if (tx.Address != null) details += string.Join(Environment.NewLine, tx.Address.Line1, tx.Address.Town, tx.Address.County, tx.Address.PostalCode);
+                if (usertx.SmsTransaction.Address != null) details += string.Join(Environment.NewLine, usertx.SmsTransaction.Address.Line1, usertx.SmsTransaction.Address.Town, usertx.SmsTransaction.Address.County, usertx.SmsTransaction.Address.PostalCode);
                 
                 var notificationDto = new BankAccountCheckNoMatchNotificationDTO
                 {
-                    OrganisationId = tx.OrganisationID,
+                    OrganisationId = usertx.SmsTransaction.OrganisationID,
                     AccountNumber = accountNumber,
                     SortCode = sortCode,
                     MarkedBy = uao.UserAccount.Email,

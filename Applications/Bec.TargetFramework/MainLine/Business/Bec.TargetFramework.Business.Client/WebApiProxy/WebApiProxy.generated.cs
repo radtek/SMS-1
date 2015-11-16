@@ -119,19 +119,37 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void AddBankAccountStatus(OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest);
 
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Task<Boolean> CheckBankAccountAsync(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+		Task<Boolean> CheckBankAccountAsync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
 
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Boolean CheckBankAccount(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+		Boolean CheckBankAccount(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode);
+
+		/// <param name="uaoID"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <param name="isMatch"></param>
+		/// <returns></returns>
+		Task WriteCheckAuditAsync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
+
+		/// <param name="uaoID"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <param name="isMatch"></param>
+		/// <returns></returns>
+		void WriteCheckAudit(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch);
 
 		/// <param name="orgID"></param>
 		/// <param name="baID"></param>
@@ -148,18 +166,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void ToggleBankAccountActive(Guid orgID,Guid baID,Boolean active,String notes);
 
 		/// <param name="uaoID"></param>
-		/// <param name="txID"></param>
+		/// <param name="uaotxID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid txID,String accountNumber,String sortCode);
+		Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 
 		/// <param name="uaoID"></param>
-		/// <param name="txID"></param>
+		/// <param name="uaotxID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		void PublishCheckNoMatchNotification(Guid uaoID,Guid txID,String accountNumber,String sortCode);
+		void PublishCheckNoMatchNotification(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode);
 	}
 
 	public partial interface IClassificationDataLogicClient : IClientBase	{	
@@ -1695,32 +1713,67 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		public virtual Task<Boolean> CheckBankAccountAsync(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
+		public virtual Task<Boolean> CheckBankAccountAsync(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?organisationId=" + organisationId + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
+			return PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?orgID=" + orgID + "&uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationId"></param>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
 		/// <param name="smsUserAccountOrganisationTransactionId"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual Boolean CheckBankAccount(Guid organisationId,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
+		public virtual Boolean CheckBankAccount(Guid orgID,Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?organisationId=" + organisationId + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/BankAccountLogic/CheckBankAccount?orgID=" + orgID + "&uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <param name="isMatch"></param>
+		/// <returns></returns>
+		public virtual Task WriteCheckAuditAsync(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/BankAccountLogic/WriteCheckAudit?uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode + "&isMatch=" + isMatch, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="smsUserAccountOrganisationTransactionId"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <param name="isMatch"></param>
+		public virtual void WriteCheckAudit(Guid uaoID,Guid smsUserAccountOrganisationTransactionId,String accountNumber,String sortCode,Boolean isMatch)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/BankAccountLogic/WriteCheckAudit?uaoID=" + uaoID + "&smsUserAccountOrganisationTransactionId=" + smsUserAccountOrganisationTransactionId + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode + "&isMatch=" + isMatch, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -1756,31 +1809,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		/// <param name="txID"></param>
+		/// <param name="uaotxID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		public virtual Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid txID,String accountNumber,String sortCode)
+		public virtual Task PublishCheckNoMatchNotificationAsync(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&txID=" + txID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
+			return PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&uaotxID=" + uaotxID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
-		/// <param name="txID"></param>
+		/// <param name="uaotxID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual void PublishCheckNoMatchNotification(Guid uaoID,Guid txID,String accountNumber,String sortCode)
+		public virtual void PublishCheckNoMatchNotification(Guid uaoID,Guid uaotxID,String accountNumber,String sortCode)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&txID=" + txID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/BankAccountLogic/PublishCheckNoMatchNotification?uaoID=" + uaoID + "&uaotxID=" + uaotxID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, null, _user)).Wait();
 		}
 
 		#endregion

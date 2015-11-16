@@ -44,6 +44,7 @@
     <None Include="Development\1.3.48-national-pilot-all-firms\02_AddAccountCreatedColumn.sql" />
     <None Include="Development\1.3.48-national-pilot-all-firms\04_CheckNoMatchNotification.sql" />
     <None Include="Development\1.3.48-national-pilot-all-firms\05_CORE_BusEvent.sql" />
+    <None Include="Development\1.3.48-national-pilot-all-firms\07_BankAccountCheckAudit.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />

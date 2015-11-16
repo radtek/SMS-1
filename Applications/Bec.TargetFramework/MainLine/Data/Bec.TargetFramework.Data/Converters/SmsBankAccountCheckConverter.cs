@@ -33,6 +33,8 @@ namespace Bec.TargetFramework.Entities
             target.SmsUserAccountOrganisationTransactionID = source.SmsUserAccountOrganisationTransactionID;
             target.CheckedOn = source.CheckedOn;
             target.IsMatch = source.IsMatch;
+            target.BankAccountNumber = source.BankAccountNumber;
+            target.SortCode = source.SortCode;
 
             // Navigation Properties
             if (level > 0) {
@@ -58,6 +60,8 @@ namespace Bec.TargetFramework.Entities
             target.SmsUserAccountOrganisationTransactionID = source.SmsUserAccountOrganisationTransactionID;
             target.CheckedOn = source.CheckedOn;
             target.IsMatch = source.IsMatch;
+            target.BankAccountNumber = source.BankAccountNumber;
+            target.SortCode = source.SortCode;
 
             // User-defined partial method
             OnEntityCreating(source, target);

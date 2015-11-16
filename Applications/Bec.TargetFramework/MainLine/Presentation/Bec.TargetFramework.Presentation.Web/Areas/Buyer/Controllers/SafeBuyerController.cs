@@ -8,7 +8,9 @@ using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Presentation.Web.Base;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -46,6 +48,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 x.SmsTransaction.Address.County,
                 x.SmsTransaction.Address.PostalCode,
                 x.SmsUserAccountOrganisationTransactionTypeID,
+                x.SmsUserAccountOrganisationTransactionID,
                 Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
                 Status = x.SmsTransaction.Organisation.OrganisationStatus.Select(z => new { z.Notes, z.StatusTypeValue.Name })
             });
@@ -58,7 +61,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             ViewBag.index = index;
-            ViewBag.txID = txID;
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
@@ -99,7 +101,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             ViewBag.smsUserAccountOrganisationTransactionID = model.SmsUserAccountOrganisationTransactionID;
             
             if(model.Confirmed)
-                return PartialView("_CheckBankAccount");
+                return PartialView("_CheckBankAccount", model);
             else
                 return PartialView("_ConfirmDetails", model);
         }
@@ -112,8 +114,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             //update tx
             await OrganisationClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
             //check bank account
-            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
-
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, index = index, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
@@ -123,16 +124,60 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             //check bank account
-            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
+            var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
             return Json(new { result = isMatch, index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> NotifyOrganisationNoMatch(Guid txID, string accountNumber, string sortCode)
+        public async Task<ActionResult> NotifyOrganisationNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await BankAccountClient.PublishCheckNoMatchNotificationAsync(uaoID, txID, accountNumber, sortCode);
-            return null;
+            await BankAccountClient.WriteCheckAuditAsync(uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode, false);
+            await BankAccountClient.PublishCheckNoMatchNotificationAsync(uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public async Task<ActionResult> GetAudit(Guid uaotxID, Guid orgID)
+        {
+            //check for ownership via the uao
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            var aSelect = ODataHelper.Select<SmsBankAccountCheckDTO>(a => new { a.CheckedOn, a.IsMatch, a.BankAccountNumber, a.SortCode });
+            var aFilter = ODataHelper.Filter<SmsBankAccountCheckDTO>(x => x.SmsUserAccountOrganisationTransactionID == uaotxID && x.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID.UserAccountOrganisationID == uaoID);
+
+            var r = new List<object>();
+            foreach (var res in (await QueryClient.QueryAsync<SmsBankAccountCheckDTO>("SmsBankAccountChecks", aSelect + aFilter)).OrderByDescending(x => x.CheckedOn))
+            {
+                var accountNumber = res.BankAccountNumber;
+                var sortCode = res.SortCode;
+                var result = "nomatch";
+
+                if (res.IsMatch)
+                {
+                    result = "warn";
+                    var bSelect = ODataHelper.Select<OrganisationBankAccountDTO>(x => new { x.IsActive, Status = x.OrganisationBankAccountStatus.Select(y => new { y.StatusChangedOn, y.StatusTypeValue.Name }) });
+                    var bFilter = ODataHelper.Filter<OrganisationBankAccountDTO>(x => x.OrganisationID == orgID && x.BankAccountNumber == accountNumber && x.SortCode == sortCode);
+                    var bas = await QueryClient.QueryAsync<OrganisationBankAccountDTO>("OrganisationBankAccounts", bSelect + bFilter);
+                    var ba = bas.SingleOrDefault();
+                    if (ba != null && ba.IsActive)
+                    {
+                        var st = ba.OrganisationBankAccountStatus.OrderByDescending(s => s.StatusChangedOn).FirstOrDefault();
+                        if (st.StatusTypeValue.Name == "Safe") result = "match";
+                    }
+                }
+                r.Add(new { date = res.CheckedOn, accountNumber = res.BankAccountNumber, sortCode = res.SortCode, result = result });
+            }
+            return Json(r, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ViewNoMatch(Guid smsUserAccountOrganisationTransactionID, int index, string accountNumber, string sortCode)
+        {
+            ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
+            ViewBag.index = index;
+            ViewBag.accountNumber = accountNumber;
+            ViewBag.sortCode = sortCode;
+
+            return PartialView("_NoMatch");
         }
     }
 }

@@ -260,6 +260,7 @@
     <Content Include="Areas\BankAccount\Views\Account\Index.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.js" />
     <Content Include="Areas\BankAccount\Views\Shared\_AddBankAccount.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.js" />
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.js" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.js" />
     <Content Include="Areas\ProOrganisation\Views\Products\Index.js" />
@@ -812,6 +813,7 @@
     <Content Include="Areas\Admin\Views\Reporting\Transactions.cshtml" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.cshtml" />
     <Content Include="Areas\Admin\Views\Reporting\Users.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

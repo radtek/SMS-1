@@ -47,12 +47,11 @@ function validateSubmit(form) {
         type: "POST",
         data: formData
     }).done(function (res) {
-        showDetails(res.data, res.accountNumber, res.sortCode, index);
-        if (res.result == true)
-            matchDiv.show();
-        else
-            noMatchDiv.show();
         hideCurrentModal();
+        if (res.result == true)
+            showAudit(index);
+        else
+            handleModal({ url: $('#collapse-' + index).data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             console.log(e);
@@ -60,14 +59,4 @@ function validateSubmit(form) {
             hideCurrentModal();
         }
     });
-}
-
-function showDetails(data, an, sc, index) {
-    $('#accountNumberMatch-' + index).text(an);
-    $('#sortCodeMatch-' + index).text(sc);
-    $('#accountNumberNoMatch-' + index).text(an);
-    $('#sortCodeNoMatch-' + index).text(sc);
-
-    $('#post-no-match-' + index).hide();
-    $('#notify-button-' + index).show();
 }

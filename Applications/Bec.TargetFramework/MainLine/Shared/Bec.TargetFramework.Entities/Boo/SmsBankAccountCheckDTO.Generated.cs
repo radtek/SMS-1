@@ -22,12 +22,14 @@ namespace Bec.TargetFramework.Entities
         public SmsBankAccountCheckDTO() {
         }
 
-        public SmsBankAccountCheckDTO(global::System.Guid smsBankAccountCheckID, global::System.Guid smsUserAccountOrganisationTransactionID, global::System.DateTime checkedOn, bool isMatch, SmsUserAccountOrganisationTransactionDTO smsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions_LatestBankAccountCheckID) {
+        public SmsBankAccountCheckDTO(global::System.Guid smsBankAccountCheckID, global::System.Guid smsUserAccountOrganisationTransactionID, global::System.DateTime checkedOn, bool isMatch, string bankAccountNumber, string sortCode, SmsUserAccountOrganisationTransactionDTO smsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions_LatestBankAccountCheckID) {
 
           this.SmsBankAccountCheckID = smsBankAccountCheckID;
           this.SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
           this.CheckedOn = checkedOn;
           this.IsMatch = isMatch;
+          this.BankAccountNumber = bankAccountNumber;
+          this.SortCode = sortCode;
           this.SmsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransaction_SmsUserAccountOrganisationTransactionID;
           this.SmsUserAccountOrganisationTransactions_LatestBankAccountCheckID = smsUserAccountOrganisationTransactions_LatestBankAccountCheckID;
         }
@@ -47,6 +49,12 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsMatch { get; set; }
+
+        [DataMember]
+        public string BankAccountNumber { get; set; }
+
+        [DataMember]
+        public string SortCode { get; set; }
 
         #endregion
 
