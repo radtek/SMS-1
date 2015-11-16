@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.Contact.LastName,
                 x.Contact.BirthDate,
                 x.LatestBankAccountCheck.CheckedOn,
+                x.SmsTransactionID,
                 x.SmsUserAccountOrganisationTransactionID,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
