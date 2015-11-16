@@ -82,28 +82,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.Pin)">Please enter your PIN as provided by Safe Move Scheme</label>
+                                            <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.Pin)">PIN</label>
                                             @Html.TextBoxFor(m => m.CreatePermanentLoginModel.Pin, new { maxlength = 20, autocomplete = "off", @class = "form-control" })
                                             <i class="icon-append fa fa-asterisk"></i>
+                                            <label class="form-input-info"><i class="fa fa-info-circle margin-right-5"></i>Please enter your PIN as provided by Safe Move Scheme</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Please enter your personal mobile phone number for account security purposes.</label>
+                                            <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.PhoneNumber)">Personal Mobile Phone Number</label>
                                             @Html.TextBoxFor(m => m.CreatePermanentLoginModel.PhoneNumber, new { maxlength = 11, autocomplete = "off", @class = "form-control" })
                                             <i class="icon-append fa fa-asterisk"></i>
+                                            <label class="form-input-info"><i class="fa fa-info-circle margin-right-5"></i>Please enter your personal mobile phone number for account security purposes.</label>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <strong>Choose a Password</strong>
-                                        <label>Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -112,9 +109,9 @@
                                             <label for="@Html.IdFor(m => m.CreatePermanentLoginModel.NewPassword)">Password</label>
                                             @Html.PasswordFor(m => m.CreatePermanentLoginModel.NewPassword, new { maxlength = 25, autocomplete = "off", @class = "form-control" })
                                             <i class="icon-append fa fa-lock"></i>
+                                            <label class="form-input-info"><i class="fa fa-info-circle margin-right-5"></i>Your password must contain at least one upper case letter, at least one number and at least one special character (e.g. £, #, %). It must be at least 10 characters long.</label>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
