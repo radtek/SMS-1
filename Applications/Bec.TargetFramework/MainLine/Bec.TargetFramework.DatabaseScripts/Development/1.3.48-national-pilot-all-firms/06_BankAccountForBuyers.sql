@@ -18,9 +18,9 @@ ALTER TABLE sms."SmsSrcFundsBankAccount"
     NOT DEFERRABLE;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON sms."SmsBankAccountCheck" TO postgres;
+  ON sms."SmsSrcFundsBankAccount" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
-  ON sms."SmsBankAccountCheck" TO bef;
+  ON sms."SmsSrcFundsBankAccount" TO bef;
 
 -- =======================================================================
 -- END - 1.3.48-national-pilot-all-firms\06_BankAccountForBuyers
