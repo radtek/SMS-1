@@ -11,8 +11,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     public class SearchController : Controller
     {
         public IQueryLogicClient queryClient { get; set; }
+        private readonly CaptchaService _captchaService;
         public SearchController()
         {
+            _captchaService = new CaptchaService();
         }
 
         public ActionResult Index()
@@ -24,6 +26,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(int schemeID)
         {
+            var response = await _captchaService.ValidateCaptcha(Request);
+            if (!response.success) return Json(new { message = "The capture result could not be validated" });
+            
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID });
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.SchemeID == schemeID);
             var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);

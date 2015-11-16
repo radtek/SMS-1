@@ -117,7 +117,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
 
             var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, null);
 
-            return File(data, "application/pdf", string.Format("SMS Client Terms And Conditions.pdf"));
+            return File(data, "application/pdf", string.Format("Safe Buyer Terms And Conditions.pdf"));
         }
     }
 }
