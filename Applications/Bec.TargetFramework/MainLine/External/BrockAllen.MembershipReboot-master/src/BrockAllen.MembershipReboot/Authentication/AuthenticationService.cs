@@ -65,7 +65,7 @@ namespace BrockAllen.MembershipReboot
                 account.RequiresPasswordReset || 
                 this.UserAccountService.IsPasswordExpired(account))
             {
-                Tracing.Verbose("[AuthenticationService.SignIn] detected account requires two factor or password reset to sign in: {0}", account.ID);
+                Tracing.Verbose("[AuthenticationService.SignIn] detected account requires two factor or password reset to login: {0}", account.ID);
                 IssuePartialSignInToken(account, method);
                 return;
             }
