@@ -424,7 +424,7 @@ VALUES (
 
 
 -- Promotes all notification templates to main tables
-select
+PERFORM
 
 (SELECT count(*) FROM "fn_PromoteNotificationConstructTemplate"(nct."NotificationConstructTemplateID",1))
 
