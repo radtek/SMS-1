@@ -25,6 +25,7 @@
                         {
                             var personaName = ((UserAccountOrganisationTransactionType)tx.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
                             var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                            var tel = tx.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
                             
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -41,7 +42,7 @@
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="collapse-@i" class="panel-collapse collapse @ain" data-url="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i })" data-companyname="@companyName">
+                                <div id="collapse-@i" class="panel-collapse collapse @ain" data-url="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i })" data-companyname="@companyName" data-phone="@tel">
                                     <div class="panel-body no-padding">
                                         <form class="smart-form">
                                             <fieldset>

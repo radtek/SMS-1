@@ -16,7 +16,7 @@ $(function () {
     nomatchTemplate = Handlebars.compile(
         '<div class="alert alert-danger fade in margin-left-10 margin-right-10">' +
             '<h4><i class="fa fa-warning"></i><strong> No Match. Do not send funds.</strong></h4>' +
-            "<p>{{date}}: The bank account with account number <strong>{{accountNumber}}</strong> and sort code <strong>{{sortCode}}</strong> is not a registered bank account on The Safe Move Scheme.</p>" +
+            "<p>{{date}}: The bank account with account number <strong>{{accountNumber}}</strong> and sort code <strong>{{sortCode}}</strong> is not a registered bank account on The Safe Move Scheme. <strong>Please contact {{companyName}} immediately on {{phone}}</strong></p>" +
         '</div>');
 
     findModalLinks();
@@ -48,6 +48,7 @@ $(function () {
 function showAudit(index) {
     var auditDiv = $('#audit-' + index);
     var companyName = $('#collapse-' + index).data("companyname");
+    var phone = $('#collapse-' + index).data("phone");
     auditDiv.empty();
     ajaxWrapper({
         url: auditDiv.data("url")
@@ -57,6 +58,7 @@ function showAudit(index) {
             var html;
             res[i].date = dateString(res[i].date);
             res[i].companyName = companyName;
+            res[i].phone = phone;
             switch (res[i].result) {
                 case "match": html = matchTemplate(res[i]); break;
                 case "warn": html = warnTemplate(res[i]); break;
