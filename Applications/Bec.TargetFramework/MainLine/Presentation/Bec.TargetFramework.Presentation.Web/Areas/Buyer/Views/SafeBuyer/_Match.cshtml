@@ -15,23 +15,22 @@
                         @Html.AntiForgeryToken()
                         <section class="col-xs-12">
                             <fieldset>
-                                <div class="alert alert-danger fade in">
-                                    <h4 class="alert alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds to account <strong>@ViewBag.accountNumber</strong> with sort code <strong>@ViewBag.sortCode</strong>.</h4>
+                                <div class="alert alert-success fade in">
+                                    <h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>
+                                    <br />
+                                    <p>The bank account with account number <strong>@ViewBag.accountNumber</strong> and sort code <strong>@ViewBag.sortCode</strong> is registered to <strong>@ViewBag.companyName</strong>.</p>
                                 </div>
-                                <br />
-                                <p>Are you sure that you entered these details correctly?</p>
                             </fieldset>
                         </section>
                     </form>
                 </div>
             </div>
             <div class="modal-footer" id="footer">
-                <button type="button" id="yesButton" class="btn btn-primary" tabindex="29">Yes</button>
-                <button type="button" id="noButton" class="btn btn-primary" tabindex="30">No</button>
+                <button type="button" id="yesButton" class="btn btn-primary" tabindex="29">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 @Scripts.Render("~/Scripts/typeahead")
-<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_NoMatch")"></script>
+<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_Match")"></script>

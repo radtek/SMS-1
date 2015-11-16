@@ -57,7 +57,7 @@ function showAudit(index) {
     var matchTemplate = Handlebars.compile(
     '<div class="alert alert-success fade in margin-left-10 margin-right-10">' +
         '<h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>' +
-        '<p>{{date}}: The bank account with account number <strong>{{accountNumber}}</strong> and sort code <strong>{{sortCode}}</strong> genuinely belongs to <strong>{{companyName}}</strong>.</p>' +
+        '<p>{{date}}: The bank account with account number <strong>{{accountNumber}}</strong> and sort code <strong>{{sortCode}}</strong> is registered to <strong>{{companyName}}</strong>.</p>' +
     '</div>');
 
     var warnTemplate = Handlebars.compile(

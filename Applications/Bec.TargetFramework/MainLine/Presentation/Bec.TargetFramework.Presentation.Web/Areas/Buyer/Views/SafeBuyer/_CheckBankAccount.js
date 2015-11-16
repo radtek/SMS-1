@@ -49,9 +49,9 @@ function validateSubmit(form) {
     }).done(function (res) {
         hideCurrentModal();
         if (res.result == true)
-            showAudit(index);
-        else
             handleModal({ url: $('#collapse-' + index).data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+        else
+            handleModal({ url: $('#collapse-' + index).data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             console.log(e);
