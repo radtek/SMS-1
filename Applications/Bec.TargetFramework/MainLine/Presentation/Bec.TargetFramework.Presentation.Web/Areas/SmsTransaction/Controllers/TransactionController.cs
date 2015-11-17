@@ -84,6 +84,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
+                search = search.Trim().ToLower();
                 where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
                     x.SmsTransaction.Reference.ToLower().Contains(search) ||
                     x.UserAccountOrganisation.UserAccount.Email.ToLower().Contains(search) ||
