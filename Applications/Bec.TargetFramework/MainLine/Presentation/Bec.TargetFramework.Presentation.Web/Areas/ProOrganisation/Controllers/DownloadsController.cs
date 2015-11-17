@@ -20,8 +20,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
-{
-    [ClaimsRequired("View", "Products", Order = 1000)]
+{    
     public class DownloadsController : ApplicationControllerBase
     {
         public IBankAccountLogicClient BankAccountClient { get; set; }
@@ -40,6 +39,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return View();
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public async Task<ActionResult> SchemeLogo(ImageFormat format)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
@@ -72,41 +72,49 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return codecs.First(codec => codec.FormatID == imageFormat.Guid).MimeType;
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult HowToUse()
         {
             return File(Server.MapPath("~/content/WelcomePack/How To Use the Safe Move Scheme a Guide For Firms.pdf"), "application/pdf", "How To Use the Safe Move Scheme a Guide For Firms.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult LogoUsageGuidelines()
         {
             return File(Server.MapPath("~/content/WelcomePack/Logo Usage Guidelines.pdf"), "application/pdf", "Logo Usage Guide.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult QuickStart()
         {
             return File(Server.MapPath("~/content/WelcomePack/Quick Start Guide for Professionals.pdf"), "application/pdf", "Quick Start guide for Professional Users.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult CreatingAccount()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS Professional Users - Creating Your Account.pdf"), "application/pdf", "SMS - Creating a new account.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult Faq()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS Frequently Asked Questions.pdf"), "application/pdf", "SMS Frequently Asked Questions.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult BuyersAndSMS()
         {
             return File(Server.MapPath("~/content/WelcomePack/Buyers and the SMS.pdf"), "application/pdf", "Buyers and the SMS.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult SafeBuyer()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public async Task<ActionResult> ClientTsCs()
         {
             var name = NotificationConstructEnum.TcPublic.GetStringValue();
@@ -118,6 +126,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, null);
 
             return File(data, "application/pdf", string.Format("Safe Buyer Terms And Conditions.pdf"));
+        }
+
+        [ClaimsRequired("View", "MyTransactions", Order = 1000)]
+        public ActionResult SafeBuyerClient()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
         }
     }
 }

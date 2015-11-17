@@ -180,5 +180,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
             return PartialView("_NoMatch");
         }
+
+        public ActionResult ViewMatch(Guid smsUserAccountOrganisationTransactionID, int index, string accountNumber, string sortCode, string companyName)
+        {
+            ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
+            ViewBag.index = index;
+            ViewBag.accountNumber = accountNumber;
+            ViewBag.sortCode = sortCode;
+            ViewBag.companyName = companyName;
+
+            return PartialView("_Match");
+        }
     }
 }

@@ -36,6 +36,9 @@
                     <li class="@Html.RouteIf("active", "Products", "Index")">
                         <a href="@Url.Action("Index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order Products</span></a>
                     </li>
+                }
+                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions") || Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                {
                     <li class="@Html.RouteIf("active", "Downloads", "Index")">
                         <a href="@Url.Action("Index", "Downloads", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-download"></i> <span class="menu-item-parent">Downloads</span></a>
                     </li>
