@@ -233,6 +233,7 @@ var gridItem = function (options) {
     this.loaded = false;
     this.selectedItem = null;
     this.grid = null;
+    this.firstLoad = true;
     var self = this;
 
     //pass through options to kendo and hook up events
@@ -285,6 +286,7 @@ var gridItem = function (options) {
     this.refreshGrid = function () {
         self.grid.dataSource.read();
         self.grid.dataSource.page(1);
+        self.firstLoad = true;
     }
 
     this.dataBound = function (e) {
@@ -307,7 +309,12 @@ var gridItem = function (options) {
                 }
             }
         } else {
-            self.scrollToRow(self.selectedItem);
+            if (self.firstLoad) {
+                self.firstLoad = false;
+                self.selectFirstRow();
+            }
+            else
+                self.scrollToRow(self.selectedItem);
         }
     };
 
@@ -340,6 +347,12 @@ var gridItem = function (options) {
                 scrollTop: distance
             }, 400);
         }
+    };
+
+    this.selectFirstRow = function () {
+        if (!this.grid) return;
+        var row = this.grid.tbody.find("tr:first");
+        if (row) this.grid.select(row);
     };
 }
 
