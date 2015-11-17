@@ -299,7 +299,14 @@ var gridItem = function (options) {
         saveGridSort(self.grid, self.options.gridElementId);
 
         var gridData = self.grid.dataSource.data();
-        if (gridData.length == 0) return;
+        if (gridData.length == 0) {
+            if (self.options.panels) {
+                for (var p in self.options.panels) {
+                    $('#' + self.options.panels[p]).addClass("hidden");
+                }
+            }
+            return;
+        }
 
         if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
             self.grid.dataSource.page(self.options.jumpToPage);
