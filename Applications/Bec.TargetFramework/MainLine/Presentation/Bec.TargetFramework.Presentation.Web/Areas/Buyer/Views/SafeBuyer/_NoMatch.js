@@ -1,18 +1,23 @@
 ﻿$(function () {
 
-    $('#yesButton').on('click', function () {
-        ajaxWrapper({
-            url: $('#confirmDetails-form').data("url"),
-            method: "POST"
-        }).done(function () {
-            showAudit($('#confirmDetails-form').data("index"));
-            hideCurrentModal();
-        });
+    $("input[name='selCorrect']").change(function () {
+        $('#continueButton').prop('disabled', false);
     });
 
-    $('#noButton').on('click', function () {
-        $('#conf').click();
-        hideCurrentModal();
+    $('#continueButton').on('click', function () {
+        if ($('#radioYes').is(":checked")) {
+            ajaxWrapper({
+                url: $('#confirmDetails-form').data("url"),
+                method: "POST"
+            }).done(function () {
+                showAudit($('#confirmDetails-form').data("index"));
+                hideCurrentModal();
+            });
+        }
+        else {
+            $('#conf').click();
+            hideCurrentModal();
+        }
     });
   
 });

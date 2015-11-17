@@ -6,7 +6,7 @@
     <div class="modal-dialog" id="d1">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="confirmDetailsLabel">Confirm Details</h4>
+                <h4 class="modal-title" id="confirmDetailsLabel">Bank Account Check Results</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -19,15 +19,18 @@
                                     <h4 class="alert alert-heading"><i class="fa fa-warning"></i> No Match. Do not send funds to account <strong>@ViewBag.accountNumber</strong> with sort code <strong>@ViewBag.sortCode</strong>.</h4>
                                 </div>
                                 <br />
-                                <p>Are you sure that you entered these details correctly?</p>
+                                <h5>Are you sure that you entered these details correctly?</h5>
+                                <br />
+                                <input type="radio" name="selCorrect" id="radioYes" value="Yes" /><label for="radioYes">&nbsp;Yes</label>
+                                <br />
+                                <input type="radio" name="selCorrect" id="radioNo" value="No" /><label for="radioNo">&nbsp;No</label>
                             </fieldset>
                         </section>
                     </form>
                 </div>
             </div>
             <div class="modal-footer" id="footer">
-                <button type="button" id="yesButton" class="btn btn-primary" tabindex="29">Yes</button>
-                <button type="button" id="noButton" class="btn btn-primary" tabindex="30">No</button>
+                <button type="button" id="continueButton" class="btn btn-primary" tabindex="29" disabled>Continue</button>
             </div>
         </div>
     </div>
