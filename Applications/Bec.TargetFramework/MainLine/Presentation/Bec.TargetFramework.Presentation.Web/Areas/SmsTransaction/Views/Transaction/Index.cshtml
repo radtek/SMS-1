@@ -2,10 +2,19 @@
 <!-- MAIN CONTENT -->
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
     <div class="row">
-        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>View Transactions</h2>
-        <button class="inline-heading btn btn-default btn-sm pull-right" id="gridSearchButton">Search</button>
-        <input class="inline-heading pull-right" type="text" id="gridSearchInput" />
-
+        <div class="col-sm-8 col-lg-9">
+            <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-home margin-right-10"></i>View Transactions</h2>
+        </div>
+        <div class="col-sm-4 col-lg-3">
+            <div class="input-group margin-top-15 margin-bottom-5">
+                <input type="text" class="form-control" id="gridSearchInput">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="gridSearchButton"><i class="fa fa-search margin-right-5"></i>Search</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12">
 
             <div class="row">
