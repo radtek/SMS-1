@@ -11,17 +11,17 @@ VALUES (E'a1d26e64-2139-11e4-88fd-433c5be48343', E'Temporary User', E'Temporary 
  NULL, NULL, NULL, True, False, True);
 
 INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
-VALUES (E'a1d2bc0c-2139-11e4-9670-47a78b7cc43f', E'Administration User', E'Administration User Role',
+VALUES (E'a1d2bc0c-2139-11e4-9670-47a78b7cc43f', E'Administration User', E'Administration User: This role gives the highest level of administrative permissions',
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Default Organisation' limit 1),
  NULL, NULL, NULL, True, False, True);
 
 INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
-VALUES (E'b88822a0-3cc0-11e4-acf9-bfd11fd091e6', E'Organisation Administrator', E'Organisation Administrator Role',
+VALUES (E'b88822a0-3cc0-11e4-acf9-bfd11fd091e6', E'Organisation Administrator', E'Organisation Administrator: This role gives permission to add users and bank accounts',
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
 
  INSERT INTO public."Role" ("RoleID", "RoleName", "RoleDescription", "RoleTypeID", "RoleSubTypeID", "RoleCategoryID", "RoleSubCategoryID", "IsActive", "IsDeleted", "IsGlobal")
-VALUES (E'b55522a0-3cc0-11e4-acf9-bfd11fd091e6', E'Finance Administrator', E'Finance Administrator Role',
+VALUES (E'b55522a0-3cc0-11e4-acf9-bfd11fd091e6', E'Finance Administrator', E'Finance Administrator: This role gives permission to configure bank accounts',
 (select dot."ClassificationTypeID" from "ClassificationType" dot where dot."ClassificationTypeCategoryID" = 130 and dot."Name" = 'Global' limit 1),
  NULL, NULL, NULL, True, False, True);
 
@@ -143,7 +143,7 @@ insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive
   (select "RoleID" from "Role" where "RoleName" = 'Finance Administrator' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'BankAccount' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Configure' limit 1), TRUE);
-  
+
 --bec accounts view InternalNotifications
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (
@@ -180,7 +180,7 @@ insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive
   (select "RoleID" from "Role" where "RoleName" = 'Administration User' limit 1),
   (select "ResourceID" from "Resource" where "ResourceName" = 'ValidatedAccount' limit 1),
   (select "OperationID" from "Operation" where "OperationName" = 'Add' limit 1), TRUE);
-   
+
 --bec admin view InternalNotifications
    insert into public."RoleClaim"( "RoleID", "ResourceID", "OperationID", "IsActive")
  values (

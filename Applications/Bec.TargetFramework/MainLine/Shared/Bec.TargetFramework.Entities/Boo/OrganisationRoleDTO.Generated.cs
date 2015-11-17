@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationRoleDTO() {
         }
 
-        public OrganisationRoleDTO(global::System.Guid organisationRoleID, global::System.Guid organisationID, global::System.Nullable<System.Guid> parentOrganisationRoleID, string roleName, global::System.Nullable<System.Guid> parentRootRoleID, bool isManaged, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, bool isActive, bool isDeleted, string roleDescription, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, List<OrganisationGroupRoleDTO> organisationGroupRoles, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<OrganisationUnitOrganisationRoleDTO> organisationUnitOrganisationRoles, List<AttachmentDetailRoleDTO> attachmentDetailRoles, List<RepositoryStructureRoleDTO> repositoryStructureRoles, OrganisationDTO organisation) {
+        public OrganisationRoleDTO(global::System.Guid organisationRoleID, global::System.Guid organisationID, global::System.Nullable<System.Guid> parentOrganisationRoleID, string roleName, global::System.Nullable<System.Guid> parentRootRoleID, bool isManaged, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, bool isActive, bool isDeleted, string roleDescription, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, bool isDefault, List<OrganisationGroupRoleDTO> organisationGroupRoles, List<OrganisationRoleClaimDTO> organisationRoleClaims, List<UserAccountOrganisationRoleDTO> userAccountOrganisationRoles, List<OrganisationUnitOrganisationRoleDTO> organisationUnitOrganisationRoles, List<AttachmentDetailRoleDTO> attachmentDetailRoles, List<RepositoryStructureRoleDTO> repositoryStructureRoles, OrganisationDTO organisation) {
 
           this.OrganisationRoleID = organisationRoleID;
           this.OrganisationID = organisationID;
@@ -38,6 +38,7 @@ namespace Bec.TargetFramework.Entities
           this.RoleDescription = roleDescription;
           this.RoleSubCategoryID = roleSubCategoryID;
           this.ParentID = parentID;
+          this.IsDefault = isDefault;
           this.OrganisationGroupRoles = organisationGroupRoles;
           this.OrganisationRoleClaims = organisationRoleClaims;
           this.UserAccountOrganisationRoles = userAccountOrganisationRoles;
@@ -92,6 +93,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> ParentID { get; set; }
+
+        [DataMember]
+        public bool IsDefault { get; set; }
 
         #endregion
 

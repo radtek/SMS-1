@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Data
           this.IsActive = true;
           this.IsDeleted = false;
           this.IsDefaultOrganisationSpecific = false;
+          this.IsDefault = false;
         }
 
         #region Properties
@@ -164,6 +165,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for DefaultOrganisationVersionNumber in the schema.
         /// </summary>
         public virtual int DefaultOrganisationVersionNumber
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsDefault in the schema.
+        /// </summary>
+        public virtual bool IsDefault
         {
             get;
             set;

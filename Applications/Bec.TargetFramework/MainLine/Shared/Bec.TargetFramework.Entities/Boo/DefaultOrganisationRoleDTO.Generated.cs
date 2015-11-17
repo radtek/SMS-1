@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public DefaultOrganisationRoleDTO() {
         }
 
-        public DefaultOrganisationRoleDTO(global::System.Guid defaultOrganisationRoleID, global::System.Guid defaultOrganisationID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, global::System.Nullable<bool> isDefaultOrganisationSpecific, int defaultOrganisationVersionNumber, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<DefaultOrganisationRoleTargetDTO> defaultOrganisationRoleTargets, List<DefaultOrganisationGroupRoleDTO> defaultOrganisationGroupRoles, DefaultOrganisationDTO defaultOrganisation, RoleDTO role) {
+        public DefaultOrganisationRoleDTO(global::System.Guid defaultOrganisationRoleID, global::System.Guid defaultOrganisationID, string roleName, string roleDescription, global::System.Nullable<int> roleTypeID, global::System.Nullable<int> roleSubTypeID, global::System.Nullable<int> roleCategoryID, global::System.Nullable<int> roleSubCategoryID, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.Guid> roleID, bool isActive, bool isDeleted, global::System.Nullable<bool> isDefaultOrganisationSpecific, int defaultOrganisationVersionNumber, bool isDefault, List<DefaultOrganisationRoleClaimDTO> defaultOrganisationRoleClaims, List<DefaultOrganisationRoleTargetDTO> defaultOrganisationRoleTargets, List<DefaultOrganisationGroupRoleDTO> defaultOrganisationGroupRoles, DefaultOrganisationDTO defaultOrganisation, RoleDTO role) {
 
           this.DefaultOrganisationRoleID = defaultOrganisationRoleID;
           this.DefaultOrganisationID = defaultOrganisationID;
@@ -38,6 +38,7 @@ namespace Bec.TargetFramework.Entities
           this.IsDeleted = isDeleted;
           this.IsDefaultOrganisationSpecific = isDefaultOrganisationSpecific;
           this.DefaultOrganisationVersionNumber = defaultOrganisationVersionNumber;
+          this.IsDefault = isDefault;
           this.DefaultOrganisationRoleClaims = defaultOrganisationRoleClaims;
           this.DefaultOrganisationRoleTargets = defaultOrganisationRoleTargets;
           this.DefaultOrganisationGroupRoles = defaultOrganisationGroupRoles;
@@ -90,6 +91,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public int DefaultOrganisationVersionNumber { get; set; }
+
+        [DataMember]
+        public bool IsDefault { get; set; }
 
         #endregion
 

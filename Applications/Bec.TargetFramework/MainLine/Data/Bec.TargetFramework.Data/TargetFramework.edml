@@ -3538,6 +3538,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="IsDefaultOrganisationSpecific" Type="boolean" DefaultValue="false" />
           <Property Name="DefaultOrganisationTemplateVersionNumber" Type="int" Nullable="false" />
+          <Property Name="IsDefault" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="ModuleStatusTypeTemplate">
           <Key>
@@ -5407,6 +5408,7 @@
           <Property Name="RoleDescription" Type="varchar" MaxLength="2000" />
           <Property Name="RoleSubCategoryID" Type="int" />
           <Property Name="ParentID" Type="uuid" />
+          <Property Name="IsDefault" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="OrganisationUserType">
           <Key>
@@ -5534,6 +5536,7 @@
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="IsDefaultOrganisationSpecific" Type="boolean" DefaultValue="false" />
           <Property Name="DefaultOrganisationVersionNumber" Type="int" Nullable="false" />
+          <Property Name="IsDefault" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="OrganisationGroup">
           <Key>
@@ -21712,6 +21715,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b6323259-dec6-4f31-881b-3b515a80c567" />
           <Property Name="IsDefaultOrganisationSpecific" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="e30b7a9c-344a-4cdc-872b-af47d9553f1a" />
           <Property Name="DefaultOrganisationTemplateVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="1c7bedda-c237-4a2c-945b-3c28ecb75ec2" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="580402a7-0600-4017-bf6c-b7db1233c34c" />
           <NavigationProperty Name="DefaultOrganisationTemplate" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_DefaultOrganisationT" FromRole="DefaultOrganisationRoleTemplates" ToRole="DefaultOrganisationTemplate" ed:Guid="4b8b12cc-0789-4f3d-9709-05ea850bed8d" />
           <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRole_RoleT" FromRole="DefaultOrganisationRoleTemplates" ToRole="Role" ed:Guid="50ec3067-497d-49e3-942a-f9fc1bc3ba03" />
           <NavigationProperty Name="DefaultOrganisationGroupRoleTemplates" Relationship="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRoleT" FromRole="DefaultOrganisationRoleTemplate" ToRole="DefaultOrganisationGroupRoleTemplates" ed:Guid="bf71ccff-bb3c-46ba-9b17-e2bf35f16b04" />
@@ -23942,6 +23946,7 @@
           <Property Name="RoleDescription" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="32284f65-b7f2-4480-a7ba-2ac2c74594bb" />
           <Property Name="RoleSubCategoryID" Type="Int32" ed:ValidateRequired="False" ed:Guid="667ea924-a609-4515-ad44-81c91465a00c" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4bf6b7a6-a6d2-4bf4-9527-6a173f557b05" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="045b3881-0d5c-4821-b681-00fde23e0469" />
           <NavigationProperty Name="OrganisationGroupRoles" Relationship="Bec.TargetFramework.Data.fk_OrganisationGroupOrganisationRole_OrganisationRole" FromRole="OrganisationRole" ToRole="OrganisationGroupRoles" ed:Guid="ff2d6170-c260-4000-a948-f95c19774768" />
           <NavigationProperty Name="OrganisationRoleClaims" Relationship="Bec.TargetFramework.Data.fk_OrganisationRoleClaim_OrganisationRole" FromRole="OrganisationRole" ToRole="OrganisationRoleClaims" ed:Guid="42441c29-7575-4e44-b38e-bd8777fa0ccf" />
           <NavigationProperty Name="UserAccountOrganisationRoles" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationRole_OrganisationRole" FromRole="OrganisationRole" ToRole="UserAccountOrganisationRoles" ed:Guid="a831b0c9-37d2-4180-a394-6cc1db1844d9" />
@@ -24122,6 +24127,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="17bbab58-7536-4b68-8e80-969909a08500" />
           <Property Name="IsDefaultOrganisationSpecific" Type="Boolean" DefaultValue="false" ed:ValidateRequired="False" ed:Guid="5df732aa-bdfa-43b4-9258-017e8e73a260" />
           <Property Name="DefaultOrganisationVersionNumber" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="ad8109dc-1587-44a5-8c78-7f10e453e7b0" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="3708a88e-c06a-4b96-95e7-f1e6d0be6d32" />
           <NavigationProperty Name="DefaultOrganisationRoleClaims" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRoleClaim_DefaultOrganisationRole" FromRole="DefaultOrganisationRole" ToRole="DefaultOrganisationRoleClaims" ed:Guid="86c120fb-fc18-4e82-a6d4-a904f83814cd" />
           <NavigationProperty Name="DefaultOrganisationRoleTargets" Relationship="Bec.TargetFramework.Data.fk_DefaultOrganisationRoleTarget_DefaultOrganisation" FromRole="DefaultOrganisationRole" ToRole="DefaultOrganisationRoleTargets" ed:Guid="d2ba4c73-0207-4147-8623-275f3104d15f" />
           <NavigationProperty Name="DefaultOrganisationGroupRoles" Relationship="Bec.TargetFramework.Data.FK_DefaultonGroupDefault_DefaultOrganisationRole" FromRole="DefaultOrganisationRole" ToRole="DefaultOrganisationGroupRoles" ed:Guid="bef803ef-5912-4158-a4b5-0d09e3c33400" />
@@ -37409,6 +37415,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsDefaultOrganisationSpecific" ColumnName="IsDefaultOrganisationSpecific" />
                 <ScalarProperty Name="DefaultOrganisationTemplateVersionNumber" ColumnName="DefaultOrganisationTemplateVersionNumber" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -39282,6 +39289,7 @@
                 <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
                 <ScalarProperty Name="RoleSubCategoryID" ColumnName="RoleSubCategoryID" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -39409,6 +39417,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsDefaultOrganisationSpecific" ColumnName="IsDefaultOrganisationSpecific" />
                 <ScalarProperty Name="DefaultOrganisationVersionNumber" ColumnName="DefaultOrganisationVersionNumber" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

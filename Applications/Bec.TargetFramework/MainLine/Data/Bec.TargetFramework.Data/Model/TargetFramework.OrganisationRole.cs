@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Data
           this.IsManaged = false;
           this.IsActive = true;
           this.IsDeleted = false;
+          this.IsDefault = false;
         }
 
         #region Properties
@@ -164,6 +165,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ParentID in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.Guid> ParentID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsDefault in the schema.
+        /// </summary>
+        public virtual bool IsDefault
         {
             get;
             set;
