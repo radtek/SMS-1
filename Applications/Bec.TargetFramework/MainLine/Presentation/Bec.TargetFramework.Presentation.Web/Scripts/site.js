@@ -79,11 +79,15 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
                 });
             }
 
-            mdiv.modal({
+            // show.bs.modal event has to be specified before building the .modal
+            mdiv.one('show.bs.modal', function () {
+                if (shownFunction) {
+                    shownFunction();
+                }
+                $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+            }).modal({
                 backdrop: 'static',
                 keyboard: false
-            }).one('show.bs.modal', function () {
-                if (shownFunction) shownFunction();
             }).one('hide.bs.modal', function (e) {
                 if (fixScroll) $('body').addClass('modal-open');
 
@@ -118,8 +122,10 @@ function findModalLinks() {
                 handleHelp();
                 var mdiv = tempDiv.filter('.modal');
                 modalStack.push(mdiv);
-
-                mdiv.modal({
+                // show.bs.modal event has to be specified before building the .modal
+                mdiv.on('show.bs.modal', function () {
+                    $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+                }).modal({
                     backdrop: 'static',
                     keyboard: false
                 }).on('hide.bs.modal', function () {
