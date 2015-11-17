@@ -264,6 +264,7 @@
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   color: #a1c324;
+  cursor: pointer;
 }
 .ui-datepicker td .ui-state-hover {
   background: #a1c324;
