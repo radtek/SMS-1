@@ -36,8 +36,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (org == null) return Json(new { message = "No results" });
 
             var oid = org.OrganisationID;
+            var activeStatus = "Active";
             select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.Line1, x.Town, x.County, x.PostalCode, x.Regulator, x.RegulatorNumber });
-            filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == oid);
+            filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == oid && x.StatusValueName == activeStatus);
             var res2 = await queryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
             var vorg = res2.FirstOrDefault();
             if (vorg == null) return Json(new { message = "No results" });
