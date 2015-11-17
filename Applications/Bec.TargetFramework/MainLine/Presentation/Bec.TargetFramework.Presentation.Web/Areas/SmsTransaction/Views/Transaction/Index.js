@@ -51,7 +51,11 @@ $(function () {
             {
                 field: "UserAccountOrganisation.UserAccount.LastLogin",
                 title: "Last Logged in",
-                template: function (dataItem) { return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount ? "" : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin); }
+                template: function (dataItem) {
+                    return dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount || !dataItem.UserAccountOrganisation.UserAccount.LastLogin
+                        ? ""
+                        : dateString(dataItem.UserAccountOrganisation.UserAccount.LastLogin);
+                }
             }
         ]
     });
