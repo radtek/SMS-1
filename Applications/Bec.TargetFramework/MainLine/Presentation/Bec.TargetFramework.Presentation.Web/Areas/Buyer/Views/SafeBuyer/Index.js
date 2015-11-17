@@ -3,7 +3,6 @@
 
     findModalLinks();
     showAudit(0);
-    setupBankAccountDetails();
     setupNotifyButton();
     setupDates();
 
@@ -30,24 +29,6 @@
 
         $('.format-number').each(function () {
             $(this).text(formatCurrency($(this).data("val")));
-        });
-    }
-
-    
-
-    function setupBankAccountDetails() {
-        var personalBankAccountsBtn = $('#personalBankAccountsBtn');
-        personalBankAccountsBtn.click(function (e) {
-            $('#personalBankAccountsTable').toggle();
-            $('i', personalBankAccountsBtn).toggle();
-
-            personalBankAccountsBtn.find('span').text(function (i, text) {
-                return text === personalBankAccountsBtn.data('show-text')
-                    ? personalBankAccountsBtn.data('hide-text')
-                    : personalBankAccountsBtn.data('show-text');
-            })
-            e.preventDefault();
-            return false;
         });
     }
 });
