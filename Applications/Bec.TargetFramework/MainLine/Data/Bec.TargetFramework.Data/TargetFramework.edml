@@ -407,6 +407,8 @@
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Store.Lender" store:Type="Tables" Schema="public" Table="Lender" />
           <EntitySet Name="SmsBankAccountChecks" EntityType="Bec.TargetFramework.Data.Store.SmsBankAccountCheck" store:Type="Tables" Schema="sms" Table="SmsBankAccountCheck" />
           <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount" store:Type="Tables" Schema="sms" Table="SmsSrcFundsBankAccount" />
+          <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Store.Conversation" store:Type="Tables" Schema="public" Table="Conversation" />
+          <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationParticipant" store:Type="Tables" Schema="public" Table="ConversationParticipant" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2938,6 +2940,18 @@
           <AssociationSet Name="SmsSrcFundsBankAccount_SmsUaot_fk" Association="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount_SmsUaot_fk">
             <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
             <End Role="SmsSrcFundsBankAccount" EntitySet="SmsSrcFundsBankAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConversationParticipant_Conversation" Association="Bec.TargetFramework.Data.Store.fk_ConversationParticipant_Conversation">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationParticipant" EntitySet="ConversationParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConversationParticipant_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_ConversationParticipant_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="ConversationParticipant" EntitySet="ConversationParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Notification_Conversation" Association="Bec.TargetFramework.Data.Store.fk_Notification_Conversation">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -6142,6 +6156,7 @@
           <Property Name="IsVisible" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="NotificationData" Type="json" Nullable="false" />
           <Property Name="NotificationStatusID" Type="int" />
+          <Property Name="ConversationID" Type="uuid" />
         </EntityType>
         <EntityType Name="Contact">
           <Key>
@@ -9904,6 +9919,24 @@
           <Property Name="SmsUserAccountOrganisationTransactionID" Type="uuid" Nullable="false" />
           <Property Name="AccountNumber" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="SortCode" Type="varchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+          </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
+          <Property Name="Subject" Type="varchar" />
+          <Property Name="ActivityType" Type="int" />
+          <Property Name="ActivityID" Type="uuid" />
+        </EntityType>
+        <EntityType Name="ConversationParticipant">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="UserAccountOrganisationID" />
+          </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="Added" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18057,6 +18090,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ConversationParticipant_Conversation">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Store.Conversation" Multiplicity="1" />
+          <End Role="ConversationParticipant" Type="Bec.TargetFramework.Data.Store.ConversationParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationParticipant">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConversationParticipant_UserAccountOrganisation">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="ConversationParticipant" Type="Bec.TargetFramework.Data.Store.ConversationParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationParticipant">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Notification_Conversation">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Store.Conversation" Multiplicity="0..1" />
+          <End Role="Notification" Type="Bec.TargetFramework.Data.Store.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18473,6 +18542,8 @@
           <EntitySet Name="Lenders" EntityType="Bec.TargetFramework.Data.Lender" />
           <EntitySet Name="SmsBankAccountChecks" EntityType="Bec.TargetFramework.Data.SmsBankAccountCheck" />
           <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.SmsSrcFundsBankAccount" />
+          <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Conversation" />
+          <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.ConversationParticipant" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -20945,6 +21016,18 @@
             <End Role="SmsUserAccountOrganisationTransaction" EntitySet="SmsUserAccountOrganisationTransactions" />
             <End Role="SmsSrcFundsBankAccounts" EntitySet="SmsSrcFundsBankAccounts" />
           </AssociationSet>
+          <AssociationSet Name="fk_ConversationParticipant_ConversationSet" Association="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="ConversationParticipants" EntitySet="ConversationParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConversationParticipant_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="ConversationParticipants" EntitySet="ConversationParticipants" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Notification_ConversationSet" Association="Bec.TargetFramework.Data.fk_Notification_Conversation">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21303,6 +21386,7 @@
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_UserAccountOrganisationUnit_Organisation" FromRole="UserAccountOrganisations" ToRole="Organisation" ed:Guid="928d9191-f38a-436b-b21d-b7dd584c1058" />
           <NavigationProperty Name="OrganisationLedgerTransactions" Relationship="Bec.TargetFramework.Data.OrganisationLedgerTransaction_fk" FromRole="UserAccountOrganisation" ToRole="OrganisationLedgerTransactions" ed:Guid="9081b431-50ac-4326-bb17-cf1c527fa475" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="UserAccountOrganisation" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="d9460f57-8f52-44d0-9a61-fe6db7eb5a80" />
+          <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="ConversationParticipants" ed:Guid="c1cb4daa-fc4b-478b-ab7e-1b3ec2ad0735" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -24864,10 +24948,12 @@
           <Property Name="IsVisible" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="32ec0481-59bd-4d42-a180-0f6b03d7d44f" />
           <Property Name="NotificationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="741b23d2-370c-413d-bb7a-2bcd13baf53d" />
           <Property Name="NotificationStatusID" Type="Int32" ed:ValidateRequired="False" ed:Guid="eba51b25-5252-4dab-87ac-d9bc937fedf0" />
+          <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b15fe8c6-731d-47ec-8082-110edb4dbe19" />
           <NavigationProperty Name="NotificationRecipients" Relationship="Bec.TargetFramework.Data.fk_NotificationRecipient_Notification" FromRole="Notification" ToRole="NotificationRecipients" ed:Guid="23184bb2-c506-4d15-beeb-e6595a40e4a3" />
           <NavigationProperty Name="NotificationConstruct" Relationship="Bec.TargetFramework.Data.fk_Notification_NotificationConstruct" FromRole="Notifications" ToRole="NotificationConstruct" ed:Guid="2eb4cec1-3b11-4bdc-a1ba-5b665c40ae0a" />
           <NavigationProperty Name="InvoiceProcessLogs" Relationship="Bec.TargetFramework.Data.fk_InvoiceLog_Notification" FromRole="Notification" ToRole="InvoiceProcessLogs" ed:Guid="b74489d0-3005-41c5-a78c-40ff3196e17a" />
           <NavigationProperty Name="OrganisationDirectDebitMandates" Relationship="Bec.TargetFramework.Data.fk_OrganisationDirectDebitMandate_Notification" FromRole="Notification" ToRole="OrganisationDirectDebitMandates" ed:Guid="c07c71fc-6fb7-41f9-9f9b-d1a9ab634bfa" />
+          <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Notifications" ToRole="Conversation" ed:Guid="a7a096ca-8b3e-4b70-891c-2f9718712fb4" />
         </EntityType>
         <EntityType Name="Contact" ed:Guid="efaa64f5-f404-460c-a535-b5d9abe69f82">
           <Key>
@@ -29016,6 +29102,28 @@
           <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="20" Unicode="true" ed:ValidateMaxLength="20" ed:ValidateRequired="True" ed:Guid="f412e92c-98db-4cdd-97a5-4f2719d083a3" />
           <Property Name="SortCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" ed:ValidateMaxLength="10" ed:ValidateRequired="True" ed:Guid="2db5540a-a5f6-40a7-9bde-44f8bb286875" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransaction" Relationship="Bec.TargetFramework.Data.SmsSrcFundsBankAccount_SmsUaot_fk" FromRole="SmsSrcFundsBankAccounts" ToRole="SmsUserAccountOrganisationTransaction" ed:Guid="cfe89f81-3a8b-4a34-9aeb-a8ce45b1047d" />
+        </EntityType>
+        <EntityType Name="Conversation" ed:Guid="0180b628-ece5-4fc7-ba74-c8c3df338e52">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+          </Key>
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d670c078-97a0-4246-b58e-cc7b19d73bbf" />
+          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="ae30452f-c53d-4c90-8483-a75a146e4626" />
+          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="95b00bc4-bc64-47ce-bcde-4a330ed07f84" />
+          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4dda795c-ad42-4335-af87-31cf620bcbca" />
+          <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="Conversation" ToRole="ConversationParticipants" ed:Guid="7282fa43-51e3-4cd1-b3af-691830ce02a2" />
+          <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Conversation" ToRole="Notifications" ed:Guid="80be8f08-c9bb-4357-a8a4-dc03fcccc147" />
+        </EntityType>
+        <EntityType Name="ConversationParticipant" ed:Guid="e29a70d3-b5b2-4bc4-a1c6-113b3a5bb953">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+            <PropertyRef Name="UserAccountOrganisationID" />
+          </Key>
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="03cbd626-7a8a-451e-a96b-6d8d58496d89" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="37677514-a8f8-44c4-a118-c1b0f7c7d614" />
+          <Property Name="Added" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="729734a9-1489-4f6d-97eb-0db9088cdb94" />
+          <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="ConversationParticipants" ToRole="Conversation" ed:Guid="849ee4e9-f79d-45f0-b299-d4ee456e8b0b" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="ConversationParticipants" ToRole="UserAccountOrganisation" ed:Guid="c21d435f-8860-4348-b2bb-6279f3658a4a" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -36829,6 +36937,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ConversationParticipant_Conversation" ed:Guid="37d71a14-c5e2-4c73-b1f3-4b30dcae75e2">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Conversation" Multiplicity="1" />
+          <End Role="ConversationParticipants" Type="Bec.TargetFramework.Data.ConversationParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="ConversationParticipants">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConversationParticipant_UserAccountOrganisation" ed:Guid="c006426e-beb7-420c-bee1-5426079de72f">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="1" />
+          <End Role="ConversationParticipants" Type="Bec.TargetFramework.Data.ConversationParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="ConversationParticipants">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Notification_Conversation" ed:Guid="4d199d33-58b2-41bf-b715-c41727f0c72c">
+          <End Role="Conversation" Type="Bec.TargetFramework.Data.Conversation" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Bec.TargetFramework.Data.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -40042,6 +40186,7 @@
                 <ScalarProperty Name="IsVisible" ColumnName="IsVisible" />
                 <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
                 <ScalarProperty Name="NotificationStatusID" ColumnName="NotificationStatusID" />
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43564,6 +43709,25 @@
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="SortCode" ColumnName="SortCode" />
                 <ScalarProperty Name="SmsSrcFundsBankAccountID" ColumnName="SmsSrcFundsBankAccountID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Conversation">
+              <MappingFragment StoreEntitySet="Conversations">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConversationParticipants">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.ConversationParticipant">
+              <MappingFragment StoreEntitySet="ConversationParticipants">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="Added" ColumnName="Added" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
