@@ -651,41 +651,23 @@ namespace Bec.TargetFramework.Business.Logic
                 }
             }
 
-            try
+            using (var scope = DbContextScopeFactory.Create())
             {
-                using (var scope = DbContextScopeFactory.Create())
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoID);
+                Ensure.That(uao).IsNotNull();
+
+                var uaot = new SmsUserAccountOrganisationTransaction
                 {
-                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccountOrganisationID == assignSmsClientToTransactionDTO.UaoID);
-                    Ensure.That(uao).IsNotNull();
+                    SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
+                    SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
+                    UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
+                    SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
+                    ContactID = uao.Contact.ContactID,
+                    CreatedBy = UserNameService.UserName
+                };
+                scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
 
-                    var uaot = new SmsUserAccountOrganisationTransaction
-                    {
-                        SmsUserAccountOrganisationTransactionID = Guid.NewGuid(),
-                        SmsTransactionID = assignSmsClientToTransactionDTO.TransactionID,
-                        UserAccountOrganisationID = assignSmsClientToTransactionDTO.UaoID,
-                        SmsUserAccountOrganisationTransactionTypeID = assignSmsClientToTransactionDTO.UserAccountOrganisationTransactionType.GetIntValue(),
-                        ContactID = uao.Contact.ContactID,
-                        CreatedBy = UserNameService.UserName
-                    };
-                    scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions.Add(uaot);
-
-                    await scope.SaveChangesAsync();
-                }
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-            {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Logger.Error("Class: {0}, Property: {1}, Error: {2}",
-                            validationErrors.Entry.Entity.GetType().FullName,
-                            validationError.PropertyName,
-                            validationError.ErrorMessage);
-                    }
-                }
-
-                throw;
+                await scope.SaveChangesAsync();
             }
         }
 
