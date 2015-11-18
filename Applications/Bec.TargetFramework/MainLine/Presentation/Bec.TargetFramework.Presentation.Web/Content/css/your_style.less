@@ -11,7 +11,7 @@
  */
 
 @primary-color: #a1c324;
-@text-color:black;
+@text-color: black;
 
 .color-primary {
     color: @primary-color;
@@ -164,7 +164,7 @@
     }
 
     footer {
-        .btn{
+        .btn {
             font-size: 1em;
         }
     }
@@ -183,6 +183,7 @@
         #logo {
             margin-top: 0;
             width: 175px;
+
             img {
                 width: 106px !important;
                 height: 38px !important;
@@ -207,11 +208,12 @@
 
 @media only screen and (max-width: 479px) and (min-width: 320px) {
     #logo-group {
-         width: inherit !important; 
+        width: inherit !important;
     }
 }
-@media only screen and (min-width: 980px){
-    .menu-toggle{
+
+@media only screen and (min-width: 980px) {
+    .menu-toggle {
         display: none;
     }
 }
@@ -229,7 +231,7 @@
     }
 }
 
-.icon-append + .twitter-typeahead input{
+.icon-append + .twitter-typeahead input {
     padding-right: 37px;
 }
 
@@ -242,7 +244,7 @@
     top: 7px;
     display: none;
 
-    &.required-field{
+    &.required-field {
         right: 38px;
     }
 }
@@ -322,16 +324,17 @@
 
 //smart admin has quite a specific bg-colour for this in #logo-group
 #activity {
-    .badge{
+    .badge {
         background: @primary-color !important;
     }
-    &.active .badge{
+
+    &.active .badge {
         background: darken(@primary-color, 5%) !important;
     }
 }
 
-.dropdown-menu>li>a:focus, 
-.dropdown-menu>li>a:hover {
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
     background-color: lighten(@primary-color, 10%);
 }
 
@@ -344,29 +347,32 @@
 
 .smart-form {
     .checkbox {
-        input+i {
-            &:after{
+        input + i {
+            &:after {
                 color: @primary-color;
             }
-            border-color:#bdbdbd !important;
+
+            border-color: #bdbdbd !important;
         }
     }
 }
 
 .nav-pills {
-    li{
-        a{
-             color:darken(@primary-color,20%);
+    li {
+        a {
+            color: darken(@primary-color,20%);
         }
     }
+
     li.active {
         a {
-            background-color:@primary-color;
+            background-color: @primary-color;
+
             &:hover,
             &:active,
             &:focus,
-            &:visited{
-                background-color:@primary-color;
+            &:visited {
+                background-color: @primary-color;
             }
         }
     }
@@ -389,7 +395,7 @@
     cursor: pointer !important;
 }
 
-.icon-append{
+.icon-append {
     z-index: 9999;
 }
 
@@ -398,44 +404,129 @@
     padding: 2px 12px;
     font-size: 1.5em;
 
-    & + .dropdown-menu{
-        li{
-            a{
+    & + .dropdown-menu {
+        li {
+            a {
                 padding: 8px 18px;
             }
         }
     }
 }
 
-#logout a{
+#logout a {
     font-size: 1.05em;
 }
 
-.menu-toggle{
-    a{
+.menu-toggle {
+    a {
         color: #7d7d7d;
         font-size: 16px;
         display: inline-block;
     }
 }
 
-.validation-summary-errors{
-    ul li{
+.validation-summary-errors {
+    ul li {
         list-style: none;
     }
 }
 
-.delete-entry{
+.delete-entry {
     display: inline-block;
     color: #a90329;
     margin-top: 7px;
     cursor: pointer;
 }
 
-.add-next-bank-account{
+.add-next-bank-account {
     cursor: pointer;
 }
 
-.red-bg{
+.red-bg {
     background-color: #fad4d4;
+}
+
+.discussions-list {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+        border-top: 1px solid #ddd;
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #eee !important;
+        }
+
+        &.unread{
+            background-color: #f4f4f4;
+            .discussion-subject,
+            .date {
+                font-weight: bold;
+            }
+        }
+
+        .discussion-subject {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .discussion-message{
+            font-size: 0.9em;
+        }
+
+        .date {
+            color: #777;
+            font-size: 0.9em;
+            text-align: right;
+        }
+    }
+}
+
+.messages-list {
+    height: 300px; // do media specific
+    padding-right: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .thumbnail {
+        text-align: center;
+        border: none;
+        background-color: transparent;
+    }
+
+    .panel {
+        position: relative;
+    }
+
+    .panel > .panel-heading:after, .panel > .panel-heading:before {
+        position: absolute;
+        top: 11px;
+        left: -16px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        display: block;
+        content: " ";
+        border-color: transparent;
+        border-style: solid solid outset;
+        pointer-events: none;
+    }
+
+    .panel > .panel-heading:after {
+        border-width: 7px;
+        border-right-color: #f7f7f7;
+        margin-top: 1px;
+        margin-left: 2px;
+    }
+
+    .panel > .panel-heading:before {
+        border-right-color: #ddd;
+        border-width: 8px;
+    }
+}
+
+.reply-panel{
+
 }

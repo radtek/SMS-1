@@ -306,4 +306,73 @@
 .red-bg {
   background-color: #fad4d4;
 }
+.discussions-list {
+  list-style-type: none;
+  padding: 0;
+}
+.discussions-list li {
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  cursor: pointer;
+}
+.discussions-list li:hover {
+  background-color: #eee !important;
+}
+.discussions-list li.unread {
+  background-color: #f4f4f4;
+}
+.discussions-list li.unread .discussion-subject,
+.discussions-list li.unread .date {
+  font-weight: bold;
+}
+.discussions-list li .discussion-subject {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+.discussions-list li .discussion-message {
+  font-size: 0.9em;
+}
+.discussions-list li .date {
+  color: #777;
+  font-size: 0.9em;
+  text-align: right;
+}
+.messages-list {
+  height: 300px;
+  padding-right: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.messages-list .thumbnail {
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+.messages-list .panel {
+  position: relative;
+}
+.messages-list .panel > .panel-heading:after,
+.messages-list .panel > .panel-heading:before {
+  position: absolute;
+  top: 11px;
+  left: -16px;
+  right: 100%;
+  width: 0;
+  height: 0;
+  display: block;
+  content: " ";
+  border-color: transparent;
+  border-style: solid solid outset;
+  pointer-events: none;
+}
+.messages-list .panel > .panel-heading:after {
+  border-width: 7px;
+  border-right-color: #f7f7f7;
+  margin-top: 1px;
+  margin-left: 2px;
+}
+.messages-list .panel > .panel-heading:before {
+  border-right-color: #ddd;
+  border-width: 8px;
+}
 /*# sourceMappingURL=your_style.css.map */
