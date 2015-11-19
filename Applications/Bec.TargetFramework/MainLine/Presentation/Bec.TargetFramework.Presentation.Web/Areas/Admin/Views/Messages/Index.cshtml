@@ -5,7 +5,7 @@
         <div class="col-sm-12">
             <div class="well view-messages-container">
                 <div class="row">
-                    <div id="discussionsContainer" class="col-lg-6 discussions-container">
+                    <div id="discussionsContainer" class="col-xs-12 col-lg-6 discussions-container">
                         <h3>Discussions</h3>
                         <ul class="discussions-list">
                             @foreach (var discussion in Model)
@@ -28,8 +28,8 @@
                             }
                         </ul>
                     </div>
-                    <div id="messagesContainer" class="col-lg-6 messages-container" style="display: none;">
-                        <h3 id="discussionSubject"><i class="fa fa-caret-left margin-right-10 hidden-lg"></i>New property to buy</h3>
+                    <div id="messagesContainer" class="col-lg-offset-6 col-xs-0 messages-container">
+                        <h3 id="discussionSubject"><i class="fa fa-caret-left margin-right-10 hidden-lg"></i>Subject: New property to buy</h3>
                         <div class="messages-list">
                             <div class="row">
                                 <div class="col-sm-1 hidden-xs">
@@ -51,8 +51,8 @@
                             <div class="row">
                                 <div class="col-sm-1 hidden-xs">
                                     <div class=" thumbnail">
-                                    <i class="fa fa-user fa-3x"></i>
-                                </div>
+                                        <i class="fa fa-user fa-3x"></i>
+                                    </div>
                                 </div>
                                 <div class="col-sm-11">
                                     <div class="panel panel-default">
@@ -68,8 +68,8 @@
                             <div class="row">
                                 <div class="col-sm-1 hidden-xs">
                                     <div class=" thumbnail">
-                                    <i class="fa fa-user fa-3x"></i>
-                                </div>
+                                        <i class="fa fa-user fa-3x"></i>
+                                    </div>
                                 </div>
                                 <div class="col-sm-11">
                                     <div class="panel panel-default">

@@ -308,6 +308,12 @@
 }
 .view-messages-container {
   position: relative;
+  /*.row div {
+        -webkit-transition: width 0.05s ease;
+        -moz-transition: width 0.05s ease;
+        -o-transition: width 0.05s ease;
+        transition: width 0.05s ease;
+    }*/
 }
 .view-messages-container .discussions-container .discussions-list {
   list-style-type: none;
@@ -339,6 +345,9 @@
   color: #777;
   font-size: 0.9em;
   text-align: right;
+}
+.view-messages-container .messages-container {
+  box-shadow: #dddddd -7px 0px 20px;
 }
 .view-messages-container .messages-container h3 {
   cursor: pointer;
@@ -381,7 +390,23 @@
   border-right-color: #ddd;
   border-width: 8px;
 }
+.view-messages-container .col-xs-4 {
+  margin-left: 0;
+}
+.view-messages-container .col-xs-0 {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.view-messages-container .col-lg-offset-0 {
+  margin-left: 0;
+}
+.view-messages-container .row div + div {
+  /*margin-left: 0;*/
+}
 .hidden {
   display: none;
+  width: 0;
 }
 /*# sourceMappingURL=your_style.css.map */
