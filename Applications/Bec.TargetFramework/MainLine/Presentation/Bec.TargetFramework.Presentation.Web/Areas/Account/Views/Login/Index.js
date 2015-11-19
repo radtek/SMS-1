@@ -132,4 +132,9 @@
 
     var selectedTab = $('#loginTabs').data('selected');
     $('#' + selectedTab).tab('show');
+
+    //dirty fix for error messages and switching between tabs
+    $('#loginTabs a').click(function () {
+        $('form .alert-danger').remove();
+    });
 });
