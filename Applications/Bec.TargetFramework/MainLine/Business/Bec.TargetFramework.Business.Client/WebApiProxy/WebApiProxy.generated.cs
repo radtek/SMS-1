@@ -573,6 +573,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="message"></param>
 		/// <returns></returns>
 		void ReplyToConversation(Guid uaoID,Guid conversationID,String message);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		Task MarkAsReadAsync(Guid uaoID,Guid conversationID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		void MarkAsRead(Guid uaoID,Guid conversationID);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2864,6 +2874,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&message=" + message, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		public virtual Task MarkAsReadAsync(Guid uaoID,Guid conversationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		public virtual void MarkAsRead(Guid uaoID,Guid conversationID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
 		}
 
 		#endregion

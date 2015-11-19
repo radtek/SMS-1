@@ -65,6 +65,7 @@ namespace Bec.TargetFramework.Entities
               target.OrganisationLedgerTransactions = source.OrganisationLedgerTransactions.ToDtosWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
               target.ConversationParticipants = source.ConversationParticipants.ToDtosWithRelated(level - 1);
+              target.Notifications = source.Notifications.ToDtosWithRelated(level - 1);
             }
 
             // User-defined partial method
