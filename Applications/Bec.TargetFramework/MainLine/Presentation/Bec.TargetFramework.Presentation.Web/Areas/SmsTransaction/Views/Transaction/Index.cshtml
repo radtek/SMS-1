@@ -1,4 +1,6 @@
-﻿@using Bec.TargetFramework.Entities.Enums
+﻿@model List<Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers.Discussion>
+
+@using Bec.TargetFramework.Entities.Enums
 <!-- MAIN CONTENT -->
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
     <div class="row">
@@ -30,6 +32,109 @@
                     <div class="well">
                         <h3>Transaction Details</h3>
                         <div id="transactionDetails"></div>
+                    </div>
+                    <div class="well">
+                        <!-- TEST -->
+
+                        <div class="well view-messages-container">
+                            <div class="row">
+                                <div id="discussionsContainer" class="col-xs-12 discussions-container">
+                                    <h3>Discussions</h3>
+                                    <ul class="discussions-list">
+                                        @foreach (var discussion in Model)
+                                        {
+                                            <li class="discussion-item @(discussion.IsUnread ? "unread" : "")">
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <h4 class="discussion-subject">@discussion.Subject</h4>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="date">@discussion.FirstUnreadCreatedOn</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-8 discussion-message">
+                                                        <strong>@discussion.FirstUnreadUser</strong> says: @discussion.FirstUnreadMessage!
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div id="messagesContainer" class="col-xs-12 messages-container" style="display: none;">
+                                    <h3 id="discussionSubject"><i class="fa fa-caret-left margin-right-10"></i>New property to buy</h3>
+                                    <div class="messages-list">
+                                        <div class="row">
+                                            <div class="col-sm-1 hidden-xs hidden">
+                                                <div class="thumbnail">
+                                                    <i class="fa fa-user fa-3x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-11">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <strong>Edward Powell</strong> <span class="text-muted">wrote on 20/07/2015 10:20</span>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        You should have done it before!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-1 hidden-xs hidden">
+                                                <div class=" thumbnail">
+                                                    <i class="fa fa-user fa-3x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-11">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <strong>Bob Smith</strong> <span class="text-muted">wrote on 20/07/2015 10:20</span>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        You should have done it before!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-1 hidden-xs hidden">
+                                                <div class=" thumbnail">
+                                                    <i class="fa fa-user fa-3x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-11">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <strong>Bob Smith</strong> <span class="text-muted">wrote on 20/07/2015 10:20</span>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        You should have done it before!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reply-panel panel panel-default margin-top-20">
+                                        <div class="panel-heading">
+                                            <strong>Reply to the discussion</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="comment">Message:</label>
+                                                    <textarea class="form-control" rows="5"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary pull-right">Reply</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
                 <div class="col-sm-6">

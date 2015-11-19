@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers;
+using System.Collections.Generic;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
@@ -31,6 +33,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public ActionResult Index()
         {
+            return View(GetDummyDiscussions());
+
             return View();
         }
         public ActionResult Selected(Guid selectedTransactionID, int pageNumber)
@@ -212,5 +216,55 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             return RedirectToAction("Index");
         }
+
+        private List<Discussion> GetDummyDiscussions()
+        {
+            return new List<Discussion>
+            {
+                new Discussion
+                { 
+                    Subject = "New property to buy",
+                    FirstUnreadCreatedOn = DateTime.Now,
+                    FirstUnreadUser = "Edward Powell",
+                    FirstUnreadMessage = "You should have done it before!",
+                    IsUnread = true,
+                },
+                new Discussion
+                { 
+                    Subject = "Concerns about the survery",
+                    FirstUnreadCreatedOn = DateTime.Now,
+                    FirstUnreadUser = "Sam Johns",
+                    FirstUnreadMessage = "How dear you?",
+                    IsUnread = true,
+                },
+                new Discussion
+                { 
+                    Subject = "The contract has to be signed",
+                    FirstUnreadCreatedOn = DateTime.Now,
+                    FirstUnreadUser = "Bob Smith",
+                    FirstUnreadMessage = "Ok!",
+                    IsUnread = false,
+                },
+                new Discussion
+                { 
+                    Subject = "Whatever else",
+                    FirstUnreadCreatedOn = DateTime.Now,
+                    FirstUnreadUser = "Bob Smith",
+                    FirstUnreadMessage = "You should have done it before!",
+                    IsUnread = false,
+                },
+                new Discussion
+                { 
+                    Subject = "Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject",
+                    FirstUnreadCreatedOn = DateTime.Now,
+                    FirstUnreadUser = "Edward Powell",
+                    FirstUnreadMessage = "Very long content Very long content Very long content Very long content",
+                    IsUnread = false,
+                },
+            };
+        }
+
     }
+
+
 }
