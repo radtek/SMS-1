@@ -446,87 +446,99 @@
     background-color: #fad4d4;
 }
 
-.discussions-list {
-    list-style-type: none;
-    padding: 0;
+.view-messages-container {
+    position: relative;
 
-    li {
-        border-top: 1px solid #ddd;
-        padding: 10px;
-        cursor: pointer;
+    .discussions-container {
+        .discussions-list {
+            list-style-type: none;
+            padding: 0;
 
-        &:hover {
-            background-color: #eee !important;
-        }
+            li {
+                border-top: 1px solid #ddd;
+                padding: 10px;
+                cursor: pointer;
 
-        &.unread{
-            background-color: #f4f4f4;
-            .discussion-subject,
-            .date {
-                font-weight: bold;
+                &:hover {
+                    background-color: #eee !important;
+                }
+
+                &.unread {
+                    background-color: #f4f4f4;
+
+                    .discussion-subject,
+                    .date {
+                        font-weight: bold;
+                    }
+                }
+
+                .discussion-subject {
+                    font-size: 1.2em;
+                    margin-bottom: 5px;
+                }
+
+                .discussion-message {
+                    font-size: 0.9em;
+                }
+
+                .date {
+                    color: #777;
+                    font-size: 0.9em;
+                    text-align: right;
+                }
             }
         }
+    }
 
-        .discussion-subject {
-            font-size: 1.2em;
-            margin-bottom: 5px;
+    .messages-container{
+        h3{
+            cursor: pointer;
         }
+        .messages-list {
+            height: 300px; // do media specific
+            padding-right: 20px;
+            overflow-y: scroll;
+            overflow-x: hidden;
 
-        .discussion-message{
-            font-size: 0.9em;
-        }
+            .thumbnail {
+                text-align: center;
+                border: none;
+                background-color: transparent;
+            }
 
-        .date {
-            color: #777;
-            font-size: 0.9em;
-            text-align: right;
+            .panel {
+                position: relative;
+            }
+
+            .panel > .panel-heading:after, .panel > .panel-heading:before {
+                position: absolute;
+                top: 11px;
+                left: -16px;
+                right: 100%;
+                width: 0;
+                height: 0;
+                display: block;
+                content: " ";
+                border-color: transparent;
+                border-style: solid solid outset;
+                pointer-events: none;
+            }
+
+            .panel > .panel-heading:after {
+                border-width: 7px;
+                border-right-color: #f7f7f7;
+                margin-top: 1px;
+                margin-left: 2px;
+            }
+
+            .panel > .panel-heading:before {
+                border-right-color: #ddd;
+                border-width: 8px;
+            }
         }
     }
 }
 
-.messages-list {
-    height: 300px; // do media specific
-    padding-right: 20px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    .thumbnail {
-        text-align: center;
-        border: none;
-        background-color: transparent;
-    }
-
-    .panel {
-        position: relative;
-    }
-
-    .panel > .panel-heading:after, .panel > .panel-heading:before {
-        position: absolute;
-        top: 11px;
-        left: -16px;
-        right: 100%;
-        width: 0;
-        height: 0;
-        display: block;
-        content: " ";
-        border-color: transparent;
-        border-style: solid solid outset;
-        pointer-events: none;
-    }
-
-    .panel > .panel-heading:after {
-        border-width: 7px;
-        border-right-color: #f7f7f7;
-        margin-top: 1px;
-        margin-left: 2px;
-    }
-
-    .panel > .panel-heading:before {
-        border-right-color: #ddd;
-        border-width: 8px;
-    }
-}
-
-.reply-panel{
-
+.hidden{
+    display: none;
 }

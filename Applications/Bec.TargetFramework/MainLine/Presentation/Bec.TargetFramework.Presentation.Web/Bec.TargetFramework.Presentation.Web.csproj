@@ -180,6 +180,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessagesPartialController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
+    <Content Include="Areas\Admin\Views\MessagesPartial\_AllMessages.js" />
     <Content Include="Areas\Admin\Views\Messages\Index.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
@@ -819,6 +821,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Match.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MessagesPartial\_AllMessages.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

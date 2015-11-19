@@ -1,4 +1,9 @@
 ﻿$(function () {
+    console.log('test');
+    if (isCompactView()) {
+
+    }
+
     $('.discussion-item').click(function () {
         $('#messagesContainer').show();
 
@@ -21,6 +26,8 @@
     });
 
     function isCompactView() {
-        return $('#discussionSubject i').is(':visible');
+        console.log($('#discussionsContainer').parent().innerWidth());
+        //return $('#discussionsContainer').parent().innerWidth() < 600;
+        return $('#discussionSubject i').is(':visible');// || $('#discussionsContainer').parent().innerWidth() < 700;
     }
 });

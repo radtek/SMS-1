@@ -5,14 +5,20 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
-    public class MessagesController : ApplicationControllerBase
+    public class MessagesPartialController : ApplicationControllerBase
     {
-        public ActionResult Index()
+        public PartialViewResult AllMessages(bool isCompactView)
         {
-            return View(GetDummyDiscussions());
+            var model = new MessagesModel
+            {
+                Discussions = GetDummyDiscussions(),
+                IsCompactView = isCompactView
+            };
+
+            return PartialView("_AllMessages", model);
         }
 
-        private System.Collections.Generic.List<Discussion> GetDummyDiscussions()
+        private List<Discussion> GetDummyDiscussions()
         {
             return new List<Discussion>
             {
@@ -58,20 +64,5 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                 },
             };
         }
-    }
-
-    public class MessagesModel
-    {
-        public List<Discussion> Discussions { get; set; }
-        public bool IsCompactView { get; set; }
-    }
-
-    public class Discussion
-    {
-        public string Subject { get; set; }
-        public DateTime FirstUnreadCreatedOn { get; set; }
-        public string FirstUnreadUser { get; set; }
-        public string FirstUnreadMessage { get; set; }
-        public bool IsUnread { get; set; }
     }
 }
