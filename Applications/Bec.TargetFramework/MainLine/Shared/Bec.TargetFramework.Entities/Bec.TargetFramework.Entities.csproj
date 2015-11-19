@@ -234,6 +234,8 @@
     <Compile Include="Boo\ContainsagadataDTO.Generated.cs">
       <DependentUpon>ContainsagadataDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationDTO.Generated.cs" />
+    <Compile Include="Boo\ConversationParticipantDTO.Generated.cs" />
     <Compile Include="Boo\CountryCodeDTO.cs" />
     <Compile Include="Boo\CountryCodeDTO.Generated.cs">
       <DependentUpon>CountryCodeDTO.cs</DependentUpon>

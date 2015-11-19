@@ -391,6 +391,8 @@
         <File Name="TargetFramework.Lender.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsBankAccountCheck.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsSrcFundsBankAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.Conversation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ConversationParticipant.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1164,6 +1166,10 @@
         <File Name="SmsBankAccountCheckDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="SmsSrcFundsBankAccountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="SmsSrcFundsBankAccountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ConversationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ConversationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ConversationParticipantDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ConversationParticipantDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1552,6 +1558,8 @@
         <File Name="LenderConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsBankAccountCheckConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsSrcFundsBankAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ConversationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ConversationParticipantConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>

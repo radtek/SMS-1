@@ -1128,4 +1128,10 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("None of the above")]
         Other = 802000
     }
+
+    public enum ActivityType
+    {
+        [StringValue("Sms Transaction")]
+        SmsTransaction = 803001
+    }
 }

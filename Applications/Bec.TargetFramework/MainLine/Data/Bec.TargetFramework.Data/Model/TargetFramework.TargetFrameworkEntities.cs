@@ -1996,6 +1996,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsSrcFundsBankAccount in the schema.
         /// </summary>
         public virtual DbSet<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Conversation in the schema.
+        /// </summary>
+        public virtual DbSet<Conversation> Conversations { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ConversationParticipant in the schema.
+        /// </summary>
+        public virtual DbSet<ConversationParticipant> ConversationParticipants { get; set; }
 
         #region Methods
 

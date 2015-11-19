@@ -1,18 +1,24 @@
-﻿using Bec.TargetFramework.Presentation.Web.Base;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
+using Bec.TargetFramework.Entities.Enums;
+using Bec.TargetFramework.Presentation.Web.Base;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
     public class MessagesController : ApplicationControllerBase
     {
+        public INotificationLogicClient NotificationClient { get; set; }
+
         public ActionResult Index()
         {
             return View(GetDummyDiscussions());
         }
 
-        private System.Collections.Generic.List<Discussion> GetDummyDiscussions()
+        private List<Discussion> GetDummyDiscussions()
         {
             return new List<Discussion>
             {
@@ -57,6 +63,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     IsUnread = false,
                 },
             };
+        }
+
+        public async Task Create(Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            await NotificationClient.CreateConversationAsync(orgID, uaoID, activityTypeID, activityID, subject, message, participantsUaoIDs);
+        }
+
+        public async Task Reply(Guid uaoID, Guid conversationID, string message)
+        {
+            await NotificationClient.ReplyToConversationAsync(uaoID, conversationID, message);
         }
     }
 

@@ -11,6 +11,7 @@ using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using EnsureThat;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -412,6 +413,108 @@ namespace Bec.TargetFramework.Business.Logic
             };
 
             await EventPublishClient.PublishEventAsync(eventPayloadDto);
+        }
+
+        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                await CheckCanCreateMessage(orgID, activityTypeID, activityID, participantsUaoIDs);
+
+                var conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = subject };
+                if (activityID.HasValue && activityTypeID.HasValue)
+                {
+                    conv.ActivityID = activityID;
+                    conv.ActivityType = activityTypeID.Value.GetIntValue();
+                }
+
+                conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = uaoID });
+                foreach (var p in participantsUaoIDs) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p });
+
+                scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
+
+                await Reply(conv.ConversationID, message, participantsUaoIDs);
+
+                await scope.SaveChangesAsync();
+                return conv.ConversationID;
+            }
+        }
+
+        public async Task ReplyToConversation(Guid uaoID, Guid conversationID, string message)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var p = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants
+                    .Where(x => x.ConversationID == conversationID)
+                    .Select(x => x.UserAccountOrganisationID);
+
+                if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
+                var notSender = p.Where(x => x != uaoID).ToArray();
+
+                await Reply(conversationID, message, notSender);
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        private async Task Reply(Guid conversationID, string message, Guid[] recipients)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var construct = GetLatestNotificationConstructIdFromName("Message");
+                var n = new NotificationDTO
+                {
+                    DateSent = DateTime.Now,
+                    NotificationConstructID = construct.NotificationConstructID,
+                    NotificationConstructVersionNumber = construct.NotificationConstructVersionNumber,
+                    NotificationData = JsonHelper.SerializeData(new { Message = message }),
+                    ConversationID = conversationID
+                };
+
+                n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
+
+                await SaveNotificationAsync(n);
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckCanCreateMessage(Guid orgID, ActivityType? activityTypeID, Guid? activityID, Guid[] participantsUaoIDs)
+        {
+            bool valid = true;
+            
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                if (!activityTypeID.HasValue || !activityID.HasValue)
+                {
+                    //limit to org
+                    foreach(var p in participantsUaoIDs)
+                    {
+                        var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == p);
+                        if (uao == null || uao.OrganisationID != orgID)
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    switch (activityTypeID.Value)
+                    {
+                        case ActivityType.SmsTransaction:
+                            var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.OrganisationID == orgID && x.SmsTransactionID == activityID.Value);
+                            if (tx == null) valid = false;
+
+                            var validUaoIDs = tx.SmsUserAccountOrganisationTransactions.Select(x => x.UserAccountOrganisationID).ToList();
+                            foreach (var u in participantsUaoIDs)
+                                if (!validUaoIDs.Contains(u))
+                                    valid = false;
+                            break;
+                    }
+                }
+                await scope.SaveChangesAsync();
+            }
+
+            if (!valid) throw new Exception("Cannot create conversation");
         }
     }
 }
