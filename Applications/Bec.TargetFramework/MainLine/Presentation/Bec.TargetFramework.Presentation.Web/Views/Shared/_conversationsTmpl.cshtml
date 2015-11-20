@@ -1,0 +1,37 @@
+﻿@*@foreach (var conversation in Model)
+    {
+        <li class="conversation-item @(conversation.IsUnread ? "unread" : "")">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4 class="conversation-subject">@conversation.Subject</h4>
+                </div>
+                <div class="col-sm-4">
+                    <div class="date">@conversation.FirstUnreadCreatedOn</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 conversation-message">
+                    <strong>@conversation.FirstUnreadUser</strong> says: @conversation.FirstUnreadMessage!
+                </div>
+            </div>
+        </li>
+    }*@
+@*<ul class="conversations-list">
+        {{#each items}}
+        <li class="conversation-item {{#if C.IsUnread}}unread{{/if}}">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4 class="conversation-subject">{{Subject}}</h4>
+                </div>
+                <div class="col-sm-4">
+                    <div class="date">@conversation.FirstUnreadCreatedOn</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 conversation-message">
+                    <strong>@conversation.FirstUnreadUser</strong> says: @conversation.FirstUnreadMessage!
+                </div>
+            </div>
+        </li>
+        {{/each}}
+</ul>*@

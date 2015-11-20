@@ -315,33 +315,33 @@
         transition: width 0.05s ease;
     }*/
 }
-.view-messages-container .discussions-container .discussions-list {
+.view-messages-container .conversations-container .conversations-list {
   list-style-type: none;
   padding: 0;
 }
-.view-messages-container .discussions-container .discussions-list li {
+.view-messages-container .conversations-container .conversations-list li {
   border-top: 1px solid #ddd;
   padding: 10px;
   cursor: pointer;
 }
-.view-messages-container .discussions-container .discussions-list li:hover {
+.view-messages-container .conversations-container .conversations-list li:hover {
   background-color: #eee !important;
 }
-.view-messages-container .discussions-container .discussions-list li.unread {
+.view-messages-container .conversations-container .conversations-list li.unread {
   background-color: #f4f4f4;
 }
-.view-messages-container .discussions-container .discussions-list li.unread .discussion-subject,
-.view-messages-container .discussions-container .discussions-list li.unread .date {
+.view-messages-container .conversations-container .conversations-list li.unread .conversation-subject,
+.view-messages-container .conversations-container .conversations-list li.unread .date {
   font-weight: bold;
 }
-.view-messages-container .discussions-container .discussions-list li .discussion-subject {
+.view-messages-container .conversations-container .conversations-list li .conversation-subject {
   font-size: 1.2em;
   margin-bottom: 5px;
 }
-.view-messages-container .discussions-container .discussions-list li .discussion-message {
+.view-messages-container .conversations-container .conversations-list li .conversation-message {
   font-size: 0.9em;
 }
-.view-messages-container .discussions-container .discussions-list li .date {
+.view-messages-container .conversations-container .conversations-list li .date {
   color: #777;
   font-size: 0.9em;
   text-align: right;

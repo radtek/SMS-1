@@ -87,37 +87,6 @@ $(function () {
     if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
-
-
-
-
-    $('.discussion-item').click(function () {
-        $('#messagesContainer').show();
-
-        if (isCompactView()) {
-            $('#discussionsContainer').hide();
-        }
-    });
-
-    $('#discussionSubject').click(function () {
-        $('#messagesContainer').hide();
-        $('#discussionsContainer').show();
-    });
-
-    $(window).on('resize', function () {
-        if (isCompactView() && $('#messagesContainer').is(':visible')) {
-            $('#discussionsContainer').hide();
-        } else {
-            $('#discussionsContainer').show();
-        }
-    });
-
-    function isCompactView() {
-        return $('#discussionSubject i').is(':visible');
-    }
-
-
-
 });
 
 //data binding for the panes beneath each grid
@@ -130,6 +99,8 @@ function txChange(dataItem) {
 
     $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+    
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "?activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);

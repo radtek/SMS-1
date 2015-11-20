@@ -1,9 +1,15 @@
-﻿using Bec.TargetFramework.Business.Client.Interfaces;
+﻿using Bec.TargetFramework.Infrastructure.Extensions;
+using Bec.TargetFramework.Business.Client.Interfaces;
 using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
+using Bec.TargetFramework.Presentation.Web.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -12,57 +18,61 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class MessagesController : ApplicationControllerBase
     {
         public INotificationLogicClient NotificationClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }
 
         public ActionResult Index()
         {
-            return View(GetDummyDiscussions());
+            return View();
         }
 
-        private List<Discussion> GetDummyDiscussions()
+        public async Task<ActionResult> GetConversations(Guid? activityId)
         {
-            return new List<Discussion>
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            var select = ODataHelper.Select<VConversationDTO>(x => new
             {
-                new Discussion
-                { 
-                    Subject = "New property to buy",
-                    FirstUnreadCreatedOn = DateTime.Now,
-                    FirstUnreadUser = "Edward Powell",
-                    FirstUnreadMessage = "You should have done it before!",
-                    IsUnread = true,
-                },
-                new Discussion
-                { 
-                    Subject = "Concerns about the survery",
-                    FirstUnreadCreatedOn = DateTime.Now,
-                    FirstUnreadUser = "Sam Johns",
-                    FirstUnreadMessage = "How dear you?",
-                    IsUnread = true,
-                },
-                new Discussion
-                { 
-                    Subject = "The contract has to be signed",
-                    FirstUnreadCreatedOn = DateTime.Now,
-                    FirstUnreadUser = "Bob Smith",
-                    FirstUnreadMessage = "Ok!",
-                    IsUnread = false,
-                },
-                new Discussion
-                { 
-                    Subject = "Whatever else",
-                    FirstUnreadCreatedOn = DateTime.Now,
-                    FirstUnreadUser = "Bob Smith",
-                    FirstUnreadMessage = "You should have done it before!",
-                    IsUnread = false,
-                },
-                new Discussion
-                { 
-                    Subject = "Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject Very long subject",
-                    FirstUnreadCreatedOn = DateTime.Now,
-                    FirstUnreadUser = "Edward Powell",
-                    FirstUnreadMessage = "Very long content Very long content Very long content Very long content",
-                    IsUnread = false,
-                },
-            };
+                x.ConversationID, 
+                x.Subject, 
+                x.MostRecentDate, 
+                x.MostRecentEmail, 
+                x.MostRecentMessage, 
+                x.FirstUnreadDate, 
+                x.FirstUnreadEmail, 
+                x.FirstUnreadMessage
+            });
+
+            string filter;
+            if (activityId.HasValue)
+            {
+                filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
+            }
+            else
+            {
+                filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
+            }
+            
+            JObject result = await QueryClient.QueryAsync("VConversations", ODataHelper.RemoveParameters(Request) + select + filter);
+            return Content(result.ToString(Formatting.None), "application/json");
+        }
+
+        public async Task<ActionResult> GetMessages(Guid conversationId)
+        {
+            var select = ODataHelper.Select<NotificationDTO>(x => new
+            {
+                x.DateSent,
+                x.NotificationData,
+                x.UserAccountOrganisation.UserAccount.Email,
+                Recipients = x.NotificationRecipients.Select(y => new { y.UserAccountOrganisationID, y.IsAccepted })
+            });
+            var filter = ODataHelper.Filter<NotificationDTO>(x => x.ConversationID == conversationId);
+            var order = ODataHelper.OrderBy<NotificationDTO>(x => new { x.DateSent });
+
+            JObject result = await QueryClient.QueryAsync("Notifications", ODataHelper.RemoveParameters(Request) + select + filter + order);
+
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            NotificationClient.MarkAsRead(uaoId, conversationId);
+
+            return Content(result.ToString(Formatting.None), "application/json");
         }
 
         public async Task Create(Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
@@ -75,20 +85,55 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             await NotificationClient.ReplyToConversationAsync(uaoID, conversationID, message);
         }
-    }
 
-    public class MessagesModel
-    {
-        public List<Discussion> Discussions { get; set; }
-        public bool IsCompactView { get; set; }
-    }
+        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> ViewCreateConversation(Guid activityId, int pageNumber)
+        {
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                x.UserAccountOrganisationID,
+            });
 
-    public class Discussion
-    {
-        public string Subject { get; set; }
-        public DateTime FirstUnreadCreatedOn { get; set; }
-        public string FirstUnreadUser { get; set; }
-        public string FirstUnreadMessage { get; set; }
-        public bool IsUnread { get; set; }
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+
+            dynamic result = await QueryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            var model = new CreateConversationDTO
+            {
+                ActivityId = activityId,
+                ParticipantUaoIds = new List<Guid> { Guid.Parse((string)result.Items.First.UserAccountOrganisationID) }
+            };
+            ViewBag.pageNumber = pageNumber;
+            return PartialView("_CreateConversation", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
+        {
+            try
+            {
+                var orgID = HttpContext.GetWebUserObject().OrganisationID;
+                var uaoID = HttpContext.GetWebUserObject().UaoID;
+
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, ActivityType.SmsTransaction, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.ParticipantUaoIds.ToArray());
+
+                TempData["SmsTransactionID"] = addConversationDto.ActivityId;
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Adding Conversation Failed",
+                    message = ex.Message,
+                    activityId = addConversationDto.ActivityId
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
