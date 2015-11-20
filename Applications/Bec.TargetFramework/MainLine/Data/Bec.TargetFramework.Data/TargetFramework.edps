@@ -393,6 +393,9 @@
         <File Name="TargetFramework.SmsSrcFundsBankAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.Conversation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.ConversationParticipant.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VMessage.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VMessageLatest.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VConversation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1170,6 +1173,12 @@
         <File Name="ConversationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="ConversationParticipantDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="ConversationParticipantDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VMessageDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VMessageDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VMessageLatestDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VMessageLatestDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VConversationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VConversationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1560,6 +1569,9 @@
         <File Name="SmsSrcFundsBankAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ConversationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="ConversationParticipantConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VMessageConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VMessageLatestConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VConversationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1753,10 +1765,10 @@
       <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="FilesPerMonth" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="Organisation_SchemeID_key" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.OrganisationLedgerTransaction" Type="Column" />

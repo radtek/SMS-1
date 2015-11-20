@@ -46,6 +46,7 @@ namespace Bec.TargetFramework.Entities
             target.NotificationData = source.NotificationData;
             target.NotificationStatusID = source.NotificationStatusID;
             target.ConversationID = source.ConversationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // Navigation Properties
             if (level > 0) {
@@ -54,6 +55,7 @@ namespace Bec.TargetFramework.Entities
               target.InvoiceProcessLogs = source.InvoiceProcessLogs.ToDtosWithRelated(level - 1);
               target.OrganisationDirectDebitMandates = source.OrganisationDirectDebitMandates.ToDtosWithRelated(level - 1);
               target.Conversation = source.Conversation.ToDtoWithRelated(level - 1);
+              target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -87,6 +89,7 @@ namespace Bec.TargetFramework.Entities
             target.NotificationData = source.NotificationData;
             target.NotificationStatusID = source.NotificationStatusID;
             target.ConversationID = source.ConversationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationDTO() {
         }
 
-        public NotificationDTO(global::System.Guid notificationID, global::System.Nullable<System.Guid> fromParentID, global::System.DateTime dateSent, global::System.Nullable<System.Guid> parentID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> moduleNotificationConstructID, global::System.Nullable<int> moduleNotificationConstructVersionNumber, bool isSent, bool isActive, bool isDeleted, bool isInternal, bool isExternal, bool isVisible, string notificationData, global::System.Nullable<int> notificationStatusID, global::System.Nullable<System.Guid> conversationID, List<NotificationRecipientDTO> notificationRecipients, NotificationConstructDTO notificationConstruct, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, ConversationDTO conversation) {
+        public NotificationDTO(global::System.Guid notificationID, global::System.Nullable<System.Guid> fromParentID, global::System.DateTime dateSent, global::System.Nullable<System.Guid> parentID, global::System.Guid notificationConstructID, int notificationConstructVersionNumber, global::System.Nullable<System.Guid> moduleNotificationConstructID, global::System.Nullable<int> moduleNotificationConstructVersionNumber, bool isSent, bool isActive, bool isDeleted, bool isInternal, bool isExternal, bool isVisible, string notificationData, global::System.Nullable<int> notificationStatusID, global::System.Nullable<System.Guid> conversationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, List<NotificationRecipientDTO> notificationRecipients, NotificationConstructDTO notificationConstruct, List<InvoiceProcessLogDTO> invoiceProcessLogs, List<OrganisationDirectDebitMandateDTO> organisationDirectDebitMandates, ConversationDTO conversation, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.NotificationID = notificationID;
           this.FromParentID = fromParentID;
@@ -41,11 +41,13 @@ namespace Bec.TargetFramework.Entities
           this.NotificationData = notificationData;
           this.NotificationStatusID = notificationStatusID;
           this.ConversationID = conversationID;
+          this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
           this.NotificationRecipients = notificationRecipients;
           this.NotificationConstruct = notificationConstruct;
           this.InvoiceProcessLogs = invoiceProcessLogs;
           this.OrganisationDirectDebitMandates = organisationDirectDebitMandates;
           this.Conversation = conversation;
+          this.UserAccountOrganisation = userAccountOrganisation;
         }
 
         #endregion
@@ -103,6 +105,9 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public global::System.Nullable<System.Guid> ConversationID { get; set; }
 
+        [DataMember]
+        public global::System.Nullable<System.Guid> CreatedByUserAccountOrganisationID { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -121,6 +126,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public ConversationDTO Conversation { get; set; }
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }
 
         #endregion
     }

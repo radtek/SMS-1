@@ -428,12 +428,13 @@ namespace Bec.TargetFramework.Business.Logic
                     conv.ActivityType = activityTypeID.Value.GetIntValue();
                 }
 
+                conv.ConversationParticipants = new List<ConversationParticipant>();
                 conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = uaoID });
                 foreach (var p in participantsUaoIDs) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p });
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
 
-                await Reply(conv.ConversationID, message, participantsUaoIDs);
+                await Reply(uaoID, conv.ConversationID, message, participantsUaoIDs);
 
                 await scope.SaveChangesAsync();
                 return conv.ConversationID;
@@ -451,18 +452,30 @@ namespace Bec.TargetFramework.Business.Logic
                 if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                await Reply(conversationID, message, notSender);
+                await Reply(uaoID, conversationID, message, notSender);
                 await scope.SaveChangesAsync();
             }
         }
 
-        private async Task Reply(Guid conversationID, string message, Guid[] recipients)
+        public async Task MarkAsRead(Guid uaoID, Guid conversationID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var nr in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
+                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID))
+                    nr.IsAccepted = true;
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var construct = GetLatestNotificationConstructIdFromName("Message");
                 var n = new NotificationDTO
                 {
+                    CreatedByUserAccountOrganisationID = senderUaoID,
                     DateSent = DateTime.Now,
                     NotificationConstructID = construct.NotificationConstructID,
                     NotificationConstructVersionNumber = construct.NotificationConstructVersionNumber,
