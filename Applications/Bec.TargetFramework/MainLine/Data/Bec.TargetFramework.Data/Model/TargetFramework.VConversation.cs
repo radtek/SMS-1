@@ -58,6 +58,26 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for ActivityType in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> ActivityType
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ActivityID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> ActivityID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for MostRecentDate in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.DateTime> MostRecentDate
@@ -88,6 +108,36 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for MostRecentFirstName in the schema.
+        /// </summary>
+        public virtual string MostRecentFirstName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for MostRecentLastName in the schema.
+        /// </summary>
+        public virtual string MostRecentLastName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for MostRecentOrganisationType in the schema.
+        /// </summary>
+        public virtual string MostRecentOrganisationType
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for FirstUnreadDate in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.DateTime> FirstUnreadDate
@@ -111,6 +161,36 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for FirstUnreadEmail in the schema.
         /// </summary>
         public virtual string FirstUnreadEmail
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FirstUnreadFirstName in the schema.
+        /// </summary>
+        public virtual string FirstUnreadFirstName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FirstUnreadLastName in the schema.
+        /// </summary>
+        public virtual string FirstUnreadLastName
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FirstUnreadOrganisationType in the schema.
+        /// </summary>
+        public virtual string FirstUnreadOrganisationType
         {
             get;
             set;

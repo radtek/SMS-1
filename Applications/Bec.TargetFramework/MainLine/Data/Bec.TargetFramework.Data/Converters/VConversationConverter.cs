@@ -32,12 +32,20 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.ConversationID = source.ConversationID;
             target.Subject = source.Subject;
+            target.ActivityType = source.ActivityType;
+            target.ActivityID = source.ActivityID;
             target.MostRecentDate = source.MostRecentDate;
             target.MostRecentMessage = source.MostRecentMessage;
             target.MostRecentEmail = source.MostRecentEmail;
+            target.MostRecentFirstName = source.MostRecentFirstName;
+            target.MostRecentLastName = source.MostRecentLastName;
+            target.MostRecentOrganisationType = source.MostRecentOrganisationType;
             target.FirstUnreadDate = source.FirstUnreadDate;
             target.FirstUnreadMessage = source.FirstUnreadMessage;
             target.FirstUnreadEmail = source.FirstUnreadEmail;
+            target.FirstUnreadFirstName = source.FirstUnreadFirstName;
+            target.FirstUnreadLastName = source.FirstUnreadLastName;
+            target.FirstUnreadOrganisationType = source.FirstUnreadOrganisationType;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -56,12 +64,20 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.ConversationID = source.ConversationID;
             target.Subject = source.Subject;
+            target.ActivityType = source.ActivityType;
+            target.ActivityID = source.ActivityID;
             target.MostRecentDate = source.MostRecentDate;
             target.MostRecentMessage = source.MostRecentMessage;
             target.MostRecentEmail = source.MostRecentEmail;
+            target.MostRecentFirstName = source.MostRecentFirstName;
+            target.MostRecentLastName = source.MostRecentLastName;
+            target.MostRecentOrganisationType = source.MostRecentOrganisationType;
             target.FirstUnreadDate = source.FirstUnreadDate;
             target.FirstUnreadMessage = source.FirstUnreadMessage;
             target.FirstUnreadEmail = source.FirstUnreadEmail;
+            target.FirstUnreadFirstName = source.FirstUnreadFirstName;
+            target.FirstUnreadLastName = source.FirstUnreadLastName;
+            target.FirstUnreadOrganisationType = source.FirstUnreadOrganisationType;
 
             // User-defined partial method
             OnEntityCreating(source, target);

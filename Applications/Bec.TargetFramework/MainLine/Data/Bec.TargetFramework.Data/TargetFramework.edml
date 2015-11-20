@@ -9976,12 +9976,20 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="Subject" Type="varchar" />
+          <Property Name="ActivityType" Type="int" />
+          <Property Name="ActivityID" Type="uuid" />
           <Property Name="MostRecentDate" Type="timestamptz" />
           <Property Name="MostRecentMessage" Type="text" />
           <Property Name="MostRecentEmail" Type="varchar" MaxLength="100" />
+          <Property Name="MostRecentFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="MostRecentLastName" Type="varchar" MaxLength="100" />
+          <Property Name="MostRecentOrganisationType" Type="varchar" MaxLength="200" />
           <Property Name="FirstUnreadDate" Type="timestamptz" />
           <Property Name="FirstUnreadMessage" Type="text" />
           <Property Name="FirstUnreadEmail" Type="varchar" MaxLength="100" />
+          <Property Name="FirstUnreadFirstName" Type="varchar" MaxLength="100" />
+          <Property Name="FirstUnreadLastName" Type="varchar" MaxLength="100" />
+          <Property Name="FirstUnreadOrganisationType" Type="varchar" MaxLength="200" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -29222,12 +29230,20 @@
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b1e6ea7d-32df-46ad-821d-68bde37b49dc" />
           <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="59776979-db9b-47b4-bcc6-b2461027c17b" />
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="edd98d41-1a28-47d7-acc9-d4f48a87a062" />
+          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="21baf159-bf98-4ba4-b43f-776250f485fe" />
+          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="1a9e556a-ab17-4696-8593-f30ce9d7ce48" />
           <Property Name="MostRecentDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="1bf209e0-2733-4999-95e8-09b8b6fb9b88" />
           <Property Name="MostRecentMessage" Type="String" ed:ValidateRequired="False" ed:Guid="384f48d3-d5da-4932-a9f4-b2ae371b2609" />
           <Property Name="MostRecentEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d33ba913-beee-49f7-9249-f1523b7feb2e" />
+          <Property Name="MostRecentFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="fd5ad64c-e802-4c79-b14e-71333402ec30" />
+          <Property Name="MostRecentLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="272fcd11-478c-4daa-8675-130d8fb6ce97" />
+          <Property Name="MostRecentOrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="79d73837-84ef-4981-b214-2f49684e7c2c" />
           <Property Name="FirstUnreadDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="57bd634d-8e7a-4d71-a00e-596c9e803402" />
           <Property Name="FirstUnreadMessage" Type="String" ed:ValidateRequired="False" ed:Guid="15aa4a38-21dc-4fea-b7f2-a3a6e54d59b4" />
           <Property Name="FirstUnreadEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="54bb268b-9ae6-40a2-b564-f0ade7485440" />
+          <Property Name="FirstUnreadFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="801005d1-4a44-4c0b-9c74-fd29f78df524" />
+          <Property Name="FirstUnreadLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="6a93cd8d-c7c5-4dbc-824f-b4679fd59e39" />
+          <Property Name="FirstUnreadOrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="71b6dba3-09c8-4e15-bf41-b5dccd09d9ce" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -43882,6 +43898,14 @@
                 <ScalarProperty Name="FirstUnreadDate" ColumnName="FirstUnreadDate" />
                 <ScalarProperty Name="FirstUnreadMessage" ColumnName="FirstUnreadMessage" />
                 <ScalarProperty Name="FirstUnreadEmail" ColumnName="FirstUnreadEmail" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="MostRecentFirstName" ColumnName="MostRecentFirstName" />
+                <ScalarProperty Name="MostRecentLastName" ColumnName="MostRecentLastName" />
+                <ScalarProperty Name="MostRecentOrganisationType" ColumnName="MostRecentOrganisationType" />
+                <ScalarProperty Name="FirstUnreadFirstName" ColumnName="FirstUnreadFirstName" />
+                <ScalarProperty Name="FirstUnreadLastName" ColumnName="FirstUnreadLastName" />
+                <ScalarProperty Name="FirstUnreadOrganisationType" ColumnName="FirstUnreadOrganisationType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

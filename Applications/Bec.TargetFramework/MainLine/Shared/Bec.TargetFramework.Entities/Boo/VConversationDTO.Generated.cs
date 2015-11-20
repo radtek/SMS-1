@@ -22,17 +22,25 @@ namespace Bec.TargetFramework.Entities
         public VConversationDTO() {
         }
 
-        public VConversationDTO(global::System.Guid userAccountOrganisationID, global::System.Guid conversationID, string subject, global::System.Nullable<System.DateTime> mostRecentDate, string mostRecentMessage, string mostRecentEmail, global::System.Nullable<System.DateTime> firstUnreadDate, string firstUnreadMessage, string firstUnreadEmail) {
+        public VConversationDTO(global::System.Guid userAccountOrganisationID, global::System.Guid conversationID, string subject, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, global::System.Nullable<System.DateTime> mostRecentDate, string mostRecentMessage, string mostRecentEmail, string mostRecentFirstName, string mostRecentLastName, string mostRecentOrganisationType, global::System.Nullable<System.DateTime> firstUnreadDate, string firstUnreadMessage, string firstUnreadEmail, string firstUnreadFirstName, string firstUnreadLastName, string firstUnreadOrganisationType) {
 
           this.UserAccountOrganisationID = userAccountOrganisationID;
           this.ConversationID = conversationID;
           this.Subject = subject;
+          this.ActivityType = activityType;
+          this.ActivityID = activityID;
           this.MostRecentDate = mostRecentDate;
           this.MostRecentMessage = mostRecentMessage;
           this.MostRecentEmail = mostRecentEmail;
+          this.MostRecentFirstName = mostRecentFirstName;
+          this.MostRecentLastName = mostRecentLastName;
+          this.MostRecentOrganisationType = mostRecentOrganisationType;
           this.FirstUnreadDate = firstUnreadDate;
           this.FirstUnreadMessage = firstUnreadMessage;
           this.FirstUnreadEmail = firstUnreadEmail;
+          this.FirstUnreadFirstName = firstUnreadFirstName;
+          this.FirstUnreadLastName = firstUnreadLastName;
+          this.FirstUnreadOrganisationType = firstUnreadOrganisationType;
         }
 
         #endregion
@@ -49,6 +57,12 @@ namespace Bec.TargetFramework.Entities
         public string Subject { get; set; }
 
         [DataMember]
+        public global::System.Nullable<int> ActivityType { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.Guid> ActivityID { get; set; }
+
+        [DataMember]
         public global::System.Nullable<System.DateTime> MostRecentDate { get; set; }
 
         [DataMember]
@@ -58,6 +72,15 @@ namespace Bec.TargetFramework.Entities
         public string MostRecentEmail { get; set; }
 
         [DataMember]
+        public string MostRecentFirstName { get; set; }
+
+        [DataMember]
+        public string MostRecentLastName { get; set; }
+
+        [DataMember]
+        public string MostRecentOrganisationType { get; set; }
+
+        [DataMember]
         public global::System.Nullable<System.DateTime> FirstUnreadDate { get; set; }
 
         [DataMember]
@@ -65,6 +88,15 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string FirstUnreadEmail { get; set; }
+
+        [DataMember]
+        public string FirstUnreadFirstName { get; set; }
+
+        [DataMember]
+        public string FirstUnreadLastName { get; set; }
+
+        [DataMember]
+        public string FirstUnreadOrganisationType { get; set; }
 
         #endregion
     }
