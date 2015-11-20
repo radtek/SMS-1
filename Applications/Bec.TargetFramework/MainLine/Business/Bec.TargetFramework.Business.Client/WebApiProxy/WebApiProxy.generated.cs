@@ -701,9 +701,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
+		Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -711,9 +712,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate);
+		Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -1259,16 +1261,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Guid userId);
+		Task<UserAccount> CreateAccountAsync(String userName,String password,String email,String phoneNumber,Guid userId);
 
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		UserAccount CreateAccount(String userName,String password,String email,Guid userId);
+		UserAccount CreateAccount(String userName,String password,String email,String phoneNumber,Guid userId);
 
 		/// <returns></returns>
 		Task CreateContactAsync(ContactDTO contactDTO);
@@ -1322,17 +1326,29 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void CreatePasswordResetRequest(String username);
 
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
+		/// <param name="phoneNumber"></param>
+		/// <param name="message"></param>
 		/// <returns></returns>
-		Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting);
+		Task SendTextMessageAsync(String phoneNumber,String message);
+
+		/// <param name="phoneNumber"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		void SendTextMessage(String phoneNumber,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
 		/// <param name="overwriteExisting"></param>
+		/// <param name="sendToMobilePhone"></param>
 		/// <returns></returns>
-		void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting);
+		Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
+
+		/// <param name="uaoID"></param>
+		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
+		/// <param name="sendToMobilePhone"></param>
+		/// <returns></returns>
+		void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone);
 
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
@@ -3167,16 +3183,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
+		public virtual Task<Guid> AddSmsClientAsync(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
+			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user);
+			return PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user);
 		}
 
 		/// <summary>
@@ -3188,15 +3206,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="firstName"></param>
 		/// <param name="lastName"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="birthDate"></param>
-		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,DateTime birthDate)
+		public virtual Guid AddSmsClient(Guid orgID,Guid uaoID,String salutation,String firstName,String lastName,String email,String phoneNumber,DateTime birthDate)
 		{
 			salutation = salutation.UrlEncode();
 			firstName = firstName.UrlEncode();
 			lastName = lastName.UrlEncode();
 			email = email.UrlEncode();
+			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Guid>("api/OrganisationLogic/AddSmsClient?orgID=" + orgID + "&uaoID=" + uaoID + "&salutation=" + salutation + "&firstName=" + firstName + "&lastName=" + lastName + "&email=" + email + "&phoneNumber=" + phoneNumber + "&birthDate=" + birthDate.ToString("O"), null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4668,15 +4688,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public virtual Task<UserAccount> CreateAccountAsync(String userName,String password,String email,Guid userId)
+		public virtual Task<UserAccount> CreateAccountAsync(String userName,String password,String email,String phoneNumber,Guid userId)
 		{
 			userName = userName.UrlEncode();
 			password = password.UrlEncode();
 			email = email.UrlEncode();
+			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&userId=" + userId, null, _user);
+			return PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&phoneNumber=" + phoneNumber + "&userId=" + userId, null, _user);
 		}
 
 		/// <summary>
@@ -4685,14 +4707,16 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userName"></param>
 		/// <param name="password"></param>
 		/// <param name="email"></param>
+		/// <param name="phoneNumber"></param>
 		/// <param name="userId"></param>
-		public virtual UserAccount CreateAccount(String userName,String password,String email,Guid userId)
+		public virtual UserAccount CreateAccount(String userName,String password,String email,String phoneNumber,Guid userId)
 		{
 			userName = userName.UrlEncode();
 			password = password.UrlEncode();
 			email = email.UrlEncode();
+			phoneNumber = phoneNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&userId=" + userId, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, UserAccount>("api/UserLogic/CreateAccountAsync?userName=" + userName + "&password=" + password + "&email=" + email + "&phoneNumber=" + phoneNumber + "&userId=" + userId, null, _user)).Result;
 		}
 
 		/// <summary>
@@ -4845,14 +4869,28 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="blank"></param>
-		/// <param name="overwriteExisting"></param>
+		/// <param name="phoneNumber"></param>
+		/// <param name="message"></param>
 		/// <returns></returns>
-		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting)
+		public virtual Task SendTextMessageAsync(String phoneNumber,String message)
 		{
+			phoneNumber = phoneNumber.UrlEncode();
+			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user);
+			return PostAsync<object>("api/UserLogic/SendTextMessage?phoneNumber=" + phoneNumber + "&message=" + message, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="phoneNumber"></param>
+		/// <param name="message"></param>
+		public virtual void SendTextMessage(String phoneNumber,String message)
+		{
+			phoneNumber = phoneNumber.UrlEncode();
+			message = message.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/SendTextMessage?phoneNumber=" + phoneNumber + "&message=" + message, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4861,10 +4899,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="blank"></param>
 		/// <param name="overwriteExisting"></param>
-		public virtual void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting)
+		/// <param name="sendToMobilePhone"></param>
+		/// <returns></returns>
+		public virtual Task GeneratePinAsync(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting, null, _user)).Wait();
+			return PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting + "&sendToMobilePhone=" + sendToMobilePhone, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="blank"></param>
+		/// <param name="overwriteExisting"></param>
+		/// <param name="sendToMobilePhone"></param>
+		public virtual void GeneratePin(Guid uaoID,Boolean blank,Boolean overwriteExisting,Boolean sendToMobilePhone)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/GeneratePinAsync?uaoID=" + uaoID + "&blank=" + blank + "&overwriteExisting=" + overwriteExisting + "&sendToMobilePhone=" + sendToMobilePhone, null, _user)).Wait();
 		}
 
 		/// <summary>

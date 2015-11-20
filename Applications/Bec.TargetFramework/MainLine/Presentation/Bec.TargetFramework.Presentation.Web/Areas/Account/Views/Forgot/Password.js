@@ -1,9 +1,4 @@
 ﻿$(function () {
-    $.validator.addMethod("pwcheck",
-        function (value, element) {
-            return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
-        });
-
     // Validation
     $("#forgot-password-form").validate({
         ignore: '.skip',

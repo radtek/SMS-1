@@ -49,7 +49,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
                 "~/Scripts/Libs/accounting.js",
-                "~/Scripts/Libs/toastr.min.js"
+                "~/Scripts/Libs/toastr.min.js",
+                "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/websitelayout").Include(
@@ -58,7 +59,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
                 "~/Scripts/site.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
-                "~/Scripts/Libs/handlebars-helper-x.js"
+                "~/Scripts/Libs/handlebars-helper-x.js",
+                "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
 
           

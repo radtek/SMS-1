@@ -66,7 +66,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
             try
             {
-                var giftorUaoID = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.BirthDate.Value);
+                var giftorUaoID = await orgClient.AddSmsClientAsync(currentUser.OrganisationID, currentUser.UaoID, model.Salutation, model.FirstName, model.LastName, model.Email, model.PhoneNumber, model.BirthDate.Value);
                 var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
                 {
                     UaoID = giftorUaoID,

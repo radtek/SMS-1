@@ -489,11 +489,11 @@ namespace BrockAllen.MembershipReboot
             return (UserLogic.GetBAUserAccountByEmailAndNotID(email, account.ID) != null);
         }
 
-        public virtual async Task<TAccount> CreateAccountAsync(string username, string password, string email, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string username, string password, string email, string phoneNumber, Guid userId)
         {
-            return await CreateAccountAsync(null, username, password, email, userId);
+            return await CreateAccountAsync(null, username, password, email, phoneNumber, userId);
         }
-        public virtual async Task<TAccount> CreateAccountAsync(string tenant, string username, string password, string email, Guid userId)
+        public virtual async Task<TAccount> CreateAccountAsync(string tenant, string username, string password, string email, string phoneNumber, Guid userId)
         {
             if (Configuration.EmailIsUsername)
             {
@@ -510,7 +510,7 @@ namespace BrockAllen.MembershipReboot
             Tracing.Information("[UserAccountService.CreateAccount] called: {0}, {1}, {2}", tenant, username, email);
 
             TAccount account = UserLogic.CreateUserAccount() as TAccount;
-            Init(account, tenant, username, password, email, userId);
+            Init(account, tenant, username, password, email, phoneNumber, userId);
 
             ValidateEmail(account, email); 
             ValidateUsername(account, username);
@@ -525,7 +525,7 @@ namespace BrockAllen.MembershipReboot
             return account;
         }
 
-        protected void Init(TAccount account, string tenant, string username, string password, string email, Guid userId)
+        protected void Init(TAccount account, string tenant, string username, string password, string email, string phoneNumber, Guid userId)
         {
             Tracing.Information("[UserAccountService.Init] called");
 
@@ -582,6 +582,7 @@ namespace BrockAllen.MembershipReboot
             account.IsActive = true;
             account.IsForgotPasswordRequestAllowed = true;
             account.IsForgotUsernameRequestAllowed = false; // the username is e-mail and you cannot recover it if you forgot
+            account.MobilePhoneNumber = phoneNumber;
             Tracing.Verbose("[UserAccountService.CreateAccount] SecuritySettings.AllowLoginAfterAccountCreation is set to: {0}", account.IsLoginAllowed);
             
             if (!String.IsNullOrWhiteSpace(account.Email))
