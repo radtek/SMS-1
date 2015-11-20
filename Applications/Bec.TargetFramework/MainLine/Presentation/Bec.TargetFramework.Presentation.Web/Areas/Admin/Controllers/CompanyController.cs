@@ -97,7 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId)
         {
-            await UserLogicClient.GeneratePinAsync(uaoId, false, true);
+            await UserLogicClient.GeneratePinAsync(uaoId, false, true, false);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;

@@ -1,14 +1,4 @@
 ﻿$(function () {
-    $.validator.addMethod("pwcheck",
-        function (value, element) {
-            return /\d/.test(value) && /[A-Z]/.test(value) && /\W/.test(value);
-        }, 'Your password must contain 1 number, 1 uppercase character and 1 symbol');
-
-    $.validator.addMethod("nospace",
-        function (value, element) {
-            return value.indexOf(" ") < 0;
-        }, 'Spaces are not allowed');
-
     $("#changePasswordForm").validate({
         ignore: '.skip',
         // Rules for form validation

@@ -1,8 +1,4 @@
 ﻿$(function () {
-    $.validator.addMethod("ukmobile",
-    function (value, element) {
-        return /07[0-9]+/.test(value);
-    }, 'Please enter a valid UK mobile number');
 
     $("#personal-details-form").validate({
         ignore: '.skip',
@@ -22,5 +18,4 @@
             error.insertAfter(element.parent());
         }
     });
-
 });

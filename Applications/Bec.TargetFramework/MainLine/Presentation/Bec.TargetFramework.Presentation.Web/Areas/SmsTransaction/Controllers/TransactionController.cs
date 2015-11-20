@@ -208,7 +208,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var model = res.FirstOrDefault();
             if (model == null) throw new AccessViolationException("Operation failed");
 
-            await userClient.GeneratePinAsync(uaoID, false, true);
+            await userClient.GeneratePinAsync(uaoID, false, true, true);
 
             return RedirectToAction("Index");
         }

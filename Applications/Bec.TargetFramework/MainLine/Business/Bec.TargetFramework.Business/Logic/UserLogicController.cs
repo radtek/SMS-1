@@ -53,7 +53,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.Create())
             {
-                var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, Guid.NewGuid());
+                var userAccount = await UaService.CreateAccountAsync(dto.ContactName, RandomPasswordGenerator.Generate(10), dto.EmailAddress1, dto.MobileNumber1, Guid.NewGuid());
 
                 //user contact
                 userContact.InjectFrom<NullableInjection>(dto);
@@ -565,9 +565,9 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, Guid userId)
+        public async Task<BrockAllen.MembershipReboot.UserAccount> CreateAccountAsync(string userName, string password, string email, string phoneNumber, Guid userId)
         {
-            return await UaService.CreateAccountAsync(userName, password, email, userId);
+            return await UaService.CreateAccountAsync(userName, password, email, phoneNumber, userId);
         }
 
         public async Task CreateContactAsync(ContactDTO contactDTO)
@@ -655,7 +655,8 @@ namespace Bec.TargetFramework.Business.Logic
 
                 user.MobileCode = CreatePin(4);
                 user.MobileCodeSent = DateTime.Now;
-                SendTextMessage(user.MobilePhoneNumber, user.MobileCode);
+                var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", user.MobileCode);
+                SendTextMessage(user.MobilePhoneNumber, message);
 
                 await scope.SaveChangesAsync();
             }
@@ -666,9 +667,8 @@ namespace Bec.TargetFramework.Business.Logic
             return dt.HasValue && (DateTime.Now - dt.Value).TotalMinutes < 10;
         }
 
-        private void SendTextMessage(string phoneNumber, string pin)
+        public void SendTextMessage(string phoneNumber, string message)
         {
-            var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", pin);
             var key = Settings.GetSettings().AsSettings<CommonSettings>().MessageBirdKey;
             var originator = Settings.GetSettings().AsSettings<CommonSettings>().SMSOriginator;
             var mbClient = MessageBird.Client.CreateDefault(key);
@@ -686,7 +686,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false)
+        public async Task GeneratePinAsync(Guid uaoID, bool blank, bool overwriteExisting = false, bool sendToMobilePhone = false)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -699,6 +699,12 @@ namespace Bec.TargetFramework.Business.Logic
                 uao.UserAccount.IsLoginAllowed = true;
 
                 await scope.SaveChangesAsync();
+
+                if (sendToMobilePhone && !string.IsNullOrWhiteSpace(uao.UserAccount.MobilePhoneNumber) && !string.IsNullOrWhiteSpace(uao.PinCode))
+                {
+                    var message = string.Format("Your PIN is: {0}", uao.PinCode);
+                    SendTextMessage(uao.UserAccount.MobilePhoneNumber, message);
+                }
             }
         }
 

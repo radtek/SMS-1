@@ -145,6 +145,7 @@ namespace Bec.TargetFramework.Business.Logic
                 LastName = dto.OrganisationAdminLastName,
                 EmailAddress1 = dto.OrganisationAdminEmail,
                 Salutation = dto.OrganisationAdminSalutation,
+                MobileNumber1 = string.Empty,
                 CreatedBy = UserNameService.UserName
             };
             var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, true);
@@ -159,7 +160,7 @@ namespace Bec.TargetFramework.Business.Logic
             string orgTypeName;
             UserAccountOrganisationDTO uaoDto;
             Guid? userOrgID;
-            var ua = await UserLogic.CreateAccountAsync(userContactDto.EmailAddress1, RandomPasswordGenerator.Generate(10), userContactDto.EmailAddress1, Guid.NewGuid());
+            var ua = await UserLogic.CreateAccountAsync(userContactDto.EmailAddress1, RandomPasswordGenerator.Generate(10), userContactDto.EmailAddress1, userContactDto.MobileNumber1, Guid.NewGuid());
             Ensure.That(ua).IsNotNull();
 
             using (var scope = DbContextScopeFactory.Create())
@@ -457,7 +458,7 @@ namespace Bec.TargetFramework.Business.Logic
             return false;
         }
 
-        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, DateTime birthDate)
+        public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
         {
             //add becky personal org & user
             DefaultOrganisationDTO defaultOrganisation;
@@ -490,11 +491,13 @@ namespace Bec.TargetFramework.Business.Logic
                 LastName = lastName,
                 EmailAddress1 = email,
                 BirthDate = birthDate,
+                MobileNumber1 = phoneNumber,
                 CreatedBy = UserNameService.UserName
             };
             var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, true);
-            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false);
+            await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
+            
             return buyerUaoDto.UserAccountOrganisationID;
         }
 

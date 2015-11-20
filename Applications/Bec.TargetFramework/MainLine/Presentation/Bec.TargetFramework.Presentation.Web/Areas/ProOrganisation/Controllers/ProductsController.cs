@@ -99,7 +99,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 if (addSmsTransactionDto.BuyerUaoID == null)
                 {
-                    addSmsTransactionDto.BuyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.BirthDate.Value);
+                    addSmsTransactionDto.BuyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.PhoneNumber, addSmsTransactionDto.BirthDate.Value);
                 }
                 var transactionID = await orgClient.PurchaseProductAsync(orgID, uaoID, addSmsTransactionDto.BuyerUaoID.Value, prod.ProductID, prod.ProductVersionID, addSmsTransactionDto.SmsTransactionDTO);
 
