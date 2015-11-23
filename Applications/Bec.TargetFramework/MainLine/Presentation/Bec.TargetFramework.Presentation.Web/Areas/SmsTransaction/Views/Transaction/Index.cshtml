@@ -1,4 +1,5 @@
 ﻿@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
 <!-- MAIN CONTENT -->
 <div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })" data-welcome="@TempData["WelcomeMessage"]" data-welcomeurl="@Url.Action("Welcome", "Transaction", new { Area = "SmsTransaction" })">
     <div class="row">
@@ -76,8 +77,9 @@
                             <a id="createConversationButton" class="btn btn-sm btn-primary" data-modallink="true" title="Create Conversation" data-url="@Url.Action("ViewCreateConversation", "Messages", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Create Conversation</a>
                         </span>
                     </h5>
-
-                    @Html.Partial("_Conversations")
+                    <div id="transactionConversationContainer" data-activity-id="">
+                        @Html.Partial("_Conversations", new ConversationsModel { IsActivitySpecific = true })
+                    </div>
                 </div>
             </div>
         </div>

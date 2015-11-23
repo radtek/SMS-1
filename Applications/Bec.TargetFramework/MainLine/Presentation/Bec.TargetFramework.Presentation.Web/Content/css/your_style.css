@@ -234,6 +234,9 @@
 #activity.active .badge {
   background: #8fad20 !important;
 }
+#activity img {
+  margin-bottom: 6px;
+}
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
   background-color: #badb3f;
@@ -353,7 +356,7 @@
   cursor: pointer;
 }
 .view-messages-container .messages-container .messages-list {
-  height: 300px;
+  max-height: 300px;
   padding-right: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -389,6 +392,10 @@
 .view-messages-container .messages-container .messages-list .panel > .panel-heading:before {
   border-right-color: #ddd;
   border-width: 8px;
+}
+.view-messages-container .messages-container .messages-list pre {
+  background: transparent;
+  border: none;
 }
 .view-messages-container .col-xs-4 {
   margin-left: 0;

@@ -106,6 +106,10 @@ function txChange(dataItem) {
     showPrimaryBuyerDetails(dataItem);
     showTransactionRelatedParties(dataItem, $('#additionalBuyers').data("url"), 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
     showTransactionRelatedParties(dataItem, $('#giftors').data("url"), 'giftors', 'giftorsAccordion', 'spinnerGiftors');
+
+    $('#transactionConversationContainer')
+        .data('activity-id', dataItem.SmsTransactionID)
+        .trigger('activitychange', dataItem.SmsTransactionID);
 }
 
 function showTransactionDetails(dataItem) {

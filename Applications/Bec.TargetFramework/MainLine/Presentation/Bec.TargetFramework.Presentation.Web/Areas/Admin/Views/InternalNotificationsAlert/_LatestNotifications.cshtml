@@ -1,5 +1,8 @@
 ﻿@model List<Bec.TargetFramework.Entities.VNotificationViewOnlyUaoDTO>
-<span id="activity" class="activity-dropdown" title="Notifications"> <i class="fa fa-bell"></i> <b class="badge">@Model.Count</b> </span>
+<span id="activity" class="activity-dropdown" title="Notifications">
+    <img src="~/Content/img/safe-send.png" width="16" height="18"/>
+    <b class="badge">@Model.Count</b>
+</span>
 
 <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
 <div class="ajax-dropdown">

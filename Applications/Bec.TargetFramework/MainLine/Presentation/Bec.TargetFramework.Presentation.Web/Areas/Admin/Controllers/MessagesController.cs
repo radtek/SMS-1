@@ -44,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             string filter;
             if (activityId.HasValue)
             {
-                filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
+                filter = ODataHelper.Filter<VConversationDTO>(x => x.ActivityID == activityId);
             }
             else
             {
@@ -84,6 +84,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task Reply(Guid uaoID, Guid conversationID, string message)
         {
             await NotificationClient.ReplyToConversationAsync(uaoID, conversationID, message);
+        }
+
+        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Reply(Guid conversationId, string message)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
+
+            return Json("ok");
         }
 
         [ClaimsRequired("View", "SmsTransaction", Order = 1001)]

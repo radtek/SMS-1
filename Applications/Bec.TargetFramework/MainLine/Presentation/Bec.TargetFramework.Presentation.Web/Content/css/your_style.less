@@ -331,6 +331,10 @@
     &.active .badge {
         background: darken(@primary-color, 5%) !important;
     }
+
+    img{
+        margin-bottom: 6px;
+    }
 }
 
 .dropdown-menu > li > a:focus,
@@ -497,7 +501,7 @@
         }
 
         .messages-list {
-            height: 300px; // do media specific
+            max-height: 300px; // do media specific
             padding-right: 20px;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -536,6 +540,11 @@
             .panel > .panel-heading:before {
                 border-right-color: #ddd;
                 border-width: 8px;
+            }
+
+            pre{
+                background: transparent;
+                border: none;
             }
         }
     }

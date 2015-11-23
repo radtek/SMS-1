@@ -186,6 +186,7 @@
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
@@ -256,6 +257,8 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Content\img\safe-send.png" />
+    <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Views\Shared\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />

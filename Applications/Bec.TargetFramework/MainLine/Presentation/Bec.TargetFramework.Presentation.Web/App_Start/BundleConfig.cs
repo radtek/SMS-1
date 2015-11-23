@@ -49,7 +49,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
                 "~/Scripts/Libs/accounting.js",
-                "~/Scripts/Libs/toastr.min.js"
+                "~/Scripts/Libs/toastr.min.js",
+                "~/Scripts/Libs/jquery.scrollTo.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/websitelayout").Include(

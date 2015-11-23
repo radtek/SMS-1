@@ -1,37 +1,43 @@
-﻿@*@foreach (var conversation in Model)
-    {
-        <li class="conversation-item @(conversation.IsUnread ? "unread" : "")">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h4 class="conversation-subject">@conversation.Subject</h4>
-                </div>
-                <div class="col-sm-4">
-                    <div class="date">@conversation.FirstUnreadCreatedOn</div>
+﻿<ul class="conversations-list">
+
+    {{#if isEmpty}}
+    <li>
+        <div>You have not got any conversations.</div>
+    </li>
+    {{/if}}
+    {{#each items}}
+    <li class="conversation-item {{#if FirstUnreadDate}}unread{{/if}}" data-conversation-id="{{ConversationID}}" data-conversation-subject="{{Subject}}">
+        <div class="row">
+            <div class="col-sm-8">
+                <h4 class="conversation-subject">{{Subject}}</h4>
+            </div>
+            <div class="col-sm-4">
+                <div class="date">
+                    {{#if FirstUnreadDate}}
+                    {{FirstUnreadDate}}
+                    {{else}}
+                    {{MostRecentDate}}
+                    {{/if}}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-8 conversation-message">
-                    <strong>@conversation.FirstUnreadUser</strong> says: @conversation.FirstUnreadMessage!
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 conversation-message">
+                <strong>
+                    {{#if FirstUnreadEmail}}
+                    {{FirstUnreadEmail}}
+                    {{else}}
+                    {{MostRecentEmail}}
+                    {{/if}}
+                </strong>
+                says:
+                {{#if FirstUnreadMessage}}
+                {{FirstUnreadMessage}}
+                {{else}}
+                {{MostRecentMessage}}
+                {{/if}}
             </div>
-        </li>
-    }*@
-@*<ul class="conversations-list">
-        {{#each items}}
-        <li class="conversation-item {{#if C.IsUnread}}unread{{/if}}">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h4 class="conversation-subject">{{Subject}}</h4>
-                </div>
-                <div class="col-sm-4">
-                    <div class="date">@conversation.FirstUnreadCreatedOn</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8 conversation-message">
-                    <strong>@conversation.FirstUnreadUser</strong> says: @conversation.FirstUnreadMessage!
-                </div>
-            </div>
-        </li>
-        {{/each}}
-</ul>*@
+        </div>
+    </li>
+    {{/each}}
+</ul>
