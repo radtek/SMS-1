@@ -234,6 +234,9 @@
 #activity.active .badge {
   background: #8fad20 !important;
 }
+#activity img {
+  margin-bottom: 6px;
+}
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
   background-color: #badb3f;
@@ -308,43 +311,52 @@
 }
 .view-messages-container {
   position: relative;
+  /*.row div {
+        -webkit-transition: width 0.05s ease;
+        -moz-transition: width 0.05s ease;
+        -o-transition: width 0.05s ease;
+        transition: width 0.05s ease;
+    }*/
 }
-.view-messages-container .discussions-container .discussions-list {
+.view-messages-container .conversations-container .conversations-list {
   list-style-type: none;
   padding: 0;
 }
-.view-messages-container .discussions-container .discussions-list li {
+.view-messages-container .conversations-container .conversations-list li {
   border-top: 1px solid #ddd;
   padding: 10px;
   cursor: pointer;
 }
-.view-messages-container .discussions-container .discussions-list li:hover {
+.view-messages-container .conversations-container .conversations-list li:hover {
   background-color: #eee !important;
 }
-.view-messages-container .discussions-container .discussions-list li.unread {
+.view-messages-container .conversations-container .conversations-list li.unread {
   background-color: #f4f4f4;
 }
-.view-messages-container .discussions-container .discussions-list li.unread .discussion-subject,
-.view-messages-container .discussions-container .discussions-list li.unread .date {
+.view-messages-container .conversations-container .conversations-list li.unread .conversation-subject,
+.view-messages-container .conversations-container .conversations-list li.unread .date {
   font-weight: bold;
 }
-.view-messages-container .discussions-container .discussions-list li .discussion-subject {
+.view-messages-container .conversations-container .conversations-list li .conversation-subject {
   font-size: 1.2em;
   margin-bottom: 5px;
 }
-.view-messages-container .discussions-container .discussions-list li .discussion-message {
+.view-messages-container .conversations-container .conversations-list li .conversation-message {
   font-size: 0.9em;
 }
-.view-messages-container .discussions-container .discussions-list li .date {
+.view-messages-container .conversations-container .conversations-list li .date {
   color: #777;
   font-size: 0.9em;
   text-align: right;
+}
+.view-messages-container .messages-container {
+  box-shadow: #dddddd -7px 0px 20px;
 }
 .view-messages-container .messages-container h3 {
   cursor: pointer;
 }
 .view-messages-container .messages-container .messages-list {
-  height: 300px;
+  max-height: 300px;
   padding-right: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -381,7 +393,27 @@
   border-right-color: #ddd;
   border-width: 8px;
 }
+.view-messages-container .messages-container .messages-list pre {
+  background: transparent;
+  border: none;
+}
+.view-messages-container .col-xs-4 {
+  margin-left: 0;
+}
+.view-messages-container .col-xs-0 {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.view-messages-container .col-lg-offset-0 {
+  margin-left: 0;
+}
+.view-messages-container .row div + div {
+  /*margin-left: 0;*/
+}
 .hidden {
   display: none;
+  width: 0;
 }
 /*# sourceMappingURL=your_style.css.map */

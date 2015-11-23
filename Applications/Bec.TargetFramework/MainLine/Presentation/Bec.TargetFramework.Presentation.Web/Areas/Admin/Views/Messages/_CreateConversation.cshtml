@@ -1,0 +1,55 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model CreateConversationDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="createConversationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="createConversationLabel">Create Conversation</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form id="createConversationForm" class="smart-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })" data-redirectto="@Url.Action("Selected", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.ActivityId, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.ActivityId)
+                            @for (int i = 0; i < Model.ParticipantUaoIds.Count; i++)
+                            {
+                                @Html.HiddenFor(model => Model.ParticipantUaoIds[i])
+                            }
+                            <fieldset>
+                                <section>
+                                    <label class="label">Subject</label>
+                                    <label class="input ">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.Subject, new { tabindex = "1" })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Message</label>
+                                    <label class="textarea">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextAreaFor(m => m.Message, new { tabindex = "2", rows = "3" })
+                                    </label>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelCreateConversation" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitCreateConversation" class="btn btn-primary" tabindex="5">
+                    Create Conversation
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Messages/_CreateConversation")"></script>

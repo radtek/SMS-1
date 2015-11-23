@@ -331,6 +331,10 @@
     &.active .badge {
         background: darken(@primary-color, 5%) !important;
     }
+
+    img{
+        margin-bottom: 6px;
+    }
 }
 
 .dropdown-menu > li > a:focus,
@@ -449,8 +453,8 @@
 .view-messages-container {
     position: relative;
 
-    .discussions-container {
-        .discussions-list {
+    .conversations-container {
+        .conversations-list {
             list-style-type: none;
             padding: 0;
 
@@ -466,18 +470,18 @@
                 &.unread {
                     background-color: #f4f4f4;
 
-                    .discussion-subject,
+                    .conversation-subject,
                     .date {
                         font-weight: bold;
                     }
                 }
 
-                .discussion-subject {
+                .conversation-subject {
                     font-size: 1.2em;
                     margin-bottom: 5px;
                 }
 
-                .discussion-message {
+                .conversation-message {
                     font-size: 0.9em;
                 }
 
@@ -490,12 +494,14 @@
         }
     }
 
-    .messages-container{
-        h3{
+    .messages-container {
+        box-shadow:#ddd -7px 0px 20px;
+        h3 {
             cursor: pointer;
         }
+
         .messages-list {
-            height: 300px; // do media specific
+            max-height: 300px; // do media specific
             padding-right: 20px;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -535,10 +541,42 @@
                 border-right-color: #ddd;
                 border-width: 8px;
             }
+
+            pre{
+                background: transparent;
+                border: none;
+            }
         }
+    }
+
+
+    /*.row div {
+        -webkit-transition: width 0.05s ease;
+        -moz-transition: width 0.05s ease;
+        -o-transition: width 0.05s ease;
+        transition: width 0.05s ease;
+    }*/
+
+    .col-xs-4 {
+        margin-left: 0;
+    }
+
+    .col-xs-0{
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    .col-lg-offset-0{
+        margin-left: 0;
+    }
+    .row div + div {
+        /*margin-left: 0;*/
     }
 }
 
-.hidden{
+.hidden {
     display: none;
+    width:0;
 }

@@ -87,7 +87,6 @@ $(function () {
     if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
-
 });
 
 //data binding for the panes beneath each grid
@@ -100,11 +99,17 @@ function txChange(dataItem) {
 
     $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+    
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "?activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);
     showTransactionRelatedParties(dataItem, $('#additionalBuyers').data("url"), 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
     showTransactionRelatedParties(dataItem, $('#giftors').data("url"), 'giftors', 'giftorsAccordion', 'spinnerGiftors');
+
+    $('#transactionConversationContainer')
+        .data('activity-id', dataItem.SmsTransactionID)
+        .trigger('activitychange', dataItem.SmsTransactionID);
 }
 
 function showTransactionDetails(dataItem) {

@@ -1,0 +1,43 @@
+﻿<ul class="conversations-list">
+
+    {{#if isEmpty}}
+    <li>
+        <div>You have not got any conversations.</div>
+    </li>
+    {{/if}}
+    {{#each items}}
+    <li class="conversation-item {{#if FirstUnreadDate}}unread{{/if}}" data-conversation-id="{{ConversationID}}" data-conversation-subject="{{Subject}}">
+        <div class="row">
+            <div class="col-sm-8">
+                <h4 class="conversation-subject">{{Subject}}</h4>
+            </div>
+            <div class="col-sm-4">
+                <div class="date">
+                    {{#if FirstUnreadDate}}
+                    {{FirstUnreadDate}}
+                    {{else}}
+                    {{MostRecentDate}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8 conversation-message">
+                <strong>
+                    {{#if FirstUnreadEmail}}
+                    {{FirstUnreadEmail}}
+                    {{else}}
+                    {{MostRecentEmail}}
+                    {{/if}}
+                </strong>
+                says:
+                {{#if FirstUnreadMessage}}
+                {{FirstUnreadMessage}}
+                {{else}}
+                {{MostRecentMessage}}
+                {{/if}}
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>

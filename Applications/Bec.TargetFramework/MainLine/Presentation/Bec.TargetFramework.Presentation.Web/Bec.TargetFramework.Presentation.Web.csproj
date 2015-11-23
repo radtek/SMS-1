@@ -180,13 +180,13 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\MessagesPartialController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
     <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
@@ -253,11 +253,13 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
-    <Content Include="Areas\Admin\Views\MessagesPartial\_AllMessages.js" />
-    <Content Include="Areas\Admin\Views\Messages\Index.js" />
+    <Content Include="Areas\Admin\Views\Messages\_CreateConversation.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Content\img\safe-send.png" />
+    <Content Include="Scripts\Libs\jquery.scrollTo.js" />
+    <Content Include="Views\Shared\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
@@ -821,7 +823,8 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Match.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\MessagesPartial\_AllMessages.cshtml" />
+    <Content Include="Views\Shared\_Conversations.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_CreateConversation.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -2103,6 +2106,8 @@
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
     <Content Include="Views\Shared\_srcFundsBankAccountTmpl.cshtml" />
+    <Content Include="Views\Shared\_conversationsTmpl.cshtml" />
+    <Content Include="Views\Shared\_messagesTmpl.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

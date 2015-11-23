@@ -1,0 +1,20 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
+@model ConversationsModel
+<div class="row view-messages-container" id="viewMessagesContainer"
+     data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })"
+     data-conversations-url="@Url.Action("GetConversations", "Messages", new { area = "Admin" })"
+     data-messages-url="@Url.Action("GetMessages", "Messages", new { area = "Admin" })"
+     data-reply-url="@Url.Action("Reply", "Messages", new { area = "Admin" })"
+     data-request-verification-token="@Html.AntiForgeryTokenValue()"
+     data-is-activity-specific="@Model.IsActivitySpecific.ToString().ToLower()">
+
+    <div id="conversationsContainer" class="col-xs-12 col-lg-6 conversations-container">
+        <h3>Conversations</h3>
+        <div id="conversationsList"></div>
+    </div>
+    <div id="messagesContainer" class="col-lg-offset-6 col-xs-0 messages-container">
+        <div id="messagesList"></div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Shared/_Conversations")"></script>

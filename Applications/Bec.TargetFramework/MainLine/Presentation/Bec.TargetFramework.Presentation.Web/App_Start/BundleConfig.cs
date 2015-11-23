@@ -49,7 +49,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
                 "~/Scripts/Libs/accounting.js",
-                "~/Scripts/Libs/toastr.min.js"
+                "~/Scripts/Libs/toastr.min.js",
+                "~/Scripts/Libs/jquery.scrollTo.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/websitelayout").Include(
@@ -96,7 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/InternalNotifications/Index").Include("~/Areas/Admin/Views/InternalNotifications/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/Index").Include("~/Areas/Admin/Views/Messages/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/MessagesPartial/_AllMessages").Include("~/Areas/Admin/Views/MessagesPartial/_AllMessages.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/_CreateConversation").Include("~/Areas/Admin/Views/Messages/_CreateConversation.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Transactions").Include("~/Areas/Admin/Views/Reporting/Transactions.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Firms").Include("~/Areas/Admin/Views/Reporting/Firms.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Users").Include("~/Areas/Admin/Views/Reporting/Users.js"));
@@ -136,6 +137,7 @@ namespace Bec.TargetFramework.Presentation.Web
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_Conversations").Include("~/Views/Shared/_Conversations.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));            
