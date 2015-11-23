@@ -17,75 +17,86 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-
             <div class="row">
-                <div class="col-sm-12">
-                    <div class="well">
-                        <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]" data-jumptopage="@TempData["pageNumber"]"></div>
-                    </div>
+                <div class="col-sm-12 well">
+                    <div id="txGrid" data-url="@Url.Action("GetSmsTransactions", "Transaction", new { area = "SmsTransaction" })" data-jumpto="@TempData["SmsTransactionID"]" data-jumptopage="@TempData["pageNumber"]"></div>
                 </div>
             </div>
 
             <div class="row hidden" id="rPanel">
-                <div class="col-sm-6">
-                    <div class="well">
-                        <h3>Transaction Details</h3>
-                        <div id="transactionDetails"></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="well">
-                        <h3>Primary Buyer</h3>
-                        <h5>
-                            Personal Details
-                            <span class="pull-right">
-                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
-                                <a id="pinButton" class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN" data-url="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-repeat margin-right-5"></i>Regenerate PIN</a>
-                            </span>
-                        </h5>
-                        <div id="primaryBuyer"></div>
-                    </div>
-                    <div class="well">
-                        <h3>
-                            Additional Buyers
-                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
-                            <span class="pull-right">
-                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
-                            </span>
-                        </h3>
-                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
-                    </div>
-                    <div class="well">
-                        <h3>
-                            Giftors
-                            <i class="fa fa-spin fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
-                            <span class="pull-right">
-                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
-                            </span>
-                        </h3>
-                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
-                    </div>
-                </div>
-            </div>
+                <div class="col-sm-12 tabbable custom-tabs shadow">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#transactionPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Transaction</span></a></li>
+                        <li><a href="#safeSendPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Safe Send</span></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="transactionPanel">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="well">
+                                        <h3>Transaction Details</h3>
+                                        <div id="transactionDetails"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="well">
+                                        <h3>Primary Buyer</h3>
+                                        <h5>
+                                            Personal Details
+                                            <span class="pull-right">
+                                                <a id="editButton" class="btn btn-sm btn-primary" data-modallink="true" title="Edit Primary Buyer" data-url="@Url.Action("ViewEditSmsTransaction", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-pencil margin-right-5"></i>Edit</a>
+                                                <a id="pinButton" class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN" data-url="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })"><i class="fa fa-repeat margin-right-5"></i>Regenerate PIN</a>
+                                            </span>
+                                        </h5>
+                                        <div id="primaryBuyer"></div>
+                                    </div>
+                                    <div class="well">
+                                        <h3>
+                                            Additional Buyers
+                                            <i class="fa fa-pulse fa-spinner margin-left-5" id="spinnerAdditionalBuyers" style="display:none;"></i>
+                                            <span class="pull-right">
+                                                <a id="addAdditionalBuyerButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Additional Buyer" data-url="@Url.Action("ViewAddAdditionalBuyer", "AdditionalBuyer", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                            </span>
+                                        </h3>
+                                        <div id="additionalBuyers" data-url="@Url.Action("Get", "AdditionalBuyer", new {area = "SmsTransaction"})"></div>
+                                    </div>
+                                    <div class="well">
+                                        <h3>
+                                            Giftors
+                                            <i class="fa fa-pulse fa-spinner margin-left-5" id="spinnerGiftors" style="display:none;"></i>
+                                            <span class="pull-right">
+                                                <a id="addGiftorButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Giftor" data-url="@Url.Action("ViewAddGiftor", "Giftor", new {area = "SmsTransaction"})"><i class="fa fa-plus margin-right-5"></i>Add</a>
+                                            </span>
+                                        </h3>
+                                        <div id="giftors" data-url="@Url.Action("Get", "Giftor", new {area = "SmsTransaction"})"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-
-            <div class="row">
-                <div class="col-sm-12 well">
-                    <h5>
-                        Safe Send
-                        <span class="pull-right">
-                            <a id="createConversationButton" class="btn btn-sm btn-primary" data-modallink="true" title="Create Conversation" data-url="@Url.Action("ViewCreateConversation", "Messages", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Create Conversation</a>
-                        </span>
-                    </h5>
-                    <div id="transactionConversationContainer" data-activity-id="">
-                        @Html.Partial("_Conversations", new ConversationsModel { IsActivitySpecific = true })
+                        <div class="tab-pane" id="safeSendPanel">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="well">
+                                        <h5>
+                                            Safe Send
+                                            <span class="pull-right">
+                                                <a id="createConversationButton" class="btn btn-sm btn-primary" data-modallink="true" title="Create Conversation" data-url="@Url.Action("ViewCreateConversation", "Messages", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Create Conversation</a>
+                                            </span>
+                                        </h5>
+                                        <div id="transactionConversationContainer" data-activity-id="">
+                                            @Html.Partial("_Conversations", new ConversationsModel { IsActivitySpecific = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/Index")"></script>
 }

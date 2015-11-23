@@ -62,6 +62,7 @@ $(function () {
 
     txGrid.makeGrid();
     findModalLinks();
+    setupTabs();
 
     transactionDetailsTemplatePromise = $.Deferred();
     ajaxWrapper(
@@ -86,6 +87,15 @@ $(function () {
 
     if ($('#content').data("welcome") == "True") {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
+    }
+
+    function setupTabs() {
+        $('#rPanel li a').click(function (e) {
+            e.stopPropagation();
+            history.pushState(null, null, $(this).attr('href'));
+            $(this).tab('show');
+            return false;
+        });
     }
 });
 

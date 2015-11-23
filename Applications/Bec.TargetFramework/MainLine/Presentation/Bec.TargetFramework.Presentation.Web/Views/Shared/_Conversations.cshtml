@@ -9,8 +9,12 @@
      data-is-activity-specific="@Model.IsActivitySpecific.ToString().ToLower()">
 
     <div id="conversationsContainer" class="col-xs-12 col-lg-6 conversations-container">
-        <h3>Conversations</h3>
+        <h3>
+            Conversations
+            <i class="fa fa-pulse fa-spinner margin-left-5" id="conversationsSpinner" style="display:none;"></i>
+        </h3>
         <div id="conversationsList"></div>
+        <div id="conversationsError" class="alert alert-danger" style="display:none;">An error has occurred when trying to load the data. Please try again later.</div>
     </div>
     <div id="messagesContainer" class="col-lg-offset-6 col-xs-0 messages-container">
         <div id="messagesList"></div>

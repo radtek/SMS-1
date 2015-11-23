@@ -1,4 +1,8 @@
-﻿<h3 id="conversationSubject"><i class="fa fa-caret-left margin-right-10 hidden-lg"></i>Subject: {{conversation.subject}}</h3>
+﻿<h3 id="conversationSubject">
+    <i class="fa fa-caret-left margin-right-10 hidden-lg"></i>
+    Subject: {{conversation.subject}}
+    <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
+</h3>
 <div class="messages-list">
     {{#each items}}
     <div class="row">

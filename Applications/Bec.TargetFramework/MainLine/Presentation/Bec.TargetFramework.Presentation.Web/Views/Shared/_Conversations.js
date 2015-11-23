@@ -23,6 +23,8 @@
             conversationsTemplatePromise.resolve(Handlebars.compile(res));
         });
 
+        $('#conversationsSpinner').show();
+        $('#conversationsError').hide();
         ajaxWrapper({
             url: urls.conversationUrl,
             type: 'GET',
@@ -44,10 +46,11 @@
             });
         })
         .error(function (data) {
+            $('#conversationsError').show();
             console.log(data);
         })
         .always(function () {
-            //$('#' + spinnerId).hide();
+            $('#conversationsSpinner').hide();
         });
     }
 
@@ -59,6 +62,7 @@
             messagesTemplatePromise.resolve(Handlebars.compile(res));
         });
 
+        $('#messagesSpinner').show();
         return ajaxWrapper({
             url: urls.messagesUrl,
             type: 'GET',
@@ -90,7 +94,7 @@
             console.log(data);
         })
         .always(function () {
-            //$('#' + spinnerId).hide();
+            $('#messagesSpinner').hide();
         });
     }
 
