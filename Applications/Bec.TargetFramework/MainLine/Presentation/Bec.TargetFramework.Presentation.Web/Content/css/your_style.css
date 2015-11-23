@@ -400,12 +400,6 @@
 .view-messages-container .col-xs-4 {
   margin-left: 0;
 }
-.view-messages-container .col-xs-0 {
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  opacity: 0;
-}
 .view-messages-container .col-lg-offset-0 {
   margin-left: 0;
 }
@@ -415,5 +409,13 @@
 .hidden {
   display: none;
   width: 0;
+}
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .col-sm-0 {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
 }
 /*# sourceMappingURL=your_style.css.map */
