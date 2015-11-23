@@ -53,7 +53,7 @@
                                     }
                                     @foreach (VOrganisationBankAccountsWithStatusDTO ba in ViewBag.BankAccounts)
                                     {
-                                        <li><p><strong>@(string.IsNullOrEmpty(ba.AccountName) ? "(No account name)" : ba.AccountName)</strong> @ba.BankAccountNumber / @ba.SortCode: @Html.ActionLink("Download", "DownloadCertificate", new { Area = "BankAccount", Controller = "Account", baID = ba.OrganisationBankAccountID })</p></li>
+                                        <li><p><strong>@(string.IsNullOrEmpty(ba.AccountName) ? "(No account name)" : ba.AccountName)</strong> @ba.BankAccountNumber / @ba.SortCode: @Html.ActionLink("Download", "DownloadBankTransferInstructions", new { Area = "BankAccount", Controller = "Account", baID = ba.OrganisationBankAccountID })</p></li>
                                     }
                                 </ul>
                             }
