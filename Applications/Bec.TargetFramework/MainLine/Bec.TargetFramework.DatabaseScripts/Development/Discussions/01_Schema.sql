@@ -163,7 +163,7 @@ VALUES (
 SELECT * FROM public."fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
 
 
-CREATE VIEW public."vMessage" (
+CREATE OR REPLACE VIEW public."vMessage"(
     "ConversationID",
     "UserAccountOrganisationID",
     "NotificationID",
@@ -171,50 +171,22 @@ CREATE VIEW public."vMessage" (
     "Read",
     "DateSent")
 AS
-SELECT n."ConversationID",
-    nr."UserAccountOrganisationID",
-    n."NotificationID",
-    n."NotificationData" ->> 'Message'::text AS "Message",
-    COALESCE(nr."IsAccepted", false) AS "Read",
-    n."DateSent"
-FROM "NotificationRecipient" nr
-     JOIN "Notification" n ON nr."NotificationID" = n."NotificationID"
-     JOIN "NotificationConstruct" nc ON nc."NotificationConstructID" =
-         n."NotificationConstructID" AND nc."NotificationConstructVersionNumber" = n."NotificationConstructVersionNumber" AND nc."Name"::text = 'Message'::text;
+  SELECT n."ConversationID",
+         nr."UserAccountOrganisationID",
+         n."NotificationID",
+         n."NotificationData" ->> 'Message'::text AS "Message",
+         COALESCE(nr."IsAccepted", false) AS "Read",
+         n."DateSent"
+  FROM "NotificationRecipient" nr
+       JOIN "Notification" n ON nr."NotificationID" = n."NotificationID"
+       JOIN "NotificationConstruct" nc ON nc."NotificationConstructID" =
+         n."NotificationConstructID" AND nc."NotificationConstructVersionNumber"
+         = n."NotificationConstructVersionNumber" AND nc."Name"::text =
+         'Message'::text;
 
 
 
-CREATE OR REPLACE VIEW public."vMessageLatest"(
-    "ConversationID",
-    "UserAccountOrganisationID",
-    "MostRecentNotificationID",
-    "FirstUnreadNotificationID")
-AS
-  SELECT cp."ConversationID",
-         cp."UserAccountOrganisationID",
-         (
-           SELECT m."NotificationID"
-           FROM "vMessage" m
-           WHERE m."ConversationID" = cp."ConversationID" AND
-                 m."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
-           ORDER BY m."DateSent" DESC
-           LIMIT 1
-         ) AS "MostRecentNotificationID",
-         (
-           SELECT m."NotificationID"
-           FROM "vMessage" m
-           WHERE m."ConversationID" = cp."ConversationID" AND
-                 m."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
-  AND
-                 m."Read" = false
-           ORDER BY m."DateSent"
-           LIMIT 1
-         ) AS "FirstUnreadNotificationID"
-  FROM "ConversationParticipant" cp;
-
-
-
-CREATE VIEW public."vConversations" (
+CREATE OR REPLACE VIEW public."vConversations"(
     "UserAccountOrganisationID",
     "ConversationID",
     "Subject",
@@ -233,41 +205,83 @@ CREATE VIEW public."vConversations" (
     "FirstUnreadLastName",
     "FirstUnreadOrganisationType")
 AS
-SELECT m."UserAccountOrganisationID",
-    c."ConversationID",
-    c."Subject",
-    c."ActivityType",
-    c."ActivityID",
-    nmostrecent."DateSent" AS "MostRecentDate",
-    nmostrecent."NotificationData" ->> 'Message'::text AS "MostRecentMessage",
-    mrua."Email" AS "MostRecentEmail",
-    mrc."FirstName" AS "MostRecentFirstName",
-    mrc."LastName" AS "MostRecentLastName",
-    mrot."Name" AS "MostRecentOrganisationType",
-    nfirstunread."DateSent" AS "FirstUnreadDate",
-    nfirstunread."NotificationData" ->> 'Message'::text AS "FirstUnreadMessage",
-    fuua."Email" AS "FirstUnreadEmail",
-    fuc."FirstName" AS "FirstUnreadFirstName",
-    fuc."LastName" AS "FirstUnreadLastName",
-    fuot."Name" AS "FirstUnreadOrganisationType"
-FROM "vMessageLatest" m
-     JOIN "Conversation" c ON c."ConversationID" = m."ConversationID"
-     LEFT JOIN "Notification" nfirstunread ON nfirstunread."NotificationID" =
-         m."FirstUnreadNotificationID"
-     LEFT JOIN "UserAccountOrganisation" fuuao ON
-         fuuao."UserAccountOrganisationID" = nfirstunread."CreatedByUserAccountOrganisationID"
-     LEFT JOIN "UserAccounts" fuua ON fuua."ID" = fuuao."UserID"
-     LEFT JOIN "Organisation" fuorg ON fuorg."OrganisationID" = fuuao."OrganisationID"
-     LEFT JOIN "OrganisationType" fuot ON fuot."OrganisationTypeID" =
+  SELECT cp."UserAccountOrganisationID",
+         c."ConversationID",
+         c."Subject",
+         c."ActivityType",
+         c."ActivityID",
+         nmostrecent."DateSent" AS "MostRecentDate",
+         nmostrecent."NotificationData" ->> 'Message'::text AS
+           "MostRecentMessage",
+         mrua."Email" AS "MostRecentEmail",
+         mrc."FirstName" AS "MostRecentFirstName",
+         mrc."LastName" AS "MostRecentLastName",
+         mrot."Name" AS "MostRecentOrganisationType",
+         nfirstunread."DateSent" AS "FirstUnreadDate",
+         nfirstunread."NotificationData" ->> 'Message'::text AS
+           "FirstUnreadMessage",
+         fuua."Email" AS "FirstUnreadEmail",
+         fuc."FirstName" AS "FirstUnreadFirstName",
+         fuc."LastName" AS "FirstUnreadLastName",
+         fuot."Name" AS "FirstUnreadOrganisationType"
+  FROM "ConversationParticipant" cp
+       JOIN 
+       (
+         SELECT m."ConversationID",
+                m."UserAccountOrganisationID",
+                m."NotificationID"
+         FROM (
+                SELECT mrm."ConversationID",
+                       mrm."UserAccountOrganisationID",
+                       first_value(mrm."NotificationID") OVER(PARTITION BY
+                         mrm."ConversationID", mrm."UserAccountOrganisationID"
+                ORDER BY mrm."DateSent" DESC) AS "NotificationID"
+                FROM "vMessage" mrm
+              ) m
+         GROUP BY m."ConversationID",
+                  m."UserAccountOrganisationID",
+                  m."NotificationID"
+       ) mr ON mr."ConversationID" = cp."ConversationID" AND
+         mr."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
+       LEFT JOIN 
+       (
+         SELECT m."ConversationID",
+                m."UserAccountOrganisationID",
+                m."NotificationID"
+         FROM (
+                SELECT mrm."ConversationID",
+                       mrm."UserAccountOrganisationID",
+                       first_value(mrm."NotificationID") OVER(PARTITION BY
+                         mrm."ConversationID", mrm."UserAccountOrganisationID"
+                ORDER BY mrm."DateSent") AS "NotificationID"
+                FROM "vMessage" mrm
+                WHERE mrm."Read" = false
+              ) m
+         GROUP BY m."ConversationID",
+                  m."UserAccountOrganisationID",
+                  m."NotificationID"
+       ) fu ON fu."ConversationID" = cp."ConversationID" AND
+         fu."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
+       JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
+       LEFT JOIN "Notification" nfirstunread ON nfirstunread."NotificationID" =
+         fu."NotificationID"
+       LEFT JOIN "UserAccountOrganisation" fuuao ON
+         fuuao."UserAccountOrganisationID" =
+         nfirstunread."CreatedByUserAccountOrganisationID"
+       LEFT JOIN "UserAccounts" fuua ON fuua."ID" = fuuao."UserID"
+       LEFT JOIN "Organisation" fuorg ON fuorg."OrganisationID" =
+         fuuao."OrganisationID"
+       LEFT JOIN "OrganisationType" fuot ON fuot."OrganisationTypeID" =
          fuorg."OrganisationTypeID"
-     LEFT JOIN "Contact" fuc ON fuc."ContactID" = fuuao."PrimaryContactID"
-     JOIN "Notification" nmostrecent ON nmostrecent."NotificationID" =
-         m."MostRecentNotificationID"
-     JOIN "UserAccountOrganisation" mruao ON mruao."UserAccountOrganisationID"
+       LEFT JOIN "Contact" fuc ON fuc."ContactID" = fuuao."PrimaryContactID"
+       JOIN "Notification" nmostrecent ON nmostrecent."NotificationID" =
+         mr."NotificationID"
+       JOIN "UserAccountOrganisation" mruao ON mruao."UserAccountOrganisationID"
          = nmostrecent."CreatedByUserAccountOrganisationID"
-     JOIN "UserAccounts" mrua ON mrua."ID" = mruao."UserID"
-     JOIN "Organisation" mrorg ON mrorg."OrganisationID" = mruao."OrganisationID"
-     JOIN "OrganisationType" mrot ON mrot."OrganisationTypeID" =
+       JOIN "UserAccounts" mrua ON mrua."ID" = mruao."UserID"
+       JOIN "Organisation" mrorg ON mrorg."OrganisationID" =
+         mruao."OrganisationID"
+       JOIN "OrganisationType" mrot ON mrot."OrganisationTypeID" =
          mrorg."OrganisationTypeID"
-     JOIN "Contact" mrc ON mrc."ContactID" = mruao."PrimaryContactID"
-ORDER BY nmostrecent."DateSent" DESC;
+       JOIN "Contact" mrc ON mrc."ContactID" = mruao."PrimaryContactID"
+  ORDER BY nmostrecent."DateSent" DESC;

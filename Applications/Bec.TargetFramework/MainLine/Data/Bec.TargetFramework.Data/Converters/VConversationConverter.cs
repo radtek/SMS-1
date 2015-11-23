@@ -29,23 +29,11 @@ namespace Bec.TargetFramework.Entities
             var target = new VConversationDTO();
 
             // Properties
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.ConversationID = source.ConversationID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.Subject = source.Subject;
-            target.ActivityType = source.ActivityType;
-            target.ActivityID = source.ActivityID;
-            target.MostRecentDate = source.MostRecentDate;
-            target.MostRecentMessage = source.MostRecentMessage;
-            target.MostRecentEmail = source.MostRecentEmail;
-            target.MostRecentFirstName = source.MostRecentFirstName;
-            target.MostRecentLastName = source.MostRecentLastName;
-            target.MostRecentOrganisationType = source.MostRecentOrganisationType;
-            target.FirstUnreadDate = source.FirstUnreadDate;
-            target.FirstUnreadMessage = source.FirstUnreadMessage;
-            target.FirstUnreadEmail = source.FirstUnreadEmail;
-            target.FirstUnreadFirstName = source.FirstUnreadFirstName;
-            target.FirstUnreadLastName = source.FirstUnreadLastName;
-            target.FirstUnreadOrganisationType = source.FirstUnreadOrganisationType;
+            target.Latest = source.Latest;
+            target.Unread = source.Unread;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -61,23 +49,11 @@ namespace Bec.TargetFramework.Entities
             var target = new Bec.TargetFramework.Data.VConversation();
 
             // Properties
-            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.ConversationID = source.ConversationID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.Subject = source.Subject;
-            target.ActivityType = source.ActivityType;
-            target.ActivityID = source.ActivityID;
-            target.MostRecentDate = source.MostRecentDate;
-            target.MostRecentMessage = source.MostRecentMessage;
-            target.MostRecentEmail = source.MostRecentEmail;
-            target.MostRecentFirstName = source.MostRecentFirstName;
-            target.MostRecentLastName = source.MostRecentLastName;
-            target.MostRecentOrganisationType = source.MostRecentOrganisationType;
-            target.FirstUnreadDate = source.FirstUnreadDate;
-            target.FirstUnreadMessage = source.FirstUnreadMessage;
-            target.FirstUnreadEmail = source.FirstUnreadEmail;
-            target.FirstUnreadFirstName = source.FirstUnreadFirstName;
-            target.FirstUnreadLastName = source.FirstUnreadLastName;
-            target.FirstUnreadOrganisationType = source.FirstUnreadOrganisationType;
+            target.Latest = source.Latest;
+            target.Unread = source.Unread;
 
             // User-defined partial method
             OnEntityCreating(source, target);

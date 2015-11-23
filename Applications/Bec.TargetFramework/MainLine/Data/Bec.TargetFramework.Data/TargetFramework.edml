@@ -409,9 +409,8 @@
           <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.Store.SmsSrcFundsBankAccount" store:Type="Tables" Schema="sms" Table="SmsSrcFundsBankAccount" />
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Store.Conversation" store:Type="Tables" Schema="public" Table="Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationParticipant" store:Type="Tables" Schema="public" Table="ConversationParticipant" />
-          <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
-          <EntitySet Name="vMessageLatests" EntityType="Bec.TargetFramework.Data.Store.vMessageLatest" store:Type="Views" Schema="public" Table="vMessageLatest" />
-          <EntitySet Name="vConversations" EntityType="Bec.TargetFramework.Data.Store.vConversations" store:Type="Views" Schema="public" Table="vConversations" />
+          <EntitySet Name="vConversations" EntityType="Bec.TargetFramework.Data.Store.vConversation" store:Type="Views" Schema="public" Table="vConversation" />
+          <EntitySet Name="vConversationActivities" EntityType="Bec.TargetFramework.Data.Store.vConversationActivity" store:Type="Views" Schema="public" Table="vConversationActivity" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -9946,50 +9945,26 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Added" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="vMessage">
-          <Key>
-            <PropertyRef Name="NotificationID" />
-            <PropertyRef Name="DateSent" />
-          </Key>
-          <Property Name="ConversationID" Type="uuid" />
-          <Property Name="UserAccountOrganisationID" Type="uuid" />
-          <Property Name="NotificationID" Type="uuid" Nullable="false" />
-          <Property Name="Message" Type="text" />
-          <Property Name="Read" Type="boolean" />
-          <Property Name="DateSent" Type="timestamptz" Nullable="false" />
-        </EntityType>
-        <EntityType Name="vMessageLatest">
+        <EntityType Name="vConversation">
           <Key>
             <PropertyRef Name="ConversationID" />
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
           <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="MostRecentNotificationID" Type="uuid" />
-          <Property Name="FirstUnreadNotificationID" Type="uuid" />
-        </EntityType>
-        <EntityType Name="vConversations">
-          <Key>
-            <PropertyRef Name="UserAccountOrganisationID" />
-            <PropertyRef Name="ConversationID" />
-          </Key>
-          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="Subject" Type="varchar" />
+          <Property Name="Latest" Type="timestamptz" />
+          <Property Name="Unread" Type="bigint" />
+        </EntityType>
+        <EntityType Name="vConversationActivity">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+          </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="ActivityType" Type="int" />
           <Property Name="ActivityID" Type="uuid" />
-          <Property Name="MostRecentDate" Type="timestamptz" />
-          <Property Name="MostRecentMessage" Type="text" />
-          <Property Name="MostRecentEmail" Type="varchar" MaxLength="100" />
-          <Property Name="MostRecentFirstName" Type="varchar" MaxLength="100" />
-          <Property Name="MostRecentLastName" Type="varchar" MaxLength="100" />
-          <Property Name="MostRecentOrganisationType" Type="varchar" MaxLength="200" />
-          <Property Name="FirstUnreadDate" Type="timestamptz" />
-          <Property Name="FirstUnreadMessage" Type="text" />
-          <Property Name="FirstUnreadEmail" Type="varchar" MaxLength="100" />
-          <Property Name="FirstUnreadFirstName" Type="varchar" MaxLength="100" />
-          <Property Name="FirstUnreadLastName" Type="varchar" MaxLength="100" />
-          <Property Name="FirstUnreadOrganisationType" Type="varchar" MaxLength="200" />
+          <Property Name="Subject" Type="varchar" />
+          <Property Name="Latest" Type="timestamptz" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18609,9 +18584,8 @@
           <EntitySet Name="SmsSrcFundsBankAccounts" EntityType="Bec.TargetFramework.Data.SmsSrcFundsBankAccount" />
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.ConversationParticipant" />
-          <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
-          <EntitySet Name="VMessageLatests" EntityType="Bec.TargetFramework.Data.VMessageLatest" />
           <EntitySet Name="VConversations" EntityType="Bec.TargetFramework.Data.VConversation" />
+          <EntitySet Name="VConversationActivities" EntityType="Bec.TargetFramework.Data.VConversationActivity" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -29200,50 +29174,26 @@
           <NavigationProperty Name="Conversation" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="ConversationParticipants" ToRole="Conversation" ed:Guid="849ee4e9-f79d-45f0-b299-d4ee456e8b0b" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="ConversationParticipants" ToRole="UserAccountOrganisation" ed:Guid="c21d435f-8860-4348-b2bb-6279f3658a4a" />
         </EntityType>
-        <EntityType Name="VMessage" ed:Guid="89e92165-ac22-4130-993d-ba351de964ea">
-          <Key>
-            <PropertyRef Name="NotificationID" />
-            <PropertyRef Name="DateSent" />
-          </Key>
-          <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="05038305-3a5c-42fe-82f0-f118a67c149e" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="d6e842b5-311e-4557-ac49-7d7ff4af4d8e" />
-          <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="29f38a0c-498c-4864-967c-17455928a23c" />
-          <Property Name="Message" Type="String" ed:ValidateRequired="False" ed:Guid="07819a75-0bfc-4d54-b774-f69b23a2655e" />
-          <Property Name="Read" Type="Boolean" ed:ValidateRequired="False" ed:Guid="0f25c385-c146-48a5-b09c-d2b57b12991c" />
-          <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="76e40e9d-01c8-47a5-b264-a9eb55bfa91d" />
-        </EntityType>
-        <EntityType Name="VMessageLatest" ed:Guid="093165e7-d997-4d3d-a0c0-6c5494e0f6d4">
+        <EntityType Name="VConversation" ed:Guid="a9689e35-f1b5-4b6d-bbf7-9144aeb0ebd6">
           <Key>
             <PropertyRef Name="ConversationID" />
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
-          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="24b04f1e-69c6-4a4a-8e40-56b29eec3b30" />
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="d5a3d500-e2df-4bd9-a993-3c137d636227" />
-          <Property Name="MostRecentNotificationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="0eb92feb-c33a-4d9d-afe7-732c8f27905b" />
-          <Property Name="FirstUnreadNotificationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="a93cc397-e2a4-479b-9735-3bc592b531fe" />
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="4e99ba32-b4f9-4e5f-b21c-e4250bec97c3" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a239ceb7-b83f-45f0-8795-29af48ce9c9d" />
+          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="49c8ec96-f0d1-4eaf-a82f-32cf33fa7678" />
+          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c22b57e3-246f-47d1-a844-e92d6df77c92" />
+          <Property Name="Unread" Type="Int64" ed:ValidateRequired="False" ed:Guid="5e4352c5-93b5-471e-b652-17a7893a879b" />
         </EntityType>
-        <EntityType Name="VConversation" ed:Guid="c8222c78-42e0-4457-ba72-f62e01311f56">
+        <EntityType Name="VConversationActivity" ed:Guid="89050a44-044c-41bb-9cb3-39b8bfbed84c">
           <Key>
-            <PropertyRef Name="UserAccountOrganisationID" />
             <PropertyRef Name="ConversationID" />
           </Key>
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b1e6ea7d-32df-46ad-821d-68bde37b49dc" />
-          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="59776979-db9b-47b4-bcc6-b2461027c17b" />
-          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="edd98d41-1a28-47d7-acc9-d4f48a87a062" />
-          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="21baf159-bf98-4ba4-b43f-776250f485fe" />
-          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="1a9e556a-ab17-4696-8593-f30ce9d7ce48" />
-          <Property Name="MostRecentDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="1bf209e0-2733-4999-95e8-09b8b6fb9b88" />
-          <Property Name="MostRecentMessage" Type="String" ed:ValidateRequired="False" ed:Guid="384f48d3-d5da-4932-a9f4-b2ae371b2609" />
-          <Property Name="MostRecentEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d33ba913-beee-49f7-9249-f1523b7feb2e" />
-          <Property Name="MostRecentFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="fd5ad64c-e802-4c79-b14e-71333402ec30" />
-          <Property Name="MostRecentLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="272fcd11-478c-4daa-8675-130d8fb6ce97" />
-          <Property Name="MostRecentOrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="79d73837-84ef-4981-b214-2f49684e7c2c" />
-          <Property Name="FirstUnreadDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="57bd634d-8e7a-4d71-a00e-596c9e803402" />
-          <Property Name="FirstUnreadMessage" Type="String" ed:ValidateRequired="False" ed:Guid="15aa4a38-21dc-4fea-b7f2-a3a6e54d59b4" />
-          <Property Name="FirstUnreadEmail" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="54bb268b-9ae6-40a2-b564-f0ade7485440" />
-          <Property Name="FirstUnreadFirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="801005d1-4a44-4c0b-9c74-fd29f78df524" />
-          <Property Name="FirstUnreadLastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="6a93cd8d-c7c5-4dbc-824f-b4679fd59e39" />
-          <Property Name="FirstUnreadOrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="71b6dba3-09c8-4e15-bf41-b5dccd09d9ce" />
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f346f58b-9a95-4161-a6e5-7ea94358376e" />
+          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="7b0699f5-2029-45ed-8892-da9155c0c2cf" />
+          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6316bc1a-0466-4f86-8124-a9051ef02f09" />
+          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="03c2de11-5c7d-48ad-8e6c-94e002625403" />
+          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c312a8b4-53cb-4817-8dd0-6743e66c51b9" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -43864,48 +43814,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VMessages">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VMessage">
-              <MappingFragment StoreEntitySet="vMessages">
-                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Read" ColumnName="Read" />
-                <ScalarProperty Name="DateSent" ColumnName="DateSent" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VMessageLatests">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VMessageLatest">
-              <MappingFragment StoreEntitySet="vMessageLatests">
-                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-                <ScalarProperty Name="MostRecentNotificationID" ColumnName="MostRecentNotificationID" />
-                <ScalarProperty Name="FirstUnreadNotificationID" ColumnName="FirstUnreadNotificationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VConversations">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversation">
               <MappingFragment StoreEntitySet="vConversations">
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="MostRecentDate" ColumnName="MostRecentDate" />
-                <ScalarProperty Name="MostRecentMessage" ColumnName="MostRecentMessage" />
-                <ScalarProperty Name="MostRecentEmail" ColumnName="MostRecentEmail" />
-                <ScalarProperty Name="FirstUnreadDate" ColumnName="FirstUnreadDate" />
-                <ScalarProperty Name="FirstUnreadMessage" ColumnName="FirstUnreadMessage" />
-                <ScalarProperty Name="FirstUnreadEmail" ColumnName="FirstUnreadEmail" />
+                <ScalarProperty Name="Latest" ColumnName="Latest" />
+                <ScalarProperty Name="Unread" ColumnName="Unread" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VConversationActivities">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationActivity">
+              <MappingFragment StoreEntitySet="vConversationActivities">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
-                <ScalarProperty Name="MostRecentFirstName" ColumnName="MostRecentFirstName" />
-                <ScalarProperty Name="MostRecentLastName" ColumnName="MostRecentLastName" />
-                <ScalarProperty Name="MostRecentOrganisationType" ColumnName="MostRecentOrganisationType" />
-                <ScalarProperty Name="FirstUnreadFirstName" ColumnName="FirstUnreadFirstName" />
-                <ScalarProperty Name="FirstUnreadLastName" ColumnName="FirstUnreadLastName" />
-                <ScalarProperty Name="FirstUnreadOrganisationType" ColumnName="FirstUnreadOrganisationType" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Latest" ColumnName="Latest" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

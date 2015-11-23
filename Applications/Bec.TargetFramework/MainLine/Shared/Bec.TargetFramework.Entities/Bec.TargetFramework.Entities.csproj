@@ -1543,9 +1543,14 @@
     <Compile Include="Boo\VCompanyDTO.Generated.cs">
       <DependentUpon>VCompanyDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VConversationActivityDTO.cs" />
+    <Compile Include="Boo\VConversationActivityDTO.Generated.cs">
+      <DependentUpon>VConversationActivityDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VConversationDTO.cs" />
     <Compile Include="Boo\VConversationDTO.Generated.cs">
       <DependentUpon>VConversationDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Boo\VCountryAndCurrencyDTO.Generated.cs">
       <DependentUpon>VCountryAndCurrencyDTO.cs</DependentUpon>
@@ -1570,14 +1575,6 @@
     </Compile>
     <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs">
       <DependentUpon>VInvoiceWithCurrentTransactionOrderStatusDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VMessageDTO.cs" />
-    <Compile Include="Boo\VMessageDTO.Generated.cs">
-      <DependentUpon>VMessageDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VMessageLatestDTO.cs" />
-    <Compile Include="Boo\VMessageLatestDTO.Generated.cs">
-      <DependentUpon>VMessageLatestDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationConstructDTO.Generated.cs">
       <DependentUpon>VNotificationConstructDTO.cs</DependentUpon>
@@ -1851,6 +1848,7 @@
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountCheckNoMatchNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\ConversationDetailsDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
