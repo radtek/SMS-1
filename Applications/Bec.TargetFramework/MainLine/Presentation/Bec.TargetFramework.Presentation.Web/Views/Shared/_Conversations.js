@@ -32,11 +32,9 @@
                 pageSize: 10
             }
         })
-        .success(function (data) {
-            var items = data.Items;
+        .success(function (items) {
             items = _.map(items, function (item) {
                 return _.extend({}, item, {
-                    UnreadBool: item.Unread > 0,
                     Latest: dateString(item.Latest)
                 });
             });
@@ -75,8 +73,7 @@
                 pageSize: 10
             }
         })
-        .success(function (data) {
-            var items = data.Items;
+        .success(function (items) {
             items = _.map(items, function (item) {
                 var notificationData = JSON.parse(item.NotificationData);
                 return _.extend({}, item, {
