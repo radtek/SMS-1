@@ -311,5 +311,13 @@ namespace Bec.TargetFramework.Presentation.Web.Helpers
             else
                 return string.Empty;
         }
+
+        internal static string PageFilter(int page, int pageSize)
+        {
+            if (page > 0)
+                return string.Format("&$top=10&$skip={0}", page * pageSize);
+            else
+                return "&$top=10";
+        }
     }
 }

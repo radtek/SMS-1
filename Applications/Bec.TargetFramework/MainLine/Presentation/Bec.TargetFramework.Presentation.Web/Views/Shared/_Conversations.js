@@ -27,12 +27,19 @@
             url: urls.conversationUrl,
             type: 'GET',
             data: {
-                activityId: activityId
+                activityId: activityId,
+                page: 0, 
+                pageSize: 10
             }
         })
         .success(function (data) {
             var items = data.Items;
-            
+            items = _.map(items, function (item) {
+                return _.extend({}, item, {
+                    UnreadBool: item.Unread > 0,
+                    Latest: dateString(item.Latest)
+                });
+            });
             var templateData = {
                 isEmpty: items.length === 0,
                 items: items
@@ -63,7 +70,9 @@
             url: urls.messagesUrl,
             type: 'GET',
             data: {
-                conversationId: conversation.id
+                conversationId: conversation.id,
+                page: 0,
+                pageSize: 10
             }
         })
         .success(function (data) {
@@ -71,7 +80,8 @@
             items = _.map(items, function (item) {
                 var notificationData = JSON.parse(item.NotificationData);
                 return _.extend({}, item, {
-                    message: notificationData.Message
+                    message: notificationData.Message,
+                    DateSent: dateString(item.DateSent)
                 });
             });
             var templateData = {
