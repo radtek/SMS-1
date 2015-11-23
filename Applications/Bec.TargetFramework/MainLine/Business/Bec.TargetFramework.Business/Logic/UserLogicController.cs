@@ -696,6 +696,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 uao.PinCode = blank ? null : CreatePin(4);
                 uao.PinCreated = DateTime.Now;
+                uao.PinAttempts = 0;
                 uao.UserAccount.IsLoginAllowed = true;
 
                 await scope.SaveChangesAsync();

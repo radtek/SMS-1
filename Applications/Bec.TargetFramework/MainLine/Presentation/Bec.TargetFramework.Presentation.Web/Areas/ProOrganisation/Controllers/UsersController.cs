@@ -139,10 +139,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 x.Contact.Salutation,
                 x.Contact.FirstName,
                 x.Contact.LastName,
-                x.UserAccount.IsActive
-            }, true);
+                x.UserAccount.IsActive,
+                x.UserType.Name,
+                rv1 = x.RowVersion,
+                rv2 = x.Contact.RowVersion,
+                rv3 = x.UserAccount.RowVersion
+            });
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
+            var uao = res.First();
 
             var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, x.RoleDescription, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
             var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.IsDefault == false);
@@ -156,14 +161,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var v = allRoles[i];
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                bool disabled = v.RoleName == "Organisation Administrator" && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1;
+                bool disabled = uao.UserType.Name == "Organisation Administrator" || (v.RoleName == "Organisation Administrator" && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
                 if (disabled) v.RoleDescription += " (locked)";
 
                 r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleDescription));
             }
             ViewBag.Roles = r;
 
-            return PartialView("_EditUser", Edit.MakeModel(res.First()));
+            return PartialView("_EditUser", Edit.MakeModel(uao));
         }
 
         [HttpPost]
