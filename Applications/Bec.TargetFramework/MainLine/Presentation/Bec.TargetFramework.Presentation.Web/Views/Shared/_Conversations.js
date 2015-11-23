@@ -166,16 +166,13 @@
 
     function setupWindowToggling() {
         $('#viewMessagesContainer').on('click', '.conversation-item', function (e) {
-            if (!isMessageBoxOpen()) {
-                $('#messagesContainer').toggleClass('col-lg-offset-0 col-lg-offset-6');
-                if (isCompactView()) {
-                    $('#conversationsContainer').toggleClass('col-xs-12 col-lg-6 col-xs-0');
-                    $('#messagesContainer').toggleClass('col-xs-0 col-xs-12');
-                } else {
-                    $('#conversationsContainer').toggleClass('col-lg-6 col-xs-4');
-                    $('#messagesContainer').toggleClass('col-xs-0 col-xs-8');
-                }
-            }
+            //if (isCompactView()) {
+            //    $('#conversationsContainer').toggleClass('col-xs-12 col-lg-6 col-xs-0');
+            //    $('#messagesContainer').toggleClass('col-xs-0 col-xs-12');
+            //} else {
+            //    $('#conversationsContainer').toggleClass('col-lg-6 col-xs-4');
+            //    $('#messagesContainer').toggleClass('col-xs-0 col-xs-8');
+            //}
 
             currentConversation.id = $(this).data('conversation-id');
             currentConversation.subject = $(this).data('conversation-subject');
@@ -184,35 +181,35 @@
 
         $('#conversationSubject').click(function () {
             if (isCompactView()) {
-                $('#messagesContainer').toggleClass('col-lg-offset-0 col-lg-offset-6');
-                $('#conversationsContainer').toggleClass('col-xs-12 col-lg-6 col-xs-0');
-                $('#messagesContainer').toggleClass('col-xs-0 col-xs-12');
+                //$('#messagesContainer').toggleClass('col-lg-offset-0 col-lg-offset-6');
+                //$('#conversationsContainer').toggleClass('col-xs-12 col-lg-6 col-xs-0');
+                //$('#messagesContainer').toggleClass('col-xs-0 col-xs-12');
             }
         });
 
         $(window).on('resize', function () {
 
-            if (isMessageBoxOpen()) {
+            //if (isMessageBoxOpen()) {
                 if (isCompactView()) {
 
-                    if ($('#messagesContainer').hasClass('col-xs-8')) {
-                        $('#messagesContainer').toggleClass('col-xs-12 col-xs-8');
-                    }
+                    //if ($('#messagesContainer').hasClass('col-xs-8')) {
+                    //    $('#messagesContainer').toggleClass('col-xs-12 col-xs-8');
+                    //}
 
-                    if ($('#conversationsContainer').hasClass('col-xs-12')) {
-                        $('#conversationsContainer').toggleClass('col-xs-12 col-lg-4 col-xs-0');
-                    }
+                    //if ($('#conversationsContainer').hasClass('col-xs-12')) {
+                    //    $('#conversationsContainer').toggleClass('col-xs-12 col-lg-4 col-xs-0');
+                    //}
 
                 } else {
-                    if ($('#messagesContainer').hasClass('col-xs-12')) {
-                        $('#messagesContainer').toggleClass('col-xs-12 col-xs-8');
-                    }
+                    //if ($('#messagesContainer').hasClass('col-xs-12')) {
+                    //    $('#messagesContainer').toggleClass('col-xs-12 col-xs-8');
+                    //}
 
-                    if ($('#conversationsContainer').hasClass('col-xs-0')) {
-                        $('#conversationsContainer').toggleClass('col-xs-12 col-lg-4 col-xs-0');
-                    }
+                    //if ($('#conversationsContainer').hasClass('col-xs-0')) {
+                    //    $('#conversationsContainer').toggleClass('col-xs-12 col-lg-4 col-xs-0');
+                    //}
                 }
-            }
+            //}
         });
     }
 
