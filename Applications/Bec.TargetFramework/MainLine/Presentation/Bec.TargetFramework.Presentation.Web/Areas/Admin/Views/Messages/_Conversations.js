@@ -5,6 +5,7 @@
         subject: null,
         activityId: null
     };
+    var activityType = viewMessagesContainer.data('activity-type');
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
@@ -33,6 +34,7 @@
             url: urls.conversationUrl,
             type: 'GET',
             data: {
+                activityType: activityType,
                 activityId: activityId,
                 page: 0,
                 pageSize: 10
