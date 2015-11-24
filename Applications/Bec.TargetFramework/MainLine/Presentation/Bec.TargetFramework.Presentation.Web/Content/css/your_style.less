@@ -332,7 +332,7 @@
         background: darken(@primary-color, 5%) !important;
     }
 
-    img{
+    img {
         margin-bottom: 6px;
     }
 }
@@ -495,10 +495,7 @@
     }
 
     .messages-container {
-        box-shadow:#ddd -7px 0px 20px;
-        h3 {
-            cursor: pointer;
-        }
+        box-shadow: #f5f5f5 -7px 0 20px;
 
         .messages-list {
             max-height: 300px; // do media specific
@@ -542,42 +539,31 @@
                 border-width: 8px;
             }
 
-            pre{
+            pre {
                 background: transparent;
                 border: none;
             }
         }
     }
-
-
-    /*.row div {
-        -webkit-transition: width 0.05s ease;
-        -moz-transition: width 0.05s ease;
-        -o-transition: width 0.05s ease;
-        transition: width 0.05s ease;
-    }*/
-
-    .col-xs-4 {
-        margin-left: 0;
-    }
-
-    
-
-    .col-lg-offset-0{
-        margin-left: 0;
-    }
-    .row div + div {
-        /*margin-left: 0;*/
-    }
 }
 
 .hidden {
     display: none;
-    width:0;
+    width: 0;
+}
+// xs and sm
+@media only screen and (max-width: 992px) {
+    .view-messages-container {
+        .messages-container {
+            h3 {
+                cursor: pointer;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 768px) {
-    .col-xs-0{
+    .col-xs-0 {
         width: 0;
         height: 0;
         overflow: hidden;
@@ -586,7 +572,7 @@
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-    .col-sm-0{
+    .col-sm-0 {
         width: 0;
         height: 0;
         overflow: hidden;

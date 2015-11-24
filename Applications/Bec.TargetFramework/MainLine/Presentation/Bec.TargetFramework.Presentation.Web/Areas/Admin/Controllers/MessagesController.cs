@@ -77,6 +77,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json("ok");
         }
 
+        public async Task<ActionResult> GetRecipients(Guid activityId)
+        {
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                x.UserAccountOrganisationID,
+            });
+
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+
+            var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            var recip = result.First();
+
+            return Json(recip, JsonRequestBehavior.AllowGet);
+        }
+
         [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> ViewCreateConversation(Guid activityId, int pageNumber)
         {

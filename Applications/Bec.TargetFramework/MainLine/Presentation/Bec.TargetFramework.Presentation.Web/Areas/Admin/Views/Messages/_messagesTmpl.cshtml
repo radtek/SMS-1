@@ -32,10 +32,10 @@
                 <strong>Reply to the conversation</strong>
             </div>
             <div class="panel-body">
-                <form id="replyForm" class="smart-form">
+                <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
                     <fieldset>
                         <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
-                        <input type="hidden" name="__RequestVerificationToken" value="{{requestVerificationToken}}" />
+                        @Html.AntiForgeryToken()
                         <section>
                             <label class="label">Message</label>
                             <label class="textarea">

@@ -1,0 +1,31 @@
+﻿<h3 id="conversationSubject">
+    <i class="fa fa-caret-left margin-right-10 hidden-md hidden-lg"></i>
+    New Conversation
+    <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
+</h3>
+<form id="newConversationForm" class="smart-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })">
+    <input type="hidden" name="ActivityId" value="{{activityId}}" />
+    @Html.AntiForgeryToken()
+    {{#each participantUaoIds}}
+    <input type="hidden" name="ParticipantUaoIds[{{@@index}}]" value="{{this}}" />
+    {{/each}}
+    <fieldset>
+        <section>
+            <label class="label">Subject</label>
+            <label class="input ">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                <input name="Subject" type="text" class="form-control" tabindex="1" />
+            </label>
+        </section>
+        <section>
+            <label class="label">Message</label>
+            <label class="textarea">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                <textarea name="Message" class="form-control" rows="3" tabindex="2"></textarea>
+            </label>
+        </section>
+    </fieldset>
+    <footer>
+        <button id="submitNewConversationBtn" type="submit" class="btn btn-primary pull-right">Send</button>
+    </footer>
+</form>
