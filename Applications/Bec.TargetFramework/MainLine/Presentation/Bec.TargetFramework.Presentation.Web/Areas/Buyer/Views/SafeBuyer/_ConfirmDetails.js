@@ -290,7 +290,7 @@
         var addNextBankAccountBtn = $('#addNextBankAccountBtn');
         var addNextBankAccountRow = $('#addNextBankAccountRow');
         ajaxWrapper({
-            url: addNextBankAccountRow.data("templateurl")
+            url: addNextBankAccountRow.data("templateurl") + '?view=' + getRazorViewPath('_srcFundsBankAccountTmpl', 'SafeBuyer', 'Buyer')
         }).done(function (res) {
             srcFundBankAccountTemplatePromise.resolve(Handlebars.compile(res));
         });

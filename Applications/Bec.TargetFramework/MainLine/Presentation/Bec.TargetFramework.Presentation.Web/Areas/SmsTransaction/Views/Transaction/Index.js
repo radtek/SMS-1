@@ -66,21 +66,21 @@ $(function () {
 
     transactionDetailsTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_transactionDetailsTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
     });
 
     primaryBuyerTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_primaryBuyerDetailsTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         primaryBuyerTemplatePromise.resolve(Handlebars.compile(res));
     });
 
     relatedPartiesTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_relatedPartiesTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });

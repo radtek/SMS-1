@@ -586,3 +586,15 @@ function checkWizardValid(wizard, selector) {
         form.submit();
     }
 }
+
+// returns: ~/Areas/[area]/Views/[controller]/[view].cshtml
+// example: ~/Areas/Admin/Views/Messages/_conversationsTmpl.cshtml
+// or: ~/Views/Home/_myView.cshtml
+function getRazorViewPath(viewName, controller, area) {
+    var result = '~';
+    if (area) {
+        result += '/Areas/' + area;
+    }
+    result += '/Views/' + controller + '/' + viewName + '.cshtml';
+    return result;
+}

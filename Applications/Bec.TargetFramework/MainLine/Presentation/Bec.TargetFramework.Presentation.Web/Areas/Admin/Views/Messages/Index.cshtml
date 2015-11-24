@@ -5,7 +5,7 @@
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-weixin margin-right-10"></i>View Messages</h2>
         <div class="col-sm-12">
             <div class="well">
-                @Html.Partial("_Conversations", new ConversationsModel { IsActivitySpecific = false })
+                @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false })
             </div>
         </div>
     </div>
