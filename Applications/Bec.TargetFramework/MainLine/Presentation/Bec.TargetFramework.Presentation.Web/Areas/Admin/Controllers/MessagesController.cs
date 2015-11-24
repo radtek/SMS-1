@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bec.TargetFramework.Security;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -86,44 +87,60 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json("ok");
         }
 
-        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> ViewCreateConversation(Guid activityId, int pageNumber)
+        public async Task<ActionResult> ViewCreateConversation(ActivityType activityType, Guid activityId, int pageNumber)
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+
+            switch (activityType)
             {
-                x.UserAccountOrganisationID,
-            });
+                case ActivityType.SmsTransaction:
 
-            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
-                x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+                    if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) break;
 
-            var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-            var recip = result.First();
+                    var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
+                    var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+                    var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
 
-            var model = new CreateConversationDTO
-            {
-                ActivityId = activityId,
-                ParticipantUaoIds = new List<Guid> { recip.UserAccountOrganisationID }
-            };
-            ViewBag.pageNumber = pageNumber;
-            return PartialView("_CreateConversation", model);
+                    var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+                    var recip = result.First();
+
+                    var model = new CreateConversationDTO
+                    {
+                        ActivityType = activityType,
+                        ActivityId = activityId,
+                        ParticipantUaoIds = new List<Guid> { recip.UserAccountOrganisationID }
+                    };
+                    ViewBag.pageNumber = pageNumber;
+                    return PartialView("_CreateConversation", model);
+            }
+
+            return NotAuthorised();
+        }
+
+        private ActionResult NotAuthorised()
+        {
+            Response.StatusCode = 403;
+            return Json(new AjaxRequestErrorDTO { RedirectUrl = Url.Action("Denied", "App", new { Area = "" }), HasRedirectUrl = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
+            switch (addConversationDto.ActivityType)
+            {
+                case ActivityType.SmsTransaction:
+                    TempData["SmsTransactionID"] = addConversationDto.ActivityId;
+                    if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) return NotAuthorised();
+                    break;
+                default: return NotAuthorised();
+            }
+
             try
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-
-                await NotificationClient.CreateConversationAsync(orgID, uaoID, ActivityType.SmsTransaction, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.ParticipantUaoIds.ToArray());
-
-                TempData["SmsTransactionID"] = addConversationDto.ActivityId;
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.ParticipantUaoIds.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

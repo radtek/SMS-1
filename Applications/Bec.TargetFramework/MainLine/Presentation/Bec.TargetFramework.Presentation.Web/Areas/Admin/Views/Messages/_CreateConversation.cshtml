@@ -15,6 +15,7 @@
                         <form id="createConversationForm" class="smart-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })" data-redirectto="@Url.Action("Selected", "Transaction", new { area = "SmsTransaction", selectedTransactionID = Model.ActivityId, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "", })">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.ActivityType)
                             @Html.HiddenFor(m => m.ActivityId)
                             @for (int i = 0; i < Model.ParticipantUaoIds.Count; i++)
                             {

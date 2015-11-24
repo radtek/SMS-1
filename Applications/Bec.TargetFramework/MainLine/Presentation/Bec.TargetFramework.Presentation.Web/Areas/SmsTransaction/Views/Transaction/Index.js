@@ -110,7 +110,7 @@ function txChange(dataItem) {
     $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
     
-    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "?activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);
