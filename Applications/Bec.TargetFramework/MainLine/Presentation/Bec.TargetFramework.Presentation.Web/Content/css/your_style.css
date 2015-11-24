@@ -311,12 +311,6 @@
 }
 .view-messages-container {
   position: relative;
-  /*.row div {
-        -webkit-transition: width 0.05s ease;
-        -moz-transition: width 0.05s ease;
-        -o-transition: width 0.05s ease;
-        transition: width 0.05s ease;
-    }*/
 }
 .view-messages-container .conversations-container .conversations-list {
   list-style-type: none;
@@ -350,10 +344,7 @@
   text-align: right;
 }
 .view-messages-container .messages-container {
-  box-shadow: #dddddd -7px 0px 20px;
-}
-.view-messages-container .messages-container h3 {
-  cursor: pointer;
+  box-shadow: #f5f5f5 -7px 0 20px;
 }
 .view-messages-container .messages-container .messages-list {
   max-height: 300px;
@@ -398,18 +389,14 @@
   background: transparent;
   border: none;
 }
-.view-messages-container .col-xs-4 {
-  margin-left: 0;
-}
-.view-messages-container .col-lg-offset-0 {
-  margin-left: 0;
-}
-.view-messages-container .row div + div {
-  /*margin-left: 0;*/
-}
 .hidden {
   display: none;
   width: 0;
+}
+@media only screen and (max-width: 992px) {
+  .view-messages-container .messages-container h3 {
+    cursor: pointer;
+  }
 }
 @media only screen and (max-width: 768px) {
   .col-xs-0 {

@@ -43,8 +43,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             int at = activityType.GetIntValue();
             var select = ODataHelper.Select<VConversationActivityDTO>(x => new { x.ConversationID, x.Subject, x.Latest });
             var filter = ODataHelper.Filter<VConversationActivityDTO>(x => x.ActivityID == activityId && x.ActivityType == at);
-            var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversations", select + filter + order + ODataHelper.PageFilter(page, pageSize));
+            var order = ODataHelper.OrderBy<VConversationActivityDTO>(x => new { x.Latest }) + " desc";
+            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversationActivities", select + filter + order + ODataHelper.PageFilter(page, pageSize));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -77,17 +77,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reply(Guid conversationId, string message)
-        {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
-
-            return Json("ok");
-        }
-
-        public async Task<ActionResult> ViewCreateConversation(ActivityType activityType, Guid activityId, int pageNumber)
+        public async Task<ActionResult> GetParticipants(ActivityType activityType, Guid activityId)
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
 
@@ -104,18 +94,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
                     var recip = result.First();
 
-                    var model = new CreateConversationDTO
-                    {
-                        ActivityType = activityType,
-                        ActivityId = activityId,
-                        ParticipantUaoIds = new List<Guid> { recip.UserAccountOrganisationID }
-                    };
-                    ViewBag.pageNumber = pageNumber;
-                    return PartialView("_CreateConversation", model);
+                    return Json(recip, JsonRequestBehavior.AllowGet);
             }
-
             return NotAuthorised();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Reply(Guid conversationId, string message)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
+
+            return Json("ok");
+        }
+
 
         private ActionResult NotAuthorised()
         {

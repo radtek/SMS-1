@@ -1,19 +1,23 @@
 ﻿$(function () {
+    var viewMessagesContainer = $('#viewMessagesContainer');
     var currentConversation = {
         id: null,
-        subject: null
+        subject: null,
+        activityId: null
     };
-    var viewMessagesContainer = $('#viewMessagesContainer');
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
         messagesUrl: viewMessagesContainer.data("messages-url"),
-        replyUrl: viewMessagesContainer.data("reply-url"),
-    }
+        participantsUrl: viewMessagesContainer.data("participants-url")
+    };
+    var getParticipantsPromise = $.Deferred();
 
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
     setupReply();
+    setupCreateConversation();
+    setupRefreshConversationsBtn();
 
     function loadConversations(activityId) {
         var conversationsTemplatePromise = $.Deferred();
@@ -25,7 +29,7 @@
 
         $('#conversationsSpinner').show();
         $('#conversationsError').hide();
-        ajaxWrapper({
+        return ajaxWrapper({
             url: urls.conversationUrl,
             type: 'GET',
             data: {
@@ -100,8 +104,7 @@
             var templateData = {
                 isEmpty: items.length === 0,
                 items: items,
-                conversation: conversation,
-                requestVerificationToken: viewMessagesContainer.data('request-verification-token')
+                conversation: conversation
             };
 
             messagesTemplatePromise.done(function (template) {
@@ -115,6 +118,101 @@
         .always(function () {
             $('#messagesSpinner').hide();
         });
+    }
+
+    function setupCreateConversation() {
+        var createConversationTemplatePromise = $.Deferred();
+        ajaxWrapper(
+            { url: urls.templateUrl + '?view=' + getRazorViewPath('_createConversationTmpl', 'Messages', 'Admin') }
+        ).then(function (res) {
+            createConversationTemplatePromise.resolve(Handlebars.compile(res));
+        });
+        
+        $('#createConversationButton').click(function () {
+            if (isCompactView() && !isMessageBoxOpen()) {
+                hideConversationsBox();
+                showMessagesBoxCompact();
+            }
+
+            $.when(createConversationTemplatePromise, getParticipantsPromise).done(function (template, participants) {
+                var templateData = {
+                    activityType: activityType,
+                    activityId: currentConversation.activityId,
+                    participantUaoIds: [participants[0].UserAccountOrganisationID]
+                };
+                var html = template(templateData);
+                $('#messagesList').html(html);
+                setupNewConversationForm();
+            })
+        });
+    }
+
+    function setupRefreshConversationsBtn() {
+        $('#refreshConversationsButton').click(function () {
+            loadConversations(currentConversation.activityId);
+        })
+    }
+
+    function setupNewConversationForm(){
+        var newConversationForm = $('#newConversationForm');
+        var submitNewConversation = $("#submitNewConversationBtn");
+
+        submitNewConversation.click(function () {
+            newConversationForm.submit();
+        });
+
+        newConversationForm.validate({
+            ignore: '.skip',
+            // Rules for form validation
+            rules: {
+                "Subject": {
+                    required: true
+                },
+                "Message": {
+                    required: true
+                },
+            },
+
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            },
+
+            submitHandler: submitForm
+        });
+
+        function submitForm(form) {
+            submitNewConversation.prop('disabled', true);
+            var formData = newConversationForm.serializeArray();
+            ajaxWrapper({
+                url: newConversationForm.data("url"),
+                type: "POST",
+                data: formData
+            }).done(function (res) {
+                console.log(res);
+                if (res.result === true) {
+                    loadConversations(currentConversation.activityId).then(selectLatestConversation);
+
+                    // show the message
+                } else {
+                    // handle error
+                }
+            }).fail(function (e) {
+                console.log(e);
+                if (!hasRedirect(e.responseJSON)) {
+                    console.log(e);
+                    handleModal({ url: newConversationForm.data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
+                        messageButton: function () {
+                            submitNewConversation.prop('disabled', false);
+                        }
+                    }, true);
+                }
+            });
+        }
+    }
+
+    function selectLatestConversation() {
+        $('#conversationsList .conversation-item').first().trigger('click');
     }
 
     function setupReply() {
@@ -141,7 +239,7 @@
                 var formData = replyForm.serializeArray();
 
                 ajaxWrapper({
-                    url: urls.replyUrl,
+                    url: replyForm.data('url'),
                     type: "POST",
                     data: formData
                 }).success(function () {
@@ -170,10 +268,18 @@
             // capturing the event from any parent views and refresh the view
             container.parent().on('activitychange', function (event, activityId) {
                 loadConversations(activityId);
+                fetchParticipants(activityId);
+                currentConversation.activityId = activityId;
             });
         } else {
             loadConversations();
         }
+    }
+
+    function fetchParticipants(activityId) {
+        getParticipantsPromise = ajaxWrapper({
+            url: urls.participantsUrl + '?activityId=' + activityId
+        });
     }
 
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function

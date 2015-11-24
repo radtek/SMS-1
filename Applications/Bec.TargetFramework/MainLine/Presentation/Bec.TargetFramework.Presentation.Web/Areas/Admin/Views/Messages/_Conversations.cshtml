@@ -4,18 +4,29 @@
      data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })"
      data-conversations-url="@Url.Action("GetConversations", "Messages", new { area = "Admin" })"
      data-messages-url="@Url.Action("GetMessages", "Messages", new { area = "Admin" })"
-     data-reply-url="@Url.Action("Reply", "Messages", new { area = "Admin" })"
-     data-request-verification-token="@Html.AntiForgeryTokenValue()"
+     data-participants-url="@Url.Action("GetParticipants", "Messages", new { area = "Admin" })"
      data-is-activity-specific="@Model.IsActivitySpecific.ToString().ToLower()">
-
     <div id="conversationsContainer" class="col-xs-12 col-md-4 conversations-container">
         <h3>
             Conversations
             <i class="fa fa-pulse fa-spinner margin-left-5" id="conversationsSpinner" style="display:none;"></i>
+            <span class="pull-right">
+                <a id="refreshConversationsButton" class="btn btn-sm btn-default" title="Refresh">
+                    <i class="fa fa-refresh"></i>
+                </a>
+                @if (Model.IsActivitySpecific)
+                {
+                    <a id="createConversationButton" class="btn btn-sm btn-primary" title="Create Conversation">
+                        <i class="fa fa-plus margin-right-5"></i>
+                        New
+                    </a>
+                }
+            </span>
         </h3>
         <div id="conversationsList"></div>
         <div id="conversationsError" class="alert alert-danger" style="display:none;">An error has occurred when trying to load the data. Please try again later.</div>
     </div>
+
     <div id="messagesContainer" class="col-xs-0 col-sm-0 col-md-8 messages-container">
         <div id="messagesList">
             <h3 id="conversationSubject">
