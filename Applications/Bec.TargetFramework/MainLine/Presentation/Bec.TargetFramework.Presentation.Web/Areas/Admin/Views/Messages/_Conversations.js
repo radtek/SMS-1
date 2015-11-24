@@ -280,7 +280,11 @@
 
     function fetchParticipants(activityId) {
         getParticipantsPromise = ajaxWrapper({
-            url: urls.participantsUrl + '?activityId=' + activityId
+            url: urls.participantsUrl,
+            data: {
+                activityId: activityId,
+                activityType: activityType
+            }
         });
     }
 
