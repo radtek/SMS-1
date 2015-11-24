@@ -824,6 +824,7 @@
     <Content Include="Areas\Admin\Views\Messages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_createConversationTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_emptyMessagesTmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

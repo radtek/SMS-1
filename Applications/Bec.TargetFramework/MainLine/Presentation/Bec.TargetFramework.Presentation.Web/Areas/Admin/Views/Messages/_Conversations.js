@@ -1,5 +1,15 @@
 ﻿$(function () {
-    var viewMessagesContainer = $('#viewMessagesContainer');
+    var viewMessagesContainer = $('#viewMessagesContainer'),
+        conversationsContainer = $('#conversationsContainer'),
+        converationsList = $('#conversationsList'),
+        conversationsSpinner = $('#conversationsSpinner'),
+        conversationsError = $('#conversationsError'),
+        messagesContainer = $('#messagesContainer'),
+        messagesList = $('#messagesList'),
+        messagesSpinner = $('#messagesSpinner'),
+        createConversationButton = $('#createConversationButton'),
+        refreshButton = $('#refreshConversationsButton');
+
     var currentConversation = {
         id: null,
         subject: null,
@@ -21,15 +31,11 @@
     setupRefreshConversationsBtn();
 
     function loadConversations(activityId) {
-        var conversationsTemplatePromise = $.Deferred();
-        ajaxWrapper(
-            { url: urls.templateUrl + '?view=' + getRazorViewPath('_conversationsTmpl', 'Messages', 'Admin') }
-        ).done(function (res) {
-            conversationsTemplatePromise.resolve(Handlebars.compile(res));
-        });
+        var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
+        var emptyMessageTemplatePromise = getTemplatePromise('_emptyMessagesTmpl');
 
-        $('#conversationsSpinner').show();
-        $('#conversationsError').hide();
+        conversationsSpinner.show();
+        conversationsError.hide();
         return ajaxWrapper({
             url: urls.conversationUrl,
             type: 'GET',
@@ -50,30 +56,29 @@
                 isEmpty: items.length === 0,
                 items: items
             };
-
             conversationsTemplatePromise.done(function (template) {
                 var html = template(templateData);
-                $('#conversationsList').html(html);
+                converationsList.html(html);
             });
+            if (templateData.isEmpty) {
+                emptyMessageTemplatePromise.done(function (template) {
+                    messagesList.html(template());
+                });
+            }
         })
         .error(function (data) {
-            $('#conversationsError').show();
+            conversationsError.show();
             console.log(data);
         })
         .always(function () {
-            $('#conversationsSpinner').hide();
+            conversationsSpinner.hide();
         });
     }
 
     function loadMessages(conversation) {
-        var messagesTemplatePromise = $.Deferred();
-        ajaxWrapper(
-            { url: urls.templateUrl + '?view=' + getRazorViewPath('_messagesTmpl', 'Messages', 'Admin') }
-        ).done(function (res) {
-            messagesTemplatePromise.resolve(Handlebars.compile(res));
-        });
+        var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
 
-        $('#messagesSpinner').show();
+        messagesSpinner.show();
         return ajaxWrapper({
             url: urls.messagesUrl,
             type: 'GET',
@@ -111,26 +116,21 @@
 
             messagesTemplatePromise.done(function (template) {
                 var html = template(templateData);
-                $('#messagesList').html(html);
+                messagesList.html(html);
             });
         })
         .error(function (data) {
             console.log(data);
         })
         .always(function () {
-            $('#messagesSpinner').hide();
+            messagesSpinner.hide();
         });
     }
 
     function setupCreateConversation() {
-        var createConversationTemplatePromise = $.Deferred();
-        ajaxWrapper(
-            { url: urls.templateUrl + '?view=' + getRazorViewPath('_createConversationTmpl', 'Messages', 'Admin') }
-        ).then(function (res) {
-            createConversationTemplatePromise.resolve(Handlebars.compile(res));
-        });
-        
-        $('#createConversationButton').click(function () {
+        var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
+       
+        createConversationButton.click(function () {
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
                 showMessagesBoxCompact();
@@ -143,14 +143,14 @@
                     participantUaoIds: [participants[0].UserAccountOrganisationID]
                 };
                 var html = template(templateData);
-                $('#messagesList').html(html);
+                messagesList.html(html);
                 setupNewConversationForm();
             })
         });
     }
 
     function setupRefreshConversationsBtn() {
-        $('#refreshConversationsButton').click(function () {
+        refreshButton.click(function () {
             loadConversations(currentConversation.activityId);
         })
     }
@@ -191,24 +191,15 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                console.log(res);
                 if (res.result === true) {
                     loadConversations(currentConversation.activityId).then(selectLatestConversation);
-
                     // show the message
                 } else {
                     // handle error
                 }
             }).fail(function (e) {
                 console.log(e);
-                if (!hasRedirect(e.responseJSON)) {
-                    console.log(e);
-                    handleModal({ url: newConversationForm.data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
-                        messageButton: function () {
-                            submitNewConversation.prop('disabled', false);
-                        }
-                    }, true);
-                }
+                // handle fail
             });
         }
     }
@@ -218,7 +209,7 @@
     }
 
     function setupReply() {
-        $('#viewMessagesContainer').on('click', '#replyButton', function (e) {
+        viewMessagesContainer.on('click', '#replyButton', function (e) {
             var replyForm = $("#replyForm");
             var replyBtn = $("#replyButton");
 
@@ -269,9 +260,9 @@
         if (isActivitySpecificView) {
             // capturing the event from any parent views and refresh the view
             container.parent().on('activitychange', function (event, activityId) {
-                loadConversations(activityId);
-                fetchParticipants(activityId);
                 currentConversation.activityId = activityId;
+                loadConversations(activityId).then(selectLatestConversation);
+                fetchParticipants(activityId);
             });
         } else {
             loadConversations();
@@ -288,9 +279,22 @@
         });
     }
 
+    function getTemplatePromise(viewName) {
+        var def = $.Deferred();
+        ajaxWrapper({
+            url: urls.templateUrl,
+            data: {
+                view: getRazorViewPath(viewName, 'Messages', 'Admin')
+            }
+        }).then(function (res) {
+            def.resolve(Handlebars.compile(res));
+        });
+        return def;
+    }
+
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function
     function setupWindowToggling() {
-        $('#viewMessagesContainer').on('click', '.conversation-item', function (e) {
+        viewMessagesContainer.on('click', '.conversation-item', function (e) {
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
                 showMessagesBoxCompact();
@@ -301,13 +305,12 @@
             loadMessages(currentConversation).then(scrollToLastMessage);
         });
 
-        $('#messagesContainer').on('click', '#conversationSubject', function () {
+        messagesContainer.on('click', '#conversationSubject', function () {
             if (isCompactView()) {
                 hideMessagesBoxCompact();
                 showConversationsBox();
             }
         });
-
     }
 
     function isCompactView() {
@@ -315,24 +318,24 @@
     }
 
     function isMessageBoxOpen() {
-        return !$('#messagesContainer').hasClass('col-xs-0');
+        return !messagesContainer.hasClass('col-xs-0');
     }
 
     function showMessagesBoxCompact() {
-        $('#messagesContainer').addClass('col-xs-12');
-        $('#messagesContainer').removeClass('col-xs-0 col-sm-0');
+        messagesContainer.addClass('col-xs-12');
+        messagesContainer.removeClass('col-xs-0 col-sm-0');
     }
 
     function hideMessagesBoxCompact() {
-        $('#messagesContainer').addClass('col-xs-0 col-sm-0');
-        $('#conversationsContainer').removeClass('col-xs-12');
+        messagesContainer.addClass('col-xs-0 col-sm-0');
+        conversationsContainer.removeClass('col-xs-12');
     }
 
     function showConversationsBox() {
-        $('#conversationsContainer').removeClass('col-xs-0 col-sm-0');
+        conversationsContainer.removeClass('col-xs-0 col-sm-0');
     }
 
     function hideConversationsBox() {
-        $('#conversationsContainer').addClass('col-xs-0 col-sm-0');
+        conversationsContainer.addClass('col-xs-0 col-sm-0');
     }
 });
