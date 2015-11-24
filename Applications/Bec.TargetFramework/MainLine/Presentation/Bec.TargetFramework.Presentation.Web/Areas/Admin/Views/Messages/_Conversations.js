@@ -18,7 +18,7 @@
     function loadConversations(activityId) {
         var conversationsTemplatePromise = $.Deferred();
         ajaxWrapper(
-            { url: urls.templateUrl + '?view=_conversationsTmpl' }
+            { url: urls.templateUrl + '?view=' + getRazorViewPath('_conversationsTmpl', 'Messages', 'Admin') }
         ).done(function (res) {
             conversationsTemplatePromise.resolve(Handlebars.compile(res));
         });
@@ -62,7 +62,7 @@
     function loadMessages(conversation) {
         var messagesTemplatePromise = $.Deferred();
         ajaxWrapper(
-            { url: urls.templateUrl + '?view=_messagesTmpl' }
+            { url: urls.templateUrl + '?view=' + getRazorViewPath('_messagesTmpl', 'Messages', 'Admin') }
         ).done(function (res) {
             messagesTemplatePromise.resolve(Handlebars.compile(res));
         });
