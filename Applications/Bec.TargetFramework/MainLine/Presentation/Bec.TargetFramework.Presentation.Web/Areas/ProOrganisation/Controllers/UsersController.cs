@@ -23,6 +23,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         public IUserLogicClient userClient { get; set; }
         public IQueryLogicClient queryClient { get; set; }
 
+        const string adminRole = "Organisation Administrator";
+        const string sroType = "Organisation Administrator";
+
         // GET: ProOrganisation/Users
         public ActionResult Invited()
         {
@@ -149,6 +152,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
             var uao = res.First();
 
+            var userIsSRO = uao.UserType.Name == sroType;
+
             var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID, x.RoleName, x.RoleDescription, a = x.UserAccountOrganisationRoles.Select(y => new { y.UserAccountOrganisationID, y.UserAccountOrganisation.UserAccount.IsTemporaryAccount }) });
             var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.IsDefault == false);
             var rorderby = ODataHelper.OrderBy<OrganisationRoleDTO>(x => new { x.RoleDescription });
@@ -161,12 +166,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             {
                 var v = allRoles[i];
                 bool check = userRoles.Any(u => u.OrganisationRoleID == v.OrganisationRoleID);
-                bool disabled = uao.UserType.Name == "Organisation Administrator" || (v.RoleName == "Organisation Administrator" && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
+                bool disabled = userIsSRO || (v.RoleName == adminRole && check && v.UserAccountOrganisationRoles.Where(a => !a.UserAccountOrganisation.UserAccount.IsTemporaryAccount).Count() == 1);
                 if (disabled) v.RoleDescription += " (locked)";
 
                 r.Add(Tuple.Create(i, check ? "checked" : "", disabled ? "onclick=ignore(event)" : "", v.OrganisationRoleID, v.RoleDescription));
             }
+            ViewBag.UserIsSRO = userIsSRO;
             ViewBag.Roles = r;
+            
 
             return PartialView("_EditUser", Edit.MakeModel(uao));
         }
@@ -178,7 +185,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var defaultRoles = await GetDefaultRoles(orgID);
             await EnsureUserInOrg(uaoID, orgID, queryClient);
-
+            var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserType.Name });
             var filter = ODataHelper.Filter<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
             var data = Edit.fromD(Request.Form,
                 "Contact.Salutation",
@@ -189,12 +196,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 "UserAccount.RowVersion",
                 "UserAccountOrganisationRoles[].Selected",
                 "UserAccountOrganisationRoles[].OrganisationRoleID");
-            
+
+            var rselect = ODataHelper.Select<OrganisationRoleDTO>(x => new { x.OrganisationRoleID });
+            var rfilter = ODataHelper.Filter<OrganisationRoleDTO>(x => x.OrganisationID == orgID && x.RoleName == adminRole);
+            var allRoles = (await queryClient.QueryAsync<OrganisationRoleDTO>("OrganisationRoles", rselect + rfilter)).ToList();
+            var ar = allRoles.FirstOrDefault();
+            var res = await queryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + filter);
+            var uao = res.FirstOrDefault();
+
             //manipulate collection of roles to include only selected ones
             var array = data["UserAccountOrganisationRoles"] as JArray;
             var toRemove = array.Where(x => x["Selected"] == null).ToList();
             foreach (var r in toRemove) array.Remove(r);
             foreach (var r in defaultRoles) array.Add(JObject.FromObject(new { OrganisationRoleID = r, Selected = "on" }));
+
+            if (ar != null && uao != null && uao.UserType.Name == sroType)
+            {
+                //ensure IsActive && adminRole for SRO Anas.
+                data["UserAccount"]["IsActive"] = "true,false";
+                if (!array.Any(x => (Guid)x["OrganisationRoleID"] == ar.OrganisationRoleID)) array.Add(JObject.FromObject(new { OrganisationRoleID = ar.OrganisationRoleID, Selected = "on" }));
+            }
 
             await queryClient.UpdateGraphAsync("UserAccountOrganisations", data, filter);
 

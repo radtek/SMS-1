@@ -49,7 +49,7 @@
                                     </label>
                                 </section>
                                 
-                                @if (Context.GetWebUserObject().UaoID != ViewBag.uaoID)
+                                @if (Context.GetWebUserObject().UaoID != ViewBag.uaoID && !ViewBag.UserIsSRO)
                                 {
                                     <section>
                                         <label class="checkbox ">
