@@ -122,12 +122,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
                 return Json("true", JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> DownloadCertificate(Guid baID)
+        public async Task<ActionResult> DownloadBankTransferInstructions(Guid baID)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var name = NotificationConstructEnum.BankAccountCertificate.GetStringValue();
 
-            if (!await BankAccountIsSafeAndActive(baID)) throw new Exception("A certificate can only produced for bank accounts which are active and marked safe");
+            if (!await BankAccountIsSafeAndActive(baID)) throw new Exception("Bank Transfer Instructions can only produced for bank accounts which are active and marked safe");
 
             var select = ODataHelper.Select<OrganisationBankAccountDTO>(x => new
             {
@@ -164,7 +164,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.BankAccount.Controllers
 
             var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, dtomap);
 
-            return File(data, "application/pdf", string.Format("BankAccountCertificate.pdf"));
+            return File(data, "application/pdf", string.Format("BankTransferInstructions.pdf"));
         }
 
         private string threeLines(string s)
