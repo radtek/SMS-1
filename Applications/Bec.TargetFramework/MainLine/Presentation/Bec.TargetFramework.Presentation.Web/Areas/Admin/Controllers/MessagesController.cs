@@ -42,8 +42,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             int at = activityType.GetIntValue();
             var select = ODataHelper.Select<VConversationActivityDTO>(x => new { x.ConversationID, x.Subject, x.Latest });
             var filter = ODataHelper.Filter<VConversationActivityDTO>(x => x.ActivityID == activityId && x.ActivityType == at);
-            var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversations", select + filter + order + ODataHelper.PageFilter(page, pageSize));
+            var order = ODataHelper.OrderBy<VConversationActivityDTO>(x => new { x.Latest }) + " desc";
+            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversationActivities", select + filter + order + ODataHelper.PageFilter(page, pageSize));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
