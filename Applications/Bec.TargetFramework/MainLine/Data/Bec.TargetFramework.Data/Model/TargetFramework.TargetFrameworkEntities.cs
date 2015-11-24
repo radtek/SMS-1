@@ -2016,6 +2016,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VConversationActivity in the schema.
         /// </summary>
         public virtual DbSet<VConversationActivity> VConversationActivities { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessageRead in the schema.
+        /// </summary>
+        public virtual DbSet<VMessageRead> VMessageReads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessage in the schema.
+        /// </summary>
+        public virtual DbSet<VMessage> VMessages { get; set; }
 
         #region Methods
 

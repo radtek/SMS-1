@@ -356,6 +356,7 @@
   text-align: center;
   border: none;
   background-color: transparent;
+  margin-bottom: 0;
 }
 .view-messages-container .messages-container .messages-list .panel {
   position: relative;
@@ -412,5 +413,9 @@
     overflow: hidden;
     opacity: 0;
   }
+}
+.usertype {
+  font-size: smaller;
+  text-align: center;
 }
 /*# sourceMappingURL=your_style.css.map */

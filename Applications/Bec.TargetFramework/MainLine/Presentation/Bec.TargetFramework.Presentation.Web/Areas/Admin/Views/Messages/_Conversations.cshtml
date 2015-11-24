@@ -14,15 +14,19 @@
                 <a id="refreshConversationsButton" class="btn btn-sm btn-default" title="Refresh">
                     <i class="fa fa-refresh"></i>
                 </a>
-                <a id="createConversationButton" class="btn btn-sm btn-primary" title="Create Conversation">
-                    <i class="fa fa-plus margin-right-5"></i>
-                    New
-                </a>
+                @if (Model.IsActivitySpecific)
+                {
+                    <a id="createConversationButton" class="btn btn-sm btn-primary" title="Create Conversation">
+                        <i class="fa fa-plus margin-right-5"></i>
+                        New
+                    </a>
+                }
             </span>
         </h3>
         <div id="conversationsList"></div>
         <div id="conversationsError" class="alert alert-danger" style="display:none;">An error has occurred when trying to load the data. Please try again later.</div>
     </div>
+
     <div id="messagesContainer" class="col-xs-0 col-sm-0 col-md-8 messages-container">
         <div id="messagesList">
             <h3 id="conversationSubject">

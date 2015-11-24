@@ -424,6 +424,8 @@
     <Compile Include="Converters\VGlobalAccountingCurrentPeriodConverter.cs" />
     <Compile Include="Converters\VGroupConverter.cs" />
     <Compile Include="Converters\VInvoiceWithCurrentTransactionOrderStatusConverter.cs" />
+    <Compile Include="Converters\VMessageConverter.cs" />
+    <Compile Include="Converters\VMessageReadConverter.cs" />
     <Compile Include="Converters\VNotificationConstructConverter.cs" />
     <Compile Include="Converters\VNotificationConstructGroupConverter.cs" />
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
@@ -818,6 +820,8 @@
     <Compile Include="Model\TargetFramework.VGlobalAccountingCurrentPeriod.cs" />
     <Compile Include="Model\TargetFramework.VGroup.cs" />
     <Compile Include="Model\TargetFramework.VInvoiceWithCurrentTransactionOrderStatus.cs" />
+    <Compile Include="Model\TargetFramework.VMessage.cs" />
+    <Compile Include="Model\TargetFramework.VMessageRead.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstructGroup.cs" />
     <Compile Include="Model\TargetFramework.VNotificationInternalUnread.cs" />

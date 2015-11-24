@@ -463,7 +463,10 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 foreach (var nr in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
                     .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID))
+                {
                     nr.IsAccepted = true;
+                    nr.AcceptedDate = DateTime.Now;
+                }
                 await scope.SaveChangesAsync();
             }
         }

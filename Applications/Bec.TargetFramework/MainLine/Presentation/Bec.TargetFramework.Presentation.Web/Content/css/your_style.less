@@ -507,6 +507,7 @@
                 text-align: center;
                 border: none;
                 background-color: transparent;
+                margin-bottom:0;
             }
 
             .panel {
@@ -550,16 +551,16 @@
 .hidden {
     display: none;
     width: 0;
-}
+    }
 // xs and sm
 @media only screen and (max-width: 992px) {
     .view-messages-container {
         .messages-container {
             h3 {
                 cursor: pointer;
-            }
-        }
     }
+    }
+}
 }
 
 @media only screen and (max-width: 768px) {
@@ -578,4 +579,9 @@
         overflow: hidden;
         opacity: 0;
     }
+}
+
+.usertype {
+    font-size:smaller;
+    text-align:center;
 }

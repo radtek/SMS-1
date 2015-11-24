@@ -82,13 +82,25 @@
             }
         })
         .success(function (items) {
-            items = _.map(items, function (item) {
-                var notificationData = JSON.parse(item.NotificationData);
-                return _.extend({}, item, {
-                    message: notificationData.Message,
-                    DateSent: dateString(item.DateSent)
+            $.each(items, function (i, item) {
+                switch (item.Message.OrganisationType) {
+                    case 'Personal':
+                        switch (item.Message.UserType) {
+                            case "Giftor": item.icon = 'fa-gift'; break;
+                            default: item.icon = 'fa-home'; break;
+                        }
+                        break;
+                    case "Professional":
+                        item.icon = 'fa-building';
+                        break;
+                }
+                item.Message.DateSent = dateString(item.Message.DateSent);
+                item.Unread = item.Reads.length == 0;
+                $.each(item.Reads, function (j, r) {
+                    if (r.AcceptedDate) r.AcceptedDate = dateString(r.AcceptedDate);
                 });
             });
+
             var templateData = {
                 isEmpty: items.length === 0,
                 items: items,
