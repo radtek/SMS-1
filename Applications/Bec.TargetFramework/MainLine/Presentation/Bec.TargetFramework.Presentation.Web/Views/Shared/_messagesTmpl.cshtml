@@ -4,25 +4,34 @@
     <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
 </h3>
 <div class="messages-list">
-    {{#each items}}
+    {{#items}}
     <div class="row">
         <div class="col-sm-1 hidden-xs">
             <div class="thumbnail">
-                <i class="fa fa-user fa-3x"></i>
+                <i class="fa {{icon}} fa-2x"></i>
             </div>
+            <p class="usertype">{{Message.UserType}}</p>
         </div>
         <div class="col-sm-11">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>{{UserAccountOrganisation.UserAccount.Email}}</strong> <span class="text-muted">wrote on {{DateSent}}</span>
+                    <strong>{{Message.FirstName}} {{Message.LastName}}</strong> ({{Message.Email}}) <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
                 <div class="panel-body">
-                    <pre>{{message}}</pre>
+                    <pre>{{Message.Message}}</pre>
+                    {{#if Unread}}
+                        <span class="text-muted pull-right">Unread</span>
+                    {{else}}
+                        {{#each Reads}}
+                        <span class="text-muted pull-right">Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}</span>
+                        {{/each}}
+                    {{/if}}
                 </div>
             </div>
+            
         </div>
     </div>
-    {{/each}}
+    {{/items}}
 </div>
 
 <div class="row">

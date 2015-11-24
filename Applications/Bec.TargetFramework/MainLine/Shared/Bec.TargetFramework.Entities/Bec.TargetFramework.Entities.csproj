@@ -1576,6 +1576,15 @@
     <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs">
       <DependentUpon>VInvoiceWithCurrentTransactionOrderStatusDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VMessageDTO.cs" />
+    <Compile Include="Boo\VMessageDTO.Generated.cs">
+      <DependentUpon>VMessageDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Boo\VMessageReadDTO.cs" />
+    <Compile Include="Boo\VMessageReadDTO.Generated.cs">
+      <DependentUpon>VMessageReadDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VNotificationConstructDTO.Generated.cs">
       <DependentUpon>VNotificationConstructDTO.cs</DependentUpon>
     </Compile>

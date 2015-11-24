@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread });
             var filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
             var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationDTO>("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order + ODataHelper.PageFilter(page, pageSize));
+            var result = await QueryClient.QueryAsync<VConversationDTO>("VConversations", select + filter + order + ODataHelper.PageFilter(page, pageSize));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -43,28 +43,37 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var select = ODataHelper.Select<VConversationActivityDTO>(x => new { x.ConversationID, x.Subject, x.Latest });
             var filter = ODataHelper.Filter<VConversationActivityDTO>(x => x.ActivityID == activityId && x.ActivityType == at);
             var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order + ODataHelper.PageFilter(page, pageSize));
+            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversations", select + filter + order + ODataHelper.PageFilter(page, pageSize));
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetMessages(Guid conversationId, int page, int pageSize)
         {
-            var select = ODataHelper.Select<NotificationDTO>(x => new
+            var select = ODataHelper.Select<VMessageDTO>(x => new
             {
+                x.NotificationID,
                 x.DateSent,
-                x.NotificationData,
-                x.UserAccountOrganisation.UserAccount.Email,
-                Recipients = x.NotificationRecipients.Select(y => new { y.UserAccountOrganisationID, y.IsAccepted, y.UserAccountOrganisation.Organisation.OrganisationType.Name, y.UserAccountOrganisation.UserAccount.Email })
+                x.Message,
+                x.Email,
+                x.FirstName,
+                x.LastName,
+                x.UserType,
+                x.OrganisationType
             });
-            var filter = ODataHelper.Filter<NotificationDTO>(x => x.ConversationID == conversationId);
-            var order = ODataHelper.OrderBy<NotificationDTO>(x => new { x.DateSent }) + " desc";
+            var filter = ODataHelper.Filter<VMessageDTO>(x => x.ConversationID == conversationId);
+            var order = ODataHelper.OrderBy<VMessageDTO>(x => new { x.DateSent }) + " desc";
+            var messages = await QueryClient.QueryAsync<VMessageDTO>("VMessages", select + filter + order + ODataHelper.PageFilter(page, pageSize));
 
-            var result = await QueryClient.QueryAsync<NotificationDTO>("Notifications", ODataHelper.RemoveParameters(Request) + select + filter + order + ODataHelper.PageFilter(page, pageSize));
+            var rSelect = ODataHelper.Select<VMessageReadDTO>(x => new { x.NotificationID, x.IsAccepted, x.AcceptedDate, x.Email, x.FirstName, x.LastName });
+            var rFilter = ODataHelper.Filter<VMessageReadDTO>(x => x.ConversationID == conversationId);
+            var reads = await QueryClient.QueryAsync<VMessageReadDTO>("VMessageReads", rSelect + rFilter);
+
+            var data = messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new { Message = x, Reads = y });
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             NotificationClient.MarkAsRead(uaoId, conversationId);
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
