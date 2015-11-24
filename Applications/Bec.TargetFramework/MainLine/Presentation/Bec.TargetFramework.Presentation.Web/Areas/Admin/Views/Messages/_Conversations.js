@@ -9,14 +9,15 @@
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
         messagesUrl: viewMessagesContainer.data("messages-url"),
-        recipientsUrl: viewMessagesContainer.data("recipients-url")
+        participantsUrl: viewMessagesContainer.data("participants-url")
     };
+    var getParticipantsPromise = $.Deferred();
 
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
     setupReply();
     setupCreateConversation();
-    setupRefreshConversations();
+    setupRefreshConversationsBtn();
 
     function loadConversations(activityId) {
         var conversationsTemplatePromise = $.Deferred();
@@ -28,7 +29,7 @@
 
         $('#conversationsSpinner').show();
         $('#conversationsError').hide();
-        ajaxWrapper({
+        return ajaxWrapper({
             url: urls.conversationUrl,
             type: 'GET',
             data: {
@@ -108,45 +109,35 @@
     }
 
     function setupCreateConversation() {
-        var messageRecipients = $('#messageRecipients').children();
-        if (messageRecipients.length === 0) {
-            throw Exception('Could not find any recipients.');
-        }
-
         var createConversationTemplatePromise = $.Deferred();
         ajaxWrapper(
             { url: urls.templateUrl + '?view=' + getRazorViewPath('_createConversationTmpl', 'Messages', 'Admin') }
         ).then(function (res) {
             createConversationTemplatePromise.resolve(Handlebars.compile(res));
         });
-
-        var getRecipientsPromise = ajaxWrapper({
-            url: urls.recipientsUrl + '?activityId=' + currentConversation.activityId
-        });
         
-
         $('#createConversationButton').click(function () {
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
 
-            createConversationTemplatePromise.done(function (template) {
+            $.when(createConversationTemplatePromise, getParticipantsPromise).done(function (template, participants) {
                 var templateData = {
                     activityId: currentConversation.activityId,
-                    participantUaoIds: _.map(messageRecipients, function (item) {
-                        return item.data('participant-id');
-                    })
+                    participantUaoIds: [participants[0].UserAccountOrganisationID]
                 };
                 var html = template(templateData);
                 $('#messagesList').html(html);
                 setupNewConversationForm();
-            });
+            })
         });
     }
 
-    function setupRefreshConversations() {
-        loadConversations(currentConversation.activityId);
+    function setupRefreshConversationsBtn() {
+        $('#refreshConversationsButton').click(function () {
+            loadConversations(currentConversation.activityId);
+        })
     }
 
     function setupNewConversationForm(){
@@ -186,7 +177,9 @@
                 data: formData
             }).done(function (res) {
                 console.log(res);
-                if (res.result === true){
+                if (res.result === true) {
+                    loadConversations(currentConversation.activityId).then(selectLatestConversation);
+
                     // show the message
                 } else {
                     // handle error
@@ -203,6 +196,10 @@
                 }
             });
         }
+    }
+
+    function selectLatestConversation() {
+        $('#conversationsList .conversation-item').first().trigger('click');
     }
 
     function setupReply() {
@@ -258,11 +255,18 @@
             // capturing the event from any parent views and refresh the view
             container.parent().on('activitychange', function (event, activityId) {
                 loadConversations(activityId);
+                fetchParticipants(activityId);
                 currentConversation.activityId = activityId;
             });
         } else {
             loadConversations();
         }
+    }
+
+    function fetchParticipants(activityId) {
+        getParticipantsPromise = ajaxWrapper({
+            url: urls.participantsUrl + '?activityId=' + activityId
+        });
     }
 
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function

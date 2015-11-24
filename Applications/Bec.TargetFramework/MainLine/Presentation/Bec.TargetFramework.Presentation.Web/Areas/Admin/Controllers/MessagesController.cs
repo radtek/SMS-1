@@ -67,17 +67,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reply(Guid conversationId, string message)
-        {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
-
-            return Json("ok");
-        }
-
-        public async Task<ActionResult> GetRecipients(Guid activityId)
+        public async Task<ActionResult> GetParticipants(Guid activityId)
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
@@ -95,31 +85,16 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(recip, JsonRequestBehavior.AllowGet);
         }
 
-        [ClaimsRequired("View", "SmsTransaction", Order = 1001)]
-        public async Task<ActionResult> ViewCreateConversation(Guid activityId, int pageNumber)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Reply(Guid conversationId, string message)
         {
-            var orgID = HttpContext.GetWebUserObject().OrganisationID;
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
-            {
-                x.UserAccountOrganisationID,
-            });
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
 
-            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
-                x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-
-            var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-            var recip = result.First();
-
-            var model = new CreateConversationDTO
-            {
-                ActivityId = activityId,
-                ParticipantUaoIds = new List<Guid> { recip.UserAccountOrganisationID }
-            };
-            ViewBag.pageNumber = pageNumber;
-            return PartialView("_CreateConversation", model);
+            return Json("ok");
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ClaimsRequired("View", "SmsTransaction", Order = 1001)]

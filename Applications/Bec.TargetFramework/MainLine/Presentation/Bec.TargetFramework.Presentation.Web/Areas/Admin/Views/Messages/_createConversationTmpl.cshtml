@@ -7,7 +7,7 @@
     <input type="hidden" name="ActivityId" value="{{activityId}}" />
     @Html.AntiForgeryToken()
     {{#each participantUaoIds}}
-    <input type="hidden" name="ParticipantUaoIds[{{@@index}}]" value="{{this}}" />
+    <input type="hidden" name="ParticipantUaoIds[{{@("@index")}}]" value="{{this}}" />
     {{/each}}
     <fieldset>
         <section>
