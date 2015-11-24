@@ -8,7 +8,8 @@
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
-        messagesUrl: viewMessagesContainer.data("messages-url")
+        messagesUrl: viewMessagesContainer.data("messages-url"),
+        recipientsUrl: viewMessagesContainer.data("recipients-url")
     };
 
     setupDataReload(viewMessagesContainer);
@@ -107,17 +108,22 @@
     }
 
     function setupCreateConversation() {
+        var messageRecipients = $('#messageRecipients').children();
+        if (messageRecipients.length === 0) {
+            throw Exception('Could not find any recipients.');
+        }
+
         var createConversationTemplatePromise = $.Deferred();
         ajaxWrapper(
             { url: urls.templateUrl + '?view=' + getRazorViewPath('_createConversationTmpl', 'Messages', 'Admin') }
-        ).done(function (res) {
+        ).then(function (res) {
             createConversationTemplatePromise.resolve(Handlebars.compile(res));
         });
+
+        var getRecipientsPromise = ajaxWrapper({
+            url: urls.recipientsUrl + '?activityId=' + currentConversation.activityId
+        });
         
-        var messageRecipients = $('#messageRecipients').children();
-        if (messageRecipients.length === 0){
-            throw Exception('Could not find any recipients.');
-        }
 
         $('#createConversationButton').click(function () {
             if (isCompactView() && !isMessageBoxOpen()) {
