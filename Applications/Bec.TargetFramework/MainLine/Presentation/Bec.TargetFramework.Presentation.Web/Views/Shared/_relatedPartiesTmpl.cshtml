@@ -12,28 +12,66 @@
         </div>
         <div class="panel-collapse collapse" aria-expanded="false" id="{{elementId}}">
             <div class="panel-body">
-                {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
-                <div class="pull-right">
-                    <a class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN"
-                       data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID={{transactionId}}&uaoID={{UserAccountOrganisation.UserAccountOrganisationID}}&email={{UserAccountOrganisation.UserAccount.Email}}&pageNumber={{@@root.pageNumber}}">
-                        <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
-                    </a>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Personal Details</h5>
+                        {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
+                        <div class="pull-right">
+                            <a class="btn btn-sm btn-primary" data-modallink="true" title="Regenerate PIN"
+                               data-href="@Url.Action("ViewGeneratePIN", "Transaction", new { area = "SmsTransaction" })?txID={{transactionId}}&uaoID={{UserAccountOrganisation.UserAccountOrganisationID}}&email={{UserAccountOrganisation.UserAccount.Email}}&pageNumber={{@@root.pageNumber}}">
+                                <i class="fa fa-repeat margin-right-5"></i>Regenerate PIN
+                            </a>
+                        </div>
+                        {{/if}}
+                        <dl class="dl-horizontal pull-left">
+                            <dt>Full Name:</dt>
+                            <dd><p>{{fullName}}</p></dd>
+                            <dt>Email:</dt>
+                            <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
+                            {{#if formattedBirthDate}}
+                            <dt>Date of Birth:</dt>
+                            <dd><p>{{formattedBirthDate}}</p></dd>
+                            {{/if}}
+                            {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
+                            <dt>PIN:</dt>
+                            <dd><p>{{UserAccountOrganisation.PinCode}}</p></dd>
+                            {{/if}}
+                            {{#if formattedLastLogin}}
+                            <dt>Last Logged In:</dt>
+                            <dd><p>{{formattedLastLogin}}</p></dd>
+                            {{/if}}
+                            {{#if formattedLatestBankAccountCheckOn}}
+                            <dt>Bank Account Check:</dt>
+                            <dd><p>{{formattedLatestBankAccountCheckOn}}</p></dd>
+                            {{/if}}
+                        </dl>
+                    </div>
+                </div>
+                {{#if srcFundsBankAccounts.length}}
+                <h5>Personal Bank Account(s)</h5>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Account Number</th>
+                                        <th>Sort Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each srcFundsBankAccounts}}
+                                    <tr>
+                                        <td>{{AccountNumber}}</td>
+                                        <td>{{SortCode}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 {{/if}}
-                <dl class="dl-horizontal pull-left">
-                    <dt>Full Name:</dt>
-                    <dd><p>{{fullName}}</p></dd>
-                    <dt>Email:</dt>
-                    <dd><p>{{UserAccountOrganisation.UserAccount.Email}}</p></dd>
-                    {{#if formattedBirthDate}}
-                    <dt>Date of Birth:</dt>
-                    <dd><p>{{formattedBirthDate}}</p></dd>
-                    {{/if}}
-                    {{#if UserAccountOrganisation.UserAccount.IsTemporaryAccount}}
-                    <dt>PIN:</dt>
-                    <dd><p>{{UserAccountOrganisation.PinCode}}</p></dd>
-                    {{/if}}
-                </dl>
             </div>
         </div>
     </div>

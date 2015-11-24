@@ -35,10 +35,6 @@ $(function () {
                         }
                     },
                     {
-                        field: "OrganisationAdminTelephone",
-                        title: "Telephone Number"
-                    },
-                    {
                         field: "OrganisationAdminEmail",
                         title: "Email"
                     },
@@ -195,8 +191,10 @@ function unverifiedChange(dataItem) {
     $("p#dduCompanyAddress2").text(dataItem.Line2 || "");
     $("p#dduCompanyAddress1").text(dataItem.Line1 || "");
     $("p#dduSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#dduSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#dduSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
+    $("p#dduReferrer").text(dataItem.Referrer || "");
+    $("p#dduSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddufpm").text(dataItem.FilesPerMonth || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
@@ -218,7 +216,9 @@ function verifiedChange(dataItem) {
     $("p#ddvCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddvSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
     $("p#ddvVerifiedPhoneNumber").text(dataItem.Notes || "");
-    $("p#ddvSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
+    $("p#ddvReferrer").text(dataItem.Referrer || "");
+    $("p#ddvSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddvfpm").text(dataItem.FilesPerMonth || "");
     
     $("p#ddvSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
 
@@ -226,7 +226,7 @@ function verifiedChange(dataItem) {
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
     $("p#ddvRegulator").text(regulatorName);
     $("p#ddvRegulatorNumber").text(dataItem.RegulatorNumber || "");
-    $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
+    $("p#ddvRegisteredAsName").text(dataItem.RegisteredAsName);
 
     $("p#ddvPINNumber").text(dataItem.PinCode);
     $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));
@@ -249,8 +249,10 @@ function rejectedChange(dataItem) {
     $("p#ddrCompanyAddress2").text(dataItem.Line2 || "");
     $("p#ddrCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddrSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#ddrSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddrSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
+    $("p#ddrReferrer").text(dataItem.Referrer || "");
+    $("p#ddrSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddrfpm").text(dataItem.FilesPerMonth || "");
 
     var regulatorName = dataItem.Regulator || "";
     if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;

@@ -67,8 +67,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisationID,
                 x.UserAccountOrganisation.UserAccount.Email,
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
-                x.UserAccountOrganisation.UserAccount.Created,
-                x.UserAccountOrganisation.PinCode
+                x.UserAccountOrganisation.UserAccount.LastLogin,
+                x.UserAccountOrganisation.PinCode,
+                x.LatestBankAccountCheck.CheckedOn,
+                SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });
 
             var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
@@ -82,6 +84,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
+                search = search.Trim().ToLower();
                 where = Expression.And(where, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x =>
                     x.SmsTransaction.Reference.ToLower().Contains(search) ||
                     x.UserAccountOrganisation.UserAccount.Email.ToLower().Contains(search) ||
@@ -205,7 +208,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var model = res.FirstOrDefault();
             if (model == null) throw new AccessViolationException("Operation failed");
 
-            await userClient.GeneratePinAsync(uaoID, false, true);
+            await userClient.GeneratePinAsync(uaoID, false, true, true);
 
             return RedirectToAction("Index");
         }

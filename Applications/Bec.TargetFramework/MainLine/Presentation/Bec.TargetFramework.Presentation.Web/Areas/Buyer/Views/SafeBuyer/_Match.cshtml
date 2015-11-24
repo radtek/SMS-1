@@ -1,0 +1,36 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="confirmDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog" id="d1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="confirmDetailsLabel">Bank Account Check Results</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("NotifyOrganisationNoMatch", "SafeBuyer", new { area = "Buyer", accountNumber = ViewBag.accountNumber, sortCode = ViewBag.sortCode, smsUserAccountOrganisationTransactionID = ViewBag.smsUserAccountOrganisationTransactionID })" data-index="@ViewBag.index">
+                        @Html.ValidationBootstrap()
+                        @Html.AntiForgeryToken()
+                        <section class="col-xs-12">
+                            <fieldset>
+                                <div class="alert alert-success fade in">
+                                    <h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>
+                                    <br />
+                                    <p>The bank account with account number <strong>@ViewBag.accountNumber</strong> and sort code <strong>@ViewBag.sortCode</strong> is registered to <strong>@ViewBag.companyName</strong> on the Safe Move Scheme.</p>
+                                </div>
+                            </fieldset>
+                        </section>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" id="footer">
+                <button type="button" id="yesButton" class="btn btn-primary" tabindex="29">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/typeahead")
+<script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/_Match")"></script>

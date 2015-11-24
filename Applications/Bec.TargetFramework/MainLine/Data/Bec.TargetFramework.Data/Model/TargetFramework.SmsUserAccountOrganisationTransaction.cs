@@ -159,6 +159,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for LatestBankAccountCheckID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> LatestBankAccountCheckID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -204,6 +214,33 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for UserAccountOrganisation in the schema.
         /// </summary>
         public virtual UserAccountOrganisation UserAccountOrganisation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID in the schema.
+        /// </summary>
+        public virtual ICollection<SmsBankAccountCheck> SmsBankAccountChecks_SmsUserAccountOrganisationTransactionID
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for LatestBankAccountCheck in the schema.
+        /// </summary>
+        public virtual SmsBankAccountCheck LatestBankAccountCheck
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for SmsSrcFundsBankAccounts in the schema.
+        /// </summary>
+        public virtual ICollection<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts
         {
             get;
             set;

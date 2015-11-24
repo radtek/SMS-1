@@ -37,6 +37,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("BankAccountCertificate")]
         BankAccountCertificate = 15,
         [StringValue("NewInternalMessages")]
-        NewInternalMessages = 16
+        NewInternalMessages = 16,
+        [StringValue("BankAccountCheckNoMatch")]
+        BankAccountCheckNoMatch = 17
     }
 }

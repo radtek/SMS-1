@@ -11,8 +11,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
     public class SearchController : Controller
     {
         public IQueryLogicClient queryClient { get; set; }
+        private readonly CaptchaService _captchaService;
         public SearchController()
         {
+            _captchaService = new CaptchaService();
         }
 
         public ActionResult Index()
@@ -24,6 +26,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(int schemeID)
         {
+            var response = await _captchaService.ValidateCaptcha(Request);
+            if (!response.success) return Json(new { message = "The capture result could not be validated" });
+            
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationID });
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.SchemeID == schemeID);
             var res = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
@@ -31,8 +36,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (org == null) return Json(new { message = "No results" });
 
             var oid = org.OrganisationID;
+            var activeStatus = "Active";
             select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.Line1, x.Town, x.County, x.PostalCode, x.Regulator, x.RegulatorNumber });
-            filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == oid);
+            filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == oid && x.StatusValueName == activeStatus);
             var res2 = await queryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
             var vorg = res2.FirstOrDefault();
             if (vorg == null) return Json(new { message = "No results" });

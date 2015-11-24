@@ -59,6 +59,15 @@
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-sm-8">
+                                        <label class="label">Personal Mobile Phone Number</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
+                                            @Html.TextBoxFor(m => m.PhoneNumber, new { tabindex = "6", maxlength = 11, autocomplete = "off", @class = "form-control" })
+                                        </label>
+                                    </section>
+                                </div>
                             </fieldset>
                         </form>
                     </section>

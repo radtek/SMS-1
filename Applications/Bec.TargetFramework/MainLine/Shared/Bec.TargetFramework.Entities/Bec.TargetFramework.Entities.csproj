@@ -1346,6 +1346,14 @@
     <Compile Include="Boo\ShoppingCartItemProductSpecificationDTO.Generated.cs">
       <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SmsBankAccountCheckDTO.cs" />
+    <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
+      <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SmsSrcFundsBankAccountDTO.cs" />
+    <Compile Include="Boo\SmsSrcFundsBankAccountDTO.Generated.cs">
+      <DependentUpon>SmsSrcFundsBankAccountDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SmsTransactionDTO.cs" />
     <Compile Include="Boo\SmsTransactionDTO.Generated.cs">
       <DependentUpon>SmsTransactionDTO.cs</DependentUpon>
@@ -1822,6 +1830,7 @@
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountCheckNoMatchNotificationDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
@@ -1873,7 +1882,6 @@
     <Compile Include="DTO\GoogleDTO.cs" />
     <Compile Include="DTO\AddressDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationGroupDTO.cs" />
-    <Compile Include="DTO\Organisation\OrganisationRoleDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationUnitDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationDetailDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationDTO.cs" />

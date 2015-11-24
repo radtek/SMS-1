@@ -730,4 +730,11 @@ fieldset[disabled] .form-control.hasDatepicker {
   cursor: default;
   background-color: #fff;
 }
+.form-input-info {
+  font-size: 0.8em;
+}
+#register-form .form-group,
+#login-form .form-group {
+  margin-bottom: 3px;
+}
 /*# sourceMappingURL=style.css.map */

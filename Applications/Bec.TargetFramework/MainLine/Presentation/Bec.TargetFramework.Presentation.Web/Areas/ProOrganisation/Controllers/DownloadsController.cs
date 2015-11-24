@@ -20,12 +20,12 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
-{
-    [ClaimsRequired("View", "Products", Order = 1000)]
+{    
     public class DownloadsController : ApplicationControllerBase
     {
-        public IOrganisationLogicClient orgClient { get; set; }
-        public IQueryLogicClient queryClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }
+        public INotificationLogicClient NotificationClient { get; set; }
 
         // GET: ProOrganisation/Users
         public async Task<ActionResult> Index()
@@ -33,18 +33,19 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
             {
                 var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-                var accs = await orgClient.GetOrganisationBankAccountsAsync(orgID);
+                var accs = await BankAccountClient.GetOrganisationBankAccountsAsync(orgID);
                 ViewBag.BankAccounts = accs.Where(x => x.IsActive && x.Status == BankAccountStatusEnum.Safe.GetStringValue());
             }
             return View();
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public async Task<ActionResult> SchemeLogo(ImageFormat format)
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             var select = ODataHelper.Select<OrganisationDTO>(x => new { x.SchemeID });
             var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgID);
-            var ret = await queryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
+            var ret = await QueryClient.QueryAsync<OrganisationDTO>("Organisations", select + filter);
             var sid = ret.First().SchemeID;
 
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
@@ -71,37 +72,64 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             return codecs.First(codec => codec.FormatID == imageFormat.Guid).MimeType;
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult HowToUse()
         {
             return File(Server.MapPath("~/content/WelcomePack/How To Use the Safe Move Scheme a Guide For Firms.pdf"), "application/pdf", "How To Use the Safe Move Scheme a Guide For Firms.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult LogoUsageGuidelines()
         {
             return File(Server.MapPath("~/content/WelcomePack/Logo Usage Guidelines.pdf"), "application/pdf", "Logo Usage Guide.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult QuickStart()
         {
             return File(Server.MapPath("~/content/WelcomePack/Quick Start Guide for Professionals.pdf"), "application/pdf", "Quick Start guide for Professional Users.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult CreatingAccount()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS Professional Users - Creating Your Account.pdf"), "application/pdf", "SMS - Creating a new account.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult Faq()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS Frequently Asked Questions.pdf"), "application/pdf", "SMS Frequently Asked Questions.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult BuyersAndSMS()
         {
             return File(Server.MapPath("~/content/WelcomePack/Buyers and the SMS.pdf"), "application/pdf", "Buyers and the SMS.pdf");
         }
 
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public ActionResult SafeBuyer()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
+        }
+
+        [ClaimsRequired("View", "Products", Order = 1000)]
+        public async Task<ActionResult> ClientTsCs()
+        {
+            var name = NotificationConstructEnum.TcPublic.GetStringValue();
+            var ncSelect = ODataHelper.Select<NotificationConstructDTO>(x => new { x.NotificationConstructID, x.NotificationConstructVersionNumber });
+            var ncFilter = ODataHelper.Filter<NotificationConstructDTO>(x => x.Name == name);
+            var ncs = await QueryClient.QueryAsync<NotificationConstructDTO>("NotificationConstructs", ncSelect + ncFilter);
+            var nc = ncs.OrderByDescending(n => n.NotificationConstructVersionNumber).First();
+
+            var data = await NotificationClient.RetrieveNotificationConstructDataAsync(nc.NotificationConstructID, nc.NotificationConstructVersionNumber, null);
+
+            return File(data, "application/pdf", string.Format("Safe Buyer Terms And Conditions.pdf"));
+        }
+
+        [ClaimsRequired("View", "MyTransactions", Order = 1000)]
+        public ActionResult SafeBuyerClient()
         {
             return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Buyer.pdf"), "application/pdf", "SMS - Safe Buyer.pdf");
         }

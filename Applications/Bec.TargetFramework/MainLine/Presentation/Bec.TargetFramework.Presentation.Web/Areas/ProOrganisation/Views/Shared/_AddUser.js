@@ -3,14 +3,6 @@ function ignore(e) {
     if (e) e.preventDefault();
 }
 
-function countRoles() {
-    var c = 0;
-    $('.role-checkbox').each(function (i, item) {
-        if ($(item).prop('checked')) c++;
-    });
-    $('#rolecheck').val(c);
-}
-
 // submit from when Save button clicked
 $("#submitAddUser").click(function () {
     $("#addUser-form").submit();
@@ -38,14 +30,7 @@ $("#addUser-form").validate({
                 dataType: 'json',
                 error: function (xhr, status, error) { checkRedirect(xhr.responseJSON); }
             }
-        },
-        rolecheck: {
-            required: true,
-            min: 1
         }
-    },
-    messages: {
-        rolecheck: 'Please select one or more permissions'
     },
 
     // Do not change code below

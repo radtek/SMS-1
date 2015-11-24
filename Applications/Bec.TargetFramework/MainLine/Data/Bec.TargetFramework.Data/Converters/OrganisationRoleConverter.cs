@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Entities
             target.RoleDescription = source.RoleDescription;
             target.RoleSubCategoryID = source.RoleSubCategoryID;
             target.ParentID = source.ParentID;
+            target.IsDefault = source.IsDefault;
 
             // Navigation Properties
             if (level > 0) {
@@ -83,6 +84,7 @@ namespace Bec.TargetFramework.Entities
             target.RoleDescription = source.RoleDescription;
             target.RoleSubCategoryID = source.RoleSubCategoryID;
             target.ParentID = source.ParentID;
+            target.IsDefault = source.IsDefault;
 
             // User-defined partial method
             OnEntityCreating(source, target);

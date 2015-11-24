@@ -43,6 +43,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.IsDefaultOrganisationSpecific = source.IsDefaultOrganisationSpecific;
             target.DefaultOrganisationTemplateVersionNumber = source.DefaultOrganisationTemplateVersionNumber;
+            target.IsDefault = source.IsDefault;
 
             // Navigation Properties
             if (level > 0) {
@@ -81,6 +82,7 @@ namespace Bec.TargetFramework.Entities
             target.IsDeleted = source.IsDeleted;
             target.IsDefaultOrganisationSpecific = source.IsDefaultOrganisationSpecific;
             target.DefaultOrganisationTemplateVersionNumber = source.DefaultOrganisationTemplateVersionNumber;
+            target.IsDefault = source.IsDefault;
 
             // User-defined partial method
             OnEntityCreating(source, target);

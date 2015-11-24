@@ -386,6 +386,46 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for OrganisationRecommendationSourceID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> OrganisationRecommendationSourceID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for SchemeID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> SchemeID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FilesPerMonth in the schema.
+        /// </summary>
+        public virtual int FilesPerMonth
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ActiveSafeAccounts in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> ActiveSafeAccounts
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

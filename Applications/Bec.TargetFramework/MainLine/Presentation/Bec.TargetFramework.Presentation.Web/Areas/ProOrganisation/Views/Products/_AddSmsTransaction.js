@@ -39,6 +39,13 @@
             },
             "BirthDate": {
                 required: true
+            },
+            "PhoneNumber": {
+                required: true,
+                digits: true,
+                minlength: 11,
+                maxlength: 11,
+                ukmobile: true
             }
         },
 

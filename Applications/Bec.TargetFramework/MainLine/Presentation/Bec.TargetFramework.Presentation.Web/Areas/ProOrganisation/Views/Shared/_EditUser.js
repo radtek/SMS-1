@@ -3,13 +3,6 @@ function ignore(e) {
     if (e) e.preventDefault();
 }
 
-function countRoles() {
-    var c = 0;
-    $('.role-checkbox').each(function (i, item) {
-        if ($(item).prop('checked')) c++;
-    });
-    $('#rolecheck').val(c);
-}
 
 // submit from when Save button clicked
 $("#submitEditUser").click(function () {
@@ -28,14 +21,7 @@ $("#editUser-form").validate({
         },
         'Model.Contact.LastName': {
             required: true
-        },
-        rolecheck: {
-            required: true,
-            min: 1
         }
-    },
-    messages: {
-        rolecheck: 'Please select one or more permissions'
     },
 
     // Do not change code below

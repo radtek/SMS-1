@@ -113,13 +113,15 @@ INSERT INTO
   "DefaultOrganisationTemplateID",
   "RoleID",
   "IsDefaultOrganisationSpecific",
-  "DefaultOrganisationTemplateVersionNumber"
+  "DefaultOrganisationTemplateVersionNumber",
+  "IsDefault"
 )
 VALUES (
   DoTemplateID,
   UserRoleID,
   false,
-  DoVersionNumber
+  DoVersionNumber,
+  true
 );
 
 INSERT INTO

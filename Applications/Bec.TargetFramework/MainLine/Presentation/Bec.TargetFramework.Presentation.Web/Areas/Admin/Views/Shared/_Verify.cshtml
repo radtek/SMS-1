@@ -1,7 +1,7 @@
 ﻿@using Bec.TargetFramework.Entities
 
 <div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="verifyLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="verifyLabel">Verify Company</h4>
@@ -21,7 +21,7 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-3">
+                                    <section class="col col-6">
                                         <label class="label">Phone Number</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -32,11 +32,11 @@
 
                                 <div class="row">
                                     <section class="col col-12">
-                                        <label class="label">Please enter the organisation name, as shown on the <strong>regulator's website</strong>.</label>
+                                        <label class="label">Please enter the organisation name and regulator's number, as shown on the <strong>regulator's website</strong>.</label>
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-6">
+                                    <section class="col col-9">
                                         <label class="label">Organisation Name</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
@@ -44,6 +44,27 @@
                                         </label>
                                     </section>
                                 </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Regulator's number</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            <input type="text" id="RegulatorNumber" name="regulatorNumber" maxlength="50" data-url="@Url.Action("Check", "CompanyDuplicateCheck", new { Area = "", orgID = @ViewBag.orgId })" value="@ViewBag.regNumber" />
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">Number of files per month</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                            <input type="text" name="filesPerMonth" maxlength="10" />
+                                        </label>
+                                    </section>
+                                </div>
+
                             </fieldset>
                         </form>
                     </div>

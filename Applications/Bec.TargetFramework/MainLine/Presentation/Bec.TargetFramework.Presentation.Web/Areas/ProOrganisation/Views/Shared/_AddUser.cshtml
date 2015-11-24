@@ -54,14 +54,13 @@
                                 </section>
 
                                 <section>
-                                    <label class="label">Permissions</label>
-                                    <input type="hidden" name="rolecheck" id="rolecheck" />
+                                    <label class="label">Additional Permissions</label>
                                     @foreach (OrganisationRoleDTO role in ViewBag.Roles)
                                     {
                                         <label class="checkbox ">
-                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" class="role-checkbox" onclick="countRoles()" />
+                                            <input type="checkbox" id="role-@role.OrganisationRoleID" name="role-@role.OrganisationRoleID" class="role-checkbox" />
                                             <i></i>
-                                            <label for="role-@role.OrganisationRoleID">@role.RoleName</label>
+                                            <label for="role-@role.OrganisationRoleID">@role.RoleDescription</label>
                                         </label>
                                     }
                                     

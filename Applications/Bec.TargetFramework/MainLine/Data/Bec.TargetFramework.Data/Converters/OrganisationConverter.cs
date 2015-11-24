@@ -54,6 +54,7 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
+            target.FilesPerMonth = source.FilesPerMonth;
 
             // Navigation Properties
             if (level > 0) {
@@ -138,6 +139,7 @@ namespace Bec.TargetFramework.Entities
             target.RowVersion = source.RowVersion;
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
+            target.FilesPerMonth = source.FilesPerMonth;
 
             // User-defined partial method
             OnEntityCreating(source, target);

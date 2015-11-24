@@ -24,7 +24,7 @@
                             <fieldset>
                                 <section>
                                     <label class="label">Account Number</label>
-                                    <label class="input ">
+                                    <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.BankAccountNumber, new { tabindex = "1", maxlength = 8, onchange = "dupeCheck()", id = "ac" })
                                     </label>
@@ -34,6 +34,7 @@
                                     <label class="input">
                                         <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
                                         @Html.TextBoxFor(m => m.SortCode, new { tabindex = "2", maxlength = 6, onchange = "dupeCheck()", id = "sc" })
+                                        <input type="hidden" name="combined" id="combined" />
                                     </label>
                                 </section>
                                 <section>
@@ -50,7 +51,6 @@
                                         @Html.TextAreaFor(m => m.Address, new { tabindex = "4", maxlength = "500", id = "address", rows = "3" })
                                     </label>
                                 </section>
-                                <input type="hidden" name="combined" id="combined" />
                             </fieldset>
 
                         </form>

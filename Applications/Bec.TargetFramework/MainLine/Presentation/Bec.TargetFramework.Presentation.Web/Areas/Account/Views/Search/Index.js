@@ -11,7 +11,7 @@
     '<dt><p>Regulator:</p></dt>' +
     '<dd><p>{{Regulator}}</p></dd>' +
     '<dt><p>Regulator Number:</p></dt>' +
-    '<dd><p>{{RegulatorNumber}}</p></dd>' +
+    '<dd><p>{{RegulatorNumber}}</p></dd>' +    
 '</dl>');
 
 $(function () {
@@ -24,6 +24,11 @@ $(function () {
             schemeID: {
                 required: true,
                 digits: true
+            },
+            hiddenRecaptcha: {
+                required: function () {
+                    return grecaptcha.getResponse() == '';
+                }
             }
         },
         // Do not change code below
@@ -40,13 +45,15 @@ $(function () {
                 if (res.message) {
                     $('#searchResult').empty();
                     $('#searchResult').append('<p><strong>' + res.message + '</strong></p>');
+                    appendRetryButton();
                 }
                 else {
                     showSearchResult(res);
+                    appendRetryButton();
                 }
             })
             .always(function () {
-                $('#formSubmit').prop('disabled', false);
+                $('#formSubmit').hide();
             });
         }
     });
@@ -55,4 +62,8 @@ $(function () {
 function showSearchResult(dataItem) {
     var html = template(dataItem);
     $('#searchResult').html(html);
+}
+
+function appendRetryButton() {
+    $('#searchResult').append('<p><a class="btn btn-primary" href="' + $('#search-form').data("url") + '">Click here to search again</a></p>');
 }

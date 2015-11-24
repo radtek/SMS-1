@@ -1,32 +1,65 @@
 ﻿@using System.Drawing.Imaging
+@using Bec.TargetFramework.Entities
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-download margin-right-10"></i>Downloads</h2>
         <div class="col-sm-12">
             <div class="well well-light">
-                <h5>Documents &amp; Scheme Logo:</h5>
-                <ul>
-                    <li><p>@Html.ActionLink("How To Use the Safe Move Scheme a Guide For Firms", "HowToUse")</p></li>
-                    <li><p>@Html.ActionLink("Quick Start guide for Professional Users", "QuickStart")</p></li>
-                    <li><p>@Html.ActionLink("SMS - Creating a new account", "CreatingAccount")</p></li>
-                    <li><p>@Html.ActionLink("SMS Frequently Asked Questions", "Faq")</p></li>
-                    <li><p>@Html.ActionLink("Buyers and the SMS", "BuyersAndSMS")</p></li>
-                    <li><p>@Html.ActionLink("SMS - Safe Buyer", "SafeBuyer")</p></li>
-                    <li><p>@Html.ActionLink("Logo Usage Guidelines", "LogoUsageGuidelines")</p></li>
-                    <li><p>Scheme Logo: @Html.ActionLink("PNG", "SchemeLogo", new { format = ImageFormat.Png }), @Html.ActionLink("JPG", "SchemeLogo", new { format = ImageFormat.Jpeg })</p></li>
-                </ul>
-
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
-                {
-                    <h5>Bank Account Certificates:</h5>
-                    <ul>
-                        @foreach (Bec.TargetFramework.Entities.VOrganisationBankAccountsWithStatusDTO ba in ViewBag.BankAccounts)
+                <div class="row">
+                    <div class="col-md-6">
+                        @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                         {
-                            <li><p><strong>@(string.IsNullOrEmpty(ba.AccountName) ? "(No account name)" : ba.AccountName)</strong> @ba.BankAccountNumber / @ba.SortCode: @Html.ActionLink("Download", "DownloadCertificate", new { Area = "BankAccount", Controller = "Account", baID = ba.OrganisationBankAccountID })</p></li>
+                            <h5>Product Information:</h5>
+                            <ul>
+                                <li><p>@Html.ActionLink("SMS - Safe Buyer", "SafeBuyerClient")</p></li>
+                            </ul>
                         }
-                    </ul>
-                }
+
+                        @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                        {
+                            <h5>User Guides:</h5>
+                            <ul>
+                                <li><p>@Html.ActionLink("How To Use the Safe Move Scheme a Guide For Firms", "HowToUse")</p></li>
+                                <li><p>@Html.ActionLink("Quick Start guide for Professional Users", "QuickStart")</p></li>
+                                <li><p>@Html.ActionLink("SMS - Creating a new account", "CreatingAccount")</p></li>
+                                <li><p>@Html.ActionLink("SMS Frequently Asked Questions", "Faq")</p></li>
+                                <li><p>@Html.ActionLink("Buyers and the SMS", "BuyersAndSMS")</p></li>
+
+                            </ul>
+                            <h5>Product Information:</h5>
+                            <ul>
+                                <li><p>@Html.ActionLink("Safe Buyer Terms and Conditions", "ClientTsCs")</p></li>
+                                <li><p>@Html.ActionLink("SMS - Safe Buyer", "SafeBuyer")</p></li>
+                            </ul>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                        {
+                            <h5>Membership Information:</h5>
+                            <ul>
+                                <li><p>@Html.ActionLink("Logo Usage Guidelines", "LogoUsageGuidelines")</p></li>
+                                <li><p>Scheme Logo: @Html.ActionLink("PNG", "SchemeLogo", new { format = ImageFormat.Png }), @Html.ActionLink("JPG", "SchemeLogo", new { format = ImageFormat.Jpeg })</p></li>
+                            </ul>
+                            
+                            if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                            {
+                                <h5>Bank Transfer Instructions:</h5>
+                                <ul>
+                                    @if (ViewBag.BankAccounts == null || ((IEnumerable<VOrganisationBankAccountsWithStatusDTO>)ViewBag.BankAccounts).Count() == 0)
+                                    {
+                                        <li>There are currently no verified bank accounts.</li>
+                                    }
+                                    @foreach (VOrganisationBankAccountsWithStatusDTO ba in ViewBag.BankAccounts)
+                                    {
+                                        <li><p><strong>@(string.IsNullOrEmpty(ba.AccountName) ? "(No account name)" : ba.AccountName)</strong> @ba.BankAccountNumber / @ba.SortCode: @Html.ActionLink("Download", "DownloadBankTransferInstructions", new { Area = "BankAccount", Controller = "Account", baID = ba.OrganisationBankAccountID })</p></li>
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>

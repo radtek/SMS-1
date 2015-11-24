@@ -79,12 +79,16 @@ function handleModal(options, handlers, fixScroll, defaultHandler, shownFunction
                 });
             }
 
-            mdiv.modal({
+            // show.bs.modal event has to be specified before building the .modal
+            mdiv.one('show.bs.modal', function () {
+                if (shownFunction) {
+                    shownFunction();
+                }
+                $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+            }).modal({
                 backdrop: 'static',
                 keyboard: false
-            }).one('shown.bs.modal', function () {
-                if (shownFunction) shownFunction();
-            }).one('hidden.bs.modal', function (e) {
+            }).one('hide.bs.modal', function (e) {
                 if (fixScroll) $('body').addClass('modal-open');
 
                 for (var id in handlers) {
@@ -118,11 +122,13 @@ function findModalLinks() {
                 handleHelp();
                 var mdiv = tempDiv.filter('.modal');
                 modalStack.push(mdiv);
-
-                mdiv.modal({
+                // show.bs.modal event has to be specified before building the .modal
+                mdiv.on('show.bs.modal', function () {
+                    $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+                }).modal({
                     backdrop: 'static',
                     keyboard: false
-                }).on('hidden.bs.modal', function () {
+                }).on('hide.bs.modal', function () {
                     tempDiv.remove(); //remove all elements which were added
                     modalStack.pop();
                 });
@@ -233,6 +239,7 @@ var gridItem = function (options) {
     this.loaded = false;
     this.selectedItem = null;
     this.grid = null;
+    this.firstLoad = true;
     var self = this;
 
     //pass through options to kendo and hook up events
@@ -285,13 +292,21 @@ var gridItem = function (options) {
     this.refreshGrid = function () {
         self.grid.dataSource.read();
         self.grid.dataSource.page(1);
+        self.firstLoad = true;
     }
 
     this.dataBound = function (e) {
         saveGridSort(self.grid, self.options.gridElementId);
 
         var gridData = self.grid.dataSource.data();
-        if (gridData.length == 0) return;
+        if (gridData.length == 0) {
+            if (self.options.panels) {
+                for (var p in self.options.panels) {
+                    $('#' + self.options.panels[p]).addClass("hidden");
+                }
+            }
+            return;
+        }
 
         if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
             self.grid.dataSource.page(self.options.jumpToPage);
@@ -307,7 +322,12 @@ var gridItem = function (options) {
                 }
             }
         } else {
-            self.scrollToRow(self.selectedItem);
+            if (self.firstLoad) {
+                self.firstLoad = false;
+                self.selectFirstRow();
+            }
+            else
+                self.scrollToRow(self.selectedItem);
         }
     };
 
@@ -321,7 +341,7 @@ var gridItem = function (options) {
                     $('#' + self.options.panels[p]).removeClass("hidden");
                 }
             }
-            self.options.change(dataItem); //any custom data binding
+            if (self.options.change) self.options.change(dataItem); //any custom data binding
         }
     };
 
@@ -340,6 +360,12 @@ var gridItem = function (options) {
                 scrollTop: distance
             }, 400);
         }
+    };
+
+    this.selectFirstRow = function () {
+        if (!this.grid) return;
+        var row = this.grid.tbody.find("tr:first");
+        if (row) this.grid.select(row);
     };
 }
 

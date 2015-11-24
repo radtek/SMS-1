@@ -15,6 +15,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 ));
 
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
+                "~/content/css/toastr.min.css",
                 "~/content/css/smartadmin-production.min.css",
                 "~/content/css/smartadmin-skins.min.css",
                 "~/content/css/smartadmin-rtl.min.css",
@@ -28,7 +29,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/content/css/font-awesome.min.css"
                 ));
 
-            bundles.Add(new ScriptBundle("~/Scripts/smartadmin").Include(
+            bundles.Add(new ScriptBundle("~/bundles/scripts/smartadmin").Include(
                 "~/Scripts/app.config.js",
                 "~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
                 "~/Scripts/bootstrap/bootstrap.min.js",
@@ -47,96 +48,23 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
-                "~/Scripts/Libs/accounting.js"
+                "~/Scripts/Libs/accounting.js",
+                "~/Scripts/Libs/toastr.min.js",
+                "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
 
-            bundles.Add(new ScriptBundle("~/Scripts/websitelayout").Include(
+            bundles.Add(new ScriptBundle("~/bundles/scripts/websitelayout").Include(
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/bootstrap/bootstrap.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
-
-                //"~/Scripts/jquery.unobtrusive-ajax.min.js",
-                //"~/Scripts/kendo/kendo.core.min.js",
-                //"~/Scripts/kendo/kendo.data.min.js",
-                //"~/Scripts/kendo/kendo.data.odata.min.js",
-                //"~/Scripts/kendo/kendo.columnsorter.min.js",
-                //"~/Scripts/kendo/kendo.pager.min.js",
-                //"~/Scripts/kendo/kendo.userevents.min.js",
-                //"~/Scripts/kendo/kendo.selectable.min.js",
-                //"~/Scripts/kendo/kendo.grid.min.js",
-                //"~/Scripts/kendo/kendo.aspnetmvc.min.js",
-
-                //"~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
-
-                //"~/Scripts/app.config.js",
-                //"~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js",
-                //"~/Scripts/notification/SmartNotification.min.js",
-                //"~/Scripts/smartwidgets/jarvis.widget.min.js",
-                //"~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
-                //"~/Scripts/plugin/masked-input/jquery.maskedinput.min.js",
-                //"~/Scripts/plugin/select2/select2.min.js",
-                //"~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
-                //"~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",
-                //"~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
-                //"~/Scripts/plugin/fastclick/fastclick.min.js",
-                //"~/Scripts/plugin/moment/moment.min.js",
-
-                //"~/Scripts/app.min.js",
-
                 "~/Scripts/site.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
-                "~/Scripts/Libs/handlebars-helper-x.js"
+                "~/Scripts/Libs/handlebars-helper-x.js",
+                "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));
 
-            bundles.Add(new ScriptBundle("~/Scripts/full-calendar").Include(
-                "~/Scripts/plugin/moment/moment.min.js",
-                "~/Scripts/plugin/fullcalendar/jquery.fullcalendar.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/charts").Include(
-                "~/Scripts/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js",
-                "~/Scripts/plugin/sparkline/jquery.sparkline.min.js",
-                "~/Scripts/plugin/morris/morris.min.js",
-                "~/Scripts/plugin/morris/raphael.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.cust.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.resize.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.time.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.fillbetween.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.orderBar.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.pie.min.js",
-                "~/Scripts/plugin/flot/jquery.flot.tooltip.min.js",
-                "~/Scripts/plugin/dygraphs/dygraph-combined.min.js",
-                "~/Scripts/plugin/chartjs/chart.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/datatables").Include(
-                "~/Scripts/plugin/datatables/jquery.dataTables.min.js",
-                "~/Scripts/plugin/datatables/dataTables.colVis.min.js",
-                "~/Scripts/plugin/datatables/dataTables.tableTools.min.js",
-                "~/Scripts/plugin/datatables/dataTables.bootstrap.min.js",
-                "~/Scripts/plugin/datatable-responsive/datatables.responsive.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/jq-grid").Include(
-                "~/Scripts/plugin/jqgrid/jquery.jqGrid.min.js",
-                "~/Scripts/plugin/jqgrid/grid.locale-en.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/forms").Include(
-                "~/Scripts/plugin/jquery-form/jquery-form.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/smart-chat").Include(
-                "~/Scripts/smart-chat-ui/smart.chat.ui.min.js",
-                "~/Scripts/smart-chat-ui/smart.chat.manager.min.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/vector-map").Include(
-                "~/Scripts/plugin/vectormap/jquery-jvectormap-1.2.2.min.js",
-                "~/Scripts/plugin/vectormap/jquery-jvectormap-world-mill-en.js"
-                ));
-
-            bundles.Add(new ScriptBundle("~/Scripts/site").Include(
+          
+            bundles.Add(new ScriptBundle("~/bundles/scripts/site").Include(
                 "~/Scripts/admin.js",
                 "~/Scripts/site.js",
                 "~/Scripts/jquery.unobtrusive-ajax.min.js",
@@ -161,6 +89,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Account/Register/Index").Include("~/Areas/Account/Views/Register/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Index").Include("~/Areas/Account/Views/RegisterAdmin/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Search/Index").Include("~/Areas/Account/Views/Search/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/MyAccount/ChangePassword").Include("~/Areas/Account/Views/MyAccount/ChangePassword.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Provisional").Include("~/Areas/Admin/Views/Company/Provisional.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Qualified").Include("~/Areas/Admin/Views/Company/Qualified.js"));
@@ -168,6 +97,9 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/CreditHistory").Include("~/Areas/Admin/Views/Finance/CreditHistory.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/InternalNotifications/Index").Include("~/Areas/Admin/Views/InternalNotifications/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Transactions").Include("~/Areas/Admin/Views/Reporting/Transactions.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Firms").Include("~/Areas/Admin/Views/Reporting/Firms.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Users").Include("~/Areas/Admin/Views/Reporting/Users.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddTempCompany").Include("~/Areas/Admin/Views/Shared/_AddTempCompany.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditCompany").Include("~/Areas/Admin/Views/Shared/_EditCompany.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EmailLog").Include("~/Areas/Admin/Views/Shared/_EmailLog.js"));
@@ -199,9 +131,11 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/Index").Include("~/Areas/Buyer/Views/SafeBuyer/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_ConfirmDetails").Include("~/Areas/Buyer/Views/SafeBuyer/_ConfirmDetails.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
-            
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
             bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));            

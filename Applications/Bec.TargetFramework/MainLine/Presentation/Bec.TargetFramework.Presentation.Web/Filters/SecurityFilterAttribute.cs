@@ -26,7 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             // HSTS headers should be sent via HTTPS responses only : http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-14#section-7.2
             // They should also not be duplicated
             if (filterContext.HttpContext.Request.IsSecureConnection && filterContext.HttpContext.Response.Headers[HeaderName] == null)
-                filterContext.HttpContext.Response.AddHeader(HeaderName, "max-age=31536000; includeSubDomains");
+                filterContext.HttpContext.Response.AddHeader(HeaderName, "max-age=31536000; includeSubDomains; preload");
 
             base.OnActionExecuting(filterContext);
         }

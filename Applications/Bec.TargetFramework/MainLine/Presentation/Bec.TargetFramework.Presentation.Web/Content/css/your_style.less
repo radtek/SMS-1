@@ -82,6 +82,10 @@
             margin-top: 10px !important;
         }
 
+        &-15 {
+            margin-top: 15px !important;
+        }
+
         &-20 {
             margin-top: 20px !important;
         }
@@ -104,6 +108,14 @@
 
         &-10 {
             margin-left: 10px !important;
+        }
+
+        &-15 {
+            margin-left: 15px !important;
+        }
+
+        &-20 {
+            margin-left: 20px !important;
         }
     }
 
@@ -129,26 +141,31 @@
             width: auto;
         }
     }
+}
 
-    .smart-form {
-        .alert {
-            margin: 4px;
+#extr-page .smart-form,
+#content .smart-form {
+    .alert {
+        li {
+            margin-left: 14px;
+            list-style: none;
 
-            li {
-                margin-left: 14px;
-                list-style: none;
-
-                &:before {
-                    content: "\f071";
-                    font-family: FontAwesome;
-                    position: absolute;
-                    left: 14px;
-                }
+            &:before {
+                content: "\f071";
+                font-family: FontAwesome;
+                position: absolute;
+                left: 25px;
             }
         }
+    }
 
-        div + fieldset {
-            padding-top: 15px;
+    div + fieldset {
+        padding-top: 15px;
+    }
+
+    footer {
+        .btn{
+            font-size: 1em;
         }
     }
 }
@@ -165,12 +182,12 @@
 
         #logo {
             margin-top: 0;
-
+            width: 175px;
             img {
                 width: 106px !important;
                 height: 38px !important;
-                margin-left: 16px !important;
                 margin-top: 6px !important;
+                margin-left: 16px !important;
             }
         }
     }
@@ -185,6 +202,17 @@
         height: 42px !important;
         margin-left: 16px !important;
         margin-top: 7px !important;
+    }
+}
+
+@media only screen and (max-width: 479px) and (min-width: 320px) {
+    #logo-group {
+         width: inherit !important; 
+    }
+}
+@media only screen and (min-width: 980px){
+    .menu-toggle{
+        display: none;
     }
 }
 
@@ -302,6 +330,10 @@
     }
 }
 
+.dropdown-menu>li>a:focus, 
+.dropdown-menu>li>a:hover {
+    background-color: lighten(@primary-color, 10%);
+}
 
 //smart admin specifies -webkit
 .nav-tabs > li.active > a {
@@ -345,6 +377,7 @@
     .ui-datepicker-prev,
     .ui-datepicker-next {
         color: @primary-color;
+        cursor: pointer;
     }
 
     td .ui-state-hover {
@@ -360,3 +393,49 @@
     z-index: 9999;
 }
 
+#userMenu {
+    color: #7d7d7d;
+    padding: 2px 12px;
+    font-size: 1.5em;
+
+    & + .dropdown-menu{
+        li{
+            a{
+                padding: 8px 18px;
+            }
+        }
+    }
+}
+
+#logout a{
+    font-size: 1.05em;
+}
+
+.menu-toggle{
+    a{
+        color: #7d7d7d;
+        font-size: 16px;
+        display: inline-block;
+    }
+}
+
+.validation-summary-errors{
+    ul li{
+        list-style: none;
+    }
+}
+
+.delete-entry{
+    display: inline-block;
+    color: #a90329;
+    margin-top: 7px;
+    cursor: pointer;
+}
+
+.add-next-bank-account{
+    cursor: pointer;
+}
+
+.red-bg{
+    background-color: #fad4d4;
+}

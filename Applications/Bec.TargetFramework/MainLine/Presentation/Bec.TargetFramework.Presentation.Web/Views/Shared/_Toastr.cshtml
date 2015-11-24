@@ -1,0 +1,15 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Models.ToastrNotification
+@if (TempData.ContainsKey("Toastr"))
+{
+    Toastr toastr = TempData["Toastr"] as Toastr;
+    if (toastr != null)
+    {
+        <div id="toastrMessages">
+            @foreach (var item in toastr.ToastMessages)
+            {
+                <div data-toast-type="@item.ToastType.ToString().ToLower()" data-title="@item.Title" data-message="@item.Message" data-is-sticky="@item.IsSticky.ToString().ToLower()"></div>
+            }
+        </div>
+        <script async src="@Scripts.Url("~/Scripts/Shared/_Toastr")"></script>
+    }
+}
