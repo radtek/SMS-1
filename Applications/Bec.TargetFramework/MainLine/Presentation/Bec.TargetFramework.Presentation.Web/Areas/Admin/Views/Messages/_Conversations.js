@@ -110,7 +110,7 @@
 
             var templateData = {
                 isEmpty: items.length === 0,
-                items: items,
+                items: items.reverse(),
                 conversation: conversation
             };
 
@@ -209,6 +209,16 @@
     }
 
     function setupReply() {
+        viewMessagesContainer.on('focus', '#replyMessageTextArea', function () {
+            var numOfLines = $(this).val().lineCount();
+            var targetNumOfLines = numOfLines > 5 ? numOfLines : 5;
+            $(this).attr('rows', targetNumOfLines);
+        }).on('blur', '#replyMessageTextArea', function () {
+            var numOfLines = $(this).val().lineCount();
+            var targetNumOfLines =  numOfLines > 1 ? numOfLines : 1;
+            $(this).attr('rows', targetNumOfLines);
+        });
+
         viewMessagesContainer.on('click', '#replyButton', function (e) {
             var replyForm = $("#replyForm");
             var replyBtn = $("#replyButton");

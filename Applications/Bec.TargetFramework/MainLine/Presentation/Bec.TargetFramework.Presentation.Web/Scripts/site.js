@@ -598,3 +598,6 @@ function getRazorViewPath(viewName, controller, area) {
     result += '/Views/' + controller + '/' + viewName + '.cshtml';
     return result;
 }
+
+String.prototype.lines = function () { return this.split(/\r*\n/); }
+String.prototype.lineCount = function () { return this.lines().length; }

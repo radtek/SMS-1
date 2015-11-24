@@ -346,11 +346,15 @@
 .view-messages-container .messages-container {
   box-shadow: #f5f5f5 -7px 0 20px;
 }
-.view-messages-container .messages-container .messages-list {
-  max-height: 300px;
+.view-messages-container .messages-container .messages-list .scrollable {
+  max-height: 450px;
   padding-right: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
+  box-shadow: inset #dddddd -4px 0 6px;
+}
+.view-messages-container .messages-container .messages-list .scrollable .message-item {
+  border-top: 1px solid #ddd;
 }
 .view-messages-container .messages-container .messages-list .thumbnail {
   text-align: center;
@@ -358,36 +362,35 @@
   background-color: transparent;
   margin-bottom: 0;
 }
-.view-messages-container .messages-container .messages-list .panel {
-  position: relative;
+.view-messages-container .messages-container .messages-list .message-item {
+  padding: 10px;
 }
-.view-messages-container .messages-container .messages-list .panel > .panel-heading:after,
-.view-messages-container .messages-container .messages-list .panel > .panel-heading:before {
-  position: absolute;
-  top: 11px;
-  left: -16px;
-  right: 100%;
-  width: 0;
-  height: 0;
-  display: block;
-  content: " ";
-  border-color: transparent;
-  border-style: solid solid outset;
-  pointer-events: none;
+.view-messages-container .messages-container .messages-list .message-item .message-heading {
+  font-size: 0.9em;
 }
-.view-messages-container .messages-container .messages-list .panel > .panel-heading:after {
-  border-width: 7px;
-  border-right-color: #f7f7f7;
-  margin-top: 1px;
-  margin-left: 2px;
-}
-.view-messages-container .messages-container .messages-list .panel > .panel-heading:before {
-  border-right-color: #ddd;
-  border-width: 8px;
-}
-.view-messages-container .messages-container .messages-list pre {
+.view-messages-container .messages-container .messages-list .message-item pre {
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   background: transparent;
   border: none;
+  padding: 3px 0;
+  margin: 0;
+}
+.view-messages-container .messages-container .messages-list .message-item .read-status {
+  font-size: 0.8em;
+}
+.view-messages-container .messages-container .messages-list .message-item .smart-form fieldset {
+  padding: 0;
+  padding-right: 10px;
+  background: none;
+}
+.view-messages-container .messages-container .messages-list .message-item .smart-form fieldset label.label {
+  font-weight: bold;
+}
+.view-messages-container .messages-container .messages-list .message-item .smart-form fieldset #replyMessageTextArea {
+  min-height: 32px;
+}
+.view-messages-container .messages-container .messages-list .message-item .smart-form #replyButton {
+  padding: 6px;
 }
 .hidden {
   display: none;

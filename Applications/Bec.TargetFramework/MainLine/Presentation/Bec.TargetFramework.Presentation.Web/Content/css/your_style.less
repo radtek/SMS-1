@@ -493,56 +493,67 @@
             }
         }
     }
-     
+
     .messages-container {
         box-shadow: #f5f5f5 -7px 0 20px;
 
         .messages-list {
-            max-height: 300px; // do media specific
-            padding-right: 20px;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            .scrollable {
+                max-height: 450px; // do media specific
+                padding-right: 20px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                box-shadow: inset #ddd -4px 0 6px;
+
+                .message-item {
+                    border-top: 1px solid #ddd;
+                }
+            }
 
             .thumbnail {
                 text-align: center;
                 border: none;
                 background-color: transparent;
-                margin-bottom:0;
+                margin-bottom: 0;
             }
 
-            .panel {
-                position: relative;
-            }
+            .message-item {
+                padding: 10px;
 
-            .panel > .panel-heading:after, .panel > .panel-heading:before {
-                position: absolute;
-                top: 11px;
-                left: -16px;
-                right: 100%;
-                width: 0;
-                height: 0;
-                display: block;
-                content: " ";
-                border-color: transparent;
-                border-style: solid solid outset;
-                pointer-events: none;
-            }
+                .message-heading {
+                    font-size: 0.9em;
+                }
 
-            .panel > .panel-heading:after {
-                border-width: 7px;
-                border-right-color: #f7f7f7;
-                margin-top: 1px;
-                margin-left: 2px;
-            }
+                pre {
+                    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+                    background: transparent;
+                    border: none;
+                    padding: 3px 0;
+                    margin: 0;
+                }
 
-            .panel > .panel-heading:before {
-                border-right-color: #ddd;
-                border-width: 8px;
-            }
+                .read-status {
+                    font-size: 0.8em;
+                }
 
-            pre {
-                background: transparent;
-                border: none;
+                .smart-form {
+                    fieldset {
+                        padding: 0;
+                        padding-right: 10px;
+                        background: none;
+
+                        label.label {
+                            font-weight: bold;
+                        }
+                        #replyMessageTextArea{
+                            min-height: 32px;
+                        }
+                    }
+
+                    #replyButton{
+                        padding: 6px;
+                    }
+                }
             }
         }
     }
@@ -551,16 +562,16 @@
 .hidden {
     display: none;
     width: 0;
-    }
+}
 // xs and sm
 @media only screen and (max-width: 992px) {
     .view-messages-container {
         .messages-container {
             h3 {
                 cursor: pointer;
+            }
+        }
     }
-    }
-}
 }
 
 @media only screen and (max-width: 768px) {
@@ -582,6 +593,6 @@
 }
 
 .usertype {
-    font-size:smaller;
-    text-align:center;
+    font-size: smaller;
+    text-align: center;
 }
