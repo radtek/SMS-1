@@ -458,13 +458,13 @@
             list-style-type: none;
             padding: 0;
 
-            li {
+            .conversation-item {
                 border-top: 1px solid #ddd;
                 padding: 10px;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #eee !important;
+                    background-color: #eee;
                 }
 
                 &.unread {
@@ -474,6 +474,10 @@
                     .date {
                         font-weight: bold;
                     }
+                }
+
+                &.active {
+                    background-color: lighten(@primary-color, 40%);
                 }
 
                 .conversation-subject {

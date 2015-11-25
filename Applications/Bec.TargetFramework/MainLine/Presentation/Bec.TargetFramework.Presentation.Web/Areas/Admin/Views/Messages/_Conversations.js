@@ -6,7 +6,6 @@
         conversationsError = $('#conversationsError'),
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
-        messagesSpinner = $('#messagesSpinner'),
         createConversationButton = $('#createConversationButton'),
         refreshButton = $('#refreshConversationsButton');
 
@@ -29,6 +28,14 @@
     setupReply();
     setupCreateConversation();
     setupRefreshConversationsBtn();
+
+    function resetCurrentConversation() {
+        for (var p in currentConversation) {
+            if (currentConversation.hasOwnProperty(p)) {
+                currentConversation[p] = null;
+            }
+        }
+    }
 
     function loadConversations(activityId) {
         var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -77,6 +84,7 @@
 
     function loadMessages(conversation) {
         var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
+        var messagesSpinner = $('#messagesSpinner');
 
         messagesSpinner.show();
         return ajaxWrapper({
@@ -151,7 +159,7 @@
 
     function setupRefreshConversationsBtn() {
         refreshButton.click(function () {
-            loadConversations(currentConversation.activityId);
+            loadConversations(currentConversation.activityId).then(selectCurrentOrLatestConversation);
         })
     }
 
@@ -192,7 +200,7 @@
                 data: formData
             }).done(function (res) {
                 if (res.result === true) {
-                    loadConversations(currentConversation.activityId).then(selectLatestConversation);
+                    loadConversations(currentConversation.activityId).then(selectCurrentOrLatestConversation);
                     // show the message
                 } else {
                     // handle error
@@ -204,8 +212,14 @@
         }
     }
 
-    function selectLatestConversation() {
-        $('#conversationsList .conversation-item').first().trigger('click');
+    function selectCurrentOrLatestConversation() {
+        var conversations = $('#conversationsList .conversation-item');
+        if (currentConversation.id) {
+            conversations = conversations.filter(function () {
+                return $(this).data('conversation-id') == currentConversation.id;
+            });
+        }
+        conversations.first().trigger('click');
     }
 
     function setupReply() {
@@ -248,8 +262,6 @@
                 }).success(function () {
                     loadMessages(currentConversation).then(scrollToLastMessage);
                     replyForm.find('textarea').val('');
-                }).done(function (res) {
-
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {
                         console.log(e);
@@ -270,8 +282,9 @@
         if (isActivitySpecificView) {
             // capturing the event from any parent views and refresh the view
             container.parent().on('activitychange', function (event, activityId) {
+                resetCurrentConversation();
                 currentConversation.activityId = activityId;
-                loadConversations(activityId).then(selectLatestConversation);
+                loadConversations(activityId).then(selectCurrentOrLatestConversation);
                 fetchParticipants(activityId);
             });
         } else {
@@ -309,7 +322,7 @@
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
-
+            setConversationItemActive($(this));
             currentConversation.id = $(this).data('conversation-id');
             currentConversation.subject = $(this).data('conversation-subject');
             loadMessages(currentConversation).then(scrollToLastMessage);
@@ -321,6 +334,11 @@
                 showConversationsBox();
             }
         });
+    }
+
+    function setConversationItemActive(selectedItem) {
+        $('.conversation-item').removeClass('active');
+        selectedItem.addClass('active');
     }
 
     function isCompactView() {

@@ -316,29 +316,32 @@
   list-style-type: none;
   padding: 0;
 }
-.view-messages-container .conversations-container .conversations-list li {
+.view-messages-container .conversations-container .conversations-list .conversation-item {
   border-top: 1px solid #ddd;
   padding: 10px;
   cursor: pointer;
 }
-.view-messages-container .conversations-container .conversations-list li:hover {
-  background-color: #eee !important;
+.view-messages-container .conversations-container .conversations-list .conversation-item:hover {
+  background-color: #eee;
 }
-.view-messages-container .conversations-container .conversations-list li.unread {
+.view-messages-container .conversations-container .conversations-list .conversation-item.unread {
   background-color: #f4f4f4;
 }
-.view-messages-container .conversations-container .conversations-list li.unread .conversation-subject,
-.view-messages-container .conversations-container .conversations-list li.unread .date {
+.view-messages-container .conversations-container .conversations-list .conversation-item.unread .conversation-subject,
+.view-messages-container .conversations-container .conversations-list .conversation-item.unread .date {
   font-weight: bold;
 }
-.view-messages-container .conversations-container .conversations-list li .conversation-subject {
+.view-messages-container .conversations-container .conversations-list .conversation-item.active {
+  background-color: #e8f3c0;
+}
+.view-messages-container .conversations-container .conversations-list .conversation-item .conversation-subject {
   font-size: 1.2em;
   margin-bottom: 5px;
 }
-.view-messages-container .conversations-container .conversations-list li .conversation-message {
+.view-messages-container .conversations-container .conversations-list .conversation-item .conversation-message {
   font-size: 0.9em;
 }
-.view-messages-container .conversations-container .conversations-list li .date {
+.view-messages-container .conversations-container .conversations-list .conversation-item .date {
   color: #777;
   font-size: 0.9em;
   text-align: right;
