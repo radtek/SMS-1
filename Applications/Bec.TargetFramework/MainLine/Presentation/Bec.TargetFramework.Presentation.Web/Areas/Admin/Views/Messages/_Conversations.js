@@ -200,7 +200,10 @@
                 data: formData
             }).done(function (res) {
                 if (res.result === true) {
-                    loadConversations(currentConversation.activityId).then(selectCurrentOrLatestConversation);
+                    loadConversations(currentConversation.activityId).then(function () {
+                        currentConversation.id = null; // it will be set by click, triggered in the next function
+                        selectCurrentOrLatestConversation();
+                    });
                     // show the message
                 } else {
                     // handle error
