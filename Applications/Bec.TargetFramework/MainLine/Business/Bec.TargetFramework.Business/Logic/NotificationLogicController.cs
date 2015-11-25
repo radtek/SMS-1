@@ -372,7 +372,7 @@ namespace Bec.TargetFramework.Business.Logic
             var notificationConstructName = notificationConstructEnum.GetStringValue();
             var filteredRecipientUaoIds = new List<Guid>();
 
-            using (var scope = DbContextScopeFactory.Create())
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var notificationResourceTypeId = ResourceTypeIDEnum.Notification.GetIntValue();
                 var operationName = OperationEnum.View.ToString();
