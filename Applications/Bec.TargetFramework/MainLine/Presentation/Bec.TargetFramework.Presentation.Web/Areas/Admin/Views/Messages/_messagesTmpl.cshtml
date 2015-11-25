@@ -7,20 +7,20 @@
     <div class="scrollable">
         {{#items}}
         <div class="row message-item">
-            <div class="col-xs-1 hidden-xs">
+            <div class="col-sm-1 hidden-xs no-padding">
                 <div class="thumbnail">
                     <i class="fa {{icon}} fa-2x"></i>
                 </div>
                 <p class="usertype">{{Message.UserType}}</p>
             </div>
-            <div class="col-xs-11">
-                <div class="row message-heading">
+            <div class="col-sm-11 no-padding">
+                <div class="message-heading">
                     <strong>{{Message.FirstName}} {{Message.LastName}}</strong> ({{Message.Email}}) <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
-                <div class="row">
+                <div class="">
                     <pre>{{Message.Message}}</pre>
                 </div>
-                <div class="row read-status">
+                <div class="read-status">
                     {{#if Unread}}
                     <span class="text-muted">Unread</span>
                     {{else}}
@@ -35,7 +35,6 @@
     </div>
     <div class="row message-item">
         <div class="col-xs-12">
-
             <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
                 <div class="row display-table">
                     <div class="col-xs-11">
