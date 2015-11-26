@@ -319,6 +319,7 @@
 .view-messages-container .conversations-container .conversations-list .conversation-item {
   border-top: 1px solid #ddd;
   padding: 10px;
+  padding-left: 15px;
   cursor: pointer;
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item:hover {
@@ -326,17 +327,22 @@
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item.unread {
   background-color: #f4f4f4;
+  border-left: 5px solid #a1c324;
 }
-.view-messages-container .conversations-container .conversations-list .conversation-item.unread .conversation-subject,
-.view-messages-container .conversations-container .conversations-list .conversation-item.unread .date {
+.view-messages-container .conversations-container .conversations-list .conversation-item.unread .conversation-subject {
   font-weight: bold;
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item.active {
   background-color: #e8f3c0;
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item .conversation-subject {
-  font-size: 1.2em;
+  font-size: 1.0em;
   margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item .conversation-message {
   font-size: 0.9em;
@@ -367,6 +373,10 @@
 }
 .view-messages-container .messages-container .messages-list .message-item {
   padding: 10px;
+  padding-left: 15px;
+}
+.view-messages-container .messages-container .messages-list .message-item.unread {
+  border-left: 5px solid #a1c324;
 }
 .view-messages-container .messages-container .messages-list .message-item .message-heading {
   font-size: 0.9em;
@@ -377,6 +387,8 @@
   border: none;
   padding: 3px 0;
   margin: 0;
+  white-space: normal;
+  overflow: hidden;
 }
 .view-messages-container .messages-container .messages-list .message-item .read-status {
   font-size: 0.8em;
@@ -390,6 +402,7 @@
   font-weight: bold;
 }
 .view-messages-container .messages-container .messages-list .message-item .smart-form fieldset #replyMessageTextArea {
+  height: 32px;
   min-height: 32px;
 }
 .view-messages-container .messages-container .messages-list .message-item .smart-form #replyButton {

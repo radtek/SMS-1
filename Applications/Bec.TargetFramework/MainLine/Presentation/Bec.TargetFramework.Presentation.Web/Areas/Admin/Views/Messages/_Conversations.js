@@ -225,15 +225,14 @@
         conversations.first().trigger('click');
     }
 
+    function autoresizeTextarea(textarea) {
+        textarea.style.height = '0px'; //Reset height, so that it not only grows but also shrinks
+        textarea.style.height = (textarea.scrollHeight) + 'px'; //Set new height
+    }
+
     function setupReply() {
-        viewMessagesContainer.on('focus', '#replyMessageTextArea', function () {
-            var numOfLines = $(this).val().lineCount();
-            var targetNumOfLines = numOfLines > 5 ? numOfLines : 5;
-            $(this).attr('rows', targetNumOfLines);
-        }).on('blur', '#replyMessageTextArea', function () {
-            var numOfLines = $(this).val().lineCount();
-            var targetNumOfLines =  numOfLines > 1 ? numOfLines : 1;
-            $(this).attr('rows', targetNumOfLines);
+        viewMessagesContainer.on('keyup', '#replyMessageTextArea', function () {
+            autoresizeTextarea(this);
         });
 
         viewMessagesContainer.on('click', '#replyButton', function (e) {
@@ -275,8 +274,8 @@
     }
 
     function scrollToLastMessage() {
-        var messagesListElement = $('#messagesList .messages-list');
-        var mostRecentItem = $('#messagesList .messages-list .row:last');
+        var messagesListElement = $('#messagesList .messages-list .scrollable');
+        var mostRecentItem = messagesListElement.find('.message-item:last');
         messagesListElement.scrollTo(mostRecentItem, 0);
     }
 
@@ -291,7 +290,7 @@
                 fetchParticipants(activityId);
             });
         } else {
-            loadConversations();
+            loadConversations().then(selectCurrentOrLatestConversation);
         }
     }
 
@@ -326,6 +325,7 @@
                 showMessagesBoxCompact();
             }
             setConversationItemActive($(this));
+            markConversationAsRead($(this));
             currentConversation.id = $(this).data('conversation-id');
             currentConversation.subject = $(this).data('conversation-subject');
             loadMessages(currentConversation).then(scrollToLastMessage);
@@ -342,6 +342,12 @@
     function setConversationItemActive(selectedItem) {
         $('.conversation-item').removeClass('active');
         selectedItem.addClass('active');
+    }
+
+    function markConversationAsRead(selectedItem) {
+        setTimeout(function () {
+            selectedItem.removeClass('unread');
+        }, 2000);
     }
 
     function isCompactView() {

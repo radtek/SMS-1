@@ -1,59 +1,67 @@
 ﻿<h3 id="conversationSubject">
     <i class="fa fa-caret-left margin-right-10 hidden-md hidden-lg"></i>
-    Subject: {{conversation.subject}}
+    <span class="text-muted">Subject: </span>
+    {{conversation.subject}}
     <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
 </h3>
 <div class="messages-list">
     <div class="scrollable">
         {{#items}}
-        <div class="row message-item">
-            <div class="col-sm-1 hidden-xs no-padding">
-                <div class="thumbnail">
-                    <i class="fa {{icon}} fa-2x"></i>
+        <div class="message-item">
+            <div class="row">
+                <div class="col-sm-1 hidden-xs no-padding">
+                    <div class="thumbnail">
+                        <i class="fa {{icon}} fa-2x"></i>
+                    </div>
+                    <p class="usertype">{{Message.UserType}}</p>
                 </div>
-                <p class="usertype">{{Message.UserType}}</p>
-            </div>
-            <div class="col-sm-11 no-padding">
-                <div class="message-heading">
-                    <strong>{{Message.FirstName}} {{Message.LastName}}</strong> ({{Message.Email}}) <span class="text-muted">wrote on {{Message.DateSent}}</span>
-                </div>
-                <div class="">
+                <div class="col-sm-11">
+                    <div class="message-heading">
+                        <strong>{{Message.FirstName}} {{Message.LastName}}</strong><span class="text-muted">wrote on {{Message.DateSent}}</span>
+                    </div>
                     <pre>{{Message.Message}}</pre>
-                </div>
-                <div class="read-status">
-                    {{#if Unread}}
-                    <span class="text-muted">Unread</span>
-                    {{else}}
-                    {{#each Reads}}
-                    <span class="text-muted">Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}</span>
-                    {{/each}}
-                    {{/if}}
+                    <div class="read-status">
+                        {{#if Unread}}
+                        <span class="color-primary" title="Unread">
+                            <i class="fa fa-circle-o-notch"></i>
+                        </span>
+                        {{else}}
+                        {{#each Reads}}
+                        <span title="Read">
+                            <span class="text-muted">
+                                Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}
+                            </span>
+                        </span>
+                        {{/each}}
+                        {{/if}}
+                    </div>
                 </div>
             </div>
         </div>
         {{/items}}
     </div>
-    <div class="row message-item">
-        <div class="col-xs-12">
-            <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
-                <div class="row display-table">
-                    <div class="col-xs-11">
-                        <fieldset>
-                            <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
-                            @Html.AntiForgeryToken()
-                            <section>
-                                <label class="textarea">
-                                    <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
-                                    <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
-                                </label>
-                            </section>
-                        </fieldset>
+    <div class="message-item">
+        <div class="row">
+            <div class="col-xs-12">
+                <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
+                    <div class="row display-table">
+                        <div class="col-xs-11">
+                            <fieldset>
+                                <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
+                                @Html.AntiForgeryToken()
+                                <section>
+                                    <label class="textarea">
+                                        <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
+                                    </label>
+                                </section>
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-1">
+                            <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
+                        </div>
                     </div>
-                    <div class="col-xs-1">
-                        <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

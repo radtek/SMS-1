@@ -461,6 +461,7 @@
             .conversation-item {
                 border-top: 1px solid #ddd;
                 padding: 10px;
+                padding-left: 15px;
                 cursor: pointer;
 
                 &:hover {
@@ -469,9 +470,9 @@
 
                 &.unread {
                     background-color: #f4f4f4;
+                    border-left: 5px solid @primary-color;
 
-                    .conversation-subject,
-                    .date {
+                    .conversation-subject {
                         font-weight: bold;
                     }
                 }
@@ -481,8 +482,13 @@
                 }
 
                 .conversation-subject {
-                    font-size: 1.2em;
+                    font-size: 1.0em;
                     margin-bottom: 5px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    -ms-text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
                 }
 
                 .conversation-message {
@@ -523,6 +529,11 @@
 
             .message-item {
                 padding: 10px;
+                padding-left: 15px;
+
+                &.unread {
+                    border-left: 5px solid @primary-color;
+                }
 
                 .message-heading {
                     font-size: 0.9em;
@@ -534,6 +545,8 @@
                     border: none;
                     padding: 3px 0;
                     margin: 0;
+                    white-space: normal;
+                    overflow: hidden;
                 }
 
                 .read-status {
@@ -549,12 +562,14 @@
                         label.label {
                             font-weight: bold;
                         }
-                        #replyMessageTextArea{
+
+                        #replyMessageTextArea {
+                            height: 32px;
                             min-height: 32px;
                         }
                     }
 
-                    #replyButton{
+                    #replyButton {
                         padding: 6px;
                     }
                 }
