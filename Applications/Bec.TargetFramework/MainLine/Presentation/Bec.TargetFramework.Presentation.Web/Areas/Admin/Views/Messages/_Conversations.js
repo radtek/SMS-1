@@ -262,7 +262,7 @@
                     type: "POST",
                     data: formData
                 }).success(function () {
-                    loadMessages(currentConversation).then(scrollToLastMessage);
+                    loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
                     replyForm.find('textarea').val('');
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {
@@ -273,10 +273,13 @@
         });
     }
 
-    function scrollToLastMessage() {
+    function scrollToLastOrFirstUnreadMessage() {
         var messagesListElement = $('#messagesList .messages-list .scrollable');
-        var mostRecentItem = messagesListElement.find('.message-item:last');
-        messagesListElement.scrollTo(mostRecentItem, 0);
+        var messageToFocus = messagesListElement.find('.message-item.unread:first');
+        if (messageToFocus.length == 0) {
+            messageToFocus = messagesListElement.find('.message-item:last');
+        }
+        messagesListElement.scrollTo(messageToFocus, 0);
     }
 
     function setupDataReload(container) {
@@ -328,7 +331,7 @@
             markConversationAsRead($(this));
             currentConversation.id = $(this).data('conversation-id');
             currentConversation.subject = $(this).data('conversation-subject');
-            loadMessages(currentConversation).then(scrollToLastMessage);
+            loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
         });
 
         messagesContainer.on('click', '#conversationSubject', function () {
