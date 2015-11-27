@@ -104,9 +104,11 @@
                             case "Giftor": item.icon = 'fa-gift'; break;
                             default: item.icon = 'fa-home'; break;
                         }
+                        item.isFromProfessionalUser = false;
                         break;
                     case "Professional":
                         item.icon = 'fa-building';
+                        item.isFromProfessionalUser = true;
                         break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);

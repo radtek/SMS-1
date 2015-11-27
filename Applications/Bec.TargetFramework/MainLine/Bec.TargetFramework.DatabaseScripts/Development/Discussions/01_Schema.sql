@@ -250,6 +250,7 @@ CREATE VIEW public."vMessage"(
     "Email",
     "FirstName",
     "LastName",
+    "OrganisationName",
     "UserType",
     "OrganisationType")
 AS
@@ -261,7 +262,16 @@ AS
          ua."Email",
          c."FirstName",
          c."LastName",
-         txt."Description" AS "UserType",
+         orgd."Name",
+         CASE
+            WHEN ct."Name"::text = 'SmsTransaction'::text THEN
+            CASE
+                WHEN ot."Name"::text = 'Personal'::text THEN txt."Description"
+                WHEN ot."Name"::text = 'Professional'::text THEN 'Conveyancer'
+                ELSE NULL::character varying
+            END
+            ELSE NULL::character varying
+        END AS "UserType",
          ot."Name" AS "OrganisationType"
   FROM "Notification" n
        JOIN "Conversation" conv ON conv."ConversationID" = n."ConversationID"
@@ -285,7 +295,6 @@ AS
        LEFT JOIN sms."SmsUserAccountOrganisationTransactionType" txt ON
          txt."SmsUserAccountOrganisationTransactionTypeID" =
          tx."SmsUserAccountOrganisationTransactionTypeID";
-
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vMessage" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE

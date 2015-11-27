@@ -37,6 +37,7 @@ namespace Bec.TargetFramework.Entities
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
 
@@ -62,6 +63,7 @@ namespace Bec.TargetFramework.Entities
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
 
