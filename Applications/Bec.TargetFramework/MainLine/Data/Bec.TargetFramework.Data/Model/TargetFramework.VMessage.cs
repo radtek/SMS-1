@@ -48,6 +48,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for CreatedByUserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> CreatedByUserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for DateSent in the schema.
         /// </summary>
         public virtual global::System.DateTime DateSent

@@ -22,10 +22,11 @@ namespace Bec.TargetFramework.Entities
         public VMessageDTO() {
         }
 
-        public VMessageDTO(global::System.Guid conversationID, global::System.Guid notificationID, global::System.DateTime dateSent, string message, string email, string firstName, string lastName, string userType, string organisationType) {
+        public VMessageDTO(global::System.Guid conversationID, global::System.Guid notificationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, global::System.DateTime dateSent, string message, string email, string firstName, string lastName, string userType, string organisationType) {
 
           this.ConversationID = conversationID;
           this.NotificationID = notificationID;
+          this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
           this.DateSent = dateSent;
           this.Message = message;
           this.Email = email;
@@ -44,6 +45,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Guid NotificationID { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.Guid> CreatedByUserAccountOrganisationID { get; set; }
 
         [DataMember]
         public global::System.DateTime DateSent { get; set; }

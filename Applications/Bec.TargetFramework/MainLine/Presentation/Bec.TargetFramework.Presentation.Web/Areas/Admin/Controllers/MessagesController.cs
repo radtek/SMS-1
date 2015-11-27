@@ -54,6 +54,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var select = ODataHelper.Select<VMessageDTO>(x => new
             {
                 x.NotificationID,
+                x.CreatedByUserAccountOrganisationID,
                 x.DateSent,
                 x.Message,
                 x.Email,
@@ -66,7 +67,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var order = ODataHelper.OrderBy<VMessageDTO>(x => new { x.DateSent }) + " desc";
             var messages = await QueryClient.QueryAsync<VMessageDTO>("VMessages", select + filter + order + ODataHelper.PageFilter(page, pageSize));
 
-            var rSelect = ODataHelper.Select<VMessageReadDTO>(x => new { x.NotificationID, x.IsAccepted, x.AcceptedDate, x.Email, x.FirstName, x.LastName });
+            var rSelect = ODataHelper.Select<VMessageReadDTO>(x => new { x.NotificationID, x.UserAccountOrganisationID, x.IsAccepted, x.AcceptedDate, x.Email, x.FirstName, x.LastName });
             var rFilter = ODataHelper.Filter<VMessageReadDTO>(x => x.ConversationID == conversationId);
             var reads = await QueryClient.QueryAsync<VMessageReadDTO>("VMessageReads", rSelect + rFilter);
 

@@ -48,6 +48,16 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
+        /// There are no comments for UserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Guid UserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
         /// There are no comments for IsAccepted in the schema.
         /// </summary>
         public virtual global::System.Nullable<bool> IsAccepted

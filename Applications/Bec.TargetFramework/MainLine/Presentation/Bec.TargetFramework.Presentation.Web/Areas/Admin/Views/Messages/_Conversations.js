@@ -15,6 +15,7 @@
         activityId: null
     };
     var activityType = viewMessagesContainer.data('activity-type');
+    var currentUaoId = viewMessagesContainer.data('uao-id');
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
@@ -110,7 +111,13 @@
                         break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);
+                console.log(item.Message.CreatedByUserAccountOrganisationID);
+                item.Message.UnreadByCurrentUser = _.filter(item.Reads, function (msg) {
+                    console.log(msg);
+                    return msg.UserAccountOrganisationID == item.Message.CreatedByUserAccountOrganisationID;
+                }).length == 0;
                 item.Unread = item.Reads.length == 0;
+                
                 $.each(item.Reads, function (j, r) {
                     if (r.AcceptedDate) r.AcceptedDate = dateString(r.AcceptedDate);
                 });

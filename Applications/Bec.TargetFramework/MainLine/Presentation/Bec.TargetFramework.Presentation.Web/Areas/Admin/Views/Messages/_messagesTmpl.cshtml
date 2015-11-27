@@ -7,7 +7,7 @@
 <div class="messages-list">
     <div class="scrollable">
         {{#items}}
-        <div class="message-item">
+        <div class="message-item {{#if Message.UnreadByCurrentUser}}unread{{/if}}">
             <div class="row">
                 <div class="col-sm-1 hidden-xs no-padding">
                     <div class="thumbnail">

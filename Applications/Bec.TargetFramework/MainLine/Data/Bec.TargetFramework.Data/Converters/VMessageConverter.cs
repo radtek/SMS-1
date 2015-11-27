@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
             target.Message = source.Message;
             target.Email = source.Email;
@@ -55,6 +56,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
             target.Message = source.Message;
             target.Email = source.Email;
