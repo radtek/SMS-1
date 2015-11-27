@@ -583,6 +583,20 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="conversationID"></param>
 		/// <returns></returns>
 		void MarkAsRead(Guid uaoID,Guid conversationID);
+
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2897,6 +2911,33 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		public virtual Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		public virtual IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
 		}
 
 		#endregion

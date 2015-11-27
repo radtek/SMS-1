@@ -7,13 +7,13 @@
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
         createConversationButton = $('#createConversationButton'),
-        refreshButton = $('#refreshConversationsButton');
-    var selectedConversationId = viewMessagesContainer.data('selected-conversation-id');
+        selectedConversationId = viewMessagesContainer.data('selected-conversation-id');
     var currentConversation = {
         id: selectedConversationId || null,
         subject: null,
         activityId: null
     };
+    //activityId should come from here too:
     var activityType = viewMessagesContainer.data('activity-type');
     var currentUaoId = viewMessagesContainer.data('uao-id');
     var urls = {
@@ -24,11 +24,39 @@
     };
     var getParticipantsPromise = $.Deferred();
 
+    var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
+    var emptyMessageTemplatePromise = getTemplatePromise('_emptyMessagesTmpl');
+    var itemTemplatePromise = getTemplatePromise('_itemTmpl');
+    var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
+    var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
+
+    var dataSource = new kendo.data.DataSource({
+        type: "odata-v4",
+        transport: {
+            read: urls.conversationUrl
+        },
+        serverSorting: true,
+        serverPaging: true,
+        pageSize: 10,
+        change: selectCurrentOrLatestConversation,
+        schema: { data: "Items", total: "Count" },
+    });
+
+    loadConversations(currentConversation.activityId);
+
+    $('#conversationsPager').kendoPager({
+        dataSource: dataSource,
+        refresh: true
+    });
+
+    var messagesPageSize = 10;
+    var messagesPage = 0;
+    var allLoaded = false;
+
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
     setupReply();
     setupCreateConversation();
-    setupRefreshConversationsBtn();
 
     function resetCurrentConversation() {
         for (var p in currentConversation) {
@@ -39,52 +67,21 @@
     }
 
     function loadConversations(activityId) {
-        var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
-        var emptyMessageTemplatePromise = getTemplatePromise('_emptyMessagesTmpl');
-
         conversationsSpinner.show();
         conversationsError.hide();
-        return ajaxWrapper({
-            url: urls.conversationUrl,
-            type: 'GET',
-            data: {
-                activityType: activityType,
-                activityId: activityId,
-                page: 0,
-                pageSize: 10
+
+        dataSource.read({ activityType: activityType, activityId: activityId });
             }
-        })
-        .success(function (items) {
-            items = _.map(items, function (item) {
-                return _.extend({}, item, {
-                    Latest: dateString(item.Latest)
-                });
-            });
-            var templateData = {
-                isEmpty: items.length === 0,
-                items: items
-            };
-            conversationsTemplatePromise.done(function (template) {
-                var html = template(templateData);
-                converationsList.html(html);
-            });
-            if (templateData.isEmpty) {
-                emptyMessageTemplatePromise.done(function (template) {
-                    messagesList.html(template());
-                });
-            }
-        })
-        .error(function (data) {
-            conversationsError.show();
-            console.log(data);
-        })
-        .always(function () {
-            conversationsSpinner.hide();
-        });
-    }
 
     function loadMessages(conversation) {
-        var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
+        allLoaded = false;
+        messagesPage = 0;
+        return loadItems(conversation, true);
+            }
+
+    function loadItems(conversation, includeContainer) {
+        if (allLoaded) return $.Deferred().resolve();
+
         var messagesSpinner = $('#messagesSpinner');
 
         messagesSpinner.show();
@@ -93,11 +90,13 @@
             type: 'GET',
             data: {
                 conversationId: conversation.id,
-                page: 0,
-                pageSize: 10
+                page: messagesPage,
+                pageSize: messagesPageSize
             }
         })
         .success(function (items) {
+            if (items.length < messagesPageSize) allLoaded = true;
+            messagesPage = messagesPage + 1;
             $.each(items, function (i, item) {
                 switch (item.Message.OrganisationType) {
                     case 'Personal':
@@ -111,11 +110,6 @@
                         break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);
-                console.log(item.Message.CreatedByUserAccountOrganisationID);
-                item.Message.UnreadByCurrentUser = _.filter(item.Reads, function (msg) {
-                    console.log(msg);
-                    return msg.UserAccountOrganisationID == item.Message.CreatedByUserAccountOrganisationID;
-                }).length == 0;
                 item.Unread = item.Reads.length == 0;
                 
                 $.each(item.Reads, function (j, r) {
@@ -123,16 +117,15 @@
                 });
             });
 
-            var templateData = {
-                isEmpty: items.length === 0,
-                items: items.reverse(),
-                conversation: conversation
-            };
-
+            if (includeContainer) {
             messagesTemplatePromise.done(function (template) {
-                var html = template(templateData);
+                    var html = $(template({ conversation: conversation }));
+                    populateContainer(html.find('#itemsContainer'), items);
                 messagesList.html(html);
             });
+            }
+            else populateContainer($('#itemsContainer'), items);
+
         })
         .error(function (data) {
             console.log(data);
@@ -142,9 +135,18 @@
         });
     }
 
+    function populateContainer(itemsContainer, items) {
+        itemsContainer.css('overflow-y', 'hidden'); //force user to start their scroll again if dragging thumb
+        setTimeout(function () { itemsContainer.css('overflow', 'auto'); }, 10);
+        itemTemplatePromise.done(function (template) {
+            var html = $(template({ items: items.reverse() }));
+            itemsContainer.prepend(html);
+            var addingHeight = html.outerHeight();
+            if (messagesPage > 1) itemsContainer.scrollTop(addingHeight);
+        });
+    }
+
     function setupCreateConversation() {
-        var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
-       
         createConversationButton.click(function () {
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
@@ -164,13 +166,7 @@
         });
     }
 
-    function setupRefreshConversationsBtn() {
-        refreshButton.click(function () {
-            loadConversations(currentConversation.activityId).then(selectCurrentOrLatestConversation);
-        })
-    }
-
-    function setupNewConversationForm(){
+    function setupNewConversationForm() {
         var newConversationForm = $('#newConversationForm');
         var submitNewConversation = $("#submitNewConversationBtn");
 
@@ -207,10 +203,8 @@
                 data: formData
             }).done(function (res) {
                 if (res.result === true) {
-                    loadConversations(currentConversation.activityId).then(function () {
-                        currentConversation.id = null; // it will be set by click, triggered in the next function
-                        selectCurrentOrLatestConversation();
-                    });
+                    currentConversation.id = null;
+                    loadConversations(currentConversation.activityId);
                     // show the message
                 } else {
                     // handle error
@@ -223,6 +217,27 @@
     }
 
     function selectCurrentOrLatestConversation() {
+        var items = dataSource.view();
+        var items = _.map(items, function (item) {
+            return _.extend({}, item, {
+                Latest: dateString(item.Latest)
+            });
+        });
+        var templateData = {
+            isEmpty: items.length === 0,
+            items: items
+        };
+        conversationsTemplatePromise.done(function (template) {
+            var html = template(templateData);
+            converationsList.html(html);
+        });
+        if (templateData.isEmpty) {
+            emptyMessageTemplatePromise.done(function (template) {
+                messagesList.html(template());
+            });
+        }
+        conversationsSpinner.hide();
+
         var conversations = $('#conversationsList .conversation-item');
         if (currentConversation.id) {
             conversations = conversations.filter(function () {
@@ -257,7 +272,6 @@
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 },
-
                 submitHandler: submitForm
             });
             function submitForm(form) {
@@ -287,6 +301,11 @@
             messageToFocus = messagesListElement.find('.message-item:last');
         }
         messagesListElement.scrollTo(messageToFocus, 0);
+        messagesListElement.scroll(function () {
+            if (messagesListElement.scrollTop() == 0) {
+                loadItems(currentConversation);
+            }
+        });
     }
 
     function setupDataReload(container) {
@@ -296,11 +315,9 @@
             container.parent().on('activitychange', function (event, activityId) {
                 resetCurrentConversation();
                 currentConversation.activityId = activityId;
-                loadConversations(activityId).then(selectCurrentOrLatestConversation);
+                loadConversations(activityId);
                 fetchParticipants(activityId);
             });
-        } else {
-            loadConversations().then(selectCurrentOrLatestConversation);
         }
     }
 
