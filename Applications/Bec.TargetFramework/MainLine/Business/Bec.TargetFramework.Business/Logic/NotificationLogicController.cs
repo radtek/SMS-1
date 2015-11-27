@@ -532,5 +532,20 @@ namespace Bec.TargetFramework.Business.Logic
 
             if (!valid) throw new Exception("Cannot create conversation");
         }
+
+        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, int page, int pageSize)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var messages = scope.DbContexts.Get<TargetFrameworkEntities>().VMessages
+                    .Where(x => x.ConversationID == conversationId)
+                    .OrderByDescending(x => x.DateSent)
+                    .Skip(page * pageSize)
+                    .Take(pageSize).ToDtos();
+                var nids = messages.Select(m => m.NotificationID);
+                var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
+                return messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO { Message = x, Reads = y });
+            }
+        }
     }
 }

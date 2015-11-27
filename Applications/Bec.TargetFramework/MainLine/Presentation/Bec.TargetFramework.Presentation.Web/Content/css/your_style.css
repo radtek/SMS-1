@@ -359,7 +359,6 @@
   max-height: 450px;
   padding-right: 20px;
   overflow-y: scroll;
-  overflow-x: hidden;
   box-shadow: inset #dddddd -4px 0 6px;
 }
 .view-messages-container .messages-container .messages-list .scrollable .message-item {

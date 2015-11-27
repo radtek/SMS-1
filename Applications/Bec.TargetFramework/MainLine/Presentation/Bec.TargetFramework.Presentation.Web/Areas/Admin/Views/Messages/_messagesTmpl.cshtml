@@ -5,40 +5,7 @@
     <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
 </h3>
 <div class="messages-list">
-    <div class="scrollable">
-        {{#items}}
-        <div class="message-item">
-            <div class="row">
-                <div class="col-sm-1 hidden-xs no-padding">
-                    <div class="thumbnail">
-                        <i class="fa {{icon}} fa-2x"></i>
-                    </div>
-                    <p class="usertype">{{Message.UserType}}</p>
-                </div>
-                <div class="col-sm-11">
-                    <div class="message-heading">
-                        <strong>{{Message.FirstName}} {{Message.LastName}}</strong><span class="text-muted"> wrote on {{Message.DateSent}}</span>
-                    </div>
-                    <pre>{{Message.Message}}</pre>
-                    <div class="read-status">
-                        {{#if Unread}}
-                        <span class="color-primary" title="Unread">
-                            <i class="fa fa-circle-o-notch"></i>
-                        </span>
-                        {{else}}
-                        {{#each Reads}}
-                        <span title="Read">
-                            <span class="text-muted">
-                                Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}
-                            </span>
-                        </span>
-                        {{/each}}
-                        {{/if}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{/items}}
+    <div class="scrollable" id="itemsContainer">
     </div>
     <div class="message-item">
         <div class="row">

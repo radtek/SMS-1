@@ -1854,6 +1854,7 @@
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\AddPersonalDetailsDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\MessageDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />

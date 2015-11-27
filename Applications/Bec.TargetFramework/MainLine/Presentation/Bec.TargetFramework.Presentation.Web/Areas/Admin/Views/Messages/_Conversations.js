@@ -6,14 +6,14 @@
         conversationsError = $('#conversationsError'),
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
-        createConversationButton = $('#createConversationButton'),
-        refreshButton = $('#refreshConversationsButton');
+        createConversationButton = $('#createConversationButton');
 
     var currentConversation = {
         id: null,
         subject: null,
         activityId: null
     };
+    //activityId should come from here too:
     var activityType = viewMessagesContainer.data('activity-type');
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
@@ -23,11 +23,39 @@
     };
     var getParticipantsPromise = $.Deferred();
 
+    var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
+    var emptyMessageTemplatePromise = getTemplatePromise('_emptyMessagesTmpl');
+    var itemTemplatePromise = getTemplatePromise('_itemTmpl');
+    var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
+    var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
+
+    var dataSource = new kendo.data.DataSource({
+        type: "odata-v4",
+        transport: {
+            read: urls.conversationUrl
+        },
+        serverSorting: true,
+        serverPaging: true,
+        pageSize: 10,
+        change: selectCurrentOrLatestConversation,
+        schema: { data: "Items", total: "Count" },
+    });
+
+    loadConversations(currentConversation.activityId);
+
+    $('#conversationsPager').kendoPager({
+        dataSource: dataSource,
+        refresh: true
+    });
+
+    var messagesPageSize = 10;
+    var messagesPage = 0;
+    var allLoaded = false;
+
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
     setupReply();
     setupCreateConversation();
-    setupRefreshConversationsBtn();
 
     function resetCurrentConversation() {
         for (var p in currentConversation) {
@@ -38,52 +66,21 @@
     }
 
     function loadConversations(activityId) {
-        var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
-        var emptyMessageTemplatePromise = getTemplatePromise('_emptyMessagesTmpl');
-
         conversationsSpinner.show();
         conversationsError.hide();
-        return ajaxWrapper({
-            url: urls.conversationUrl,
-            type: 'GET',
-            data: {
-                activityType: activityType,
-                activityId: activityId,
-                page: 0,
-                pageSize: 10
-            }
-        })
-        .success(function (items) {
-            items = _.map(items, function (item) {
-                return _.extend({}, item, {
-                    Latest: dateString(item.Latest)
-                });
-            });
-            var templateData = {
-                isEmpty: items.length === 0,
-                items: items
-            };
-            conversationsTemplatePromise.done(function (template) {
-                var html = template(templateData);
-                converationsList.html(html);
-            });
-            if (templateData.isEmpty) {
-                emptyMessageTemplatePromise.done(function (template) {
-                    messagesList.html(template());
-                });
-            }
-        })
-        .error(function (data) {
-            conversationsError.show();
-            console.log(data);
-        })
-        .always(function () {
-            conversationsSpinner.hide();
-        });
+
+        dataSource.read({ activityType: activityType, activityId: activityId });
     }
 
     function loadMessages(conversation) {
-        var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
+        allLoaded = false;
+        messagesPage = 0;
+        return loadItems(conversation, true);
+    }
+
+    function loadItems(conversation, includeContainer) {
+        if (allLoaded) return $.Deferred().resolve();
+
         var messagesSpinner = $('#messagesSpinner');
 
         messagesSpinner.show();
@@ -92,11 +89,13 @@
             type: 'GET',
             data: {
                 conversationId: conversation.id,
-                page: 0,
-                pageSize: 10
+                page: messagesPage,
+                pageSize: messagesPageSize
             }
         })
         .success(function (items) {
+            if (items.length < messagesPageSize) allLoaded = true;
+            messagesPage = messagesPage + 1;
             $.each(items, function (i, item) {
                 switch (item.Message.OrganisationType) {
                     case 'Personal':
@@ -116,16 +115,15 @@
                 });
             });
 
-            var templateData = {
-                isEmpty: items.length === 0,
-                items: items.reverse(),
-                conversation: conversation
-            };
+            if (includeContainer) {
+                messagesTemplatePromise.done(function (template) {
+                    var html = $(template({ conversation: conversation }));
+                    populateContainer(html.find('#itemsContainer'), items);
+                    messagesList.html(html);
+                });
+            }
+            else populateContainer($('#itemsContainer'), items);
 
-            messagesTemplatePromise.done(function (template) {
-                var html = template(templateData);
-                messagesList.html(html);
-            });
         })
         .error(function (data) {
             console.log(data);
@@ -135,9 +133,18 @@
         });
     }
 
+    function populateContainer(itemsContainer, items) {
+        itemsContainer.css('overflow-y', 'hidden'); //force user to start their scroll again if dragging thumb
+        setTimeout(function () { itemsContainer.css('overflow', 'auto'); }, 10);
+        itemTemplatePromise.done(function (template) {
+            var html = $(template({ items: items.reverse() }));
+            itemsContainer.prepend(html);
+            var addingHeight = html.outerHeight();
+            if (messagesPage > 1) itemsContainer.scrollTop(addingHeight);
+        });
+    }
+
     function setupCreateConversation() {
-        var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
-       
         createConversationButton.click(function () {
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
@@ -157,13 +164,7 @@
         });
     }
 
-    function setupRefreshConversationsBtn() {
-        refreshButton.click(function () {
-            loadConversations(currentConversation.activityId).then(selectCurrentOrLatestConversation);
-        })
-    }
-
-    function setupNewConversationForm(){
+    function setupNewConversationForm() {
         var newConversationForm = $('#newConversationForm');
         var submitNewConversation = $("#submitNewConversationBtn");
 
@@ -200,10 +201,8 @@
                 data: formData
             }).done(function (res) {
                 if (res.result === true) {
-                    loadConversations(currentConversation.activityId).then(function () {
-                        currentConversation.id = null; // it will be set by click, triggered in the next function
-                        selectCurrentOrLatestConversation();
-                    });
+                    currentConversation.id = null;
+                    loadConversations(currentConversation.activityId);
                     // show the message
                 } else {
                     // handle error
@@ -216,6 +215,27 @@
     }
 
     function selectCurrentOrLatestConversation() {
+        var items = dataSource.view();
+        var items = _.map(items, function (item) {
+            return _.extend({}, item, {
+                Latest: dateString(item.Latest)
+            });
+        });
+        var templateData = {
+            isEmpty: items.length === 0,
+            items: items
+        };
+        conversationsTemplatePromise.done(function (template) {
+            var html = template(templateData);
+            converationsList.html(html);
+        });
+        if (templateData.isEmpty) {
+            emptyMessageTemplatePromise.done(function (template) {
+                messagesList.html(template());
+            });
+        }
+        conversationsSpinner.hide();
+
         var conversations = $('#conversationsList .conversation-item');
         if (currentConversation.id) {
             conversations = conversations.filter(function () {
@@ -250,7 +270,6 @@
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 },
-
                 submitHandler: submitForm
             });
             function submitForm(form) {
@@ -280,6 +299,11 @@
             messageToFocus = messagesListElement.find('.message-item:last');
         }
         messagesListElement.scrollTo(messageToFocus, 0);
+        messagesListElement.scroll(function () {
+            if (messagesListElement.scrollTop() == 0) {
+                loadItems(currentConversation);
+            }
+        });
     }
 
     function setupDataReload(container) {
@@ -289,11 +313,9 @@
             container.parent().on('activitychange', function (event, activityId) {
                 resetCurrentConversation();
                 currentConversation.activityId = activityId;
-                loadConversations(activityId).then(selectCurrentOrLatestConversation);
+                loadConversations(activityId);
                 fetchParticipants(activityId);
             });
-        } else {
-            loadConversations().then(selectCurrentOrLatestConversation);
         }
     }
 

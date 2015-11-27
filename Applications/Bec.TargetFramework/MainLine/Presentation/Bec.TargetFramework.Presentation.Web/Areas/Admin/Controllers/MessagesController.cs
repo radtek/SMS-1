@@ -26,54 +26,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetConversations(int page, int pageSize)
+        public async Task<ActionResult> GetConversations()
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread });
             var filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
             var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationDTO>("VConversations", select + filter + order + ODataHelper.PageFilter(page, pageSize));
-            return Json(result, JsonRequestBehavior.AllowGet);
+            JObject res = await QueryClient.QueryAsync("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
 
-        public async Task<ActionResult> GetConversationsActivity(ActivityType activityType, Guid activityId, int page, int pageSize)
+        public async Task<ActionResult> GetConversationsActivity(ActivityType activityType, Guid activityId)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             int at = activityType.GetIntValue();
             var select = ODataHelper.Select<VConversationActivityDTO>(x => new { x.ConversationID, x.Subject, x.Latest });
             var filter = ODataHelper.Filter<VConversationActivityDTO>(x => x.ActivityID == activityId && x.ActivityType == at);
             var order = ODataHelper.OrderBy<VConversationActivityDTO>(x => new { x.Latest }) + " desc";
-            var result = await QueryClient.QueryAsync<VConversationActivityDTO>("VConversationActivities", select + filter + order + ODataHelper.PageFilter(page, pageSize));
-            return Json(result, JsonRequestBehavior.AllowGet);
+            JObject res = await QueryClient.QueryAsync("VConversationActivities", ODataHelper.RemoveParameters(Request) + select + filter + order);
+            return Content(res.ToString(Formatting.None), "application/json");
         }
 
         public async Task<ActionResult> GetMessages(Guid conversationId, int page, int pageSize)
         {
-            var select = ODataHelper.Select<VMessageDTO>(x => new
-            {
-                x.NotificationID,
-                x.DateSent,
-                x.Message,
-                x.Email,
-                x.FirstName,
-                x.LastName,
-                x.UserType,
-                x.OrganisationType
-            });
-            var filter = ODataHelper.Filter<VMessageDTO>(x => x.ConversationID == conversationId);
-            var order = ODataHelper.OrderBy<VMessageDTO>(x => new { x.DateSent }) + " desc";
-            var messages = await QueryClient.QueryAsync<VMessageDTO>("VMessages", select + filter + order + ODataHelper.PageFilter(page, pageSize));
-
-            var rSelect = ODataHelper.Select<VMessageReadDTO>(x => new { x.NotificationID, x.IsAccepted, x.AcceptedDate, x.Email, x.FirstName, x.LastName });
-            var rFilter = ODataHelper.Filter<VMessageReadDTO>(x => x.ConversationID == conversationId);
-            var reads = await QueryClient.QueryAsync<VMessageReadDTO>("VMessageReads", rSelect + rFilter);
-
-            var data = messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new { Message = x, Reads = y });
-
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            NotificationClient.MarkAsRead(uaoId, conversationId);
 
+            var data = await NotificationClient.GetMessagesAsync(conversationId, page, pageSize);
+            NotificationClient.MarkAsRead(uaoId, conversationId);
+            
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
