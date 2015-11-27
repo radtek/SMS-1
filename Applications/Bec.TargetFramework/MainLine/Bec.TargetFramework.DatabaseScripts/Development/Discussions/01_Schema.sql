@@ -11,6 +11,10 @@ CREATE TABLE public."Conversation" (
   "ActivityID" UUID,
   PRIMARY KEY("ConversationID")
 ) ;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."Conversation" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."Conversation" TO bef;
 
 ALTER TABLE public."Conversation"
   ALTER COLUMN "ConversationID" SET STATISTICS 0;
@@ -39,6 +43,11 @@ CREATE TABLE public."ConversationParticipant" (
     NOT DEFERRABLE
 ) 
 WITH (oids = false);
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."ConversationParticipant" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."ConversationParticipant" TO bef;
 
 ALTER TABLE public."ConversationParticipant"
   ALTER COLUMN "ConversationID" SET STATISTICS 0;
@@ -198,6 +207,10 @@ AS
        ) ur ON ur."ConversationID" = c."ConversationID" AND
          ur."UserAccountOrganisationID" = cp."UserAccountOrganisationID";
 
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vConversation" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vConversation" TO bef;
 
 CREATE OR REPLACE VIEW public."vConversationActivity"(
     "ConversationID",
@@ -220,7 +233,10 @@ AS
          GROUP BY "Notification"."ConversationID"
        ) l ON l."ConversationID" = c."ConversationID";
 
-
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vConversationActivity" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vConversationActivity" TO bef;
 
 CREATE VIEW public."vMessage" (
     "ConversationID",
@@ -267,7 +283,10 @@ FROM "Notification" n
      LEFT JOIN sms."SmsUserAccountOrganisationTransactionType" txt ON
          txt."SmsUserAccountOrganisationTransactionTypeID" = tx."SmsUserAccountOrganisationTransactionTypeID";
 
-
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vMessage" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vMessage" TO bef;
 
 		 
 CREATE OR REPLACE VIEW public."vMessageRead"(
@@ -293,3 +312,8 @@ AS
        JOIN "UserAccounts" ua ON ua."ID" = uao."UserID"
        JOIN "Contact" c ON c."ContactID" = uao."PrimaryContactID"
   WHERE nr."IsAccepted" = true;
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vMessageRead" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vMessageRead" TO bef;

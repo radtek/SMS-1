@@ -6,10 +6,10 @@
         conversationsError = $('#conversationsError'),
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
-        createConversationButton = $('#createConversationButton');
-
+        createConversationButton = $('#createConversationButton'),
+        selectedConversationId = viewMessagesContainer.data('selected-conversation-id');
     var currentConversation = {
-        id: null,
+        id: selectedConversationId || null,
         subject: null,
         activityId: null
     };
@@ -70,13 +70,13 @@
         conversationsError.hide();
 
         dataSource.read({ activityType: activityType, activityId: activityId });
-    }
+            }
 
     function loadMessages(conversation) {
         allLoaded = false;
         messagesPage = 0;
         return loadItems(conversation, true);
-    }
+            }
 
     function loadItems(conversation, includeContainer) {
         if (allLoaded) return $.Deferred().resolve();
@@ -116,11 +116,11 @@
             });
 
             if (includeContainer) {
-                messagesTemplatePromise.done(function (template) {
+            messagesTemplatePromise.done(function (template) {
                     var html = $(template({ conversation: conversation }));
                     populateContainer(html.find('#itemsContainer'), items);
-                    messagesList.html(html);
-                });
+                messagesList.html(html);
+            });
             }
             else populateContainer($('#itemsContainer'), items);
 
@@ -372,6 +372,7 @@
     function markConversationAsRead(selectedItem) {
         setTimeout(function () {
             selectedItem.removeClass('unread');
+            $('body').trigger('conversationMarkedAsRead', selectedItem.data('conversation-id'));
         }, 2000);
     }
 

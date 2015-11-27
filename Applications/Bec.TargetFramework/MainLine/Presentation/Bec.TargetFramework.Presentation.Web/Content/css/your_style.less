@@ -180,6 +180,13 @@
             width: 430px;
         }
 
+        .active + .ajax-dropdown {
+            -moz-animation-name: none;
+            -o-animation-name: none;
+            -webkit-animation-name: none;
+            animation-name: none;
+        }
+
         #logo {
             margin-top: 0;
             width: 175px;
@@ -484,6 +491,7 @@
                 .conversation-subject {
                     font-size: 1.0em;
                     margin-bottom: 5px;
+                    margin-right: 120px;
                     white-space: nowrap;
                     overflow: hidden;
                     -ms-text-overflow: ellipsis;
@@ -499,6 +507,10 @@
                     color: #777;
                     font-size: 0.9em;
                     text-align: right;
+                    width: 120px;
+                    position: absolute;
+                    right: 10px;
+                    top: 0;
                 }
             }
         }
@@ -545,7 +557,7 @@
                     border: none;
                     padding: 3px 0;
                     margin: 0;
-                    white-space: normal;
+                    white-space: pre-wrap;
                     overflow: hidden;
                 }
 
