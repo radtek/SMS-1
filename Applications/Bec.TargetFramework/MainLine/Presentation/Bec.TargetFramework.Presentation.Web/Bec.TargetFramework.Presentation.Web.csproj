@@ -183,7 +183,7 @@
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
-    <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
@@ -253,6 +253,7 @@
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
+    <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
@@ -2085,7 +2086,7 @@
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\App\Denied.cshtml" />
-    <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
+    <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />

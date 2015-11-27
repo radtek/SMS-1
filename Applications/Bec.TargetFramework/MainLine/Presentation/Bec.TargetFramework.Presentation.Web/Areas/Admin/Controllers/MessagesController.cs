@@ -21,8 +21,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public INotificationLogicClient NotificationClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? conversationId)
         {
+            ViewBag.ConversationId = conversationId;
             return View();
         }
 

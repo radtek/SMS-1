@@ -116,6 +116,12 @@
 #header #logo-group .ajax-dropdown {
   width: 430px;
 }
+#header #logo-group .active + .ajax-dropdown {
+  -moz-animation-name: none;
+  -o-animation-name: none;
+  -webkit-animation-name: none;
+  animation-name: none;
+}
 #header #logo-group #logo {
   margin-top: 0;
   width: 175px;

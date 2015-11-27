@@ -1,7 +1,7 @@
-﻿@model List<Bec.TargetFramework.Entities.VNotificationViewOnlyUaoDTO>
+﻿@model List<Bec.TargetFramework.Entities.VConversationDTO>
 <span id="activity" class="activity-dropdown" title="Notifications">
     <img src="~/Content/img/safe-send.png" width="16" height="18"/>
-    <b class="badge">@Model.Count</b>
+    <b class="badge" id="unreadConversationsCountId">@Model.Count</b>
 </span>
 
 <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
@@ -10,21 +10,21 @@
     <h4>Notifications</h4>
     <!-- notification content -->
     <div class="ajax-notifications custom-scroll">
-        <ul class="notification-body">
+        <ul class="notification-body" id="latestConversationsList">
             @if (Model.Any())
             {
-                foreach (var notification in Model)
+                foreach (var conversation in Model)
                 {
-                    <li>
+                    <li data-conversation-id="@conversation.ConversationID.ToString("N")">
                         <span class="padding-10 ">
                             <em class="badge padding-5 no-border-radius bg-color-primary pull-left margin-right-5">
                                 <i class="fa fa-bell fa-fw fa-2x"></i>
                             </em>
                             <span>
-                                @notification.NotificationSubject
-                                - @Html.ActionLink("See details", "Details", "InternalNotifications", new { notificationId = notification.NotificationID }, new { @class = "display-normal" })
+                                <span class="text-muted">Subject: </span>@conversation.Subject
+                                - @Html.ActionLink("Read more", "Index", "Messages", new { area = "Admin", conversationId = conversation.ConversationID }, new { @class = "display-normal" })
                                 <br>
-                                <span class="pull-right font-xs text-muted"><i>@Html.Timeago(notification.DateSent)...</i></span>
+                                <span class="pull-right font-xs text-muted"><i>@Html.Timeago(conversation.Latest.Value)...</i></span>
                             </span>
                         </span>
                     </li>
@@ -33,7 +33,7 @@
             else
             {
                 <li>
-                    <span class="padding-10 ">
+                    <span class="padding-10">
                         <em class="badge padding-5 no-border-radius bg-color-transparent pull-left margin-right-5">
                             <i class="fa fa-smile-o fa-fw fa-2x color-primary"></i>
                         </em>
@@ -45,6 +45,10 @@
             }
         </ul>
     </div>
+    <span>
+        @Html.ActionLink("See all Safe Send messages", "Index", "Messages", new { area = "Admin" }, new { @class = "btn btn-default pull-right" })
+    </span>
     <!-- end footer -->
 </div>
 <!-- END AJAX-DROPDOWN -->
+<script async src="@Scripts.Url("~/Scripts/Admin/MessagesNotifications/_LatestConversations")"></script>

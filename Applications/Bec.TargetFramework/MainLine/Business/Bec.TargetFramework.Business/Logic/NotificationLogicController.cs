@@ -210,16 +210,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId, int count)
+        public List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId, int count)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var notifications = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
-                    .Where(x => x.IsInternal && x.UserAccountOrganisationID == userAccountOrganisationId)
-                    .OrderByDescending(x => x.DateSent)
+                var conversations = scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
+                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .OrderByDescending(x => x.Latest)
                     .Take(count);
 
-                return notifications.ToDtos();
+                return conversations.ToDtos();
             }
         }
 

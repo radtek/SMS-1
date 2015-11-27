@@ -8,9 +8,9 @@
         messagesList = $('#messagesList'),
         createConversationButton = $('#createConversationButton'),
         refreshButton = $('#refreshConversationsButton');
-
+    var selectedConversationId = viewMessagesContainer.data('selected-conversation-id');
     var currentConversation = {
-        id: null,
+        id: selectedConversationId || null,
         subject: null,
         activityId: null
     };
@@ -350,6 +350,7 @@
     function markConversationAsRead(selectedItem) {
         setTimeout(function () {
             selectedItem.removeClass('unread');
+            $('body').trigger('conversationMarkedAsRead', selectedItem.data('conversation-id'));
         }, 2000);
     }
 

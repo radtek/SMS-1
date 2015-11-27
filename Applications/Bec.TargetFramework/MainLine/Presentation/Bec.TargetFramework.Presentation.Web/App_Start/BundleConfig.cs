@@ -98,6 +98,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/InternalNotifications/Index").Include("~/Areas/Admin/Views/InternalNotifications/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/Index").Include("~/Areas/Admin/Views/Messages/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/_Conversations").Include("~/Areas/Admin/Views/Messages/_Conversations.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/MessagesNotifications/_LatestConversations").Include("~/Areas/Admin/Views/MessagesNotifications/_LatestConversations.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Transactions").Include("~/Areas/Admin/Views/Reporting/Transactions.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Reporting/Firms").Include("~/Areas/Admin/Views/Reporting/Firms.js"));

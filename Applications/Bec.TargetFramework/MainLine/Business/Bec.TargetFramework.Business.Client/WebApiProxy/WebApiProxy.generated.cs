@@ -443,12 +443,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count);
+		Task<List<VConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count);
+		List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -2574,10 +2574,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count)
+		public virtual Task<List<VConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
+			return GetAsync<List<VConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
 		}
 
 		/// <summary>
@@ -2585,10 +2585,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
-		public virtual List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count)
+		public virtual List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
+			return Task.Run(() => GetAsync<List<VConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
 		}
 
 		/// <summary>

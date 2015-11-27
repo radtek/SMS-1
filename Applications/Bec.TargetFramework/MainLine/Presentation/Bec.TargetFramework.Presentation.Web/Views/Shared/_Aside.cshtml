@@ -50,7 +50,7 @@
                     </li>
                 }
                 <li class="@Html.RouteIf("active", "Messages", "Index")">
-                    <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-weixin"></i> <span class="menu-item-parent">View Messages</span></a>
+                    <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-weixin"></i> <span class="menu-item-parent">Safe Send Messages</span></a>
                 </li>
                 @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
                 {
