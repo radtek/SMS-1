@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Security;
+using System.Linq.Expressions;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -27,12 +28,25 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetConversations()
+        public async Task<int> GetConversationRank(Guid convID)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            return await NotificationClient.GetConversationRankAsync(uaoID, convID);
+        }
+
+        public async Task<ActionResult> GetConversations(ActivityType? activityType, Guid? activityId)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-
             var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread });
-            var filter = ODataHelper.Filter<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
+            var filterExpression = ODataHelper.Expression<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
+            if (activityType.HasValue && activityId.HasValue)
+            {
+                var activityTypeId = activityType.GetIntValue();
+                var activityFilter = ODataHelper.Expression<VConversationDTO>(x => x.ActivityID == activityId && x.ActivityType == activityTypeId);
+                filterExpression = Expression.And(filterExpression, activityFilter);
+            }
+            var filter = ODataHelper.Filter(filterExpression);
+
             var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
             JObject res = await QueryClient.QueryAsync("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order);
             return Content(res.ToString(Formatting.None), "application/json");

@@ -116,7 +116,7 @@
                                                 </div>
 
                                                 <div class="tab-pane padding-10" id="safeSendPanel">
-                                                    @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = true, ActivityId = tx.SmsTransactionID, ActivityType = ActivityType.SmsTransaction })
+                                                    @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, ActivityId = tx.SmsTransactionID, ActivityType = ActivityType.SmsTransaction })
                                                 </div>
                                             </div>
                                         </div>

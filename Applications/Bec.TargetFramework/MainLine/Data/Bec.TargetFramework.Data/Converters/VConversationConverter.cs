@@ -34,6 +34,8 @@ namespace Bec.TargetFramework.Entities
             target.Subject = source.Subject;
             target.Latest = source.Latest;
             target.Unread = source.Unread;
+            target.ActivityID = source.ActivityID;
+            target.ActivityType = source.ActivityType;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -54,6 +56,8 @@ namespace Bec.TargetFramework.Entities
             target.Subject = source.Subject;
             target.Latest = source.Latest;
             target.Unread = source.Unread;
+            target.ActivityID = source.ActivityID;
+            target.ActivityType = source.ActivityType;
 
             // User-defined partial method
             OnEntityCreating(source, target);

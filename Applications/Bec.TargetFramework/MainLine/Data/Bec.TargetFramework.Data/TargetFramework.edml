@@ -9958,6 +9958,8 @@
           <Property Name="Subject" Type="varchar" />
           <Property Name="Latest" Type="timestamptz" />
           <Property Name="Unread" Type="bigint" />
+          <Property Name="ActivityID" Type="uuid" />
+          <Property Name="ActivityType" Type="int" />
         </EntityType>
         <EntityType Name="vConversationActivity">
           <Key>
@@ -18237,6 +18239,10 @@
           <Parameter Name="createdby" Type="varchar" Mode="In" />
           <Parameter Name="organisationrecommendationsourceid" Type="int" Mode="In" />
         </Function>
+        <Function Name="fn_ConversationRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_ConversationRank">
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
+          <Parameter Name="convid" Type="uuid" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -21147,6 +21153,10 @@
             <Parameter Name="organisationdescription" Mode="In" Type="String" />
             <Parameter Name="createdby" Mode="In" Type="String" />
             <Parameter Name="organisationrecommendationsourceid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FnConversationRank" ReturnType="Collection(Int32)" ed:Guid="91b96071-f06f-406a-859a-1161c0dd28a1">
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
+            <Parameter Name="convid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -29234,6 +29244,8 @@
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="49c8ec96-f0d1-4eaf-a82f-32cf33fa7678" />
           <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c22b57e3-246f-47d1-a844-e92d6df77c92" />
           <Property Name="Unread" Type="Int64" ed:ValidateRequired="False" ed:Guid="5e4352c5-93b5-471e-b652-17a7893a879b" />
+          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6ae67b92-930b-47c4-9afd-3f47a9e5a2fe" />
+          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="aaa8f711-9134-4f55-b5f5-04a478e62c5f" />
         </EntityType>
         <EntityType Name="VConversationActivity" ed:Guid="89050a44-044c-41bb-9cb3-39b8bfbed84c">
           <Key>
@@ -43916,6 +43928,8 @@
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Latest" ColumnName="Latest" />
                 <ScalarProperty Name="Unread" ColumnName="Unread" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44123,6 +44137,7 @@
           <FunctionImportMapping FunctionImportName="FnAddUserToTemporaryOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToTemporaryOrganisation" />
           <FunctionImportMapping FunctionImportName="FnAddUserToOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToOrganisation" />
           <FunctionImportMapping FunctionImportName="FnCreateOrganisationFromDefault" FunctionName="Bec.TargetFramework.Data.Store.fn_CreateOrganisationFromDefault" />
+          <FunctionImportMapping FunctionImportName="FnConversationRank" FunctionName="Bec.TargetFramework.Data.Store.fn_ConversationRank" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

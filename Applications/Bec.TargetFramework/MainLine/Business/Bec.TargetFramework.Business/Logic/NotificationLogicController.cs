@@ -523,11 +523,9 @@ namespace Bec.TargetFramework.Business.Logic
                             // check if the user is part of the transaction
                             if (tx.OrganisationID != orgID)
                             {
-                                var uaotSingle = (
-                                    from uaot in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
-                                    join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaot.UserAccountOrganisationID equals uao.UserAccountOrganisationID
-                                    where uaot.SmsTransactionID == activityID.Value && uao.OrganisationID == orgID
-                                    select uaot).SingleOrDefault();
+                                var uaotSingle = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                                    .Where(x => x.SmsTransactionID == activityID.Value && x.UserAccountOrganisation.OrganisationID == orgID)
+                                    .SingleOrDefault();
                                 
                                 if (uaotSingle == null) valid = false;
                             }
@@ -549,7 +547,7 @@ namespace Bec.TargetFramework.Business.Logic
             if (!valid) throw new Exception("Cannot create conversation");
         }
 
-        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, Guid uaoId, int page, int pageSize)
+        public MessageContainerDTO GetMessages(Guid conversationId, Guid uaoId, int page, int pageSize)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -560,13 +558,32 @@ namespace Bec.TargetFramework.Business.Logic
                     .Take(pageSize).ToDtos();
                 var nids = messages.Select(m => m.NotificationID);
                 var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
-                return messages
-                    .GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
-                    {
-                        IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
-                        Message = x,
-                        Reads = y
+                var participants = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants.Where(x => x.ConversationID == conversationId)
+                    .Select(x => new ParticipantDTO
+                    { 
+                        FirstName = x.UserAccountOrganisation.Contact.FirstName, 
+                        LastName = x.UserAccountOrganisation.Contact.LastName, 
+                        OrganisationName = x.UserAccountOrganisation.Organisation.OrganisationDetails.FirstOrDefault().Name 
                     });
+                return new MessageContainerDTO
+                {
+                    Messages = messages
+                        .GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
+                        {
+                            IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
+                            Message = x,
+                            Reads = y
+                        }),
+                    Participants = participants.ToList()
+                };
+            }
+        }
+
+        public int GetConversationRank(Guid uaoID, Guid convID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().FnConversationRank(uaoID, convID).Value;
             }
         }
     }

@@ -4,6 +4,14 @@
     {{conversation.subject}}
     <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
 </h3>
+<div class="margin-bottom-10">
+    <span class="text-muted">Participants:</span>
+    <span>
+        {{#each participants}}
+        {{FirstName}} {{LastName}};
+        {{/each}}
+    </span>
+</div>
 <div class="messages-list">
     <div class="scrollable" id="itemsContainer">
     </div>

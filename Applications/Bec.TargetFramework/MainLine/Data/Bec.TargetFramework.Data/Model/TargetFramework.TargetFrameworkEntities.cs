@@ -2211,6 +2211,46 @@ namespace Bec.TargetFramework.Data
             return result;
         }
 
+    
+        /// <summary>
+        /// There are no comments for FnConversationRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnConversationRank (global::System.Nullable<System.Guid> uaoid, global::System.Nullable<System.Guid> convid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnConversationRank";
+                command.Connection = connection;
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
+                EntityParameter convidParameter = new EntityParameter("convid", System.Data.DbType.Guid);
+                if (convid.HasValue)
+                    convidParameter.Value = convid;
+                command.Parameters.Add(convidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
         #endregion
     }
 }

@@ -76,6 +76,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for ActivityID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> ActivityID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for ActivityType in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> ActivityType
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

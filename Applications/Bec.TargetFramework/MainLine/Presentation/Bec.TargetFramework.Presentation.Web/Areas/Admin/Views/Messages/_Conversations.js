@@ -9,9 +9,9 @@
         getMessagesSpinner = function () { return $('#messagesSpinner'); },
         getNewConversationError = function () { return $('#newConversationError'); };
         createConversationButton = $('#createConversationButton'),
-        selectedConversationId = viewMessagesContainer.data('selected-conversation-id');
+        targetConversationId = viewMessagesContainer.data('target-conversation-id');
     var currentConversation = {
-        id: selectedConversationId || null,
+        id: null,
         subject: null,
     };
     var currentActivity = {
@@ -22,7 +22,8 @@
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
         messagesUrl: viewMessagesContainer.data("messages-url"),
-        recipientsUrl: viewMessagesContainer.data("recipients-url")
+        recipientsUrl: viewMessagesContainer.data("recipients-url"),
+        convRankUrl: viewMessagesContainer.data("convrank-url")
     };
 
     var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -34,25 +35,47 @@
     var dataSource = new kendo.data.DataSource({
         type: "odata-v4",
         transport: {
-            read: urls.conversationUrl
+            read: function (options) {
+                var d = kendo.data.transports['odata-v4'].parameterMap(options.data);
+                delete d['$inlinecount'];
+                d['$count'] = true;
+
+                _.extend(d, {
+                    activityId: currentActivity.activityId,
+                    activityType: currentActivity.activityType
+                });
+
+                var ajaxOptions = {
+                    url: urls.conversationUrl,
+                    data: d
+                };
+                ajaxWrapper(ajaxOptions)
+                    .then(function (result) {
+                        options.success(result);
+                    }, function (data) {
+                        options.error(data);
+                    });
+            }
         },
-        serverSorting: true,
+        serverSorting: false,
         serverPaging: true,
         pageSize: 10,
         change: selectCurrentOrLatestConversation,
         schema: { data: "Items", total: "Count" },
     });
+    
+    var isActivitySpecificView = viewMessagesContainer.data("is-activity-specific");
+    if (!isActivitySpecificView) loadConversations();
 
-    loadConversations(currentActivity.activityId);
-
-    $('#conversationsPager').kendoPager({
+    var pager = $('#conversationsPager').kendoPager({
         dataSource: dataSource,
         refresh: true
-    });
+    }).data('kendoPager');
 
     var messagesPageSize = 10;
     var messagesPage = 0;
     var allLoaded = false;
+    var jumpedPage = false;
 
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
@@ -67,11 +90,10 @@
         }
     }
 
-    function loadConversations(activityId) {
+    function loadConversations() {
         conversationsSpinner.show();
         conversationsError.hide();
-
-        dataSource.read({ activityType: currentActivity.activityType, activityId: activityId });
+        dataSource.read();
     }
 
     function loadMessages(conversation) {
@@ -94,7 +116,8 @@
                 pageSize: messagesPageSize
             }
         })
-        .success(function (items) {
+        .success(function (data) {
+            var items = data.Messages;
             if (items.length < messagesPageSize) allLoaded = true;
             messagesPage = messagesPage + 1;
             $.each(items, function (i, item) {
@@ -121,7 +144,7 @@
 
             if (includeContainer) {
                 messagesTemplatePromise.done(function (template) {
-                    var html = $(template({ conversation: conversation }));
+                    var html = $(template({ conversation: conversation, participants: data.Participants }));
                     populateContainer(html.find('#itemsContainer'), items);
                     messagesList.html(html);
                 });
@@ -139,7 +162,7 @@
 
     function populateContainer(itemsContainer, items) {
         itemsContainer.css('overflow-y', 'hidden'); //force user to start their scroll again if dragging thumb
-        setTimeout(function () { itemsContainer.css('overflow', 'auto'); }, 10);
+        setTimeout(function () { itemsContainer.css('overflow-y', 'auto'); }, 10);
         itemTemplatePromise.done(function (template) {
             var html = $(template({ items: items.reverse() }));
             itemsContainer.prepend(html);
@@ -211,10 +234,9 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                console.log(res);
                 if (res.result === true) {
-                    currentConversation.id = null;
-                    loadConversations(currentActivity.activityId);
+                    targetConversationId = null;
+                    pager.page(1);
                 } else {
                     showNewConversationError();
                 }
@@ -251,14 +273,30 @@
             });
         }
         conversationsSpinner.hide();
-
         var conversations = $('#conversationsList .conversation-item');
-        if (currentConversation.id) {
+        if (targetConversationId) {
             conversations = conversations.filter(function () {
-                return $(this).data('conversation-id') == currentConversation.id;
+                return $(this).data('conversation-id') == targetConversationId;
             });
+
+            if (conversations.length == 1){
+                conversations.first().trigger('click');
+                targetConversationId = null;
+            } else if (!jumpedPage) {
+                jumpedPage = true;
+                ajaxWrapper({
+                    url: urls.convRankUrl,
+                    data: {
+                        convID: currentConversation.id
+                    }
+                }).success(function (data) {
+                    var page = Math.floor((data - 1) / messagesPageSize) + 1;
+                    pager.page(page);
+                });
+            }
+        } else {
+            conversations.first().trigger('click');
         }
-        conversations.first().trigger('click');
     }
 
     function autoresizeTextarea(textarea) {
@@ -297,7 +335,8 @@
                     type: "POST",
                     data: formData
                 }).success(function () {
-                    loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
+                    targetConversationId = currentConversation.id;
+                    pager.page(1);
                     replyForm.find('textarea').val('');
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {
@@ -329,7 +368,7 @@
             container.parent().on('activitychange', function (event, activityId) {
                 resetCurrentConversation();
                 currentActivity.activityId = activityId;
-                loadConversations(activityId);
+                loadConversations();
             });
         }
     }

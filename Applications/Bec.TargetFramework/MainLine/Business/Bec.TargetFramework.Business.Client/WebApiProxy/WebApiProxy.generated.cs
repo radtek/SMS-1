@@ -589,14 +589,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+		Task<MessageContainerDTO> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
 
 		/// <param name="conversationId"></param>
 		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+		MessageContainerDTO GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		Int32 GetConversationRank(Guid uaoID,Guid convID);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2921,10 +2931,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public virtual Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		public virtual Task<MessageContainerDTO> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
+			return GetAsync<MessageContainerDTO>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
 		}
 
 		/// <summary>
@@ -2934,10 +2944,33 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
-		public virtual IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		public virtual MessageContainerDTO GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
+			return Task.Run(() => GetAsync<MessageContainerDTO>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		public virtual Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		public virtual Int32 GetConversationRank(Guid uaoID,Guid convID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user)).Result;
 		}
 
 		#endregion
