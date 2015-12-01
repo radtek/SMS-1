@@ -192,7 +192,7 @@
                                                     <a style="display: none;" data-parent-id="bankAccountRow0"><!-- Not Displayed --></a>
                                                 </section>
                                             </div>
-                                            <div id="addNextBankAccountRow" class="row" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "", view = "_srcFundsBankAccountTmpl" })">
+                                            <div id="addNextBankAccountRow" class="row" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
                                                 <section class="col col-5">
                                                     <a id="addNextBankAccountBtn" href="#" class="add-next-bank-account"><i class="fa fa-plus margin-right-10"></i>Add Next Bank Account</a>
                                                 </section>
@@ -297,7 +297,7 @@
                                                         <label class="input">
                                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                             @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                            <span class="typeahead-spinner required-field"><i class="fa fa-spin fa-spinner"></i></span>
+                                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                                         </label>
                                                     </section>
                                                     <section class="col col-6">

@@ -391,6 +391,13 @@
         <File Name="TargetFramework.Lender.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsBankAccountCheck.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.SmsSrcFundsBankAccount.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.Conversation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.ConversationParticipant.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VConversation.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VConversationActivity.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VMessageRead.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VMessage.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VSafeSendRecipient.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1164,6 +1171,20 @@
         <File Name="SmsBankAccountCheckDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="SmsSrcFundsBankAccountDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="SmsSrcFundsBankAccountDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ConversationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ConversationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="ConversationParticipantDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="ConversationParticipantDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VConversationDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VConversationDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VConversationActivityDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VConversationActivityDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VMessageReadDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VMessageReadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VMessageDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VMessageDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VSafeSendRecipientDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VSafeSendRecipientDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1552,6 +1573,13 @@
         <File Name="LenderConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsBankAccountCheckConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="SmsSrcFundsBankAccountConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ConversationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="ConversationParticipantConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VConversationConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VConversationActivityConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VMessageReadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VMessageConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VSafeSendRecipientConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>
@@ -1717,6 +1745,40 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
+      <Exclude Name="DefaultOrganisationRoleID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="DefaultOrganisationID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleName" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleDescription" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleTypeID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleSubTypeID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleCategoryID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleSubCategoryID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="ParentID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="RoleID" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="IsActive" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="IsDefaultOrganisationSpecific" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="DefaultOrganisationRole_pkey" Table="public.DefaultOrganisationRole" Type="Constraint" />
+      <Exclude Name="fk_DefaultOrganisationRole_DefaultOrganisation" Table="public.DefaultOrganisationRole" Type="Constraint" />
+      <Exclude Name="fk_DefaultOrganisationRole_Role" Table="public.DefaultOrganisationRole" Type="Constraint" />
+      <Exclude Name="DefaultOrganisationRoleTemplateID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="DefaultOrganisationTemplateID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleName" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleDescription" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleTypeID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleSubTypeID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleCategoryID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleSubCategoryID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="ParentID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="RoleID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="IsActive" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="IsDefaultOrganisationSpecific" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="DefaultOrganisationTemplateVersionNumber" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
+      <Exclude Name="DefaultOrganisationRole_pkeyT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
+      <Exclude Name="fk_DefaultOrganisationRole_DefaultOrganisationT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
+      <Exclude Name="fk_DefaultOrganisationRole_RoleT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
@@ -1745,10 +1807,10 @@
       <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="FilesPerMonth" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
+      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_DefaultOrganisation" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_OrganisationType" Table="public.Organisation" Type="Constraint" />
-      <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="Organisation_SchemeID_key" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="OrganisationLedgerAccountID" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="TransactionOrderID" Table="public.OrganisationLedgerTransaction" Type="Column" />
@@ -1757,9 +1819,25 @@
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="OrganisationRoleID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="ParentOrganisationRoleID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleName" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="ParentRootRoleID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="IsManaged" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleTypeID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleSubTypeID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleCategoryID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="IsActive" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleDescription" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="RoleSubCategoryID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="ParentID" Table="public.OrganisationRole" Type="Column" />
+      <Exclude Name="OrganisationRole_pkey" Table="public.OrganisationRole" Type="Constraint" />
+      <Exclude Name="fk_Role_Organisation" Table="public.OrganisationRole" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1868,8 +1946,11 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
+      <Exclude Name="IsDefault" Table="public.DefaultOrganisationRole" Type="Column" />
+      <Exclude Name="IsDefault" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
+      <Exclude Name="IsDefault" Table="public.OrganisationRole" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />

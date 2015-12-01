@@ -1,0 +1,21 @@
+﻿<ul class="conversations-list">
+    {{#if isEmpty}}
+    <li>
+        <div>You have not got any conversations.</div>
+    </li>
+    {{/if}}
+    {{#each items}}
+    <li class="conversation-item{{#if Unread}} unread{{/if}}" data-conversation-id="{{ConversationID}}" data-conversation-subject="{{Subject}}">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="conversation-subject">
+                    <span class="text-muted">Subject: </span>{{Subject}}
+                </h4>
+                <div class="date">
+                    {{Latest}}
+                </div>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</ul>

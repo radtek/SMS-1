@@ -1,0 +1,37 @@
+﻿<div>
+    {{#each items}}
+    <div class="message-item {{#unless IsReadByCurrentUser}}unread{{/unless}}">
+        <div class="row">
+            <div class="col-sm-1 hidden-xs no-padding">
+                <div class="thumbnail" title="{{Message.UserType}}">
+                    <i class="fa {{icon}} fa-2x"></i>
+                </div>
+                <p class="usertype" title="{{Message.UserType}}">{{Message.UserType}}</p>
+            </div>
+            <div class="col-sm-11">
+                <div class="message-heading">
+                    <strong>{{Message.FirstName}} {{Message.LastName}} </strong>
+                    {{#if isFromProfessionalUser}}> <strong>{{Message.OrganisationName}} </strong>{{/if}} 
+                    <span class="text-muted">wrote on {{Message.DateSent}}</span>
+                </div>
+                <pre>{{Message.Message}}</pre>
+                <div class="read-status">
+                    {{#if Unread}}
+                    <span class="text-muted" title="Unread">
+                        <i class="fa fa-circle-o-notch color-primary"></i> Not read by anyone else
+                    </span>
+                    {{else}}
+                    {{#each Reads}}
+                    <span title="Read">
+                        <span class="text-muted">
+                            Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}
+                        </span>
+                    </span>
+                    {{/each}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

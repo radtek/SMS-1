@@ -180,11 +180,13 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
-    <Compile Include="Areas\Admin\Controllers\InternalNotificationsAlertController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
@@ -254,6 +256,15 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Content\css\sms-font.css">
+      <DependentUpon>sms-font.less</DependentUpon>
+    </Content>
+    <Content Include="Content\css\sms-font.min.css">
+      <DependentUpon>sms-font.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Scripts\Libs\jquery.scrollTo.js" />
+    <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
     <Content Include="Areas\Admin\Views\Shared\_EmailLog.js" />
     <Content Include="Areas\Admin\Views\Shared\_Verify.js" />
@@ -816,6 +827,18 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_Match.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_Conversations.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_createConversationTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_emptyMessagesTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_itemTmpl.cshtml" />
+    <Content Include="Content\css\sms-font.less" />
+    <Content Include="Content\css\sms-font.css.map">
+      <DependentUpon>sms-font.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Fonts\sms-font.eot" />
+    <Content Include="Content\Fonts\sms-font.ttf" />
+    <Content Include="Content\Fonts\sms-font.woff" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -967,8 +990,8 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />
-    <Content Include="Views\Shared\_relatedPartiesTmpl.cshtml" />
-    <Content Include="Views\Shared\_primaryBuyerDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_relatedPartiesTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
@@ -2077,9 +2100,9 @@
     <Content Include="Scripts\kendo\kendo.window.min.js.map" />
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\App\Denied.cshtml" />
-    <Content Include="Areas\Admin\Views\InternalNotificationsAlert\_LatestNotifications.cshtml" />
+    <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.cshtml" />
     <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
-    <Content Include="Views\Shared\_transactionDetailsTmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\BuyersAtRisk.cshtml" />
@@ -2097,7 +2120,9 @@
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
     <Content Include="Views\Shared\_Toastr.cshtml" />
-    <Content Include="Views\Shared\_srcFundsBankAccountTmpl.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

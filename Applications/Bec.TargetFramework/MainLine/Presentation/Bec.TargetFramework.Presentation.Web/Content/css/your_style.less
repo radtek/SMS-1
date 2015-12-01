@@ -1,17 +1,8 @@
-/*
- * It is advised not to edit the smartadmin_production.css
- * as this will override any changes you make in the 
- * later versions of this theme. 
- * 
- * We advise that you use use this CSS to override 
- * SmartAdmin styles. 
- * 
- * Rename the stylesheet to whatever your liking so it will stay
- * unique to you with each update of SmartAdmin.
- */
+@import 'sms-font';
 
 @primary-color: #a1c324;
-@text-color:black;
+@text-color: black;
+@icon-color: #7d7d7d;
 
 .color-primary {
     color: @primary-color;
@@ -164,7 +155,7 @@
     }
 
     footer {
-        .btn{
+        .btn {
             font-size: 1em;
         }
     }
@@ -180,9 +171,20 @@
             width: 430px;
         }
 
+        .active + .ajax-dropdown {
+            -moz-animation-name: none;
+            -o-animation-name: none;
+            -webkit-animation-name: none;
+            animation-name: none;
+        }
+
+        span#activity{
+            color: @icon-color;
+        }
         #logo {
             margin-top: 0;
             width: 175px;
+
             img {
                 width: 106px !important;
                 height: 38px !important;
@@ -207,11 +209,12 @@
 
 @media only screen and (max-width: 479px) and (min-width: 320px) {
     #logo-group {
-         width: inherit !important; 
+        width: inherit !important;
     }
 }
-@media only screen and (min-width: 980px){
-    .menu-toggle{
+
+@media only screen and (min-width: 980px) {
+    .menu-toggle {
         display: none;
     }
 }
@@ -229,7 +232,7 @@
     }
 }
 
-.icon-append + .twitter-typeahead input{
+.icon-append + .twitter-typeahead input {
     padding-right: 37px;
 }
 
@@ -242,7 +245,7 @@
     top: 7px;
     display: none;
 
-    &.required-field{
+    &.required-field {
         right: 38px;
     }
 }
@@ -322,16 +325,21 @@
 
 //smart admin has quite a specific bg-colour for this in #logo-group
 #activity {
-    .badge{
+    .badge {
         background: @primary-color !important;
     }
-    &.active .badge{
+
+    &.active .badge {
         background: darken(@primary-color, 5%) !important;
+    }
+
+    img {
+        margin-bottom: 6px;
     }
 }
 
-.dropdown-menu>li>a:focus, 
-.dropdown-menu>li>a:hover {
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
     background-color: lighten(@primary-color, 10%);
 }
 
@@ -344,29 +352,50 @@
 
 .smart-form {
     .checkbox {
-        input+i {
-            &:after{
+        input + i {
+            &:after {
                 color: @primary-color;
             }
-            border-color:#bdbdbd !important;
+
+            border-color: #bdbdbd !important;
         }
+    }
+
+    .checkbox:hover i,
+    .input:hover input,
+    .radio:hover i,
+    .select:hover select,
+    .textarea:hover textarea,
+    .toggle:hover i {
+        border-color: @primary-color;
+    }
+
+    .checkbox input:focus + i,
+    .input input:focus,
+    .radio input:focus + i,
+    .select select:focus,
+    .textarea textarea:focus,
+    .toggle input:focus + i {
+        border-color: @primary-color;
     }
 }
 
 .nav-pills {
-    li{
-        a{
-             color:darken(@primary-color,20%);
+    li {
+        a {
+            color: darken(@primary-color,20%);
         }
     }
+
     li.active {
         a {
-            background-color:@primary-color;
+            background-color: @primary-color;
+
             &:hover,
             &:active,
             &:focus,
-            &:visited{
-                background-color:@primary-color;
+            &:visited {
+                background-color: @primary-color;
             }
         }
     }
@@ -389,53 +418,277 @@
     cursor: pointer !important;
 }
 
-.icon-append{
+.icon-append {
     z-index: 9999;
 }
 
 #userMenu {
-    color: #7d7d7d;
+    color: @icon-color;
     padding: 2px 12px;
     font-size: 1.5em;
 
-    & + .dropdown-menu{
-        li{
-            a{
+    & + .dropdown-menu {
+        li {
+            a {
                 padding: 8px 18px;
             }
         }
     }
 }
 
-#logout a{
+#logout a {
     font-size: 1.05em;
 }
 
-.menu-toggle{
-    a{
-        color: #7d7d7d;
+.menu-toggle {
+    a {
+        color: @icon-color;
         font-size: 16px;
         display: inline-block;
     }
 }
 
-.validation-summary-errors{
-    ul li{
+.validation-summary-errors {
+    ul li {
         list-style: none;
     }
 }
 
-.delete-entry{
+.delete-entry {
     display: inline-block;
     color: #a90329;
     margin-top: 7px;
     cursor: pointer;
 }
 
-.add-next-bank-account{
+.add-next-bank-account {
     cursor: pointer;
 }
 
-.red-bg{
+.red-bg {
     background-color: #fad4d4;
 }
+
+.view-messages-container {
+    position: relative;
+
+    .conversations-container {
+        .conversations-list {
+            list-style-type: none;
+            padding: 0;
+
+            .conversation-item {
+                border-top: 1px solid #ddd;
+                padding: 10px;
+                padding-left: 15px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #eee;
+                }
+
+                &.unread {
+                    background-color: #f4f4f4;
+                    border-left: 5px solid @primary-color;
+
+                    .conversation-subject {
+                        font-weight: bold;
+                    }
+                }
+
+                &.active {
+                    background-color: lighten(@primary-color, 40%);
+                }
+
+                .conversation-subject {
+                    font-size: 1.0em;
+                    margin-bottom: 5px;
+                    margin-right: 120px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    -ms-text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                }
+
+                .conversation-message {
+                    font-size: 0.9em;
+                }
+
+                .date {
+                    color: #777;
+                    font-size: 0.9em;
+                    text-align: right;
+                    width: 120px;
+                    position: absolute;
+                    right: 10px;
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    .messages-container {
+        box-shadow: #f5f5f5 -7px 0 20px;
+
+        #conversationSubject{
+            margin-bottom: 10px;
+        }
+        .messages-list {
+            .scrollable {
+                max-height: 450px; // do media specific
+                padding-right: 20px;
+                overflow-y: scroll;
+                //overflow-x: hidden;
+                box-shadow: inset #ddd -4px 0 6px;
+
+                .message-item {
+                    border-top: 1px solid #ddd;
+                }
+            }
+
+            .thumbnail {
+                text-align: center;
+                border: none;
+                background-color: transparent;
+                margin-bottom: 0;
+            }
+
+            .message-item {
+                padding: 10px;
+                padding-left: 15px;
+
+                &.unread {
+                    border-left: 5px solid @primary-color;
+                }
+
+                .message-heading {
+                    font-size: 0.9em;
+                }
+
+                .usertype {
+                    font-size: smaller;
+                    text-align: center;
+                    -ms-text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
+                pre {
+                    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+                    background: transparent;
+                    border: none;
+                    padding: 3px 0;
+                    margin: 0;
+                    white-space: pre-wrap;
+                    overflow: hidden;
+                }
+
+                .read-status {
+                    font-size: 0.8em;
+                }
+
+                .smart-form {
+                    fieldset {
+                        padding: 0;
+                        padding-right: 10px;
+                        background: none;
+
+                        label.label {
+                            font-weight: bold;
+                        }
+
+                        #replyMessageTextArea {
+                            height: 32px;
+                            min-height: 32px;
+                        }
+                    }
+
+                    #replyButton {
+                        padding: 6px;
+                    }
+                }
+            }
+        }
+
+        .new-conversation-form {
+            footer{
+                border-top: none;
+                background: none;
+                padding-top: 0;
+            }
+            fieldset{
+                background: none;
+            }
+            .select2-container-multi {
+                border: 1px solid #bdbdbd;
+                height: auto;
+                .select2-choices {
+                    border: none;
+
+                    .select2-search-choice {
+                        line-height: 20px;
+                        border: 1px solid @primary-color;
+                        background-color: @primary-color;
+                    }
+
+                    .select2-search-choice-close {
+                        min-width: 18px;
+                        padding: 3px 0 0 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.select2-drop-active { 
+    border: 1px solid #bdbdbd;
+    .select2-results .select2-highlighted {
+        background: @primary-color;
+        color: #fff;
+    }
+}
+
+.buyer-transactions{
+    .tab-content{
+        border-bottom: 1px solid #eee;
+        box-shadow: 0 0 1px #eee;
+    }
+}
+
+.hidden {
+    display: none;
+    width: 0;
+}
+// xs and sm
+@media only screen and (max-width: 992px) {
+    .view-messages-container {
+        .messages-container {
+            h3 {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .col-xs-0 {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    .col-sm-0 {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+    }
+}
+
+

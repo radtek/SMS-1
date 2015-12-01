@@ -443,12 +443,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count);
+		Task<List<VConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count);
+		List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count);
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
@@ -543,6 +543,70 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
 		void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <param name="subject"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <param name="subject"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		Guid CreateConversation(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,String message);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		void ReplyToConversation(Guid uaoID,Guid conversationID,String message);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		Task MarkAsReadAsync(Guid uaoID,Guid conversationID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		void MarkAsRead(Guid uaoID,Guid conversationID);
+
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		Task<MessageContainerDTO> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		MessageContainerDTO GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
+
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		Int32 GetConversationRank(Guid uaoID,Guid convID);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2550,10 +2614,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task<List<VNotificationViewOnlyUaoDTO>> GetLatestInternalAsync(Guid userAccountOrganisationId,Int32 count)
+		public virtual Task<List<VConversationDTO>> GetLatestUnreadConversationsAsync(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
+			return GetAsync<List<VConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user);
 		}
 
 		/// <summary>
@@ -2561,10 +2625,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="userAccountOrganisationId"></param>
 		/// <param name="count"></param>
-		public virtual List<VNotificationViewOnlyUaoDTO> GetLatestInternal(Guid userAccountOrganisationId,Int32 count)
+		public virtual List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId,Int32 count)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<List<VNotificationViewOnlyUaoDTO>>("api/NotificationLogic/GetLatestInternal?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
+			return Task.Run(() => GetAsync<List<VConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
 		}
 
 		/// <summary>
@@ -2788,6 +2852,141 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <param name="subject"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		public virtual Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
+		{
+			subject = subject.UrlEncode();
+			message = message.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="activityTypeID"></param>
+		/// <param name="activityID"></param>
+		/// <param name="subject"></param>
+		/// <param name="message"></param>
+		public virtual Guid CreateConversation(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
+		{
+			subject = subject.UrlEncode();
+			message = message.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		public virtual Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,String message)
+		{
+			message = message.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&message=" + message, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <param name="message"></param>
+		public virtual void ReplyToConversation(Guid uaoID,Guid conversationID,String message)
+		{
+			message = message.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&message=" + message, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		/// <returns></returns>
+		public virtual Task MarkAsReadAsync(Guid uaoID,Guid conversationID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="conversationID"></param>
+		public virtual void MarkAsRead(Guid uaoID,Guid conversationID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/MarkAsRead?uaoID=" + uaoID + "&conversationID=" + conversationID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		public virtual Task<MessageContainerDTO> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<MessageContainerDTO>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
+		/// <param name="page"></param>
+		/// <param name="pageSize"></param>
+		public virtual MessageContainerDTO GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<MessageContainerDTO>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		/// <returns></returns>
+		public virtual Task<Int32> GetConversationRankAsync(Guid uaoID,Guid convID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="convID"></param>
+		public virtual Int32 GetConversationRank(Guid uaoID,Guid convID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetConversationRank?uaoID=" + uaoID + "&convID=" + convID, _user)).Result;
 		}
 
 		#endregion

@@ -1996,6 +1996,41 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsSrcFundsBankAccount in the schema.
         /// </summary>
         public virtual DbSet<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Conversation in the schema.
+        /// </summary>
+        public virtual DbSet<Conversation> Conversations { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ConversationParticipant in the schema.
+        /// </summary>
+        public virtual DbSet<ConversationParticipant> ConversationParticipants { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversation in the schema.
+        /// </summary>
+        public virtual DbSet<VConversation> VConversations { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversationActivity in the schema.
+        /// </summary>
+        public virtual DbSet<VConversationActivity> VConversationActivities { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessageRead in the schema.
+        /// </summary>
+        public virtual DbSet<VMessageRead> VMessageReads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessage in the schema.
+        /// </summary>
+        public virtual DbSet<VMessage> VMessages { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VSafeSendRecipient in the schema.
+        /// </summary>
+        public virtual DbSet<VSafeSendRecipient> VSafeSendRecipients { get; set; }
 
         #region Methods
 
@@ -2167,6 +2202,46 @@ namespace Bec.TargetFramework.Data
                     organisationrecommendationsourceidParameter.Value = organisationrecommendationsourceid;
                 command.Parameters.Add(organisationrecommendationsourceidParameter);
                 result = (global::System.Nullable<System.Guid>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnConversationRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnConversationRank (global::System.Nullable<System.Guid> uaoid, global::System.Nullable<System.Guid> convid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnConversationRank";
+                command.Connection = connection;
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
+                EntityParameter convidParameter = new EntityParameter("convid", System.Data.DbType.Guid);
+                if (convid.HasValue)
+                    convidParameter.Value = convid;
+                command.Parameters.Add(convidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
               }
             }
             finally {

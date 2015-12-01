@@ -1,6 +1,7 @@
 ﻿@using Bec.TargetFramework.Entities
 @using Bec.TargetFramework.Entities.Enums
 @using Bec.TargetFramework.Infrastructure.Extensions
+@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
 @{
     int i = 0;
     string aclass = "";
@@ -8,7 +9,7 @@
 }
 @model IEnumerable<SmsUserAccountOrganisationTransactionDTO>
 <!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" class="buyer-transactions">
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-title">
@@ -47,8 +48,13 @@
                                      data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i })" 
                                      data-companyname="@companyName" data-phone="@tel">
                                     <div class="panel-body no-padding">
-                                        <form class="smart-form">
-                                            <fieldset>
+                                        <div class="tabbable custom-tabs shadow margin-top-10">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#transactionDetailsPanel" data-toggle="tab"><i class="fa fa-home margin-right-10"></i><span>Transaction</span></a></li>
+                                                <li><a href="#safeSendPanel" data-toggle="tab"><i class="sms sms-safe-send margin-right-10"></i><span>Safe Send</span></a></li>
+                                            </ul>
+                                            <div class="tab-content padding-top-10">
+                                                <div class="tab-pane active" id="transactionDetailsPanel">
                                                 <div id="detailsRow-@i" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(tx.Confirmed? "block" : "none")">
                                                     <div id="detailsRowTransactionAddress-@i" class="col-sm-6" style="display:@(!string.IsNullOrWhiteSpace(tx.SmsTransaction.Address.Line1) ? "block" : "none")">
                                                         <dl>
@@ -107,6 +113,16 @@
                                                         </dl>
                                                     </div>
                                                 </div>
+                                                </div>
+
+                                                <div class="tab-pane padding-10" id="safeSendPanel">
+                                                    @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = false, CanCreateNewConversation = true, ActivityId = tx.SmsTransactionID, ActivityType = ActivityType.SmsTransaction })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                                 <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                                     <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
                                                 </div>
@@ -121,14 +137,8 @@
                                                 <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
                                                     <h4 class="alert alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
                                                 </div>
-
-                                            </fieldset>
-
-                                        </form>
-
-                                    </div>
-                                </div>
                             </div>
+
                             i++;
                             aclass = "collapsed";
                             ain = "";
