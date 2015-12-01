@@ -2026,6 +2026,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VMessage in the schema.
         /// </summary>
         public virtual DbSet<VMessage> VMessages { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VSafeSendRecipient in the schema.
+        /// </summary>
+        public virtual DbSet<VSafeSendRecipient> VSafeSendRecipients { get; set; }
 
         #region Methods
 

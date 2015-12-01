@@ -3,10 +3,10 @@
     <div class="message-item {{#unless IsReadByCurrentUser}}unread{{/unless}}">
         <div class="row">
             <div class="col-sm-1 hidden-xs no-padding">
-                <div class="thumbnail">
+                <div class="thumbnail" title="{{Message.UserType}}">
                     <i class="fa {{icon}} fa-2x"></i>
                 </div>
-                <p class="usertype">{{Message.UserType}}</p>
+                <p class="usertype" title="{{Message.UserType}}">{{Message.UserType}}</p>
             </div>
             <div class="col-sm-11">
                 <div class="message-heading">

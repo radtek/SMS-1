@@ -7,6 +7,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
     {
         public bool IsActivitySpecific { get; set; }
         public ActivityType ActivityType { get; set; }
+        public Guid? ActivityId { get; set; }
         public Guid? SelectedConversationId { get; set; }
         public Guid CurrentUaoId { get; set; }
     }

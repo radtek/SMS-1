@@ -1661,6 +1661,10 @@
     <Compile Include="Boo\VRoleDTO.Generated.cs">
       <DependentUpon>VRoleDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VSafeSendRecipientDTO.cs" />
+    <Compile Include="Boo\VSafeSendRecipientDTO.Generated.cs">
+      <DependentUpon>VSafeSendRecipientDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VStateDTO.Generated.cs">
       <DependentUpon>VStateDTO.cs</DependentUpon>
     </Compile>

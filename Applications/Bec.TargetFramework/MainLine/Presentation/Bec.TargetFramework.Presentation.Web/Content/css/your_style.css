@@ -258,6 +258,22 @@
 .smart-form .checkbox input + i:after {
   color: #a1c324;
 }
+.smart-form .checkbox:hover i,
+.smart-form .input:hover input,
+.smart-form .radio:hover i,
+.smart-form .select:hover select,
+.smart-form .textarea:hover textarea,
+.smart-form .toggle:hover i {
+  border-color: #a1c324;
+}
+.smart-form .checkbox input:focus + i,
+.smart-form .input input:focus,
+.smart-form .radio input:focus + i,
+.smart-form .select select:focus,
+.smart-form .textarea textarea:focus,
+.smart-form .toggle input:focus + i {
+  border-color: #a1c324;
+}
 .nav-pills li a {
   color: #5a6d14;
 }
@@ -391,6 +407,14 @@
 .view-messages-container .messages-container .messages-list .message-item .message-heading {
   font-size: 0.9em;
 }
+.view-messages-container .messages-container .messages-list .message-item .usertype {
+  font-size: smaller;
+  text-align: center;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .view-messages-container .messages-container .messages-list .message-item pre {
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   background: transparent;
@@ -418,6 +442,41 @@
 .view-messages-container .messages-container .messages-list .message-item .smart-form #replyButton {
   padding: 6px;
 }
+.view-messages-container .messages-container .new-conversation-form footer {
+  border-top: none;
+  background: none;
+  padding-top: 0;
+}
+.view-messages-container .messages-container .new-conversation-form fieldset {
+  background: none;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi {
+  border: 1px solid #bdbdbd;
+  height: auto;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices {
+  border: none;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice {
+  line-height: 20px;
+  border: 1px solid #a1c324;
+  background-color: #a1c324;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice-close {
+  min-width: 18px;
+  padding: 3px 0 0 5px;
+}
+.select2-drop-active {
+  border: 1px solid #bdbdbd;
+}
+.select2-drop-active .select2-results .select2-highlighted {
+  background: #a1c324;
+  color: #fff;
+}
+.buyer-transactions .tab-content {
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 0 1px #eee;
+}
 .hidden {
   display: none;
   width: 0;
@@ -442,9 +501,5 @@
     overflow: hidden;
     opacity: 0;
   }
-}
-.usertype {
-  font-size: smaller;
-  text-align: center;
 }
 /*# sourceMappingURL=your_style.css.map */

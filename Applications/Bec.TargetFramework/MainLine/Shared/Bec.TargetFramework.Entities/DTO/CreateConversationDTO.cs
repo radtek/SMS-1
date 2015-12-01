@@ -1,6 +1,7 @@
 ﻿using Bec.TargetFramework.Entities.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bec.TargetFramework.Entities
 {
@@ -11,6 +12,6 @@ namespace Bec.TargetFramework.Entities
         public Guid? ActivityId { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
-        public List<Guid> ParticipantUaoIds { get; set; }
+        public List<Guid> RecipientUaoIds { get; set; }
     }
 }

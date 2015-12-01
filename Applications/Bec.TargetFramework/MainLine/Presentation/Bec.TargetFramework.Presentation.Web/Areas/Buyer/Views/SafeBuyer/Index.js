@@ -60,7 +60,7 @@ function showAudit(index) {
     ajaxWrapper({
         url: auditDiv.data("url")
     }).done(function (res) {
-        auditDiv.append("<h5>Previous checks:</h5>");
+        auditDiv.append("<h5 class=\"padding-10\">Previous checks:</h5>");
         for (var i in res) {
             var html;
             res[i].date = dateString(res[i].date);

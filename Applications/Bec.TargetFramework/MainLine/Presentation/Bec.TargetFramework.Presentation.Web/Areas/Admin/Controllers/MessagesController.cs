@@ -59,24 +59,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetParticipants(ActivityType activityType, Guid activityId)
+        public async Task<ActionResult> GetRecipients(ActivityType activityType, Guid activityId)
         {
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var uaoID = HttpContext.GetWebUserObject().UaoID;
 
             switch (activityType)
             {
                 case ActivityType.SmsTransaction:
+                    var select = ODataHelper.Select<VSafeSendRecipientDTO>(x => new 
+                    {
+                        x.UserAccountOrganisationID,
+                        x.FirstName,
+                        x.LastName,
+                        x.OrganisationName
+                    });
+                    var filter = ODataHelper.Filter<VSafeSendRecipientDTO>(x => 
+                        x.SmsTransactionID == activityId && 
+                        x.UserAccountOrganisationID != uaoID);
 
-                    if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) break;
+                    var result = await QueryClient.QueryAsync<VSafeSendRecipientDTO>("VSafeSendRecipients", ODataHelper.RemoveParameters(Request) + select + filter);
 
-                    var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
-                    var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
-                    var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.OrganisationID == orgID && x.SmsTransactionID == activityId && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-
-                    var result = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
-                    var recip = result.First();
-
-                    return Json(recip, JsonRequestBehavior.AllowGet);
+                    return Json(result, JsonRequestBehavior.AllowGet);
             }
             return NotAuthorised();
         }
@@ -90,7 +94,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             return Json("ok");
         }
-
 
         private ActionResult NotAuthorised()
         {
@@ -106,7 +109,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 case ActivityType.SmsTransaction:
                     TempData["SmsTransactionID"] = addConversationDto.ActivityId;
-                    if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) return NotAuthorised();
+                    // todo: fix claims
+                    //if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) return NotAuthorised();
                     break;
                 default: return NotAuthorised();
             }
@@ -115,7 +119,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.ParticipantUaoIds.ToArray());
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

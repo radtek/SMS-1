@@ -3,14 +3,22 @@
     New Conversation
     <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
 </h3>
-<form id="newConversationForm" class="smart-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })">
+<form id="newConversationForm" class="smart-form new-conversation-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })">
     <input type="hidden" name="ActivityId" value="{{activityId}}" />
     <input type="hidden" name="ActivityType" value="{{activityType}}" />
     @Html.AntiForgeryToken()
-    {{#each participantUaoIds}}
-    <input type="hidden" name="ParticipantUaoIds[{{@("@index")}}]" value="{{this}}" />
-    {{/each}}
+    <div id="newConversationError" class="alert alert-danger" style="display:none;">Ooops... Something went wrong when sending the message. Please try again later.</div>
     <fieldset>
+        <section>
+            <label class="label">To</label>
+            <label class="select">
+                <select class="select2 form-control" id="conversationRecipients" multiple name="RecipientUaoIds[]">
+                    {{#each recipients}}
+                    <option value="{{UserAccountOrganisationID}}">{{FirstName}} {{LastName}} {{#if OrganisationName}}> {{OrganisationName}}{{/if}}</option>
+                    {{/each}}
+                </select>
+            </label>
+        </section>
         <section>
             <label class="label">Subject</label>
             <label class="input ">

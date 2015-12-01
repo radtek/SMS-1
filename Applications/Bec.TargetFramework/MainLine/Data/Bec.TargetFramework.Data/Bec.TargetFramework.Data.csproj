@@ -450,6 +450,7 @@
     <Compile Include="Converters\VProductSpecificationOptionConverter.cs" />
     <Compile Include="Converters\VResourceConverter.cs" />
     <Compile Include="Converters\VRoleConverter.cs" />
+    <Compile Include="Converters\VSafeSendRecipientConverter.cs" />
     <Compile Include="Converters\VStateConverter.cs" />
     <Compile Include="Converters\VStatusTypeConverter.cs" />
     <Compile Include="Converters\VStatusTypeTemplateConverter.cs" />
@@ -846,6 +847,7 @@
     <Compile Include="Model\TargetFramework.VProductSpecificationOption.cs" />
     <Compile Include="Model\TargetFramework.VResource.cs" />
     <Compile Include="Model\TargetFramework.VRole.cs" />
+    <Compile Include="Model\TargetFramework.VSafeSendRecipient.cs" />
     <Compile Include="Model\TargetFramework.VState.cs" />
     <Compile Include="Model\TargetFramework.VStatusType.cs" />
     <Compile Include="Model\TargetFramework.VStatusTypeTemplate.cs" />

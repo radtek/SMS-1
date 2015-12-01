@@ -413,6 +413,7 @@
           <EntitySet Name="vConversationActivities" EntityType="Bec.TargetFramework.Data.Store.vConversationActivity" store:Type="Views" Schema="public" Table="vConversationActivity" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
+          <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -9999,6 +10000,19 @@
           <Property Name="UserType" Type="varchar" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="vSafeSendRecipient">
+          <Key>
+            <PropertyRef Name="SmsTransactionID" />
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="OrganisationID" />
+          </Key>
+          <Property Name="SmsTransactionID" Type="uuid" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="OrganisationName" Type="varchar" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18621,6 +18635,7 @@
           <EntitySet Name="VConversationActivities" EntityType="Bec.TargetFramework.Data.VConversationActivity" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
+          <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -29260,6 +29275,19 @@
           <Property Name="OrganisationName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="ea1ee0e9-1a59-46b2-a939-7f92beedb053" />
           <Property Name="UserType" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="13d72811-f698-47b7-9886-1f7b6c5109f7" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f6a5ac46-f542-4091-8383-9132a1302606" />
+        </EntityType>
+        <EntityType Name="VSafeSendRecipient" ed:Guid="2489ff6f-fdc8-4ed7-8661-0ae9e4d163f5">
+          <Key>
+            <PropertyRef Name="SmsTransactionID" />
+            <PropertyRef Name="UserAccountOrganisationID" />
+            <PropertyRef Name="OrganisationID" />
+          </Key>
+          <Property Name="SmsTransactionID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="86732692-17bd-4619-982d-6897bede1d4c" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="148f212c-35bb-4831-a7e7-ea968a58a83e" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="57424b63-0237-4587-8d12-e6dffb0a52d3" />
+          <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="651a4c21-d5b9-4a7e-b416-40d10a15426b" />
+          <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="1ff14bad-3ea5-4167-9381-4cbaa282b98e" />
+          <Property Name="OrganisationName" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="fd2a5d54-186e-45ee-81eb-96a5d8b7d8ad" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -43929,6 +43957,18 @@
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="OrganisationType" ColumnName="OrganisationType" />
                 <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
+                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VSafeSendRecipients">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VSafeSendRecipient">
+              <MappingFragment StoreEntitySet="vSafeSendRecipients">
+                <ScalarProperty Name="SmsTransactionID" ColumnName="SmsTransactionID" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
               </MappingFragment>
             </EntityTypeMapping>

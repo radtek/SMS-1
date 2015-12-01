@@ -366,6 +366,24 @@
             border-color: #bdbdbd !important;
         }
     }
+
+    .checkbox:hover i,
+    .input:hover input,
+    .radio:hover i,
+    .select:hover select,
+    .textarea:hover textarea,
+    .toggle:hover i {
+        border-color: @primary-color;
+    }
+
+    .checkbox input:focus + i,
+    .input input:focus,
+    .radio input:focus + i,
+    .select select:focus,
+    .textarea textarea:focus,
+    .toggle input:focus + i {
+        border-color: @primary-color;
+    }
 }
 
 .nav-pills {
@@ -551,6 +569,15 @@
                     font-size: 0.9em;
                 }
 
+                .usertype {
+                    font-size: smaller;
+                    text-align: center;
+                    -ms-text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+
                 pre {
                     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
                     background: transparent;
@@ -587,6 +614,50 @@
                 }
             }
         }
+
+        .new-conversation-form {
+            footer{
+                border-top: none;
+                background: none;
+                padding-top: 0;
+            }
+            fieldset{
+                background: none;
+            }
+            .select2-container-multi {
+                border: 1px solid #bdbdbd;
+                height: auto;
+                .select2-choices {
+                    border: none;
+
+                    .select2-search-choice {
+                        line-height: 20px;
+                        border: 1px solid @primary-color;
+                        background-color: @primary-color;
+                    }
+
+                    .select2-search-choice-close {
+                        min-width: 18px;
+                        padding: 3px 0 0 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.select2-drop-active { 
+    border: 1px solid #bdbdbd;
+    .select2-results .select2-highlighted {
+        background: @primary-color;
+        color: #fff;
+    }
+}
+
+.buyer-transactions{
+    .tab-content{
+        border-bottom: 1px solid #eee;
+        box-shadow: 0 0 1px #eee;
     }
 }
 
@@ -623,7 +694,4 @@
     }
 }
 
-.usertype {
-    font-size: smaller;
-    text-align: center;
-}
+

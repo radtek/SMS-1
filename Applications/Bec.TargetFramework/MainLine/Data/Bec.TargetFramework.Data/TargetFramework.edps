@@ -397,6 +397,7 @@
         <File Name="TargetFramework.VConversationActivity.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VMessageRead.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VMessage.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.VSafeSendRecipient.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="DefaultOrganisationLedgerDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
@@ -1182,6 +1183,8 @@
         <File Name="VMessageReadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VMessageDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VMessageDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="VSafeSendRecipientDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="VSafeSendRecipientDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="DefaultOrganisationLedgerConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
@@ -1576,6 +1579,7 @@
         <File Name="VConversationActivityConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VMessageReadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VMessageConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="VSafeSendRecipientConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
     </Generation>

@@ -125,17 +125,17 @@ namespace Bec.TargetFramework.Business.Logic
 
             NotificationConstructDTO dto = null;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
-                {
-                    // load org construct include module and notification constructs direct
-                    var construct = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
-                    .Include("NotificationConstructParameters")
-                    .Include("NotificationConstructData")
-                    .Include("NotificationConstructTargets")
-                    .Single(n => 
-                        n.NotificationConstructID.Equals(organisationNotificationConstructID) && 
-                        n.IsActive.Equals(true) && 
-                        n.IsDeleted.Equals(false) && 
-                        n.NotificationConstructVersionNumber.Equals(versionNumber));
+            {
+                // load org construct include module and notification constructs direct
+                var construct = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
+                .Include("NotificationConstructParameters")
+                .Include("NotificationConstructData")
+                .Include("NotificationConstructTargets")
+                .Single(n =>
+                    n.NotificationConstructID.Equals(organisationNotificationConstructID) &&
+                    n.IsActive.Equals(true) &&
+                    n.IsDeleted.Equals(false) &&
+                    n.NotificationConstructVersionNumber.Equals(versionNumber));
 
                 dto = construct.ToDtoWithRelated(2);
             }
@@ -237,7 +237,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public NotificationContentDTO GetNotificationContent(Guid notificationId, Guid userAccountOrganisationId, NotificationExportFormatIDEnum notificationExportFormat)
         {
-            VNotificationViewOnlyUaoDTO notificationDto; 
+            VNotificationViewOnlyUaoDTO notificationDto;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var notification = scope.DbContexts.Get<TargetFrameworkEntities>().VNotificationViewOnlyUaos
@@ -379,22 +379,22 @@ namespace Bec.TargetFramework.Business.Logic
                 var operationName = OperationEnum.View.ToString();
                 filteredRecipientUaoIds =
                     (from nc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
-                    join ncc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructClaims on nc.NotificationConstructID equals ncc.NotificationConstructID
-                    join r in scope.DbContexts.Get<TargetFrameworkEntities>().Resources on ncc.ResourceID equals r.ResourceID
-                    join o in scope.DbContexts.Get<TargetFrameworkEntities>().Operations on ncc.OperationID equals o.OperationID
-                    join orc in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoleClaims on new { r.ResourceID, o.OperationID } equals new { ResourceID = orc.ResourceID.Value, OperationID = orc.OperationID.Value }
-                    join orgr in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles on orc.OrganisationRoleID equals orgr.OrganisationRoleID
-                    join uaor in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles on orc.OrganisationRoleID equals uaor.OrganisationRoleID
-                    join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaor.UserAccountOrganisationID equals uao.UserAccountOrganisationID
-                    where
-                        uao.OrganisationID == organisationId &&
-                        r.ResourceTypeID == notificationResourceTypeId &&
-                        o.OperationName == operationName &&
-                        nc.Name == notificationConstructName
-                    select uao.UserAccountOrganisationID).ToList();
+                     join ncc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructClaims on nc.NotificationConstructID equals ncc.NotificationConstructID
+                     join r in scope.DbContexts.Get<TargetFrameworkEntities>().Resources on ncc.ResourceID equals r.ResourceID
+                     join o in scope.DbContexts.Get<TargetFrameworkEntities>().Operations on ncc.OperationID equals o.OperationID
+                     join orc in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoleClaims on new { r.ResourceID, o.OperationID } equals new { ResourceID = orc.ResourceID.Value, OperationID = orc.OperationID.Value }
+                     join orgr in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles on orc.OrganisationRoleID equals orgr.OrganisationRoleID
+                     join uaor in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles on orc.OrganisationRoleID equals uaor.OrganisationRoleID
+                     join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaor.UserAccountOrganisationID equals uao.UserAccountOrganisationID
+                     where
+                         uao.OrganisationID == organisationId &&
+                         r.ResourceTypeID == notificationResourceTypeId &&
+                         o.OperationName == operationName &&
+                         nc.Name == notificationConstructName
+                     select uao.UserAccountOrganisationID).ToList();
             }
 
-            var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO 
+            var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO
             {
                 Count = count,
                 ProductName = commonSettings.ProductName,
@@ -497,7 +497,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             bool valid = true;
             
-            using (var scope = DbContextScopeFactory.Create())
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 if (!activityTypeID.HasValue || !activityID.HasValue)
                 {
@@ -517,17 +517,33 @@ namespace Bec.TargetFramework.Business.Logic
                     switch (activityTypeID.Value)
                     {
                         case ActivityType.SmsTransaction:
-                            var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.OrganisationID == orgID && x.SmsTransactionID == activityID.Value);
+                            var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == activityID.Value);
                             if (tx == null) valid = false;
 
-                            var validUaoIDs = tx.SmsUserAccountOrganisationTransactions.Select(x => x.UserAccountOrganisationID).ToList();
+                            // check if the user is part of the transaction
+                            if (tx.OrganisationID != orgID)
+                            {
+                                var uaotSingle = (
+                                    from uaot in scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                                    join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaot.UserAccountOrganisationID equals uao.UserAccountOrganisationID
+                                    where uaot.SmsTransactionID == activityID.Value && uao.OrganisationID == orgID
+                                    select uaot).SingleOrDefault();
+                                
+                                if (uaotSingle == null) valid = false;
+                            }
+
+                            var validPersonalUaoIDs = tx.SmsUserAccountOrganisationTransactions
+                                .Select(x => x.UserAccountOrganisationID).ToList();
+                            var validOrganisationUaoIds = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                                .Where(x => x.OrganisationID == tx.OrganisationID && x.IsActive)
+                                .Select(x => x.UserAccountOrganisationID)
+                                .ToList();
                             foreach (var u in participantsUaoIDs)
-                                if (!validUaoIDs.Contains(u))
+                                if (!validPersonalUaoIDs.Contains(u) && !validOrganisationUaoIds.Contains(u))
                                     valid = false;
                             break;
                     }
                 }
-                await scope.SaveChangesAsync();
             }
 
             if (!valid) throw new Exception("Cannot create conversation");
@@ -545,11 +561,11 @@ namespace Bec.TargetFramework.Business.Logic
                 var nids = messages.Select(m => m.NotificationID);
                 var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
                 return messages
-                    .GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO 
-                    { 
+                    .GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
+                    {
                         IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
-                        Message = x, 
-                        Reads = y 
+                        Message = x,
+                        Reads = y
                     });
             }
         }
