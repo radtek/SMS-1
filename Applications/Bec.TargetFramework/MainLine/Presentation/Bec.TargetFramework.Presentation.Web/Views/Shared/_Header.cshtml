@@ -2,7 +2,6 @@
 @using Bec.TargetFramework.Security
 @{
     var currentUser = Context.GetWebUserObject();
-    // todo: ZM requires the check on claims for safe send
     var showNotifications =
         Request.IsAuthenticated &&
         currentUser != null &&

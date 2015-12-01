@@ -9,7 +9,7 @@ namespace Bec.TargetFramework.Entities
     public class CreateConversationDTO
     {
         public ActivityType ActivityType { get; set; }
-        public Guid? ActivityId { get; set; }
+        public Guid ActivityId { get; set; }
         public string Subject { get; set; }
         public string Message { get; set; }
         public List<Guid> RecipientUaoIds { get; set; }

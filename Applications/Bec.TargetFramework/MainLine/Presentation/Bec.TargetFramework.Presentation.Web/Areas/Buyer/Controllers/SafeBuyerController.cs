@@ -6,6 +6,7 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Infrastructure.Helpers;
 using Bec.TargetFramework.Presentation.Web.Base;
+using Bec.TargetFramework.Presentation.Web.Filters;
 using Bec.TargetFramework.Presentation.Web.Helpers;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 {
+    [ClaimsRequired("View", "MyTransactions", Order = 1000)]
     public class SafeBuyerController : ApplicationControllerBase
     {
         public IAddressLogicClient AddressClient { get; set; }

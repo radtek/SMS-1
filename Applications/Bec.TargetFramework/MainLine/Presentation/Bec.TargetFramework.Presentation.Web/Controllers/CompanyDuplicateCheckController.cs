@@ -1,9 +1,9 @@
 ﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Settings;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Bec.TargetFramework.Infrastructure;
-using Bec.TargetFramework.Infrastructure.Settings;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
@@ -16,7 +16,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Check(Guid? orgID, string regulatorNumber)
         {
-            // todo: ZM use settings to get the number
             var isInSystem = await OrganisationClient.IsOrganisationInSystemAsync(orgID, regulatorNumber);
             var settings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
             if (isInSystem)

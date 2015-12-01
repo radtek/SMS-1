@@ -81,15 +81,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             switch (activityType)
             {
                 case ActivityType.SmsTransaction:
-                    var select = ODataHelper.Select<VSafeSendRecipientDTO>(x => new 
+                    var select = ODataHelper.Select<VSafeSendRecipientDTO>(x => new
                     {
                         x.UserAccountOrganisationID,
                         x.FirstName,
                         x.LastName,
                         x.OrganisationName
                     });
-                    var filter = ODataHelper.Filter<VSafeSendRecipientDTO>(x => 
-                        x.SmsTransactionID == activityId && 
+                    var filter = ODataHelper.Filter<VSafeSendRecipientDTO>(x =>
+                        x.SmsTransactionID == activityId &&
                         x.UserAccountOrganisationID != uaoID);
 
                     var result = await QueryClient.QueryAsync<VSafeSendRecipientDTO>("VSafeSendRecipients", ODataHelper.RemoveParameters(Request) + select + filter);
@@ -103,6 +103,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Reply(Guid conversationId, string message)
         {
+            if (!await CanReply(conversationId))
+            {
+                return NotAuthorised();
+            }
+
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
 
@@ -119,14 +124,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
-            switch (addConversationDto.ActivityType)
+            if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType))
             {
-                case ActivityType.SmsTransaction:
-                    TempData["SmsTransactionID"] = addConversationDto.ActivityId;
-                    // todo: fix claims
-                    //if (!ClaimsAuthorization.CheckAccess("View", "SmsTransaction")) return NotAuthorised();
-                    break;
-                default: return NotAuthorised();
+                return NotAuthorised();
             }
 
             try
@@ -146,6 +146,59 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     activityId = addConversationDto.ActivityId
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public async Task<bool> CanReply(Guid conversationId)
+        {
+            var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+
+            // get conversation
+            var selectConv = ODataHelper.Select<ConversationDTO>(x => new { x.ActivityID, x.ActivityType });
+            var filterConv = ODataHelper.Filter<ConversationDTO>(x => x.ConversationID == conversationId);
+            var resultConv = await QueryClient.QueryAsync<ConversationDTO>("Conversations", ODataHelper.RemoveParameters(Request) + selectConv + filterConv);
+            var conversation = resultConv.FirstOrDefault();
+
+            return await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType);
+        }
+
+        public async Task<bool> CanAccessConversationInActivity(Guid? activityId, ActivityType activityType)
+        {
+            var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+
+            // get current user's organisation
+            var select = ODataHelper.Select<OrganisationDTO>(x => new { x.OrganisationTypeID });
+            var filter = ODataHelper.Filter<OrganisationDTO>(x => x.OrganisationID == orgId);
+            var result = await QueryClient.QueryAsync<OrganisationDTO>("Organisations", ODataHelper.RemoveParameters(Request) + select + filter);
+            var org = result.FirstOrDefault();
+
+            switch (activityType)
+            {
+                case ActivityType.SmsTransaction:
+                    // get transaction for conversation
+                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.SmsTransactionID, x.OrganisationID });
+                    var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityId);
+                    var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", ODataHelper.RemoveParameters(Request) + selectTx + filterTx);
+                    var tx = resultTx.FirstOrDefault();
+
+                    switch ((OrganisationTypeEnum)org.OrganisationTypeID)
+                    {
+                        case OrganisationTypeEnum.Personal:
+                            // get transaction UAOT
+                            var transactionId = tx.SmsTransactionID;
+                            var selectTxUaot = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.UserAccountOrganisationID });
+                            var filterTxUaot = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == transactionId && x.UserAccountOrganisationID == uaoId);
+                            var resultTxUaot = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + selectTxUaot + filterTxUaot);
+                            var txUaot = resultTxUaot.FirstOrDefault();
+
+                            return ClaimsAuthorization.CheckAccess("View", "MyTransactions") && txUaot != null;
+                        case OrganisationTypeEnum.Professional:
+                            return ClaimsAuthorization.CheckAccess("View", "SmsTransaction") && tx.OrganisationID == orgId;
+                    }
+                    break;
+            }
+
+            return false;
         }
     }
 }

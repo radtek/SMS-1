@@ -10,6 +10,7 @@ using Bec.TargetFramework.Infrastructure.Reporting.Generators;
 using Bec.TargetFramework.Infrastructure.Settings;
 using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.SB.Entities;
+using Bec.TargetFramework.Security;
 using EnsureThat;
 using Newtonsoft.Json.Linq;
 using System;
