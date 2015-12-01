@@ -585,16 +585,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void MarkAsRead(Guid uaoID,Guid conversationID);
 
 		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Int32 page,Int32 pageSize);
+		Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
 
 		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		IEnumerable<MessageDTO> GetMessages(Guid conversationId,Int32 page,Int32 pageSize);
+		IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize);
 
 		/// <param name="uaoID"></param>
 		/// <param name="convID"></param>
@@ -2925,25 +2927,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public virtual Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Int32 page,Int32 pageSize)
+		public virtual Task<IEnumerable<MessageDTO>> GetMessagesAsync(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&page=" + page + "&pageSize=" + pageSize, _user);
+			return GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="conversationId"></param>
+		/// <param name="uaoId"></param>
 		/// <param name="page"></param>
 		/// <param name="pageSize"></param>
-		public virtual IEnumerable<MessageDTO> GetMessages(Guid conversationId,Int32 page,Int32 pageSize)
+		public virtual IEnumerable<MessageDTO> GetMessages(Guid conversationId,Guid uaoId,Int32 page,Int32 pageSize)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
+			return Task.Run(() => GetAsync<IEnumerable<MessageDTO>>("api/NotificationLogic/GetMessages?conversationId=" + conversationId + "&uaoId=" + uaoId + "&page=" + page + "&pageSize=" + pageSize, _user)).Result;
 		}
 
 		/// <summary>

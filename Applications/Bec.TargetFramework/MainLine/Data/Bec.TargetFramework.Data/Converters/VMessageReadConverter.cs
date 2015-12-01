@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.IsAccepted = source.IsAccepted;
             target.AcceptedDate = source.AcceptedDate;
             target.Email = source.Email;
@@ -53,6 +54,7 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.IsAccepted = source.IsAccepted;
             target.AcceptedDate = source.AcceptedDate;
             target.Email = source.Email;

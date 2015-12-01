@@ -31,11 +31,13 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
             target.Message = source.Message;
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
 
@@ -55,11 +57,13 @@ namespace Bec.TargetFramework.Entities
             // Properties
             target.ConversationID = source.ConversationID;
             target.NotificationID = source.NotificationID;
+            target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
             target.Message = source.Message;
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
+            target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
 

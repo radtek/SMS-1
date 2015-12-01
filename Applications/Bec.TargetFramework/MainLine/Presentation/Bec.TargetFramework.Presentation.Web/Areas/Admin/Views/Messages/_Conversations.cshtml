@@ -2,9 +2,13 @@
 @model ConversationsModel
 <div class="row view-messages-container" id="viewMessagesContainer"
      data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })"
-     @if (Model.IsActivitySpecific) { @: data-conversations-url="@Url.Action("GetConversationsActivity", "Messages", new { area = "Admin" })"
-                    } else { @: data-conversations-url="@Url.Action("GetConversations", "Messages", new { area = "Admin" })"
-                    }
+     @if (Model.IsActivitySpecific) 
+     {
+         @: data-conversations-url="@Url.Action("GetConversationsActivity", "Messages", new { area = "Admin" })"
+     } else 
+     {
+         @: data-conversations-url="@Url.Action("GetConversations", "Messages", new { area = "Admin" })"
+          }
      data-messages-url="@Url.Action("GetMessages", "Messages", new { area = "Admin" })"
      data-participants-url="@Url.Action("GetParticipants", "Messages", new { area = "Admin" })"
      data-convrank-url="@Url.Action("GetConversationRank", "Messages", new { area = "Admin" })"

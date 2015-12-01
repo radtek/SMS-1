@@ -9974,6 +9974,7 @@
           </Key>
           <Property Name="ConversationID" Type="uuid" />
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="IsAccepted" Type="boolean" />
           <Property Name="AcceptedDate" Type="timestamptz" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
@@ -9988,11 +9989,13 @@
           </Key>
           <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
+          <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" />
           <Property Name="DateSent" Type="timestamptz" Nullable="false" />
           <Property Name="Message" Type="text" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="OrganisationName" Type="varchar" MaxLength="2000" />
           <Property Name="UserType" Type="varchar" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
         </EntityType>
@@ -29241,6 +29244,7 @@
           </Key>
           <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3007238b-8407-41d5-a027-0a495ba8afb3" />
           <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="27fe3afd-3616-469f-94b8-14fbb96e8a58" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="2248f3ac-0c1e-407c-86ad-416d86bde93b" />
           <Property Name="IsAccepted" Type="Boolean" ed:ValidateRequired="False" ed:Guid="46b043a1-f52e-4f2f-b954-321cb2e98cf9" />
           <Property Name="AcceptedDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="ce28adee-c467-4cb9-988a-19ec30f6c6f6" />
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="1bfe43ca-bb28-4806-a25d-4ef4083b7819" />
@@ -29255,11 +29259,13 @@
           </Key>
           <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="9eb527a6-3dcc-4d5d-b4e9-5f5a5124c9d1" />
           <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7f1e90b8-b5cf-4712-b68b-d5ef8fc19f7f" />
+          <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3ae3f4d3-53af-4401-9082-33a4e97cb683" />
           <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="d60b1b3c-30bc-4e46-a1b8-92394af69232" />
           <Property Name="Message" Type="String" ed:ValidateRequired="False" ed:Guid="c6f3c939-2ef3-464b-b425-c6cf64d85ea2" />
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="bbf4ae00-9d71-48b5-a598-6962367439a2" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="ec684869-bf0c-4979-87ce-059fee40280d" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="69b857d1-195a-470e-b34a-bd5ce90ffe9d" />
+          <Property Name="OrganisationName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="ea1ee0e9-1a59-46b2-a939-7f92beedb053" />
           <Property Name="UserType" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="13d72811-f698-47b7-9886-1f7b6c5109f7" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f6a5ac46-f542-4091-8383-9132a1302606" />
         </EntityType>
@@ -43914,6 +43920,7 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43929,6 +43936,8 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="OrganisationType" ColumnName="OrganisationType" />
+                <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
+                <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -59,9 +59,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
-            var data = await NotificationClient.GetMessagesAsync(conversationId, page, pageSize);
+            var data = await NotificationClient.GetMessagesAsync(conversationId, uaoId, page, pageSize);
             NotificationClient.MarkAsRead(uaoId, conversationId);
-            
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
