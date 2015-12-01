@@ -1,14 +1,36 @@
-﻿/*
- * It is advised not to edit the smartadmin_production.css
- * as this will override any changes you make in the 
- * later versions of this theme. 
- * 
- * We advise that you use use this CSS to override 
- * SmartAdmin styles. 
- * 
- * Rename the stylesheet to whatever your liking so it will stay
- * unique to you with each update of SmartAdmin.
- */
+﻿@font-face {
+  font-family: 'SmsFont';
+  src: url('/content/fonts/sms-font.eot?qn622l');
+  src: url('/content/fonts/sms-font.eot?qn622l#iefix') format('embedded-opentype'), url('/content/fonts/sms-font.ttf?qn622l') format('truetype'), url('/content/fonts/sms-font.woff?qn622l') format('woff'), url('/content/fonts/sms-font.svg?qn622l#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="sms-"],
+[class*=" sms-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'SmsFont' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.sms-lg {
+  font-size: 1.33333333em;
+  line-height: .75em;
+  vertical-align: -15%;
+}
+.sms-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+.sms-safe-send:before {
+  content: "\e900";
+}
 .color-primary {
   color: #a1c324;
 }
@@ -121,6 +143,9 @@
   -o-animation-name: none;
   -webkit-animation-name: none;
   animation-name: none;
+}
+#header #logo-group span#activity {
+  color: #7d7d7d;
 }
 #header #logo-group #logo {
   margin-top: 0;

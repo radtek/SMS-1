@@ -1,17 +1,8 @@
-/*
- * It is advised not to edit the smartadmin_production.css
- * as this will override any changes you make in the 
- * later versions of this theme. 
- * 
- * We advise that you use use this CSS to override 
- * SmartAdmin styles. 
- * 
- * Rename the stylesheet to whatever your liking so it will stay
- * unique to you with each update of SmartAdmin.
- */
+@import 'sms-font';
 
 @primary-color: #a1c324;
 @text-color: black;
+@icon-color: #7d7d7d;
 
 .color-primary {
     color: @primary-color;
@@ -187,6 +178,9 @@
             animation-name: none;
         }
 
+        span#activity{
+            color: @icon-color;
+        }
         #logo {
             margin-top: 0;
             width: 175px;
@@ -429,7 +423,7 @@
 }
 
 #userMenu {
-    color: #7d7d7d;
+    color: @icon-color;
     padding: 2px 12px;
     font-size: 1.5em;
 
@@ -448,7 +442,7 @@
 
 .menu-toggle {
     a {
-        color: #7d7d7d;
+        color: @icon-color;
         font-size: 16px;
         display: inline-block;
     }
