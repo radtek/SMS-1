@@ -200,10 +200,6 @@
 
         $('#conversationRecipients').select2();
 
-        submitNewConversation.click(function () {
-            newConversationForm.submit();
-        });
-
         newConversationForm.validate({
             ignore: '.skip',
             // Rules for form validation

@@ -79,7 +79,7 @@
                                 <div class="col-sm-12">
                                     <div class="well">
                                         <div id="transactionConversationContainer" data-activity-id="">
-                                            @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = true, ActivityType = ActivityType.SmsTransaction })
+                                            @Html.Partial("~/Areas/Admin/Views/Messages/_Conversations.cshtml", new ConversationsModel { IsActivitySpecific = true, CanCreateNewConversation = true, ActivityType = ActivityType.SmsTransaction })
                                         </div>
                                     </div>
                                 </div>
