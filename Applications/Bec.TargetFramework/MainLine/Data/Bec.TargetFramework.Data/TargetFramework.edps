@@ -1741,40 +1741,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="DefaultOrganisationRoleID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="DefaultOrganisationID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleName" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleDescription" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleTypeID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleSubTypeID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleCategoryID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleSubCategoryID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="ParentID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="RoleID" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="IsActive" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="IsDefaultOrganisationSpecific" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="DefaultOrganisationVersionNumber" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="DefaultOrganisationRole_pkey" Table="public.DefaultOrganisationRole" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationRole_DefaultOrganisation" Table="public.DefaultOrganisationRole" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationRole_Role" Table="public.DefaultOrganisationRole" Type="Constraint" />
-      <Exclude Name="DefaultOrganisationRoleTemplateID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationTemplateID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleName" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleDescription" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleTypeID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleSubTypeID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleCategoryID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleSubCategoryID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="ParentID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="RoleID" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="IsActive" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="IsDefaultOrganisationSpecific" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationTemplateVersionNumber" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
-      <Exclude Name="DefaultOrganisationRole_pkeyT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationRole_DefaultOrganisationT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
-      <Exclude Name="fk_DefaultOrganisationRole_RoleT" Table="public.DefaultOrganisationRoleTemplate" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
@@ -1815,25 +1781,9 @@
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="OrganisationRoleID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="OrganisationID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="ParentOrganisationRoleID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleName" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="ParentRootRoleID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="IsManaged" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleTypeID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleSubTypeID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleCategoryID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="IsActive" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="IsDeleted" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleDescription" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="RoleSubCategoryID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="ParentID" Table="public.OrganisationRole" Type="Column" />
-      <Exclude Name="OrganisationRole_pkey" Table="public.OrganisationRole" Type="Constraint" />
-      <Exclude Name="fk_Role_Organisation" Table="public.OrganisationRole" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1942,11 +1892,8 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="IsDefault" Table="public.DefaultOrganisationRole" Type="Column" />
-      <Exclude Name="IsDefault" Table="public.DefaultOrganisationRoleTemplate" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
-      <Exclude Name="IsDefault" Table="public.OrganisationRole" Type="Column" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />

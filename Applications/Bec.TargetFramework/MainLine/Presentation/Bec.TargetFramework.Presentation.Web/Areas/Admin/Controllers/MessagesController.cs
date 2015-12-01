@@ -27,6 +27,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public async Task<int> GetConversationRank(Guid convID)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            return await NotificationClient.GetConversationRankAsync(uaoID, convID);
+        }
+
         public async Task<ActionResult> GetConversations()
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;

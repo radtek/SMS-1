@@ -18220,6 +18220,10 @@
           <Parameter Name="createdby" Type="varchar" Mode="In" />
           <Parameter Name="organisationrecommendationsourceid" Type="int" Mode="In" />
         </Function>
+        <Function Name="fn_ConversationRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_ConversationRank">
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
+          <Parameter Name="convid" Type="uuid" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -21129,6 +21133,10 @@
             <Parameter Name="organisationdescription" Mode="In" Type="String" />
             <Parameter Name="createdby" Mode="In" Type="String" />
             <Parameter Name="organisationrecommendationsourceid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FnConversationRank" ReturnType="Collection(Int32)" ed:Guid="91b96071-f06f-406a-859a-1161c0dd28a1">
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
+            <Parameter Name="convid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -44074,6 +44082,7 @@
           <FunctionImportMapping FunctionImportName="FnAddUserToTemporaryOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToTemporaryOrganisation" />
           <FunctionImportMapping FunctionImportName="FnAddUserToOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToOrganisation" />
           <FunctionImportMapping FunctionImportName="FnCreateOrganisationFromDefault" FunctionName="Bec.TargetFramework.Data.Store.fn_CreateOrganisationFromDefault" />
+          <FunctionImportMapping FunctionImportName="FnConversationRank" FunctionName="Bec.TargetFramework.Data.Store.fn_ConversationRank" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

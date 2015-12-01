@@ -9,8 +9,10 @@ CREATE TABLE public."Conversation" (
   "Subject" VARCHAR,
   "ActivityType" INTEGER,
   "ActivityID" UUID,
-  PRIMARY KEY("ConversationID")
-) ;
+  CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
+) 
+WITH (oids = false);
+
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."Conversation" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
@@ -24,6 +26,9 @@ ALTER TABLE public."Conversation"
 
 ALTER TABLE public."Conversation"
   ALTER COLUMN "ActivityID" SET STATISTICS 0;
+
+CREATE INDEX "Conversation_idx_Activity" ON public."Conversation"
+  USING btree ("ActivityType", "ActivityID");
 
 
 CREATE TABLE public."ConversationParticipant" (
@@ -231,7 +236,8 @@ AS
                 max("Notification"."DateSent") AS "Latest"
          FROM "Notification"
          GROUP BY "Notification"."ConversationID"
-       ) l ON l."ConversationID" = c."ConversationID";
+       ) l ON l."ConversationID" = c."ConversationID"
+  ORDER BY l."Latest" DESC;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vConversationActivity" TO postgres;
@@ -317,3 +323,38 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vMessageRead" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vMessageRead" TO bef;
+
+
+
+CREATE OR REPLACE FUNCTION public."fn_ConversationRank" (
+  uaoid uuid,
+  convid uuid
+)
+RETURNS integer AS
+$body$
+declare 
+ret integer;
+BEGIN
+ ret = (select "Row" from (
+  SELECT cp."ConversationID", cp."UserAccountOrganisationID", row_number() over (order by l."Latest" desc) as "Row"
+  FROM "ConversationParticipant" cp
+       JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
+       JOIN 
+       (
+         SELECT "Notification"."ConversationID", max("Notification"."DateSent") AS "Latest"
+         FROM "Notification" GROUP BY "Notification"."ConversationID"
+       ) l ON l."ConversationID" = c."ConversationID"
+       where cp."UserAccountOrganisationID" = uaoid
+    ) t 
+  where t."ConversationID" = convid
+  limit 1
+  );
+  return ret;
+END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;
+

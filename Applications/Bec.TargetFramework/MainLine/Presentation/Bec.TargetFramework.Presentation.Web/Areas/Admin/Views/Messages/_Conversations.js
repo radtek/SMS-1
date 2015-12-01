@@ -13,13 +13,13 @@
         subject: null,
         activityId: null
     };
-    //activityId should come from here too:
     var activityType = viewMessagesContainer.data('activity-type');
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
         conversationUrl: viewMessagesContainer.data("conversations-url"),
         messagesUrl: viewMessagesContainer.data("messages-url"),
-        participantsUrl: viewMessagesContainer.data("participants-url")
+        participantsUrl: viewMessagesContainer.data("participants-url"),
+        convRankUrl: viewMessagesContainer.data("convrank-url"),
     };
     var getParticipantsPromise = $.Deferred();
 
@@ -41,16 +41,18 @@
         schema: { data: "Items", total: "Count" },
     });
 
-    loadConversations(currentConversation.activityId);
+    var isActivitySpecificView = viewMessagesContainer.data("is-activity-specific");
+    if(!isActivitySpecificView) loadConversations(currentConversation.activityId);
 
-    $('#conversationsPager').kendoPager({
+    var pager = $('#conversationsPager').kendoPager({
         dataSource: dataSource,
         refresh: true
-    });
+    }).data('kendoPager');
 
     var messagesPageSize = 10;
     var messagesPage = 0;
     var allLoaded = false;
+    var jumpedPage = false;
 
     setupDataReload(viewMessagesContainer);
     setupWindowToggling();
@@ -70,13 +72,13 @@
         conversationsError.hide();
 
         dataSource.read({ activityType: activityType, activityId: activityId });
-            }
+    }
 
     function loadMessages(conversation) {
         allLoaded = false;
         messagesPage = 0;
         return loadItems(conversation, true);
-            }
+    }
 
     function loadItems(conversation, includeContainer) {
         if (allLoaded) return $.Deferred().resolve();
@@ -116,11 +118,11 @@
             });
 
             if (includeContainer) {
-            messagesTemplatePromise.done(function (template) {
+                messagesTemplatePromise.done(function (template) {
                     var html = $(template({ conversation: conversation }));
                     populateContainer(html.find('#itemsContainer'), items);
-                messagesList.html(html);
-            });
+                    messagesList.html(html);
+                });
             }
             else populateContainer($('#itemsContainer'), items);
 
@@ -135,7 +137,7 @@
 
     function populateContainer(itemsContainer, items) {
         itemsContainer.css('overflow-y', 'hidden'); //force user to start their scroll again if dragging thumb
-        setTimeout(function () { itemsContainer.css('overflow', 'auto'); }, 10);
+        setTimeout(function () { itemsContainer.css('overflow-y', 'auto'); }, 10);
         itemTemplatePromise.done(function (template) {
             var html = $(template({ items: items.reverse() }));
             itemsContainer.prepend(html);
@@ -235,14 +237,28 @@
             });
         }
         conversationsSpinner.hide();
-
         var conversations = $('#conversationsList .conversation-item');
         if (currentConversation.id) {
+            alert(currentConversation.id);
             conversations = conversations.filter(function () {
                 return $(this).data('conversation-id') == currentConversation.id;
             });
         }
-        conversations.first().trigger('click');
+        if(conversations.length==1)
+            conversations.first().trigger('click');
+        else if (currentConversation.id && !jumpedPage) {
+            jumpedPage = true;
+            ajaxWrapper({
+                url: urls.convRankUrl,
+                data: {
+                    convID: currentConversation.id
+                }
+            }).success(function (data) {
+                var page = Math.floor((data - 1) / messagesPageSize) + 1;
+                console.log('jump to page: ' + page);
+                pager.page(page);
+            });
+        }
     }
 
     function autoresizeTextarea(textarea) {
@@ -281,7 +297,7 @@
                     type: "POST",
                     data: formData
                 }).success(function () {
-                    loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
+                    pager.page(1);
                     replyForm.find('textarea').val('');
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {

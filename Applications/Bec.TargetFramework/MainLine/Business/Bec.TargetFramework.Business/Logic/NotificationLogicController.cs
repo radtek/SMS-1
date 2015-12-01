@@ -547,5 +547,13 @@ namespace Bec.TargetFramework.Business.Logic
                 return messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO { Message = x, Reads = y });
             }
         }
+
+        public int GetConversationRank(Guid uaoID, Guid convID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().FnConversationRank(uaoID, convID).Value;
+            }
+        }
     }
 }
