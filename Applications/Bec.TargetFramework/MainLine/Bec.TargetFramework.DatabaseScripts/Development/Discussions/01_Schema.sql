@@ -177,7 +177,7 @@ VALUES (
 SELECT * FROM public."fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
 
 
-CREATE VIEW public."vConversation"
+CREATE OR REPLACE VIEW public."vConversation"
 AS
   SELECT cp."ConversationID",
          cp."UserAccountOrganisationID",
@@ -240,10 +240,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vConversationActivity" TO bef;
 
- -- object recreation
-DROP VIEW public."vMessage";
-
-CREATE VIEW public."vMessage"(
+CREATE OR REPLACE VIEW public."vMessage"(
     "ConversationID",
     "NotificationID",
     "CreatedByUserAccountOrganisationID",
@@ -302,11 +299,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vMessage" TO bef;
 
-		 
- -- object recreation
-DROP VIEW public."vMessageRead";
-
-CREATE VIEW public."vMessageRead"(
+CREATE OR REPLACE VIEW public."vMessageRead"(
     "ConversationID",
     "NotificationID",
     "UserAccountOrganisationID",
