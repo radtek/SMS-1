@@ -197,9 +197,10 @@
             animation-name: none;
         }
 
-        span#activity{
+        span#activity {
             color: @icon-color;
         }
+
         #logo {
             margin-top: 0;
             width: 175px;
@@ -477,9 +478,10 @@
     position: relative;
 
     .conversations-container {
-        .conversations-header{
+        .conversations-header {
             margin-top: 5px;
         }
+
         .conversations-list {
             list-style-type: none;
             padding: 0;
@@ -538,10 +540,11 @@
     .messages-container {
         box-shadow: #f5f5f5 -7px 0 20px;
 
-        #conversationSubject{
+        #conversationSubject {
             margin-bottom: 10px;
             margin-top: 5px;
         }
+
         .messages-list {
             .scrollable {
                 max-height: 450px; // do media specific
@@ -621,17 +624,29 @@
         }
 
         .new-conversation-form {
-            footer{
+            footer {
                 border-top: none;
                 background: none;
                 padding-top: 0;
             }
-            fieldset{
+
+            fieldset {
                 background: none;
             }
+
             .select2-container-multi {
                 border: 1px solid #bdbdbd;
                 height: auto;
+
+                &.invalid {
+                    border: none;
+
+                    .select2-choices {
+                        border: 1px solid #a90329;
+                        background-color: #fff0f0;
+                    }
+                }
+
                 .select2-choices {
                     border: none;
 
@@ -651,16 +666,17 @@
     }
 }
 
-.select2-drop-active { 
+.select2-drop-active {
     border: 1px solid #bdbdbd;
+
     .select2-results .select2-highlighted {
         background: @primary-color;
         color: #fff;
     }
 }
 
-.buyer-transactions{
-    .tab-content{
+.buyer-transactions {
+    .tab-content {
         border-bottom: 1px solid #eee;
         box-shadow: 0 0 1px #eee;
     }
@@ -698,5 +714,3 @@
         opacity: 0;
     }
 }
-
-

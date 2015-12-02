@@ -218,11 +218,17 @@
         var submitNewConversation = $("#submitNewConversationBtn");
 
         $('#conversationRecipients').select2();
+        $("#conversationRecipients").on("select2-close", function () {
+            $(this).valid();
+        });
 
         newConversationForm.validate({
             ignore: '.skip',
             // Rules for form validation
             rules: {
+                "RecipientUaoIds[]": {
+                    required: true
+                },
                 "Subject": {
                     required: true
                 },

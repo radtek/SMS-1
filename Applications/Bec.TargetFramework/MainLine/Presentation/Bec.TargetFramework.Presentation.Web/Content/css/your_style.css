@@ -490,6 +490,13 @@
   border: 1px solid #bdbdbd;
   height: auto;
 }
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi.invalid {
+  border: none;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi.invalid .select2-choices {
+  border: 1px solid #a90329;
+  background-color: #fff0f0;
+}
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices {
   border: none;
 }
