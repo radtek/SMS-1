@@ -147,6 +147,10 @@
 #header #logo-group .ajax-dropdown {
   width: 430px;
 }
+#header #logo-group .ajax-dropdown:before,
+#header #logo-group .ajax-dropdown:after {
+  left: 40%;
+}
 #header #logo-group .active + .ajax-dropdown {
   -moz-animation-name: none;
   -o-animation-name: none;
