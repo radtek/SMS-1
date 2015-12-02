@@ -186,6 +186,7 @@
     <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
