@@ -10,13 +10,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public PartialViewResult LatestConversationsContainer()
         {
-            return PartialView("_LatestConversationsContainer");
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var unreadCount = NotificationLogicClient.GetUnreadConversationsCount(uaoId);
+            return PartialView("_LatestConversationsContainer", unreadCount);
         }
 
         public PartialViewResult LatestConversations()
         {
-            var userAccountOrganisationId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var model = NotificationLogicClient.GetLatestUnreadConversations(userAccountOrganisationId, 20);
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var model = NotificationLogicClient.GetLatestUnreadConversations(uaoId, 20);
 
             return PartialView("_LatestConversations", model);
         }

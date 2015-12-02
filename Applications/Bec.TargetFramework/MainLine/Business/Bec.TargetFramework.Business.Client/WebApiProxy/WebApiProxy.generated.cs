@@ -452,6 +452,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="userAccountOrganisationId"></param>
 		/// <returns></returns>
+		Task<Int32> GetUnreadConversationsCountAsync(Guid userAccountOrganisationId);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		Int32 GetUnreadConversationsCount(Guid userAccountOrganisationId);
+
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
 		Task<List<VNotificationViewOnlyUaoDTO>> GetInternalAsync(Guid userAccountOrganisationId);
 
 		/// <param name="userAccountOrganisationId"></param>
@@ -2629,6 +2637,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<List<VConversationDTO>>("api/NotificationLogic/GetLatestUnreadConversations?userAccountOrganisationId=" + userAccountOrganisationId + "&count=" + count, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		/// <returns></returns>
+		public virtual Task<Int32> GetUnreadConversationsCountAsync(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/NotificationLogic/GetUnreadConversationsCount?userAccountOrganisationId=" + userAccountOrganisationId, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userAccountOrganisationId"></param>
+		public virtual Int32 GetUnreadConversationsCount(Guid userAccountOrganisationId)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/NotificationLogic/GetUnreadConversationsCount?userAccountOrganisationId=" + userAccountOrganisationId, _user)).Result;
 		}
 
 		/// <summary>

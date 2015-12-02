@@ -224,6 +224,16 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public int GetUnreadConversationsCount(Guid userAccountOrganisationId)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
+                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .Count();
+            }
+        }
+
         public List<VNotificationViewOnlyUaoDTO> GetInternal(Guid userAccountOrganisationId)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())

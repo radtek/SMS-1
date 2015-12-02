@@ -1,6 +1,7 @@
-﻿<span id="activity" class="activity-dropdown" title="Notifications">
+﻿@model int
+<span id="activity" class="activity-dropdown" title="Notifications">
     <i class="sms sms-safe-send"></i>
-    <b class="badge animated" id="unreadConversationsCountId">0</b>
+    <b class="badge animated @(Model > 0 ? "bounceIn bg-color-red" : "")" id="unreadConversationsCountId">@Model</b>
 </span>
 <div class="ajax-dropdown">
     <h4>Notifications</h4>
