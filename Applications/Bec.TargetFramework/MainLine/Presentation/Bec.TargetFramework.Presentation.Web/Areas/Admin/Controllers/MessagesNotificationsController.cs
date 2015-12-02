@@ -8,6 +8,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class MessagesNotificationsController : ApplicationControllerBase
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
+        public PartialViewResult LatestConversationsContainer()
+        {
+            return PartialView("_LatestConversationsContainer");
+        }
+
         public PartialViewResult LatestConversations()
         {
             var userAccountOrganisationId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;

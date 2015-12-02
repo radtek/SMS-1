@@ -135,6 +135,15 @@
   background-color: #fbfbfb !important;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 }
+#header #logo-group #activity .badge {
+  background: #a1c324;
+}
+#header #logo-group #activity.active .badge {
+  background: #8fad20 !important;
+}
+#header #logo-group #activity img {
+  margin-bottom: 6px;
+}
 #header #logo-group .ajax-dropdown {
   width: 430px;
 }
@@ -258,15 +267,6 @@
 .btn-primary[disabled] {
   background-color: #a1c324 !important;
   border-color: #7d981c !important;
-}
-#activity .badge {
-  background: #a1c324 !important;
-}
-#activity.active .badge {
-  background: #8fad20 !important;
-}
-#activity img {
-  margin-bottom: 6px;
 }
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {

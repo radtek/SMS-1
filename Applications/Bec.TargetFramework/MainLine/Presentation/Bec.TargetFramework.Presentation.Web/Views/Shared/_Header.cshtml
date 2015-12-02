@@ -18,7 +18,7 @@
             <img src="~/Content/img/sms-logo-118x42.png" />
         </span>
 
-        @{Html.RenderActionIf("LatestConversations", "MessagesNotifications", new { area = "Admin" }, showNotifications);}
+        @{Html.RenderActionIf("LatestConversationsContainer", "MessagesNotifications", new { area = "Admin" }, showNotifications);}
     </div>
     @if (showOrganisationName)
     {

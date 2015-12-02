@@ -5,6 +5,7 @@
     showAudit(0);
     setupNotifyButton();
     setupDates();
+    setupTabs();
 
     function setupNotifyButton() {
         $('.notify-button').each(function () {
@@ -29,6 +30,21 @@
 
         $('.format-number').each(function () {
             $(this).text(formatCurrency($(this).data("val")));
+        });
+    }
+
+    function setupTabs() {
+        var areConversationsLoaded = false;
+        $('[id^="collapse"] li a').click(function (e) {
+            e.stopPropagation();
+            history.pushState(null, null, $(this).attr('href'));
+            $(this).tab('show');
+
+            if (!areConversationsLoaded) {
+                $('#safeSendPanel').trigger('loadConversations');
+                areConversationsLoaded = true;
+            }
+            return false;
         });
     }
 });

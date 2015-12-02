@@ -27,7 +27,7 @@
                             var personaName = ((UserAccountOrganisationTransactionType)tx.SmsUserAccountOrganisationTransactionTypeID).GetStringValue();
                             var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
                             var tel = tx.SmsTransaction.Organisation.OrganisationStatus.First(s => s.StatusTypeValue.Name == "Verified").Notes;
-                            
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -45,7 +45,7 @@
                                 </div>
                                 <div id="collapse-@i" class="panel-collapse collapse @ain"
                                      data-url="@Url.Action("ViewMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i, companyName = companyName })"
-                                     data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i })" 
+                                     data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = tx.SmsUserAccountOrganisationTransactionID, index = i })"
                                      data-companyname="@companyName" data-phone="@tel">
                                     <div class="panel-body no-padding">
                                         <div class="tabbable custom-tabs shadow margin-top-10">
@@ -55,64 +55,64 @@
                                             </ul>
                                             <div class="tab-content padding-top-10">
                                                 <div class="tab-pane active" id="transactionDetailsPanel">
-                                                <div id="detailsRow-@i" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(tx.Confirmed? "block" : "none")">
-                                                    <div id="detailsRowTransactionAddress-@i" class="col-sm-6" style="display:@(!string.IsNullOrWhiteSpace(tx.SmsTransaction.Address.Line1) ? "block" : "none")">
-                                                        <dl>
-                                                            <dt>Transaction Address:</dt>
-                                                            <dd>
-                                                                <p id="txLine1-@i">@tx.SmsTransaction.Address.Line1</p>
-                                                                <p id="txLine2-@i">@tx.SmsTransaction.Address.Line2</p>
-                                                                <p id="txTown-@i">@tx.SmsTransaction.Address.Town</p>
-                                                                <p id="txCounty-@i">@tx.SmsTransaction.Address.County</p>
-                                                                <p id="txPostalCode-@i">@tx.SmsTransaction.Address.PostalCode</p>
-                                                            </dd>
-                                                            <dt>Mortgage Lender:</dt>
-                                                            <dd><p id="mortgageLender-@i">@(tx.SmsTransaction.LenderName ?? "None")</p></dd>
-                                                            <dt>Mortgage App. Number:</dt>
-                                                            <dd><p id="mortgageAppNumber-@i">@(tx.SmsTransaction.MortgageApplicationNumber ?? "None")</p></dd>
-                                                            <dt>Price:</dt>
-                                                            <dd><p id="purchasePrice-@i" class=format-number data-val="@tx.SmsTransaction.Price"></p></dd>
-                                                        </dl>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <dl>
-                                                            <dt>@personaName's Home Address:</dt>
-                                                            <dd>
-                                                                <p id="bLine1-@i">@(tx.Address == null ? "" : tx.Address.Line1)</p>
-                                                                <p id="bLine2-@i">@(tx.Address == null ? "" : tx.Address.Line2)</p>
-                                                                <p id="bTown-@i">@(tx.Address == null ? "" : tx.Address.Town)</p>
-                                                                <p id="bCounty-@i">@(tx.Address == null ? "" : tx.Address.County)</p>
-                                                                <p id="bPostalCode-@i">@(tx.Address == null ? "" : tx.Address.PostalCode)</p>
-                                                            </dd>
-                                                            <dt>Date of Birth:</dt>
-                                                            <dd><p id="bDateOfBirth" class="format-date" data-val="@((tx.Contact != null && tx.Contact.BirthDate != null) ? tx.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
-                                                        </dl>
-                                                        <dl>
-                                                            <dt>Personal Bank Account(s):</dt>
-                                                            <dd id="personalBankAccountsTable">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-bordered table-striped">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Account Number</th>
-                                                                                <th>Sort Code</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach (var item in tx.SmsSrcFundsBankAccounts)
-                                                                            {
+                                                    <div id="detailsRow-@i" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(tx.Confirmed? "block" : "none")">
+                                                        <div id="detailsRowTransactionAddress-@i" class="col-sm-6" style="display:@(!string.IsNullOrWhiteSpace(tx.SmsTransaction.Address.Line1) ? "block" : "none")">
+                                                            <dl>
+                                                                <dt>Transaction Address:</dt>
+                                                                <dd>
+                                                                    <p id="txLine1-@i">@tx.SmsTransaction.Address.Line1</p>
+                                                                    <p id="txLine2-@i">@tx.SmsTransaction.Address.Line2</p>
+                                                                    <p id="txTown-@i">@tx.SmsTransaction.Address.Town</p>
+                                                                    <p id="txCounty-@i">@tx.SmsTransaction.Address.County</p>
+                                                                    <p id="txPostalCode-@i">@tx.SmsTransaction.Address.PostalCode</p>
+                                                                </dd>
+                                                                <dt>Mortgage Lender:</dt>
+                                                                <dd><p id="mortgageLender-@i">@(tx.SmsTransaction.LenderName ?? "None")</p></dd>
+                                                                <dt>Mortgage App. Number:</dt>
+                                                                <dd><p id="mortgageAppNumber-@i">@(tx.SmsTransaction.MortgageApplicationNumber ?? "None")</p></dd>
+                                                                <dt>Price:</dt>
+                                                                <dd><p id="purchasePrice-@i" class=format-number data-val="@tx.SmsTransaction.Price"></p></dd>
+                                                            </dl>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <dl>
+                                                                <dt>@personaName's Home Address:</dt>
+                                                                <dd>
+                                                                    <p id="bLine1-@i">@(tx.Address == null ? "" : tx.Address.Line1)</p>
+                                                                    <p id="bLine2-@i">@(tx.Address == null ? "" : tx.Address.Line2)</p>
+                                                                    <p id="bTown-@i">@(tx.Address == null ? "" : tx.Address.Town)</p>
+                                                                    <p id="bCounty-@i">@(tx.Address == null ? "" : tx.Address.County)</p>
+                                                                    <p id="bPostalCode-@i">@(tx.Address == null ? "" : tx.Address.PostalCode)</p>
+                                                                </dd>
+                                                                <dt>Date of Birth:</dt>
+                                                                <dd><p id="bDateOfBirth" class="format-date" data-val="@((tx.Contact != null && tx.Contact.BirthDate != null) ? tx.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
+                                                            </dl>
+                                                            <dl>
+                                                                <dt>Personal Bank Account(s):</dt>
+                                                                <dd id="personalBankAccountsTable">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-bordered table-striped">
+                                                                            <thead>
                                                                                 <tr>
-                                                                                    <td>@item.AccountNumber</td>
-                                                                                    <td>@item.SortCode</td>
+                                                                                    <th>Account Number</th>
+                                                                                    <th>Sort Code</th>
                                                                                 </tr>
-                                                                            }
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </dd>
-                                                        </dl>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var item in tx.SmsSrcFundsBankAccounts)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>@item.AccountNumber</td>
+                                                                                        <td>@item.SortCode</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 </div>
 
                                                 <div class="tab-pane padding-10" id="safeSendPanel">
@@ -123,25 +123,25 @@
                                     </div>
                                 </div>
 
-                                                <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
-                                                    <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
-                                                </div>
-                                                <a id="conf" data-modallink="true" class="btn btn-primary pull-right" style="padding:5px;margin:10px;" data-href="@Url.Action("ViewConfirmDetails", "SafeBuyer" , new { area = "Buyer", txID = tx.SmsTransactionID, index = i })">
-                                                    Check Bank Account
-                                                    <i class="fa fa-chevron-right margin-left-5"></i>
-                                                </a>
-                                                <br />
-                                                <br />
-                                                <div id="audit-@i" data-url="@Url.Action("GetAudit", "SafeBuyer", new { Area = "Buyer", uaotxID = tx.SmsUserAccountOrganisationTransactionID, orgID = tx.SmsTransaction.OrganisationID })"></div>
+                                <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
+                                    <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
+                                </div>
+                                <a id="conf" data-modallink="true" class="btn btn-primary pull-right" style="padding:5px;margin:10px;" data-href="@Url.Action("ViewConfirmDetails", "SafeBuyer" , new { area = "Buyer", txID = tx.SmsTransactionID, index = i })">
+                                    Check Bank Account
+                                    <i class="fa fa-chevron-right margin-left-5"></i>
+                                </a>
+                                <br />
+                                <br />
+                                <div id="audit-@i" data-url="@Url.Action("GetAudit", "SafeBuyer", new { Area = "Buyer", uaotxID = tx.SmsUserAccountOrganisationTransactionID, orgID = tx.SmsTransaction.OrganisationID })"></div>
 
-                                                <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
-                                                    <h4 class="alert alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
-                                                </div>
+                                <div class="alert alert-danger fade in margin-left-10 margin-right-10 margin-top-10" style="display: none;" id="result-server-error-@i">
+                                    <h4 class="alert alert-heading"><i class="fa fa-warning"></i> Server Error occurred. Please try again later.</h4>
+                                </div>
                             </div>
 
-                            i++;
-                            aclass = "collapsed";
-                            ain = "";
+                                                                                i++;
+                                                                                aclass = "collapsed";
+                                                                                ain = "";
                         }
                     </div>
                 </div>
@@ -149,7 +149,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/Index")"></script>
 }

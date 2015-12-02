@@ -1,4 +1,6 @@
 ﻿$(function () {
+    'use strict';
+
     var viewMessagesContainer = $('#viewMessagesContainer'),
         conversationsContainer = $('#conversationsContainer'),
         converationsList = $('#conversationsList'),
@@ -7,7 +9,7 @@
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
         getMessagesSpinner = function () { return $('#messagesSpinner'); },
-        getNewConversationError = function () { return $('#newConversationError'); };
+        getNewConversationError = function () { return $('#newConversationError'); },
         createConversationButton = $('#createConversationButton'),
         targetConversationId = viewMessagesContainer.data('target-conversation-id');
     var currentConversation = {
@@ -65,9 +67,10 @@
         change: selectCurrentOrLatestConversation,
         schema: { data: "Items", total: "Count" },
     });
-    
-    var isActivitySpecificView = viewMessagesContainer.data("is-activity-specific");
-    if (!isActivitySpecificView) loadConversations();
+
+    if (!isActivitySpecificView() && canLoadConversations()) {
+        loadConversations();
+    }
 
     var pager = $('#conversationsPager').kendoPager({
         dataSource: dataSource,
@@ -79,7 +82,7 @@
     var allLoaded = false;
     var jumpedPage = false;
 
-    setupDataReload(viewMessagesContainer);
+    setupDataReload();
     setupWindowToggling();
     setupReply();
     setupCreateConversation();
@@ -92,11 +95,25 @@
         }
     }
 
+    function canCreateNewConversation() {
+        return !!currentActivity.activityId;
+    }
+
+    function canLoadConversations() {
+        return viewMessagesContainer.is(':visible');
+    }
+
+    function isActivitySpecificView() {
+        return viewMessagesContainer.data("is-activity-specific");
+    }
+
     function loadConversations() {
         conversationsSpinner.show();
         conversationsError.hide();
         dataSource.read();
-        getRecipientsPromise = getRecipients();
+        if (canCreateNewConversation()) {
+            getRecipientsPromise = getRecipients();
+        }
     }
 
     function loadMessages(conversation) {
@@ -275,13 +292,15 @@
             });
         }
         conversationsSpinner.hide();
+        publishConversationsChangedEvent();
+
         var conversations = $('#conversationsList .conversation-item');
         if (targetConversationId) {
             conversations = conversations.filter(function () {
                 return $(this).data('conversation-id') == targetConversationId;
             });
 
-            if (conversations.length == 1){
+            if (conversations.length == 1) {
                 conversations.first().trigger('click');
                 targetConversationId = null;
             } else if (!jumpedPage) {
@@ -363,16 +382,22 @@
         });
     }
 
-    function setupDataReload(container) {
-        var isActivitySpecificView = container.data("is-activity-specific");
-        if (isActivitySpecificView) {
+    function setupDataReload() {
+        if (isActivitySpecificView()) {
             // capturing the event from any parent views and refresh the view
-            container.parent().on('activitychange', function (event, activityId) {
+            viewMessagesContainer.parent().on('activitychange', function (event, activityId) {
                 resetCurrentConversation();
                 currentActivity.activityId = activityId;
-                loadConversations();
+
+                if (canLoadConversations()) {
+                    loadConversations();
+                }
             });
         }
+
+        viewMessagesContainer.parent().on('loadConversations', function (event, activityId) {
+            loadConversations();
+        });
     }
 
     function getRecipients() {
@@ -425,11 +450,19 @@
         selectedItem.addClass('active');
     }
 
+    function publishConversationsChangedEvent() {
+        $('body').trigger('conversationsChanged');
+    }
+
     function markConversationAsRead(selectedItem) {
+        if (!selectedItem.hasClass('unread')) {
+            return;
+        }
+
         setTimeout(function () {
             selectedItem.removeClass('unread');
-            $('body').trigger('conversationMarkedAsRead', selectedItem.data('conversation-id'));
-        }, 2000);
+            publishConversationsChangedEvent();
+        }, 3000);
     }
 
     function isCompactView() {

@@ -90,10 +90,16 @@ $(function () {
     }
 
     function setupTabs() {
+        var areConversationsLoaded = false;
         $('#rPanel li a').click(function (e) {
             e.stopPropagation();
             history.pushState(null, null, $(this).attr('href'));
             $(this).tab('show');
+
+            if (!areConversationsLoaded) {
+                $('#transactionConversationContainer').trigger('loadConversations');
+                areConversationsLoaded = true;
+            }
             return false;
         });
     }

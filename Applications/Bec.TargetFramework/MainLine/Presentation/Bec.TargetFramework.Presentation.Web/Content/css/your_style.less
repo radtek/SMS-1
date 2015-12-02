@@ -167,6 +167,20 @@
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 
     #logo-group {
+        #activity {
+            .badge {
+                background: @primary-color;
+            }
+
+            &.active .badge {
+                background: darken(@primary-color, 5%) !important;
+            }
+
+            img {
+                margin-bottom: 6px;
+            }
+        }
+
         .ajax-dropdown {
             width: 430px;
         }
@@ -320,21 +334,6 @@
     &[disabled] {
         background-color: @primary-color !important;
         border-color: darken(@primary-color, 10%) !important;
-    }
-}
-
-//smart admin has quite a specific bg-colour for this in #logo-group
-#activity {
-    .badge {
-        background: @primary-color !important;
-    }
-
-    &.active .badge {
-        background: darken(@primary-color, 5%) !important;
-    }
-
-    img {
-        margin-bottom: 6px;
     }
 }
 
