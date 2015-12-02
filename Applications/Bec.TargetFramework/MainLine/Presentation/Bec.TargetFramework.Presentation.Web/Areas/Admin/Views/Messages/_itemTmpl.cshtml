@@ -10,8 +10,10 @@
             </div>
             <div class="col-sm-11">
                 <div class="message-heading">
-                    <strong>{{Message.FirstName}} {{Message.LastName}} </strong>
-                    {{#if isFromProfessionalUser}}> <strong>{{Message.OrganisationName}} </strong>{{/if}} 
+                    {{#if isFromProfessionalUser}}
+                    <strong>{{Message.OrganisationName}}</strong> >
+                    {{/if}}
+                    <strong> {{Message.FirstName}} {{Message.LastName}}</strong>
                     <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
                 <pre>{{Message.Message}}</pre>

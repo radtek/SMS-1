@@ -559,11 +559,13 @@ namespace Bec.TargetFramework.Business.Logic
                     .Take(pageSize).ToDtos();
                 var nids = messages.Select(m => m.NotificationID);
                 var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
+                var professionalOrganisationTypeId = OrganisationTypeEnum.Professional.GetIntValue();
                 var participants = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants.Where(x => x.ConversationID == conversationId)
                     .Select(x => new ParticipantDTO
                     { 
                         FirstName = x.UserAccountOrganisation.Contact.FirstName, 
                         LastName = x.UserAccountOrganisation.Contact.LastName, 
+                        IsProfessionalOrganisation = x.UserAccountOrganisation.Organisation.OrganisationTypeID == professionalOrganisationTypeId,
                         OrganisationName = x.UserAccountOrganisation.Organisation.OrganisationDetails.FirstOrDefault().Name 
                     });
                 return new MessageContainerDTO

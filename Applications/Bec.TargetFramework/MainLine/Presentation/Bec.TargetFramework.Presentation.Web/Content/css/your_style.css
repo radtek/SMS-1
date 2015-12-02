@@ -359,6 +359,9 @@
 .view-messages-container {
   position: relative;
 }
+.view-messages-container .conversations-container .conversations-header {
+  margin-top: 5px;
+}
 .view-messages-container .conversations-container .conversations-list {
   list-style-type: none;
   padding: 0;
@@ -409,6 +412,7 @@
 }
 .view-messages-container .messages-container #conversationSubject {
   margin-bottom: 10px;
+  margin-top: 5px;
 }
 .view-messages-container .messages-container .messages-list .scrollable {
   max-height: 450px;

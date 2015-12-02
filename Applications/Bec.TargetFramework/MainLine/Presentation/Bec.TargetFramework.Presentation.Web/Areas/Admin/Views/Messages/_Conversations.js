@@ -32,6 +32,8 @@
     var messagesTemplatePromise = getTemplatePromise('_messagesTmpl');
     var createConversationTemplatePromise = getTemplatePromise('_createConversationTmpl');
 
+    var getRecipientsPromise = $.Deferred();
+
     var dataSource = new kendo.data.DataSource({
         type: "odata-v4",
         transport: {
@@ -94,6 +96,7 @@
         conversationsSpinner.show();
         conversationsError.hide();
         dataSource.read();
+        getRecipientsPromise = getRecipients();
     }
 
     function loadMessages(conversation) {
@@ -179,7 +182,6 @@
             }
             var messagesSpinner = getMessagesSpinner();
             messagesSpinner.show();
-            var getRecipientsPromise = getRecipients();
             $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
                 var templateData = {
                     activityType: currentActivity.activityType,
@@ -224,6 +226,9 @@
             submitNewConversation.prop('disabled', true);
             var newConversationError = getNewConversationError();
             newConversationError.hide();
+            var messagesSpinner = getMessagesSpinner();
+            messagesSpinner.show();
+
             var formData = newConversationForm.serializeArray();
             ajaxWrapper({
                 url: newConversationForm.data("url"),
@@ -236,6 +241,7 @@
                 } else {
                     showNewConversationError();
                 }
+                messagesSpinner.hide();
             }).fail(function (e) {
                 console.log(e);
                 showNewConversationError();

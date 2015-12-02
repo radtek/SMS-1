@@ -8,6 +8,7 @@
     <span class="text-muted">Participants:</span>
     <span>
         {{#each participants}}
+        {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
         {{FirstName}} {{LastName}};
         {{/each}}
     </span>
