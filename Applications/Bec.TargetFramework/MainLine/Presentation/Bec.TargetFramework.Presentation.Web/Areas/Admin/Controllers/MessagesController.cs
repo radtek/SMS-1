@@ -61,10 +61,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     switch ((ActivityType)r.ActivityType)
                     {
                         case ActivityType.BankAccount:
-                            r.Link = Url.Action("Index", "Account", new { Area = "BankAccount", selectedBankAccountId = r.ActivityID });
+                            if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                                r.Link = Url.Action("Index", "Account", new { Area = "BankAccount", selectedBankAccountId = r.ActivityID });
                             break;
                         case ActivityType.SmsTransaction:
-                            r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction" });
+                            if (ClaimsHelper.UserHasClaim("View", "SmsTransaction"))
+                                r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction" });
                             break;
                     }
                 }
