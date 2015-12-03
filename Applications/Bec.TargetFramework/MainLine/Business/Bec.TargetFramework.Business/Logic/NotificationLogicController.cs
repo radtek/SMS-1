@@ -84,10 +84,15 @@ namespace Bec.TargetFramework.Business.Logic
 
                     if (conv == null)
                     {
-                        conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = nc.NotificationSubject };
-                        conv.ActivityID = activityID;
-                        conv.ActivityType = activityType.GetIntValue();
-                        conv.ConversationParticipants = new List<ConversationParticipant>();
+                        conv = new Conversation
+                        {
+                            ConversationID = Guid.NewGuid(),
+                            Subject = nc.NotificationSubject,
+                            ActivityID = activityID,
+                            ActivityType = activityType.GetIntValue(),
+                            ConversationParticipants = new List<ConversationParticipant>(),
+                            IsSystemMessage = true
+                        };
                         foreach (var p in dto.NotificationRecipients) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.UserAccountOrganisationID.Value });
                         scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
                     }
