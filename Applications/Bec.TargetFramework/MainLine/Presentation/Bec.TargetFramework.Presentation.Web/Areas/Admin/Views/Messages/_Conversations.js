@@ -351,7 +351,7 @@
 
     function autoresizeTextarea(textarea) {
         textarea.height(0);
-        textarea.height(textarea[0].scrollHeight);
+        textarea.height(textarea[0].scrollHeight - 15);
     }
 
     function setupReply() {

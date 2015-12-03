@@ -1,7 +1,7 @@
 ﻿@model int
 <span id="activity" class="activity-dropdown" title="Notifications">
     <i class="sms sms-safe-send"></i>
-    <b class="badge animated @(Model > 0 ? "bounceIn bg-color-red" : "")" id="unreadConversationsCountId">@Model</b>
+    <b class="badge animated @(Model > 0 ? "bounceIn bg-color-red" : "")" id="unreadConversationsCountId" data-get-unread-count-url="@Url.Action("GetLatestConversationsCount", "MessagesNotifications", new { area = "Admin" })">@Model</b>
 </span>
 <div class="ajax-dropdown">
     <h4>Notifications</h4>
