@@ -518,6 +518,9 @@
   border: 1px solid #a1c324;
   background-color: #a1c324;
 }
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-input {
+  margin: 0;
+}
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice-close {
   min-width: 18px;
   padding: 3px 0 0 5px;
