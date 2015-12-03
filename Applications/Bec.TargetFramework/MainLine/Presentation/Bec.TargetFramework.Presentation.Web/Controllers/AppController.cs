@@ -70,11 +70,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
                 return Json("true", JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> CheckEmailPersonal(string email, Guid? uaoID)
+        public async Task<ActionResult> CheckEmailPersonal(string email, Guid? txId, Guid? uaoID)
         {
-            var canEmailBeUsed = await UserClient.CanEmailBeUsedAsPersonalAsync(email, uaoID);
+            var canEmailBeUsed = await UserClient.CanEmailBeUsedAsPersonalAsync(email, txId, uaoID);
             if (!canEmailBeUsed)
-                return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
+                return Json("This email cannot be used", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }

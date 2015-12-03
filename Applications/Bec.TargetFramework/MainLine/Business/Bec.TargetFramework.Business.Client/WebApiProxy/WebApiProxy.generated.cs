@@ -1463,14 +1463,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void ChangeUsernameAndEmail(Guid uaoId,String newUsername);
 
 		/// <param name="email"></param>
+		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> uaoID);
+		Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
 
 		/// <param name="email"></param>
+		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> uaoID);
+		Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> txId,Nullable<Guid> uaoID);
 
 		/// <param name="email"></param>
 		/// <param name="uaoID"></param>
@@ -5270,25 +5272,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="email"></param>
+		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
 		/// <returns></returns>
-		public virtual Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> uaoID)
+		public virtual Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&uaoID=" + uaoID, null, _user);
+			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&txId=" + txId + "&uaoID=" + uaoID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="email"></param>
+		/// <param name="txId"></param>
 		/// <param name="uaoID"></param>
-		public virtual Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> uaoID)
+		public virtual Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> txId,Nullable<Guid> uaoID)
 		{
 			email = email.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&uaoID=" + uaoID, null, _user)).Result;
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&txId=" + txId + "&uaoID=" + uaoID, null, _user)).Result;
 		}
 
 		/// <summary>

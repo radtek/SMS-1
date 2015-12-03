@@ -808,33 +808,39 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<bool> CanEmailBeUsedAsPersonal(string email, Guid? txId, Guid? uaoID)
         {
-            if (!txId.HasValue)
-            {
-
-            }
+            email = email.Trim();
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                bool cannotBeUsed = false;
-                if (!uaoID.HasValue)
+                bool isAlreadyInTransaction = false;
+                bool isAlreadyProfessional = false;
+                // check if there is no user with that email that is part of transaction
+                if (txId.HasValue)
                 {
-                    cannotBeUsed = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                        .Any(x => x.UserAccount.Email.ToLower() == email.Trim().ToLower());
-                }
-                else
-                {
-                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                        .FirstOrDefault(x => x.UserAccountOrganisationID == uaoID);
-                    Ensure.That(uao).IsNotNull();
-                    var uaoEmail = uao.UserAccount.Email;
-
-                    cannotBeUsed = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                        .Any(x => 
-                            x.UserAccountOrganisationID != uaoID &&
-                            x.UserAccount.Email.ToLower() != uaoEmail.Trim().ToLower() &&
-                            x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                    var isAlreadyInTransactionQuery = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                        .Where(x =>
+                            x.SmsTransactionID == txId &&
+                            x.UserAccountOrganisation.UserAccount.Email.ToLower() == email.ToLower());
+                    if (uaoID.HasValue)
+                    {
+                        isAlreadyInTransactionQuery = isAlreadyInTransactionQuery.Where(x => x.UserAccountOrganisationID != uaoID);
+                    }
+                    isAlreadyInTransaction = isAlreadyInTransactionQuery.Any();
                 }
 
-                return !cannotBeUsed;
+                // check if not personal account is already registered with this email
+                var personalOrgType = OrganisationTypeEnum.Personal.GetIntValue();
+                var isAlreadyProfessionalQuery = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                    .Where(x =>
+                        x.Organisation.OrganisationTypeID != personalOrgType &&
+                        x.UserAccount.Email.ToLower() == email.ToLower());
+
+                if (uaoID.HasValue)
+                {
+                    isAlreadyProfessionalQuery = isAlreadyProfessionalQuery.Where(x => x.UserAccountOrganisationID != uaoID);
+                }
+                isAlreadyProfessional = isAlreadyProfessionalQuery.Any();
+
+                return !isAlreadyInTransaction && !isAlreadyProfessional;
             }
         }
 

@@ -107,6 +107,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             ViewBag.pageNumber = pageNumber;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
+                x.SmsTransactionID,
                 x.SmsUserAccountOrganisationTransactionID,
                 x.Contact.Salutation,
                 x.Contact.FirstName,

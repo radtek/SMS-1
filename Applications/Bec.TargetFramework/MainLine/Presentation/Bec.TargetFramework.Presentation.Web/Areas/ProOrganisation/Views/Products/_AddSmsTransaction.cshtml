@@ -67,7 +67,7 @@
                                                     <label class="label">Email</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmail", "App", new { Area = "" }) })
+                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmailPersonal", "App", new { Area = "" }) })
                                                     </label>
                                                 </section>
                                                 <section class="col col-sm-4">
