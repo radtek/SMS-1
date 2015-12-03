@@ -11,5 +11,6 @@ namespace Bec.TargetFramework.Entities.DTO.Notification
         public string MarkedBy { get; set; }
         public string Reason { get; set; }
         public string DetailsUrl { get; set; }
+        public Guid OrganisationBankAccountID { get; set; }
     }
 }

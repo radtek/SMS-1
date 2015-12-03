@@ -55,41 +55,76 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x =>
+                    !x.UserAccount.IsDeleted &&
+                    x.OrganisationID == orgID &&
+                    !x.UserAccount.IsTemporaryAccount &&
+                    x.UserAccount.IsLoginAllowed).Select(x => x.UserAccountOrganisationID).ToList();
+            }            
+        }
+
+        public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                if (activityID.HasValue && activityType.HasValue)
+                {
+                    var nc = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Single(x => x.NotificationConstructID == dto.NotificationConstructID && x.NotificationConstructVersionNumber == dto.NotificationConstructVersionNumber);
+                    var at = activityType.GetIntValue();
+                    var conv = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations
+                        .Where(x => x.Subject == nc.NotificationSubject && x.ActivityID == activityID && x.ActivityType == at)
+                        .ToList()
+                        .FirstOrDefault(x =>
+                            x.ConversationParticipants.Count == dto.NotificationRecipients.Count &&
+                            x.ConversationParticipants.All(y => dto.NotificationRecipients.Any(z=>z.UserAccountOrganisationID == y.UserAccountOrganisationID)));
+
+                    if (conv == null)
+                    {
+                        conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = nc.NotificationSubject };
+                        conv.ActivityID = activityID;
+                        conv.ActivityType = activityType.GetIntValue();
+                        conv.ConversationParticipants = new List<ConversationParticipant>();
+                        foreach (var p in dto.NotificationRecipients) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.UserAccountOrganisationID.Value });
+                        scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
+                    }
+
+                    dto.ConversationID = conv.ConversationID;
+                }
+                await SaveNotificationAsync(dto);
+                await scope.SaveChangesAsync();
+            }
+        }
+
         public async Task SaveNotificationAsync(NotificationDTO dto)
         {
-            // we need to save the notification then the recipients
             Ensure.That(dto).IsNotNull();
-            // must be recipients
             Ensure.That(dto.NotificationRecipients).IsNotNull();
 
             using (var scope = DbContextScopeFactory.Create())
             {
                 var notification = NotificationConverter.ToEntity(dto);
-
                 notification.NotificationID = Guid.NewGuid();
-
                 var recpList = new List<NotificationRecipient>();
 
                 foreach (var item in dto.NotificationRecipients)
                 {
                     var recipient = item.ToEntity();
-
                     recipient.NotificationID = notification.NotificationID;
                     recipient.NotificationRecipientID = Guid.NewGuid();
-
                     scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients.Add(recipient);
 
-                    // process recipients
                     if (item.NotificationRecipientLogs != null)
                     {
                         foreach (var nl in item.NotificationRecipientLogs)
                         {
                             var log = NotificationRecipientLogConverter.ToEntity(nl);
-
                             log.NotificationRecipientID = recipient.NotificationRecipientID;
                             log.CreatedOn = DateTime.Now;
                             log.NotificationRecipientLogID = Guid.NewGuid();
-
                             scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipientLogs.Add(log);
                         }
                     }
@@ -97,9 +132,7 @@ namespace Bec.TargetFramework.Business.Logic
                 }
 
                 notification.NotificationRecipients = recpList;
-
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
-
                 await scope.SaveChangesAsync();
             }
         }
@@ -463,7 +496,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 foreach (var nr in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
-                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID))
+                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID && !(x.IsAccepted ?? false)))
                 {
                     nr.IsAccepted = true;
                     nr.AcceptedDate = DateTime.Now;
@@ -520,16 +553,6 @@ namespace Bec.TargetFramework.Business.Logic
                         case ActivityType.SmsTransaction:
                             var tx = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == activityID.Value);
                             if (tx == null) valid = false;
-
-                            // check if the user is part of the transaction
-                            if (tx.OrganisationID != orgID)
-                            {
-                                var uaotSingle = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
-                                    .Where(x => x.SmsTransactionID == activityID.Value && x.UserAccountOrganisation.OrganisationID == orgID)
-                                    .SingleOrDefault();
-                                
-                                if (uaotSingle == null) valid = false;
-                            }
 
                             var validPersonalUaoIDs = tx.SmsUserAccountOrganisationTransactions
                                 .Select(x => x.UserAccountOrganisationID).ToList();

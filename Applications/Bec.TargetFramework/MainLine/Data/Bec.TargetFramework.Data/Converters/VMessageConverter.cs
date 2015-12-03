@@ -33,13 +33,14 @@ namespace Bec.TargetFramework.Entities
             target.NotificationID = source.NotificationID;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
-            target.Message = source.Message;
+            target.NotificationData = source.NotificationData;
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
             target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
+            target.NotificationConstructName = source.NotificationConstructName;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -59,13 +60,14 @@ namespace Bec.TargetFramework.Entities
             target.NotificationID = source.NotificationID;
             target.CreatedByUserAccountOrganisationID = source.CreatedByUserAccountOrganisationID;
             target.DateSent = source.DateSent;
-            target.Message = source.Message;
+            target.NotificationData = source.NotificationData;
             target.Email = source.Email;
             target.FirstName = source.FirstName;
             target.LastName = source.LastName;
             target.OrganisationName = source.OrganisationName;
             target.UserType = source.UserType;
             target.OrganisationType = source.OrganisationType;
+            target.NotificationConstructName = source.NotificationConstructName;
 
             // User-defined partial method
             OnEntityCreating(source, target);

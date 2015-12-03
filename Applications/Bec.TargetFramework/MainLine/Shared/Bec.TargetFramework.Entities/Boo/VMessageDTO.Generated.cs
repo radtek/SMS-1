@@ -22,19 +22,20 @@ namespace Bec.TargetFramework.Entities
         public VMessageDTO() {
         }
 
-        public VMessageDTO(global::System.Guid conversationID, global::System.Guid notificationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, global::System.DateTime dateSent, string message, string email, string firstName, string lastName, string organisationName, string userType, string organisationType) {
+        public VMessageDTO(global::System.Guid conversationID, global::System.Guid notificationID, global::System.Nullable<System.Guid> createdByUserAccountOrganisationID, global::System.DateTime dateSent, string notificationData, string email, string firstName, string lastName, string organisationName, string userType, string organisationType, string notificationConstructName) {
 
           this.ConversationID = conversationID;
           this.NotificationID = notificationID;
           this.CreatedByUserAccountOrganisationID = createdByUserAccountOrganisationID;
           this.DateSent = dateSent;
-          this.Message = message;
+          this.NotificationData = notificationData;
           this.Email = email;
           this.FirstName = firstName;
           this.LastName = lastName;
           this.OrganisationName = organisationName;
           this.UserType = userType;
           this.OrganisationType = organisationType;
+          this.NotificationConstructName = notificationConstructName;
         }
 
         #endregion
@@ -54,7 +55,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.DateTime DateSent { get; set; }
 
         [DataMember]
-        public string Message { get; set; }
+        public string NotificationData { get; set; }
 
         [DataMember]
         public string Email { get; set; }
@@ -73,6 +74,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string OrganisationType { get; set; }
+
+        [DataMember]
+        public string NotificationConstructName { get; set; }
 
         #endregion
     }

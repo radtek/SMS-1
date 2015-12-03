@@ -1132,6 +1132,8 @@ namespace Bec.TargetFramework.Entities.Enums
     public enum ActivityType
     {
         [StringValue("Sms Transaction")]
-        SmsTransaction = 803001
+        SmsTransaction = 803001,
+        [StringValue("Bank Account")]
+        BankAccount = 803002
     }
 }

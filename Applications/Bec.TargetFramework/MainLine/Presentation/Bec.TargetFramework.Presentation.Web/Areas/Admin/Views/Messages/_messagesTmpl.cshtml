@@ -1,4 +1,9 @@
-﻿<h3 id="conversationSubject">
+﻿{{#if conversation.link}}
+<div class="pull-right">
+    <a href="{{conversation.link}}">View {{conversation.linkdescription}}</a>
+</div>
+{{/if}}
+<h3 id="conversationSubject">
     <i class="fa fa-caret-left margin-right-10 hidden-md hidden-lg"></i>
     <span class="text-muted">Subject: </span>
     {{conversation.subject}}
