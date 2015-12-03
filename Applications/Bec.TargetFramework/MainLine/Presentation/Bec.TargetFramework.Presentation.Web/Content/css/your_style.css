@@ -488,6 +488,16 @@
 .view-messages-container .messages-container .new-conversation-form fieldset {
   background: none;
 }
+.view-messages-container .messages-container .new-conversation-form fieldset #newConversationMessage {
+  height: 32px;
+  min-height: 80px;
+}
+.view-messages-container .messages-container .new-conversation-form fieldset .form-control {
+  min-height: 34px;
+}
+.view-messages-container .messages-container .new-conversation-form fieldset .icon-append {
+  top: 6px;
+}
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi {
   border: 1px solid #bdbdbd;
   height: auto;
@@ -501,11 +511,15 @@
 }
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices {
   border: none;
+  padding-right: 35px;
 }
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice {
   line-height: 20px;
   border: 1px solid #a1c324;
   background-color: #a1c324;
+}
+.view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-input {
+  margin: 0;
 }
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice-close {
   min-width: 18px;

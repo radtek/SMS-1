@@ -225,6 +225,9 @@
         $("#conversationRecipients").on("select2-close", function () {
             $(this).valid();
         });
+        $('#newConversationMessage').on('keyup', function () {
+            autoresizeTextarea($(this));
+        });
 
         newConversationForm.validate({
             ignore: '.skip',
@@ -331,13 +334,13 @@
     }
 
     function autoresizeTextarea(textarea) {
-        textarea.style.height = '0px'; //Reset height, so that it not only grows but also shrinks
-        textarea.style.height = (textarea.scrollHeight) + 'px'; //Set new height
+        textarea.height(0);
+        textarea.height(textarea[0].scrollHeight - 10);
     }
 
     function setupReply() {
         viewMessagesContainer.on('keyup', '#replyMessageTextArea', function () {
-            autoresizeTextarea(this);
+            autoresizeTextarea($(this));
         });
 
         viewMessagesContainer.on('click', '#replyButton', function (e) {
