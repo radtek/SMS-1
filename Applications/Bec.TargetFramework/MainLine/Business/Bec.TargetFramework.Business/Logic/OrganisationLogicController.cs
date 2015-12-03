@@ -467,7 +467,8 @@ namespace Bec.TargetFramework.Business.Logic
                 var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
                 if (existing != null)
                 {
-                    if (existing.Organisation.OrganisationType.Name != "Personal") throw new Exception("The specified email belongs to a system user; this is not currently supported.");
+                    var personalOrgTypeId = OrganisationTypeEnum.Personal.GetIntValue();
+                    if (existing.Organisation.OrganisationTypeID != personalOrgTypeId) throw new Exception("The specified email belongs to a system user; this is not currently supported.");
                     return existing.UserAccountOrganisationID;
                 }
                 // get professional default organisation template
