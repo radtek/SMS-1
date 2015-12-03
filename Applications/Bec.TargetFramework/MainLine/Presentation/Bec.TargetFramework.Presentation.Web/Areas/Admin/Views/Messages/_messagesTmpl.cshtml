@@ -18,6 +18,7 @@
     </div>
     <div class="message-item">
         <div class="row">
+            {{#if isCurrentUserParticipant}}
             <div class="col-xs-12">
                 <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
                     <div class="row display-table">
@@ -38,6 +39,9 @@
                     </div>
                 </form>
             </div>
+            {{else}}
+            <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply in this conversation because you are not a participant.</div>
+            {{/if}}
         </div>
     </div>
 </div>
