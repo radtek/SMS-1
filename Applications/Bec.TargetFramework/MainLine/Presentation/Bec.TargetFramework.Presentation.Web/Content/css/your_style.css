@@ -492,6 +492,12 @@
   height: 32px;
   min-height: 80px;
 }
+.view-messages-container .messages-container .new-conversation-form fieldset .form-control {
+  min-height: 34px;
+}
+.view-messages-container .messages-container .new-conversation-form fieldset .icon-append {
+  top: 6px;
+}
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi {
   border: 1px solid #bdbdbd;
   height: auto;
@@ -505,6 +511,7 @@
 }
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices {
   border: none;
+  padding-right: 35px;
 }
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi .select2-choices .select2-search-choice {
   line-height: 20px;
