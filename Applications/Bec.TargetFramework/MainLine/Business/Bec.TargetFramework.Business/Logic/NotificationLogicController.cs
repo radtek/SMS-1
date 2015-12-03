@@ -498,7 +498,7 @@ namespace Bec.TargetFramework.Business.Logic
                     .Where(x => x.ConversationID == conversationID)
                     .Select(x => x.UserAccountOrganisationID);
 
-                if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
+                //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
                 await Reply(uaoID, conversationID, message, notSender);
