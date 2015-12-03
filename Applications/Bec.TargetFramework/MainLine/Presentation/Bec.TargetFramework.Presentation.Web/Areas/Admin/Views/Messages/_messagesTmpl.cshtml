@@ -1,4 +1,9 @@
-﻿<h3 id="conversationSubject">
+﻿{{#if conversation.link}}
+<div class="pull-right">
+    <a href="{{conversation.link}}">View {{conversation.linkdescription}}</a>
+</div>
+{{/if}}
+<h3 id="conversationSubject">
     <i class="fa fa-caret-left margin-right-10 hidden-md hidden-lg"></i>
     <span class="text-muted">Subject: </span>
     {{conversation.subject}}
@@ -7,7 +12,7 @@
 <div class="margin-bottom-10">
     <span class="text-muted">Participants:</span>
     <span>
-        {{#each participants}}
+        {{#each conversation.participants}}
         {{#if IsProfessionalOrganisation}}{{OrganisationName}} > {{/if}}
         {{FirstName}} {{LastName}};
         {{/each}}
@@ -18,29 +23,29 @@
     </div>
     <div class="message-item">
         <div class="row">
-            {{#if isCurrentUserParticipant}}
-            <div class="col-xs-12">
-                <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
-                    <div class="row display-table">
-                        <div class="col-xs-11">
-                            <fieldset>
-                                <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
-                                @Html.AntiForgeryToken()
-                                <section>
-                                    <label class="textarea">
-                                        <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
-                                    </label>
-                                </section>
-                            </fieldset>
-                        </div>
-                        <div class="col-xs-1">
-                            <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            {{#if conversation.issystemmessage}}
+                <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
             {{else}}
-            <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply in this conversation because you are not a participant.</div>
+                <div class="col-xs-12">
+                    <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
+                        <div class="row display-table">
+                            <div class="col-xs-11">
+                                <fieldset>
+                                    <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
+                                    @Html.AntiForgeryToken()
+                                    <section>
+                                        <label class="textarea">
+                                            <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
+                                        </label>
+                                    </section>
+                                </fieldset>
+                            </div>
+                            <div class="col-xs-1">
+                                <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             {{/if}}
         </div>
     </div>

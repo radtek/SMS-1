@@ -14,7 +14,7 @@
         targetConversationId = viewMessagesContainer.data('target-conversation-id');
     var currentConversation = {
         id: null,
-        subject: null,
+        subject: null
     };
     var currentActivity = {
         activityType: viewMessagesContainer.data('activity-type'),
@@ -25,7 +25,8 @@
         conversationUrl: viewMessagesContainer.data("conversations-url"),
         messagesUrl: viewMessagesContainer.data("messages-url"),
         recipientsUrl: viewMessagesContainer.data("recipients-url"),
-        convRankUrl: viewMessagesContainer.data("convrank-url")
+        convRankUrl: viewMessagesContainer.data("convrank-url"),
+        participantsUrl: viewMessagesContainer.data("participants-url")
     };
 
     var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -67,7 +68,7 @@
         change: selectCurrentOrLatestConversation,
         schema: { data: "Items", total: "Count" },
     });
-
+    
     if (!isActivitySpecificView() && canLoadConversations()) {
         loadConversations();
     }
@@ -113,34 +114,42 @@
         dataSource.read();
         if (canCreateNewConversation()) {
             getRecipientsPromise = getRecipients();
-        }
+    }
     }
 
-    function loadMessages(conversation) {
+    function loadMessages() {
         allLoaded = false;
         messagesPage = 0;
-        return loadItems(conversation, true);
+        return loadItems();
     }
 
-    function loadItems(conversation, includeContainer) {
-        if (allLoaded) return $.Deferred().resolve();
+    function loadItems() {
+        var ret = $.Deferred();
+        if (allLoaded) return ret.resolve([]);        
 
-        var messagesSpinner = getMessagesSpinner();
-        messagesSpinner.show();
-        return ajaxWrapper({
+        ajaxWrapper({
             url: urls.messagesUrl,
             type: 'GET',
             data: {
-                conversationId: conversation.id,
+                conversationId: currentConversation.id,
                 page: messagesPage,
                 pageSize: messagesPageSize
             }
         })
-        .success(function (data) {
-            var items = data.Messages;
+        .success(function (items) {
             if (items.length < messagesPageSize) allLoaded = true;
             messagesPage = messagesPage + 1;
             $.each(items, function (i, item) {
+
+                item.Content = JSON.parse(item.Message.NotificationData);
+
+                switch (item.Message.NotificationConstructName) {
+                    case 'Message': item.isMessage = true; break;
+                    case 'BankAccountMarkedAsSafe': item.isBaSafe = true; break;
+                    case 'BankAccountMarkedAsFraudSuspicious': item.isBaFraud = true; break;
+                    case 'BankAccountCheckNoMatch': r = item.isBaNoMatch = true; break;
+                }
+
                 switch (item.Message.OrganisationType) {
                     case 'Personal':
                         switch (item.Message.UserType) {
@@ -153,35 +162,26 @@
                         item.icon = 'fa-building';
                         item.isFromProfessionalUser = true;
                         break;
+                    default:
+                        item.icon = 'fa-comment-o';
+                        item.Message.FirstName = "Safe Move Scheme";
+                        item.Message.UserType = "Safe Move Scheme"
+                        break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);
                 item.Unread = item.Reads.length == 0;
+
 
                 $.each(item.Reads, function (j, r) {
                     if (r.AcceptedDate) r.AcceptedDate = dateString(r.AcceptedDate);
                 });
             });
-
-            if (includeContainer) {
-                messagesTemplatePromise.done(function (template) {
-                    var html = $(template({
-                        conversation: conversation,
-                        participants: data.Participants,
-                        isCurrentUserParticipant: data.IsCurrentUserParticipant
-                    }));
-                    populateContainer(html.find('#itemsContainer'), items);
-                    messagesList.html(html);
-                });
-            }
-            else populateContainer($('#itemsContainer'), items);
-
+            ret.resolve(items);
         })
         .error(function (data) {
             console.log(data);
-        })
-        .always(function () {
-            messagesSpinner.hide();
         });
+        return ret;
     }
 
     function populateContainer(itemsContainer, items) {
@@ -224,6 +224,9 @@
         $('#conversationRecipients').select2();
         $("#conversationRecipients").on("select2-close", function () {
             $(this).valid();
+        });
+        $('#newConversationMessage').on('keyup', function () {
+            autoresizeTextarea($(this));
         });
 
         newConversationForm.validate({
@@ -318,7 +321,7 @@
                 ajaxWrapper({
                     url: urls.convRankUrl,
                     data: {
-                        convID: currentConversation.id
+                        convID: targetConversationId
                     }
                 }).success(function (data) {
                     var page = Math.floor((data - 1) / messagesPageSize) + 1;
@@ -331,13 +334,13 @@
     }
 
     function autoresizeTextarea(textarea) {
-        textarea.style.height = '0px'; //Reset height, so that it not only grows but also shrinks
-        textarea.style.height = (textarea.scrollHeight) + 'px'; //Set new height
+        textarea.height(0);
+        textarea.height(textarea[0].scrollHeight - 10);
     }
 
     function setupReply() {
         viewMessagesContainer.on('keyup', '#replyMessageTextArea', function () {
-            autoresizeTextarea(this);
+            autoresizeTextarea($(this));
         });
 
         viewMessagesContainer.on('click', '#replyButton', function (e) {
@@ -387,7 +390,11 @@
         messagesListElement.scrollTo(messageToFocus, 0);
         messagesListElement.scroll(function () {
             if (messagesListElement.scrollTop() == 0) {
-                loadItems(currentConversation);
+                showMessagesSpinner();
+                loadItems().then(function (items) {
+                    populateContainer($('#itemsContainer'), items);
+                })
+                .always(hideMessagesSpinner);
             }
         });
     }
@@ -440,11 +447,20 @@
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
-            setConversationItemActive($(this));
-            markConversationAsRead($(this));
-            currentConversation.id = $(this).data('conversation-id');
-            currentConversation.subject = $(this).data('conversation-subject');
-            loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
+            var conv = $(this);
+            setConversationItemActive(conv);
+            markConversationAsRead(conv);
+            currentConversation.id = conv.data('conversation-id');
+            currentConversation.subject = conv.data('conversation-subject');
+            currentConversation.link = conv.data('conversation-link');
+            currentConversation.linkdescription = conv.data('conversation-link-description');
+            currentConversation.issystemmessage = conv.data('conversation-issystemmessage');
+
+            showMessagesSpinner();
+            $.when(getParticipantDetails(), loadMessages())
+            .then(compileTemplates)
+            .then(scrollToLastOrFirstUnreadMessage)
+            .always(hideMessagesSpinner);
         });
 
         messagesContainer.on('click', '#conversationSubject', function () {
@@ -452,6 +468,34 @@
                 hideMessagesBoxCompact();
                 showConversationsBox();
             }
+        });
+    }
+
+    function showMessagesSpinner() {
+        getMessagesSpinner().show();
+    }
+
+    function hideMessagesSpinner() {
+        getMessagesSpinner().hide();
+    }
+
+    function getParticipantDetails() {
+        return ajaxWrapper({
+            url: urls.participantsUrl,
+            data: {
+                conversationId: currentConversation.id
+            }
+        });
+    }
+
+    function compileTemplates(participantsAjax, messages) {
+        currentConversation.participants = participantsAjax[0];
+        messagesTemplatePromise.done(function (template) {
+            var html = $(template({
+                conversation: currentConversation
+            }));
+            populateContainer(html.find('#itemsContainer'), messages);
+            messagesList.html(html);
         });
     }
 

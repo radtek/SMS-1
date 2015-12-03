@@ -499,7 +499,7 @@
                 &.unread {
                     background-color: #f4f4f4;
                     border-left: 5px solid @primary-color;
-
+                    padding-left: 10px;
                     .conversation-subject {
                         font-weight: bold;
                     }
@@ -571,6 +571,7 @@
 
                 &.unread {
                     border-left: 5px solid @primary-color;
+                    padding-left: 10px;
                 }
 
                 .message-heading {
@@ -632,6 +633,19 @@
 
             fieldset {
                 background: none;
+
+                #newConversationMessage {
+                    height: 32px;
+                    min-height: 80px;
+                }
+
+                .form-control{
+                    min-height: 34px;
+                }
+
+                .icon-append{
+                    top: 6px;
+                }
             }
 
             .select2-container-multi {
@@ -649,11 +663,15 @@
 
                 .select2-choices {
                     border: none;
-
+                    padding-right: 35px;
                     .select2-search-choice {
                         line-height: 20px;
                         border: 1px solid @primary-color;
                         background-color: @primary-color;
+                    }
+
+                    .select2-input{
+                        margin: 0;
                     }
 
                     .select2-search-choice-close {
@@ -661,6 +679,7 @@
                         padding: 3px 0 0 5px;
                     }
                 }
+
             }
         }
     }

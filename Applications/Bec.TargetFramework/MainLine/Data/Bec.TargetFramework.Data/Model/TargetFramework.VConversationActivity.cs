@@ -76,6 +76,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for IsSystemMessage in the schema.
+        /// </summary>
+        public virtual bool IsSystemMessage
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for OrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Guid OrganisationID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

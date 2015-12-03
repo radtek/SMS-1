@@ -9,6 +9,7 @@ using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Messages.Events;
 using NServiceBus;
 using System;
+using System.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -28,13 +29,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountMarkedAsSafeNotificationDTO", handlerEvent.BankAccountMarkedAsSafeNotificationDto);
 
-                var recipients = new List<NotificationRecipientDTO> 
-                {
-                    new NotificationRecipientDTO 
-                    {
-                        OrganisationID = handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId
-                    }
-                };
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUsers(handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId)
+                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
@@ -43,7 +39,10 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     new NotificationDictionaryDTO
                     {
                         NotificationDictionary = dictionary
-                    });
+                    },
+                    ActivityType.BankAccount,
+                    handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationBankAccountID
+                    );
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };
 

@@ -96,6 +96,16 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for IsSystemMessage in the schema.
+        /// </summary>
+        public virtual bool IsSystemMessage
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

@@ -34,6 +34,8 @@ namespace Bec.TargetFramework.Entities
             target.ActivityID = source.ActivityID;
             target.Subject = source.Subject;
             target.Latest = source.Latest;
+            target.IsSystemMessage = source.IsSystemMessage;
+            target.OrganisationID = source.OrganisationID;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -54,6 +56,8 @@ namespace Bec.TargetFramework.Entities
             target.ActivityID = source.ActivityID;
             target.Subject = source.Subject;
             target.Latest = source.Latest;
+            target.IsSystemMessage = source.IsSystemMessage;
+            target.OrganisationID = source.OrganisationID;
 
             // User-defined partial method
             OnEntityCreating(source, target);

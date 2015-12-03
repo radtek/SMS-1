@@ -22,12 +22,13 @@ namespace Bec.TargetFramework.Entities
         public ConversationDTO() {
         }
 
-        public ConversationDTO(global::System.Guid conversationID, string subject, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications) {
+        public ConversationDTO(global::System.Guid conversationID, string subject, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, bool isSystemMessage, List<ConversationParticipantDTO> conversationParticipants, List<NotificationDTO> notifications) {
 
           this.ConversationID = conversationID;
           this.Subject = subject;
           this.ActivityType = activityType;
           this.ActivityID = activityID;
+          this.IsSystemMessage = isSystemMessage;
           this.ConversationParticipants = conversationParticipants;
           this.Notifications = notifications;
         }
@@ -47,6 +48,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<System.Guid> ActivityID { get; set; }
+
+        [DataMember]
+        public bool IsSystemMessage { get; set; }
 
         #endregion
 

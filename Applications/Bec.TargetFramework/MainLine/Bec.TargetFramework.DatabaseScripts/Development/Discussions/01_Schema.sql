@@ -177,7 +177,15 @@ VALUES (
 SELECT * FROM public."fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
 
 
-CREATE OR REPLACE VIEW public."vConversation"
+CREATE OR REPLACE VIEW public."vConversation"(
+    "ConversationID",
+    "UserAccountOrganisationID",
+    "Subject",
+    "Latest",
+    "Unread",
+    "ActivityID",
+    "ActivityType",
+    "IsSystemMessage")
 AS
   SELECT cp."ConversationID",
          cp."UserAccountOrganisationID",
@@ -185,7 +193,8 @@ AS
          l."Latest",
          COALESCE(ur."UnreadCount", 0::bigint) AS "Unread",
          c."ActivityID",
-         c."ActivityType"
+         c."ActivityType",
+         c."IsSystemMessage"
   FROM "ConversationParticipant" cp
        JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
        JOIN 
@@ -218,13 +227,17 @@ CREATE OR REPLACE VIEW public."vConversationActivity"(
     "ActivityType",
     "ActivityID",
     "Subject",
-    "Latest")
+    "Latest",
+    "IsSystemMessage",
+    "OrganisationID")
 AS
   SELECT c."ConversationID",
          c."ActivityType",
          c."ActivityID",
          c."Subject",
-         l."Latest"
+         l."Latest",
+         c."IsSystemMessage",
+         o."OrganisationID"
   FROM "Conversation" c
        JOIN 
        (
@@ -233,6 +246,16 @@ AS
          FROM "Notification"
          GROUP BY "Notification"."ConversationID"
        ) l ON l."ConversationID" = c."ConversationID"
+       JOIN 
+       (
+         SELECT cp."ConversationID",
+                uao."OrganisationID"
+         FROM "ConversationParticipant" cp
+              JOIN "UserAccountOrganisation" uao ON
+                uao."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
+         GROUP BY cp."ConversationID",
+                  uao."OrganisationID"
+       ) o ON o."ConversationID" = c."ConversationID"
   ORDER BY l."Latest" DESC;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
@@ -240,60 +263,62 @@ GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vConversationActivity" TO bef;
 
+
 CREATE OR REPLACE VIEW public."vMessage"(
     "ConversationID",
     "NotificationID",
     "CreatedByUserAccountOrganisationID",
     "DateSent",
-    "Message",
+    "NotificationData",
     "Email",
     "FirstName",
     "LastName",
     "OrganisationName",
     "UserType",
-    "OrganisationType")
+    "OrganisationType",
+    "NotificationConstructName")
 AS
-  SELECT n."ConversationID",
-         n."NotificationID",
-         n."CreatedByUserAccountOrganisationID",
-         n."DateSent",
-         n."NotificationData" ->> 'Message'::text AS "Message",
-         ua."Email",
-         c."FirstName",
-         c."LastName",
-         orgd."Name",
-         CASE
+SELECT n."ConversationID",
+    n."NotificationID",
+    n."CreatedByUserAccountOrganisationID",
+    n."DateSent",
+    n."NotificationData",
+    ua."Email",
+    c."FirstName",
+    c."LastName",
+    orgd."Name" AS "OrganisationName",
+        CASE
             WHEN ct."Name"::text = 'SmsTransaction'::text THEN
             CASE
                 WHEN ot."Name"::text = 'Personal'::text THEN txt."Description"
-                WHEN ot."Name"::text = 'Professional'::text THEN 'Conveyancer'
+                WHEN ot."Name"::text = 'Professional'::text THEN
+                    'Conveyancer'::character varying
                 ELSE NULL::character varying
             END
             ELSE NULL::character varying
         END AS "UserType",
-         ot."Name" AS "OrganisationType"
-  FROM "Notification" n
-       JOIN "Conversation" conv ON conv."ConversationID" = n."ConversationID"
-       JOIN "UserAccountOrganisation" uao ON uao."UserAccountOrganisationID" =
-         n."CreatedByUserAccountOrganisationID"
-       JOIN "UserAccounts" ua ON ua."ID" = uao."UserID"
-       JOIN "Organisation" org ON org."OrganisationID" = uao."OrganisationID"
-       JOIN "OrganisationDetail" orgd ON orgd."OrganisationID" =
-         org."OrganisationID"
-       JOIN "OrganisationType" ot ON ot."OrganisationTypeID" =
+    ot."Name" AS "OrganisationType",
+    nc."Name" AS "NotificationConstructName"
+FROM "Notification" n
+     JOIN "Conversation" conv ON conv."ConversationID" = n."ConversationID"
+     JOIN "NotificationConstruct" nc ON nc."NotificationConstructID" =
+         n."NotificationConstructID" AND nc."NotificationConstructVersionNumber" = n."NotificationConstructVersionNumber"
+     LEFT JOIN "UserAccountOrganisation" uao ON uao."UserAccountOrganisationID"
+         = n."CreatedByUserAccountOrganisationID"
+     LEFT JOIN "UserAccounts" ua ON ua."ID" = uao."UserID"
+     LEFT JOIN "Organisation" org ON org."OrganisationID" = uao."OrganisationID"
+     LEFT JOIN "OrganisationDetail" orgd ON orgd."OrganisationID" = org."OrganisationID"
+     LEFT JOIN "OrganisationType" ot ON ot."OrganisationTypeID" =
          org."OrganisationTypeID"
-       JOIN "Contact" c ON c."ContactID" = uao."PrimaryContactID"
-       JOIN "ClassificationTypeCategory" ctc ON ctc."Name"::text =
-         'ActivityTypeID'::text
-       JOIN "ClassificationType" ct ON ct."ClassificationTypeCategoryID" =
-         ctc."ClassificationTypeCategoryID" AND ct."ClassificationTypeID" =
-         conv."ActivityType"
-       LEFT JOIN sms."SmsUserAccountOrganisationTransaction" tx ON
-         tx."SmsTransactionID" = conv."ActivityID" AND
-         tx."UserAccountOrganisationID" = n."CreatedByUserAccountOrganisationID"
-       LEFT JOIN sms."SmsUserAccountOrganisationTransactionType" txt ON
-         txt."SmsUserAccountOrganisationTransactionTypeID" =
-         tx."SmsUserAccountOrganisationTransactionTypeID";
+     LEFT JOIN "Contact" c ON c."ContactID" = uao."PrimaryContactID"
+     JOIN "ClassificationTypeCategory" ctc ON ctc."Name"::text = 'ActivityTypeID'::text
+     LEFT JOIN "ClassificationType" ct ON ct."ClassificationTypeCategoryID" =
+         ctc."ClassificationTypeCategoryID" AND ct."ClassificationTypeID" = conv."ActivityType"
+     LEFT JOIN sms."SmsUserAccountOrganisationTransaction" tx ON
+         tx."SmsTransactionID" = conv."ActivityID" AND tx."UserAccountOrganisationID" = n."CreatedByUserAccountOrganisationID"
+     LEFT JOIN sms."SmsUserAccountOrganisationTransactionType" txt ON
+         txt."SmsUserAccountOrganisationTransactionTypeID" = tx."SmsUserAccountOrganisationTransactionTypeID";
+
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vMessage" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE

@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Entities
             target.Subject = source.Subject;
             target.ActivityType = source.ActivityType;
             target.ActivityID = source.ActivityID;
+            target.IsSystemMessage = source.IsSystemMessage;
 
             // Navigation Properties
             if (level > 0) {
@@ -58,6 +59,7 @@ namespace Bec.TargetFramework.Entities
             target.Subject = source.Subject;
             target.ActivityType = source.ActivityType;
             target.ActivityID = source.ActivityID;
+            target.IsSystemMessage = source.IsSystemMessage;
 
             // User-defined partial method
             OnEntityCreating(source, target);

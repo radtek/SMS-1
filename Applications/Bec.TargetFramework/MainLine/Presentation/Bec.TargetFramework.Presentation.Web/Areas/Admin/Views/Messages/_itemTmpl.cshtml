@@ -16,7 +16,29 @@
                     <strong> {{Message.FirstName}} {{Message.LastName}}</strong>
                     <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
-                <pre>{{Message.Message}}</pre>
+                {{#if isMessage}}
+                    <pre>{{Content.Message}}</pre> 
+                {{else if isBaSafe}}
+                    {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}
+                        <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    {{/with}}
+                {{else if isBaFraud}}
+                    {{#with Content.NotificationDictionary.BankAccountMarkedAsFraudSuspiciousNotificationDTO}}
+                        <pre>The following bank account was marked as <strong>Fraud Suspicious</strong>:</pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    {{/with}}
+                {{else if isBaNoMatch}}
+                    {{#with Content.NotificationDictionary.BankAccountCheckNoMatchNotificationDTO}}
+                        <pre>The following bank account details were submitted by a user. <strong>The details did not match an active safe bank account.</strong></pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
+                        <pre>Details: <strong>{{Reason}}</strong></pre>
+                    {{/with}}
+                {{/if}}
                 <div class="read-status">
                     {{#if Unread}}
                     <span class="text-muted" title="Not read by anyone else">

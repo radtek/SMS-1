@@ -1,16 +1,21 @@
 ﻿$(function () {
     'use strict';
     var latestConversationsContainer = $('#latestConversationsContainer'),
-        latestConversationsError = $('#latestConversationsError');
-    var loadConversationsUrl = latestConversationsContainer.data('load-conversations-url');
+        latestConversationsError = $('#latestConversationsError'),
+        loadConversationsUrl = latestConversationsContainer.data('load-conversations-url'),
+        unreadCountElement = $('#unreadConversationsCountId'),
+        getUnreadCountUrl = unreadCountElement.data('get-unread-count-url');
 
-    loadConversations().then(updateNotificationCount);
+    refresh();
     setupMarkAsRead();
     
     function setupMarkAsRead() {
-        $('body').on('conversationsChanged', function (event, conversationId) {
-            loadConversations().then(updateNotificationCount);
-        });
+        $('body').on('conversationsChanged', refresh);
+    }
+
+    function refresh() {
+        loadConversations();
+        updateUnreadCount();
     }
 
     function loadConversations() {
@@ -27,16 +32,26 @@
         });
     }
 
-    function updateNotificationCount() {
-        var countElement = $('#unreadConversationsCountId');
-        var currentCount = countElement.text();
-        var newCount = $('#latestConversationsList li[data-conversation-id]').length;
+    function updateUnreadCount() {
+        return ajaxWrapper({
+            url: getUnreadCountUrl
+        })
+        .then(function (result) {
+            updateNotificationCount(result);
+        }, function (data) {
+            // error
+            console.log(data);
+        });
+    }
 
-        countElement.text(newCount);
-        countElement.removeClass('bounceIn');
+    function updateNotificationCount(newCount) {
+        var currentCount = unreadCountElement.text();
+
+        unreadCountElement.text(newCount);
+        unreadCountElement.removeClass('bounceIn');
         if (currentCount != newCount) {
-            countElement.toggleClass('bg-color-red', !!newCount);
-            countElement.addClass('bounceIn');
+            unreadCountElement.toggleClass('bg-color-red', !!newCount);
+            unreadCountElement.addClass('bounceIn');
         }
     }
 });
