@@ -573,11 +573,12 @@ namespace Bec.TargetFramework.Business.Logic
                 var participants = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants.Where(x => x.ConversationID == conversationId)
                     .Select(x => new ParticipantDTO
                     { 
+                        UaoId = x.UserAccountOrganisationID,
                         FirstName = x.UserAccountOrganisation.Contact.FirstName, 
                         LastName = x.UserAccountOrganisation.Contact.LastName, 
                         IsProfessionalOrganisation = x.UserAccountOrganisation.Organisation.OrganisationTypeID == professionalOrganisationTypeId,
                         OrganisationName = x.UserAccountOrganisation.Organisation.OrganisationDetails.FirstOrDefault().Name 
-                    });
+                    }).ToList();
                 return new MessageContainerDTO
                 {
                     Messages = messages
@@ -587,7 +588,8 @@ namespace Bec.TargetFramework.Business.Logic
                             Message = x,
                             Reads = y
                         }),
-                    Participants = participants.ToList()
+                    Participants = participants,
+                    IsCurrentUserParticipant = participants.Any(p => p.UaoId == uaoId)
                 };
             }
         }

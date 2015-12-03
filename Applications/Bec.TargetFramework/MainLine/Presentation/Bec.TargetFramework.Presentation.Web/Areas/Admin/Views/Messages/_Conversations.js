@@ -164,7 +164,11 @@
 
             if (includeContainer) {
                 messagesTemplatePromise.done(function (template) {
-                    var html = $(template({ conversation: conversation, participants: data.Participants }));
+                    var html = $(template({
+                        conversation: conversation,
+                        participants: data.Participants,
+                        isCurrentUserParticipant: data.IsCurrentUserParticipant
+                    }));
                     populateContainer(html.find('#itemsContainer'), items);
                     messagesList.html(html);
                 });
