@@ -488,6 +488,10 @@
 .view-messages-container .messages-container .new-conversation-form fieldset {
   background: none;
 }
+.view-messages-container .messages-container .new-conversation-form fieldset #newConversationMessage {
+  height: 32px;
+  min-height: 80px;
+}
 .view-messages-container .messages-container .new-conversation-form .select2-container-multi {
   border: 1px solid #bdbdbd;
   height: auto;
