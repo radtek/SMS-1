@@ -18,6 +18,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
     public class AppController : ApplicationControllerBase
     {
         public IAddressLogicClient AddressClient { get; set; }
+        public IUserLogicClient UserClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
 
         public ActionResult Index()
@@ -60,32 +61,19 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> CheckEmail(string email, Guid? uaoID)
+        public async Task<ActionResult> CheckEmailProfessional(string email, Guid? uaoID)
         {
-            string select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccountOrganisationID });
-            Expression filter;
-            if (uaoID.HasValue)
-            {
-                var selectUao = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.UserAccount.Email });
-                var filterUao = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID == uaoID);
-                var uaoAsync = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", selectUao + ODataHelper.Filter(filterUao));
-                var uao = uaoAsync.FirstOrDefault();
-                var uaoEmail = uao.UserAccount.Email;
-
-                var exp1 = ODataHelper.Expression<UserAccountOrganisationDTO>(x => x.UserAccountOrganisationID != uaoID);
-                var exp2 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetNotUaoWithEmail(uaoEmail));
-                var exp3 = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
-
-                filter = Expression.AndAlso(Expression.AndAlso(exp1, exp2), exp3);
-            }
+            var canEmailBeUsed = await UserClient.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
+            if (!canEmailBeUsed)
+                return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
             else
-            {
-                filter = ODataHelper.Expression<UserAccountOrganisationDTO>(GetUaoWithEmail(email));
-            }
+                return Json("true", JsonRequestBehavior.AllowGet);
+        }
 
-            var res = await QueryClient.QueryAsync<UserAccountOrganisationDTO>("UserAccountOrganisations", select + ODataHelper.Filter(filter));
-
-            if (res.Any())
+        public async Task<ActionResult> CheckEmailPersonal(string email, Guid? uaoID)
+        {
+            var canEmailBeUsed = await UserClient.CanEmailBeUsedAsPersonalAsync(email, uaoID);
+            if (!canEmailBeUsed)
                 return Json("This email address has already been used", JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
@@ -104,16 +92,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var filter = ODataHelper.Filter<LenderDTO>(x => x.Name.ToLower().Contains(search));
             JObject res = await QueryClient.QueryAsync("Lenders", select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
-        }
-
-        private Expression<Func<UserAccountOrganisationDTO, bool>> GetUaoWithEmail(string email)
-        {
-            return p => p.UserAccount.Email.ToLower() == email.Trim().ToLower();
-        }
-
-        private Expression<Func<UserAccountOrganisationDTO, bool>> GetNotUaoWithEmail(string email)
-        {
-            return p => p.UserAccount.Email.ToLower() != email.Trim().ToLower();
         }
     }
 }

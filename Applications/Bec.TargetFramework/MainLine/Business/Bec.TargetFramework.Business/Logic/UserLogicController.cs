@@ -806,6 +806,67 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task<bool> CanEmailBeUsedAsPersonal(string email, Guid? txId, Guid? uaoID)
+        {
+            if (!txId.HasValue)
+            {
+
+            }
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                bool cannotBeUsed = false;
+                if (!uaoID.HasValue)
+                {
+                    cannotBeUsed = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+                else
+                {
+                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .FirstOrDefault(x => x.UserAccountOrganisationID == uaoID);
+                    Ensure.That(uao).IsNotNull();
+                    var uaoEmail = uao.UserAccount.Email;
+
+                    cannotBeUsed = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => 
+                            x.UserAccountOrganisationID != uaoID &&
+                            x.UserAccount.Email.ToLower() != uaoEmail.Trim().ToLower() &&
+                            x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+
+                return !cannotBeUsed;
+            }
+        }
+
+        public async Task<bool> CanEmailBeUsedAsProfessional(string email, Guid? uaoID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                bool userAlreadyExists = false;
+                if (!uaoID.HasValue)
+                {
+                    userAlreadyExists = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+                else
+                {
+                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .FirstOrDefault(x => x.UserAccountOrganisationID == uaoID);
+                    Ensure.That(uao).IsNotNull();
+                    var uaoEmail = uao.UserAccount.Email;
+
+                    userAlreadyExists = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => 
+                            x.UserAccountOrganisationID != uaoID &&
+                            x.UserAccount.Email.ToLower() != uaoEmail.Trim().ToLower() &&
+                            x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+
+                return !userAlreadyExists;
+            }
+        }
+
+
         private Expression<Func<Data.UserAccount, bool>> GetWithUsername(string username)
         {
             return p => p.Username.ToLower() == username.Trim().ToLower();

@@ -1461,6 +1461,26 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="newUsername"></param>
 		/// <returns></returns>
 		void ChangeUsernameAndEmail(Guid uaoId,String newUsername);
+
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> uaoID);
+
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> uaoID);
+
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task<Boolean> CanEmailBeUsedAsProfessionalAsync(String email,Nullable<Guid> uaoID);
+
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Boolean CanEmailBeUsedAsProfessional(String email,Nullable<Guid> uaoID);
 	}
 
 }
@@ -5244,6 +5264,56 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			newUsername = newUsername.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/ChangeUsernameAndEmail?uaoId=" + uaoId + "&newUsername=" + newUsername, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> CanEmailBeUsedAsPersonalAsync(String email,Nullable<Guid> uaoID)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		public virtual Boolean CanEmailBeUsedAsPersonal(String email,Nullable<Guid> uaoID)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsPersonal?email=" + email + "&uaoID=" + uaoID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task<Boolean> CanEmailBeUsedAsProfessionalAsync(String email,Nullable<Guid> uaoID)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsProfessional?email=" + email + "&uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="uaoID"></param>
+		public virtual Boolean CanEmailBeUsedAsProfessional(String email,Nullable<Guid> uaoID)
+		{
+			email = email.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, Boolean>("api/UserLogic/CanEmailBeUsedAsProfessional?email=" + email + "&uaoID=" + uaoID, null, _user)).Result;
 		}
 
 		#endregion
