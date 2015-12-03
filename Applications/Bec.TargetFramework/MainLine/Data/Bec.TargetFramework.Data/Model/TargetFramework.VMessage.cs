@@ -68,9 +68,9 @@ namespace Bec.TargetFramework.Data
 
     
         /// <summary>
-        /// There are no comments for Message in the schema.
+        /// There are no comments for NotificationData in the schema.
         /// </summary>
-        public virtual string Message
+        public virtual string NotificationData
         {
             get;
             set;
@@ -131,6 +131,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationType in the schema.
         /// </summary>
         public virtual string OrganisationType
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for NotificationConstructName in the schema.
+        /// </summary>
+        public virtual string NotificationConstructName
         {
             get;
             set;

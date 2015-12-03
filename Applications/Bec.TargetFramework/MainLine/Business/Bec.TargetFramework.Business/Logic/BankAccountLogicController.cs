@@ -264,6 +264,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var notificationDto = new TNotification
             {
+                OrganisationBankAccountID = bankAccount.OrganisationBankAccountID,
                 OrganisationId = bankAccount.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,

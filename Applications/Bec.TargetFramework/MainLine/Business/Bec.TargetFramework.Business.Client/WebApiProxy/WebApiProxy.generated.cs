@@ -370,6 +370,24 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriod(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
 
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		Task<IEnumerable<Guid>> GetNotificationOrganisationUsersAsync(Guid orgID);
+
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID);
+
+		/// <param name="activityID"></param>
+		/// <param name="activityType"></param>
+		/// <returns></returns>
+		Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
+
+		/// <param name="activityID"></param>
+		/// <param name="activityType"></param>
+		/// <returns></returns>
+		void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
+
 		/// <returns></returns>
 		Task SaveNotificationAsync(NotificationDTO dto);
 
@@ -2451,6 +2469,50 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => PostAsync<object, Boolean>("api/NotificationLogic/HasNotificationAlreadyBeenSentInTheLastTimePeriod?uaoID=" + uaoID + "&organisationId=" + organisationId + "&notifcationConstructID=" + notifcationConstructID + "&notificationConstructVersion=" + notificationConstructVersion + "&notificationParentID=" + notificationParentID + "&isRead=" + isRead + "&sentInLast=" + sentInLast, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <returns></returns>
+		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUsersAsync(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUsers?orgID=" + orgID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		public virtual IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUsers?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityID"></param>
+		/// <param name="activityType"></param>
+		/// <returns></returns>
+		public virtual Task SaveNotificationConversationAsync(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="activityID"></param>
+		/// <param name="activityType"></param>
+		public virtual void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationConversationAsync?activityID=" + activityID + "&activityType=" + activityType, dto, _user)).Wait();
 		}
 
 		/// <summary>

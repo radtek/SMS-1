@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetConversations(ActivityType? activityType, Guid? activityId)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread });
+            var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread, x.ActivityID, x.ActivityType });
             var filterExpression = ODataHelper.Expression<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
             if (activityType.HasValue && activityId.HasValue)
             {
@@ -49,6 +49,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
             JObject res = await QueryClient.QueryAsync("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order);
+
+            foreach (dynamic r in res["Items"])
+            {
+                if (r.ActivityType != null)
+                {
+                    ActivityType at = (ActivityType)r.ActivityType;
+                    r.LinkDescription = at.GetStringValue();
+                    switch ((ActivityType)r.ActivityType)
+                    {
+                        case ActivityType.BankAccount:
+                            r.Link = Url.Action("Index", "Account", new { Area = "BankAccount", selectedBankAccountId = r.ActivityID });
+                            break;
+                        case ActivityType.SmsTransaction:
+                            r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction" });
+                            break;
+                    }
+                }
+            }
             return Content(res.ToString(Formatting.None), "application/json");
         }
 

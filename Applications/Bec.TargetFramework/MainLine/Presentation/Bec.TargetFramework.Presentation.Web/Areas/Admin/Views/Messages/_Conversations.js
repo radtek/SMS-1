@@ -14,7 +14,7 @@
         targetConversationId = viewMessagesContainer.data('target-conversation-id');
     var currentConversation = {
         id: null,
-        subject: null,
+        subject: null
     };
     var currentActivity = {
         activityType: viewMessagesContainer.data('activity-type'),
@@ -67,7 +67,7 @@
         change: selectCurrentOrLatestConversation,
         schema: { data: "Items", total: "Count" },
     });
-
+    
     if (!isActivitySpecificView() && canLoadConversations()) {
         loadConversations();
     }
@@ -113,7 +113,7 @@
         dataSource.read();
         if (canCreateNewConversation()) {
             getRecipientsPromise = getRecipients();
-        }
+    }
     }
 
     function loadMessages(conversation) {
@@ -141,6 +141,16 @@
             if (items.length < messagesPageSize) allLoaded = true;
             messagesPage = messagesPage + 1;
             $.each(items, function (i, item) {
+
+                item.Content = JSON.parse(item.Message.NotificationData);
+
+                switch (item.Message.NotificationConstructName) {
+                    case 'Message': item.isMessage = true; break;
+                    case 'BankAccountMarkedAsSafe': item.isBaSafe = true; break;
+                    case 'BankAccountMarkedAsFraudSuspicious': item.isBaFraud = true; break;
+                    case 'BankAccountCheckNoMatch': r = item.isBaNoMatch = true; break;
+                }
+
                 switch (item.Message.OrganisationType) {
                     case 'Personal':
                         switch (item.Message.UserType) {
@@ -153,9 +163,15 @@
                         item.icon = 'fa-building';
                         item.isFromProfessionalUser = true;
                         break;
+                    default:
+                        item.icon = 'fa-comment-o';
+                        item.Message.FirstName = "Safe Move Scheme";
+                        item.Message.UserType = "Safe Move Scheme"
+                        break;
                 }
                 item.Message.DateSent = dateString(item.Message.DateSent);
                 item.Unread = item.Reads.length == 0;
+
 
                 $.each(item.Reads, function (j, r) {
                     if (r.AcceptedDate) r.AcceptedDate = dateString(r.AcceptedDate);
@@ -400,7 +416,7 @@
                 currentActivity.activityId = activityId;
 
                 if (canLoadConversations()) {
-                    loadConversations();
+                loadConversations();
                 }
             });
         }
@@ -440,10 +456,13 @@
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
-            setConversationItemActive($(this));
-            markConversationAsRead($(this));
-            currentConversation.id = $(this).data('conversation-id');
-            currentConversation.subject = $(this).data('conversation-subject');
+            var conv = $(this);
+            setConversationItemActive(conv);
+            markConversationAsRead(conv);
+            currentConversation.id = conv.data('conversation-id');
+            currentConversation.subject = conv.data('conversation-subject');
+            currentConversation.link = conv.data('conversation-link');
+            currentConversation.linkdescription = conv.data('conversation-link-description');
             loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
         });
 

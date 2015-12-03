@@ -168,11 +168,8 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
             EnsureNotificationContainerValidation();
             LoadNotificationComponents();
 
-            // create report
             try
             {
-                var reportData = GetReportData();
-
                 // create Notification entry
                 var notificationDto = CreateNotificationDTO();
 
@@ -187,7 +184,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                         // if external notification reference then send - currently only support single user
                         SendExternalNotificationIfNeeded(notificationDto);
 
-                        m_NotificationLogic.SaveNotification(notificationDto);
+                        m_NotificationLogic.SaveNotificationConversation(m_NotificationContainerDto.ActivityID, m_NotificationContainerDto.ActivityType, notificationDto);
 
                         LogMessageAsCompleted();
                     }
@@ -201,6 +198,7 @@ namespace Bec.TargetFramework.SB.NotificationServices.Handler
                 }
                 else
                 {
+                    var reportData = GetReportData();
                     List<MailAddress> recipientAddresses = GetReceiptAddresses(notificationDto);
 
                     // only send as email if HTML

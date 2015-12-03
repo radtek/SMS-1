@@ -9994,13 +9994,14 @@
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="uuid" />
           <Property Name="DateSent" Type="timestamptz" Nullable="false" />
-          <Property Name="Message" Type="text" />
+          <Property Name="NotificationData" Type="json" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
           <Property Name="OrganisationName" Type="varchar" MaxLength="2000" />
           <Property Name="UserType" Type="varchar" />
           <Property Name="OrganisationType" Type="varchar" MaxLength="200" />
+          <Property Name="NotificationConstructName" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="vSafeSendRecipient">
           <Key>
@@ -29280,13 +29281,14 @@
           <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="7f1e90b8-b5cf-4712-b68b-d5ef8fc19f7f" />
           <Property Name="CreatedByUserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3ae3f4d3-53af-4401-9082-33a4e97cb683" />
           <Property Name="DateSent" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="d60b1b3c-30bc-4e46-a1b8-92394af69232" />
-          <Property Name="Message" Type="String" ed:ValidateRequired="False" ed:Guid="c6f3c939-2ef3-464b-b425-c6cf64d85ea2" />
+          <Property Name="NotificationData" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="77823e9a-d207-4595-9e28-24f24ffbbbbd" />
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="bbf4ae00-9d71-48b5-a598-6962367439a2" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="ec684869-bf0c-4979-87ce-059fee40280d" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="69b857d1-195a-470e-b34a-bd5ce90ffe9d" />
           <Property Name="OrganisationName" Type="String" MaxLength="2000" Unicode="true" ed:ValidateMaxLength="2000" ed:ValidateRequired="False" ed:Guid="ea1ee0e9-1a59-46b2-a939-7f92beedb053" />
           <Property Name="UserType" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="13d72811-f698-47b7-9886-1f7b6c5109f7" />
           <Property Name="OrganisationType" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="f6a5ac46-f542-4091-8383-9132a1302606" />
+          <Property Name="NotificationConstructName" Type="String" MaxLength="300" Unicode="true" ed:ValidateMaxLength="300" ed:ValidateRequired="False" ed:Guid="db5d6a9f-c764-4d07-afb0-b20965e37cf4" />
         </EntityType>
         <EntityType Name="VSafeSendRecipient" ed:Guid="2489ff6f-fdc8-4ed7-8661-0ae9e4d163f5">
           <Key>
@@ -43964,7 +43966,6 @@
                 <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -43972,6 +43973,8 @@
                 <ScalarProperty Name="OrganisationType" ColumnName="OrganisationType" />
                 <ScalarProperty Name="CreatedByUserAccountOrganisationID" ColumnName="CreatedByUserAccountOrganisationID" />
                 <ScalarProperty Name="OrganisationName" ColumnName="OrganisationName" />
+                <ScalarProperty Name="NotificationData" ColumnName="NotificationData" />
+                <ScalarProperty Name="NotificationConstructName" ColumnName="NotificationConstructName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

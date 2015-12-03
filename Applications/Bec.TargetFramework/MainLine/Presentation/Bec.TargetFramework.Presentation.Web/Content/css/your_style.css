@@ -382,6 +382,7 @@
 .view-messages-container .conversations-container .conversations-list .conversation-item.unread {
   background-color: #f4f4f4;
   border-left: 5px solid #a1c324;
+  padding-left: 10px;
 }
 .view-messages-container .conversations-container .conversations-list .conversation-item.unread .conversation-subject {
   font-weight: bold;
@@ -439,6 +440,7 @@
 }
 .view-messages-container .messages-container .messages-list .message-item.unread {
   border-left: 5px solid #a1c324;
+  padding-left: 10px;
 }
 .view-messages-container .messages-container .messages-list .message-item .message-heading {
   font-size: 0.9em;
