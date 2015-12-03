@@ -389,3 +389,7 @@ CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
 
+GRANT EXECUTE
+  ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO postgres;
+GRANT EXECUTE
+  ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO bef;
