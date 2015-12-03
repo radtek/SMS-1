@@ -9973,6 +9973,7 @@
           <Property Name="Subject" Type="varchar" />
           <Property Name="Latest" Type="timestamptz" />
           <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
+          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="vMessageRead">
           <Key>
@@ -29263,6 +29264,7 @@
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="03c2de11-5c7d-48ad-8e6c-94e002625403" />
           <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c312a8b4-53cb-4817-8dd0-6743e66c51b9" />
           <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ac91580f-d102-484a-943b-23ef4d35d179" />
+          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f7fe026e-1b93-439f-a22a-4a8dfda7acf6" />
         </EntityType>
         <EntityType Name="VMessageRead" ed:Guid="cb5a755d-ab7e-48c4-990f-ec7f6ab35f98">
           <Key>
@@ -43952,6 +43954,7 @@
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Latest" ColumnName="Latest" />
                 <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
+                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

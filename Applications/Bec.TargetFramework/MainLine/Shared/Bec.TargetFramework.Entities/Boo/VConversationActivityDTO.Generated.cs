@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VConversationActivityDTO() {
         }
 
-        public VConversationActivityDTO(global::System.Guid conversationID, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, string subject, global::System.Nullable<System.DateTime> latest, bool isSystemMessage) {
+        public VConversationActivityDTO(global::System.Guid conversationID, global::System.Nullable<int> activityType, global::System.Nullable<System.Guid> activityID, string subject, global::System.Nullable<System.DateTime> latest, bool isSystemMessage, global::System.Guid organisationID) {
 
           this.ConversationID = conversationID;
           this.ActivityType = activityType;
@@ -30,6 +30,7 @@ namespace Bec.TargetFramework.Entities
           this.Subject = subject;
           this.Latest = latest;
           this.IsSystemMessage = isSystemMessage;
+          this.OrganisationID = organisationID;
         }
 
         #endregion
@@ -53,6 +54,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public bool IsSystemMessage { get; set; }
+
+        [DataMember]
+        public global::System.Guid OrganisationID { get; set; }
 
         #endregion
     }

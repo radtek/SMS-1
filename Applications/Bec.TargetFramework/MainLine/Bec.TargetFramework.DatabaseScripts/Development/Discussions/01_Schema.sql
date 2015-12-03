@@ -177,7 +177,15 @@ VALUES (
 SELECT * FROM public."fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
 
 
-CREATE OR REPLACE VIEW public."vConversation"
+CREATE OR REPLACE VIEW public."vConversation"(
+    "ConversationID",
+    "UserAccountOrganisationID",
+    "Subject",
+    "Latest",
+    "Unread",
+    "ActivityID",
+    "ActivityType",
+    "IsSystemMessage")
 AS
   SELECT cp."ConversationID",
          cp."UserAccountOrganisationID",
@@ -185,7 +193,8 @@ AS
          l."Latest",
          COALESCE(ur."UnreadCount", 0::bigint) AS "Unread",
          c."ActivityID",
-         c."ActivityType"
+         c."ActivityType",
+         c."IsSystemMessage"
   FROM "ConversationParticipant" cp
        JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
        JOIN 
@@ -218,13 +227,17 @@ CREATE OR REPLACE VIEW public."vConversationActivity"(
     "ActivityType",
     "ActivityID",
     "Subject",
-    "Latest")
+    "Latest",
+    "IsSystemMessage",
+    "OrganisationID")
 AS
   SELECT c."ConversationID",
          c."ActivityType",
          c."ActivityID",
          c."Subject",
-         l."Latest"
+         l."Latest",
+         c."IsSystemMessage",
+         o."OrganisationID"
   FROM "Conversation" c
        JOIN 
        (
@@ -233,6 +246,16 @@ AS
          FROM "Notification"
          GROUP BY "Notification"."ConversationID"
        ) l ON l."ConversationID" = c."ConversationID"
+       JOIN 
+       (
+         SELECT cp."ConversationID",
+                uao."OrganisationID"
+         FROM "ConversationParticipant" cp
+              JOIN "UserAccountOrganisation" uao ON
+                uao."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
+         GROUP BY cp."ConversationID",
+                  uao."OrganisationID"
+       ) o ON o."ConversationID" = c."ConversationID"
   ORDER BY l."Latest" DESC;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE

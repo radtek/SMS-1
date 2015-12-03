@@ -586,7 +586,7 @@ namespace Bec.TargetFramework.Business.Logic
             if (!valid) throw new Exception("Cannot create conversation");
         }
 
-        public MessageContainerDTO GetMessages(Guid conversationId, Guid uaoId, int page, int pageSize)
+        public IEnumerable<MessageDTO> GetMessages(Guid conversationId, Guid uaoId, int page, int pageSize)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -596,29 +596,14 @@ namespace Bec.TargetFramework.Business.Logic
                     .Skip(page * pageSize)
                     .Take(pageSize).ToDtos();
                 var nids = messages.Select(m => m.NotificationID);
-                var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
-                var professionalOrganisationTypeId = OrganisationTypeEnum.Professional.GetIntValue();
-                var participants = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants.Where(x => x.ConversationID == conversationId)
-                    .Select(x => new ParticipantDTO
-                    { 
-                        UaoId = x.UserAccountOrganisationID,
-                        FirstName = x.UserAccountOrganisation.Contact.FirstName, 
-                        LastName = x.UserAccountOrganisation.Contact.LastName, 
-                        IsProfessionalOrganisation = x.UserAccountOrganisation.Organisation.OrganisationTypeID == professionalOrganisationTypeId,
-                        OrganisationName = x.UserAccountOrganisation.Organisation.OrganisationDetails.FirstOrDefault().Name 
-                    }).ToList();
-                return new MessageContainerDTO
-                {
-                    Messages = messages
-                        .GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
-                        {
-                            IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
-                            Message = x,
-                            Reads = y
-                        }),
-                    Participants = participants,
-                    IsCurrentUserParticipant = participants.Any(p => p.UaoId == uaoId)
-                };
+                var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();                
+
+                return messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
+                    {
+                        IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
+                        Message = x,
+                        Reads = y
+                    });
             }
         }
 

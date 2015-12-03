@@ -4,4 +4,4 @@ INSERT INTO public."ClassificationType" ("ClassificationTypeID", "Name", "Descri
 VALUES (803002, E'BankAccount', NULL, 2081, NULL, True, False);
 
 ALTER TABLE public."Conversation"
-  ADD COLUMN IsSystemMessage BOOLEAN DEFAULT false NOT NULL;
+  ADD COLUMN "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL;
