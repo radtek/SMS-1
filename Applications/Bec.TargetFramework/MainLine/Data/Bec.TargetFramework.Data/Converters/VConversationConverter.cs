@@ -36,6 +36,7 @@ namespace Bec.TargetFramework.Entities
             target.Unread = source.Unread;
             target.ActivityID = source.ActivityID;
             target.ActivityType = source.ActivityType;
+            target.IsSystemMessage = source.IsSystemMessage;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -58,6 +59,7 @@ namespace Bec.TargetFramework.Entities
             target.Unread = source.Unread;
             target.ActivityID = source.ActivityID;
             target.ActivityType = source.ActivityType;
+            target.IsSystemMessage = source.IsSystemMessage;
 
             // User-defined partial method
             OnEntityCreating(source, target);

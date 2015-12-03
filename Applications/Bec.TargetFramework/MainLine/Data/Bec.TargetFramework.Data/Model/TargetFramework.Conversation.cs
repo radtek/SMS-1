@@ -23,6 +23,7 @@ namespace Bec.TargetFramework.Data
 
         public Conversation()
         {
+          this.IsSystemMessage = false;
         }
 
         #region Properties
@@ -61,6 +62,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for ActivityID in the schema.
         /// </summary>
         public virtual global::System.Nullable<System.Guid> ActivityID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for IsSystemMessage in the schema.
+        /// </summary>
+        public virtual bool IsSystemMessage
         {
             get;
             set;

@@ -5,7 +5,12 @@
     </li>
     {{/if}}
     {{#each items}}
-    <li class="conversation-item{{#if Unread}} unread{{/if}}" data-conversation-id="{{ConversationID}}" data-conversation-subject="{{Subject}}" data-conversation-link="{{Link}}" data-conversation-link-description="{{LinkDescription}}">
+    <li class="conversation-item{{#if Unread}} unread{{/if}}"
+        data-conversation-id="{{ConversationID}}"
+        data-conversation-subject="{{Subject}}"
+        data-conversation-link="{{Link}}"
+        data-conversation-link-description="{{LinkDescription}}"
+        data-conversation-issystemmessage="{{IsSystemMessage}}">
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="conversation-subject">

@@ -334,7 +334,7 @@
                 ajaxWrapper({
                     url: urls.convRankUrl,
                     data: {
-                        convID: currentConversation.id
+                        convID: targetConversationId
                     }
                 }).success(function (data) {
                     var page = Math.floor((data - 1) / messagesPageSize) + 1;
@@ -463,6 +463,7 @@
             currentConversation.subject = conv.data('conversation-subject');
             currentConversation.link = conv.data('conversation-link');
             currentConversation.linkdescription = conv.data('conversation-link-description');
+            currentConversation.issystemmessage = conv.data('conversation-issystemmessage');
             loadMessages(currentConversation).then(scrollToLastOrFirstUnreadMessage);
         });
 

@@ -9938,6 +9938,7 @@
           <Property Name="Subject" Type="varchar" />
           <Property Name="ActivityType" Type="int" />
           <Property Name="ActivityID" Type="uuid" />
+          <Property Name="IsSystemMessage" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <EntityType Name="ConversationParticipant">
           <Key>
@@ -9960,6 +9961,7 @@
           <Property Name="Unread" Type="bigint" />
           <Property Name="ActivityID" Type="uuid" />
           <Property Name="ActivityType" Type="int" />
+          <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vConversationActivity">
           <Key>
@@ -9970,6 +9972,7 @@
           <Property Name="ActivityID" Type="uuid" />
           <Property Name="Subject" Type="varchar" />
           <Property Name="Latest" Type="timestamptz" />
+          <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="vMessageRead">
           <Key>
@@ -29221,6 +29224,7 @@
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="ae30452f-c53d-4c90-8483-a75a146e4626" />
           <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="95b00bc4-bc64-47ce-bcde-4a330ed07f84" />
           <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4dda795c-ad42-4335-af87-31cf620bcbca" />
+          <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="af1928cd-0363-4241-9815-6eb7eff8ecd3" />
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="Conversation" ToRole="ConversationParticipants" ed:Guid="7282fa43-51e3-4cd1-b3af-691830ce02a2" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Conversation" ToRole="Notifications" ed:Guid="80be8f08-c9bb-4357-a8a4-dc03fcccc147" />
         </EntityType>
@@ -29247,6 +29251,7 @@
           <Property Name="Unread" Type="Int64" ed:ValidateRequired="False" ed:Guid="5e4352c5-93b5-471e-b652-17a7893a879b" />
           <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6ae67b92-930b-47c4-9afd-3f47a9e5a2fe" />
           <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="aaa8f711-9134-4f55-b5f5-04a478e62c5f" />
+          <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="35510861-19d8-47b5-8b6f-5d21531edf05" />
         </EntityType>
         <EntityType Name="VConversationActivity" ed:Guid="89050a44-044c-41bb-9cb3-39b8bfbed84c">
           <Key>
@@ -29257,6 +29262,7 @@
           <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6316bc1a-0466-4f86-8124-a9051ef02f09" />
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="03c2de11-5c7d-48ad-8e6c-94e002625403" />
           <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c312a8b4-53cb-4817-8dd0-6743e66c51b9" />
+          <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ac91580f-d102-484a-943b-23ef4d35d179" />
         </EntityType>
         <EntityType Name="VMessageRead" ed:Guid="cb5a755d-ab7e-48c4-990f-ec7f6ab35f98">
           <Key>
@@ -43910,6 +43916,7 @@
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43932,6 +43939,7 @@
                 <ScalarProperty Name="Unread" ColumnName="Unread" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43943,6 +43951,7 @@
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Latest" ColumnName="Latest" />
+                <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
