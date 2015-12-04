@@ -49,15 +49,8 @@
         if (newCount == currentCount) {
             return;
         }
-
-        if (!unreadCountElement.hasClass('animated')) {
-            unreadCountElement.addClass('animated');
-        }
-        unreadCountElement.removeClass('bounceIn');
-        setTimeout(function () {
-            unreadCountElement.text(newCount);
-            unreadCountElement.toggleClass('bg-color-red', newCount > 0);
-            unreadCountElement.addClass('bounceIn');
-        }, 1)
+        unreadCountElement.addClass('animated bounceIn');
+        unreadCountElement.text(newCount);
+        unreadCountElement.toggle(newCount > 0)
     }
 });
