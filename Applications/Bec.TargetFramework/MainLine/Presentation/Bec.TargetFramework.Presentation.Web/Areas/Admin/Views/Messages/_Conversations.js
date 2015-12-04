@@ -147,7 +147,7 @@
                     case 'Message': item.isMessage = true; break;
                     case 'BankAccountMarkedAsSafe': item.isBaSafe = true; break;
                     case 'BankAccountMarkedAsFraudSuspicious': item.isBaFraud = true; break;
-                    case 'BankAccountCheckNoMatch': r = item.isBaNoMatch = true; break;
+                    case 'BankAccountCheckNoMatch': item.isBaNoMatch = true; break;
                 }
 
                 switch (item.Message.OrganisationType) {
