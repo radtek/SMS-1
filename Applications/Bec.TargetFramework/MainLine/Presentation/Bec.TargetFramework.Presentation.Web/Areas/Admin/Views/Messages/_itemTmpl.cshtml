@@ -46,11 +46,9 @@
                     </span>
                     {{else}}
                     {{#each Reads}}
-                    <span title="Read">
-                        <span class="text-muted">
-                            Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}
-                        </span>
-                    </span>
+                    <div class="text-muted">
+                        Read by {{FirstName}} {{LastName}}{{#if AcceptedDate}} at {{AcceptedDate}}{{/if}}
+                    </div>
                     {{/each}}
                     {{/if}}
                 </div>
