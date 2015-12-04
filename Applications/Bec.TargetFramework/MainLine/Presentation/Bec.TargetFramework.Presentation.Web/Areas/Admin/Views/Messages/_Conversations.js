@@ -229,6 +229,8 @@
             autoresizeTextarea($(this));
         });
 
+        $('#conversationRecipients').select2('focus');
+
         newConversationForm.validate({
             ignore: '.skip',
             // Rules for form validation
