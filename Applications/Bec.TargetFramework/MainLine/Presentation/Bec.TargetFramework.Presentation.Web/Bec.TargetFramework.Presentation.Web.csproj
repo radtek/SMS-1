@@ -842,6 +842,7 @@
     <Content Include="Content\Fonts\sms-font.ttf" />
     <Content Include="Content\Fonts\sms-font.woff" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>

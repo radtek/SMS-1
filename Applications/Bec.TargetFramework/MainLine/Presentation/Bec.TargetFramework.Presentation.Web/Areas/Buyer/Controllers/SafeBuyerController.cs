@@ -25,45 +25,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         public IOrganisationLogicClient OrganisationClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Guid? selectedTransactionId)
         {
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            if (selectedTransactionId.HasValue)
             {
-                personaLine1 = x.Address.Line1,
-                personaLine2 = x.Address.Line2,
-                personaTown = x.Address.Town,
-                personaCity = x.Address.City,
-                personaCounty = x.Address.County,
-                personaPostalCode = x.Address.PostalCode,
-                x.Contact.BirthDate,
-                x.Confirmed,
-                x.SmsTransactionID,
-                x.SmsTransaction.Price,
-                x.SmsTransaction.LenderName,
-                x.SmsTransaction.MortgageApplicationNumber,
-                x.SmsTransaction.OrganisationID,
-                x.SmsTransaction.Address.Line1,
-                x.SmsTransaction.Address.Line2,
-                x.SmsTransaction.Address.Town,
-                x.SmsTransaction.Address.City,
-                x.SmsTransaction.Address.County,
-                x.SmsTransaction.Address.PostalCode,
-                x.SmsUserAccountOrganisationTransactionTypeID,
-                x.SmsUserAccountOrganisationTransactionID,
-                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
-                Status = x.SmsTransaction.Organisation.OrganisationStatus.Select(z => new { z.Notes, z.StatusTypeValue.Name }),
-                BankAccounts = x.SmsSrcFundsBankAccounts.Select(b => new { b.SortCode, b.AccountNumber })
-            });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
-            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            return View(data);
+                var model = await GetUaotForTransaction(selectedTransactionId.Value);
+                return View(model);
+            }
+            else
+            {
+                var uaots = await GetAllUaot();
+                var uaotsCount = uaots.Count();
+                if (uaotsCount > 1)
+                {
+                    return View("IndexSelectTransaction", uaots);
+                }
+                else if (uaotsCount == 1)
+                {
+                    return View(uaots.First());
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
         }
 
-        public async Task<ActionResult> ViewConfirmDetails(Guid txID, int index)
+        public async Task<ActionResult> ViewConfirmDetails(Guid txID)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            ViewBag.index = index;
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
@@ -192,6 +182,58 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             ViewBag.companyName = companyName;
 
             return PartialView("_Match");
+        }
+
+        private async Task<SmsUserAccountOrganisationTransactionDTO> GetUaotForTransaction(Guid txId)
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                personaLine1 = x.Address.Line1,
+                personaLine2 = x.Address.Line2,
+                personaTown = x.Address.Town,
+                personaCity = x.Address.City,
+                personaCounty = x.Address.County,
+                personaPostalCode = x.Address.PostalCode,
+                x.Contact.BirthDate,
+                x.Confirmed,
+                x.SmsTransactionID,
+                x.SmsTransaction.Price,
+                x.SmsTransaction.LenderName,
+                x.SmsTransaction.MortgageApplicationNumber,
+                x.SmsTransaction.OrganisationID,
+                x.SmsTransaction.Address.Line1,
+                x.SmsTransaction.Address.Line2,
+                x.SmsTransaction.Address.Town,
+                x.SmsTransaction.Address.City,
+                x.SmsTransaction.Address.County,
+                x.SmsTransaction.Address.PostalCode,
+                x.SmsUserAccountOrganisationTransactionTypeID,
+                x.SmsUserAccountOrganisationTransactionID,
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
+                Status = x.SmsTransaction.Organisation.OrganisationStatus.Select(z => new { z.Notes, z.StatusTypeValue.Name }),
+                BankAccounts = x.SmsSrcFundsBankAccounts.Select(b => new { b.SortCode, b.AccountNumber })
+            });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txId);
+            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+
+            return data.FirstOrDefault();
+        }
+
+        private async Task<IEnumerable<SmsUserAccountOrganisationTransactionDTO>> GetAllUaot()
+        {
+            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
+            {
+                x.SmsTransactionID,
+                x.SmsTransaction.Address.Line1,
+                x.SmsTransaction.Address.PostalCode,
+                Names = x.SmsTransaction.Organisation.OrganisationDetails.Select(y => new { y.Name }),
+            });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID);
+            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+
+            return data;
         }
     }
 }

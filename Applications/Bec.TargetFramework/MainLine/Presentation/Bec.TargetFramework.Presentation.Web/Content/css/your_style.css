@@ -536,6 +536,15 @@
   border-bottom: 1px solid #eee;
   box-shadow: 0 0 1px #eee;
 }
+.buyer-transactions dt {
+  margin-bottom: 2px;
+}
+.buyer-transactions dd {
+  margin-bottom: 10px;
+}
+.buyer-transactions dd p {
+  margin: 0;
+}
 .hidden {
   display: none;
   width: 0;

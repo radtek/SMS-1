@@ -1,0 +1,39 @@
+﻿@using Bec.TargetFramework.Entities
+@model IEnumerable<SmsUserAccountOrganisationTransactionDTO>
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header inline-heading">
+            <i class="fa fa-home fa-lg margin-right-10"></i>Safe Buyer Transactions
+        </h2>
+        <div class="col-sm-12">
+            <ul class="media-list well">
+                @foreach (var tx in Model)
+                {
+                    var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
+                    <li class="media">
+                        <span class="pull-left">
+                            <i class="media-object fa fa-home fa-4x"></i>
+                        </span>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = tx.SmsTransactionID })">
+                                    Safe Buyer ordered by @companyName
+                                </a>
+                            </h4>
+                            <p class="text-muted">
+                                @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                {
+                                    <text>Purchase of </text>@tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
+                                }
+                                else
+                                {
+                                    <text>The transaction details have not been confirmed yet.</text>
+                                }
+                            </p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

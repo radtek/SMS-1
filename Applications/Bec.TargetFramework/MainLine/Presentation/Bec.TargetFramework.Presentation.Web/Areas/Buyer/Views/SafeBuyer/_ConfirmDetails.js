@@ -114,10 +114,9 @@
             var formData = confirmDetailsForm.serializeArray();
             fixDate(formData, 'Contact.BirthDate', "#birthDateInput");
 
-            var index = confirmDetailsForm.data("index");
-            var matchDiv = $('#result-match-' + index);
-            var noMatchDiv = $('#result-no-match-' + index);
-            var serverErrorDiv = $('#result-server-error-' + index);
+            var matchDiv = $('#result-match');
+            var noMatchDiv = $('#result-no-match');
+            var serverErrorDiv = $('#result-server-error');
 
             matchDiv.hide();
             noMatchDiv.hide();
@@ -128,13 +127,13 @@
                 type: "POST",
                 data: formData
             }).done(function (res) {
-                showDetails(res.data, res.accountNumber, res.sortCode, index);
+                showDetails(res.data, res.accountNumber, res.sortCode);
                 hideCurrentModal();
 
                 if (res.result == true)
-                    handleModal({ url: $('#collapse-' + index).data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                    handleModal({ url: $('#tranactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
                 else
-                    handleModal({ url: $('#collapse-' + index).data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                    handleModal({ url: $('#tranactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
                 
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
@@ -186,31 +185,31 @@
         });
     }
 
-    function showDetails(data, an, sc, index) {
+    function showDetails(data, an, sc) {
 
         if (data.SmsTransaction.Address) {
-            $('#addressHeading-' + index).text(data.SmsTransaction.Address.Line1 + " " + data.SmsTransaction.Address.PostalCode);
+            $('#addressHeading').text(data.SmsTransaction.Address.Line1 + " " + data.SmsTransaction.Address.PostalCode);
 
-            $('#txLine1-' + index).text(data.SmsTransaction.Address.Line1);
-            $('#txLine2-' + index).text(data.SmsTransaction.Address.Line2);
-            $('#txTown-' + index).text(data.SmsTransaction.Address.Town);
-            $('#txCounty-' + index).text(data.SmsTransaction.Address.County);
-            $('#txPostalCode-' + index).text(data.SmsTransaction.Address.PostalCode);
+            $('#txLine1').text(data.SmsTransaction.Address.Line1);
+            $('#txLine2').text(data.SmsTransaction.Address.Line2);
+            $('#txTown').text(data.SmsTransaction.Address.Town);
+            $('#txCounty').text(data.SmsTransaction.Address.County);
+            $('#txPostalCode').text(data.SmsTransaction.Address.PostalCode);
 
-            $('#mortgageLender-' + index).text(data.SmsTransaction.LenderName || "None");
-            $('#mortgageAppNumber-' + index).text(data.SmsTransaction.MortgageApplicationNumber || "None");
-            $('#purchasePrice-' + index).text(formatCurrency(data.SmsTransaction.Price));
+            $('#mortgageLender').text(data.SmsTransaction.LenderName || "None");
+            $('#mortgageAppNumber').text(data.SmsTransaction.MortgageApplicationNumber || "None");
+            $('#purchasePrice').text(formatCurrency(data.SmsTransaction.Price));
 
-            $('#detailsRowTransactionAddress-' + index).show();
+            $('#detailsRowTransactionAddress').show();
         }
 
-        $('#bLine1-' + index).text(data.Address.Line1);
-        $('#bLine2-' + index).text(data.Address.Line2);
-        $('#bTown-' + index).text(data.Address.Town);
-        $('#bCounty-' + index).text(data.Address.County);
-        $('#bPostalCode-' + index).text(data.Address.PostalCode);
+        $('#bLine1').text(data.Address.Line1);
+        $('#bLine2').text(data.Address.Line2);
+        $('#bTown').text(data.Address.Town);
+        $('#bCounty').text(data.Address.County);
+        $('#bPostalCode').text(data.Address.PostalCode);
 
-        $('#detailsRow-' + index).show();
+        $('#detailsRow').show();
 
         var personalBankAccountTemplate = Handlebars.compile('<tr><td>{{AccountNumber}}</td><td>{{SortCode}}</td>');
         _.map(data.SmsSrcFundsBankAccounts, function (item) {
@@ -219,8 +218,8 @@
             $('#personalBankAccountsTable tbody').append(html);
         });
 
-        $('#post-no-match-' + index).hide();
-        $('#notify-button-' + index).show();
+        $('#post-no-match').hide();
+        $('#notify-button').show();
     }
 
     function initLenderSearch() {
