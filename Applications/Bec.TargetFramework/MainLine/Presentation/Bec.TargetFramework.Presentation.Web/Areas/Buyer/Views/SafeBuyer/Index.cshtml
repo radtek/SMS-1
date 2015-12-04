@@ -32,7 +32,7 @@
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Confirmed? "block" : "none")">
-                                    <div id="detailsRowTransactionAddress" class="col-sm-6" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
+                                    <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
                                         <dl>
                                             <dt>Transaction Address:</dt>
                                             <dd>
@@ -50,7 +50,7 @@
                                             <dd><p id="purchasePrice" class=format-number data-val="@Model.SmsTransaction.Price"></p></dd>
                                         </dl>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 col-lg-4">
                                         <dl>
                                             <dt>@personaName's Home Address:</dt>
                                             <dd>
@@ -63,6 +63,8 @@
                                             <dt>Date of Birth:</dt>
                                             <dd><p id="bDateOfBirth" class="format-date" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
                                         </dl>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-4">
                                         <dl>
                                             <dt>Personal Bank Account(s):</dt>
                                             <dd id="personalBankAccountsTable">

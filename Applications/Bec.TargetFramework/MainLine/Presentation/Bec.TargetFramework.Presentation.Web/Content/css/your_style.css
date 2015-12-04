@@ -542,6 +542,9 @@
 .buyer-transactions dd {
   margin-bottom: 10px;
 }
+.buyer-transactions dd#personalBankAccountsTable {
+  margin-top: 5px;
+}
 .buyer-transactions dd p {
   margin: 0;
 }
