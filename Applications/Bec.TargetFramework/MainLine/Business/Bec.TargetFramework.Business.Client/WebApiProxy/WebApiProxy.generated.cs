@@ -896,6 +896,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
 		void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+
+		/// <param name="orgID"></param>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID);
+
+		/// <param name="orgID"></param>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		Int32 GetSmsTransactionRank(Guid orgID,Guid txID);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -3709,6 +3719,29 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="txID"></param>
+		/// <returns></returns>
+		public virtual Task<Int32> GetSmsTransactionRankAsync(Guid orgID,Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="txID"></param>
+		public virtual Int32 GetSmsTransactionRank(Guid orgID,Guid txID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
 		}
 
 		#endregion

@@ -740,5 +740,13 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
             }
         }
+
+        public int GetSmsTransactionRank(Guid orgID, Guid txID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().FnSmsTransactionRank(orgID, txID).Value;
+            }
+        }
     }
 }

@@ -18248,6 +18248,10 @@
           <Parameter Name="uaoid" Type="uuid" Mode="In" />
           <Parameter Name="convid" Type="uuid" Mode="In" />
         </Function>
+        <Function Name="fn_SmsTransactionRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="sms" StoreFunctionName="fn_SmsTransactionRank">
+          <Parameter Name="orgid" Type="uuid" Mode="In" />
+          <Parameter Name="txid" Type="uuid" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -21162,6 +21166,10 @@
           <FunctionImport Name="FnConversationRank" ReturnType="Collection(Int32)" ed:Guid="91b96071-f06f-406a-859a-1161c0dd28a1">
             <Parameter Name="uaoid" Mode="In" Type="Guid" />
             <Parameter Name="convid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnSmsTransactionRank" ReturnType="Collection(Int32)" ed:Guid="015b3587-dc77-4521-958d-6c8eafdb11e0">
+            <Parameter Name="orgid" Mode="In" Type="Guid" />
+            <Parameter Name="txid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -44153,6 +44161,7 @@
           <FunctionImportMapping FunctionImportName="FnAddUserToOrganisation" FunctionName="Bec.TargetFramework.Data.Store.fn_AddUserToOrganisation" />
           <FunctionImportMapping FunctionImportName="FnCreateOrganisationFromDefault" FunctionName="Bec.TargetFramework.Data.Store.fn_CreateOrganisationFromDefault" />
           <FunctionImportMapping FunctionImportName="FnConversationRank" FunctionName="Bec.TargetFramework.Data.Store.fn_ConversationRank" />
+          <FunctionImportMapping FunctionImportName="FnSmsTransactionRank" FunctionName="Bec.TargetFramework.Data.Store.fn_SmsTransactionRank" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

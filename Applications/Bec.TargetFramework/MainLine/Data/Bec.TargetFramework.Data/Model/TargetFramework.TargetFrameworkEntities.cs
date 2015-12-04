@@ -2251,6 +2251,46 @@ namespace Bec.TargetFramework.Data
             return result;
         }
 
+    
+        /// <summary>
+        /// There are no comments for FnSmsTransactionRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnSmsTransactionRank (global::System.Nullable<System.Guid> orgid, global::System.Nullable<System.Guid> txid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnSmsTransactionRank";
+                command.Connection = connection;
+                EntityParameter orgidParameter = new EntityParameter("orgid", System.Data.DbType.Guid);
+                if (orgid.HasValue)
+                    orgidParameter.Value = orgid;
+                command.Parameters.Add(orgidParameter);
+                EntityParameter txidParameter = new EntityParameter("txid", System.Data.DbType.Guid);
+                if (txid.HasValue)
+                    txidParameter.Value = txid;
+                command.Parameters.Add(txidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
         #endregion
     }
 }

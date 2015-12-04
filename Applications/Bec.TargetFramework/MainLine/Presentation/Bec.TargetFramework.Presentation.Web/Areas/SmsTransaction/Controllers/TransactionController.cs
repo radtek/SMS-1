@@ -31,15 +31,28 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return PartialView();
         }
 
-        public ActionResult Index()
+        //jump to given id, reset sort to date
+        public async Task<ActionResult> Index(Guid? selectedTransactionID)
         {
+            if (selectedTransactionID.HasValue)
+            {
+                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+                var pageNumber = await orgClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
+
+                TempData["SmsTransactionID"] = selectedTransactionID;
+                TempData["rowNumber"] = pageNumber;
+                TempData["resetSort"] = true;
+            }
+
             return View();
         }
+
+        //jump to given record, hope it's on the stated page
         public ActionResult Selected(Guid selectedTransactionID, int pageNumber)
         {
             TempData["SmsTransactionID"] = selectedTransactionID;
             TempData["pageNumber"] = pageNumber;
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         public async Task<ActionResult> GetSmsTransactions(string search)

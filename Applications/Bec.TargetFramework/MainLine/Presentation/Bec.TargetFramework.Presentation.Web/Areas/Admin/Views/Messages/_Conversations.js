@@ -324,7 +324,7 @@
                         convID: targetConversationId
                     }
                 }).success(function (data) {
-                    var page = Math.floor((data - 1) / messagesPageSize) + 1;
+                    var page = getPageFromRow(data, messagesPageSize);
                     pager.page(page);
                 });
             }
