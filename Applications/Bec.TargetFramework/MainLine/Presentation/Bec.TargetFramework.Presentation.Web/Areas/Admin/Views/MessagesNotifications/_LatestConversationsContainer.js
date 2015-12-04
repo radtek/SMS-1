@@ -46,12 +46,18 @@
 
     function updateNotificationCount(newCount) {
         var currentCount = unreadCountElement.text();
-
-        unreadCountElement.text(newCount);
-        unreadCountElement.removeClass('bounceIn');
-        if (currentCount != newCount) {
-            unreadCountElement.toggleClass('bg-color-red', !!newCount);
-            unreadCountElement.addClass('bounceIn');
+        if (newCount == currentCount) {
+            return;
         }
+
+        if (!unreadCountElement.hasClass('animated')) {
+            unreadCountElement.addClass('animated');
+        }
+        unreadCountElement.removeClass('bounceIn');
+        setTimeout(function () {
+            unreadCountElement.text(newCount);
+            unreadCountElement.toggleClass('bg-color-red', newCount > 0);
+            unreadCountElement.addClass('bounceIn');
+        }, 1)
     }
 });
