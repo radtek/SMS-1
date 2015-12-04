@@ -49,7 +49,7 @@
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too
-function showAudit(index) {
+function showAudit() {
     var matchTemplate = Handlebars.compile(
     '<div class="alert alert-success fade in margin-left-10 margin-right-10">' +
         '<h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>' +

@@ -461,20 +461,30 @@ namespace Bec.TargetFramework.Business.Logic
         public async Task<Guid> AddSmsClient(Guid orgID, Guid uaoID, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
         {
             //add becky personal org & user
+            UserAccountOrganisationDTO existingUaoDto = null;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var existingUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
+                if (existingUao != null)
+                {
+                    var personalOrgTypeId = OrganisationTypeEnum.Personal.GetIntValue();
+                    if (existingUao.Organisation.OrganisationTypeID != personalOrgTypeId) throw new Exception("The specified email belongs to a system user; this is not currently supported.");
+                    existingUaoDto = existingUao.ToDto();
+                }
+            }
+            if (existingUaoDto != null)
+            {
+                await AddNewContactAndSetAsPrimary(existingUaoDto.UserAccountOrganisationID, salutation, firstName, lastName, email, phoneNumber, birthDate);
+                return existingUaoDto.UserAccountOrganisationID;
+            }
+
             DefaultOrganisationDTO defaultOrganisation;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var existing = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.FirstOrDefault(x => x.UserAccount.Email.ToLower() == email.ToLower());
-                if (existing != null)
-                {
-                    var personalOrgTypeId = OrganisationTypeEnum.Personal.GetIntValue();
-                    if (existing.Organisation.OrganisationTypeID != personalOrgTypeId) throw new Exception("The specified email belongs to a system user; this is not currently supported.");
-                    return existing.UserAccountOrganisationID;
-                }
                 // get professional default organisation template
                 defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Personal Organisation")).ToDto();
+                Ensure.That(defaultOrganisation).IsNotNull();
             }
-            Ensure.That(defaultOrganisation).IsNotNull();
 
             var companyDTO = new AddCompanyDTO
             {
@@ -500,6 +510,41 @@ namespace Bec.TargetFramework.Business.Logic
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
             
             return buyerUaoDto.UserAccountOrganisationID;
+        }
+
+        private async Task AddNewContactAndSetAsPrimary(Guid uaoId, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
+        {
+            var contact = new Contact
+            {
+                ContactID = Guid.NewGuid(),
+                ParentID = uaoId,
+                IsPrimaryContact = true,
+                ContactName = "",
+                Salutation = salutation,
+                FirstName = firstName,
+                LastName = lastName,
+                EmailAddress1 = email,
+                BirthDate = birthDate,
+                MobileNumber1 = phoneNumber,
+                CreatedBy = UserNameService.UserName
+            };
+
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == uaoId);
+                Ensure.That(uao).IsNotNull();
+
+                var allContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(c => c.ParentID == uaoId && c.IsPrimaryContact == true);
+                foreach (var item in allContacts)
+	            {
+		            item.IsPrimaryContact = false;
+	            }
+
+                scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
+                uao.PrimaryContactID = contact.ContactID;
+
+                await scope.SaveChangesAsync();
+            }
         }
 
         public async Task<Guid> PurchaseProduct(SmsTransactionDTO dto, Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)

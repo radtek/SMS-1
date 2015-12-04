@@ -100,7 +100,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ConfirmDetails(SmsUserAccountOrganisationTransactionDTO dto, string accountNumber, string sortCode, Guid orgID, int index)
+        public async Task<ActionResult> ConfirmDetails(SmsUserAccountOrganisationTransactionDTO dto, string accountNumber, string sortCode, Guid orgID)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             
@@ -108,17 +108,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             await OrganisationClient.UpdateSmsUserAccountOrganisationTransactionAsync(uaoID, accountNumber, sortCode, dto);
             //check bank account
             var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, dto.SmsUserAccountOrganisationTransactionID, accountNumber, sortCode);
-            return Json(new { result = isMatch, index = index, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = isMatch, data = dto, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CheckBankAccount(Guid orgID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode, int index)
+        public async Task<ActionResult> CheckBankAccount(Guid orgID, Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
             //check bank account
             var isMatch = await BankAccountClient.CheckBankAccountAsync(orgID, uaoID, smsUserAccountOrganisationTransactionID, accountNumber, sortCode);
-            return Json(new { result = isMatch, index = index, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = isMatch, accountNumber = accountNumber, sortCode = sortCode }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -163,20 +163,18 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ViewNoMatch(Guid smsUserAccountOrganisationTransactionID, int index, string accountNumber, string sortCode)
+        public ActionResult ViewNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
-            ViewBag.index = index;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
 
             return PartialView("_NoMatch");
         }
 
-        public ActionResult ViewMatch(Guid smsUserAccountOrganisationTransactionID, int index, string accountNumber, string sortCode, string companyName)
+        public ActionResult ViewMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode, string companyName)
         {
             ViewBag.smsUserAccountOrganisationTransactionID = smsUserAccountOrganisationTransactionID;
-            ViewBag.index = index;
             ViewBag.accountNumber = accountNumber;
             ViewBag.sortCode = sortCode;
             ViewBag.companyName = companyName;
