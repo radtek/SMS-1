@@ -40,8 +40,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     {
                         NotificationDictionary = dictionary
                     },
-                    ActivityType.BankAccount,
-                    handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationBankAccountID
+                    ActivityType.SmsTransaction,
+                    handlerEvent.BankAccountCheckNoMatchNotificationDto.TransactionId
                     );
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };

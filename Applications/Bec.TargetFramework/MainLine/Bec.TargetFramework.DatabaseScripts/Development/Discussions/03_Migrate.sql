@@ -1,4 +1,5 @@
-update "NotificationConstruct" set "NotificationSubject" = 'Bank Account Notification' where "Name" in ('BankAccountCheckNoMatch', 'BankAccountMarkedAsFraudSuspicious', 'BankAccountMarkedAsSafe');
+update "NotificationConstruct" set "NotificationSubject" = 'Bank Account Notification' where "Name" in ('BankAccountMarkedAsFraudSuspicious', 'BankAccountMarkedAsSafe');
+update "NotificationConstruct" set "NotificationSubject" = 'Safe Buyer No Match Notification' where "Name" in ('BankAccountCheckNoMatch');
 
 INSERT INTO public."ClassificationType" ("ClassificationTypeID", "Name", "Description", "ClassificationTypeCategoryID", "ParentClassificationTypeCategoryID", "IsActive", "IsDeleted")
 VALUES (803002, E'BankAccount', NULL, 2081, NULL, True, False);
