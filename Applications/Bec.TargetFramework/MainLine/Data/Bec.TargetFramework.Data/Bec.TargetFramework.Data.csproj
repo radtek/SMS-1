@@ -416,6 +416,7 @@
     <Compile Include="Converters\VCompanyConverter.cs" />
     <Compile Include="Converters\VConversationActivityConverter.cs" />
     <Compile Include="Converters\VConversationConverter.cs" />
+    <Compile Include="Converters\VConversationUnreadConverter.cs" />
     <Compile Include="Converters\VCountryAndCurrencyConverter.cs" />
     <Compile Include="Converters\VCountryDeductionConverter.cs" />
     <Compile Include="Converters\VDefaultEmailAddressConverter.cs" />
@@ -813,6 +814,7 @@
     <Compile Include="Model\TargetFramework.VCompany.cs" />
     <Compile Include="Model\TargetFramework.VConversation.cs" />
     <Compile Include="Model\TargetFramework.VConversationActivity.cs" />
+    <Compile Include="Model\TargetFramework.VConversationUnread.cs" />
     <Compile Include="Model\TargetFramework.VCountryAndCurrency.cs" />
     <Compile Include="Model\TargetFramework.VCountryDeduction.cs" />
     <Compile Include="Model\TargetFramework.VDefaultEmailAddress.cs" />

@@ -31,3 +31,13 @@ LANGUAGE 'plpgsql'
 VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER;
+
+
+ALTER TABLE public."Conversation" ADD COLUMN "Latest" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL;
+
+update "Conversation" c
+set "Latest" = l."Latest" 
+from 
+(select "Notification"."ConversationID", max("Notification"."DateSent") AS "Latest"
+FROM "Notification" GROUP BY "Notification"."ConversationID")
+ l where l."ConversationID" = c."ConversationID";

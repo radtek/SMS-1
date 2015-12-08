@@ -315,6 +315,8 @@
                 return $(this).data('conversation-id') == targetConversationId;
             });
 
+            console.log(conversations);
+
             if (conversations.length == 1) {
                 conversations.first().trigger('click');
                 targetConversationId = null;
@@ -326,6 +328,7 @@
                         convID: targetConversationId
                     }
                 }).success(function (data) {
+                    console.log('page');
                     var page = getPageFromRow(data, messagesPageSize);
                     pager.page(page);
                 });

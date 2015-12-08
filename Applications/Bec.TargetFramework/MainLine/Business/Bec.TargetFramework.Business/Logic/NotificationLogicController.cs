@@ -264,16 +264,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId, int count)
+        public List<ConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId, int count)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var conversations = scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
-                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
-                    .OrderByDescending(x => x.Latest)
-                    .Take(count);
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .OrderByDescending(x => x.Notification.Conversation.Latest)
+                    .Take(count)
+                    .Select(x => x.Notification.Conversation);
 
-                return conversations.ToDtos();
+                return ret.ToDtos();
             }
         }
 
@@ -281,9 +282,10 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
-                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
-                    .Count();
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId);
+                    
+                return ret.Count();
             }
         }
 
@@ -481,11 +483,12 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
         {
+            var date = DateTime.Now;
             using (var scope = DbContextScopeFactory.Create())
             {
                 await CheckCanCreateMessage(orgID, activityTypeID, activityID, participantsUaoIDs);
 
-                var conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = subject };
+                var conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = subject, Latest = date };
                 if (activityID.HasValue && activityTypeID.HasValue)
                 {
                     conv.ActivityID = activityID;
@@ -498,7 +501,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
 
-                await Reply(uaoID, conv.ConversationID, message, participantsUaoIDs);
+                await Reply(uaoID, conv.ConversationID, message, participantsUaoIDs, date);
 
                 await scope.SaveChangesAsync();
                 return conv.ConversationID;
@@ -516,7 +519,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                await Reply(uaoID, conversationID, message, notSender);
+                await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
                 await scope.SaveChangesAsync();
             }
         }
@@ -526,7 +529,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 foreach (var nr in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
-                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID && !(x.IsAccepted ?? false)))
+                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID && x.IsAccepted == false))
                 {
                     nr.IsAccepted = true;
                     nr.AcceptedDate = DateTime.Now;
@@ -535,7 +538,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients)
+        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -543,7 +546,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var n = new NotificationDTO
                 {
                     CreatedByUserAccountOrganisationID = senderUaoID,
-                    DateSent = DateTime.Now,
+                    DateSent = dateSent,
                     NotificationConstructID = construct.NotificationConstructID,
                     NotificationConstructVersionNumber = construct.NotificationConstructVersionNumber,
                     NotificationData = JsonHelper.SerializeData(new { Message = message }),
@@ -629,5 +632,52 @@ namespace Bec.TargetFramework.Business.Logic
                 return scope.DbContexts.Get<TargetFrameworkEntities>().FnConversationRank(uaoID, convID).Value;
             }
         }
+
+        public ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId, ActivityType? activityType, Guid? activityId, int take, int skip)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var items = scope.DbContexts.Get<TargetFrameworkEntities>().VConversations.Where(x => x.UserAccountOrganisationID == uaoId);
+                if (activityType.HasValue && activityId.HasValue)
+                {
+                    var activityTypeId = activityType.GetIntValue();
+                    items = items.Where(x => x.ActivityID == activityId && x.ActivityType == activityTypeId);
+                }
+                var count = items.LongCount();
+                var ret = items.OrderByDescending(x => x.Latest).Skip(skip).Take(take).ToDtos();
+                var convs = ret.Select(x => x.ConversationID);
+                var unreads = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoId && convs.Contains(x.ConversationID))
+                    .ToDictionary(x => x.ConversationID, x => x.UnreadCount);
+
+                foreach (var item in ret)
+                {
+                    item.Unread = unreads.ContainsKey(item.ConversationID) && unreads[item.ConversationID] > 0;
+                }
+                return new ConversationResultDTO<VConversationDTO> { Items = ret, Count = count };
+            }
+        }
+
+        public ConversationResultDTO<VConversationActivityDTO> GetConversationsActivity(Guid uaoID, Guid orgID, ActivityType activityType, Guid activityId, int take, int skip)
+        {
+            int at = activityType.GetIntValue();
+
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var items = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationActivities.Where(x => x.OrganisationID == orgID && x.ActivityType == at && x.ActivityID == activityId);
+                var count = items.LongCount();
+                items = items.OrderByDescending(x => x.Latest).Skip(skip).Take(take);
+                var ret = items.ToDtos();
+                var convs = ret.Select(x => x.ConversationID);
+                var unreads = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoID && convs.Contains(x.ConversationID))
+                    .ToDictionary(x => x.ConversationID, x => x.UnreadCount);
+                
+                foreach (var item in ret)
+                {
+                    item.Unread = unreads.ContainsKey(item.ConversationID) && unreads[item.ConversationID] > 0;
+                }
+                return new ConversationResultDTO<VConversationActivityDTO> { Items = ret, Count = count };
+            }
+        }
+
     }
 }

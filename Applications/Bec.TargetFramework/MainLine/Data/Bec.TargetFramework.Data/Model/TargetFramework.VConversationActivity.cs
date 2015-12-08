@@ -70,7 +70,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for Latest in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.DateTime> Latest
+        public virtual global::System.DateTime Latest
         {
             get;
             set;

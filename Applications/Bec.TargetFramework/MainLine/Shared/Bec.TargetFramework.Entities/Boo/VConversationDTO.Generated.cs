@@ -22,13 +22,12 @@ namespace Bec.TargetFramework.Entities
         public VConversationDTO() {
         }
 
-        public VConversationDTO(global::System.Guid conversationID, global::System.Guid userAccountOrganisationID, string subject, global::System.Nullable<System.DateTime> latest, global::System.Nullable<long> unread, global::System.Nullable<System.Guid> activityID, global::System.Nullable<int> activityType, bool isSystemMessage) {
+        public VConversationDTO(global::System.Guid conversationID, global::System.Guid userAccountOrganisationID, string subject, global::System.DateTime latest, global::System.Nullable<System.Guid> activityID, global::System.Nullable<int> activityType, bool isSystemMessage) {
 
           this.ConversationID = conversationID;
           this.UserAccountOrganisationID = userAccountOrganisationID;
           this.Subject = subject;
           this.Latest = latest;
-          this.Unread = unread;
           this.ActivityID = activityID;
           this.ActivityType = activityType;
           this.IsSystemMessage = isSystemMessage;
@@ -48,10 +47,7 @@ namespace Bec.TargetFramework.Entities
         public string Subject { get; set; }
 
         [DataMember]
-        public global::System.Nullable<System.DateTime> Latest { get; set; }
-
-        [DataMember]
-        public global::System.Nullable<long> Unread { get; set; }
+        public global::System.DateTime Latest { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.Guid> ActivityID { get; set; }

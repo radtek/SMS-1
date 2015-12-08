@@ -1,4 +1,4 @@
-﻿@model List<Bec.TargetFramework.Entities.VConversationDTO>
+﻿@model List<Bec.TargetFramework.Entities.ConversationDTO>
 @using Bec.TargetFramework.Presentation.Web.Areas.Admin.Extensions
 @using Bec.TargetFramework.Entities.Enums
 
@@ -7,7 +7,7 @@
     {
         foreach (var conversation in Model)
         {
-            var icon = ((ActivityType)conversation.ActivityType).GetFaIconClass();
+            var icon = ((ActivityType?)conversation.ActivityType).GetFaIconClass();
             <li data-conversation-id="@conversation.ConversationID">
                 <span class="padding-10 ">
                     <em class="badge padding-5 no-border-radius bg-color-primary pull-left margin-right-5">
@@ -17,7 +17,7 @@
                         <span class="text-muted">Subject: </span>@conversation.Subject
                         - @Html.ActionLink("Read more", "Index", "Messages", new { area = "Admin", conversationId = conversation.ConversationID }, new { @class = "display-normal" })
                         <br>
-                        <span class="pull-right font-xs text-muted"><i>@Html.Timeago(conversation.Latest.Value)...</i></span>
+                        <span class="pull-right font-xs text-muted"><i>@Html.Timeago(conversation.Latest)...</i></span>
                     </span>
                 </span>
             </li>

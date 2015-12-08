@@ -12,7 +12,7 @@
      data-is-activity-specific="@Model.IsActivitySpecific.ToString().ToLower()"
      data-activity-type="@Model.ActivityType"
      data-activity-id="@Model.ActivityId"
-     data-target-conversation-id="@Model.SelectedConversationId">
+     data-target-conversation-id="@Model.SelectedConversationId.Value.ToString("N")">
     <div id="conversationsContainer" class="col-xs-12 col-md-4 conversations-container">
         <h3 class="conversations-header">
             Conversations
