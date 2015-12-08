@@ -6,5 +6,6 @@ namespace Bec.TargetFramework.Entities.DTO.Notification
     [Serializable]
     public class BankAccountCheckNoMatchNotificationDTO : BankAccountStateChangeNotificationDTO
     {
+        public Guid TransactionId { get; set; }
     }
 }

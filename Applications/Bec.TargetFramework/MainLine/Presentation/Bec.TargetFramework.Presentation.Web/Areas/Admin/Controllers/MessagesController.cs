@@ -66,7 +66,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                             break;
                         case ActivityType.SmsTransaction:
                             if (ClaimsHelper.UserHasClaim("View", "SmsTransaction"))
-                                r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction" });
+                                r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction", selectedTransactionID = r.ActivityID });
                             break;
                     }
                 }

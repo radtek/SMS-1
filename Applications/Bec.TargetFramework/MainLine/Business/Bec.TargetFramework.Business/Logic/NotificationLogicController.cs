@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID)
+        public IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -64,23 +64,43 @@ namespace Bec.TargetFramework.Business.Logic
                     x.OrganisationID == orgID &&
                     !x.UserAccount.IsTemporaryAccount &&
                     x.UserAccount.IsLoginAllowed).Select(x => x.UserAccountOrganisationID).ToList();
-            }            
+            }
+        }
+
+        public IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreadPerActiveUaos.ToDtos();
+            }
         }
 
         public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
         {
+            if (activityID.HasValue && activityType.HasValue)
+            {
+                await SaveConversationWithNotificatino(dto, activityID, activityType);
+            }
+            else
+            {
+                await SaveNotificationAsync(dto);
+            }
+        }
+
+        private async Task SaveConversationWithNotificatino(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
+        {
             using (var scope = DbContextScopeFactory.Create())
             {
-                if (activityID.HasValue && activityType.HasValue)
+                var nc = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Single(x => x.NotificationConstructID == dto.NotificationConstructID && x.NotificationConstructVersionNumber == dto.NotificationConstructVersionNumber);
+                var at = activityType.GetIntValue();
+                var recipients = dto.NotificationRecipients;
+
+                foreach (var notificationRecipient in recipients)
                 {
-                    var nc = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs.Single(x => x.NotificationConstructID == dto.NotificationConstructID && x.NotificationConstructVersionNumber == dto.NotificationConstructVersionNumber);
-                    var at = activityType.GetIntValue();
                     var conv = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations
                         .Where(x => x.Subject == nc.NotificationSubject && x.ActivityID == activityID && x.ActivityType == at)
                         .ToList()
-                        .FirstOrDefault(x =>
-                            x.ConversationParticipants.Count == dto.NotificationRecipients.Count &&
-                            x.ConversationParticipants.All(y => dto.NotificationRecipients.Any(z=>z.UserAccountOrganisationID == y.UserAccountOrganisationID)));
+                        .FirstOrDefault(x => x.ConversationParticipants.All(y => y.UserAccountOrganisationID == notificationRecipient.UserAccountOrganisationID));
 
                     if (conv == null)
                     {
@@ -90,16 +110,19 @@ namespace Bec.TargetFramework.Business.Logic
                             Subject = nc.NotificationSubject,
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
-                            ConversationParticipants = new List<ConversationParticipant>(),
+                            ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
                             IsSystemMessage = true
                         };
-                        foreach (var p in dto.NotificationRecipients) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p.UserAccountOrganisationID.Value });
+
                         scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
                     }
 
                     dto.ConversationID = conv.ConversationID;
+                    // overwrite the recipients
+                    dto.NotificationRecipients = new List<NotificationRecipientDTO> { notificationRecipient };
+
+                    await SaveNotificationAsync(dto);
                 }
-                await SaveNotificationAsync(dto);
                 await scope.SaveChangesAsync();
             }
         }
@@ -416,38 +439,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PublishNewInternalMessagesNotificationEvent(int count, Guid organisationId, NotificationConstructEnum notificationConstructEnum)
+        public async Task PublishNewInternalMessagesNotificationEvent(int count, IEnumerable<Guid> recipientUaoIds)
         {
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
-            var notificationConstructName = notificationConstructEnum.GetStringValue();
-            var filteredRecipientUaoIds = new List<Guid>();
-
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var notificationResourceTypeId = ResourceTypeIDEnum.Notification.GetIntValue();
-                var operationName = OperationEnum.View.ToString();
-                filteredRecipientUaoIds =
-                    (from nc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
-                     join ncc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructClaims on nc.NotificationConstructID equals ncc.NotificationConstructID
-                     join r in scope.DbContexts.Get<TargetFrameworkEntities>().Resources on ncc.ResourceID equals r.ResourceID
-                     join o in scope.DbContexts.Get<TargetFrameworkEntities>().Operations on ncc.OperationID equals o.OperationID
-                     join orc in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoleClaims on new { r.ResourceID, o.OperationID } equals new { ResourceID = orc.ResourceID.Value, OperationID = orc.OperationID.Value }
-                     join orgr in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles on orc.OrganisationRoleID equals orgr.OrganisationRoleID
-                     join uaor in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles on orc.OrganisationRoleID equals uaor.OrganisationRoleID
-                     join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaor.UserAccountOrganisationID equals uao.UserAccountOrganisationID
-                     where
-                         uao.OrganisationID == organisationId &&
-                         r.ResourceTypeID == notificationResourceTypeId &&
-                         o.OperationName == operationName &&
-                         nc.Name == notificationConstructName
-                     select uao.UserAccountOrganisationID).ToList();
-            }
-
             var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO
             {
                 Count = count,
                 ProductName = commonSettings.ProductName,
-                NotificationRecipientDtos = filteredRecipientUaoIds
+                NotificationRecipientDtos = recipientUaoIds
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x })
                     .ToList()
             };
@@ -545,13 +544,13 @@ namespace Bec.TargetFramework.Business.Logic
         private async Task CheckCanCreateMessage(Guid orgID, ActivityType? activityTypeID, Guid? activityID, Guid[] participantsUaoIDs)
         {
             bool valid = true;
-            
+
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 if (!activityTypeID.HasValue || !activityID.HasValue)
                 {
                     //limit to org
-                    foreach(var p in participantsUaoIDs)
+                    foreach (var p in participantsUaoIDs)
                     {
                         var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == p);
                         if (uao == null || uao.OrganisationID != orgID)
@@ -596,7 +595,7 @@ namespace Bec.TargetFramework.Business.Logic
                     .Skip(page * pageSize)
                     .Take(pageSize).ToDtos();
                 var nids = messages.Select(m => m.NotificationID);
-                var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();                
+                var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
 
                 return messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
                     {

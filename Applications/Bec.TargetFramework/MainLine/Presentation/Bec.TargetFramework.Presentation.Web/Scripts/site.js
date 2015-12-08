@@ -1,4 +1,6 @@
-﻿//checks for a json redirect response instruction
+﻿var gridPageSize = 10;
+
+//checks for a json redirect response instruction
 function checkRedirect(response) {
     if (hasRedirect(response)) window.location.href = response.RedirectUrl;
 }
@@ -189,9 +191,13 @@ function saveGridSort(grid, gridElementId) {
 }
 
 //load the sort state for a grid
-function loadGridSort(gridElementId) {
+function loadGridSort(options) {
+    if (options.resetSort) {
+        options.resetSort = false;
+        return null;
+    }
     try {
-        return JSON.parse(sessionStorage["gridSort-" + gridElementId]);
+        return JSON.parse(sessionStorage["gridSort-" + options.gridElementId]);
     }
     catch (ex) {
         return null;
@@ -242,6 +248,8 @@ var gridItem = function (options) {
     this.firstLoad = true;
     var self = this;
 
+    if (this.options.jumpToRow) this.options.jumpToPage = getPageFromRow(this.options.jumpToRow, gridPageSize);
+
     //pass through options to kendo and hook up events
     this.makeGrid = function () {
         if (this.loaded) return;
@@ -252,18 +260,12 @@ var gridItem = function (options) {
                     read: getGridDataFromUrl(this.options)
                 },
                 schema: this.options.schema,
-                sort: loadGridSort(this.options.gridElementId) || this.options.defaultSort,
+                sort: loadGridSort(this.options) || this.options.defaultSort,
             },
             height: 300,
             selectable: "row",
             filterable: false,
             sortable: true,
-            //navigatable: true,
-            //pageable: {
-            //    numeric: false,
-            //    previousNext: false,
-            //    messages: { display: "{2} rows" }
-            //},
             columns: options.columns,
             dataBound: this.dataBound,
             change: this.change
@@ -272,7 +274,7 @@ var gridItem = function (options) {
         if (this.options.serverSorting) o.dataSource.serverSorting = this.options.serverSorting;
         if (this.options.serverPaging) {
             o.dataSource.serverPaging = this.options.serverPaging;
-            o.pageable = { pageSize: 10 }
+            o.pageable = { pageSize: gridPageSize }
         }
         else {
             o.pageable = {
@@ -305,30 +307,31 @@ var gridItem = function (options) {
                     $('#' + self.options.panels[p]).addClass("hidden");
                 }
             }
-            return;
-        }
-
-        if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
-            self.grid.dataSource.page(self.options.jumpToPage);
-            self.options.jumpToPage = null;
-        }
-
-        if (self.options.jumpToId != null && self.options.jumpToId != "") {
-            for (var i = 0; i < gridData.length; i++) {
-                if (self.options.jumpToId == gridData[i][self.options.schema.model.id] || self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {
-                    self.scrollToRow(gridData[i]);
-                    self.options.jumpToId = null; //make sure this is one off
-                    break;
+        } else {
+            if (self.options.jumpToPage != null && self.options.jumpToPage != "") {
+                var p = self.options.jumpToPage;
+                self.options.jumpToPage = null;
+                self.grid.dataSource.page(p); //this causes dataBound to fire again
+            }
+            else {
+                if (self.options.jumpToId != null && self.options.jumpToId != "") {
+                    for (var i = 0; i < gridData.length; i++) {
+                        if (self.options.jumpToId == gridData[i][self.options.schema.model.id] || self.options.jumpToId.replace(/-/g, "") == gridData[i][self.options.schema.model.id]) {
+                            self.scrollToRow(gridData[i]);
+                            self.options.jumpToId = null; //make sure this is one off
+                            break;
+                        }
+                    }
+                } else {
+                    if (self.firstLoad) {
+                        self.selectFirstRow();
+                    }
+                    else
+                        self.scrollToRow(self.selectedItem);
                 }
             }
-        } else {
-            if (self.firstLoad) {
-                self.firstLoad = false;
-                self.selectFirstRow();
-            }
-            else
-                self.scrollToRow(self.selectedItem);
         }
+        self.firstLoad = false;
     };
 
     this.change = function (e) {
@@ -601,3 +604,7 @@ function getRazorViewPath(viewName, controller, area) {
 
 String.prototype.lines = function () { return this.split(/\r*\n/); }
 String.prototype.lineCount = function () { return this.lines().length; }
+
+function getPageFromRow(row, pageSize) {
+    return Math.floor((row - 1) / pageSize) + 1;
+}

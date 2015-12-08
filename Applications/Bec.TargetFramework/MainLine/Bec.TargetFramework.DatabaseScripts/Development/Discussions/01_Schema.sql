@@ -9,6 +9,7 @@ CREATE TABLE public."Conversation" (
   "Subject" VARCHAR,
   "ActivityType" INTEGER,
   "ActivityID" UUID,
+  "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL,
   CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
 ) 
 WITH (oids = false);
@@ -389,3 +390,7 @@ CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
 
+GRANT EXECUTE
+  ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO postgres;
+GRANT EXECUTE
+  ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO bef;

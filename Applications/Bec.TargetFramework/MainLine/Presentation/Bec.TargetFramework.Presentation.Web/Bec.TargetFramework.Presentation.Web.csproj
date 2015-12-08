@@ -203,7 +203,6 @@
     <Compile Include="Areas\SmsTransaction\Controllers\TransactionController.cs" />
     <Compile Include="Areas\SmsTransaction\SmsTransactionAreaRegistration.cs" />
     <Compile Include="Base\ApplicationControllerBase.cs" />
-    <Compile Include="Areas\Admin\Controllers\InternalNotificationsController.cs" />
     <Compile Include="Controllers\CompanyDuplicateCheckController.cs" />
     <Compile Include="Controllers\EmailCheckController.cs" />
     <Compile Include="Controllers\PostcodeLookupController.cs" />
@@ -253,7 +252,6 @@
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
     <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
-    <Content Include="Areas\Admin\Views\InternalNotifications\Index.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
@@ -981,7 +979,6 @@
     <Content Include="Content\css\your_style.css.map">
       <DependentUpon>your_style.css</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\InternalNotifications\Details.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
@@ -2105,7 +2102,6 @@
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Views\App\Denied.cshtml" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversations.cshtml" />
-    <Content Include="Areas\Admin\Views\InternalNotifications\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_transactionDetailsTmpl.cshtml" />
     <Content Include="Views\Shared\_Captcha.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />

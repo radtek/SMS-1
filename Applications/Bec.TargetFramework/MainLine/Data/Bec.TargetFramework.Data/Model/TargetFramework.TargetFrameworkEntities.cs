@@ -2018,11 +2018,6 @@ namespace Bec.TargetFramework.Data
         public virtual DbSet<VConversationActivity> VConversationActivities { get; set; }
     
         /// <summary>
-        /// There are no comments for VMessageRead in the schema.
-        /// </summary>
-        public virtual DbSet<VMessageRead> VMessageReads { get; set; }
-    
-        /// <summary>
         /// There are no comments for VMessage in the schema.
         /// </summary>
         public virtual DbSet<VMessage> VMessages { get; set; }
@@ -2031,6 +2026,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VSafeSendRecipient in the schema.
         /// </summary>
         public virtual DbSet<VSafeSendRecipient> VSafeSendRecipients { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessageRead in the schema.
+        /// </summary>
+        public virtual DbSet<VMessageRead> VMessageReads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversationUnreadPerActiveUao in the schema.
+        /// </summary>
+        public virtual DbSet<VConversationUnreadPerActiveUao> VConversationUnreadPerActiveUaos { get; set; }
 
         #region Methods
 
@@ -2241,6 +2246,46 @@ namespace Bec.TargetFramework.Data
                 if (convid.HasValue)
                     convidParameter.Value = convid;
                 command.Parameters.Add(convidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnSmsTransactionRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnSmsTransactionRank (global::System.Nullable<System.Guid> orgid, global::System.Nullable<System.Guid> txid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnSmsTransactionRank";
+                command.Connection = connection;
+                EntityParameter orgidParameter = new EntityParameter("orgid", System.Data.DbType.Guid);
+                if (orgid.HasValue)
+                    orgidParameter.Value = orgid;
+                command.Parameters.Add(orgidParameter);
+                EntityParameter txidParameter = new EntityParameter("txid", System.Data.DbType.Guid);
+                if (txid.HasValue)
+                    txidParameter.Value = txid;
+                command.Parameters.Add(txidParameter);
                 result = (global::System.Nullable<int>)command.ExecuteScalar();
               }
             }

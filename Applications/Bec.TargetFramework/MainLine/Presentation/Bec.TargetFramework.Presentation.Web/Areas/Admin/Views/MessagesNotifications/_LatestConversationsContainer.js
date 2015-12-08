@@ -46,12 +46,11 @@
 
     function updateNotificationCount(newCount) {
         var currentCount = unreadCountElement.text();
-
-        unreadCountElement.text(newCount);
-        unreadCountElement.removeClass('bounceIn');
-        if (currentCount != newCount) {
-            unreadCountElement.toggleClass('bg-color-red', !!newCount);
-            unreadCountElement.addClass('bounceIn');
+        if (newCount == currentCount) {
+            return;
         }
+        unreadCountElement.addClass('animated bounceIn');
+        unreadCountElement.text(newCount);
+        unreadCountElement.toggle(newCount > 0)
     }
 });
