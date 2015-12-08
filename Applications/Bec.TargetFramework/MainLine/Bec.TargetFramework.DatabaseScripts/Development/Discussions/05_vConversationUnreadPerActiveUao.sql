@@ -26,3 +26,9 @@ AS
 		ua."IsLoginAllowed" = true AND
 		uao."IsActive" = true AND
 		uao."IsDeleted" = false;
+
+		
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vConversationUnreadPerActiveUao" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vConversationUnreadPerActiveUao" TO bef;
