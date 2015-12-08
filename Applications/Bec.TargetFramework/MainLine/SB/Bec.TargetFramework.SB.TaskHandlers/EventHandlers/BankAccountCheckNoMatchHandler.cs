@@ -29,7 +29,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountCheckNoMatchNotificationDTO", handlerEvent.BankAccountCheckNoMatchNotificationDto);
 
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUsers(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId)
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
@@ -52,9 +52,6 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
 
                 Bus.Publish(notificationMessage);
-
-                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(1, handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId,
-                    NotificationConstructEnum.BankAccountCheckNoMatch);
 
                 LogMessageAsCompleted();
             }

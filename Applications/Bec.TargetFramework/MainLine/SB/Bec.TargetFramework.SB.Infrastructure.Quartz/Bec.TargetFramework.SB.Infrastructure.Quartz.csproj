@@ -70,6 +70,7 @@
     <Content Include="Listeners\DefaultJobListener.cs" />
     <Compile Include="Factory\AutofacSchedulerFactory .cs" />
     <Compile Include="Extensions\SchedulerHelper.cs" />
+    <Compile Include="Jobs\SendUnreadNotificationsEmailScheduledTask.cs" />
     <Compile Include="Jobs\ExpireOrganisationsScheduledTask.cs" />
     <Compile Include="Jobs\SampleScheduledTask.cs" />
     <Compile Include="Module\QuartzAutofacJobsModule.cs" />

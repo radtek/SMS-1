@@ -414,6 +414,7 @@
           <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
           <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
+          <EntitySet Name="vConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.Store.vConversationUnreadPerActiveUao" store:Type="Views" Schema="public" Table="vConversationUnreadPerActiveUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -10021,6 +10022,13 @@
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="vConversationUnreadPerActiveUao">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
+          <Property Name="UnreadCount" Type="int" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18652,6 +18660,7 @@
           <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
           <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
+          <EntitySet Name="VConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -29320,6 +29329,13 @@
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="ede6524b-018d-4317-a47d-990b277eb101" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e347e19e-ea16-4298-8590-a386b0222c8f" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d4238070-0252-4108-86b1-19b8c1b77c2b" />
+        </EntityType>
+        <EntityType Name="VConversationUnreadPerActiveUao" ed:Guid="5b79a256-673d-4ba7-9517-588b1d68bf7d">
+          <Key>
+            <PropertyRef Name="UserAccountOrganisationID" />
+          </Key>
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="66910989-8409-440c-bd51-3be5ddf3167f" />
+          <Property Name="UnreadCount" Type="Int32" ed:ValidateRequired="False" ed:Guid="bb9b3568-2fc5-43bc-984d-68dfc49c65dc" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -44009,6 +44025,14 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VConversationUnreadPerActiveUaos">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao">
+              <MappingFragment StoreEntitySet="vConversationUnreadPerActiveUaos">
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="UnreadCount" ColumnName="UnreadCount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -372,11 +372,17 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		Task<IEnumerable<Guid>> GetNotificationOrganisationUsersAsync(Guid orgID);
+		Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID);
 
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID);
+		IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID);
+
+		/// <returns></returns>
+		Task<IEnumerable<VConversationUnreadPerActiveUaoDTO>> GetUnreadConversationsCountsPerUaoAsync();
+
+		/// <returns></returns>
+		IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao();
 
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
@@ -559,16 +565,12 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
 
 		/// <param name="count"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
+		Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,IEnumerable<Guid> recipientUaoIds);
 
 		/// <param name="count"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum);
+		void PublishNewInternalMessagesNotificationEvent(Int32 count,IEnumerable<Guid> recipientUaoIds);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -2486,20 +2488,39 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <returns></returns>
-		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUsersAsync(Guid orgID)
+		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUsers?orgID=" + orgID, _user);
+			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID)
+		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUsers?orgID=" + orgID, _user)).Result;
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<IEnumerable<VConversationUnreadPerActiveUaoDTO>> GetUnreadConversationsCountsPerUaoAsync()
+		{
+			string _user = getHttpContextUser();
+			return GetAsync<IEnumerable<VConversationUnreadPerActiveUaoDTO>>("api/NotificationLogic/GetUnreadConversationsCountsPerUao", _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => GetAsync<IEnumerable<VConversationUnreadPerActiveUaoDTO>>("api/NotificationLogic/GetUnreadConversationsCountsPerUao", _user)).Result;
 		}
 
 		/// <summary>
@@ -2934,25 +2955,21 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="count"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notificationConstructEnum"></param>
 		/// <returns></returns>
-		public virtual Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
+		public virtual Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user);
+			return PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count, recipientUaoIds, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="count"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="notificationConstructEnum"></param>
-		public virtual void PublishNewInternalMessagesNotificationEvent(Int32 count,Guid organisationId,NotificationConstructEnum notificationConstructEnum)
+		public virtual void PublishNewInternalMessagesNotificationEvent(Int32 count,IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count + "&organisationId=" + organisationId + "&notificationConstructEnum=" + notificationConstructEnum, null, _user)).Wait();
+			Task.Run(() => PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count, recipientUaoIds, _user)).Wait();
 		}
 
 		/// <summary>

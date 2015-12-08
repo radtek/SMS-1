@@ -9,6 +9,7 @@ CREATE TABLE public."Conversation" (
   "Subject" VARCHAR,
   "ActivityType" INTEGER,
   "ActivityID" UUID,
+  "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL,
   CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
 ) 
 WITH (oids = false);

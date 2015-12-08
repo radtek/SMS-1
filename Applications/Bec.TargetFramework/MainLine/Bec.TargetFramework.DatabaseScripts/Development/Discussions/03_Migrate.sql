@@ -4,10 +4,6 @@ update "NotificationConstruct" set "NotificationSubject" = 'Safe Buyer No Match 
 INSERT INTO public."ClassificationType" ("ClassificationTypeID", "Name", "Description", "ClassificationTypeCategoryID", "ParentClassificationTypeCategoryID", "IsActive", "IsDeleted")
 VALUES (803002, E'BankAccount', NULL, 2081, NULL, True, False);
 
-ALTER TABLE public."Conversation"
-  ADD COLUMN "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL;
-
-
 CREATE FUNCTION sms."fn_SmsTransactionRank" (
   orgid uuid,
   txid uuid
