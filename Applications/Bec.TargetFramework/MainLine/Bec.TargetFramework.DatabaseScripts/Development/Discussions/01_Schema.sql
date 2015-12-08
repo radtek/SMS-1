@@ -10,6 +10,7 @@ CREATE TABLE public."Conversation" (
   "ActivityType" INTEGER,
   "ActivityID" UUID,
   "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL,
+  "Latest" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
   CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
 ) 
 WITH (oids = false);
@@ -30,7 +31,7 @@ ALTER TABLE public."Conversation"
 
 CREATE INDEX "Conversation_idx_Activity" ON public."Conversation"
   USING btree ("ActivityType", "ActivityID");
-
+  
 
 CREATE TABLE public."ConversationParticipant" (
   "ConversationID" UUID NOT NULL,
@@ -370,9 +371,9 @@ WHERE nr."IsAccepted" = false
 GROUP BY n."ConversationID", nr."UserAccountOrganisationID";
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON public."vConversastionUnread" TO postgres;
+  ON public."vConversationUnread" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
-  ON public."vConversastionUnread" TO bef;
+  ON public."vConversationUnread" TO bef;
 
 
 CREATE INDEX "Notification_idx_Conversation" ON public."Notification" USING btree ("ConversationID");
@@ -381,3 +382,9 @@ CREATE INDEX "NotificationRecipient_idx_IsAccepted" ON public."NotificationRecip
 CREATE INDEX "NotificationRecipient_idx_User" ON public."NotificationRecipient" USING btree ("UserAccountOrganisationID");
 CREATE INDEX "ConversationParticipant_idx_Conversation" ON public."ConversationParticipant" USING btree ("ConversationID");
 CREATE INDEX "ConversationParticipant_idx_User" ON public."ConversationParticipant" USING btree ("UserAccountOrganisationID");
+
+ALTER TABLE public."NotificationRecipient" ALTER COLUMN "IsAccepted" SET DEFAULT false;
+update public."NotificationRecipient" set "IsAccepted" = false where "IsAccepted" is null;
+ALTER TABLE public."NotificationRecipient" ALTER COLUMN "IsAccepted" SET NOT NULL;
+
+
