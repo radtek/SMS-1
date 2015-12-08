@@ -360,6 +360,7 @@ namespace Bec.TargetFramework.Business.Logic
                 
                 var notificationDto = new BankAccountCheckNoMatchNotificationDTO
                 {
+                    TransactionId = usertx.SmsTransactionID,
                     OrganisationId = usertx.SmsTransaction.OrganisationID,
                     AccountNumber = accountNumber,
                     SortCode = sortCode,

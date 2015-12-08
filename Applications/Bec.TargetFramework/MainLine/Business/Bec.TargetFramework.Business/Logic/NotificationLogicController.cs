@@ -55,7 +55,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<Guid> GetNotificationOrganisationUsers(Guid orgID)
+        public IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -64,6 +64,14 @@ namespace Bec.TargetFramework.Business.Logic
                     x.OrganisationID == orgID &&
                     !x.UserAccount.IsTemporaryAccount &&
                     x.UserAccount.IsLoginAllowed).Select(x => x.UserAccountOrganisationID).ToList();
+            }
+        }
+
+        public IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreadPerActiveUaos.ToDtos();
             }
         }
 
@@ -433,38 +441,14 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PublishNewInternalMessagesNotificationEvent(int count, Guid organisationId, NotificationConstructEnum notificationConstructEnum)
+        public async Task PublishNewInternalMessagesNotificationEvent(int count, IEnumerable<Guid> recipientUaoIds)
         {
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
-            var notificationConstructName = notificationConstructEnum.GetStringValue();
-            var filteredRecipientUaoIds = new List<Guid>();
-
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var notificationResourceTypeId = ResourceTypeIDEnum.Notification.GetIntValue();
-                var operationName = OperationEnum.View.ToString();
-                filteredRecipientUaoIds =
-                    (from nc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructs
-                     join ncc in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationConstructClaims on nc.NotificationConstructID equals ncc.NotificationConstructID
-                     join r in scope.DbContexts.Get<TargetFrameworkEntities>().Resources on ncc.ResourceID equals r.ResourceID
-                     join o in scope.DbContexts.Get<TargetFrameworkEntities>().Operations on ncc.OperationID equals o.OperationID
-                     join orc in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoleClaims on new { r.ResourceID, o.OperationID } equals new { ResourceID = orc.ResourceID.Value, OperationID = orc.OperationID.Value }
-                     join orgr in scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationRoles on orc.OrganisationRoleID equals orgr.OrganisationRoleID
-                     join uaor in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisationRoles on orc.OrganisationRoleID equals uaor.OrganisationRoleID
-                     join uao in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations on uaor.UserAccountOrganisationID equals uao.UserAccountOrganisationID
-                     where
-                         uao.OrganisationID == organisationId &&
-                         r.ResourceTypeID == notificationResourceTypeId &&
-                         o.OperationName == operationName &&
-                         nc.Name == notificationConstructName
-                     select uao.UserAccountOrganisationID).ToList();
-            }
-
             var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO
             {
                 Count = count,
                 ProductName = commonSettings.ProductName,
-                NotificationRecipientDtos = filteredRecipientUaoIds
+                NotificationRecipientDtos = recipientUaoIds
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x })
                     .ToList()
             };

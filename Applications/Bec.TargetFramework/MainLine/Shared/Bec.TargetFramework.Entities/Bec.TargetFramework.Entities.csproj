@@ -1552,6 +1552,10 @@
       <DependentUpon>VConversationDTO.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.cs" />
+    <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.Generated.cs">
+      <DependentUpon>VConversationUnreadPerActiveUaoDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VConversationUnreadDTO.cs" />
     <Compile Include="Boo\VConversationUnreadDTO.Generated.cs">
       <DependentUpon>VConversationUnreadDTO.cs</DependentUpon>
