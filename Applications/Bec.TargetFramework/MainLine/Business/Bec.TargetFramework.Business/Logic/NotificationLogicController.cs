@@ -161,6 +161,14 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
+
+                // update the related conversation 'Latest' value
+                if (notification.ConversationID.HasValue)
+                {
+                    var conversation = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.SingleOrDefault(x => x.ConversationID == notification.ConversationID.Value);
+                    Ensure.That(conversation).IsNotNull();
+                    conversation.Latest = notification.DateSent;
+                }
                 await scope.SaveChangesAsync();
             }
         }
