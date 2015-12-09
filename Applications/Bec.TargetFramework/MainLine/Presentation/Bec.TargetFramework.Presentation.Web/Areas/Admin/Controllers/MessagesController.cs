@@ -215,10 +215,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var participants = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
-            var ret = participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)
-                && await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType);
+            if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
 
-            return ret;
+            if (conversation.ActivityType.HasValue &&
+                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType)) return false;
+
+            return true;
         }
 
         private bool checkReply(ActivityType activityType)
