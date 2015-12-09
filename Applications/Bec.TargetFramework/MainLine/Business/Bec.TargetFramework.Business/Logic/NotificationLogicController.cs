@@ -625,7 +625,7 @@ namespace Bec.TargetFramework.Business.Logic
                 if (activityType.HasValue && activityId.HasValue)
                 {
                     var activityTypeId = activityType.GetIntValue();
-                    items = items.Where(x => x.ActivityID == activityId && x.ActivityType == activityTypeId);
+                    items = items.Where(x => x.ActivityID == activityId && x.ActivityType == activityTypeId && x.IsSystemMessage == false);
                 }
                 var count = items.LongCount();
                 var ret = items.OrderByDescending(x => x.Latest).Skip(skip).Take(take).ToDtos();
@@ -647,7 +647,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var items = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationActivities.Where(x => x.OrganisationID == orgID && x.ActivityType == at && x.ActivityID == activityId);
+                var items = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationActivities.Where(x => x.OrganisationID == orgID && x.ActivityType == at && x.ActivityID == activityId && x.IsSystemMessage == false);
                 var count = items.LongCount();
                 items = items.OrderByDescending(x => x.Latest).Skip(skip).Take(take);
                 var ret = items.ToDtos();
