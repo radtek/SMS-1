@@ -111,10 +111,15 @@ namespace Bec.TargetFramework.Business.Logic
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
                             ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
-                            IsSystemMessage = true
+                            IsSystemMessage = true,
+                            Latest = dto.DateSent
                         };
 
                         scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
+                    }
+                    else
+                    {
+                        conv.Latest = dto.DateSent;
                     }
 
                     dto.ConversationID = conv.ConversationID;
@@ -161,14 +166,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
-
-                // update the related conversation 'Latest' value
-                if (notification.ConversationID.HasValue)
-                {
-                    var conversation = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.SingleOrDefault(x => x.ConversationID == notification.ConversationID.Value);
-                    Ensure.That(conversation).IsNotNull();
-                    conversation.Latest = notification.DateSent;
-                }
+                
                 await scope.SaveChangesAsync();
             }
         }
