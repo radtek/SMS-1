@@ -7,7 +7,21 @@
 <div class="ajax-dropdown">
     <h4>Notifications</h4>
     <div id="latestConversationsError" class="alert alert-danger" style="display:none;">Ooops... Something went wrong. Please try again later.</div>
-    <div id="latestConversationsContainer" class="ajax-notifications custom-scroll" data-load-conversations-url="@Url.Action("LatestConversations", "MessagesNotifications", new { area = "Admin" })"></div>
+    <div id="latestConversationsContainer" class="ajax-notifications custom-scroll" data-load-conversations-url="@Url.Action("LatestConversations", "MessagesNotifications", new { area = "Admin" })">
+        <!-- This is replaced by async load -->
+        <ul class="notification-body" id="latestConversationsList">
+            <li>
+                <span class="padding-10">
+                    <em class="badge padding-5 no-border-radius bg-color-transparent pull-left margin-right-5">
+                        <i class="fa fa-pulse fa-spinner fa-fw fa-2x color-primary"></i>
+                    </em>
+                    <span>
+                        Loading the latest notifications...
+                    </span>
+                </span>
+            </li>
+            </ul>
+</div>
     <span>
         @Html.ActionLink("See all Safe Send Messages", "Index", "Messages", new { area = "Admin" }, new { @class = "btn btn-default pull-right" })
     </span>

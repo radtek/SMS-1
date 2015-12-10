@@ -287,6 +287,8 @@ namespace Bec.TargetFramework.Business.Logic
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
                     .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId)
                     .OrderByDescending(x => x.Notification.Conversation.Latest)
+                    .GroupBy(x => x.Notification.Conversation)
+                    .Select(x => x.FirstOrDefault())
                     .Take(count)
                     .Select(x => x.Notification.Conversation);
 
@@ -299,7 +301,9 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
-                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId);
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .GroupBy(x => x.Notification.Conversation)
+                    .Select(x => x.FirstOrDefault());
                     
                 return ret.Count();
             }
