@@ -18,11 +18,6 @@ namespace Bec.TargetFramework.SB.Infrastructure.Quartz.Jobs
 
         public override void ExecuteTask(IJobExecutionContext context)
         {
-            var unreads = _notificationLogic.GetUnreadConversationsCountsPerUao();
-            foreach (var item in unreads)
-            {
-                _notificationLogic.PublishNewInternalMessagesNotificationEventAsync(item.UnreadCount.Value, new[] { item.UserAccountOrganisationID });
-            }
         }
     }
 }

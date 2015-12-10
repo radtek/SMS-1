@@ -111,10 +111,15 @@ namespace Bec.TargetFramework.Business.Logic
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
                             ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
-                            IsSystemMessage = true
+                            IsSystemMessage = true,
+                            Latest = dto.DateSent
                         };
 
                         scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
+                    }
+                    else
+                    {
+                        conv.Latest = dto.DateSent;
                     }
 
                     dto.ConversationID = conv.ConversationID;
@@ -161,6 +166,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
+                
                 await scope.SaveChangesAsync();
             }
         }
@@ -279,6 +285,8 @@ namespace Bec.TargetFramework.Business.Logic
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
                     .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId)
                     .OrderByDescending(x => x.Notification.Conversation.Latest)
+                    .GroupBy(x => x.Notification.Conversation)
+                    .Select(x => x.FirstOrDefault())
                     .Take(count)
                     .Select(x => x.Notification.Conversation);
 
@@ -291,7 +299,9 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
-                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId);
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId)
+                    .GroupBy(x => x.Notification.Conversation)
+                    .Select(x => x.FirstOrDefault());
                     
                 return ret.Count();
             }

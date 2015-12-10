@@ -68,7 +68,7 @@
         change: selectCurrentOrLatestConversation,
         schema: { data: "Items", total: "Count" },
     });
-    
+
     if (!isActivitySpecificView() && canLoadConversations()) {
         loadConversations();
     }
@@ -114,7 +114,7 @@
         dataSource.read();
         if (canCreateNewConversation()) {
             getRecipientsPromise = getRecipients();
-    }
+        }
     }
 
     function loadMessages() {
@@ -125,7 +125,7 @@
 
     function loadItems() {
         var ret = $.Deferred();
-        if (allLoaded) return ret.resolve([]);        
+        if (allLoaded) return ret.resolve([]);
 
         ajaxWrapper({
             url: urls.messagesUrl,
@@ -409,6 +409,7 @@
             // capturing the event from any parent views and refresh the view
             viewMessagesContainer.parent().on('activitychange', function (event, activityId) {
                 resetCurrentConversation();
+                cleanConversationsAndMessages();
                 currentActivity.activityId = activityId;
 
                 if (canLoadConversations()) {
@@ -417,7 +418,7 @@
             });
         }
 
-        viewMessagesContainer.parent().on('loadConversations', function (event, activityId) {
+        viewMessagesContainer.parent().on('loadConversations', function (event) {
             loadConversations();
         });
     }
@@ -443,6 +444,11 @@
             def.resolve(Handlebars.compile(res));
         });
         return def;
+    }
+
+    function cleanConversationsAndMessages() {
+        converationsList.html('');
+        messagesList.html('');
     }
 
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function
