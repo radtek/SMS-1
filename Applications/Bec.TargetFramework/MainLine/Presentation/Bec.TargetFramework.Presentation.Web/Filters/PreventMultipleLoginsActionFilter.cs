@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web.Caching;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
-using System.Web.Security;
-using System.Web.Routing;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
 {
-    using ServiceStack.Text;
-    using Bec.TargetFramework.Entities;
     using Bec.TargetFramework.Business.Client.Interfaces;
+    using Bec.TargetFramework.Entities;
 
     public class PreventMultipleLoginsActionFilter : ActionFilterAttribute
     {
@@ -65,59 +56,4 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             }
         }
     }
-
-    //public class UserAccountLogicHelper
-    //{
-    //    public static Dictionary<string, string> CreateRequestDictionary(HttpRequestBase request)
-    //    {
-    //        Dictionary<string, string> requestParameters = new Dictionary<string, string>();
-
-    //        // params
-    //        request.Params.AllKeys.ToList().ForEach(
-    //            item =>
-    //            {
-    //                var value = request.Params.GetValues(item);
-
-    //                if (!item.ToLowerInvariant().StartsWith("username") && !item.ToLowerInvariant().StartsWith("password") && !item.ToLowerInvariant().StartsWith("fedauth") && !item.ToLowerInvariant().StartsWith("allraw") && !item.ToLowerInvariant().StartsWith("__request") && !item.ToLowerInvariant().StartsWith("all_"))
-    //                    requestParameters.Add(item, value.Dump());
-    //            });
-
-    //        // browser properties
-    //        request.Browser.ToStringDictionary()
-    //            .ToList()
-    //            .ForEach(
-    //                item =>
-    //                {
-    //                    if (item.Key != null && item.Value != null)
-    //                        if (!requestParameters.ContainsKey(item.Key))
-    //                            requestParameters.Add(item.Key, item.Value);
-    //                });
-
-    //        // header data
-    //        request.Headers.AllKeys
-    //            .ToList()
-    //            .ForEach(
-    //                item =>
-    //                {
-    //                    if (item != null)
-    //                        if (!requestParameters.ContainsKey(item))
-    //                            requestParameters.Add(item, request.Headers[item]);
-    //                });
-
-    //        return requestParameters;
-    //    }
-
-    //    public static void SaveLoginSessionData(Guid userId, string sessionIndentifier,Dictionary<string, string> requestParameters)
-    //    {
-    //        AutofacDependencyResolver resolver = DependencyResolver.Current as AutofacDependencyResolver;
-
-    //        var container = resolver.ApplicationContainer;
-
-    //        using(var logic = container.Resolve<IUserLogicClient>())
-    //        {
-    //            logic.SaveUserAccountLoginSessionData(userId, sessionIndentifier, requestParameters);
-    //        }
-    //    }
-
-    //}
 }

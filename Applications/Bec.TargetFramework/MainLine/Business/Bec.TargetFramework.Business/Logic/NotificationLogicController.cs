@@ -67,14 +67,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreadPerActiveUaos.ToDtos();
-            }
-        }
-
         public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
         {
             if (activityID.HasValue && activityType.HasValue)
@@ -128,6 +120,8 @@ namespace Bec.TargetFramework.Business.Logic
 
                     await SaveNotificationAsync(dto);
                 }
+
+                await SendExternalNotification(recipients.Select(x => x.UserAccountOrganisationID.Value));
                 await scope.SaveChangesAsync();
             }
         }
@@ -451,12 +445,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PublishNewInternalMessagesNotificationEvent(int count, IEnumerable<Guid> recipientUaoIds)
+        public async Task PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds)
         {
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO
             {
-                Count = count,
                 ProductName = commonSettings.ProductName,
                 NotificationRecipientDtos = recipientUaoIds
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x })
@@ -550,8 +543,47 @@ namespace Bec.TargetFramework.Business.Logic
                 n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
 
                 await SaveNotificationAsync(n);
+                await SendExternalNotification(recipients);
                 await scope.SaveChangesAsync();
             }
+        }
+
+        private async Task SendExternalNotification(IEnumerable<Guid> recipientUaoIds)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var notLoggedInRecipientUaoIds = new List<Guid>();
+                foreach (var recipient in recipientUaoIds)
+                {
+                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .SingleOrDefault(x => 
+                            x.UserAccountOrganisationID == recipient &&
+                            x.IsActive == true &&
+                            x.UserAccount.IsLoginAllowed == true &&
+                            x.UserAccount.IsActive == true);
+                    if (uao == null)
+                    {
+                        continue;
+                    }
+
+                    var lastLoginSession = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions
+                        .Where(x => x.UserAccountID == uao.UserID)
+                        .OrderByDescending(x => x.UserLoginDate)
+                        .FirstOrDefault();
+
+                    if (ShouldSendNotificationToRecipient(lastLoginSession))
+                    {
+                        notLoggedInRecipientUaoIds.Add(recipient);
+                    }
+                }
+                await PublishNewInternalMessagesNotificationEvent(notLoggedInRecipientUaoIds);
+            }
+        }
+
+        private bool ShouldSendNotificationToRecipient(UserAccountLoginSession lastLoginSession)
+        {
+            var sessionExpiredTime = DateTime.Now.AddMinutes(-15);
+            return lastLoginSession == null || (lastLoginSession.UserHasLoggedOut ?? false) || lastLoginSession.UserLoginDate <= sessionExpiredTime;
         }
 
         private async Task CheckCanCreateMessage(Guid orgID, ActivityType? activityTypeID, Guid? activityID, Guid[] participantsUaoIDs)

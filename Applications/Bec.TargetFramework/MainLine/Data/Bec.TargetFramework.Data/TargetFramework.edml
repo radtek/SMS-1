@@ -414,7 +414,6 @@
           <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
           <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
-          <EntitySet Name="vConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.Store.vConversationUnreadPerActiveUao" store:Type="Views" Schema="public" Table="vConversationUnreadPerActiveUao" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -2963,6 +2962,10 @@
           <AssociationSet Name="fk_Notification_CreatedByUserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_Notification_CreatedByUserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountLoginSession_UserAccounts_fk" Association="Bec.TargetFramework.Data.Store.UserAccountLoginSession_UserAccounts_fk">
+            <End Role="UserAccounts" EntitySet="UserAccounts" />
+            <End Role="UserAccountLoginSession" EntitySet="UserAccountLoginSessions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -10022,13 +10025,6 @@
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="vConversationUnreadPerActiveUao">
-          <Key>
-            <PropertyRef Name="UserAccountOrganisationID" />
-          </Key>
-          <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="UnreadCount" Type="int" />
         </EntityType>
         <EntityType Name="vConversationUnread">
           <Key>
@@ -18239,6 +18235,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserAccountLoginSession_UserAccounts_fk">
+          <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
+          <End Role="UserAccountLoginSession" Type="Bec.TargetFramework.Data.Store.UserAccountLoginSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAccountLoginSession">
+              <PropertyRef Name="UserAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18670,7 +18678,6 @@
           <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
           <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
-          <EntitySet Name="VConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
@@ -21160,6 +21167,10 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
+          <AssociationSet Name="UserAccountLoginSession_UserAccounts_fkSet" Association="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk">
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+            <End Role="UserAccountLoginSessions" EntitySet="UserAccountLoginSessions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -22485,6 +22496,7 @@
           <Property Name="UserLogoutDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c0789cd0-8215-4b48-b02a-d4e389cd065d" />
           <Property Name="UserHasLoggedOut" Type="Boolean" ed:ValidateRequired="False" ed:Guid="1b96fd33-6458-4954-8e2b-a741b55ded0f" />
           <NavigationProperty Name="UserAccountLoginSessionData" Relationship="Bec.TargetFramework.Data.fk_UserAccountLoginSessionData_UserAccountLoginSession" FromRole="UserAccountLoginSession" ToRole="UserAccountLoginSessionData" ed:Guid="fa1e8262-ff9d-42e1-9e0d-8bc693fb05e5" />
+          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccountLoginSessions" ToRole="UserAccount" ed:Guid="bcf2379f-aa95-4f58-b6ea-c88b88ae5e39" />
         </EntityType>
         <EntityType Name="OrganisationStructure" ed:Guid="51addf47-5d55-44df-a985-5d397bda6509">
           <Key>
@@ -25732,6 +25744,7 @@
           <NavigationProperty Name="TwoFactorAuthTokens" Relationship="Bec.TargetFramework.Data.FK_dboTwoFactorAuthTokens_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="TwoFactorAuthTokens" ed:Guid="57fa5509-f3ec-4ec1-ac8a-ec68529b70b3" />
           <NavigationProperty Name="UserClaims" Relationship="Bec.TargetFramework.Data.FK_dboUserClaims_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserClaims" ed:Guid="65e97acd-24ba-4243-84d0-081ad22a27f4" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_UserAccounts_ID" FromRole="UserAccount" ToRole="UserAccountArchives" ed:Guid="666c0f24-b369-483d-85b0-1375dda26cf7" />
+          <NavigationProperty Name="UserAccountLoginSessions" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccount" ToRole="UserAccountLoginSessions" ed:Guid="0f5dbab7-df60-40b5-afd5-f9ac738dac0f" />
         </EntityType>
         <EntityType Name="UserClaim" ed:Guid="b3d568b9-2dca-418b-baf5-9b566ea942f5">
           <Key>
@@ -29340,13 +29353,6 @@
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="ede6524b-018d-4317-a47d-990b277eb101" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e347e19e-ea16-4298-8590-a386b0222c8f" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d4238070-0252-4108-86b1-19b8c1b77c2b" />
-        </EntityType>
-        <EntityType Name="VConversationUnreadPerActiveUao" ed:Guid="5b79a256-673d-4ba7-9517-588b1d68bf7d">
-          <Key>
-            <PropertyRef Name="UserAccountOrganisationID" />
-          </Key>
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="66910989-8409-440c-bd51-3be5ddf3167f" />
-          <Property Name="UnreadCount" Type="Int32" ed:ValidateRequired="False" ed:Guid="bb9b3568-2fc5-43bc-984d-68dfc49c65dc" />
         </EntityType>
         <EntityType Name="VConversationUnread" ed:Guid="634422b3-1776-416d-8a53-5647ed554d99">
           <Key>
@@ -37217,6 +37223,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserAccountLoginSession_UserAccounts_fk" ed:Guid="69097ddd-832b-4453-a79e-6b459846ff3e">
+          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
+          <End Role="UserAccountLoginSessions" Type="Bec.TargetFramework.Data.UserAccountLoginSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAccountLoginSessions">
+              <PropertyRef Name="UserAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44045,14 +44063,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VConversationUnreadPerActiveUaos">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao">
-              <MappingFragment StoreEntitySet="vConversationUnreadPerActiveUaos">
-                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
-                <ScalarProperty Name="UnreadCount" ColumnName="UnreadCount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

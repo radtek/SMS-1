@@ -52,7 +52,7 @@
     <None Include="Development\1.3.48-national-pilot-all-firms\09_BankAccountCertificateUpdate.sql" />
     <None Include="Development\Discussions\03_Migrate.sql" />
     <None Include="Development\Discussions\04_Core_SendUnreadNotificationsEmailScheduledTask.sql" />
-    <None Include="Development\Discussions\05_vConversationUnreadPerActiveUao.sql" />
+    <None Include="Development\Discussions\05_SendingEmailNotifications.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />

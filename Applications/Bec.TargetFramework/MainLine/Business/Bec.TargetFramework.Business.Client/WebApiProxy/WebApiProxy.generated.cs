@@ -378,12 +378,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID);
 
-		/// <returns></returns>
-		Task<IEnumerable<VConversationUnreadPerActiveUaoDTO>> GetUnreadConversationsCountsPerUaoAsync();
-
-		/// <returns></returns>
-		IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao();
-
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
 		/// <returns></returns>
@@ -564,13 +558,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<EventStatusDTO> GetEventStatus(String eventName,String eventReference);
 
-		/// <param name="count"></param>
 		/// <returns></returns>
-		Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,IEnumerable<Guid> recipientUaoIds);
+		Task PublishNewInternalMessagesNotificationEventAsync(IEnumerable<Guid> recipientUaoIds);
 
-		/// <param name="count"></param>
 		/// <returns></returns>
-		void PublishNewInternalMessagesNotificationEvent(Int32 count,IEnumerable<Guid> recipientUaoIds);
+		void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
@@ -1343,6 +1335,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="sessionId"></param>
 		/// <returns></returns>
 		void LogEveryoneElseOut(Guid userId,String sessionId);
+
+		/// <param name="userId"></param>
+		/// <param name="sessionId"></param>
+		/// <returns></returns>
+		Task LogUserOutAsync(Guid userId,String sessionId);
+
+		/// <param name="userId"></param>
+		/// <param name="sessionId"></param>
+		/// <returns></returns>
+		void LogUserOut(Guid userId,String sessionId);
 
 		/// <param name="userId"></param>
 		/// <param name="sessionId"></param>
@@ -2541,25 +2543,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
-		public virtual Task<IEnumerable<VConversationUnreadPerActiveUaoDTO>> GetUnreadConversationsCountsPerUaoAsync()
-		{
-			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<VConversationUnreadPerActiveUaoDTO>>("api/NotificationLogic/GetUnreadConversationsCountsPerUao", _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<VConversationUnreadPerActiveUaoDTO>>("api/NotificationLogic/GetUnreadConversationsCountsPerUao", _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
 		/// <returns></returns>
@@ -2988,22 +2971,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="count"></param>
 		/// <returns></returns>
-		public virtual Task PublishNewInternalMessagesNotificationEventAsync(Int32 count,IEnumerable<Guid> recipientUaoIds)
+		public virtual Task PublishNewInternalMessagesNotificationEventAsync(IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count, recipientUaoIds, _user);
+			return PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", recipientUaoIds, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="count"></param>
-		public virtual void PublishNewInternalMessagesNotificationEvent(Int32 count,IEnumerable<Guid> recipientUaoIds)
+		public virtual void PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent?count=" + count, recipientUaoIds, _user)).Wait();
+			Task.Run(() => PostAsync<IEnumerable<Guid>>("api/NotificationLogic/PublishNewInternalMessagesNotificationEvent", recipientUaoIds, _user)).Wait();
 		}
 
 		/// <summary>
@@ -4989,6 +4970,31 @@ namespace Bec.TargetFramework.Business.Client.Clients
 			sessionId = sessionId.UrlEncode();
 			string _user = getHttpContextUser();
 			Task.Run(() => PostAsync<object>("api/UserLogic/LogEveryoneElseOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="sessionId"></param>
+		/// <returns></returns>
+		public virtual Task LogUserOutAsync(Guid userId,String sessionId)
+		{
+			sessionId = sessionId.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/UserLogic/LogUserOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="sessionId"></param>
+		public virtual void LogUserOut(Guid userId,String sessionId)
+		{
+			sessionId = sessionId.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/UserLogic/LogUserOutAsync?userId=" + userId + "&sessionId=" + sessionId, null, _user)).Wait();
 		}
 
 		/// <summary>

@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.Security;
-using Bec.TargetFramework.Infrastructure.Log;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Entities;
 using Bec.TargetFramework.Security;
-using Bec.TargetFramework.Presentation.Web.Base;
 using BrockAllen.MembershipReboot;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 {
     [Authorize]
     public class LogoutController : Controller
     {
+        public IUserLogicClient UserLogicClient { get; set; }
         public AuthenticationService AuthSvc { get; set; }
-        public LogoutController()
-        {
-        }
 
         // GET: Account/Logout
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
             {
+                var currentUser = WebUserHelper.GetWebUserObject(HttpContext);
+                if (currentUser != null)
+                {
+                    await UserLogicClient.LogUserOutAsync(currentUser.UserID, currentUser.SessionIdentifier);
+                }
                 AuthSvc.SignOut();
                 SessionHelper.ClearSession();
 
