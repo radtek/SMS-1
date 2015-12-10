@@ -489,6 +489,10 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.cs" />
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.Generated.cs">
+      <DependentUpon>FnGetConversationActivityResultDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
@@ -1542,10 +1546,6 @@
     </Compile>
     <Compile Include="Boo\VCompanyDTO.Generated.cs">
       <DependentUpon>VCompanyDTO.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Boo\VConversationActivityDTO.cs" />
-    <Compile Include="Boo\VConversationActivityDTO.Generated.cs">
-      <DependentUpon>VConversationActivityDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VConversationDTO.cs" />
     <Compile Include="Boo\VConversationDTO.Generated.cs">
