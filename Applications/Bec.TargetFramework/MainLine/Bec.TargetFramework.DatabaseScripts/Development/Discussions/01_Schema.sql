@@ -366,7 +366,9 @@ ALTER TABLE public."NotificationRecipient" ALTER COLUMN "IsAccepted" SET NOT NUL
 CREATE OR REPLACE FUNCTION public."fn_GetConversationActivity" (
   orgid uuid,
   activitytype integer,
-  activityid uuid
+  activityid uuid,
+  l integer,
+  o integer
 )
 RETURNS TABLE (
   "ConversationID" uuid,
@@ -387,7 +389,8 @@ select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on
 where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID"
 )and 
 (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
-order by c."Latest" desc;
+order by c."Latest" desc
+limit l offset o;
 
 END;
 $body$
@@ -397,8 +400,8 @@ CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100 ROWS 1000;
 
-GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(uaoid uuid, convid uuid) TO postgres;
-GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(uaoid uuid, convid uuid) TO bef;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(orgid uuid, activitytype integer, activityid uuid, l integer, o integer) TO postgres;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(orgid uuid, activitytype integer, activityid uuid, l integer, o integer) TO bef;
 
 
 CREATE OR REPLACE FUNCTION public."fn_GetConversationActivityCount" (
@@ -425,5 +428,5 @@ CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
 
-GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(uaoid uuid, convid uuid) TO postgres;
-GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(uaoid uuid, convid uuid) TO bef;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(orgid uuid, activitytype integer, activityid uuid) TO postgres;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(orgid uuid, activitytype integer, activityid uuid) TO bef;
