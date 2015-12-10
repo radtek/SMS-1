@@ -34,7 +34,7 @@ $(function () {
                         }
                     },
                     {
-                        field: "OrganisationAdminTelephone",
+                        field: "VerifiedNotes",
                         title: "Telephone Number"
                     },
                     {
@@ -78,7 +78,6 @@ function activeChange(dataItem) {
     $("p#ddaCompanyAddress1").text(dataItem.Line1 || "");
     $("p#ddaAdditional").text(dataItem.AdditionalAddressInformation || "");
     $("p#ddaSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
-    $("p#ddaSystemAdminTel").text(dataItem.OrganisationAdminTelephone || "");
     $("p#ddaSystemAdminName").text(dataItem.OrganisationAdminSalutation + " " + dataItem.OrganisationAdminFirstName + " " + dataItem.OrganisationAdminLastName);
     $("p#ddaReferrer").text(dataItem.Referrer || "");
     $("p#ddaSchemeID").text(dataItem.SchemeID || "");
