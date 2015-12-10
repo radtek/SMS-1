@@ -47,10 +47,6 @@ $(function () {
                         template: function (dataItem) {
                             return dateString(dataItem.CreatedOn);
                         }
-                    },
-                    {
-                        field: "CreatedBy",
-                        title: "Created By"
                     }
             ]
         });
@@ -95,7 +91,6 @@ function activeChange(dataItem) {
     $("p#ddaRegulatorNumber").text(dataItem.RegulatorNumber);
     $("p#ddaRegisteredAsName").text(dataItem.RegisteredAsName);
 
-    $("p#ddaCompanyCreatedBy").text(dataItem.CreatedBy || "");
     $("p#ddaCompanyVerifiedOn").text(dateString(dataItem.VerifiedOn));
     $("p#ddaCompanyVerifiedBy").text(dataItem.VerifiedBy || "");
     $("p#ddaCompanyVerifiedTelephone").text(dataItem.VerifiedNotes || "");
@@ -103,8 +98,4 @@ function activeChange(dataItem) {
     //update reject & generate links
     // todo: ZM ucomment when enable login comes back to life
     //$("#editButton").data('href', $("#editButton").data("url") + "?orgId=" + dataItem.OrganisationID);
-
-    // toggle fields
-    $("p#ddaCompanyCreatedBy").toggle(!!dataItem.CreatedBy);
-    $("p#ddaCompanyCreatedBy").parent().prev().toggle(!!dataItem.CreatedBy);
 }
