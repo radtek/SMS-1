@@ -651,7 +651,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		Task<ConversationResultDTO<VConversationActivityDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 
 		/// <param name="uaoID"></param>
 		/// <param name="orgID"></param>
@@ -660,7 +660,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		ConversationResultDTO<VConversationActivityDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -3161,10 +3161,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
 		/// <returns></returns>
-		public virtual Task<ConversationResultDTO<VConversationActivityDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual Task<ConversationResultDTO<FnGetConversationActivityResultDTO>> GetConversationsActivityAsync(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<ConversationResultDTO<VConversationActivityDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
+			return GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user);
 		}
 
 		/// <summary>
@@ -3176,10 +3176,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="activityId"></param>
 		/// <param name="take"></param>
 		/// <param name="skip"></param>
-		public virtual ConversationResultDTO<VConversationActivityDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
+		public virtual ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ConversationResultDTO<VConversationActivityDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
 		}
 
 		#endregion

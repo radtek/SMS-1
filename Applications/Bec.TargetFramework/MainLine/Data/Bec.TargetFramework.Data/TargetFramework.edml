@@ -410,7 +410,6 @@
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Store.Conversation" store:Type="Tables" Schema="public" Table="Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationParticipant" store:Type="Tables" Schema="public" Table="ConversationParticipant" />
           <EntitySet Name="vConversations" EntityType="Bec.TargetFramework.Data.Store.vConversation" store:Type="Views" Schema="public" Table="vConversation" />
-          <EntitySet Name="vConversationActivities" EntityType="Bec.TargetFramework.Data.Store.vConversationActivity" store:Type="Views" Schema="public" Table="vConversationActivity" />
           <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
           <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
@@ -9968,18 +9967,6 @@
           <Property Name="ActivityType" Type="int" />
           <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="vConversationActivity">
-          <Key>
-            <PropertyRef Name="ConversationID" />
-          </Key>
-          <Property Name="ConversationID" Type="uuid" Nullable="false" />
-          <Property Name="ActivityType" Type="int" />
-          <Property Name="ActivityID" Type="uuid" />
-          <Property Name="Subject" Type="varchar" />
-          <Property Name="Latest" Type="timestamptz" Nullable="false" />
-          <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
-          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
-        </EntityType>
         <EntityType Name="vMessage">
           <Key>
             <PropertyRef Name="ConversationID" />
@@ -18279,6 +18266,18 @@
           <Parameter Name="orgid" Type="uuid" Mode="In" />
           <Parameter Name="txid" Type="uuid" Mode="In" />
         </Function>
+        <Function Name="fn_GetConversationActivity" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivity">
+          <Parameter Name="orgid" Type="uuid" Mode="In" />
+          <Parameter Name="activitytype" Type="int" Mode="In" />
+          <Parameter Name="activityid" Type="uuid" Mode="In" />
+          <Parameter Name="l" Type="int" Mode="In" />
+          <Parameter Name="o" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_GetConversationActivityCount" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivityCount">
+          <Parameter Name="orgid" Type="uuid" Mode="In" />
+          <Parameter Name="activitytype" Type="int" Mode="In" />
+          <Parameter Name="activityid" Type="uuid" Mode="In" />
+        </Function>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
@@ -18674,7 +18673,6 @@
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.ConversationParticipant" />
           <EntitySet Name="VConversations" EntityType="Bec.TargetFramework.Data.VConversation" />
-          <EntitySet Name="VConversationActivities" EntityType="Bec.TargetFramework.Data.VConversationActivity" />
           <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
           <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
@@ -21202,6 +21200,18 @@
           <FunctionImport Name="FnSmsTransactionRank" ReturnType="Collection(Int32)" ed:Guid="015b3587-dc77-4521-958d-6c8eafdb11e0">
             <Parameter Name="orgid" Mode="In" Type="Guid" />
             <Parameter Name="txid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnGetConversationActivity" ReturnType="Collection(Bec.TargetFramework.Data.FnGetConversationActivityResult)" ed:Guid="3806ecd3-4d36-4c0b-9a22-beb9a267ef26">
+            <Parameter Name="orgid" Mode="In" Type="Guid" />
+            <Parameter Name="activitytype" Mode="In" Type="Int32" />
+            <Parameter Name="activityid" Mode="In" Type="Guid" />
+            <Parameter Name="l" Mode="In" Type="Int32" />
+            <Parameter Name="o" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FnGetConversationActivityCount" ReturnType="Collection(Int64)" ed:Guid="6430b9e5-18b2-42b5-98d0-e837e58b2c59">
+            <Parameter Name="orgid" Mode="In" Type="Guid" />
+            <Parameter Name="activitytype" Mode="In" Type="Int32" />
+            <Parameter Name="activityid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -29296,18 +29306,6 @@
           <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="aaa8f711-9134-4f55-b5f5-04a478e62c5f" />
           <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="35510861-19d8-47b5-8b6f-5d21531edf05" />
         </EntityType>
-        <EntityType Name="VConversationActivity" ed:Guid="89050a44-044c-41bb-9cb3-39b8bfbed84c">
-          <Key>
-            <PropertyRef Name="ConversationID" />
-          </Key>
-          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f346f58b-9a95-4161-a6e5-7ea94358376e" />
-          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="7b0699f5-2029-45ed-8892-da9155c0c2cf" />
-          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6316bc1a-0466-4f86-8124-a9051ef02f09" />
-          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="03c2de11-5c7d-48ad-8e6c-94e002625403" />
-          <Property Name="Latest" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="c312a8b4-53cb-4817-8dd0-6743e66c51b9" />
-          <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ac91580f-d102-484a-943b-23ef4d35d179" />
-          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f7fe026e-1b93-439f-a22a-4a8dfda7acf6" />
-        </EntityType>
         <EntityType Name="VMessage" ed:Guid="e1fd0c7d-389c-4b86-afc6-7838f1f63e8a">
           <Key>
             <PropertyRef Name="ConversationID" />
@@ -29366,6 +29364,11 @@
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
           <Property Name="ClaimName" Type="String" ed:ValidateRequired="False" ed:Guid="f6b1a92d-95a2-4d2d-9619-09eedd1608ce" />
+        </ComplexType>
+        <ComplexType Name="FnGetConversationActivityResult" ed:Guid="c20718ce-b1e5-42f3-add2-fd18a903a4f7">
+          <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="43040755-4378-46d9-8b16-a21a053a5140" />
+          <Property Name="Subject" Type="String" ed:ValidateRequired="False" ed:Guid="796a7a83-7288-4c35-9617-369267ae4ed9" />
+          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="dd9e2988-d392-48c7-9f86-3dfeafc11ef1" />
         </ComplexType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" ed:Guid="6c29f688-1789-4f51-8fdc-69eb94245a4b">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.DefaultOrganisation" Multiplicity="1" />
@@ -44009,19 +44012,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VConversationActivities">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationActivity">
-              <MappingFragment StoreEntitySet="vConversationActivities">
-                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
-                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
-                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="Latest" ColumnName="Latest" />
-                <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
-                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="VMessages">
             <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VMessage">
               <MappingFragment StoreEntitySet="vMessages">
@@ -44227,6 +44217,8 @@
           <FunctionImportMapping FunctionImportName="FnCreateOrganisationFromDefault" FunctionName="Bec.TargetFramework.Data.Store.fn_CreateOrganisationFromDefault" />
           <FunctionImportMapping FunctionImportName="FnConversationRank" FunctionName="Bec.TargetFramework.Data.Store.fn_ConversationRank" />
           <FunctionImportMapping FunctionImportName="FnSmsTransactionRank" FunctionName="Bec.TargetFramework.Data.Store.fn_SmsTransactionRank" />
+          <FunctionImportMapping FunctionImportName="FnGetConversationActivity" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivity" />
+          <FunctionImportMapping FunctionImportName="FnGetConversationActivityCount" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivityCount" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

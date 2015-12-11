@@ -163,6 +163,7 @@
     <Compile Include="Converters\EventStatusConverter.cs" />
     <Compile Include="Converters\FieldDetailConverter.cs" />
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
+    <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
@@ -414,7 +415,6 @@
     <Compile Include="Converters\VClaimSourceConverter.cs" />
     <Compile Include="Converters\VClassificationConverter.cs" />
     <Compile Include="Converters\VCompanyConverter.cs" />
-    <Compile Include="Converters\VConversationActivityConverter.cs" />
     <Compile Include="Converters\VConversationConverter.cs" />
     <Compile Include="Converters\VConversationUnreadConverter.cs" />
     <Compile Include="Converters\VCountryAndCurrencyConverter.cs" />
@@ -558,6 +558,7 @@
     <Compile Include="Model\TargetFramework.EventStatus.cs" />
     <Compile Include="Model\TargetFramework.FieldDetail.cs" />
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
+    <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
@@ -813,7 +814,6 @@
     <Compile Include="Model\TargetFramework.VClassification.cs" />
     <Compile Include="Model\TargetFramework.VCompany.cs" />
     <Compile Include="Model\TargetFramework.VConversation.cs" />
-    <Compile Include="Model\TargetFramework.VConversationActivity.cs" />
     <Compile Include="Model\TargetFramework.VConversationUnread.cs" />
     <Compile Include="Model\TargetFramework.VCountryAndCurrency.cs" />
     <Compile Include="Model\TargetFramework.VCountryDeduction.cs" />
