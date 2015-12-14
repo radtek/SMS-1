@@ -462,15 +462,15 @@
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
-            var previousConversationId = currentConversation.id;
+            //var previousConversationId = currentConversation.id;
 
             setConversationItemActive(conv);
             markConversationAsRead(conv);
             updateCurrentConversation(conv);
 
-            if (currentConversation.id == previousConversationId) {
-                return;
-            }
+            //if (currentConversation.id == previousConversationId) {
+            //    return;
+            //}
             showMessagesSpinner();
             $.when(getParticipantDetails(), loadMessages(), clearUploads())
             .then(compileTemplates)

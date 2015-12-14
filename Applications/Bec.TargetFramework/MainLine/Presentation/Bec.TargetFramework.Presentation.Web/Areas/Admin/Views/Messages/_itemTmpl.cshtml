@@ -5,8 +5,13 @@
             <div class="col-sm-1 hidden-xs no-padding">
                 <div class="thumbnail" title="{{Message.UserType}}">
                     <i class="fa {{icon}} fa-2x"></i>
-                </div>
+                </div>                
                 <p class="usertype" title="{{Message.UserType}}">{{Message.UserType}}</p>
+                {{#if Files}}
+                    <div class="thumbnail">
+                        <i class="fa fa-paperclip fa-2x"></i>
+                    </div>
+                {{/if}}
             </div>
             <div class="col-sm-11">
                 <div class="message-heading">
