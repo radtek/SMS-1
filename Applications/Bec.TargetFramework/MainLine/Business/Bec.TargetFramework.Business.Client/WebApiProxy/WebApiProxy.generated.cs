@@ -389,10 +389,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void SaveNotificationConversation(Nullable<Guid> activityID,Nullable<ActivityType> activityType,NotificationDTO dto);
 
 		/// <returns></returns>
-		Task SaveNotificationAsync(NotificationDTO dto);
+		Task<Guid> SaveNotificationAsync(NotificationDTO dto);
 
 		/// <returns></returns>
-		void SaveNotification(NotificationDTO dto);
+		Guid SaveNotification(NotificationDTO dto);
 
 		/// <param name="userTypeID"></param>
 		/// <param name="organisationTypeID"></param>
@@ -661,6 +661,40 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="skip"></param>
 		/// <returns></returns>
 		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
+
+		/// <returns></returns>
+		Task UploadFileAsync(FileDTO file);
+
+		/// <returns></returns>
+		void UploadFile(FileDTO file);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task ClearUnusedFilesAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		void ClearUnusedFiles(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		FileDTO DownloadFile(Guid uaoID,Guid fileID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		Task RemovePendingUploadAsync(Guid uaoID,String filename);
+
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		void RemovePendingUpload(Guid uaoID,String filename);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2567,19 +2601,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task SaveNotificationAsync(NotificationDTO dto)
+		public virtual Task<Guid> SaveNotificationAsync(NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationAsync", dto, _user);
+			return PostAsync<NotificationDTO, Guid>("api/NotificationLogic/SaveNotificationAsync", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual void SaveNotification(NotificationDTO dto)
+		public virtual Guid SaveNotification(NotificationDTO dto)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<NotificationDTO>("api/NotificationLogic/SaveNotificationAsync", dto, _user)).Wait();
+			return Task.Run(() => PostAsync<NotificationDTO, Guid>("api/NotificationLogic/SaveNotificationAsync", dto, _user)).Result;
 		}
 
 		/// <summary>
@@ -3180,6 +3214,94 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task UploadFileAsync(FileDTO file)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<FileDTO>("api/NotificationLogic/UploadFile", file, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual void UploadFile(FileDTO file)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<FileDTO>("api/NotificationLogic/UploadFile", file, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task ClearUnusedFilesAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual void ClearUnusedFiles(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		public virtual Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, FileDTO>("api/NotificationLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		public virtual FileDTO DownloadFile(Guid uaoID,Guid fileID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, FileDTO>("api/NotificationLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public virtual Task RemovePendingUploadAsync(Guid uaoID,String filename)
+		{
+			filename = filename.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/NotificationLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		public virtual void RemovePendingUpload(Guid uaoID,String filename)
+		{
+			filename = filename.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user)).Wait();
 		}
 
 		#endregion

@@ -53,6 +53,7 @@
     <None Include="Development\Discussions\03_Migrate.sql" />
     <None Include="Development\Discussions\04_Core_SendUnreadNotificationsEmailScheduledTask.sql" />
     <None Include="Development\Discussions\05_SendingEmailNotifications.sql" />
+    <Content Include="Development\SafeSendAttechments\01_Schema.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />

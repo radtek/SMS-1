@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bec.TargetFramework.Security;
 using System.Linq.Expressions;
+using System.Web;
+using System.IO;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 {
@@ -83,6 +85,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             var data = await NotificationClient.GetMessagesAsync(conversationId, uaoId, page, pageSize);
             NotificationClient.MarkAsRead(uaoId, conversationId);
+
+            foreach (var item in data)
+            {
+                foreach (var file in item.Files)
+                {
+                    file.Link = Url.Action("DownloadFile", "Messages", new { area = "Admin", fileID = file.FileID });
+                }
+            }
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -277,5 +287,55 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             return false;
         }
+
+        public async Task<string> UploadFile()
+        {
+            try
+            {
+                var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        using (BinaryReader reader = new BinaryReader(file.InputStream))
+                        {
+                            byte[] data = new byte[file.InputStream.Length];
+                            reader.Read(data, 0, (int)file.InputStream.Length);
+                            FileDTO f = new FileDTO { ParentID = uaoId, Name = file.FileName, Type = file.ContentType, Data = data };
+                            await NotificationClient.UploadFileAsync(f);
+                        }
+                    }
+                }
+                
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return "Failed";
+            }
+        }
+
+        public async Task ClearUploads()
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await NotificationClient.ClearUnusedFilesAsync(uaoId);
+        }
+
+        public async Task<object> DownloadFile(Guid fileID)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            var file = await NotificationClient.DownloadFileAsync(uaoId, fileID);
+            var ext = System.IO.Path.GetExtension(file.Name);
+            return File(file.Data, file.Type, file.Name);
+        }
+
+        public async Task RemovePendingUpload(string filename)
+        {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await NotificationClient.RemovePendingUploadAsync(uaoId, filename);
+        }
+
     }
 }
