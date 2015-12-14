@@ -255,8 +255,12 @@ namespace Bec.TargetFramework.Business.Logic
                     var uao = uaDb.UserAccountOrganisations.FirstOrDefault();
                     if (uao != null)
                     {
-                        var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
-                        if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
+                        var primaryContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts
+                            .FirstOrDefault(x => x.IsPrimaryContact == true && x.ParentID == uao.UserAccountOrganisationID);
+                        if (primaryContact != null)
+                        {
+                            ua.FullName = primaryContact.FirstName + " " + primaryContact.LastName;
+                        }
                     }
 
                 }
