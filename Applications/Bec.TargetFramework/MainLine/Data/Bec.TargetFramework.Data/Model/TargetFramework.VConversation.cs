@@ -60,17 +60,7 @@ namespace Bec.TargetFramework.Data
         /// <summary>
         /// There are no comments for Latest in the schema.
         /// </summary>
-        public virtual global::System.Nullable<System.DateTime> Latest
-        {
-            get;
-            set;
-        }
-
-    
-        /// <summary>
-        /// There are no comments for Unread in the schema.
-        /// </summary>
-        public virtual global::System.Nullable<long> Unread
+        public virtual global::System.DateTime Latest
         {
             get;
             set;

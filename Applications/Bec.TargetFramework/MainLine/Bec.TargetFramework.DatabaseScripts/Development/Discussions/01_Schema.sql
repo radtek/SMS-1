@@ -10,6 +10,7 @@ CREATE TABLE public."Conversation" (
   "ActivityType" INTEGER,
   "ActivityID" UUID,
   "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL,
+  "Latest" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
   CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
 ) 
 WITH (oids = false);
@@ -30,12 +31,12 @@ ALTER TABLE public."Conversation"
 
 CREATE INDEX "Conversation_idx_Activity" ON public."Conversation"
   USING btree ("ActivityType", "ActivityID");
-
+  
 
 CREATE TABLE public."ConversationParticipant" (
   "ConversationID" UUID NOT NULL,
   "UserAccountOrganisationID" UUID NOT NULL,
-  "Added" TIMESTAMP(0) WITH TIME ZONE DEFAULT now() NOT NULL,
+  "Added" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
   CONSTRAINT "ConversationParticipant_pk" PRIMARY KEY("UserAccountOrganisationID", "ConversationID"),
   CONSTRAINT "fk_ConversationParticipant_Conversation" FOREIGN KEY ("ConversationID")
     REFERENCES public."Conversation"("ConversationID")
@@ -183,7 +184,6 @@ CREATE OR REPLACE VIEW public."vConversation"(
     "UserAccountOrganisationID",
     "Subject",
     "Latest",
-    "Unread",
     "ActivityID",
     "ActivityType",
     "IsSystemMessage")
@@ -191,78 +191,17 @@ AS
   SELECT cp."ConversationID",
          cp."UserAccountOrganisationID",
          c."Subject",
-         l."Latest",
-         COALESCE(ur."UnreadCount", 0::bigint) AS "Unread",
+         c."Latest",
          c."ActivityID",
          c."ActivityType",
          c."IsSystemMessage"
   FROM "ConversationParticipant" cp
-       JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
-       JOIN 
-       (
-         SELECT "Notification"."ConversationID",
-                max("Notification"."DateSent") AS "Latest"
-         FROM "Notification"
-         GROUP BY "Notification"."ConversationID"
-       ) l ON l."ConversationID" = c."ConversationID"
-       LEFT JOIN 
-       (
-         SELECT n."ConversationID",
-                nr."UserAccountOrganisationID",
-                count(nr."NotificationRecipientID") AS "UnreadCount"
-         FROM "NotificationRecipient" nr
-              JOIN "Notification" n ON n."NotificationID" = nr."NotificationID"
-         WHERE COALESCE(nr."IsAccepted", false) = false
-         GROUP BY n."ConversationID",
-                  nr."UserAccountOrganisationID"
-       ) ur ON ur."ConversationID" = c."ConversationID" AND
-         ur."UserAccountOrganisationID" = cp."UserAccountOrganisationID";
+       JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID";
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vConversation" TO postgres;
 GRANT SELECT, INSERT, UPDATE, DELETE
   ON public."vConversation" TO bef;
-
-CREATE OR REPLACE VIEW public."vConversationActivity"(
-    "ConversationID",
-    "ActivityType",
-    "ActivityID",
-    "Subject",
-    "Latest",
-    "IsSystemMessage",
-    "OrganisationID")
-AS
-  SELECT c."ConversationID",
-         c."ActivityType",
-         c."ActivityID",
-         c."Subject",
-         l."Latest",
-         c."IsSystemMessage",
-         o."OrganisationID"
-  FROM "Conversation" c
-       JOIN 
-       (
-         SELECT "Notification"."ConversationID",
-                max("Notification"."DateSent") AS "Latest"
-         FROM "Notification"
-         GROUP BY "Notification"."ConversationID"
-       ) l ON l."ConversationID" = c."ConversationID"
-       JOIN 
-       (
-         SELECT cp."ConversationID",
-                uao."OrganisationID"
-         FROM "ConversationParticipant" cp
-              JOIN "UserAccountOrganisation" uao ON
-                uao."UserAccountOrganisationID" = cp."UserAccountOrganisationID"
-         GROUP BY cp."ConversationID",
-                  uao."OrganisationID"
-       ) o ON o."ConversationID" = c."ConversationID"
-  ORDER BY l."Latest" DESC;
-
-GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
-  ON public."vConversationActivity" TO postgres;
-GRANT SELECT, INSERT, UPDATE, DELETE
-  ON public."vConversationActivity" TO bef;
 
 
 CREATE OR REPLACE VIEW public."vMessage"(
@@ -368,14 +307,9 @@ declare
 ret integer;
 BEGIN
  ret = (select "Row" from (
-  SELECT cp."ConversationID", cp."UserAccountOrganisationID", row_number() over (order by l."Latest" desc) as "Row"
+  SELECT cp."ConversationID", cp."UserAccountOrganisationID", row_number() over (order by c."Latest" desc) as "Row"
   FROM "ConversationParticipant" cp
        JOIN "Conversation" c ON c."ConversationID" = cp."ConversationID"
-       JOIN 
-       (
-         SELECT "Notification"."ConversationID", max("Notification"."DateSent") AS "Latest"
-         FROM "Notification" GROUP BY "Notification"."ConversationID"
-       ) l ON l."ConversationID" = c."ConversationID"
        where cp."UserAccountOrganisationID" = uaoid
     ) t 
   where t."ConversationID" = convid
@@ -394,3 +328,105 @@ GRANT EXECUTE
   ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO postgres;
 GRANT EXECUTE
   ON FUNCTION public."fn_ConversationRank"(uaoid uuid, convid uuid) TO bef;
+
+
+
+CREATE OR REPLACE VIEW public."vConversationUnread" (
+    "ConversationID",
+    "UserAccountOrganisationID",
+    "UnreadCount")
+AS
+SELECT n."ConversationID",
+    nr."UserAccountOrganisationID",
+    count(nr."NotificationRecipientID") AS "UnreadCount"
+FROM "NotificationRecipient" nr
+     JOIN "Notification" n ON n."NotificationID" = nr."NotificationID"
+WHERE nr."IsAccepted" = false
+GROUP BY n."ConversationID", nr."UserAccountOrganisationID";
+
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
+  ON public."vConversationUnread" TO postgres;
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public."vConversationUnread" TO bef;
+
+
+CREATE INDEX "Notification_idx_Conversation" ON public."Notification" USING btree ("ConversationID");
+CREATE INDEX "NotificationRecipient_idx_Notification" ON public."NotificationRecipient" USING btree ("NotificationID");
+CREATE INDEX "NotificationRecipient_idx_IsAccepted" ON public."NotificationRecipient" USING btree ("IsAccepted");
+CREATE INDEX "NotificationRecipient_idx_User" ON public."NotificationRecipient" USING btree ("UserAccountOrganisationID");
+CREATE INDEX "ConversationParticipant_idx_Conversation" ON public."ConversationParticipant" USING btree ("ConversationID");
+CREATE INDEX "ConversationParticipant_idx_User" ON public."ConversationParticipant" USING btree ("UserAccountOrganisationID");
+CREATE INDEX "UserAccountOrganisation_idx_Organisation" ON public."UserAccountOrganisation" USING btree ("OrganisationID");
+
+ALTER TABLE public."NotificationRecipient" ALTER COLUMN "IsAccepted" SET DEFAULT false;
+update public."NotificationRecipient" set "IsAccepted" = false where "IsAccepted" is null;
+ALTER TABLE public."NotificationRecipient" ALTER COLUMN "IsAccepted" SET NOT NULL;
+
+
+CREATE OR REPLACE FUNCTION public."fn_GetConversationActivity" (
+  orgid uuid,
+  activitytype integer,
+  activityid uuid,
+  l integer,
+  o integer
+)
+RETURNS TABLE (
+  "ConversationID" uuid,
+  "Subject" varchar,
+  "Latest" timestamptz
+) AS
+$body$
+BEGIN
+return query
+  SELECT c."ConversationID",
+         c."Subject",
+         c."Latest"
+  FROM "Conversation" c
+
+WHERE 
+exists (
+select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on cp."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
+where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID"
+)and 
+(c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false)
+order by c."Latest" desc
+limit l offset o;
+
+END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100 ROWS 1000;
+
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(orgid uuid, activitytype integer, activityid uuid, l integer, o integer) TO postgres;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivity"(orgid uuid, activitytype integer, activityid uuid, l integer, o integer) TO bef;
+
+
+CREATE OR REPLACE FUNCTION public."fn_GetConversationActivityCount" (
+  orgid uuid,
+  activitytype integer,
+  activityid uuid
+)
+RETURNS integer AS
+$body$
+BEGIN
+return (
+  SELECT count(*)
+  FROM "Conversation" c
+WHERE 
+exists (
+select * from "ConversationParticipant" cp join "UserAccountOrganisation" uao on cp."UserAccountOrganisationID" = uao."UserAccountOrganisationID"
+where uao."OrganisationID" = orgid and cp."ConversationID" = c."ConversationID"
+)and (c."ActivityType" = activitytype) AND (c."ActivityID" = activityid) AND (c."IsSystemMessage" = false));
+END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;
+
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(orgid uuid, activitytype integer, activityid uuid) TO postgres;
+GRANT EXECUTE ON FUNCTION public."fn_GetConversationActivityCount"(orgid uuid, activitytype integer, activityid uuid) TO bef;

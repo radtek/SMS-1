@@ -4,17 +4,20 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Extensions
 {
     public static class ActivityTypeExtensions
     {
-        public static string GetFaIconClass(this ActivityType activityType)
+        public static string GetFaIconClass(this ActivityType? activityType)
         {
-            switch (activityType)
+            if (activityType.HasValue)
             {
-                case ActivityType.SmsTransaction:
-                    return "fa-home";
-                case ActivityType.BankAccount:
-                    return "fa-bank";
-                default:
-                    return "fa-envelope-o";
+                switch (activityType)
+                {
+                    case ActivityType.SmsTransaction:
+                        return "fa-home";
+                    case ActivityType.BankAccount:
+                        return "fa-bank";
+                }
             }
+
+            return "fa-envelope-o";
         }
     }
 }

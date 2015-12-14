@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VMessageReadDTO() {
         }
 
-        public VMessageReadDTO(global::System.Nullable<System.Guid> conversationID, global::System.Guid notificationID, global::System.Guid userAccountOrganisationID, global::System.Nullable<bool> isAccepted, global::System.Nullable<System.DateTime> acceptedDate, string email, string firstName, string lastName) {
+        public VMessageReadDTO(global::System.Nullable<System.Guid> conversationID, global::System.Guid notificationID, global::System.Guid userAccountOrganisationID, bool isAccepted, global::System.Nullable<System.DateTime> acceptedDate, string email, string firstName, string lastName) {
 
           this.ConversationID = conversationID;
           this.NotificationID = notificationID;
@@ -48,7 +48,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.Guid UserAccountOrganisationID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsAccepted { get; set; }
+        public bool IsAccepted { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.DateTime> AcceptedDate { get; set; }

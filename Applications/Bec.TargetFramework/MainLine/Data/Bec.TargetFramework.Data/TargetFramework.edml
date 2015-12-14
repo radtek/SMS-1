@@ -410,11 +410,10 @@
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Store.Conversation" store:Type="Tables" Schema="public" Table="Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.Store.ConversationParticipant" store:Type="Tables" Schema="public" Table="ConversationParticipant" />
           <EntitySet Name="vConversations" EntityType="Bec.TargetFramework.Data.Store.vConversation" store:Type="Views" Schema="public" Table="vConversation" />
-          <EntitySet Name="vConversationActivities" EntityType="Bec.TargetFramework.Data.Store.vConversationActivity" store:Type="Views" Schema="public" Table="vConversationActivity" />
           <EntitySet Name="vMessages" EntityType="Bec.TargetFramework.Data.Store.vMessage" store:Type="Views" Schema="public" Table="vMessage" />
           <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
-          <EntitySet Name="vConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.Store.vConversationUnreadPerActiveUao" store:Type="Views" Schema="public" Table="vConversationUnreadPerActiveUao" />
+          <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2962,6 +2961,10 @@
           <AssociationSet Name="fk_Notification_CreatedByUserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.fk_Notification_CreatedByUserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="UserAccountLoginSession_UserAccounts_fk" Association="Bec.TargetFramework.Data.Store.UserAccountLoginSession_UserAccounts_fk">
+            <End Role="UserAccounts" EntitySet="UserAccounts" />
+            <End Role="UserAccountLoginSession" EntitySet="UserAccountLoginSessions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -5989,7 +5992,7 @@
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="ParentID" Type="uuid" />
-          <Property Name="IsAccepted" Type="boolean" />
+          <Property Name="IsAccepted" Type="boolean" Nullable="false" DefaultValue="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="AcceptedDate" Type="timestamptz" />
         </EntityType>
@@ -9940,6 +9943,7 @@
           <Property Name="ActivityType" Type="int" />
           <Property Name="ActivityID" Type="uuid" />
           <Property Name="IsSystemMessage" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="Latest" Type="timestamptz" Nullable="false" />
         </EntityType>
         <EntityType Name="ConversationParticipant">
           <Key>
@@ -9958,23 +9962,10 @@
           <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Subject" Type="varchar" />
-          <Property Name="Latest" Type="timestamptz" />
-          <Property Name="Unread" Type="bigint" />
+          <Property Name="Latest" Type="timestamptz" Nullable="false" />
           <Property Name="ActivityID" Type="uuid" />
           <Property Name="ActivityType" Type="int" />
           <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="vConversationActivity">
-          <Key>
-            <PropertyRef Name="ConversationID" />
-          </Key>
-          <Property Name="ConversationID" Type="uuid" Nullable="false" />
-          <Property Name="ActivityType" Type="int" />
-          <Property Name="ActivityID" Type="uuid" />
-          <Property Name="Subject" Type="varchar" />
-          <Property Name="Latest" Type="timestamptz" />
-          <Property Name="IsSystemMessage" Type="boolean" Nullable="false" />
-          <Property Name="OrganisationID" Type="uuid" Nullable="false" />
         </EntityType>
         <EntityType Name="vMessage">
           <Key>
@@ -10016,18 +10007,20 @@
           <Property Name="ConversationID" Type="uuid" />
           <Property Name="NotificationID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="IsAccepted" Type="boolean" />
+          <Property Name="IsAccepted" Type="boolean" Nullable="false" />
           <Property Name="AcceptedDate" Type="timestamptz" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" />
           <Property Name="LastName" Type="varchar" MaxLength="100" />
         </EntityType>
-        <EntityType Name="vConversationUnreadPerActiveUao">
+        <EntityType Name="vConversationUnread">
           <Key>
+            <PropertyRef Name="ConversationID" />
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
+          <Property Name="ConversationID" Type="uuid" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
-          <Property Name="UnreadCount" Type="int" />
+          <Property Name="UnreadCount" Type="bigint" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18229,6 +18222,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserAccountLoginSession_UserAccounts_fk">
+          <End Role="UserAccounts" Type="Bec.TargetFramework.Data.Store.UserAccounts" Multiplicity="1" />
+          <End Role="UserAccountLoginSession" Type="Bec.TargetFramework.Data.Store.UserAccountLoginSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccounts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAccountLoginSession">
+              <PropertyRef Name="UserAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18260,6 +18265,18 @@
         <Function Name="fn_SmsTransactionRank" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="sms" StoreFunctionName="fn_SmsTransactionRank">
           <Parameter Name="orgid" Type="uuid" Mode="In" />
           <Parameter Name="txid" Type="uuid" Mode="In" />
+        </Function>
+        <Function Name="fn_GetConversationActivity" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivity">
+          <Parameter Name="orgid" Type="uuid" Mode="In" />
+          <Parameter Name="activitytype" Type="int" Mode="In" />
+          <Parameter Name="activityid" Type="uuid" Mode="In" />
+          <Parameter Name="l" Type="int" Mode="In" />
+          <Parameter Name="o" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_GetConversationActivityCount" devart:IsConcealedFunction="true" devart:ReturnType="int" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetConversationActivityCount">
+          <Parameter Name="orgid" Type="uuid" Mode="In" />
+          <Parameter Name="activitytype" Type="int" Mode="In" />
+          <Parameter Name="activityid" Type="uuid" Mode="In" />
         </Function>
       </Schema>
     </edmx:StorageModels>
@@ -18656,11 +18673,10 @@
           <EntitySet Name="Conversations" EntityType="Bec.TargetFramework.Data.Conversation" />
           <EntitySet Name="ConversationParticipants" EntityType="Bec.TargetFramework.Data.ConversationParticipant" />
           <EntitySet Name="VConversations" EntityType="Bec.TargetFramework.Data.VConversation" />
-          <EntitySet Name="VConversationActivities" EntityType="Bec.TargetFramework.Data.VConversationActivity" />
           <EntitySet Name="VMessages" EntityType="Bec.TargetFramework.Data.VMessage" />
           <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
-          <EntitySet Name="VConversationUnreadPerActiveUaos" EntityType="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao" />
+          <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21149,6 +21165,10 @@
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
+          <AssociationSet Name="UserAccountLoginSession_UserAccounts_fkSet" Association="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk">
+            <End Role="UserAccount" EntitySet="UserAccounts" />
+            <End Role="UserAccountLoginSessions" EntitySet="UserAccountLoginSessions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21180,6 +21200,18 @@
           <FunctionImport Name="FnSmsTransactionRank" ReturnType="Collection(Int32)" ed:Guid="015b3587-dc77-4521-958d-6c8eafdb11e0">
             <Parameter Name="orgid" Mode="In" Type="Guid" />
             <Parameter Name="txid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnGetConversationActivity" ReturnType="Collection(Bec.TargetFramework.Data.FnGetConversationActivityResult)" ed:Guid="3806ecd3-4d36-4c0b-9a22-beb9a267ef26">
+            <Parameter Name="orgid" Mode="In" Type="Guid" />
+            <Parameter Name="activitytype" Mode="In" Type="Int32" />
+            <Parameter Name="activityid" Mode="In" Type="Guid" />
+            <Parameter Name="l" Mode="In" Type="Int32" />
+            <Parameter Name="o" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FnGetConversationActivityCount" ReturnType="Collection(Int64)" ed:Guid="6430b9e5-18b2-42b5-98d0-e837e58b2c59">
+            <Parameter Name="orgid" Mode="In" Type="Guid" />
+            <Parameter Name="activitytype" Mode="In" Type="Int32" />
+            <Parameter Name="activityid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -22474,6 +22506,7 @@
           <Property Name="UserLogoutDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c0789cd0-8215-4b48-b02a-d4e389cd065d" />
           <Property Name="UserHasLoggedOut" Type="Boolean" ed:ValidateRequired="False" ed:Guid="1b96fd33-6458-4954-8e2b-a741b55ded0f" />
           <NavigationProperty Name="UserAccountLoginSessionData" Relationship="Bec.TargetFramework.Data.fk_UserAccountLoginSessionData_UserAccountLoginSession" FromRole="UserAccountLoginSession" ToRole="UserAccountLoginSessionData" ed:Guid="fa1e8262-ff9d-42e1-9e0d-8bc693fb05e5" />
+          <NavigationProperty Name="UserAccount" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccountLoginSessions" ToRole="UserAccount" ed:Guid="bcf2379f-aa95-4f58-b6ea-c88b88ae5e39" />
         </EntityType>
         <EntityType Name="OrganisationStructure" ed:Guid="51addf47-5d55-44df-a985-5d397bda6509">
           <Key>
@@ -24881,7 +24914,7 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="437dc189-55d3-4beb-9a06-53a766897cb1" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="50903ce5-612d-45d2-bee8-9e29c7aa44b2" />
           <Property Name="ParentID" Type="Guid" ed:ValidateRequired="False" ed:Guid="13dbeb3c-eb8c-453a-9269-7d6ca5ff99c4" />
-          <Property Name="IsAccepted" Type="Boolean" ed:ValidateRequired="False" ed:Guid="a93bf1ab-1f0f-49ab-a6ef-af30414e986a" />
+          <Property Name="IsAccepted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="a93bf1ab-1f0f-49ab-a6ef-af30414e986a" />
           <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="b95e9163-877e-4509-bea1-f246061c5964" />
           <Property Name="AcceptedDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="cd99cadf-3ff3-47f6-8cf2-e5bd6e25d139" />
           <NavigationProperty Name="Notification" Relationship="Bec.TargetFramework.Data.fk_NotificationRecipient_Notification" FromRole="NotificationRecipients" ToRole="Notification" ed:Guid="8f76657e-b991-4a26-b254-9f69acf91eea" />
@@ -25721,6 +25754,7 @@
           <NavigationProperty Name="TwoFactorAuthTokens" Relationship="Bec.TargetFramework.Data.FK_dboTwoFactorAuthTokens_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="TwoFactorAuthTokens" ed:Guid="57fa5509-f3ec-4ec1-ac8a-ec68529b70b3" />
           <NavigationProperty Name="UserClaims" Relationship="Bec.TargetFramework.Data.FK_dboUserClaims_dboUserAccounts_UserAccount_ID" FromRole="UserAccount" ToRole="UserClaims" ed:Guid="65e97acd-24ba-4243-84d0-081ad22a27f4" />
           <NavigationProperty Name="UserAccountArchives" Relationship="Bec.TargetFramework.Data.fk_UserAccounts_ID" FromRole="UserAccount" ToRole="UserAccountArchives" ed:Guid="666c0f24-b369-483d-85b0-1375dda26cf7" />
+          <NavigationProperty Name="UserAccountLoginSessions" Relationship="Bec.TargetFramework.Data.UserAccountLoginSession_UserAccounts_fk" FromRole="UserAccount" ToRole="UserAccountLoginSessions" ed:Guid="0f5dbab7-df60-40b5-afd5-f9ac738dac0f" />
         </EntityType>
         <EntityType Name="UserClaim" ed:Guid="b3d568b9-2dca-418b-baf5-9b566ea942f5">
           <Key>
@@ -29244,6 +29278,7 @@
           <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="95b00bc4-bc64-47ce-bcde-4a330ed07f84" />
           <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="4dda795c-ad42-4335-af87-31cf620bcbca" />
           <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="af1928cd-0363-4241-9815-6eb7eff8ecd3" />
+          <Property Name="Latest" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="3a892711-c79f-43b6-9e65-9682e1a86e89" />
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_Conversation" FromRole="Conversation" ToRole="ConversationParticipants" ed:Guid="7282fa43-51e3-4cd1-b3af-691830ce02a2" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_Conversation" FromRole="Conversation" ToRole="Notifications" ed:Guid="80be8f08-c9bb-4357-a8a4-dc03fcccc147" />
         </EntityType>
@@ -29266,23 +29301,10 @@
           <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="4e99ba32-b4f9-4e5f-b21c-e4250bec97c3" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="a239ceb7-b83f-45f0-8795-29af48ce9c9d" />
           <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="49c8ec96-f0d1-4eaf-a82f-32cf33fa7678" />
-          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c22b57e3-246f-47d1-a844-e92d6df77c92" />
-          <Property Name="Unread" Type="Int64" ed:ValidateRequired="False" ed:Guid="5e4352c5-93b5-471e-b652-17a7893a879b" />
+          <Property Name="Latest" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="c22b57e3-246f-47d1-a844-e92d6df77c92" />
           <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6ae67b92-930b-47c4-9afd-3f47a9e5a2fe" />
           <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="aaa8f711-9134-4f55-b5f5-04a478e62c5f" />
           <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="35510861-19d8-47b5-8b6f-5d21531edf05" />
-        </EntityType>
-        <EntityType Name="VConversationActivity" ed:Guid="89050a44-044c-41bb-9cb3-39b8bfbed84c">
-          <Key>
-            <PropertyRef Name="ConversationID" />
-          </Key>
-          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f346f58b-9a95-4161-a6e5-7ea94358376e" />
-          <Property Name="ActivityType" Type="Int32" ed:ValidateRequired="False" ed:Guid="7b0699f5-2029-45ed-8892-da9155c0c2cf" />
-          <Property Name="ActivityID" Type="Guid" ed:ValidateRequired="False" ed:Guid="6316bc1a-0466-4f86-8124-a9051ef02f09" />
-          <Property Name="Subject" Type="String" Unicode="true" ed:ValidateRequired="False" ed:Guid="03c2de11-5c7d-48ad-8e6c-94e002625403" />
-          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="c312a8b4-53cb-4817-8dd0-6743e66c51b9" />
-          <Property Name="IsSystemMessage" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="ac91580f-d102-484a-943b-23ef4d35d179" />
-          <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="f7fe026e-1b93-439f-a22a-4a8dfda7acf6" />
         </EntityType>
         <EntityType Name="VMessage" ed:Guid="e1fd0c7d-389c-4b86-afc6-7838f1f63e8a">
           <Key>
@@ -29324,22 +29346,29 @@
           <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="dedc41a4-d703-47c1-ab86-2e5bb057c524" />
           <Property Name="NotificationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e6035e8c-0600-4d8a-834d-4b9fc0151298" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="bb7c0457-b23f-4e1f-a73b-cdcbe21a7125" />
-          <Property Name="IsAccepted" Type="Boolean" ed:ValidateRequired="False" ed:Guid="68343abb-5e58-4a8a-9081-d60d510de071" />
+          <Property Name="IsAccepted" Type="Boolean" Nullable="false" ed:ValidateRequired="True" ed:Guid="68343abb-5e58-4a8a-9081-d60d510de071" />
           <Property Name="AcceptedDate" Type="DateTime" ed:ValidateRequired="False" ed:Guid="a5301a2a-56b6-438b-90be-d8b16401e731" />
           <Property Name="Email" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="ede6524b-018d-4317-a47d-990b277eb101" />
           <Property Name="FirstName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="e347e19e-ea16-4298-8590-a386b0222c8f" />
           <Property Name="LastName" Type="String" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="False" ed:Guid="d4238070-0252-4108-86b1-19b8c1b77c2b" />
         </EntityType>
-        <EntityType Name="VConversationUnreadPerActiveUao" ed:Guid="5b79a256-673d-4ba7-9517-588b1d68bf7d">
+        <EntityType Name="VConversationUnread" ed:Guid="634422b3-1776-416d-8a53-5647ed554d99">
           <Key>
+            <PropertyRef Name="ConversationID" />
             <PropertyRef Name="UserAccountOrganisationID" />
           </Key>
-          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="66910989-8409-440c-bd51-3be5ddf3167f" />
-          <Property Name="UnreadCount" Type="Int32" ed:ValidateRequired="False" ed:Guid="bb9b3568-2fc5-43bc-984d-68dfc49c65dc" />
+          <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1ab22675-3c6c-4fe8-b241-5513dd7f01ae" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="82aadfb3-d871-42b5-a785-ec485911ca7c" />
+          <Property Name="UnreadCount" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ac9a49b-1d45-4d43-b77b-3d8d6dbae044" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
           <Property Name="ClaimName" Type="String" ed:ValidateRequired="False" ed:Guid="f6b1a92d-95a2-4d2d-9619-09eedd1608ce" />
+        </ComplexType>
+        <ComplexType Name="FnGetConversationActivityResult" ed:Guid="c20718ce-b1e5-42f3-add2-fd18a903a4f7">
+          <Property Name="ConversationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="43040755-4378-46d9-8b16-a21a053a5140" />
+          <Property Name="Subject" Type="String" ed:ValidateRequired="False" ed:Guid="796a7a83-7288-4c35-9617-369267ae4ed9" />
+          <Property Name="Latest" Type="DateTime" ed:ValidateRequired="False" ed:Guid="dd9e2988-d392-48c7-9f86-3dfeafc11ef1" />
         </ComplexType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" ed:Guid="6c29f688-1789-4f51-8fdc-69eb94245a4b">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.DefaultOrganisation" Multiplicity="1" />
@@ -37197,6 +37226,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="UserAccountLoginSession_UserAccounts_fk" ed:Guid="69097ddd-832b-4453-a79e-6b459846ff3e">
+          <End Role="UserAccount" Type="Bec.TargetFramework.Data.UserAccount" Multiplicity="1" />
+          <End Role="UserAccountLoginSessions" Type="Bec.TargetFramework.Data.UserAccountLoginSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccount">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserAccountLoginSessions">
+              <PropertyRef Name="UserAccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43945,6 +43986,7 @@
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
+                <ScalarProperty Name="Latest" ColumnName="Latest" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43964,23 +44006,9 @@
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Latest" ColumnName="Latest" />
-                <ScalarProperty Name="Unread" ColumnName="Unread" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VConversationActivities">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationActivity">
-              <MappingFragment StoreEntitySet="vConversationActivities">
-                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
-                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
-                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="Latest" ColumnName="Latest" />
-                <ScalarProperty Name="IsSystemMessage" ColumnName="IsSystemMessage" />
-                <ScalarProperty Name="OrganisationID" ColumnName="OrganisationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44028,9 +44056,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VConversationUnreadPerActiveUaos">
-            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationUnreadPerActiveUao">
-              <MappingFragment StoreEntitySet="vConversationUnreadPerActiveUaos">
+          <EntitySetMapping Name="VConversationUnreads">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.VConversationUnread">
+              <MappingFragment StoreEntitySet="vConversationUnreads">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="UnreadCount" ColumnName="UnreadCount" />
               </MappingFragment>
@@ -44188,6 +44217,8 @@
           <FunctionImportMapping FunctionImportName="FnCreateOrganisationFromDefault" FunctionName="Bec.TargetFramework.Data.Store.fn_CreateOrganisationFromDefault" />
           <FunctionImportMapping FunctionImportName="FnConversationRank" FunctionName="Bec.TargetFramework.Data.Store.fn_ConversationRank" />
           <FunctionImportMapping FunctionImportName="FnSmsTransactionRank" FunctionName="Bec.TargetFramework.Data.Store.fn_SmsTransactionRank" />
+          <FunctionImportMapping FunctionImportName="FnGetConversationActivity" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivity" />
+          <FunctionImportMapping FunctionImportName="FnGetConversationActivityCount" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivityCount" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

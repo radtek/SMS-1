@@ -489,6 +489,10 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.cs" />
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.Generated.cs">
+      <DependentUpon>FnGetConversationActivityResultDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
       <DependentUpon>FnGetUserClaimResultDTO.cs</DependentUpon>
@@ -1543,18 +1547,15 @@
     <Compile Include="Boo\VCompanyDTO.Generated.cs">
       <DependentUpon>VCompanyDTO.cs</DependentUpon>
     </Compile>
-    <Compile Include="Boo\VConversationActivityDTO.cs" />
-    <Compile Include="Boo\VConversationActivityDTO.Generated.cs">
-      <DependentUpon>VConversationActivityDTO.cs</DependentUpon>
-    </Compile>
     <Compile Include="Boo\VConversationDTO.cs" />
     <Compile Include="Boo\VConversationDTO.Generated.cs">
       <DependentUpon>VConversationDTO.cs</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.cs" />
-    <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.Generated.cs">
-      <DependentUpon>VConversationUnreadPerActiveUaoDTO.cs</DependentUpon>
+    <Compile Include="Boo\VConversationUnreadDTO.cs" />
+    <Compile Include="Boo\VConversationUnreadDTO.Generated.cs">
+      <DependentUpon>VConversationUnreadDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VCountryAndCurrencyDTO.Generated.cs">
       <DependentUpon>VCountryAndCurrencyDTO.cs</DependentUpon>
@@ -1785,7 +1786,6 @@
     <Compile Include="Boo\UserTypeDTO.cs" />
     <Compile Include="Boo\VAttachmentDTO.cs" />
     <Compile Include="Boo\VBranchDTO.cs" />
-    <Compile Include="Boo\VbusmessagestatuDTO.cs" />
     <Compile Include="Boo\VBusTaskScheduleDTO.cs" />
     <Compile Include="Boo\VClaimSourceDTO.cs" />
     <Compile Include="Boo\VClassificationDTO.cs" />

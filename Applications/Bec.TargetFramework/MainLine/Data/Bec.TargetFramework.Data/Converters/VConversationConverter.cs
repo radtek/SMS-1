@@ -33,7 +33,6 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.Subject = source.Subject;
             target.Latest = source.Latest;
-            target.Unread = source.Unread;
             target.ActivityID = source.ActivityID;
             target.ActivityType = source.ActivityType;
             target.IsSystemMessage = source.IsSystemMessage;
@@ -56,7 +55,6 @@ namespace Bec.TargetFramework.Entities
             target.UserAccountOrganisationID = source.UserAccountOrganisationID;
             target.Subject = source.Subject;
             target.Latest = source.Latest;
-            target.Unread = source.Unread;
             target.ActivityID = source.ActivityID;
             target.ActivityType = source.ActivityType;
             target.IsSystemMessage = source.IsSystemMessage;

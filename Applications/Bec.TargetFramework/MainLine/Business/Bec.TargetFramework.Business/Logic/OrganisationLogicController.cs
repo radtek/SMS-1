@@ -146,7 +146,7 @@ namespace Bec.TargetFramework.Business.Logic
                 EmailAddress1 = dto.OrganisationAdminEmail,
                 Salutation = dto.OrganisationAdminSalutation,
                 MobileNumber1 = string.Empty,
-                CreatedBy = UserNameService.UserName
+                CreatedBy = "System"
             };
             var uaoDto = await AddNewUserToOrganisationAsync(organisationID, userContactDto, UserTypeEnum.OrganisationAdministrator, true);
 

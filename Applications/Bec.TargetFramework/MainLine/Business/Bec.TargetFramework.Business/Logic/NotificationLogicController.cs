@@ -12,6 +12,7 @@ using Bec.TargetFramework.SB.Client.Interfaces;
 using Bec.TargetFramework.SB.Entities;
 using Bec.TargetFramework.Security;
 using EnsureThat;
+using Mehdime.Entity;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -67,14 +68,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<VConversationUnreadPerActiveUaoDTO> GetUnreadConversationsCountsPerUao()
-        {
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreadPerActiveUaos.ToDtos();
-            }
-        }
-
         public async Task SaveNotificationConversationAsync(NotificationDTO dto, Guid? activityID, ActivityType? activityType)
         {
             if (activityID.HasValue && activityType.HasValue)
@@ -111,10 +104,15 @@ namespace Bec.TargetFramework.Business.Logic
                             ActivityID = activityID,
                             ActivityType = activityType.GetIntValue(),
                             ConversationParticipants = new List<ConversationParticipant> { new ConversationParticipant { UserAccountOrganisationID = notificationRecipient.UserAccountOrganisationID.Value } },
-                            IsSystemMessage = true
+                            IsSystemMessage = true,
+                            Latest = dto.DateSent
                         };
 
                         scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
+                    }
+                    else
+                    {
+                        conv.Latest = dto.DateSent;
                     }
 
                     dto.ConversationID = conv.ConversationID;
@@ -123,6 +121,8 @@ namespace Bec.TargetFramework.Business.Logic
 
                     await SaveNotificationAsync(dto);
                 }
+
+                await SendExternalNotification(recipients.Select(x => x.UserAccountOrganisationID.Value));
                 await scope.SaveChangesAsync();
             }
         }
@@ -161,6 +161,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 notification.NotificationRecipients = recpList;
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
+                
                 await scope.SaveChangesAsync();
             }
         }
@@ -272,16 +273,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public List<VConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId, int count)
+        public List<ConversationDTO> GetLatestUnreadConversations(Guid userAccountOrganisationId, int count)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                var conversations = scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
-                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
-                    .OrderByDescending(x => x.Latest)
-                    .Take(count);
-
-                return conversations.ToDtos();
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId && x.Notification.ConversationID != null)
+                    .GroupBy(x => x.Notification.Conversation)
+                    .OrderByDescending(x => x.Key.Latest)
+                    .Take(count)
+                    .Select(x => x.Key);
+                return ret.ToDtos();
             }
         }
 
@@ -289,9 +291,11 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().VConversations
-                    .Where(x => x.Unread > 0 && x.UserAccountOrganisationID == userAccountOrganisationId)
-                    .Count();
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
+                    .Where(x => x.IsAccepted == false && x.UserAccountOrganisationID == userAccountOrganisationId && x.Notification.ConversationID != null)
+                    .GroupBy(x => x.Notification.Conversation);
+                    
+                return ret.Count();
             }
         }
 
@@ -439,12 +443,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PublishNewInternalMessagesNotificationEvent(int count, IEnumerable<Guid> recipientUaoIds)
+        public async Task PublishNewInternalMessagesNotificationEvent(IEnumerable<Guid> recipientUaoIds)
         {
             var commonSettings = Settings.GetSettings().AsSettings<CommonSettings>();
             var newInternalMessagesNotificationDTO = new NewInternalMessagesNotificationDTO
             {
-                Count = count,
                 ProductName = commonSettings.ProductName,
                 NotificationRecipientDtos = recipientUaoIds
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x })
@@ -465,11 +468,13 @@ namespace Bec.TargetFramework.Business.Logic
 
         public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
         {
+            var date = DateTime.Now;
+            var conversationId = Guid.NewGuid();
             using (var scope = DbContextScopeFactory.Create())
             {
                 await CheckCanCreateMessage(orgID, activityTypeID, activityID, participantsUaoIDs);
 
-                var conv = new Conversation { ConversationID = Guid.NewGuid(), Subject = subject };
+                var conv = new Conversation { ConversationID = conversationId, Subject = subject, Latest = date };
                 if (activityID.HasValue && activityTypeID.HasValue)
                 {
                     conv.ActivityID = activityID;
@@ -481,12 +486,11 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var p in participantsUaoIDs) conv.ConversationParticipants.Add(new ConversationParticipant { UserAccountOrganisationID = p });
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.Add(conv);
-
-                await Reply(uaoID, conv.ConversationID, message, participantsUaoIDs);
-
                 await scope.SaveChangesAsync();
-                return conv.ConversationID;
             }
+
+            await Reply(uaoID, conversationId, message, participantsUaoIDs, date);
+            return conversationId;
         }
 
         public async Task ReplyToConversation(Guid uaoID, Guid conversationID, string message)
@@ -500,7 +504,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                await Reply(uaoID, conversationID, message, notSender);
+                await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
                 await scope.SaveChangesAsync();
             }
         }
@@ -510,7 +514,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 foreach (var nr in scope.DbContexts.Get<TargetFrameworkEntities>().NotificationRecipients
-                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID && !(x.IsAccepted ?? false)))
+                    .Where(x => x.Notification.ConversationID == conversationID && x.UserAccountOrganisationID == uaoID && x.IsAccepted == false))
                 {
                     nr.IsAccepted = true;
                     nr.AcceptedDate = DateTime.Now;
@@ -519,15 +523,17 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients)
+        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
+                var conversation = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.SingleOrDefault(x => x.ConversationID == conversationID);
+                conversation.Latest = dateSent;
                 var construct = GetLatestNotificationConstructIdFromName("Message");
                 var n = new NotificationDTO
                 {
                     CreatedByUserAccountOrganisationID = senderUaoID,
-                    DateSent = DateTime.Now,
+                    DateSent = dateSent,
                     NotificationConstructID = construct.NotificationConstructID,
                     NotificationConstructVersionNumber = construct.NotificationConstructVersionNumber,
                     NotificationData = JsonHelper.SerializeData(new { Message = message }),
@@ -537,8 +543,47 @@ namespace Bec.TargetFramework.Business.Logic
                 n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
 
                 await SaveNotificationAsync(n);
+                await SendExternalNotification(recipients);
                 await scope.SaveChangesAsync();
             }
+        }
+
+        private async Task SendExternalNotification(IEnumerable<Guid> recipientUaoIds)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var notLoggedInRecipientUaoIds = new List<Guid>();
+                foreach (var recipient in recipientUaoIds)
+                {
+                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .SingleOrDefault(x => 
+                            x.UserAccountOrganisationID == recipient &&
+                            x.IsActive == true &&
+                            x.UserAccount.IsLoginAllowed == true &&
+                            x.UserAccount.IsActive == true);
+                    if (uao == null)
+                    {
+                        continue;
+                    }
+
+                    var lastLoginSession = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions
+                        .Where(x => x.UserAccountID == uao.UserID)
+                        .OrderByDescending(x => x.UserLoginDate)
+                        .FirstOrDefault();
+
+                    if (ShouldSendNotificationToRecipient(lastLoginSession))
+                    {
+                        notLoggedInRecipientUaoIds.Add(recipient);
+                    }
+                }
+                await PublishNewInternalMessagesNotificationEvent(notLoggedInRecipientUaoIds);
+            }
+        }
+
+        private bool ShouldSendNotificationToRecipient(UserAccountLoginSession lastLoginSession)
+        {
+            var sessionExpiredTime = DateTime.Now.AddMinutes(-15);
+            return lastLoginSession == null || (lastLoginSession.UserHasLoggedOut ?? false) || lastLoginSession.UserLoginDate <= sessionExpiredTime;
         }
 
         private async Task CheckCanCreateMessage(Guid orgID, ActivityType? activityTypeID, Guid? activityID, Guid[] participantsUaoIDs)
@@ -613,5 +658,57 @@ namespace Bec.TargetFramework.Business.Logic
                 return scope.DbContexts.Get<TargetFrameworkEntities>().FnConversationRank(uaoID, convID).Value;
             }
         }
+
+        public ConversationResultDTO<VConversationDTO> GetConversations(Guid uaoId, ActivityType? activityType, Guid? activityId, int take, int skip)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                long count;
+                var items = scope.DbContexts.Get<TargetFrameworkEntities>().VConversations.Where(x => x.UserAccountOrganisationID == uaoId);
+                if (activityType.HasValue && activityId.HasValue)
+                {
+                    var activityTypeId = activityType.GetIntValue();
+                    items = items.Where(x => x.ActivityID == activityId && x.ActivityType == activityTypeId && x.IsSystemMessage == false);
+                    count = items.LongCount();
+                }
+                else
+                {
+                    count = scope.DbContexts.Get<TargetFrameworkEntities>().ConversationParticipants.Where(x => x.UserAccountOrganisationID == uaoId).LongCount();
+                }
+                items = items.OrderByDescending(x => x.Latest).Skip(skip).Take(take);
+                var ret = items.ToDtos();
+                var convs = ret.Select(x => x.ConversationID);
+                var q = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoId && convs.Contains(x.ConversationID));
+                var unreads = q.ToDictionary(x => x.ConversationID, x => x.UnreadCount);
+
+                foreach (var item in ret)
+                {
+                    item.Unread = unreads.ContainsKey(item.ConversationID) && unreads[item.ConversationID] > 0;
+                }
+                return new ConversationResultDTO<VConversationDTO> { Items = ret, Count = count };
+            }
+        }
+
+        public ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID, Guid orgID, ActivityType activityType, Guid activityId, int take, int skip)
+        {
+            int at = activityType.GetIntValue();
+
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var count = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivityCount(orgID, at, activityId).Value;
+
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().FnGetConversationActivity(orgID, at, activityId, take, skip).ToDtos();
+                var convs = ret.Select(x => x.ConversationID);
+                var q = scope.DbContexts.Get<TargetFrameworkEntities>().VConversationUnreads.Where(x => x.UserAccountOrganisationID == uaoID && convs.Contains(x.ConversationID));
+                var unreads = q.ToDictionary(x => x.ConversationID, x => x.UnreadCount);
+                
+                foreach (var item in ret)
+                {
+                    item.Unread = unreads.ContainsKey(item.ConversationID.Value) && unreads[item.ConversationID.Value] > 0;
+                }
+                return new ConversationResultDTO<FnGetConversationActivityResultDTO> { Items = ret, Count = count };
+            }
+        }
+
     }
 }

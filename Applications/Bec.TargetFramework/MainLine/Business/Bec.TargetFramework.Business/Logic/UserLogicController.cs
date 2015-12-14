@@ -494,6 +494,21 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task LogUserOutAsync(Guid userId, string sessionId)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions.Where(item =>
+                    item.UserAccountID == userId &&
+                    item.UserSessionID == sessionId))
+                {
+                    item.UserHasLoggedOut = true;
+                }
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
         public async Task SaveUserAccountLoginSessionAsync(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
         {
             using (var scope = DbContextScopeFactory.Create())

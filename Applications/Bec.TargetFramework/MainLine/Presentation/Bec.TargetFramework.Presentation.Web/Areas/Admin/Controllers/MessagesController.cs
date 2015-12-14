@@ -39,20 +39,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task<ActionResult> GetConversations(ActivityType? activityType, Guid? activityId)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var select = ODataHelper.Select<VConversationDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.Unread, x.ActivityID, x.ActivityType, x.IsSystemMessage });
-            var filterExpression = ODataHelper.Expression<VConversationDTO>(x => x.UserAccountOrganisationID == uaoId);
-            if (activityType.HasValue && activityId.HasValue)
-            {
-                var activityTypeId = activityType.GetIntValue();
-                var activityFilter = ODataHelper.Expression<VConversationDTO>(x => x.ActivityID == activityId && x.ActivityType == activityTypeId);
-                filterExpression = Expression.And(filterExpression, activityFilter);
-            }
-            var filter = ODataHelper.Filter(filterExpression);
+            var take = Request["$top"] == null ? 0 : int.Parse(Request["$top"]);
+            var skip = Request["$skip"] == null? 0 : int.Parse(Request["$skip"]);
+            var res = await NotificationClient.GetConversationsAsync(uaoId, activityType, activityId, take, skip);
 
-            var order = ODataHelper.OrderBy<VConversationDTO>(x => new { x.Latest }) + " desc";
-            JObject res = await QueryClient.QueryAsync("VConversations", ODataHelper.RemoveParameters(Request) + select + filter + order);
-
-            foreach (dynamic r in res["Items"])
+            foreach (var r in res.Items)
             {
                 if (r.ActivityType != null)
                 {
@@ -71,18 +62,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     }
                 }
             }
-            return Content(res.ToString(Formatting.None), "application/json");
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetConversationsActivity(ActivityType activityType, Guid activityId)
         {
+            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
             var orgId = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-            int at = activityType.GetIntValue();
-            var select = ODataHelper.Select<VConversationActivityDTO>(x => new { x.ConversationID, x.Subject, x.Latest, x.IsSystemMessage });
-            var filter = ODataHelper.Filter<VConversationActivityDTO>(x => x.ActivityID == activityId && x.ActivityType == at && x.OrganisationID == orgId);
-            var order = ODataHelper.OrderBy<VConversationActivityDTO>(x => new { x.Latest }) + " desc";
-            JObject res = await QueryClient.QueryAsync("VConversationActivities", ODataHelper.RemoveParameters(Request) + select + filter + order);
-            return Content(res.ToString(Formatting.None), "application/json");
+            var take = Request["$top"] == null ? 0 : int.Parse(Request["$top"]);
+            var skip = Request["$skip"] == null ? 0 : int.Parse(Request["$skip"]);
+            var res = await NotificationClient.GetConversationsActivityAsync(uaoId, orgId, activityType, activityId, take, skip);
+            return Json(res, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> GetMessages(Guid conversationId, int page, int pageSize)
@@ -225,10 +215,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var filter = ODataHelper.Filter<ConversationParticipantDTO>(x => x.ConversationID == conversationId);
             var participants = await QueryClient.QueryAsync<ConversationParticipantDTO>("ConversationParticipants", select + filter);
 
-            var ret = participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)
-                && await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType);
+            if (!participants.Any(x => x.UserAccountOrganisation.OrganisationID == orgId)) return false;
 
-            return ret;
+            if (conversation.ActivityType.HasValue &&
+                !await CanAccessConversationInActivity(conversation.ActivityID, (ActivityType)conversation.ActivityType)) return false;
+
+            return true;
         }
 
         private bool checkReply(ActivityType activityType)

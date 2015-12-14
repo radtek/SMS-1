@@ -2,6 +2,7 @@
     primaryBuyerTemplatePromise,
     relatedPartiesTemplatePromise;
 var txGrid;
+var areConversationsLoaded;
 $(function () {
     txGrid = new gridItem(
     {
@@ -92,13 +93,13 @@ $(function () {
     }
 
     function setupTabs() {
-        var areConversationsLoaded = false;
+        areConversationsLoaded = false;
         $('#rPanel li a').click(function (e) {
             e.stopPropagation();
             history.pushState(null, null, $(this).attr('href'));
             $(this).tab('show');
 
-            if (!areConversationsLoaded) {
+            if ($(this).attr('id') == 'safeSendTab' && !areConversationsLoaded) {
                 $('#transactionConversationContainer').trigger('loadConversations');
                 areConversationsLoaded = true;
             }
@@ -128,6 +129,7 @@ function txChange(dataItem) {
     $('#transactionConversationContainer')
         .data('activity-id', dataItem.SmsTransactionID)
         .trigger('activitychange', dataItem.SmsTransactionID);
+    areConversationsLoaded = false;
 }
 
 function showTransactionDetails(dataItem) {
