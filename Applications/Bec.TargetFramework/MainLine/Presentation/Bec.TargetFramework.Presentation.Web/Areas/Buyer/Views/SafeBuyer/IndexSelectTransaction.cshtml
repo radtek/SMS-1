@@ -23,7 +23,7 @@
                             <p class="text-muted">
                                 @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
                                 {
-                                    <text>Purchase of </text>@tx.SmsTransaction.Address.Line1 @tx.SmsTransaction.Address.PostalCode
+                                    <text>Purchase of </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)
                                 }
                                 else
                                 {
