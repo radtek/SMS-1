@@ -17,7 +17,10 @@
                     <span class="text-muted">wrote on {{Message.DateSent}}</span>
                 </div>
                 {{#if isMessage}}
-                    <pre>{{Content.Message}}</pre> 
+                    <pre>{{Content.Message}}</pre>
+                {{#each Files}}
+                    <a class="attachment" href="{{Link}}">{{Name}}</a>
+                {{/each}}
                 {{else if isBaSafe}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}
                         <pre>Bank account {{SortCode}}, {{AccountNumber}} has been marked as safe - <strong>you can now order Safe Buyer</strong> so that clients can check this bank account.</pre>

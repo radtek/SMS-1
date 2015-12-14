@@ -127,7 +127,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task SaveNotificationAsync(NotificationDTO dto)
+        public async Task<Guid> SaveNotificationAsync(NotificationDTO dto)
         {
             Ensure.That(dto).IsNotNull();
             Ensure.That(dto.NotificationRecipients).IsNotNull();
@@ -163,6 +163,8 @@ namespace Bec.TargetFramework.Business.Logic
                 scope.DbContexts.Get<TargetFrameworkEntities>().Notifications.Add(notification);
                 
                 await scope.SaveChangesAsync();
+
+                return notification.NotificationID;
             }
         }
 
@@ -504,7 +506,8 @@ namespace Bec.TargetFramework.Business.Logic
                 //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
+                var newParentID = await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
+                await AttachUploads(uaoID, newParentID);
                 await scope.SaveChangesAsync();
             }
         }
@@ -523,8 +526,9 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
+        private async Task<Guid> Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
         {
+            Guid ret;
             using (var scope = DbContextScopeFactory.Create())
             {
                 var conversation = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.SingleOrDefault(x => x.ConversationID == conversationID);
@@ -542,10 +546,11 @@ namespace Bec.TargetFramework.Business.Logic
 
                 n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
 
-                await SaveNotificationAsync(n);
+                ret = await SaveNotificationAsync(n);
                 await SendExternalNotification(recipients);
                 await scope.SaveChangesAsync();
             }
+            return ret;
         }
 
         private async Task SendExternalNotification(IEnumerable<Guid> recipientUaoIds)
@@ -642,12 +647,22 @@ namespace Bec.TargetFramework.Business.Logic
                 var nids = messages.Select(m => m.NotificationID);
                 var reads = scope.DbContexts.Get<TargetFrameworkEntities>().VMessageReads.Where(x => nids.Contains(x.NotificationID)).ToDtos();
 
-                return messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
-                    {
-                        IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
-                        Message = x,
-                        Reads = y
-                    });
+                var files = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => nids.Contains(x.ParentID)).Select(x => new MessageFileDTO { Name = x.Name, FileID = x.FileID, ParentID = x.ParentID }).ToList();
+
+                var readMessages = messages.GroupJoin(reads, x => x.NotificationID, x => x.NotificationID, (x, y) => new MessageDTO
+                {
+                    IsReadByCurrentUser = x.CreatedByUserAccountOrganisationID == uaoId || y.Any(c => c.UserAccountOrganisationID == uaoId),
+                    Message = x,
+                    Reads = y
+                });
+
+                return readMessages.GroupJoin(files, x => x.Message.NotificationID, x => x.ParentID, (x, y) => new MessageDTO
+                {
+                    IsReadByCurrentUser = x.IsReadByCurrentUser,
+                    Message = x.Message,
+                    Reads = x.Reads,
+                    Files = y
+                });
             }
         }
 
@@ -707,6 +722,17 @@ namespace Bec.TargetFramework.Business.Logic
                     item.Unread = unreads.ContainsKey(item.ConversationID.Value) && unreads[item.ConversationID.Value] > 0;
                 }
                 return new ConversationResultDTO<FnGetConversationActivityResultDTO> { Items = ret, Count = count };
+            }
+        }
+
+        private async Task AttachUploads(Guid oldParentID, Guid newParentID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == oldParentID))
+                    item.ParentID = newParentID;
+
+                await scope.SaveChangesAsync();
             }
         }
 

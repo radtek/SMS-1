@@ -28,6 +28,12 @@
             {{else}}
                 <div class="col-xs-12">
                     <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
+
+                        <div class="row display-table">
+                            <div class="col-xs-12">
+                                <div id="replyUpload" class="dropzone"></div>
+                            </div>
+                        </div>
                         <div class="row display-table">
                             <div class="col-xs-11">
                                 <fieldset>

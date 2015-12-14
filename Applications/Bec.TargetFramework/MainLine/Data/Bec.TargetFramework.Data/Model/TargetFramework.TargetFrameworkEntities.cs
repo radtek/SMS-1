@@ -2026,11 +2026,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for VMessageRead in the schema.
         /// </summary>
         public virtual DbSet<VMessageRead> VMessageReads { get; set; }
-
+    
         /// <summary>
         /// There are no comments for VConversationUnread in the schema.
         /// </summary>
         public virtual DbSet<VConversationUnread> VConversationUnreads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for File in the schema.
+        /// </summary>
+        public virtual DbSet<File> Files { get; set; }
 
         #region Methods
 

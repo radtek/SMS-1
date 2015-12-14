@@ -26,7 +26,10 @@
         messagesUrl: viewMessagesContainer.data("messages-url"),
         recipientsUrl: viewMessagesContainer.data("recipients-url"),
         convRankUrl: viewMessagesContainer.data("convrank-url"),
-        participantsUrl: viewMessagesContainer.data("participants-url")
+        participantsUrl: viewMessagesContainer.data("participants-url"),
+        uploadUrl: viewMessagesContainer.data("upload-url"),
+        clearUploadsUrl: viewMessagesContainer.data("clear-uploads-url"),
+        removeUploadUrl: viewMessagesContainer.data("remove-upload-url"),
     };
 
     var conversationsTemplatePromise = getTemplatePromise('_conversationsTmpl');
@@ -203,7 +206,7 @@
             }
             var messagesSpinner = getMessagesSpinner();
             messagesSpinner.show();
-            $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
+            $.when(createConversationTemplatePromise, getRecipientsPromise, clearUploads).done(function (template, recipientsResponse) {
                 var templateData = {
                     activityType: currentActivity.activityType,
                     activityId: currentActivity.activityId,
@@ -284,6 +287,8 @@
                 submitNewConversation.prop('disabled', false);
             }
         }
+
+        createDropZone($('#createUpload'), $('#submitNewConversationBtn'));
     }
 
     function selectCurrentOrLatestConversation() {
@@ -467,11 +472,10 @@
                 return;
             }
             showMessagesSpinner();
-
-            $.when(getParticipantDetails(), loadMessages())
-                .then(compileTemplates)
-                .then(scrollToLastOrFirstUnreadMessage)
-                .always(hideMessagesSpinner);
+            $.when(getParticipantDetails(), loadMessages(), clearUploads())
+            .then(compileTemplates)
+            .then(scrollToLastOrFirstUnreadMessage)
+            .always(hideMessagesSpinner);
         });
 
         messagesContainer.on('click', '#conversationSubject', function () {
@@ -515,6 +519,8 @@
             }));
             populateContainer(html.find('#itemsContainer'), messages);
             messagesList.html(html);
+
+            createDropZone($('#replyUpload'), $('#replyButton'));
         });
     }
 
@@ -562,5 +568,60 @@
 
     function hideConversationsBox() {
         conversationsContainer.addClass('col-xs-0 col-sm-0');
+    }
+
+    function clearUploads() {
+        return ajaxWrapper({
+            url: urls.clearUploadsUrl,
+            method: 'POST'
+        });
+    }
+
+    function createDropZone(item, sendButton) {
+        var dz = item.dropzone({
+            url: urls.uploadUrl,
+            addRemoveLinks: true,
+            init: function () {
+                var dz = this;
+                dz.on("addedfile", function (file) {
+                    sendButton.prop('disabled', true);
+                });
+                dz.on("queuecomplete", function () {
+                    sendButton.prop('disabled', false);
+                });
+
+                dz.on("removedfile", function (file, dataUrl) {
+                    removeFile(file.name)
+                });
+
+                dz.on("error", function (file, msg, xhr) {
+                    if (xhr && xhr.response) {
+                        var j = JSON.parse(xhr.response);
+                        checkRedirect(j);
+                    }
+                });
+            },
+            previewTemplate: '<div class="dz-preview dz-file-preview">' +
+              '<div class="dz-details">' +
+                '<div class="dz-filename"><span data-dz-name></span></div>' +
+                '<div class="dz-size" data-dz-size></div>' +
+                '<img data-dz-thumbnail />' +
+              '</div>' +
+              '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>' +
+              '<div class="dz-success-mark"><span>✔</span></div>' +
+              '<div class="dz-error-mark"><span>✘</span></div>' +
+              '<div class="dz-error-message"><span data-dz-errormessage></span></div>' +
+            '</div>'
+        });
+    }
+
+    function removeFile(name) {
+        ajaxWrapper({
+            url: urls.removeUploadUrl,
+            data: {
+                filename: name
+            },
+            method: 'POST'
+        });
     }
 });
