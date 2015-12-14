@@ -583,6 +583,13 @@
                 dz.on("removedfile", function (file, dataUrl) {
                     removeFile(file.name)
                 });
+
+                dz.on("error", function (file, msg, xhr) {
+                    if (xhr && xhr.response) {
+                        var j = JSON.parse(xhr.response);
+                        checkRedirect(j);
+                    }
+                });
             },
             previewTemplate: '<div class="dz-preview dz-file-preview">' +
               '<div class="dz-details">' +

@@ -19,7 +19,7 @@
                 {{#if isMessage}}
                     <pre>{{Content.Message}}</pre>
                 {{#each Files}}
-                    <a href="{{Link}}">{{Name}}</a>
+                    <a class="attachment" href="{{Link}}">{{Name}}</a>
                 {{/each}}
                 {{else if isBaSafe}}
                     {{#with Content.NotificationDictionary.BankAccountMarkedAsSafeNotificationDTO}}

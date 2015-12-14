@@ -562,6 +562,9 @@
 .dropzone .dz-remove:hover {
   background-color: #8fad20 !important;
 }
+a.attachment {
+  margin-right: 12px;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;
