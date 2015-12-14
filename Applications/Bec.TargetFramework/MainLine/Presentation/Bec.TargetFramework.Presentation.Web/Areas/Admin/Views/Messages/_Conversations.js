@@ -315,8 +315,6 @@
                 return $(this).data('conversation-id') == targetConversationId;
             });
 
-            console.log(conversations);
-
             if (conversations.length == 1) {
                 conversations.first().trigger('click');
                 targetConversationId = null;
@@ -328,7 +326,6 @@
                         convID: targetConversationId
                     }
                 }).success(function (data) {
-                    console.log('page');
                     var page = getPageFromRow(data, messagesPageSize);
                     pager.page(page);
                 });
@@ -454,24 +451,27 @@
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function
     function setupWindowToggling() {
         viewMessagesContainer.on('click', '.conversation-item', function (e) {
+            var conv = $(this);
+
             if (isCompactView() && !isMessageBoxOpen()) {
                 hideConversationsBox();
                 showMessagesBoxCompact();
             }
-            var conv = $(this);
+            var previousConversationId = currentConversation.id;
+
             setConversationItemActive(conv);
             markConversationAsRead(conv);
-            currentConversation.id = conv.data('conversation-id');
-            currentConversation.subject = conv.data('conversation-subject');
-            currentConversation.link = conv.data('conversation-link');
-            currentConversation.linkdescription = conv.data('conversation-link-description');
-            currentConversation.issystemmessage = conv.data('conversation-issystemmessage');
+            updateCurrentConversation(conv);
 
+            if (currentConversation.id == previousConversationId) {
+                return;
+            }
             showMessagesSpinner();
+
             $.when(getParticipantDetails(), loadMessages())
-            .then(compileTemplates)
-            .then(scrollToLastOrFirstUnreadMessage)
-            .always(hideMessagesSpinner);
+                .then(compileTemplates)
+                .then(scrollToLastOrFirstUnreadMessage)
+                .always(hideMessagesSpinner);
         });
 
         messagesContainer.on('click', '#conversationSubject', function () {
@@ -480,6 +480,14 @@
                 showConversationsBox();
             }
         });
+    }
+
+    function updateCurrentConversation(conversationElement) {
+        currentConversation.id = conversationElement.data('conversation-id');
+        currentConversation.subject = conversationElement.data('conversation-subject');
+        currentConversation.link = conversationElement.data('conversation-link');
+        currentConversation.linkdescription = conversationElement.data('conversation-link-description');
+        currentConversation.issystemmessage = conversationElement.data('conversation-issystemmessage');
     }
 
     function showMessagesSpinner() {
