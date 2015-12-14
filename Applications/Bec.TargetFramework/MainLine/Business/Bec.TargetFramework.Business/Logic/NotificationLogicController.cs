@@ -725,25 +725,6 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UploadFile(FileDTO file)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                scope.DbContexts.Get<TargetFrameworkEntities>().Files.Add(file.ToEntity());
-                await scope.SaveChangesAsync();
-            }
-        }
-
-        public async Task ClearUnusedFiles(Guid uaoID)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var items = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID);
-                scope.DbContexts.Get<TargetFrameworkEntities>().Files.RemoveRange(items);
-                await scope.SaveChangesAsync();
-            }
-        }
-
         private async Task AttachUploads(Guid oldParentID, Guid newParentID)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -751,25 +732,6 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == oldParentID))
                     item.ParentID = newParentID;
 
-                await scope.SaveChangesAsync();
-            }
-        }
-
-        public FileDTO DownloadFile(Guid uaoID, Guid fileID)
-        {
-            //TODO: access controls based on uao & file parent etc
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.FileID == fileID).Single().ToDto();
-            }
-        }
-
-        public async Task RemovePendingUpload(Guid uaoID, string filename)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var file = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID && x.Name == filename).FirstOrDefault();
-                scope.DbContexts.Get<TargetFrameworkEntities>().Files.Remove(file);
                 await scope.SaveChangesAsync();
             }
         }

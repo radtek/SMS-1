@@ -17,6 +17,7 @@ using Bec.TargetFramework.Entities.Enums;
 using System.Web.Http;
 using BrockAllen.MembershipReboot;
 using ServiceStack.Text;
+using nClam;
 
 #region Proxies
 namespace Bec.TargetFramework.Business.Client
@@ -213,6 +214,49 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="typeName"></param>
 		/// <returns></returns>
 		Int32 GetClassificationDataForTypeName(String categoryName,String typeName);
+	}
+
+	public partial interface IFileLogicClient : IClientBase	{	
+
+		/// <returns></returns>
+		Task<ClamScanResult> UploadFileAsync(FileDTO file);
+
+		/// <returns></returns>
+		ClamScanResult UploadFile(FileDTO file);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		Task ClearUnusedFilesAsync(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		void ClearUnusedFiles(Guid uaoID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		FileDTO DownloadFile(Guid uaoID,Guid fileID);
+
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		Task RemovePendingUploadAsync(Guid uaoID,String filename);
+
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		void RemovePendingUpload(Guid uaoID,String filename);
+
+		/// <returns></returns>
+		Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data);
+
+		/// <returns></returns>
+		ClamScanResult ScanForVirus(ScanBytesDTO data);
 	}
 
 	public partial interface IInvoiceLogicClient : IClientBase	{	
@@ -661,40 +705,6 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="skip"></param>
 		/// <returns></returns>
 		ConversationResultDTO<FnGetConversationActivityResultDTO> GetConversationsActivity(Guid uaoID,Guid orgID,ActivityType activityType,Guid activityId,Int32 take,Int32 skip);
-
-		/// <returns></returns>
-		Task UploadFileAsync(FileDTO file);
-
-		/// <returns></returns>
-		void UploadFile(FileDTO file);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		Task ClearUnusedFilesAsync(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		void ClearUnusedFiles(Guid uaoID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="fileID"></param>
-		/// <returns></returns>
-		Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="fileID"></param>
-		/// <returns></returns>
-		FileDTO DownloadFile(Guid uaoID,Guid fileID);
-
-		/// <param name="uaoID"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		Task RemovePendingUploadAsync(Guid uaoID,String filename);
-
-		/// <param name="uaoID"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		void RemovePendingUpload(Guid uaoID,String filename);
 	}
 
 	public partial interface IOrganisationLogicClient : IClientBase	{	
@@ -2141,6 +2151,135 @@ namespace Bec.TargetFramework.Business.Client.Clients
 	/// <summary>
 	/// 
 	/// </summary>
+	public partial class FileLogicClient : ClientBase, Interfaces.IFileLogicClient	{		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public FileLogicClient(string url) : base(url)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public FileLogicClient(HttpMessageHandler handler,string url, bool disposeHandler = true) : base(handler,url, disposeHandler)
+		{
+		}
+
+		#region Methods
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<ClamScanResult> UploadFileAsync(FileDTO file)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFile", file, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual ClamScanResult UploadFile(FileDTO file)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFile", file, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <returns></returns>
+		public virtual Task ClearUnusedFilesAsync(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/FileLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		public virtual void ClearUnusedFiles(Guid uaoID)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/FileLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		/// <returns></returns>
+		public virtual Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="fileID"></param>
+		public virtual FileDTO DownloadFile(Guid uaoID,Guid fileID)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<object, FileDTO>("api/FileLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public virtual Task RemovePendingUploadAsync(Guid uaoID,String filename)
+		{
+			filename = filename.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="filename"></param>
+		public virtual void RemovePendingUpload(Guid uaoID,String filename)
+		{
+			filename = filename.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<ScanBytesDTO, ClamScanResult>("api/FileLogic/ScanForVirus", data, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual ClamScanResult ScanForVirus(ScanBytesDTO data)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<ScanBytesDTO, ClamScanResult>("api/FileLogic/ScanForVirus", data, _user)).Result;
+		}
+
+		#endregion
+	}
+	/// <summary>
+	/// 
+	/// </summary>
 	public partial class InvoiceLogicClient : ClientBase, Interfaces.IInvoiceLogicClient	{		
 
 		/// <summary>
@@ -3214,94 +3353,6 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<ConversationResultDTO<FnGetConversationActivityResultDTO>>("api/NotificationLogic/GetConversationsActivity?uaoID=" + uaoID + "&orgID=" + orgID + "&activityType=" + activityType + "&activityId=" + activityId + "&take=" + take + "&skip=" + skip, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task UploadFileAsync(FileDTO file)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<FileDTO>("api/NotificationLogic/UploadFile", file, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void UploadFile(FileDTO file)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<FileDTO>("api/NotificationLogic/UploadFile", file, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <returns></returns>
-		public virtual Task ClearUnusedFilesAsync(Guid uaoID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		public virtual void ClearUnusedFiles(Guid uaoID)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="fileID"></param>
-		/// <returns></returns>
-		public virtual Task<FileDTO> DownloadFileAsync(Guid uaoID,Guid fileID)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object, FileDTO>("api/NotificationLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="fileID"></param>
-		public virtual FileDTO DownloadFile(Guid uaoID,Guid fileID)
-		{
-			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, FileDTO>("api/NotificationLogic/DownloadFile?uaoID=" + uaoID + "&fileID=" + fileID, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="filename"></param>
-		/// <returns></returns>
-		public virtual Task RemovePendingUploadAsync(Guid uaoID,String filename)
-		{
-			filename = filename.UrlEncode();
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="filename"></param>
-		public virtual void RemovePendingUpload(Guid uaoID,String filename)
-		{
-			filename = filename.UrlEncode();
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user)).Wait();
 		}
 
 		#endregion

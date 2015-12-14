@@ -22,6 +22,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
     public class MessagesController : ApplicationControllerBase
     {
         public INotificationLogicClient NotificationClient { get; set; }
+        public IFileLogicClient FileClient { get; set; }
         public IQueryLogicClient QueryClient { get; set; }
 
         public ActionResult Index(Guid? conversationId)
@@ -288,29 +289,35 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
-        public async Task<string> UploadFile()
+        public async Task<string> UploadFile(HttpPostedFileBase file)
         {
             try
             {
                 var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-                foreach (string fileName in Request.Files)
+
+                if (file != null && file.ContentLength > 0)
                 {
-                    HttpPostedFileBase file = Request.Files[fileName];
-                    if (file != null && file.ContentLength > 0)
+                    using (BinaryReader reader = new BinaryReader(file.InputStream))
                     {
-                        using (BinaryReader reader = new BinaryReader(file.InputStream))
+                        byte[] data = new byte[file.InputStream.Length];
+                        reader.Read(data, 0, (int)file.InputStream.Length);
+                        FileDTO f = new FileDTO { ParentID = uaoId, Name = file.FileName, Type = file.ContentType, Data = data };
+                        var res = await FileClient.UploadFileAsync(f);
+                        switch (res.Result)
                         {
-                            byte[] data = new byte[file.InputStream.Length];
-                            reader.Read(data, 0, (int)file.InputStream.Length);
-                            FileDTO f = new FileDTO { ParentID = uaoId, Name = file.FileName, Type = file.ContentType, Data = data };
-                            await NotificationClient.UploadFileAsync(f);
+                            case nClam.ClamScanResults.Clean: 
+                                return "OK";
+                            case nClam.ClamScanResults.VirusDetected: 
+                                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                                return "Virus detected";
                         }
                     }
                 }
-                
-                return "OK";
+
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return "Failed";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return "Failed";
@@ -320,13 +327,13 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task ClearUploads()
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await NotificationClient.ClearUnusedFilesAsync(uaoId);
+            await FileClient.ClearUnusedFilesAsync(uaoId);
         }
 
         public async Task<object> DownloadFile(Guid fileID)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var file = await NotificationClient.DownloadFileAsync(uaoId, fileID);
+            var file = await FileClient.DownloadFileAsync(uaoId, fileID);
             var ext = System.IO.Path.GetExtension(file.Name);
             return File(file.Data, file.Type, file.Name);
         }
@@ -334,7 +341,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
         public async Task RemovePendingUpload(string filename)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await NotificationClient.RemovePendingUploadAsync(uaoId, filename);
+            await FileClient.RemovePendingUploadAsync(uaoId, filename);
         }
 
     }
