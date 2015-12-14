@@ -506,8 +506,8 @@ namespace Bec.TargetFramework.Business.Logic
                 //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                var newParentID = await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
-                await AttachUploads(uaoID, newParentID);
+                await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
+                
                 await scope.SaveChangesAsync();
             }
         }
@@ -526,9 +526,8 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task<Guid> Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
+        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
         {
-            Guid ret;
             using (var scope = DbContextScopeFactory.Create())
             {
                 var conversation = scope.DbContexts.Get<TargetFrameworkEntities>().Conversations.SingleOrDefault(x => x.ConversationID == conversationID);
@@ -546,11 +545,11 @@ namespace Bec.TargetFramework.Business.Logic
 
                 n.NotificationRecipients = new List<NotificationRecipientDTO>(recipients.Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }));
 
-                ret = await SaveNotificationAsync(n);
+                var ret = await SaveNotificationAsync(n);
                 await SendExternalNotification(recipients);
+                await AttachUploads(senderUaoID, ret);
                 await scope.SaveChangesAsync();
             }
-            return ret;
         }
 
         private async Task SendExternalNotification(IEnumerable<Guid> recipientUaoIds)
