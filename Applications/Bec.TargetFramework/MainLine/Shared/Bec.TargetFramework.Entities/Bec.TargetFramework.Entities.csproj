@@ -1871,6 +1871,7 @@
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountCheckNoMatchNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountMarkedAsPotentialFraudNotificationDTO.cs" />
     <Compile Include="DTO\Notification\ConversationDetailsDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />

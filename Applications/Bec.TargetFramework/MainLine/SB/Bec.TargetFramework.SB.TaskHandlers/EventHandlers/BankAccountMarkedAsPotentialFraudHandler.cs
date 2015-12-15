@@ -15,33 +15,33 @@ using System.Collections.Generic;
 
 namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
 {
-    public class BankAccountCheckNoMatchHandler : BaseEventHandler<BankAccountCheckNoMatchEvent>
+    public class BankAccountMarkedAsPotentialFraudHandler : BaseEventHandler<BankAccountMarkedAsPotentialFraudEvent>
     {
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
 
-        public override void HandleMessage(BankAccountCheckNoMatchEvent handlerEvent)
+        public override void HandleMessage(BankAccountMarkedAsPotentialFraudEvent handlerEvent)
         {
             try
             {
-                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountCheckNoMatch.GetStringValue());
+                var notificationConstruct = NotificationLogicClient.GetLatestNotificationConstructIdFromName(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue());
 
                 var dictionary = new ConcurrentDictionary<string, object>();
-                dictionary.TryAdd("BankAccountCheckNoMatchNotificationDTO", handlerEvent.BankAccountCheckNoMatchNotificationDto);
+                dictionary.TryAdd("BankAccountMarkedAsPotentialFraudNotificationDTO", handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto);
 
-                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto.OrganisationId, "Organisation Administrator")
                     .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
                     recipients,
-                    new NotificationDictionaryDTO
+                    new NotificationDictionaryDTO 
                     {
                         NotificationDictionary = dictionary
                     },
-                    ActivityType.SmsTransaction,
-                    handlerEvent.BankAccountCheckNoMatchNotificationDto.TransactionId
+                    ActivityType.BankAccount,
+                    handlerEvent.BankAccountMarkedAsPotentialFraudNotificationDto.OrganisationBankAccountID
                     );
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };

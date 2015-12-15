@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
-                    NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.CreditAdjustmentNotificationDto.OrganisationId)
+                    NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.CreditAdjustmentNotificationDto.OrganisationId, null)
                         .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList(),
                     new NotificationDictionaryDTO
                     {

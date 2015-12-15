@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="EventHandlers\AddNewUserHandler.cs" />
     <Compile Include="EventHandlers\BankAccountCheckNoMatchHandler.cs" />
+    <Compile Include="EventHandlers\BankAccountMarkedAsPotentialFraudHandler.cs" />
     <Compile Include="EventHandlers\NewInternalMessagesHandler.cs" />
     <Compile Include="EventHandlers\CreditAdjustmentHandler.cs" />
     <Compile Include="EventHandlers\BankAccountMarkedAsSafeHandler.cs" />
