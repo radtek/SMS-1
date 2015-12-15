@@ -72,7 +72,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             try
             {
                 await UserLogicClient.CreatePasswordResetRequestAsync(username);
-                return Json(new { message = "The verification code has been sent" }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "Your PIN has been sent" }, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {

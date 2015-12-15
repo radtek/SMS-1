@@ -670,11 +670,11 @@ namespace Bec.TargetFramework.Business.Logic
                     .FirstOrDefault(s => !s.IsTemporaryAccount);
 
                 if (user == null || string.IsNullOrEmpty(user.MobilePhoneNumber)) throw new Exception("An error has occured");
-                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
+                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A PIN was generated recently. Please wait a few minutes and try again.");
 
                 user.MobileCode = CreatePin(4);
                 user.MobileCodeSent = DateTime.Now;
-                var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", user.MobileCode);
+                var message = string.Format("You, or someone else, has requested to reset your password. Your Safe Move Scheme PIN is {0}", user.MobileCode);
                 SendTextMessage(user.MobilePhoneNumber, message);
 
                 await scope.SaveChangesAsync();
@@ -722,7 +722,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (sendToMobilePhone && !string.IsNullOrWhiteSpace(uao.UserAccount.MobilePhoneNumber) && !string.IsNullOrWhiteSpace(uao.PinCode))
                 {
-                    var message = string.Format("Your PIN is: {0}", uao.PinCode);
+                    var message = string.Format("Your Safe Move Scheme PIN is {0}", uao.PinCode);
                     SendTextMessage(uao.UserAccount.MobilePhoneNumber, message);
                 }
             }
