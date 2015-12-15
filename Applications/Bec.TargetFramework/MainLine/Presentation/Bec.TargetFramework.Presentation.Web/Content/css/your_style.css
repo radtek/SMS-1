@@ -555,6 +555,31 @@
   display: none;
   width: 0;
 }
+.dropzone {
+  margin-right: 5px !important;
+  margin-bottom: 10px !important;
+  min-height: 100px;
+}
+.dropzone .dz-default.dz-message {
+  margin: 40px 0 !important;
+  top: unset !important;
+  left: unset !important;
+  width: 100% !important;
+  height: unset !important;
+  text-align: center;
+}
+.dropzone .dz-remove {
+  background-image: unset !important;
+  background-color: #a1c324 !important;
+  border-color: #a1c324 !important;
+  cursor: pointer !important;
+}
+.dropzone .dz-remove:hover {
+  background-color: #8fad20 !important;
+}
+a.attachment {
+  margin-right: 12px;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

@@ -489,6 +489,10 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\FileDTO.cs" />
+    <Compile Include="Boo\FileDTO.Generated.cs">
+      <DependentUpon>FileDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\FnGetConversationActivityResultDTO.cs" />
     <Compile Include="Boo\FnGetConversationActivityResultDTO.Generated.cs">
       <DependentUpon>FnGetConversationActivityResultDTO.cs</DependentUpon>
@@ -1899,6 +1903,7 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\ScanBytesDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />

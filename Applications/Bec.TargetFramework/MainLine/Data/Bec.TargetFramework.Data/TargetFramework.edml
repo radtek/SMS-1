@@ -414,6 +414,7 @@
           <EntitySet Name="vSafeSendRecipients" EntityType="Bec.TargetFramework.Data.Store.vSafeSendRecipient" store:Type="Views" Schema="public" Table="vSafeSendRecipient" />
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
+          <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -10022,6 +10023,16 @@
           <Property Name="UserAccountOrganisationID" Type="uuid" Nullable="false" />
           <Property Name="UnreadCount" Type="bigint" />
         </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="uuid" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" />
+          <Property Name="Data" Type="bytea" Nullable="false" />
+          <Property Name="Type" Type="varchar" Nullable="false" />
+        </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
           <End Role="DefaultOrganisationLedger" Type="Bec.TargetFramework.Data.Store.DefaultOrganisationLedger" Multiplicity="*" />
@@ -18677,6 +18688,7 @@
           <EntitySet Name="VSafeSendRecipients" EntityType="Bec.TargetFramework.Data.VSafeSendRecipient" />
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
+          <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -29360,6 +29372,16 @@
           <Property Name="ConversationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="1ab22675-3c6c-4fe8-b241-5513dd7f01ae" />
           <Property Name="UserAccountOrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="82aadfb3-d871-42b5-a785-ec485911ca7c" />
           <Property Name="UnreadCount" Type="Int64" ed:ValidateRequired="False" ed:Guid="5ac9a49b-1d45-4d43-b77b-3d8d6dbae044" />
+        </EntityType>
+        <EntityType Name="File" ed:Guid="45a14674-5fec-4892-beef-97ccd4c1cb3d">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="5c1bb6d5-41a2-453d-baa0-c315e692aa95" />
+          <Property Name="ParentID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="93d9da68-3332-461f-8acf-3031cda83ae3" />
+          <Property Name="Name" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="3d0120e1-c4e8-492d-aa90-8141c33e6345" />
+          <Property Name="Data" Type="Binary" Nullable="false" ed:ValidateRequired="True" ed:Guid="3861f404-5690-458f-9e53-2bd5a68b09ab" />
+          <Property Name="Type" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="e229e062-daf6-45f6-b331-f7a75e9a3adf" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -44062,6 +44084,17 @@
                 <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="UnreadCount" ColumnName="UnreadCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -723,6 +723,34 @@
     display: none;
     width: 0;
 }
+
+.dropzone{
+    margin-right: 5px !important;
+    margin-bottom: 10px !important;
+    min-height:100px;
+    .dz-default.dz-message{
+        margin: 40px 0 !important;
+        top: unset !important;
+        left: unset !important;
+        width: 100% !important;
+        height: unset !important;
+        text-align: center;
+    }
+    .dz-remove{
+        background-image: unset !important;
+        background-color: @primary-color !important;
+        border-color: @primary-color !important;
+        cursor: pointer !important;
+        &:hover{
+            background-color: darken(@primary-color, 5%) !important;
+        }
+    }
+}
+
+a.attachment{
+    margin-right:12px;
+}
+
 // xs and sm
 @media only screen and (max-width: 992px) {
     .view-messages-container {

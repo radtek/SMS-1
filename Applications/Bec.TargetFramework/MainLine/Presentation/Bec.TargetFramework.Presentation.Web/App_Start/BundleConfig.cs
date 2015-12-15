@@ -11,7 +11,9 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new StyleBundle("~/content/bs").Include(
                 "~/content/css/bootstrap.min.css",
                 "~/content/css/font-awesome.min.css",
-                "~/content/css/smartadmin-production-plugins.min.css"                
+                "~/content/css/smartadmin-production-plugins.min.css"
+                //"~/Scripts/dropzone/basic.css",
+                //"~/Scripts/dropzone/dropzone.css"
                 ));
 
             bundles.Add(new StyleBundle("~/content/smartadmin").Include(
@@ -78,7 +80,8 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/kendo/kendo.userevents.min.js",
                 "~/Scripts/kendo/kendo.selectable.min.js",
                 "~/Scripts/kendo/kendo.grid.min.js",
-                "~/Scripts/kendo/kendo.aspnetmvc.min.js"
+                "~/Scripts/kendo/kendo.aspnetmvc.min.js",
+                "~/Scripts/dropzone/dropzone.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/Scripts/Account/AcceptTCs/Index").Include("~/Areas/Account/Views/AcceptTCs/Index.js"));
@@ -143,7 +146,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));            
+            bundles.Add(new ScriptBundle("~/Scripts/typeahead").Include("~/Scripts/typeahead.bundle.min.js"));
 
             BundleTable.EnableOptimizations = true;
         }

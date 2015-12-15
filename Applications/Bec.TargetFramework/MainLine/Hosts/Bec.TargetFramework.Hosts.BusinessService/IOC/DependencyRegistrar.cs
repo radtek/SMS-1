@@ -9,6 +9,7 @@ using Bec.TargetFramework.Infrastructure.Serilog;
 using BrockAllen.MembershipReboot;
 using BrockAllen.MembershipReboot.WebHost;
 using Mehdime.Entity;
+using nClam;
 using NServiceBus;
 using System.Configuration;
 using System.Linq;
@@ -19,6 +20,10 @@ namespace Bec.TargetFramework.Hosts.BusinessService.IOC
     {
         public virtual void Register(ContainerBuilder builder)
         {
+            builder.Register(c => new ClamClient(
+                ConfigurationManager.AppSettings["ClamAVServer"],
+                int.Parse(ConfigurationManager.AppSettings["ClamAVServerPort"])));
+
             builder.RegisterType<SamAuthenticationService>().As<AuthenticationService>();
             builder.Register(c => new SerilogLogger(true, false, "BusinessService")).As<ILogger>().SingleInstance();
             builder.Register(c => new CouchBaseCacheClient(c.Resolve<ILogger>(),

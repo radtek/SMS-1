@@ -23,6 +23,7 @@ using <#= Configuration.EnumsNamespace #>;
 using System.Web.Http;
 using BrockAllen.MembershipReboot;
 using ServiceStack.Text;
+using nClam;
 
 #region Proxies
 namespace <#= Configuration.Namespace#>

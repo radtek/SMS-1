@@ -398,6 +398,7 @@
         <File Name="TargetFramework.VSafeSendRecipient.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VMessageRead.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VConversationUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1186,6 +1187,8 @@
         <File Name="VMessageReadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="VConversationUnreadDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="VConversationUnreadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="FileDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="FileDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1583,6 +1586,7 @@
         <File Name="VSafeSendRecipientConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VMessageReadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VConversationUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1749,13 +1753,6 @@
       </AttributeAssembly>
     </AttributeAssemblies>
     <UpdateFromDatabaseExcludes>
-      <Exclude Name="ConversationID" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Subject" Table="public.Conversation" Type="Column" />
-      <Exclude Name="ActivityType" Table="public.Conversation" Type="Column" />
-      <Exclude Name="ActivityID" Table="public.Conversation" Type="Column" />
-      <Exclude Name="IsSystemMessage" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
-      <Exclude Name="Conversation_pkey" Table="public.Conversation" Type="Constraint" />
       <Exclude Name="OrganisationID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationTypeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="OrganisationSubTypeID" Table="public.Organisation" Type="Column" />
@@ -1796,9 +1793,18 @@
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="Notes" Table="public.OrganisationLedgerTransaction" Type="Column" />
       <Exclude Name="pkLedgerAccountTransaction" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
-      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHostAddress" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLocation" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLoginDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserLogoutDate" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserHasLoggedOut" Table="public.UserAccountLoginSession" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_pkey" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimType" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="ClaimID" Table="public.vClaimSource" Type="Column" />
@@ -1832,9 +1838,6 @@
       <Exclude Name="ConversationID" Table="public.vConversationUnread" Type="Column" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnread" Type="Column" />
       <Exclude Name="UnreadCount" Table="public.vConversationUnread" Type="Column" />
-      <Exclude Name="UserAccountOrganisationID" Table="public.vConversationUnreadPerActiveUao" Type="Column" />
-      <Exclude Name="UnreadCount" Table="public.vConversationUnreadPerActiveUao" Type="Column" />
-      <Exclude Name="" Table="public.vConversationUnreadPerActiveUao" Type="Constraint" />
       <Exclude Name="UserAccountOrganisationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="NotificationID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="NotificationConstructID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
@@ -1913,9 +1916,9 @@
       <Exclude Name="AttributeName" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
-      <Exclude Name="Latest" Table="public.Conversation" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
+      <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
       <Exclude Name="CompanyId" Table="public.vCompany" Type="Column" />
