@@ -1,7 +1,7 @@
 ﻿@model int
 <span id="activity" class="activity-dropdown" title="Notifications">
     <i class="sms sms-safe-send"></i>
-    <b class="badge" id="unreadConversationsCountId" style="@(Model == 0 ? "display: none" : "")" 
+    <b class="badge" id="unreadConversationsCountId" style="@(Model == 0 ? "display: none" : "")"
        data-get-unread-count-url="@Url.Action("GetLatestConversationsCount", "MessagesNotifications", new { area = "Admin" })">@Model</b>
 </span>
 <div class="ajax-dropdown">
@@ -20,8 +20,8 @@
                     </span>
                 </span>
             </li>
-            </ul>
-</div>
+        </ul>
+    </div>
     <span>
         @Html.ActionLink("See all Safe Send Messages", "Index", "Messages", new { area = "Admin" }, new { @class = "btn btn-default pull-right" })
     </span>

@@ -917,7 +917,7 @@
     <Content Include="Content\websiteLayout\images\theft-icon.png" />
     <Content Include="googlef4879a4b763f597d.html" />
     <Content Include="Scripts\app.config.js" />
-    <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\autoNumeric.js" />
     <Content Include="Scripts\Bec\bec.jquery.validate.rules.js" />
     <Content Include="Scripts\bootstrap.js" />
