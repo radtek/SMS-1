@@ -562,14 +562,14 @@
 }
 .dropzone .dz-default.dz-message {
   margin: 40px 0 !important;
-  top: unset !important;
-  left: unset !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100% !important;
-  height: unset !important;
+  height: 18px !important;
   text-align: center;
 }
 .dropzone .dz-remove {
-  background-image: unset !important;
+  background-image: none !important;
   background-color: #a1c324 !important;
   border-color: #a1c324 !important;
   cursor: pointer !important;
