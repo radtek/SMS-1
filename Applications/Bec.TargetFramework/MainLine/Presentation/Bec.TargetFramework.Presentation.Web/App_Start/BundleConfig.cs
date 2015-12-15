@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js",
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
-                "~/Scripts/app.min.js",
+                "~/Scripts/app.js",
                 "~/Scripts/Libs/handlebars-v3.0.3.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
