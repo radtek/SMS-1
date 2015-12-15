@@ -73,6 +73,12 @@ namespace Bec.TargetFramework.Entities
             var obj = GetWebUserObject(context);
             return obj == null ? "" : obj.UserName;
         }
+
+        public static string GetEmail(this HttpContextBase context)
+        {
+            var obj = GetWebUserObject(context);
+            return obj == null ? "" : obj.Email;
+        }
     }
 
     [Serializable]

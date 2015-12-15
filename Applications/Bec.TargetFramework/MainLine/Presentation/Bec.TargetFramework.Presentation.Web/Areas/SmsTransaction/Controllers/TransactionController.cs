@@ -120,6 +120,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             ViewBag.pageNumber = pageNumber;
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new
             {
+                x.SmsTransactionID,
                 x.SmsUserAccountOrganisationTransactionID,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
@@ -149,6 +150,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
                 await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, queryClient);
+                var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
+                await EnsureEmailNotInUse(modelEmail, uaoID, userClient);
                 
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
@@ -165,7 +168,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 var isUserRegistered = await userClient.IsUserAccountRegisteredAsync(uaoID);
                 if (!isUserRegistered)
                 {
-                    await userClient.ChangeUsernameAndEmailAsync(uaoID, Request.Form["Model.UserAccountOrganisation.UserAccount.Email"]);
+                    await userClient.ChangeUsernameAndEmailAsync(uaoID, modelEmail);
                 }
 
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -195,6 +198,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txID && x.UserAccountOrganisationID == uaoId);
             dynamic ret = await client.QueryAsync("SmsUserAccountOrganisationTransactions", select + filter);
             if ((bool)ret.Items.First.Confirmed) throw new AccessViolationException("Operation failed");
+        }
+
+        internal static async Task EnsureEmailNotInUse(string email, Guid? uaoID, IUserLogicClient userLogic)
+        {
+            var isEmailAvailable = await userLogic.CanEmailBeUsedAsProfessionalAsync(email, uaoID);
+            if (!isEmailAvailable) throw new InvalidOperationException("The e-mail cannot be used.");
         }
 
         public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
