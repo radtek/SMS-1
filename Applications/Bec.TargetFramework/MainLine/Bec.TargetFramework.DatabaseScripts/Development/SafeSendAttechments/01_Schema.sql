@@ -4,6 +4,8 @@
   "Name" VARCHAR NOT NULL,
   "Data" BYTEA NOT NULL,
   "Type" VARCHAR NOT NULL,
+  "UserAccountOrganisationID" UUID,
+  "Temporary" boolean default false not null
   PRIMARY KEY("FileID")
 ) ;
 
@@ -29,3 +31,31 @@ GRANT SELECT, INSERT, UPDATE, DELETE
 
 ALTER TABLE public."Notification"
   ALTER COLUMN "NotificationID" DROP DEFAULT;
+
+  ALTER TABLE public."File"
+  ADD CONSTRAINT "File_fk_UserAccountOrganisation" FOREIGN KEY ("UserAccountOrganisationID")
+    REFERENCES public."UserAccountOrganisation"("UserAccountOrganisationID")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+
+
+CREATE FUNCTION public."fn_AttachUploads" (
+  uaoid uuid,
+  id uuid,
+  newid uuid
+)
+RETURNS void AS
+$body$
+BEGIN
+  update "File" set "ParentID" = newid, "Temporary" = false
+  where "ParentID" = id and "UserAccountOrganisationID" = uaoid and "Temporary" = true;
+END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER;
+
+grant execute on function public."fn_AttachUploads"(uaoid uuid, id uuid, newid uuid) to postgres;
+grant execute on function public."fn_AttachUploads"(uaoid uuid, id uuid, newid uuid) to bef;

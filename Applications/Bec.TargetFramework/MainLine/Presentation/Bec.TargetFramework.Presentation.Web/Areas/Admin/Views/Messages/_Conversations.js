@@ -11,7 +11,9 @@
         getMessagesSpinner = function () { return $('#messagesSpinner'); },
         getNewConversationError = function () { return $('#newConversationError'); },
         createConversationButton = $('#createConversationButton'),
-        targetConversationId = viewMessagesContainer.data('target-conversation-id');
+        targetConversationId = viewMessagesContainer.data('target-conversation-id'),
+        attachmentsID = guid();
+
     var currentConversation = {
         id: null,
         subject: null
@@ -28,7 +30,6 @@
         convRankUrl: viewMessagesContainer.data("convrank-url"),
         participantsUrl: viewMessagesContainer.data("participants-url"),
         uploadUrl: viewMessagesContainer.data("upload-url"),
-        clearUploadsUrl: viewMessagesContainer.data("clear-uploads-url"),
         removeUploadUrl: viewMessagesContainer.data("remove-upload-url"),
     };
 
@@ -206,7 +207,7 @@
             }
             var messagesSpinner = getMessagesSpinner();
             messagesSpinner.show();
-            $.when(createConversationTemplatePromise, getRecipientsPromise, clearUploads).done(function (template, recipientsResponse) {
+            $.when(createConversationTemplatePromise, getRecipientsPromise).done(function (template, recipientsResponse) {
                 var templateData = {
                     activityType: currentActivity.activityType,
                     activityId: currentActivity.activityId,
@@ -216,7 +217,7 @@
                 messagesList.html(html);
                 setupNewConversationForm();
                 messagesSpinner.hide();
-            })
+            });
         });
     }
 
@@ -456,6 +457,7 @@
     // the functions related to toggling strictly depend on the bootstrap classes so any change to these may break the function
     function setupWindowToggling() {
         viewMessagesContainer.on('click', '.conversation-item', function (e) {
+            attachmentsID = guid();
             var conv = $(this);
 
             if (isCompactView() && !isMessageBoxOpen()) {
@@ -472,7 +474,7 @@
             //    return;
             //}
             showMessagesSpinner();
-            $.when(getParticipantDetails(), loadMessages(), clearUploads())
+            $.when(getParticipantDetails(), loadMessages())
             .then(compileTemplates)
             .then(scrollToLastOrFirstUnreadMessage)
             .always(hideMessagesSpinner);
@@ -570,16 +572,11 @@
         conversationsContainer.addClass('col-xs-0 col-sm-0');
     }
 
-    function clearUploads() {
-        return ajaxWrapper({
-            url: urls.clearUploadsUrl,
-            method: 'POST'
-        });
-    }
-
     function createDropZone(item, sendButton) {
+        attachmentsID = guid();
+        $('#AttachmentsID').val(attachmentsID);
         var dz = item.dropzone({
-            url: urls.uploadUrl,
+            url: urls.uploadUrl + '?id=' + attachmentsID,
             addRemoveLinks: true,
             maxFilesize: 20, //MB
             accept: function(file, done){
@@ -626,7 +623,8 @@
         ajaxWrapper({
             url: urls.removeUploadUrl,
             data: {
-                filename: name
+                filename: name,
+                id: attachmentsID
             },
             method: 'POST'
         });

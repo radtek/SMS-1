@@ -22,13 +22,16 @@ namespace Bec.TargetFramework.Entities
         public FileDTO() {
         }
 
-        public FileDTO(global::System.Guid fileID, global::System.Guid parentID, string name, byte[] data, string type) {
+        public FileDTO(global::System.Guid fileID, global::System.Guid parentID, string name, byte[] data, string type, global::System.Nullable<System.Guid> userAccountOrganisationID, bool temporary, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.FileID = fileID;
           this.ParentID = parentID;
           this.Name = name;
           this.Data = data;
           this.Type = type;
+          this.UserAccountOrganisationID = userAccountOrganisationID;
+          this.Temporary = temporary;
+          this.UserAccountOrganisation = userAccountOrganisation;
         }
 
         #endregion
@@ -49,6 +52,19 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public string Type { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.Guid> UserAccountOrganisationID { get; set; }
+
+        [DataMember]
+        public bool Temporary { get; set; }
+
+        #endregion
+
+        #region Navigation Properties
+
+        [DataMember]
+        public UserAccountOrganisationDTO UserAccountOrganisation { get; set; }
 
         #endregion
     }

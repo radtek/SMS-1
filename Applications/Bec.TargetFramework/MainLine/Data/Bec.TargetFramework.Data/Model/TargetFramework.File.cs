@@ -23,6 +23,7 @@ namespace Bec.TargetFramework.Data
 
         public File()
         {
+          this.Temporary = false;
         }
 
         #region Properties
@@ -76,6 +77,39 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> UserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for Temporary in the schema.
+        /// </summary>
+        public virtual bool Temporary
+        {
+            get;
+            set;
+        }
+
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

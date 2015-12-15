@@ -471,7 +471,7 @@ namespace Bec.TargetFramework.Business.Logic
             await EventPublishClient.PublishEventAsync(eventPayloadDto);
         }
 
-        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
+        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, Guid attachmentsID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
         {
             var date = DateTime.Now;
             var conversationId = Guid.NewGuid();
@@ -494,11 +494,11 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
             }
 
-            await Reply(uaoID, conversationId, message, participantsUaoIDs, date);
+            await Reply(uaoID, attachmentsID, conversationId, message, participantsUaoIDs, date);
             return conversationId;
         }
 
-        public async Task ReplyToConversation(Guid uaoID, Guid conversationID, string message)
+        public async Task ReplyToConversation(Guid uaoID, Guid conversationID, Guid attachmentsID, string message)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -509,7 +509,7 @@ namespace Bec.TargetFramework.Business.Logic
                 //if (!p.Contains(uaoID)) throw new Exception("Cannot reply to conversation");
                 var notSender = p.Where(x => x != uaoID).ToArray();
 
-                await Reply(uaoID, conversationID, message, notSender, DateTime.Now);
+                await Reply(uaoID, attachmentsID, conversationID, message, notSender, DateTime.Now);
                 
                 await scope.SaveChangesAsync();
             }
@@ -529,7 +529,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        private async Task Reply(Guid senderUaoID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
+        private async Task Reply(Guid senderUaoID, Guid attachmentsID, Guid conversationID, string message, Guid[] recipients, DateTime dateSent)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -550,7 +550,8 @@ namespace Bec.TargetFramework.Business.Logic
 
                 var ret = await SaveNotificationAsync(n);
                 await SendExternalNotification(recipients);
-                await AttachUploads(senderUaoID, ret);
+                scope.DbContexts.Get<TargetFrameworkEntities>().FnAttachUpload(senderUaoID, attachmentsID, ret);
+
                 await scope.SaveChangesAsync();
             }
         }
@@ -724,17 +725,6 @@ namespace Bec.TargetFramework.Business.Logic
                     item.Unread = unreads.ContainsKey(item.ConversationID.Value) && unreads[item.ConversationID.Value] > 0;
                 }
                 return new ConversationResultDTO<FnGetConversationActivityResultDTO> { Items = ret, Count = count };
-            }
-        }
-
-        private async Task AttachUploads(Guid oldParentID, Guid newParentID)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == oldParentID))
-                    item.ParentID = newParentID;
-
-                await scope.SaveChangesAsync();
             }
         }
 

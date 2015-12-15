@@ -2967,6 +2967,10 @@
             <End Role="UserAccounts" EntitySet="UserAccounts" />
             <End Role="UserAccountLoginSession" EntitySet="UserAccountLoginSessions" />
           </AssociationSet>
+          <AssociationSet Name="File_fk_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.File_fk_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -10032,6 +10036,8 @@
           <Property Name="Name" Type="varchar" Nullable="false" />
           <Property Name="Data" Type="bytea" Nullable="false" />
           <Property Name="Type" Type="varchar" Nullable="false" />
+          <Property Name="UserAccountOrganisationID" Type="uuid" />
+          <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18245,6 +18251,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="File_fk_UserAccountOrganisation">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.Store.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="File" Type="Bec.TargetFramework.Data.Store.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18288,6 +18306,11 @@
           <Parameter Name="orgid" Type="uuid" Mode="In" />
           <Parameter Name="activitytype" Type="int" Mode="In" />
           <Parameter Name="activityid" Type="uuid" Mode="In" />
+        </Function>
+        <Function Name="fn_AttachUploads" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_AttachUploads">
+          <Parameter Name="uaoid" Type="uuid" Mode="In" />
+          <Parameter Name="id" Type="uuid" Mode="In" />
+          <Parameter Name="newid" Type="uuid" Mode="In" />
         </Function>
       </Schema>
     </edmx:StorageModels>
@@ -21181,6 +21204,10 @@
             <End Role="UserAccount" EntitySet="UserAccounts" />
             <End Role="UserAccountLoginSessions" EntitySet="UserAccountLoginSessions" />
           </AssociationSet>
+          <AssociationSet Name="File_fk_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation">
+            <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -21224,6 +21251,11 @@
             <Parameter Name="orgid" Mode="In" Type="Guid" />
             <Parameter Name="activitytype" Mode="In" Type="Int32" />
             <Parameter Name="activityid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="FnAttachUpload" ed:Guid="2f44de09-74ab-4945-aa0e-88c5ea7f99cb">
+            <Parameter Name="uaoid" Mode="In" Type="Guid" />
+            <Parameter Name="id" Mode="In" Type="Guid" />
+            <Parameter Name="newid" Mode="In" Type="Guid" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger" ed:Guid="3817d136-9682-495b-a5c4-fec1b6500498">
@@ -21561,6 +21593,7 @@
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_UserAccountOrganisatio_fk" FromRole="UserAccountOrganisation" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="d9460f57-8f52-44d0-9a61-fe6db7eb5a80" />
           <NavigationProperty Name="ConversationParticipants" Relationship="Bec.TargetFramework.Data.fk_ConversationParticipant_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="ConversationParticipants" ed:Guid="c1cb4daa-fc4b-478b-ab7e-1b3ec2ad0735" />
           <NavigationProperty Name="Notifications" Relationship="Bec.TargetFramework.Data.fk_Notification_CreatedByUserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Notifications" ed:Guid="65f99910-9375-4611-9d84-0381177b95e7" />
+          <NavigationProperty Name="Files" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="UserAccountOrganisation" ToRole="Files" ed:Guid="674e1d85-14db-4a9c-8300-00380ac58949" />
         </EntityType>
         <EntityType Name="StatusTypeRole" ed:Guid="2371080b-49ed-495e-8f9d-f2d740714926">
           <Key>
@@ -29382,6 +29415,9 @@
           <Property Name="Name" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="3d0120e1-c4e8-492d-aa90-8141c33e6345" />
           <Property Name="Data" Type="Binary" Nullable="false" ed:ValidateRequired="True" ed:Guid="3861f404-5690-458f-9e53-2bd5a68b09ab" />
           <Property Name="Type" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="e229e062-daf6-45f6-b331-f7a75e9a3adf" />
+          <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="30e77c6d-e4bc-4c99-9f53-52c6ce6d3992" />
+          <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
+          <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37260,6 +37296,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="File_fk_UserAccountOrganisation" ed:Guid="db746bee-4a21-40f2-965a-f2f3e80445aa">
+          <End Role="UserAccountOrganisation" Type="Bec.TargetFramework.Data.UserAccountOrganisation" Multiplicity="0..1" />
+          <End Role="Files" Type="Bec.TargetFramework.Data.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserAccountOrganisation">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="UserAccountOrganisationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44095,6 +44143,8 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
+                <ScalarProperty Name="Temporary" ColumnName="Temporary" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44252,6 +44302,7 @@
           <FunctionImportMapping FunctionImportName="FnSmsTransactionRank" FunctionName="Bec.TargetFramework.Data.Store.fn_SmsTransactionRank" />
           <FunctionImportMapping FunctionImportName="FnGetConversationActivity" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivity" />
           <FunctionImportMapping FunctionImportName="FnGetConversationActivityCount" FunctionName="Bec.TargetFramework.Data.Store.fn_GetConversationActivityCount" />
+          <FunctionImportMapping FunctionImportName="FnAttachUpload" FunctionName="Bec.TargetFramework.Data.Store.fn_AttachUploads" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

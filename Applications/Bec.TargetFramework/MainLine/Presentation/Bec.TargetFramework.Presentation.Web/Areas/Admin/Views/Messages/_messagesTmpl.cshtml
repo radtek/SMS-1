@@ -28,7 +28,8 @@
             {{else}}
                 <div class="col-xs-12">
                     <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
-
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
                         <div class="row display-table">
                             <div class="col-xs-12">
                                 <div id="replyUpload" class="dropzone"></div>
@@ -38,7 +39,6 @@
                             <div class="col-xs-11">
                                 <fieldset>
                                     <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
-                                    @Html.AntiForgeryToken()
                                     <section>
                                         <label class="textarea">
                                             <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>

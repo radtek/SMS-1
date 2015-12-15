@@ -14,7 +14,6 @@
      data-activity-id="@Model.ActivityId"
      data-target-conversation-id="@(Model.SelectedConversationId.HasValue? Model.SelectedConversationId.Value.ToString("N") : "")"
      data-upload-url="@Url.Action("UploadFile", "Messages", new { area = "Admin" })"
-     data-clear-uploads-url="@Url.Action("ClearUploads", "Messages", new { area = "Admin" })"
      data-remove-upload-url="@Url.Action("RemovePendingUpload", "Messages", new { area = "Admin" })">
     <div id="conversationsContainer" class="col-xs-12 col-md-4 conversations-container">
         <h3 class="conversations-header">
