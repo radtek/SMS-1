@@ -17,6 +17,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
+        public IFileLogicClient fileClient { get; set; }
 
         private readonly CaptchaService _captchaService;
         public ForgotController()
@@ -43,7 +44,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                     //change password
                     await UserLogicClient.ResetUserPasswordAsync(ua.ID, model.NewPassword, false, model.PIN);
                     string errorMessage;
-                    if (!LoginController.TryLogin(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
+                    if (!LoginController.TryLogin(this, AuthSvc, model.Username, model.NewPassword, UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
                     {
                         throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
                     }

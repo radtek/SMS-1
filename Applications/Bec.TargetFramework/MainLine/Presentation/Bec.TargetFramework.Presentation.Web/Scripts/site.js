@@ -608,3 +608,13 @@ String.prototype.lineCount = function () { return this.lines().length; }
 function getPageFromRow(row, pageSize) {
     return Math.floor((row - 1) / pageSize) + 1;
 }
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+      s4() + '-' + s4() + s4() + s4();
+}

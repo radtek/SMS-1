@@ -166,12 +166,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reply(Guid conversationId, string message)
+        public async Task<ActionResult> Reply(Guid conversationId, Guid attachmentsID, string message)
         {
             if (!await CanReply(conversationId)) return NotAuthorised();            
 
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, message);
+            await NotificationClient.ReplyToConversationAsync(uaoId, conversationId, attachmentsID, message);
 
             return Json("ok");
         }
@@ -186,7 +186,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -302,7 +302,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return false;
         }
 
-        public async Task<string> UploadFile(HttpPostedFileBase file)
+        public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                     {
                         byte[] data = new byte[file.InputStream.Length];
                         reader.Read(data, 0, (int)file.InputStream.Length);
-                        FileDTO f = new FileDTO { ParentID = uaoId, Name = file.FileName, Type = file.ContentType, Data = data };
+                        FileDTO f = new FileDTO { ParentID = id, UserAccountOrganisationID = uaoId, Temporary = true, Name = file.FileName, Type = file.ContentType, Data = data };
                         var res = await FileClient.UploadFileAsync(f);
                         switch (res.Result)
                         {
@@ -337,12 +337,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             }
         }
 
-        public async Task ClearUploads()
-        {
-            var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await FileClient.ClearUnusedFilesAsync(uaoId);
-        }
-
         public async Task<object> DownloadFile(Guid fileID)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -351,10 +345,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return File(file.Data, file.Type, file.Name);
         }
 
-        public async Task RemovePendingUpload(string filename)
+        public async Task RemovePendingUpload(Guid id, string filename)
         {
             var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await FileClient.RemovePendingUploadAsync(uaoId, filename);
+            await FileClient.RemovePendingUploadAsync(uaoId, id, filename);
         }
 
     }

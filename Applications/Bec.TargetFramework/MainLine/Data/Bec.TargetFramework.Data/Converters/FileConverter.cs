@@ -34,6 +34,13 @@ namespace Bec.TargetFramework.Entities
             target.Name = source.Name;
             target.Data = source.Data;
             target.Type = source.Type;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.Temporary = source.Temporary;
+
+            // Navigation Properties
+            if (level > 0) {
+              target.UserAccountOrganisation = source.UserAccountOrganisation.ToDtoWithRelated(level - 1);
+            }
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -54,6 +61,8 @@ namespace Bec.TargetFramework.Entities
             target.Name = source.Name;
             target.Data = source.Data;
             target.Type = source.Type;
+            target.UserAccountOrganisationID = source.UserAccountOrganisationID;
+            target.Temporary = source.Temporary;
 
             // User-defined partial method
             OnEntityCreating(source, target);

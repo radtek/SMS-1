@@ -13,5 +13,6 @@ namespace Bec.TargetFramework.Entities
         public string Subject { get; set; }
         public string Message { get; set; }
         public List<Guid> RecipientUaoIds { get; set; }
+        public Guid AttachmentsID { get; set; }
     }
 }

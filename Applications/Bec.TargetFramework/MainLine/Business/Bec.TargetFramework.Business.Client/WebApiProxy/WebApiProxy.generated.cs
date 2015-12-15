@@ -243,14 +243,16 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		FileDTO DownloadFile(Guid uaoID,Guid fileID);
 
 		/// <param name="uaoID"></param>
+		/// <param name="id"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		Task RemovePendingUploadAsync(Guid uaoID,String filename);
+		Task RemovePendingUploadAsync(Guid uaoID,Guid id,String filename);
 
 		/// <param name="uaoID"></param>
+		/// <param name="id"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		void RemovePendingUpload(Guid uaoID,String filename);
+		void RemovePendingUpload(Guid uaoID,Guid id,String filename);
 
 		/// <returns></returns>
 		Task<ClamScanResult> ScanForVirusAsync(ScanBytesDTO data);
@@ -612,33 +614,37 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
+		Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		Guid CreateConversation(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
+		Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,String message);
+		Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		void ReplyToConversation(Guid uaoID,Guid conversationID,String message);
+		void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message);
 
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
@@ -2259,25 +2265,27 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="id"></param>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public virtual Task RemovePendingUploadAsync(Guid uaoID,String filename)
+		public virtual Task RemovePendingUploadAsync(Guid uaoID,Guid id,String filename)
 		{
 			filename = filename.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user);
+			return PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="uaoID"></param>
+		/// <param name="id"></param>
 		/// <param name="filename"></param>
-		public virtual void RemovePendingUpload(Guid uaoID,String filename)
+		public virtual void RemovePendingUpload(Guid uaoID,Guid id,String filename)
 		{
 			filename = filename.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&filename=" + filename, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3193,17 +3201,18 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
+		public virtual Task<Guid> CreateConversationAsync(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
 		{
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user);
+			return PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user);
 		}
 
 		/// <summary>
@@ -3211,16 +3220,17 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="activityTypeID"></param>
 		/// <param name="activityID"></param>
 		/// <param name="subject"></param>
 		/// <param name="message"></param>
-		public virtual Guid CreateConversation(Guid orgID,Guid uaoID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
+		public virtual Guid CreateConversation(Guid orgID,Guid uaoID,Guid attachmentsID,Nullable<ActivityType> activityTypeID,Nullable<Guid> activityID,String subject,String message,Guid[] participantsUaoIDs)
 		{
 			subject = subject.UrlEncode();
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user)).Result;
+			return Task.Run(() => PostAsync<Guid[], Guid>("api/NotificationLogic/CreateConversation?orgID=" + orgID + "&uaoID=" + uaoID + "&attachmentsID=" + attachmentsID + "&activityTypeID=" + activityTypeID + "&activityID=" + activityID + "&subject=" + subject + "&message=" + message + mapArray("participantsUaoIDs", participantsUaoIDs), participantsUaoIDs, _user)).Result;
 		}
 
 		/// <summary>
@@ -3228,13 +3238,14 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public virtual Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,String message)
+		public virtual Task ReplyToConversationAsync(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&message=" + message, null, _user);
+			return PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user);
 		}
 
 		/// <summary>
@@ -3242,12 +3253,13 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="uaoID"></param>
 		/// <param name="conversationID"></param>
+		/// <param name="attachmentsID"></param>
 		/// <param name="message"></param>
-		public virtual void ReplyToConversation(Guid uaoID,Guid conversationID,String message)
+		public virtual void ReplyToConversation(Guid uaoID,Guid conversationID,Guid attachmentsID,String message)
 		{
 			message = message.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&message=" + message, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/NotificationLogic/ReplyToConversation?uaoID=" + uaoID + "&conversationID=" + conversationID + "&attachmentsID=" + attachmentsID + "&message=" + message, null, _user)).Wait();
 		}
 
 		/// <summary>

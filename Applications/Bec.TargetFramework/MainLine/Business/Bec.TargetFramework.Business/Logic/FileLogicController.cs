@@ -32,7 +32,7 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var ids = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID).Select(x => x.FileID);
+                var ids = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.UserAccountOrganisationID == uaoID && x.Temporary).Select(x => x.FileID);
                 await RemoveFiles(ids.ToArray());
                 await scope.SaveChangesAsync();
             }
@@ -47,12 +47,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task RemovePendingUpload(Guid uaoID, string filename)
+        public async Task RemovePendingUpload(Guid uaoID, Guid id, string filename)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var id = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
-                await RemoveFiles(id);
+                var fid = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == id && x.UserAccountOrganisationID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
+                await RemoveFiles(fid);
                 await scope.SaveChangesAsync();
             }
         }

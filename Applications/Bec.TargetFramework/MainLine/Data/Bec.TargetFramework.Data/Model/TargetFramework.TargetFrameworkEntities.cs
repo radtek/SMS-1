@@ -2394,6 +2394,48 @@ namespace Bec.TargetFramework.Data
             return result;
         }
 
+    
+        /// <summary>
+        /// There are no comments for FnAttachUpload in the schema.
+        /// </summary>
+        public virtual void FnAttachUpload (global::System.Nullable<System.Guid> uaoid, global::System.Nullable<System.Guid> id, global::System.Nullable<System.Guid> newid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnAttachUpload";
+                command.Connection = connection;
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
+                EntityParameter idParameter = new EntityParameter("id", System.Data.DbType.Guid);
+                if (id.HasValue)
+                    idParameter.Value = id;
+                command.Parameters.Add(idParameter);
+                EntityParameter newidParameter = new EntityParameter("newid", System.Data.DbType.Guid);
+                if (newid.HasValue)
+                    newidParameter.Value = newid;
+                command.Parameters.Add(newidParameter);
+                command.ExecuteNonQuery();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+        }
+
         #endregion
     }
 }
