@@ -582,6 +582,12 @@
             url: urls.uploadUrl,
             addRemoveLinks: true,
             maxFilesize: 20, //MB
+            accept: function(file, done){
+                if (file.size > 0)
+                    done();
+                else
+                    done('This file is empty and will not be uploaded');
+            },
             init: function () {
                 var dz = this;
                 dz.on("addedfile", function (file) {
