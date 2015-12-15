@@ -203,6 +203,7 @@
             $('#detailsRowTransactionAddress').show();
         }
 
+        $('#bFullName').text(data.Contact.FullName);
         $('#bLine1').text(data.Address.Line1);
         $('#bLine2').text(data.Address.Line2);
         $('#bTown').text(data.Address.Town);

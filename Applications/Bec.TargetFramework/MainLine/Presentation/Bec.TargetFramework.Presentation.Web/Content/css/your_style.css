@@ -548,6 +548,9 @@
 .buyer-transactions dd p {
   margin: 0;
 }
+.buyer-transaction-list p {
+  margin: 0;
+}
 .transaction-icon {
   color: #636363;
 }
