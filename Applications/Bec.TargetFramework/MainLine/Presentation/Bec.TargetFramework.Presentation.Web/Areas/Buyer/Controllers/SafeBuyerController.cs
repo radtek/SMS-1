@@ -183,8 +183,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_Match");
         }
 
-
-
         private async Task<IEnumerable<SmsUserAccountOrganisationTransactionDTO>> GetUaots(Guid? txId)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -196,8 +194,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
                 personaCity = x.Address.City,
                 personaCounty = x.Address.County,
                 personaPostalCode = x.Address.PostalCode,
+                x.Contact.Salutation,
+                x.Contact.FirstName,
+                x.Contact.LastName,
                 x.Contact.BirthDate,
                 x.Confirmed,
+                x.CreatedOn,
                 x.SmsTransactionID,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.LenderName,
@@ -220,7 +222,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             {
                 filter = Expression.And(filter, ODataHelper.Expression<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransactionID == txId));
             }
-            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter));
+            var order = ODataHelper.OrderBy<SmsUserAccountOrganisationTransactionDTO>(x => new { x.CreatedOn });
+            var orderByDesc = order + " desc";
+            var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter) + orderByDesc);
             return data;
         }
     }

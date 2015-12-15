@@ -52,6 +52,10 @@
                                     </div>
                                     <div class="col-sm-6 col-lg-4">
                                         <dl>
+                                            <dt>@personaName's Details:</dt>
+                                            <dd><p id="bFullName">@((Model.Contact != null) ? Model.Contact.FullName : "")</p></dd>
+                                            <dt>Date of Birth:</dt>
+                                            <dd><p id="bDateOfBirth" class="format-date" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
                                             <dt>@personaName's Home Address:</dt>
                                             <dd>
                                                 <p id="bLine1">@(Model.Address == null ? "" : Model.Address.Line1)</p>
@@ -60,8 +64,6 @@
                                                 <p id="bCounty">@(Model.Address == null ? "" : Model.Address.County)</p>
                                                 <p id="bPostalCode">@(Model.Address == null ? "" : Model.Address.PostalCode)</p>
                                             </dd>
-                                            <dt>Date of Birth:</dt>
-                                            <dd><p id="bDateOfBirth" class="format-date" data-val="@((Model.Contact != null && Model.Contact.BirthDate != null) ? Model.Contact.BirthDate.Value.ToString("O") : "")"></p></dd>
                                         </dl>
                                     </div>
                                     <div class="col-sm-6 col-lg-4">

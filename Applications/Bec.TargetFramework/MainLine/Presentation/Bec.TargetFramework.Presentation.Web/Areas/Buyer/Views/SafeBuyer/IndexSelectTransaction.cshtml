@@ -6,7 +6,7 @@
             <i class="fa fa-home fa-lg margin-right-10"></i>Safe Buyer Transactions
         </h2>
         <div class="col-sm-12">
-            <ul class="media-list well">
+            <ul class="media-list buyer-transaction-list well">
                 @foreach (var tx in Model)
                 {
                     var companyName = tx.SmsTransaction.Organisation.OrganisationDetails.First().Name;
@@ -30,6 +30,9 @@
                                     <text>The transaction details have not been confirmed yet.</text>
                                 }
                             </p>
+                            <p class="text-muted">
+                                <small>Ordered On: <span class="format-date" data-val="@tx.CreatedOn.ToString("O")"></span></small>
+                            </p>
                         </div>
                     </li>
                 }
@@ -37,3 +40,6 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script async src="@Scripts.Url("~/Scripts/Buyer/SafeBuyer/IndexSelectTransaction")"></script>
+}
