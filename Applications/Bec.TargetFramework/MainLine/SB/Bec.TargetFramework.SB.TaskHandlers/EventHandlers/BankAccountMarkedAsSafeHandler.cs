@@ -29,7 +29,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountMarkedAsSafeNotificationDTO", handlerEvent.BankAccountMarkedAsSafeNotificationDto);
 
-                var recipients =  NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId).Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
+                var recipients =  NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountMarkedAsSafeNotificationDto.OrganisationId, null)
+                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
                     notificationConstruct,

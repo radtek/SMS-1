@@ -56,15 +56,18 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID)
+        public IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID, string rolename)
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x =>
+                var ret = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Where(x =>
                     !x.UserAccount.IsDeleted &&
                     x.OrganisationID == orgID &&
                     !x.UserAccount.IsTemporaryAccount &&
-                    x.UserAccount.IsLoginAllowed).Select(x => x.UserAccountOrganisationID).ToList();
+                    x.UserAccount.IsLoginAllowed);
+                if (!string.IsNullOrWhiteSpace(rolename)) 
+                    ret = ret.Where(x => x.UserAccountOrganisationRoles.Any(y => y.OrganisationRole.RoleName == rolename));
+                return ret.Select(x => x.UserAccountOrganisationID).ToList();
             }
         }
 

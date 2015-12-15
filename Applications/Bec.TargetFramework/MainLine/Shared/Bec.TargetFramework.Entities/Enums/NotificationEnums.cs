@@ -39,6 +39,8 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("NewInternalMessages")]
         NewInternalMessages = 16,
         [StringValue("BankAccountCheckNoMatch")]
-        BankAccountCheckNoMatch = 17
+        BankAccountCheckNoMatch = 17,
+        [StringValue("BankAccountMarkedAsPotentialFraud")]
+        BankAccountMarkedAsPotentialFraud = 18
     }
 }

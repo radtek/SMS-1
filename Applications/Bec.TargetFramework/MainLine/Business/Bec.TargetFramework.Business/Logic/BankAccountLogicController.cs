@@ -239,6 +239,7 @@ namespace Bec.TargetFramework.Business.Logic
                     await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.PotentialFraud:
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsPotentialFraudNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
             }
         }

@@ -415,12 +415,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		Boolean HasNotificationAlreadyBeenSentInTheLastTimePeriod(Nullable<Guid> uaoID,Nullable<Guid> organisationId,Guid notifcationConstructID,Int32 notificationConstructVersion,Nullable<Guid> notificationParentID,Boolean isRead,TimeSpan sentInLast);
 
 		/// <param name="orgID"></param>
+		/// <param name="rolename"></param>
 		/// <returns></returns>
-		Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID);
+		Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID,String rolename);
 
 		/// <param name="orgID"></param>
+		/// <param name="rolename"></param>
 		/// <returns></returns>
-		IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID);
+		IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID,String rolename);
 
 		/// <param name="activityID"></param>
 		/// <param name="activityType"></param>
@@ -2718,21 +2720,25 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
+		/// <param name="rolename"></param>
 		/// <returns></returns>
-		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID)
+		public virtual Task<IEnumerable<Guid>> GetNotificationOrganisationUaoIdsAsync(Guid orgID,String rolename)
 		{
+			rolename = rolename.UrlEncode();
 			string _user = getHttpContextUser();
-			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID, _user);
+			return GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID + "&rolename=" + rolename, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="orgID"></param>
-		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID)
+		/// <param name="rolename"></param>
+		public virtual IEnumerable<Guid> GetNotificationOrganisationUaoIds(Guid orgID,String rolename)
 		{
+			rolename = rolename.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID, _user)).Result;
+			return Task.Run(() => GetAsync<IEnumerable<Guid>>("api/NotificationLogic/GetNotificationOrganisationUaoIds?orgID=" + orgID + "&rolename=" + rolename, _user)).Result;
 		}
 
 		/// <summary>
