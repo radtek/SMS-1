@@ -1,8 +1,8 @@
 ﻿$(function () {
+    'use strict';
 
     $('#yesButton').on('click', function () {
-        showAudit($('#confirmDetails-form').data("index"));
+        showAudit();
         hideCurrentModal();
     });
-
 });

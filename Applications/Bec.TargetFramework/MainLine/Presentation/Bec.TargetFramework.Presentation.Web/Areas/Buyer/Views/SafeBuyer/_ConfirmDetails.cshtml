@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("ConfirmDetails", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index" data-can-edit-transaction-details="@canEditTransactionDetails">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("ConfirmDetails", "SafeBuyer", new { area = "Buyer" })" data-can-edit-transaction-details="@canEditTransactionDetails">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.SmsTransactionID)
@@ -22,7 +22,6 @@
                         @Html.HiddenFor(m => m.SmsTransaction.RowVersion)
                         @Html.HiddenFor(m => m.Contact.RowVersion)
                         @Html.Hidden("orgID", Model.SmsTransaction.OrganisationID)
-                        @Html.Hidden("index", (object)ViewBag.index)
                         <section class="col-xs-12">
                             <div id="confirmDetailsWizard">
                                 <div class="form-bootstrapWizard margin-left-10 margin-right-10">
@@ -86,7 +85,7 @@
                                                     <label class="label">Date of Birth</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput", @readonly = true })
+                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "4", id = "birthDateInput", @readonly = true })
                                                     </label>
                                                 </section>
                                             </div>

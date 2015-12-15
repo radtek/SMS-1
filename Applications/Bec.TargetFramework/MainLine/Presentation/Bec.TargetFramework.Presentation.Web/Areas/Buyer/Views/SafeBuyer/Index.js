@@ -10,13 +10,12 @@
     function setupNotifyButton() {
         $('.notify-button').each(function () {
             $(this).on('click', function () {
-                var index = $(this).data('index');
                 var url = $(this).data('href');
-                $('#post-no-match-' + index).show();
-                $('#notify-button-' + index).hide();
+                $('#post-no-match').show();
+                $('#notify-button').hide();
 
                 ajaxWrapper({
-                    url: url + "&accountNumber=" + $('#accountNumberNoMatch-' + index).text() + "&sortCode=" + $('#sortCodeNoMatch-' + index).text(),
+                    url: url + "&accountNumber=" + $('#accountNumberNoMatch').text() + "&sortCode=" + $('#sortCodeNoMatch').text(),
                     method: "POST"
                 });
             });
@@ -35,7 +34,7 @@
 
     function setupTabs() {
         var areConversationsLoaded = false;
-        $('[id^="collapse"] li a').click(function (e) {
+        $('#transactionTabs li a').click(function (e) {
             e.stopPropagation();
             history.pushState(null, null, $(this).attr('href'));
             $(this).tab('show');
@@ -50,7 +49,7 @@
 });
 
 // Publicly available!!! Used by _ConfirmDetails.js too
-function showAudit(index) {
+function showAudit() {
     var matchTemplate = Handlebars.compile(
     '<div class="alert alert-success fade in margin-left-10 margin-right-10">' +
         '<h4><i class="fa fa-check-square-o"></i><strong> Match</strong></h4>' +
@@ -69,9 +68,9 @@ function showAudit(index) {
             "<p>{{date}}: The bank account with account number <strong>{{accountNumber}}</strong> and sort code <strong>{{sortCode}}</strong> is not a registered bank account on The Safe Move Scheme. <strong>Please contact {{companyName}} immediately on {{phone}}</strong></p>" +
         '</div>');
 
-    var auditDiv = $('#audit-' + index);
-    var companyName = $('#collapse-' + index).data("companyname");
-    var phone = $('#collapse-' + index).data("phone");
+    var auditDiv = $('#audit');
+    var companyName = $('#transactionContainer').data("companyname");
+    var phone = $('#transactionContainer').data("phone");
     auditDiv.empty();
     ajaxWrapper({
         url: auditDiv.data("url")
@@ -92,7 +91,7 @@ function showAudit(index) {
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             console.log(e);
-            $('#result-server-error-' + index).show();
+            $('#result-server-error').show();
         }
     });;
 }
