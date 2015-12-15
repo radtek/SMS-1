@@ -46,26 +46,39 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             var skip = Request["$skip"] == null? 0 : int.Parse(Request["$skip"]);
             var res = await NotificationClient.GetConversationsAsync(uaoId, activityType, activityId, take, skip);
 
-            foreach (var r in res.Items)
+            foreach (var conversationDto in res.Items)
             {
-                if (r.ActivityType != null)
-                {
-                    ActivityType at = (ActivityType)r.ActivityType;
-                    r.LinkDescription = at.GetStringValue();
-                    switch ((ActivityType)r.ActivityType)
-                    {
-                        case ActivityType.BankAccount:
-                            if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
-                                r.Link = Url.Action("Index", "Account", new { Area = "BankAccount", selectedBankAccountId = r.ActivityID });
-                            break;
-                        case ActivityType.SmsTransaction:
-                            if (ClaimsHelper.UserHasClaim("View", "SmsTransaction"))
-                                r.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction", selectedTransactionID = r.ActivityID });
-                            break;
-                    }
-                }
+                SetConversationLinkIfNeeded(conversationDto);
             }
             return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        private void SetConversationLinkIfNeeded(VConversationDTO conversationDto)
+        {
+            if (conversationDto.ActivityType != null)
+            {
+                var activityType = (ActivityType)conversationDto.ActivityType;
+                conversationDto.LinkDescription = activityType.GetStringValue();
+                switch ((ActivityType)conversationDto.ActivityType)
+                {
+                    case ActivityType.BankAccount:
+                        if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                        {
+                            conversationDto.Link = Url.Action("Index", "Account", new { Area = "BankAccount", selectedBankAccountId = conversationDto.ActivityID });
+                        }
+                        break;
+                    case ActivityType.SmsTransaction:
+                        if (ClaimsHelper.UserHasClaim("View", "SmsTransaction"))
+                        {
+                            conversationDto.Link = Url.Action("Index", "Transaction", new { Area = "SmsTransaction", selectedTransactionID = conversationDto.ActivityID });
+                        }
+                        else if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
+                        {
+                            conversationDto.Link = Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = conversationDto.ActivityID });
+                        }
+                        break;
+                }
+            }
         }
 
         public async Task<ActionResult> GetConversationsActivity(ActivityType activityType, Guid activityId)
