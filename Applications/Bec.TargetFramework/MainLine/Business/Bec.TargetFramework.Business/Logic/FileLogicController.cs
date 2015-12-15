@@ -32,8 +32,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var items = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID);
-                scope.DbContexts.Get<TargetFrameworkEntities>().Files.RemoveRange(items);
+                var ids = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID).Select(x => x.FileID);
+                await RemoveFiles(ids.ToArray());
                 await scope.SaveChangesAsync();
             }
         }
@@ -51,8 +51,8 @@ namespace Bec.TargetFramework.Business.Logic
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var file = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID && x.Name == filename).FirstOrDefault();
-                scope.DbContexts.Get<TargetFrameworkEntities>().Files.Remove(file);
+                var id = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
+                await RemoveFiles(id);
                 await scope.SaveChangesAsync();
             }
         }
@@ -65,6 +65,19 @@ namespace Bec.TargetFramework.Business.Logic
         private ClamScanResult ScanByteArrayForVirus(byte[] data)
         {
             return ClamClient.SendAndScanFile(data);
+        }
+
+        private async Task RemoveFiles(params Guid[] ids)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var id in ids)
+                {
+                    File del = new File { FileID = id };
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Entry(del).State = System.Data.Entity.EntityState.Deleted;
+                }
+                await scope.SaveChangesAsync();
+            }
         }
 
     }

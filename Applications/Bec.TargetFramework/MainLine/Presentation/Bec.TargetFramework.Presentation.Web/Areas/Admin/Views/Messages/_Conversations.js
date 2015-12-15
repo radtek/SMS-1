@@ -581,6 +581,7 @@
         var dz = item.dropzone({
             url: urls.uploadUrl,
             addRemoveLinks: true,
+            maxFilesize: 20, //MB
             init: function () {
                 var dz = this;
                 dz.on("addedfile", function (file) {
