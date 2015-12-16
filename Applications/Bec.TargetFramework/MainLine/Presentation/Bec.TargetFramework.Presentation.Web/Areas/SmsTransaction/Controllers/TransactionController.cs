@@ -183,7 +183,52 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-      
+
+        public async Task<ActionResult> ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
+        {
+            var canGeneratePin = await CanGeneratePin(txID, uaoID, queryClient);
+            if (!canGeneratePin)
+            {
+                ViewBag.title = "Information";
+                ViewBag.message = "The PIN cannot be generated for that user. Most probably the user has already logged in to the system. Refresh the page and check the details again.";
+                ViewBag.button = "Close";
+                
+                return PartialView("_Message");
+            }
+
+            ViewBag.txID = txID;
+            ViewBag.uaoID = uaoID;
+            ViewBag.email = email;
+            ViewBag.pageNumber = pageNumber;
+            return PartialView("_ViewGeneratePIN");
+        }
+
+        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
+        {
+            TempData["SmsTransactionID"] = txID;
+            TempData["pageNumber"] = pageNumber;
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
+            await EnsureCanGeneratePin(txID, uaoID, queryClient);
+
+            await userClient.GeneratePinAsync(uaoID, false, true, true);
+
+            return RedirectToAction("Index");
+        }
+
+        internal static async Task<bool> CanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoID &&
+                x.SmsTransactionID == txID &&
+                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount == true);
+
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+
+            return model != null;
+        }
+
         internal static async Task EnsureSmsTransactionInOrg(Guid txID, Guid orgID, IQueryLogicClient client)
         {
             var select = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });
@@ -206,35 +251,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             if (!isEmailAvailable) throw new InvalidOperationException("The e-mail cannot be used.");
         }
 
-        public ActionResult ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
+        internal static async Task EnsureCanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
         {
-            ViewBag.txID = txID;
-            ViewBag.uaoID = uaoID;
-            ViewBag.email = email;
-            ViewBag.pageNumber = pageNumber;
-            return PartialView("_ViewGeneratePIN");
-        }
-
-        public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
-        {
-            TempData["SmsTransactionID"] = txID;
-            TempData["pageNumber"] = pageNumber;
-
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-
-            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
-            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
-                x.UserAccountOrganisationID == uaoID &&
-                x.SmsTransactionID == txID &&
-                x.UserAccountOrganisation.UserAccount.IsTemporaryAccount == true);
-
-            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
-            var model = res.FirstOrDefault();
-            if (model == null) throw new AccessViolationException("Operation failed");
-
-            await userClient.GeneratePinAsync(uaoID, false, true, true);
-
-            return RedirectToAction("Index");
+            var canGeneratePin = await CanGeneratePin(txID, uaoID, queryClient);
+            if (!canGeneratePin) throw new InvalidOperationException("Cannot generate the PIN.");
         }
     }
 }
