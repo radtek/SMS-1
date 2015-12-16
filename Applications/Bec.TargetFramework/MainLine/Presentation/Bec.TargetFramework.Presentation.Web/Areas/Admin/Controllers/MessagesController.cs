@@ -318,7 +318,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
                         var res = await FileClient.UploadFileAsync(f);
                         switch (res.Result)
                         {
-                            case nClam.ClamScanResults.Clean: 
+                            case nClam.ClamScanResults.Clean:
+                                if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested) 
+                                    await RemovePendingUpload(id, file.FileName);
                                 return "OK";
                             case nClam.ClamScanResults.VirusDetected: 
                                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
