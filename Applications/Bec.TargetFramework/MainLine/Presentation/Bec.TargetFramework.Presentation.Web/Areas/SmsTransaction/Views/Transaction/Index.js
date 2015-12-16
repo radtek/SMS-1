@@ -96,7 +96,9 @@ $(function () {
         areConversationsLoaded = false;
         $('#rPanel li a').click(function (e) {
             e.stopPropagation();
-            history.pushState(null, null, $(this).attr('href'));
+            if (history.pushState) {
+                history.pushState(null, null, $(this).attr('href'));
+            }
             $(this).tab('show');
 
             if ($(this).attr('id') == 'safeSendTab' && !areConversationsLoaded) {

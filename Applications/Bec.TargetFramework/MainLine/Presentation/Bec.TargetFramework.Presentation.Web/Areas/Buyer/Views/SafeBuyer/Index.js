@@ -36,7 +36,9 @@
         var areConversationsLoaded = false;
         $('#transactionTabs li a').click(function (e) {
             e.stopPropagation();
-            history.pushState(null, null, $(this).attr('href'));
+            if (history.pushState) {
+                history.pushState(null, null, $(this).attr('href'));
+            }
             $(this).tab('show');
 
             if (!areConversationsLoaded) {
