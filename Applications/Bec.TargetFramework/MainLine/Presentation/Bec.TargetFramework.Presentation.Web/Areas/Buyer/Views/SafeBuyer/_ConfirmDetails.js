@@ -204,6 +204,7 @@
         }
 
         $('#bFullName').text(data.Contact.FullName);
+        $('#bDateOfBirth').text(dateStringNoTime(data.Contact.BirthDate));
         $('#bLine1').text(data.Address.Line1);
         $('#bLine2').text(data.Address.Line2);
         $('#bTown').text(data.Address.Town);
