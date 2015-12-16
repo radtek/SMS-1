@@ -131,9 +131,9 @@
                 hideCurrentModal();
 
                 if (res.result == true)
-                    handleModal({ url: $('#tranactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                    handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
                 else
-                    handleModal({ url: $('#tranactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+                    handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
                 
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
@@ -204,6 +204,7 @@
         }
 
         $('#bFullName').text(data.Contact.FullName);
+        $('#bDateOfBirth').text(dateStringNoTime(data.Contact.BirthDate));
         $('#bLine1').text(data.Address.Line1);
         $('#bLine2').text(data.Address.Line2);
         $('#bTown').text(data.Address.Town);

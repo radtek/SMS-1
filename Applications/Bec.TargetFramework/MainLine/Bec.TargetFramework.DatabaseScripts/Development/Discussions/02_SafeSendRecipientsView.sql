@@ -17,7 +17,12 @@ AS
        JOIN "UserAccountOrganisation" uao ON uaot."UserAccountOrganisationID" =
          uao."UserAccountOrganisationID"
        JOIN "Contact" c ON uao."PrimaryContactID" = c."ContactID"
-  WHERE uao."IsActive" = true
+       JOIN "UserAccounts" ua ON uao."UserID" = ua."ID"
+  WHERE 
+  	uao."IsActive" = TRUE AND 
+	ua."IsActive" = TRUE AND
+    ua."IsLoginAllowed" = TRUE AND
+    ua."IsTemporaryAccount" = FALSE
   UNION
   SELECT t."SmsTransactionID",
          uao."UserAccountOrganisationID",
@@ -31,7 +36,12 @@ AS
        JOIN "UserAccountOrganisation" uao ON o."OrganisationID" =
          uao."OrganisationID"
        JOIN "Contact" c ON uao."PrimaryContactID" = c."ContactID"
-  WHERE uao."IsActive" = TRUE;
+       JOIN "UserAccounts" ua ON uao."UserID" = ua."ID"
+  WHERE 
+  	uao."IsActive" = TRUE AND
+	ua."IsActive" = TRUE AND
+  	ua."IsLoginAllowed" = TRUE AND
+    ua."IsTemporaryAccount" = FALSE;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES, TRIGGER, TRUNCATE
   ON public."vSafeSendRecipient" TO postgres;

@@ -605,7 +605,13 @@ namespace Bec.TargetFramework.Business.Logic
                     //limit to org
                     foreach (var p in participantsUaoIDs)
                     {
-                        var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == p);
+                        var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                            .SingleOrDefault(x => 
+                                x.UserAccountOrganisationID == p &&
+                                x.IsActive &&
+                                x.UserAccount.IsActive &&
+                                x.UserAccount.IsLoginAllowed &&
+                                !x.UserAccount.IsTemporaryAccount);
                         if (uao == null || uao.OrganisationID != orgID)
                         {
                             valid = false;
@@ -622,9 +628,19 @@ namespace Bec.TargetFramework.Business.Logic
                             if (tx == null) valid = false;
 
                             var validPersonalUaoIDs = tx.SmsUserAccountOrganisationTransactions
+                                .Where(x => 
+                                    x.UserAccountOrganisation.IsActive &&
+                                    x.UserAccountOrganisation.UserAccount.IsActive &&
+                                    x.UserAccountOrganisation.UserAccount.IsLoginAllowed && 
+                                    !x.UserAccountOrganisation.UserAccount.IsTemporaryAccount)
                                 .Select(x => x.UserAccountOrganisationID).ToList();
                             var validOrganisationUaoIds = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
-                                .Where(x => x.OrganisationID == tx.OrganisationID && x.IsActive)
+                                .Where(x => 
+                                    x.OrganisationID == tx.OrganisationID && 
+                                    x.IsActive &&
+                                    x.UserAccount.IsActive &&
+                                    x.UserAccount.IsLoginAllowed &&
+                                    !x.UserAccount.IsTemporaryAccount)
                                 .Select(x => x.UserAccountOrganisationID)
                                 .ToList();
                             foreach (var u in participantsUaoIDs)
