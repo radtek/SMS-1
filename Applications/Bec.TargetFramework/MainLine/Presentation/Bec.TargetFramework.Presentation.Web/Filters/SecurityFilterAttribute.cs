@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
 {
@@ -13,11 +9,10 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
         {
             var response = filterContext.HttpContext.Response;
 
-            //Smart Admin & I think kendo prevent us from using these nice headers:
-            //var policy = "script-src 'self' *.googleapis.com *.google.com *.gstatic.com";
-            //response.AddHeader("Content-Security-Policy", policy);
-            //response.AddHeader("X-WebKit-CSP", policy);
-            //response.AddHeader("X-Content-Security-Policy", policy);
+            var policy = "script-src 'self' *.googleapis.com *.google.com *.gstatic.com 'unsafe-eval'";
+            response.AddHeader("Content-Security-Policy", policy);
+            response.AddHeader("X-WebKit-CSP", policy);
+            response.AddHeader("X-Content-Security-Policy", policy);
             
             response.AddHeader("X-Content-Type-Options", "nosniff");
 
