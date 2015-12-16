@@ -1922,7 +1922,6 @@
     <Content Include="Scripts\plugin\markdown\bootstrap-markdown.min.js" />
     <Content Include="Scripts\plugin\markdown\markdown.min.js" />
     <Content Include="Scripts\plugin\markdown\to-markdown.min.js" />
-    <Content Include="Scripts\plugin\masked-input\jquery.maskedinput.min.js" />
     <Content Include="Scripts\plugin\maxlength\bootstrap-maxlength.min.js" />
     <Content Include="Scripts\plugin\moment\moment.min.js" />
     <Content Include="Scripts\plugin\morris\morris-chart-settings.min.js" />
