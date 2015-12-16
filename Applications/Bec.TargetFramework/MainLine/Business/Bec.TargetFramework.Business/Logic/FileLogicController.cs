@@ -52,7 +52,7 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.Create())
             {
                 var fid = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == id && x.UserAccountOrganisationID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
-                await RemoveFiles(fid);
+                if (fid != Guid.Empty) await RemoveFiles(fid);
                 await scope.SaveChangesAsync();
             }
         }
