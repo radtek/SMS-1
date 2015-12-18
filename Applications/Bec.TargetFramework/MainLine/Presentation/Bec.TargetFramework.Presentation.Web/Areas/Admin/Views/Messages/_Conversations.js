@@ -153,6 +153,7 @@
                     case 'BankAccountMarkedAsSafe': item.isBaSafe = true; break;
                     case 'BankAccountMarkedAsFraudSuspicious': item.isBaFraud = true; break;
                     case 'BankAccountCheckNoMatch': item.isBaNoMatch = true; break;
+                    case 'BankAccountMarkedAsPotentialFraud': item.isBaPotFraud = true; break;
                 }
 
                 switch (item.Message.OrganisationType) {
