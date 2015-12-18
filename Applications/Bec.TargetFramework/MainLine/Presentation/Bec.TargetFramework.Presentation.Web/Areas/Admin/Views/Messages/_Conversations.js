@@ -344,7 +344,6 @@
     }
 
     function autoresizeTextarea(textarea) {
-        textarea.height(0);
         textarea.height(textarea[0].scrollHeight - 10);
     }
 
