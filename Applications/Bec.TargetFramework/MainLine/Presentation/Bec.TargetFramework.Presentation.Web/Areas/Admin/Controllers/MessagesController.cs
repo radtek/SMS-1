@@ -304,39 +304,46 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         public async Task<string> UploadFile(Guid id, HttpPostedFileBase file)
         {
+            string name = null;
             try
             {
                 var uaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
 
                 if (file != null && file.ContentLength > 0)
                 {
+                    name = Path.GetFileName(file.FileName);
                     using (BinaryReader reader = new BinaryReader(file.InputStream))
                     {
                         byte[] data = new byte[file.InputStream.Length];
                         reader.Read(data, 0, (int)file.InputStream.Length);
-                        FileDTO f = new FileDTO { ParentID = id, UserAccountOrganisationID = uaoId, Temporary = true, Name = file.FileName, Type = file.ContentType, Data = data };
+                        FileDTO f = new FileDTO { ParentID = id, UserAccountOrganisationID = uaoId, Temporary = true, Name = name, Type = file.ContentType, Data = data };
                         var res = await FileClient.UploadFileAsync(f);
                         switch (res.Result)
                         {
                             case nClam.ClamScanResults.Clean:
                                 if (HttpContext.Response.ClientDisconnectedToken.IsCancellationRequested) 
-                                    await RemovePendingUpload(id, file.FileName);
-                                return "OK";
+                                    await RemovePendingUpload(id, name);
+                                return FormatMessage("{0}: uploaded", name);
                             case nClam.ClamScanResults.VirusDetected: 
                                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                                return "Virus detected";
+                                return FormatMessage("Virus detected: {0}", name);
                         }
                     }
                 }
 
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                return "Failed";
+                return FormatMessage("Failed: {0}", name ?? "(No file)");
             }
             catch (Exception)
             {
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                return "Failed";
+                return FormatMessage("Failed: {0}", name ?? "(No file)");
             }
+        }
+
+        private string FormatMessage(string message, string filename)
+        {
+            return JObject.FromObject(new { Message = string.Format(message, filename), FileName = filename }).ToString();
         }
 
         public async Task<object> DownloadFile(Guid fileID)

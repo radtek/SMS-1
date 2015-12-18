@@ -21,7 +21,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
             
             response.AddHeader("X-Content-Type-Options", "nosniff");
 
-            response.AddHeader("X-Frame-Options", "DENY");
+            response.AddHeader("X-Frame-Options", "SAMEORIGIN");
 
             // HSTS headers should be sent via HTTPS responses only : http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-14#section-7.2
             // They should also not be duplicated
