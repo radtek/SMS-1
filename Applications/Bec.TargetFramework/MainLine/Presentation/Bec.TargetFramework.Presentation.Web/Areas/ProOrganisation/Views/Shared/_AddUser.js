@@ -25,6 +25,7 @@ $("#addUser-form").validate({
             required: true,
             email: true,
             remote: {
+                cache: false,
                 url: $('#EmailAddress1').data("url"),
                 data: { email: function () { return $('#EmailAddress1').val(); } },
                 dataType: 'json',

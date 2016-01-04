@@ -47,6 +47,7 @@
                 required: true,
                 number: true,
                 remote: {
+                    cache: false,
                     url: $('#RegulatorNumber').data("url"),
                     data: {
                         regulatorNumber: function () {
@@ -72,6 +73,7 @@
                 required: true,
                 email: true,
                 remote: {
+                    cache: false,
                     url: $('#OrganisationAdminEmail').data("url"),
                     data: {
                         email: function () { 
