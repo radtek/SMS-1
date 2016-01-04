@@ -515,21 +515,6 @@ namespace Bec.TargetFramework.Business.Logic
 
         private async Task AddNewContactAndSetAsPrimary(Guid uaoId, string salutation, string firstName, string lastName, string email, string phoneNumber, DateTime birthDate)
         {
-            var contact = new Contact
-            {
-                ContactID = Guid.NewGuid(),
-                ParentID = uaoId,
-                IsPrimaryContact = true,
-                ContactName = "",
-                Salutation = salutation,
-                FirstName = firstName,
-                LastName = lastName,
-                EmailAddress1 = email,
-                BirthDate = birthDate,
-                MobileNumber1 = phoneNumber,
-                CreatedBy = UserNameService.UserName
-            };
-
             using (var scope = DbContextScopeFactory.Create())
             {
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == uaoId);
@@ -539,8 +524,23 @@ namespace Bec.TargetFramework.Business.Logic
                 foreach (var item in allContacts)
 	            {
 		            item.IsPrimaryContact = false;
+                    birthDate = item.BirthDate ?? birthDate;
 	            }
 
+                var contact = new Contact
+                {
+                    ContactID = Guid.NewGuid(),
+                    ParentID = uaoId,
+                    IsPrimaryContact = true,
+                    ContactName = "",
+                    Salutation = salutation,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    EmailAddress1 = email,
+                    BirthDate = birthDate,
+                    MobileNumber1 = phoneNumber,
+                    CreatedBy = UserNameService.UserName
+                };
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
                 uao.PrimaryContactID = contact.ContactID;
 
@@ -614,7 +614,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID, string accountNumber, string sortCode)
+        public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID, string accountNumber, string sortCode)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
@@ -644,12 +644,18 @@ namespace Bec.TargetFramework.Business.Logic
                 tx.Contact.Salutation = dto.Contact.Salutation;
                 tx.Contact.FirstName = dto.Contact.FirstName;
                 tx.Contact.LastName = dto.Contact.LastName;
-                tx.Contact.BirthDate = dto.Contact.BirthDate;
-
+                
+                var existingContacts = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Where(x => x.ParentID == uaoID);
+                if (existingContacts.Count() <= 1)
+                    tx.Contact.BirthDate = dto.Contact.BirthDate;
+                else
+                    dto.Contact.BirthDate = existingContacts.First().BirthDate;
                 tx.ModifiedOn = DateTime.Now;
                 tx.ModifiedBy = UserNameService.UserName;
 
                 await scope.SaveChangesAsync();
+
+                return dto;
             }
         }
 
