@@ -55,6 +55,7 @@
     <None Include="Development\Discussions\05_SendingEmailNotifications.sql" />
     <Content Include="Development\PotentialFraudNotification\01_NotificationConstruct.sql" />
     <None Include="Development\PotentialFraudNotification\02_CORE_BusEvent.sql" />
+    <Content Include="Development\SafeSendAttechments\02_OrgView.sql" />
     <Content Include="Development\SafeSendAttechments\01_Schema.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
