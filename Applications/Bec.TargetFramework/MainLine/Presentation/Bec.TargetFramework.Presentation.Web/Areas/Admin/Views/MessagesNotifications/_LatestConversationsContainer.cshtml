@@ -1,5 +1,5 @@
 ﻿@model int
-<span id="activity" class="activity-dropdown" title="Notifications">
+<span id="activity" class="activity-dropdown" title="Unread Messages">
     <i class="sms sms-safe-send"></i>
     <b class="badge" id="unreadConversationsCountId" style="@(Model == 0 ? "display: none" : "")"
        data-get-unread-count-url="@Url.Action("GetLatestConversationsCount", "MessagesNotifications", new { area = "Admin" })">@Model</b>
