@@ -249,7 +249,8 @@
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
-    <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\MortgageBroker.js" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
@@ -854,6 +855,7 @@
     <Content Include="Content\Fonts\sms-font.woff" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.cshtml" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\MortgageBroker.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1008,7 +1010,7 @@
     <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
-    <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.woff" />
@@ -2136,6 +2138,8 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
+    <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
+    <Content Include="Views\App\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

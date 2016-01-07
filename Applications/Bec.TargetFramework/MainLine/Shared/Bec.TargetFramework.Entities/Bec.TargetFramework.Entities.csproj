@@ -1950,9 +1950,11 @@
     <Compile Include="DTO\vOrganisationDTO.cs" />
     <Compile Include="DTO\vClassificationDTO.cs" />
     <Compile Include="DTO\vUserManagementDTO.cs" />
+    <Compile Include="Enums\BrokerBusinessTypeEnum.cs" />
     <Compile Include="Enums\ExperianProveIDEnum.cs" />
     <Compile Include="Enums\OperationEnum.cs" />
     <Compile Include="Enums\OrganisationRoleName.cs" />
+    <Compile Include="Enums\BrokerTypeEnum.cs" />
     <Compile Include="Enums\UserAccountOrganisationTransactionType.cs" />
     <Compile Include="Enums\SalutationEnum.cs" />
     <Compile Include="Enums\FirmUserEnum.cs" />

@@ -38,9 +38,13 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             {
                 return RedirectToAction("Provisional", "Company", new { area = "Admin" });
             }
-            else
+            else if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
             {
                 return RedirectToAction("Index", "SafeBuyer", new { area = "Buyer" });
+            }
+            else
+            {
+                return View();
             }
         }
 

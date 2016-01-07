@@ -386,7 +386,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         public NotificationResultDTO GetTcAndCsText(Guid accountID)
         {
-            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing).FirstOrDefault();
+            var unreadDTO = GetUnreadNotifications(accountID, NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender).FirstOrDefault();
             if (unreadDTO == null) return null;
             var construct = GetNotificationConstruct(unreadDTO.NotificationConstructID, unreadDTO.NotificationConstructVersionNumber);
             string val = StandaloneReportGenerator.GetReportTextItem(construct, null, "TextContent");

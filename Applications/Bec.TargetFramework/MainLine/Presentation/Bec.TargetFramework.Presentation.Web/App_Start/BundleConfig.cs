@@ -92,7 +92,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Reset").Include("~/Areas/Account/Views/Forgot/Reset.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Username").Include("~/Areas/Account/Views/Forgot/Username.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Register/Index").Include("~/Areas/Account/Views/Register/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Index").Include("~/Areas/Account/Views/RegisterAdmin/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Conveyancer").Include("~/Areas/Account/Views/RegisterAdmin/Conveyancer.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/MortgageBroker").Include("~/Areas/Account/Views/RegisterAdmin/MortgageBroker.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Search/Index").Include("~/Areas/Account/Views/Search/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/MyAccount/ChangePassword").Include("~/Areas/Account/Views/MyAccount/ChangePassword.js"));
 

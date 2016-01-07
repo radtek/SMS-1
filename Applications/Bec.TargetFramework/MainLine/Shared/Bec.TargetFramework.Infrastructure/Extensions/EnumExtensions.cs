@@ -57,6 +57,12 @@ namespace Bec.TargetFramework.Infrastructure.Extensions
         {
             return Convert.ToInt32(argEnum);
         }
+
+        public static int? GetIntValueOrNull(this Enum argEnum)
+        {
+            if (argEnum == null) return null;
+            return Convert.ToInt32(argEnum);
+        }
     }
 
     public class StringValueAttribute : Attribute

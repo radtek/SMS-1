@@ -1,0 +1,204 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model AddCompanyDTO
+@{
+    List<SelectListItem> regulators = new List<SelectListItem>
+    {
+        new SelectListItem{Text = "SRA", Value="SRA"},
+        new SelectListItem{Text = "CLC", Value="CLC"}
+    };
+    ViewBag.Title = "Submit Registration Details";
+}
+
+<form action="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })" method="POST" id="addCompanyForm">
+    @Html.ValidationBootstrap()
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.OrganisationType)
+    <h1>Register your Conveyancing Firm</h1>
+    <p class="form-info">Please ensure that <strong>all</strong> the details you enter below are accurate. Inaccurate details cannot be verified and will result in unsuccessful registration.</p>
+
+    <fieldset>
+        <legend>Organisation/Practice Details</legend>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.CompanyName)">Organisation/Practice Name</label>
+                    @Html.TextBoxFor(m => m.CompanyName, new { tabindex = "1", maxlength = 50, @class = "form-control" })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group select">
+                    <label for="@Html.IdFor(m => m.Regulator)">Regulator</label>
+                    @Html.DropDownListFor(m => m.Regulator, new SelectList(regulators, "Value", "Text"), "Please Select", new { tabindex = "3", @class = "form-control" })
+                    <i></i>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.RegulatorNumber)">SRA ID/MIS Number (Head Office)</label>
+                    @Html.TextBoxFor(m => m.RegulatorNumber, new { maxlength = 50, tabindex = 4, @class = "form-control", data_url = Url.Action("Check", "CompanyDuplicateCheck", new { Area = "" }) })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Head Office Address</legend>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="postcodeLookup">Lookup Postcode</label>
+                    <input id="postcodeLookup" type="text" tabindex="5" maxlength="10" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="findAddressButton" data-url="@Url.Action("FindAddress", "PostcodeLookup", new { Area = "" })" data-requestverificationtoken="@Html.AntiForgeryTokenValue()" type="button" class="btn btn-primary btn-block" tabindex="6">Search</button>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group select">
+                    <label>Found Addresses</label>
+                    <select id="addressResults" tabindex="7" class="form-control"></select>
+                    <i></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12" id="noMatch">
+                <em style="color:#d56161">No matches found, please enter address below</em>
+            </div>
+        </div>
+
+        <div class="row" id="manAddRow">
+            <div class="col-sm-12">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Manual, new { id = "manualAddress" })
+                        Edit Address Details
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.Line1)">Address Line 1</label>
+                    @Html.TextBoxFor(m => m.Line1, new { @readonly = "readonly", tabindex = "8", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.County)">County</label>
+                    @Html.TextBoxFor(m => m.County, new { @readonly = "readonly", tabindex = "11", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.Line2)">Address Line 2</label>
+                    @Html.TextBoxFor(m => m.Line2, new { @readonly = "readonly", tabindex = "9", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.PostalCode)">Postcode</label>
+                    @Html.TextBoxFor(m => m.PostalCode, new { @readonly = "readonly", tabindex = "12", maxlength = 10, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.Town)">Town/City</label>
+                    @Html.TextBoxFor(m => m.Town, new { @readonly = "readonly", tabindex = "10", maxlength = 50, @class = "form-control", title = "To enable that field use the Postcode Lookup above." })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Senior Responsible Officer (SRO) Details</legend>
+        <div class="row">
+            <div class="col-sm-12">
+                <p>A senior <strong>manager</strong> in the <strong>Practice</strong> or the <strong>sole practitioner</strong> who will be the nominated responsible person with overall responsibility for managing the Practice’s use of and adhering to the terms and conditions of the Safe Move Scheme.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group select">
+                    <label for="@Html.IdFor(m => m.OrganisationAdminSalutation)">Title</label>
+                    @Html.DropDownListFor(m => m.OrganisationAdminSalutation, Html.EnumListString<SalutationEnum>(), "Please Select", new { @class = "form-control", tabindex = "13" })
+                    <i></i>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.OrganisationAdminFirstName)">First Name</label>
+                    @Html.TextBoxFor(m => m.OrganisationAdminFirstName, new { tabindex = "14", maxlength = 50, @class = "form-control" })
+                    <i class="icon-append fa fa-asterisk" ></i>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.OrganisationAdminLastName)">Last Name</label>
+                    <i class="icon-append fa fa-asterisk" ></i>
+                    @Html.TextBoxFor(m => m.OrganisationAdminLastName, new { tabindex = "15", maxlength = 50, @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <label for="@Html.IdFor(m => m.OrganisationAdminEmail)">Email</label>
+                    <i class="icon-append fa fa-asterisk" ></i>
+                    @Html.TextBoxFor(m => m.OrganisationAdminEmail, new { autocomplete = "off", tabindex = "16", maxlength = 100, type = "email", data_url = Url.Action("CheckForAdminRegistration", "EmailCheck", new { Area = "" }), @class = "form-control", })
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    <fieldset>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group select">
+                    <label for="@Html.IdFor(m => m.OrganisationRecommendationSource)">Where Did You Hear About Safe Move Scheme Pre-Registration?</label>
+                    @Html.DropDownListFor(m => m.OrganisationRecommendationSource, Html.EnumListString<OrganisationRecommendationSource>(), "Please Select", new { tabindex = "18", @class = "form-control" })
+                    <i></i>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="row">
+            <div class="col-sm-9">
+                @Html.Partial("_Captcha")
+            </div>
+            <div class="col-sm-3">
+                <input id="checkSecPol" name="checkSecPol" type="checkbox" tabindex="19" />
+                <label style="display:inline;" for="checkSecPol">I have read and understood the <a download="SMS Login Security Policy.pdf" href="~/Content/websiteLayout/SMS Login Security Policy.pdf">SMS Login Security Policy</a></label>
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        
+        <div class="col-lg-offset-9 col-sm-3">
+            <div class="form-group">
+                <button type="submit" class="btn btn-block btn-primary" id="formSubmit" tabindex="20">Register</button>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script src="@Scripts.Url("~/Scripts/Account/RegisterAdmin/Conveyancer")"></script>
+}

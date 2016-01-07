@@ -125,19 +125,19 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType, Bec.TargetFramework.Entities.AddCompanyDTO dto)
+        public async Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             DefaultOrganisationDTO defaultOrganisation = null;
-            // get status type for professional organisation
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                // get professional default organisation template
-                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals("Professional Organisation")).ToDto();
+                // get relevant organisation template
+                var orgType = dto.OrganisationType.GetStringValue();
+                defaultOrganisation = scope.DbContexts.Get<TargetFrameworkEntities>().DefaultOrganisations.Single(s => s.Name.Equals(orgType)).ToDto();
             }
             Ensure.That(defaultOrganisation).IsNotNull();
 
             // add organisation
-            var organisationID = (await AddOrganisationAsync(organisationType.GetIntValue(), defaultOrganisation, dto)).Value;
+            var organisationID = (await AddOrganisationAsync(defaultOrganisation, dto)).Value;
 
             var userContactDto = new ContactDTO
             {
@@ -215,8 +215,21 @@ namespace Bec.TargetFramework.Business.Logic
             }
 
             //create Ts & Cs notification
-            if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
-            if (orgTypeName == "Personal") await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
+            switch (orgTypeName)
+            {
+                case "Professional":
+                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcFirmConveyancing);
+                    break;
+                case "Personal":
+                    await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcPublic);
+                    break;
+                case "MortgageBroker":
+                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcMortgageBroker);
+                    break;
+                case "Lender":
+                    if (userTypeValue == UserTypeEnum.OrganisationAdministrator) await CreateTsAndCsNotificationAsync(userOrgID.Value, NotificationConstructEnum.TcLender);
+                    break;
+            }
 
             return uaoDto;
         }
@@ -257,7 +270,7 @@ namespace Bec.TargetFramework.Business.Logic
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(c => c.UserAccountOrganisationID == uaoId);
                 Ensure.That(uao).IsNotNull();
 
-                if (uao.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue())
+                if (uao.Organisation.OrganisationType.Name == "Professional" && uao.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue())
                 {
                     var existingUserContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == uaoId);
                     Ensure.That(existingUserContact).IsNotNull();
@@ -290,7 +303,7 @@ namespace Bec.TargetFramework.Business.Logic
             await NotificationLogic.SaveNotificationAsync(notificationDto);
         }
 
-        private async Task<Guid?> AddOrganisationAsync(int organisationTypeID, DefaultOrganisationDTO defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
+        private async Task<Guid?> AddOrganisationAsync(DefaultOrganisationDTO defaultOrg, Bec.TargetFramework.Entities.AddCompanyDTO dto)
         {
             Guid? organisationID = null;
 
@@ -299,22 +312,21 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 // create organisation from do template using stored procedure
                 organisationID = scope.DbContexts.Get<TargetFrameworkEntities>().FnCreateOrganisationFromDefault(
-                    organisationTypeID,
+                    dto.OrganisationType.GetIntValue(),
                     defaultOrg.DefaultOrganisationID,
                     defaultOrg.DefaultOrganisationVersionNumber,
                     dto.CompanyName,
                     dto.CompanyName,
                     "",
                     UserNameService.UserName,
-                    dto.OrganisationRecommendationSource != null
-                        ? dto.OrganisationRecommendationSource.GetIntValue()
-                        : (int?)null);
+                    dto.OrganisationRecommendationSource.GetIntValueOrNull(),
+                    dto.BrokerType.GetIntValueOrNull(),
+                    dto.BrokerBusinessType.GetIntValueOrNull());
 
                 // ensure guid has a value
                 Ensure.That(organisationID).IsNotNull();
                 // TODO ZM: consider validation pattern for dtos
                 // Maybe trimming all strings in EF will be a solution http://romiller.com/2014/10/20/ef6-1workaround-trailing-blanks-issue-in-string-joins/
-                Ensure.That(dto.RegulatorNumber).IsNotNull();
 
                 // create contact for organisation
                 var contact = new Contact
@@ -333,16 +345,20 @@ namespace Bec.TargetFramework.Business.Logic
 
                 scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.Add(contact);
 
-                // contact regulator
-                var contactRegulator = new ContactRegulator
+                if (dto.OrganisationType == OrganisationTypeEnum.Professional)
                 {
-                    ContactID = contact.ContactID,
-                    RegulatorName = dto.Regulator,
-                    RegulatorOtherName = dto.RegulatorOther,
-                    RegulatorNumber = dto.RegulatorNumber.Trim()
-                };
+                    Ensure.That(dto.RegulatorNumber).IsNotNull();
+                    // contact regulator
+                    var contactRegulator = new ContactRegulator
+                    {
+                        ContactID = contact.ContactID,
+                        RegulatorName = dto.Regulator,
+                        RegulatorOtherName = dto.RegulatorOther,
+                        RegulatorNumber = dto.RegulatorNumber.Trim()
+                    };
 
-                scope.DbContexts.Get<TargetFrameworkEntities>().ContactRegulators.Add(contactRegulator);
+                    scope.DbContexts.Get<TargetFrameworkEntities>().ContactRegulators.Add(contactRegulator);
+                }
 
                 //address to contact, organisation to the contact
                 var address = new Address
@@ -489,6 +505,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var companyDTO = new AddCompanyDTO
             {
+                OrganisationType = OrganisationTypeEnum.Personal,
                 CompanyName = "Personal Organisation",
                 Line1 = "-",
                 RegulatorNumber = "-",
@@ -506,7 +523,7 @@ namespace Bec.TargetFramework.Business.Logic
                 MobileNumber1 = phoneNumber,
                 CreatedBy = UserNameService.UserName
             };
-            var personalOrgID = await AddOrganisationAsync(OrganisationTypeEnum.Personal.GetIntValue(), defaultOrganisation, companyDTO);
+            var personalOrgID = await AddOrganisationAsync(defaultOrganisation, companyDTO);
             var buyerUaoDto = await AddNewUserToOrganisationAsync(personalOrgID.Value, contactDTO, UserTypeEnum.User, true);
             await UserLogic.GeneratePinAsync(buyerUaoDto.UserAccountOrganisationID, false, false, true);
             

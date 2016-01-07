@@ -15,6 +15,10 @@ $(function () {
                         hidden: true,
                     },
                     {
+                        field: "OrganisationTypeDescription",
+                        title: "Type"
+                    },
+                    {
                         field: "Name",
                         title: "Company Name"
                     },

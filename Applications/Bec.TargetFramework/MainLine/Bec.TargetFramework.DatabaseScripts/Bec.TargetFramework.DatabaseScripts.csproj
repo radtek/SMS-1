@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Development\Sprint22_Brokers_Lenders\01_OrganisationTypes.sql" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,72 @@
     <None Include="Development\PotentialFraudNotification\02_CORE_BusEvent.sql" />
     <Content Include="Development\SafeSendAttechments\02_OrgView.sql" />
     <Content Include="Development\SafeSendAttechments\01_Schema.sql" />
+    <Content Include="Scripts\BE Framework Scripts\AddRowVersion.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Application Environment.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Lookup.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Status.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Setup\Core Test Job.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Setup\Reference.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Test\Bus Message Event Task.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Core\Test\BusTask Schedule.sql" />
+    <Content Include="Scripts\BE Framework Scripts\DDL\DDL20150327.sql" />
+    <Content Include="Scripts\BE Framework Scripts\DDL\Sprint 2 DDL.sql" />
+    <Content Include="Scripts\BE Framework Scripts\DeleteOrg.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountCheckNoMatchNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsFraudSuspiciousNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddBankAccountMarkedAsSafeNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddCompanySystemAdminNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddCreditAdjustmentNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddForgotPasswordNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddNewInternalMessagesNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddUsernameReminderNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\AddUserNotification.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Notifications\PromoteNotifications.sql" />
+    <Content Include="Scripts\BE Framework Scripts\ProductInitial.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Base Settings\Settings.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Company\CompanyView.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Defaults\AddDefaultFred.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Defaults\AddDefaultProOrganisationWithUsers.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Logins\Logins Test.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Admin Organisation Create.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Admin Organisation Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\BEC Admin\Admin Organisation Create.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\BEC Admin\Admin Organisation Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\BEC Admin\Status.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Personal\Personal Organisation Create Default Organisation.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Personal\Personal Organisation Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Broker\Mortgage Broker Create Default Organisation.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Broker\Mortgage Broker Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Lender\Lender Create Default Organisation.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Lender\Lender Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Professional\Professional Organisation Create Default Organisation.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Professional\Professional Organisation Status.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Professional\Professional Organisation Template.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Professional\Professional Organisation Test with TestAdmin.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Status.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Organisation\Views\vOrganisationWithStatusAndAdmin.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Reference Data\CountryAndCurrency.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Reference Data\Lookup Data 1#.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Reference Data\Nationality.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Reference Data\OrganisationAndUserType.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Security\Security Categories.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Security\Security.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Setup\Services\ServiceInterfaces.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Lookup.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Status.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Test\Data Migration Old Schema to New.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Test\Test Methods.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Test\Test Transfer.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\Transfer Application Environment.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Events Tasks and Transfer Tasks.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Other Handlers.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Scheduled Tasks.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Sira Process Task.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Sira Send Search Task.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Sira Transfer Tasks.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\SiraSetup Including Mutations.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\SiraSetup.sql" />
+    <Content Include="Scripts\BE Framework Scripts\Transfer\TransferInterface\Status and Type.sql" />
     <Content Include="Scripts\Creation Scripts\Module\AdminModule.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Admin Default Organisation.sql" />
     <Content Include="Scripts\Creation Scripts\Organisation\Conveyancing Firm.sql" />
@@ -65,12 +132,17 @@
     <Content Include="Scripts\Creation Scripts\Organisation\Suppliers.sql" />
     <Content Include="Scripts\Creation Scripts\Product.sql" />
     <Content Include="Scripts\Creation Scripts\Product\ACME Insurance.sql" />
+    <Content Include="Scripts\Creation Scripts\Product\Bank Account Check.sql" />
     <Content Include="Scripts\Creation Scripts\Product\BEC.sql" />
+    <Content Include="Scripts\Creation Scripts\Product\BECFirm Details.sql" />
+    <Content Include="Scripts\Creation Scripts\Product\CreditTopUp.sql" />
     <Content Include="Scripts\Creation Scripts\Product\Deduction.sql" />
     <Content Include="Scripts\Creation Scripts\Product\Dual Hijack Insurance.sql" />
     <Content Include="Scripts\Creation Scripts\Product\Experian.sql" />
     <Content Include="Scripts\Creation Scripts\Product\Firstdata.sql" />
     <Content Include="Scripts\Creation Scripts\Product\LandRegistry.sql" />
+    <Content Include="Scripts\Creation Scripts\Product\ProductTask.sql" />
+    <Content Include="Scripts\Creation Scripts\Product\PromoteProduct.sql" />
     <Content Include="Scripts\Creation Scripts\Product\ShoppingCartProductTemplate.sql" />
     <Content Include="Scripts\Creation Scripts\Product\TestProduct.sql" />
     <Content Include="Scripts\Creation Scripts\Workflow\DeleteWorkflowTemplateDataWithDependencies.sql" />
@@ -84,7 +156,27 @@
     <Content Include="Scripts\Initial Setup Data\SettingTable.sql" />
     <Content Include="Scripts\Initial Setup Data\Tasks and Events.sql" />
     <Content Include="Scripts\Initial Setup Data\Truncate Org and DO.sql" />
+    <Content Include="Scripts\NotificationContent\ColpNextSteps.sql" />
+    <Content Include="Scripts\NotificationContent\ColpRegistration.sql" />
+    <Content Include="Scripts\NotificationContent\ExternalBatchNotification.sql" />
+    <Content Include="Scripts\NotificationContent\ExternalNotification.sql" />
+    <Content Include="Scripts\NotificationContent\ForgotPassword.sql" />
+    <Content Include="Scripts\NotificationContent\ForgotUsername.sql" />
+    <Content Include="Scripts\NotificationContent\NotificationPostExecution.sql" />
+    <Content Include="Scripts\NotificationContent\NotificationPreExecution.sql" />
+    <Content Include="Scripts\NotificationContent\OnlinePaymentReceipt.sql" />
+    <Content Include="Scripts\NotificationContent\ScpFirmApproval.sql" />
+    <Content Include="Scripts\NotificationContent\UserNextSteps.sql" />
+    <Content Include="Scripts\Notification\BusEvent.sql" />
+    <Content Include="Scripts\Notification\COLPNotifications.sql" />
+    <Content Include="Scripts\Notification\COLPNotifications_Additional.sql" />
+    <Content Include="Scripts\Notification\NewT&amp;CNotification.sql" />
+    <Content Include="Scripts\Notification\Payment.sql" />
+    <Content Include="Scripts\Notification\Security Tasks.sql" />
     <Content Include="Scripts\Notification\Security_Notifications.sql" />
+    <Content Include="Scripts\Notification\T&amp;CNotifications.sql" />
+    <Content Include="Scripts\Notification\T&amp;CNotificationsNoCOLP.sql" />
+    <Content Include="Scripts\Notification\Tasks.sql" />
     <Content Include="Scripts\Queries\WFHierarchyDebugging.sql" />
     <Content Include="Scripts\Reference Data\ClassificationTypeCategory.sql" />
     <Content Include="Scripts\Reference Data\GlobalAccountingPeriod.sql" />
@@ -94,6 +186,7 @@
     <Content Include="Scripts\Reference Data\StatusType.sql" />
     <Content Include="Scripts\Reference Data\UserType.sql" />
     <Content Include="Scripts\Reference Data\WorkflowExecutionStatus.sql" />
+    <Content Include="Scripts\Security\Operation.sql" />
     <Content Include="Scripts\UI InterfacePanelFieldDetail Scripts\FieldDetailTemplate.sql" />
     <Content Include="Scripts\UI InterfacePanelFieldDetail Scripts\InterfacePanelValidationTemplate.sql" />
     <Content Include="Scripts\UI InterfacePanelFieldDetail Scripts\InterfacePanelFieldDetailTemplate.sql" />
@@ -106,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
