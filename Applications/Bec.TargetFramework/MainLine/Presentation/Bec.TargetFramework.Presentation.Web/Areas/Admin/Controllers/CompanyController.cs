@@ -110,6 +110,21 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
+        public ActionResult ViewRegisterLender()
+        {
+            return PartialView("_RegisterLender", new AddCompanyDTO { OrganisationType = OrganisationTypeEnum.Lender });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterLender(AddCompanyDTO model)
+        {
+            var orgId = await OrganisationClient.AddNewUnverifiedOrganisationAndAdministratorAsync(model);
+            TempData["AddTempCompanyId"] = orgId;
+            TempData["tabIndex"] = 0;
+            return RedirectToAction("Provisional");
+        }
+
         // todo: ZM ucomment when enable login comes back to life
         //public async Task<ActionResult> ViewEditCompany(Guid orgID)
         //{

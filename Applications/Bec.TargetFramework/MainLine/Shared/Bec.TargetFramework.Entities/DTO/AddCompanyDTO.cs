@@ -16,8 +16,6 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string CompanyName { get; set; }
         [DataMember]
-        public string TradingName { get; set; }
-        [DataMember]
         public string Line1 { get; set; }
         [DataMember]
         public string Line2 { get; set; }
@@ -53,5 +51,9 @@ namespace Bec.TargetFramework.Entities
         public BrokerTypeEnum? BrokerType { get; set; }
         [DataMember]
         public BrokerBusinessTypeEnum? BrokerBusinessType { get; set; }
+
+        //lender specific
+        [DataMember]
+        public List<string> TradingNames { get; set; }
     }
 }

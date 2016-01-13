@@ -1,5 +1,8 @@
 ﻿--also run 2x broker and 2x lender scripts after running this
 
+ALTER TABLE public."OrganisationTradingName" ALTER COLUMN "OrganisationTradingNameID" TYPE UUID using null;
+ALTER TABLE public."OrganisationTradingName" ALTER COLUMN "OrganisationTradingNameID" SET DEFAULT uuid_generate_v1();
+
 INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
 VALUES (37, E'MortgageBroker', E'Mortgage Broker', True, False);
 

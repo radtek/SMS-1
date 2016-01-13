@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Bec.TargetFramework.Entities
@@ -8,5 +8,7 @@ namespace Bec.TargetFramework.Entities
     {
         [DataMember]
         public string Referrer { get; set; }
+        [DataMember]
+        public List<string> TradingNames { get; set; }
     }
 }

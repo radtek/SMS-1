@@ -119,8 +119,11 @@ namespace Bec.TargetFramework.Business.Logic
                 var status = LogicHelper.GetStatusType(scope, StatusTypeEnum.ProfessionalOrganisation.GetStringValue(), orgStatus.GetStringValue());
                 var ret = scope.DbContexts.Get<TargetFrameworkEntities>().VOrganisationWithStatusAndAdmins.Where(item => item.StatusTypeValueID == status.StatusTypeValueID).ToDtos();
                 foreach (var item in ret)
+                {
                     if (item.OrganisationRecommendationSourceID.HasValue)
                         item.Referrer = ((OrganisationRecommendationSource)item.OrganisationRecommendationSourceID.Value).GetStringValue();
+                    item.TradingNames = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationTradingNames.Where(x => x.OrganisationID == item.OrganisationID).Select(x => x.Name).ToList();
+                }
                 return ret;
             }
         }
@@ -360,23 +363,37 @@ namespace Bec.TargetFramework.Business.Logic
                     scope.DbContexts.Get<TargetFrameworkEntities>().ContactRegulators.Add(contactRegulator);
                 }
 
-                //address to contact, organisation to the contact
-                var address = new Address
+                if (dto.OrganisationType == OrganisationTypeEnum.Lender)
                 {
-                    AddressID = Guid.NewGuid(),
-                    ParentID = contact.ContactID,
-                    Line1 = dto.Line1,
-                    Line2 = dto.Line2,
-                    Town = dto.Town,
-                    County = dto.County,
-                    PostalCode = dto.PostalCode,
-                    AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
-                    Name = String.Empty,
-                    IsPrimaryAddress = true,
-                    CreatedBy = UserNameService.UserName
-                };
-                scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
-
+                    foreach (var tn in dto.TradingNames.Where(x => !string.IsNullOrWhiteSpace(x)))
+                    {
+                        scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationTradingNames.Add(
+                            new OrganisationTradingName
+                            {
+                                OrganisationID = organisationID.Value,
+                                Name = tn
+                            });
+                    }
+                }
+                else
+                {
+                    //address to contact, organisation to the contact
+                    var address = new Address
+                    {
+                        AddressID = Guid.NewGuid(),
+                        ParentID = contact.ContactID,
+                        Line1 = dto.Line1,
+                        Line2 = dto.Line2,
+                        Town = dto.Town,
+                        County = dto.County,
+                        PostalCode = dto.PostalCode,
+                        AddressTypeID = AddressTypeIDEnum.Work.GetIntValue(),
+                        Name = String.Empty,
+                        IsPrimaryAddress = true,
+                        CreatedBy = UserNameService.UserName
+                    };
+                    scope.DbContexts.Get<TargetFrameworkEntities>().Addresses.Add(address);
+                }
                 await scope.SaveChangesAsync();
             }
 

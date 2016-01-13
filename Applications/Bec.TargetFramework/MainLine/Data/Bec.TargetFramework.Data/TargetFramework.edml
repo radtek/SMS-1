@@ -5416,7 +5416,7 @@
           <Key>
             <PropertyRef Name="OrganisationTradingNameID" />
           </Key>
-          <Property Name="OrganisationTradingNameID" Type="int" Nullable="false" />
+          <Property Name="OrganisationTradingNameID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
           <Property Name="OrganisationID" Type="uuid" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
@@ -9702,7 +9702,6 @@
             <PropertyRef Name="OrganisationID" />
             <PropertyRef Name="Name" />
             <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Line1" />
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
@@ -24220,7 +24219,7 @@
           <Key>
             <PropertyRef Name="OrganisationTradingNameID" />
           </Key>
-          <Property Name="OrganisationTradingNameID" Type="Int32" Nullable="false" ed:ValidateRequired="True" ed:Guid="03a5a3e4-bd89-4ade-b105-1f9f7f3b73f9" />
+          <Property Name="OrganisationTradingNameID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="03a5a3e4-bd89-4ade-b105-1f9f7f3b73f9" />
           <Property Name="OrganisationID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="0f53bfa5-1e3a-4a62-bb78-ca150301dd05" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="74b2a435-c3b4-483a-a9a5-488409812ef6" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="b2b90860-9386-43e3-93a6-654e24413b49" />
@@ -29063,7 +29062,6 @@
             <PropertyRef Name="OrganisationID" />
             <PropertyRef Name="Name" />
             <PropertyRef Name="CreatedOn" />
-            <PropertyRef Name="Line1" />
             <PropertyRef Name="StatusTypeID" />
             <PropertyRef Name="StatusTypeValueID" />
             <PropertyRef Name="StatusTypeVersionNumber" />
