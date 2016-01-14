@@ -10,7 +10,7 @@ CREATE TABLE public."Conversation" (
   "ActivityType" INTEGER,
   "ActivityID" UUID,
   "IsSystemMessage" BOOLEAN DEFAULT false NOT NULL,
-  "Latest" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL
+  "Latest" TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL,
   CONSTRAINT "Conversation_pkey" PRIMARY KEY("ConversationID")
 ) 
 WITH (oids = false);
@@ -175,8 +175,10 @@ VALUES (
 );
 
 
-
-SELECT * FROM public."fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
+DO $$
+BEGIN
+	PERFORM "fn_PromoteNotificationConstructTemplate"('4fb339f0-489f-11e4-a2d3-ef22e599ffbb', 1);
+END $$;
 
 
 CREATE OR REPLACE VIEW public."vConversation"(
