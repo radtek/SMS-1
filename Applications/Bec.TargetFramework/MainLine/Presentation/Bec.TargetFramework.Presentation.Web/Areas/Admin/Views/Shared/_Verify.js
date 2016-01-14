@@ -22,6 +22,7 @@ $("#verify-form").validate({
             required: true,
             number: true,
             remote: {
+                cache: false,
                 url: $('#RegulatorNumber').data("url"),
                 data: {
                     regulatorNumber: function () {

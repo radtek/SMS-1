@@ -19,7 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
 
             if (!canEmailBeUsed)
-                return Json(string.Format("The email address is already registered in Safe Move Scheme. Call us at {0} if this concerns you.", commonSettings.SupportTelephoneNumber), JsonRequestBehavior.AllowGet);
+                return Json(string.Format("The email address is already registered in Safe Move Scheme. Email us on {0} if this concerns you.", commonSettings.SupportEmailAddress), JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }

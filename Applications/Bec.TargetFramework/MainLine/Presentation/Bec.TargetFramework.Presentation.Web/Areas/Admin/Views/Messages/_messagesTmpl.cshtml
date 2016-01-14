@@ -24,34 +24,40 @@
     <div class="message-item">
         <div class="row">
             {{#if conversation.issystemmessage}}
-                <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
+            <div class="alert alert-info"><i class="fa-fw fa fa-info"></i><strong>Information </strong>You cannot reply to this conversation because it is a system generated message.</div>
             {{else}}
-                <div class="col-xs-12">
-                    <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
-                        <div class="row display-table">
-                            <div class="col-xs-12">
-                                <div id="replyUpload" class="dropzone"></div>
-                            </div>
+            <div class="col-xs-12">
+                <form id="replyForm" class="smart-form" data-url="@Url.Action("Reply", "Messages", new { area = "Admin" })">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
+                    <div class="row display-table">
+                        <div class="col-xs-11">
+                            <fieldset>
+                                <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
+                                <section>
+                                    <label class="textarea">
+                                        <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
+                                    </label>
+                                </section>
+                            </fieldset>
                         </div>
-                        <div class="row display-table">
-                            <div class="col-xs-11">
-                                <fieldset>
-                                    <input type="hidden" name="ConversationId" value="{{conversation.id}}" />
-                                    <section>
-                                        <label class="textarea">
-                                            <textarea id="replyMessageTextArea" name="Message" class="form-control" rows="1" placeholder="Write a reply..."></textarea>
-                                        </label>
-                                    </section>
-                                </fieldset>
-                            </div>
-                            <div class="col-xs-1">
-                                <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
-                            </div>
+                        <div class="col-xs-1">
+                            <button id="replyButton" type="submit" class="btn btn-block btn-primary pull-right">Send</button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-12 smart-form">
+                <div id="upload" class="row dropzone">
+                    <div class="fallback">
+                        <form method="post" enctype="multipart/form-data" id="multiform">
+                            <input style="display:none;" type="file" name="file" id="file" title="Add File" />
+                            <button type="button" id="test">Upload file...</button>
+                        </form>
+                    </div>
                 </div>
+            </div>
+
             {{/if}}
         </div>
     </div>

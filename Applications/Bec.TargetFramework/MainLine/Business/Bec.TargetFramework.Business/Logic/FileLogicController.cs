@@ -14,7 +14,7 @@ namespace Bec.TargetFramework.Business.Logic
     {
         public ClamClient ClamClient { get; set; }
 
-        public async Task<ClamScanResult> UploadFile(FileDTO file)
+        public async Task<ClamScanResult> UploadFileAsync(FileDTO file)
         {
             var res = ScanByteArrayForVirus(file.Data);
             if (res.Result == ClamScanResults.Clean)
@@ -28,12 +28,12 @@ namespace Bec.TargetFramework.Business.Logic
             return res;
         }
 
-        public async Task ClearUnusedFiles(Guid uaoID)
+        public async Task ClearUnusedFilesAsync(Guid uaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var ids = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.UserAccountOrganisationID == uaoID && x.Temporary).Select(x => x.FileID);
-                await RemoveFiles(ids.ToArray());
+                await RemoveFilesAsync(ids.ToArray());
                 await scope.SaveChangesAsync();
             }
         }
@@ -47,12 +47,12 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task RemovePendingUpload(Guid uaoID, Guid id, string filename)
+        public async Task RemovePendingUploadAsync(Guid uaoID, Guid id, string filename)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var fid = scope.DbContexts.Get<TargetFrameworkEntities>().Files.Where(x => x.ParentID == id && x.UserAccountOrganisationID == uaoID && x.Name == filename).Select(x => x.FileID).FirstOrDefault();
-                if (fid != Guid.Empty) await RemoveFiles(fid);
+                if (fid != Guid.Empty) await RemoveFilesAsync(fid);
                 await scope.SaveChangesAsync();
             }
         }
@@ -67,7 +67,7 @@ namespace Bec.TargetFramework.Business.Logic
             return ClamClient.SendAndScanFile(data);
         }
 
-        private async Task RemoveFiles(params Guid[] ids)
+        private async Task RemoveFilesAsync(params Guid[] ids)
         {
             using (var scope = DbContextScopeFactory.Create())
             {

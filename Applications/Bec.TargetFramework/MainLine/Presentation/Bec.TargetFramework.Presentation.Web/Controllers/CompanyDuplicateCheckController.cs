@@ -19,7 +19,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             var isInSystem = await OrganisationClient.IsOrganisationInSystemAsync(orgID, regulatorNumber);
             var settings = SettingsClient.GetSettings().AsSettings<CommonSettings>();
             if (isInSystem)
-                return Json("The organisation with above SRA ID/MIS Number is already registered in the Safe Move Scheme." + (orgID.HasValue ? "": " Call us at " + settings.SupportTelephoneNumber + " if this concerns you."), JsonRequestBehavior.AllowGet);
+                return Json("The organisation with above SRA ID/MIS Number is already registered in the Safe Move Scheme." + (orgID.HasValue ? "": " Email us on " + settings.SupportEmailAddress + " if this concerns you."), JsonRequestBehavior.AllowGet);
             else
                 return Json("true", JsonRequestBehavior.AllowGet);
         }

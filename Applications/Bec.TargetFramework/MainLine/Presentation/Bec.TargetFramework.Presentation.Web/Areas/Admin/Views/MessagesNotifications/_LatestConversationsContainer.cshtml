@@ -1,11 +1,10 @@
 ﻿@model int
-<span id="activity" class="activity-dropdown" title="Notifications">
+<span id="activity" class="activity-dropdown" title="Unread Messages">
     <i class="sms sms-safe-send"></i>
     <b class="badge" id="unreadConversationsCountId" style="@(Model == 0 ? "display: none" : "")"
        data-get-unread-count-url="@Url.Action("GetLatestConversationsCount", "MessagesNotifications", new { area = "Admin" })">@Model</b>
 </span>
 <div class="ajax-dropdown">
-    <h4>Notifications</h4>
     <div id="latestConversationsError" class="alert alert-danger" style="display:none;">Ooops... Something went wrong. Please try again later.</div>
     <div id="latestConversationsContainer" class="ajax-notifications custom-scroll" data-load-conversations-url="@Url.Action("LatestConversations", "MessagesNotifications", new { area = "Admin" })">
         <!-- This is replaced by async load -->

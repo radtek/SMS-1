@@ -46,6 +46,13 @@
                         <pre>Checked By: <strong>{{MarkedBy}}</strong></pre>
                         <pre>Details: <strong>{{Reason}}</strong></pre>
                     {{/with}}
+                {{else if isBaPotFraud}}
+                    {{#with Content.NotificationDictionary.BankAccountMarkedAsPotentialFraudNotificationDTO}}
+                        <pre>The following bank account was marked as <strong>Potential Fraud</strong>:</pre>
+                        <pre>Account Number: <strong>{{AccountNumber}}</strong></pre>
+                        <pre>Sort Code: <strong>{{SortCode}}</strong></pre>
+                        <pre>Changed By: <strong>{{MarkedBy}}</strong></pre>
+                    {{/with}}
                 {{/if}}
                 <div class="read-status">
                     {{#if Unread}}

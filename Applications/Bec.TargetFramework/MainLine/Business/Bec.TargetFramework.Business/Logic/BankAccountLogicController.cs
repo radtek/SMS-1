@@ -353,7 +353,7 @@ namespace Bec.TargetFramework.Business.Logic
                 if (usertx == null) throw new Exception("User and transaction combination not found");
 
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
-                var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uaoID);
+                var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ContactID == usertx.ContactID);
                 
                 string details = "";
                 if (c != null) details = c.FirstName + " " + c.LastName + Environment.NewLine + Environment.NewLine;

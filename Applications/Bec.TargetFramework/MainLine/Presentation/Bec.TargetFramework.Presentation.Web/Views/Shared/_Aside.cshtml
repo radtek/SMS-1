@@ -7,7 +7,7 @@
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
                     <li class="@Html.RouteIf("active", "SafeBuyer", "Index")">
-                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Safe Buyer Transactions</span></a>
+                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
                 @if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))

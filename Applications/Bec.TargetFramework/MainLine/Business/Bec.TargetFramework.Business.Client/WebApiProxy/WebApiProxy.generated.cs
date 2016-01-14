@@ -907,13 +907,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		Task UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
 
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		void UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -2205,7 +2205,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task<ClamScanResult> UploadFileAsync(FileDTO file)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFile", file, _user);
+			return PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFileAsync", file, _user);
 		}
 
 		/// <summary>
@@ -2214,7 +2214,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual ClamScanResult UploadFile(FileDTO file)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFile", file, _user)).Result;
+			return Task.Run(() => PostAsync<FileDTO, ClamScanResult>("api/FileLogic/UploadFileAsync", file, _user)).Result;
 		}
 
 		/// <summary>
@@ -2225,7 +2225,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual Task ClearUnusedFilesAsync(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/FileLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user);
+			return PostAsync<object>("api/FileLogic/ClearUnusedFilesAsync?uaoID=" + uaoID, null, _user);
 		}
 
 		/// <summary>
@@ -2235,7 +2235,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		public virtual void ClearUnusedFiles(Guid uaoID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/FileLogic/ClearUnusedFiles?uaoID=" + uaoID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/FileLogic/ClearUnusedFilesAsync?uaoID=" + uaoID, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -2272,7 +2272,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			filename = filename.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user);
+			return PostAsync<object>("api/FileLogic/RemovePendingUploadAsync?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user);
 		}
 
 		/// <summary>
@@ -2285,7 +2285,7 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			filename = filename.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUpload?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/FileLogic/RemovePendingUploadAsync?uaoID=" + uaoID + "&id=" + id + "&filename=" + filename, null, _user)).Wait();
 		}
 
 		/// <summary>
@@ -3860,12 +3860,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
 		/// <returns></returns>
-		public virtual Task UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
+			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
 		}
 
 		/// <summary>
@@ -3874,12 +3874,12 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
 		/// <param name="sortCode"></param>
-		public virtual void UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
 		{
 			accountNumber = accountNumber.UrlEncode();
 			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Wait();
+			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Result;
 		}
 
 		/// <summary>

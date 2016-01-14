@@ -32,6 +32,7 @@ $(function () {
             },
             combined: {
                 remote: {
+                    cache: false,
                     url: $("#addBankAccount-form").data("check"),
                     data: {
                         accountNumber: function () {

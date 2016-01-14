@@ -50,6 +50,7 @@
                 required: true,
                 email: true,
                 remote: {
+                    cache: false,
                     url: $('#CreatePermanentLoginModel_RegistrationEmail').data("url"),
                     data: {
                         email: function () {

@@ -12,15 +12,18 @@
 <div id="content" class="buyer-transactions">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
-            <i class="fa fa-home fa-lg margin-right-10"></i>Safe Buyer ordered by @companyName
+            <i class="fa fa-home fa-lg margin-right-10"></i>
+            @if (!string.IsNullOrEmpty(Model.SmsTransaction.Address.Line1))
+            {
+                <text>Purchase of Property </text>@(Model.SmsTransaction.Address.Line1 + ", " + Model.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<text>.</text>
+            }
+            else
+            {
+                <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+            }
         </h2>
         <div class="col-sm-12">
             <div class="well">
-                @if (!string.IsNullOrEmpty(Model.SmsTransaction.Address.Line1))
-                {
-                    <h5>Purchase of @Model.SmsTransaction.Address.Line1 @Model.SmsTransaction.Address.PostalCode</h5>
-                }
-
                 <div id="transactionContainer" data-url="@Url.Action("ViewMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID, companyName = companyName })"
                      data-failurl="@Url.Action("ViewNoMatch", "SafeBuyer", new { area = "Buyer", smsUserAccountOrganisationTransactionID = Model.SmsUserAccountOrganisationTransactionID })"
                      data-companyname="@companyName" data-phone="@tel">

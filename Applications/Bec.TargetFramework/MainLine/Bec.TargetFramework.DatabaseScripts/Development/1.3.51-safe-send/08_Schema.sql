@@ -5,7 +5,7 @@
   "Data" BYTEA NOT NULL,
   "Type" VARCHAR NOT NULL,
   "UserAccountOrganisationID" UUID,
-  "Temporary" boolean default false not null
+  "Temporary" boolean default false not null,
   PRIMARY KEY("FileID")
 ) ;
 

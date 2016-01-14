@@ -156,6 +156,56 @@ $(function () {
             ]
         });
 
+    eGrid = new gridItem(
+        {
+            gridElementId: 'expiredGrid',
+            url: $('#expiredGrid').data("url"),
+            schema: { data: "list", total: "total", model: { id: "OrganisationID" } },
+            defaultSort: { field: "StatusChangedOn", dir: "desc" },
+            change: expiredChange,
+            panels: ['expiredPanel'],
+            columns: [
+                {
+                    field: "OrganisationID",
+                    hidden: true,
+                },
+                {
+                    field: "Name",
+                    title: "Company Name"
+                },
+                {
+                    field: "Line1",
+                    title: "Address 1"
+                },
+                {
+                    field: "PostalCode",
+                    title: "Post Code"
+                },
+                {
+                    field: "OrganisationAdminLastName",
+                    title: "Organisation Administrator",
+                    template: function (dataItem) {
+                        return kendo.htmlEncode(dataItem.OrganisationAdminFirstName) + " " + kendo.htmlEncode(dataItem.OrganisationAdminLastName);
+                    }
+                },
+                {
+                    field: "StatusChangedOn",
+                    title: "Rejected On",
+                    template: function (dataItem) {
+                        return dateString(dataItem.StatusChangedOn);
+                    }
+                },
+                {
+                    field: "StatusChangedBy",
+                    title: "Rejected By"
+                },
+                {
+                    field: "Reason",
+                    title: "Rejected Reason"
+                }
+            ]
+        });
+
     //declare which grids are on which tabs, as the kendo grid can only be created once its container is shown.
     var tabs = new tabItem("myTab1",
         {
@@ -168,6 +218,9 @@ $(function () {
             s3: {
                 grids: [rGrid]
             },
+            s4: {
+                grids: [eGrid]
+            }
         });
 
     //set up tabs
@@ -228,7 +281,7 @@ function verifiedChange(dataItem) {
     $("p#ddvPINCreatedOn").text(dateString(dataItem.PinCreated));
     
     //update links
-    $("#pinButton").data('href', $("#pinButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
+    $("#pinButton").data('href', $("#pinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
 
     // toggle visibility
     $("p#ddvPINNumber").toggle(!!dataItem.PinCode);
@@ -259,4 +312,30 @@ function rejectedChange(dataItem) {
     $("p#ddrRejectedBy").text(dataItem.StatusChangedBy);
     $("p#ddrRejectedReason").text(dataItem.Reason);
     $("p#ddrRejectedNotes").text(dataItem.Notes);
+}
+
+function expiredChange(dataItem) {
+    $("p#ddeCompanyName").text(dataItem.Name || "");
+    $("p#ddeCompanyCreatedOn").text(dateString(dataItem.CreatedOn));
+    $("p#ddeCompanyCounty").text(dataItem.County || "");
+    $("p#ddeCompanyPostCode").text(dataItem.PostalCode || "");
+    $("p#ddeCompanyTownCity").text(dataItem.Town || "");
+    $("p#ddeCompanyAddress2").text(dataItem.Line2 || "");
+    $("p#ddeCompanyAddress1").text(dataItem.Line1 || "");
+    $("p#ddeSystemAdminEmail").text(dataItem.OrganisationAdminEmail || "");
+    $("p#ddeVerifiedPhoneNumber").text(dataItem.Notes || "");
+    $("p#ddeReferrer").text(dataItem.Referrer || "");
+    $("p#ddeSchemeID").text(dataItem.SchemeID || "");
+    $("p#ddefpm").text(dataItem.FilesPerMonth || "");
+
+    $("p#ddeSystemAdminName").text((dataItem.OrganisationAdminSalutation || "") + " " + (dataItem.OrganisationAdminFirstName || "") + " " + (dataItem.OrganisationAdminLastName || ""));
+
+    var regulatorName = dataItem.Regulator || "";
+    if (regulatorName.toLowerCase() == 'other') regulatorName = dataItem.RegulatorOther;
+    $("p#ddeRegulator").text(regulatorName);
+    $("p#ddeRegulatorNumber").text(dataItem.RegulatorNumber || "");
+    $("p#ddeRegisteredAsName").text(dataItem.RegisteredAsName);
+
+    //update links
+    $("#expiredPinButton").data('href', $("#expiredPinButton").data("url") + "&orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
 }

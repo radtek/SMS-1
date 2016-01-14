@@ -3,7 +3,7 @@
 <div id="content">
     <div class="row">
         <h2 class="row-seperator-header inline-heading">
-            <i class="fa fa-home fa-lg margin-right-10"></i>Safe Buyer Transactions
+            <i class="fa fa-home fa-lg margin-right-10"></i>Transactions
         </h2>
         <div class="col-sm-12">
             <ul class="media-list buyer-transaction-list well">
@@ -17,21 +17,18 @@
                         <div class="media-body">
                             <h4 class="media-heading">
                                 <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer", selectedTransactionId = tx.SmsTransactionID })">
-                                    Safe Buyer ordered by @companyName
+                                    @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
+                                    {
+                                        <text>Purchase of Property </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)<text> added by </text>@companyName<text>.</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Purchase of Property TBC added by </text>@companyName<text>.</text>
+                                    }
                                 </a>
                             </h4>
                             <p class="text-muted">
-                                @if (!string.IsNullOrEmpty(tx.SmsTransaction.Address.Line1))
-                                {
-                                    <text>Purchase of </text>@(tx.SmsTransaction.Address.Line1 + ", " + tx.SmsTransaction.Address.PostalCode)
-                                }
-                                else
-                                {
-                                    <text>The transaction details have not been confirmed yet.</text>
-                                }
-                            </p>
-                            <p class="text-muted">
-                                <small>Ordered On: <span class="format-date" data-val="@tx.CreatedOn.ToString("O")"></span></small>
+                                <small>Added On: <span class="format-date" data-val="@tx.CreatedOn.ToString("O")"></span></small>
                             </p>
                         </div>
                     </li>
