@@ -67,16 +67,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             ViewBag.orgId = orgId;
             ViewBag.companyName = org.Name;
             ViewBag.regNumber = org.RegulatorNumber;
+            ViewBag.orgType = org.OrganisationTypeDescription;
             return PartialView("_Verify");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Verify(Guid orgId, string notes, string name, int filesPerMonth, string regulatorNumber)
+        public async Task<ActionResult> Verify(Guid orgId, string notes, string name, int? filesPerMonth, string regulatorNumber)
         {
             //set org status
             await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, notes);
-            await OrganisationClient.VerifyOrganisationAsync(orgId, name, filesPerMonth, regulatorNumber);
+            if(filesPerMonth.HasValue) await OrganisationClient.VerifyOrganisationAsync(orgId, name, filesPerMonth.Value, regulatorNumber);
 
             TempData["VerifiedCompanyId"] = orgId;
             TempData["tabIndex"] = 1;
