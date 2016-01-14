@@ -115,6 +115,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         }
 
         [ClaimsRequired("View", "Products", Order = 1000)]
+        public ActionResult SafeSend()
+        {
+            return File(Server.MapPath("~/content/WelcomePack/SMS - Safe Send.pdf"), "application/pdf", "SMS - Safe Send.pdf");
+        }
+
+        [ClaimsRequired("View", "Products", Order = 1000)]
         public async Task<ActionResult> ClientTsCs()
         {
             var name = NotificationConstructEnum.TcPublic.GetStringValue();
