@@ -261,6 +261,7 @@
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
       <DependentUpon>sms-font.less</DependentUpon>
     </Content>
