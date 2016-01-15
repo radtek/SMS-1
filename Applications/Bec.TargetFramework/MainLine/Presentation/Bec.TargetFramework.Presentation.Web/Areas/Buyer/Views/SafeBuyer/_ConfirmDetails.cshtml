@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("ConfirmDetails", "SafeBuyer", new { area = "Buyer" })" data-index="@ViewBag.index" data-can-edit-transaction-details="@canEditTransactionDetails">
+                    <form id="confirmDetails-form" class="smart-form margin-top-10" data-url="@Url.Action("ConfirmDetails", "SafeBuyer", new { area = "Buyer" })" data-can-edit-transaction-details="@canEditTransactionDetails">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.SmsTransactionID)
@@ -22,7 +22,6 @@
                         @Html.HiddenFor(m => m.SmsTransaction.RowVersion)
                         @Html.HiddenFor(m => m.Contact.RowVersion)
                         @Html.Hidden("orgID", Model.SmsTransaction.OrganisationID)
-                        @Html.Hidden("index", (object)ViewBag.index)
                         <section class="col-xs-12">
                             <div id="confirmDetailsWizard">
                                 <div class="form-bootstrapWizard margin-left-10 margin-right-10">
@@ -86,7 +85,7 @@
                                                     <label class="label">Date of Birth</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "5", id = "birthDateInput", @readonly = true })
+                                                        @Html.TextBoxFor(m => m.Contact.BirthDate, "{0:O}", new { tabindex = "4", id = "birthDateInput", @readonly = true })
                                                     </label>
                                                 </section>
                                             </div>
@@ -192,7 +191,7 @@
                                                     <a style="display: none;" data-parent-id="bankAccountRow0"><!-- Not Displayed --></a>
                                                 </section>
                                             </div>
-                                            <div id="addNextBankAccountRow" class="row" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "", view = "_srcFundsBankAccountTmpl" })">
+                                            <div id="addNextBankAccountRow" class="row" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
                                                 <section class="col col-5">
                                                     <a id="addNextBankAccountBtn" href="#" class="add-next-bank-account"><i class="fa fa-plus margin-right-10"></i>Add Next Bank Account</a>
                                                 </section>
@@ -297,7 +296,7 @@
                                                         <label class="input">
                                                             <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
                                                             @Html.TextBoxFor(m => m.SmsTransaction.LenderName, new { tabindex = "24", maxlength = 50, id = "lenderSearch", data_url = Url.Action("SearchLenders", "App", new { Area = "" }) })
-                                                            <span class="typeahead-spinner required-field"><i class="fa fa-spin fa-spinner"></i></span>
+                                                            <span class="typeahead-spinner required-field"><i class="fa fa-pulse fa-spinner"></i></span>
                                                         </label>
                                                     </section>
                                                     <section class="col col-6">

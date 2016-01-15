@@ -255,8 +255,12 @@ namespace Bec.TargetFramework.Business.Logic
                     var uao = uaDb.UserAccountOrganisations.FirstOrDefault();
                     if (uao != null)
                     {
-                        var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uao.UserAccountOrganisationID);
-                        if (c != null) ua.FullName = c.FirstName + " " + c.LastName;
+                        var primaryContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts
+                            .FirstOrDefault(x => x.IsPrimaryContact == true && x.ParentID == uao.UserAccountOrganisationID);
+                        if (primaryContact != null)
+                        {
+                            ua.FullName = primaryContact.FirstName + " " + primaryContact.LastName;
+                        }
                     }
 
                 }
@@ -494,6 +498,21 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
+        public async Task LogUserOutAsync(Guid userId, string sessionId)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                foreach (var item in scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountLoginSessions.Where(item =>
+                    item.UserAccountID == userId &&
+                    item.UserSessionID == sessionId))
+                {
+                    item.UserHasLoggedOut = true;
+                }
+
+                await scope.SaveChangesAsync();
+            }
+        }
+
         public async Task SaveUserAccountLoginSessionAsync(Guid userId, string sessionId, string userHostAddress, string userIdAddress, string userLocation)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -651,11 +670,11 @@ namespace Bec.TargetFramework.Business.Logic
                     .FirstOrDefault(s => !s.IsTemporaryAccount);
 
                 if (user == null || string.IsNullOrEmpty(user.MobilePhoneNumber)) throw new Exception("An error has occured");
-                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A verification code was generated recently. Please wait a few minutes and try again.");
+                if (ValidPINExists(user.MobileCodeSent)) throw new Exception("A PIN was generated recently. Please wait a few minutes and try again.");
 
                 user.MobileCode = CreatePin(4);
                 user.MobileCodeSent = DateTime.Now;
-                var message = string.Format("You, or someone else, has requested to reset your password. Your verification code is: {0}", user.MobileCode);
+                var message = string.Format("You, or someone else, has requested to reset your password. Your Safe Move Scheme PIN is {0}", user.MobileCode);
                 SendTextMessage(user.MobilePhoneNumber, message);
 
                 await scope.SaveChangesAsync();
@@ -703,7 +722,7 @@ namespace Bec.TargetFramework.Business.Logic
 
                 if (sendToMobilePhone && !string.IsNullOrWhiteSpace(uao.UserAccount.MobilePhoneNumber) && !string.IsNullOrWhiteSpace(uao.PinCode))
                 {
-                    var message = string.Format("Your PIN is: {0}", uao.PinCode);
+                    var message = string.Format("Your Safe Move Scheme PIN is {0}", uao.PinCode);
                     SendTextMessage(uao.UserAccount.MobilePhoneNumber, message);
                 }
             }
@@ -711,6 +730,7 @@ namespace Bec.TargetFramework.Business.Logic
 
         private string CreatePin(int length)
         {
+            char[] excludedChars = new[] { '0', 'O', '1', 'I' };
             Random r = new Random();
             StringBuilder pin = new StringBuilder(length);
             int thisNum;
@@ -722,7 +742,10 @@ namespace Bec.TargetFramework.Business.Logic
                     do
                     {
                         thisNum = r.Next(0, 36);
-                    } while (prevNum.HasValue && (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1)); //avoid repeated or consecutive characters
+                    } while (
+                        prevNum.HasValue &&
+                        (thisNum == prevNum || thisNum == prevNum - 1 || thisNum == prevNum + 1) && //avoid repeated or consecutive characters
+                        excludedChars.Contains((char)thisNum));
                     prevNum = thisNum;
                     pin.Append((char)(thisNum > 9 ? thisNum + 55 : thisNum + 48)); //convert to 0-9 A-Z
                 }
@@ -801,6 +824,73 @@ namespace Bec.TargetFramework.Business.Logic
                 await UaService.ChangeUsernameAndEmailAsync(userAccountDto.ID, newUsername);
             }
         }
+
+        public async Task<bool> CanEmailBeUsedAsPersonal(string email, Guid? txId, Guid? uaoID)
+        {
+            email = email.Trim();
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                bool isAlreadyInTransaction = false;
+                bool isAlreadyProfessional = false;
+                // check if there is no user with that email that is part of transaction
+                if (txId.HasValue)
+                {
+                    var isAlreadyInTransactionQuery = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                        .Where(x =>
+                            x.SmsTransactionID == txId &&
+                            x.UserAccountOrganisation.UserAccount.Email.ToLower() == email.ToLower());
+                    if (uaoID.HasValue)
+                    {
+                        isAlreadyInTransactionQuery = isAlreadyInTransactionQuery.Where(x => x.UserAccountOrganisationID != uaoID);
+                    }
+                    isAlreadyInTransaction = isAlreadyInTransactionQuery.Any();
+                }
+
+                // check if not personal account is already registered with this email
+                var personalOrgType = OrganisationTypeEnum.Personal.GetIntValue();
+                var isAlreadyProfessionalQuery = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                    .Where(x =>
+                        x.Organisation.OrganisationTypeID != personalOrgType &&
+                        x.UserAccount.Email.ToLower() == email.ToLower());
+
+                if (uaoID.HasValue)
+                {
+                    isAlreadyProfessionalQuery = isAlreadyProfessionalQuery.Where(x => x.UserAccountOrganisationID != uaoID);
+                }
+                isAlreadyProfessional = isAlreadyProfessionalQuery.Any();
+
+                return !isAlreadyInTransaction && !isAlreadyProfessional;
+            }
+        }
+
+        public async Task<bool> CanEmailBeUsedAsProfessional(string email, Guid? uaoID)
+        {
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                bool userAlreadyExists = false;
+                if (!uaoID.HasValue)
+                {
+                    userAlreadyExists = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+                else
+                {
+                    var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .FirstOrDefault(x => x.UserAccountOrganisationID == uaoID);
+                    Ensure.That(uao).IsNotNull();
+                    var uaoEmail = uao.UserAccount.Email;
+
+                    userAlreadyExists = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
+                        .Any(x => 
+                            x.UserAccountOrganisationID != uaoID &&
+                            x.UserAccount.Email.ToLower() != uaoEmail.Trim().ToLower() &&
+                            x.UserAccount.Email.ToLower() == email.Trim().ToLower());
+                }
+
+                return !userAlreadyExists;
+            }
+        }
+
 
         private Expression<Func<Data.UserAccount, bool>> GetWithUsername(string username)
         {

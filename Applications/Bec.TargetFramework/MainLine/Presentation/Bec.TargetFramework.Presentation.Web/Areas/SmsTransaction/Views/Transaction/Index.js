@@ -2,6 +2,7 @@
     primaryBuyerTemplatePromise,
     relatedPartiesTemplatePromise;
 var txGrid;
+var areConversationsLoaded;
 $(function () {
     txGrid = new gridItem(
     {
@@ -12,9 +13,11 @@ $(function () {
         serverSorting: true,
         serverPaging: true,
         defaultSort: { field: "SmsTransaction.CreatedOn", dir: "desc" },
+        resetSort: $('#txGrid').data("resetsort"),
         panels: ['rPanel'],
         jumpToId: $('#txGrid').data("jumpto"),
         jumpToPage: $('#txGrid').data("jumptopage"),
+        jumpToRow: $('#txGrid').data("jumptorow"),
         change: txChange,
         searchElementId: 'gridSearchInput',
         searchButtonId: 'gridSearchButton',
@@ -62,24 +65,25 @@ $(function () {
 
     txGrid.makeGrid();
     findModalLinks();
+    setupTabs();
 
     transactionDetailsTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_transactionDetailsTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
     });
 
     primaryBuyerTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_primaryBuyerDetailsTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         primaryBuyerTemplatePromise.resolve(Handlebars.compile(res));
     });
 
     relatedPartiesTemplatePromise = $.Deferred();
     ajaxWrapper(
-        { url: $('#content').data("templateurl") + '?view=_relatedPartiesTmpl' }
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
     });
@@ -88,6 +92,22 @@ $(function () {
         handleModal({ url: $('#content').data("welcomeurl") }, null, true);
     }
 
+    function setupTabs() {
+        areConversationsLoaded = false;
+        $('#rPanel li a').click(function (e) {
+            e.stopPropagation();
+            if (history.pushState) {
+                history.pushState(null, null, $(this).attr('href'));
+            }
+            $(this).tab('show');
+
+            if ($(this).attr('id') == 'safeSendTab' && !areConversationsLoaded) {
+                $('#transactionConversationContainer').trigger('loadConversations');
+                areConversationsLoaded = true;
+            }
+            return false;
+        });
+    }
 });
 
 //data binding for the panes beneath each grid
@@ -100,11 +120,18 @@ function txChange(dataItem) {
 
     $("#pinButton").data('href', $("#pinButton").data("url") + "?txID=" + dataItem.SmsTransactionID + "&uaoID=" + dataItem.UserAccountOrganisationID + "&email=" + dataItem.UserAccountOrganisation.UserAccount.Email + "&pageNumber=" + txGrid.grid.dataSource.page());
     $("#pinButton").attr("disabled", !dataItem.UserAccountOrganisation.UserAccount.IsTemporaryAccount);
+    
+    $("#createConversationButton").data('href', $("#createConversationButton").data("url") + "&activityId=" + dataItem.SmsTransactionID + "&pageNumber=" + txGrid.grid.dataSource.page());
 
     showTransactionDetails(dataItem);
     showPrimaryBuyerDetails(dataItem);
     showTransactionRelatedParties(dataItem, $('#additionalBuyers').data("url"), 'additionalBuyers', 'additionalBuyersAccordion', 'spinnerAdditionalBuyers');
     showTransactionRelatedParties(dataItem, $('#giftors').data("url"), 'giftors', 'giftorsAccordion', 'spinnerGiftors');
+
+    $('#transactionConversationContainer')
+        .data('activity-id', dataItem.SmsTransactionID)
+        .trigger('activitychange', dataItem.SmsTransactionID);
+    areConversationsLoaded = false;
 }
 
 function showTransactionDetails(dataItem) {

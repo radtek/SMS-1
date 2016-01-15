@@ -9,6 +9,7 @@ using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Messages.Events;
 using NServiceBus;
 using System;
+using System.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -31,13 +32,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
                     SettingsClient.GetSettings().AsSettings<CommonSettings>(),
-                    new List<NotificationRecipientDTO> 
-                    {
-                        new NotificationRecipientDTO 
-                        {
-                            OrganisationID = handlerEvent.CreditAdjustmentNotificationDto.OrganisationId
-                        }
-                    },
+                    NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.CreditAdjustmentNotificationDto.OrganisationId, null)
+                        .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList(),
                     new NotificationDictionaryDTO
                     {
                         NotificationDictionary = dictionary

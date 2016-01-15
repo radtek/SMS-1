@@ -192,6 +192,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for ConversationID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> ConversationID
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for CreatedByUserAccountOrganisationID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> CreatedByUserAccountOrganisationID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -228,6 +248,24 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for OrganisationDirectDebitMandates in the schema.
         /// </summary>
         public virtual ICollection<OrganisationDirectDebitMandate> OrganisationDirectDebitMandates
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Conversation in the schema.
+        /// </summary>
+        public virtual Conversation Conversation
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for UserAccountOrganisation in the schema.
+        /// </summary>
+        public virtual UserAccountOrganisation UserAccountOrganisation
         {
             get;
             set;

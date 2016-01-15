@@ -340,6 +340,33 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for ConversationParticipants in the schema.
+        /// </summary>
+        public virtual ICollection<ConversationParticipant> ConversationParticipants
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Notifications in the schema.
+        /// </summary>
+        public virtual ICollection<Notification> Notifications
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Files in the schema.
+        /// </summary>
+        public virtual ICollection<File> Files
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

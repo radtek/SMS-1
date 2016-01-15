@@ -9,6 +9,7 @@ using Bec.TargetFramework.SB.Infrastructure;
 using Bec.TargetFramework.SB.Messages.Events;
 using NServiceBus;
 using System;
+using System.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -28,13 +29,8 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 var dictionary = new ConcurrentDictionary<string, object>();
                 dictionary.TryAdd("BankAccountCheckNoMatchNotificationDTO", handlerEvent.BankAccountCheckNoMatchNotificationDto);
 
-                var recipients = new List<NotificationRecipientDTO> 
-                {
-                    new NotificationRecipientDTO 
-                    {
-                        OrganisationID = handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId
-                    }
-                };
+                var recipients = NotificationLogicClient.GetNotificationOrganisationUaoIds(handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId, null)
+                    .Select(x => new NotificationRecipientDTO { UserAccountOrganisationID = x }).ToList();
 
                 var container = new NotificationContainerDTO(
                     notificationConstruct,
@@ -43,7 +39,10 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                     new NotificationDictionaryDTO
                     {
                         NotificationDictionary = dictionary
-                    });
+                    },
+                    ActivityType.SmsTransaction,
+                    handlerEvent.BankAccountCheckNoMatchNotificationDto.TransactionId
+                    );
 
                 var notificationMessage = new NotificationEvent { NotificationContainer = container };
 
@@ -53,9 +52,6 @@ namespace Bec.TargetFramework.SB.TaskHandlers.EventHandlers
                 Bus.SetMessageHeader(notificationMessage, "EventReference", Bus.CurrentMessageContext.Headers["EventReference"]);
 
                 Bus.Publish(notificationMessage);
-
-                NotificationLogicClient.PublishNewInternalMessagesNotificationEvent(1, handlerEvent.BankAccountCheckNoMatchNotificationDto.OrganisationId,
-                    NotificationConstructEnum.BankAccountCheckNoMatch);
 
                 LogMessageAsCompleted();
             }

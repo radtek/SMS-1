@@ -1996,6 +1996,46 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsSrcFundsBankAccount in the schema.
         /// </summary>
         public virtual DbSet<SmsSrcFundsBankAccount> SmsSrcFundsBankAccounts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Conversation in the schema.
+        /// </summary>
+        public virtual DbSet<Conversation> Conversations { get; set; }
+    
+        /// <summary>
+        /// There are no comments for ConversationParticipant in the schema.
+        /// </summary>
+        public virtual DbSet<ConversationParticipant> ConversationParticipants { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversation in the schema.
+        /// </summary>
+        public virtual DbSet<VConversation> VConversations { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessage in the schema.
+        /// </summary>
+        public virtual DbSet<VMessage> VMessages { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VSafeSendRecipient in the schema.
+        /// </summary>
+        public virtual DbSet<VSafeSendRecipient> VSafeSendRecipients { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VMessageRead in the schema.
+        /// </summary>
+        public virtual DbSet<VMessageRead> VMessageReads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for VConversationUnread in the schema.
+        /// </summary>
+        public virtual DbSet<VConversationUnread> VConversationUnreads { get; set; }
+    
+        /// <summary>
+        /// There are no comments for File in the schema.
+        /// </summary>
+        public virtual DbSet<File> Files { get; set; }
 
         #region Methods
 
@@ -2174,6 +2214,226 @@ namespace Bec.TargetFramework.Data
                 connection.Close();
             }
             return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnConversationRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnConversationRank (global::System.Nullable<System.Guid> uaoid, global::System.Nullable<System.Guid> convid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnConversationRank";
+                command.Connection = connection;
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
+                EntityParameter convidParameter = new EntityParameter("convid", System.Data.DbType.Guid);
+                if (convid.HasValue)
+                    convidParameter.Value = convid;
+                command.Parameters.Add(convidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnSmsTransactionRank in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> FnSmsTransactionRank (global::System.Nullable<System.Guid> orgid, global::System.Nullable<System.Guid> txid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<int> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnSmsTransactionRank";
+                command.Connection = connection;
+                EntityParameter orgidParameter = new EntityParameter("orgid", System.Data.DbType.Guid);
+                if (orgid.HasValue)
+                    orgidParameter.Value = orgid;
+                command.Parameters.Add(orgidParameter);
+                EntityParameter txidParameter = new EntityParameter("txid", System.Data.DbType.Guid);
+                if (txid.HasValue)
+                    txidParameter.Value = txid;
+                command.Parameters.Add(txidParameter);
+                result = (global::System.Nullable<int>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnGetConversationActivity in the schema.
+        /// </summary>
+        public virtual ObjectResult<FnGetConversationActivityResult> FnGetConversationActivity (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid, global::System.Nullable<int> l, global::System.Nullable<int> o)
+        {
+            ObjectParameter orgidParameter;
+            if (orgid.HasValue)
+            {
+                orgidParameter = new ObjectParameter("orgid", orgid);
+            }
+            else
+            {
+                orgidParameter = new ObjectParameter("orgid", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter activitytypeParameter;
+            if (activitytype.HasValue)
+            {
+                activitytypeParameter = new ObjectParameter("activitytype", activitytype);
+            }
+            else
+            {
+                activitytypeParameter = new ObjectParameter("activitytype", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter activityidParameter;
+            if (activityid.HasValue)
+            {
+                activityidParameter = new ObjectParameter("activityid", activityid);
+            }
+            else
+            {
+                activityidParameter = new ObjectParameter("activityid", typeof(global::System.Nullable<System.Guid>));
+            }
+            ObjectParameter lParameter;
+            if (l.HasValue)
+            {
+                lParameter = new ObjectParameter("l", l);
+            }
+            else
+            {
+                lParameter = new ObjectParameter("l", typeof(global::System.Nullable<int>));
+            }
+            ObjectParameter oParameter;
+            if (o.HasValue)
+            {
+                oParameter = new ObjectParameter("o", o);
+            }
+            else
+            {
+                oParameter = new ObjectParameter("o", typeof(global::System.Nullable<int>));
+            }
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FnGetConversationActivityResult>("TargetFrameworkEntities.FnGetConversationActivity", orgidParameter, activitytypeParameter, activityidParameter, lParameter, oParameter);
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnGetConversationActivityCount in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<long> FnGetConversationActivityCount (global::System.Nullable<System.Guid> orgid, global::System.Nullable<int> activitytype, global::System.Nullable<System.Guid> activityid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+            global::System.Nullable<long> result;
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnGetConversationActivityCount";
+                command.Connection = connection;
+                EntityParameter orgidParameter = new EntityParameter("orgid", System.Data.DbType.Guid);
+                if (orgid.HasValue)
+                    orgidParameter.Value = orgid;
+                command.Parameters.Add(orgidParameter);
+                EntityParameter activitytypeParameter = new EntityParameter("activitytype", System.Data.DbType.Int32);
+                if (activitytype.HasValue)
+                    activitytypeParameter.Value = activitytype;
+                command.Parameters.Add(activitytypeParameter);
+                EntityParameter activityidParameter = new EntityParameter("activityid", System.Data.DbType.Guid);
+                if (activityid.HasValue)
+                    activityidParameter.Value = activityid;
+                command.Parameters.Add(activityidParameter);
+                result = (global::System.Nullable<long>)command.ExecuteScalar();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
+            return result;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for FnAttachUpload in the schema.
+        /// </summary>
+        public virtual void FnAttachUpload (global::System.Nullable<System.Guid> uaoid, global::System.Nullable<System.Guid> id, global::System.Nullable<System.Guid> newid)
+        {
+            EntityConnection connection = ((IObjectContextAdapter)this).ObjectContext.Connection as EntityConnection;
+            bool needClose = false;
+            if (connection.State != ConnectionState.Open) {
+              connection.Open();
+              needClose = true;
+            }
+
+			try {
+              using(EntityCommand command = new EntityCommand())
+              {
+                if (((IObjectContextAdapter)this).ObjectContext.CommandTimeout.HasValue)
+                  command.CommandTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout.Value;
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandText = @"TargetFrameworkEntities.FnAttachUpload";
+                command.Connection = connection;
+                EntityParameter uaoidParameter = new EntityParameter("uaoid", System.Data.DbType.Guid);
+                if (uaoid.HasValue)
+                    uaoidParameter.Value = uaoid;
+                command.Parameters.Add(uaoidParameter);
+                EntityParameter idParameter = new EntityParameter("id", System.Data.DbType.Guid);
+                if (id.HasValue)
+                    idParameter.Value = id;
+                command.Parameters.Add(idParameter);
+                EntityParameter newidParameter = new EntityParameter("newid", System.Data.DbType.Guid);
+                if (newid.HasValue)
+                    newidParameter.Value = newid;
+                command.Parameters.Add(newidParameter);
+                command.ExecuteNonQuery();
+              }
+            }
+            finally {
+              if (needClose)
+                connection.Close();
+            }
         }
 
         #endregion

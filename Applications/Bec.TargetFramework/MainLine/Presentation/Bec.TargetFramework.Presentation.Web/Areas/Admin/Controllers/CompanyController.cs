@@ -83,20 +83,26 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
-        public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId)
+        public async Task<ActionResult> ViewGeneratePin(Guid orgId, Guid uaoId, bool setVerified)
         {
             var org = await OrganisationClient.GetOrganisationDTOAsync(orgId);
             if (org == null) return new HttpNotFoundResult("Organisation not found");
             ViewBag.orgId = orgId;
             ViewBag.uaoId = uaoId;
             ViewBag.companyName = org.Name;
+            ViewBag.setVerified = setVerified;
             return PartialView("_GeneratePin");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId)
+        public async Task<ActionResult> GeneratePin(Guid orgId, Guid uaoId, bool setVerified)
         {
+            if (setVerified)
+            {
+                var orgDetails = OrganisationClient.GetOrganisationWithStatusAndAdmin(orgId);
+                await OrganisationClient.AddOrganisationStatusAsync(orgId, StatusTypeEnum.ProfessionalOrganisation, ProfessionalOrganisationStatusEnum.Verified, null, orgDetails.VerifiedNotes);
+            }
             await UserLogicClient.GeneratePinAsync(uaoId, false, true, false);
 
             TempData["VerifiedCompanyId"] = orgId;

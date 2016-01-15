@@ -239,9 +239,12 @@ namespace Bec.TargetFramework.Business.Logic
                     await PublishBankAccountStateChangeNotification<BankAccountMarkedAsFraudSuspiciousNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsFraudSuspicious.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
                 case BankAccountStatusEnum.PotentialFraud:
+                    await PublishBankAccountStateChangeNotification<BankAccountMarkedAsPotentialFraudNotificationDTO>(NotificationConstructEnum.BankAccountMarkedAsPotentialFraud.GetStringValue(), bankAccount, bankAccountStatusChangeRequest);
                     break;
             }
         }
+
+
 
         private async Task PublishBankAccountStateChangeNotification<TNotification>(string eventName, VOrganisationBankAccountsWithStatusDTO bankAccount, OrganisationBankAccountStateChangeDTO bankAccountStatusChangeRequest)
             where TNotification : BankAccountStateChangeNotificationDTO, new()
@@ -262,6 +265,7 @@ namespace Bec.TargetFramework.Business.Logic
 
             var notificationDto = new TNotification
             {
+                OrganisationBankAccountID = bankAccount.OrganisationBankAccountID,
                 OrganisationId = bankAccount.OrganisationID,
                 AccountNumber = bankAccount.BankAccountNumber,
                 SortCode = bankAccount.SortCode,
@@ -349,7 +353,7 @@ namespace Bec.TargetFramework.Business.Logic
                 if (usertx == null) throw new Exception("User and transaction combination not found");
 
                 var uao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.Single(x => x.UserAccountOrganisationID == uaoID);
-                var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ParentID == uaoID);
+                var c = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(x => x.ContactID == usertx.ContactID);
                 
                 string details = "";
                 if (c != null) details = c.FirstName + " " + c.LastName + Environment.NewLine + Environment.NewLine;
@@ -357,6 +361,7 @@ namespace Bec.TargetFramework.Business.Logic
                 
                 var notificationDto = new BankAccountCheckNoMatchNotificationDTO
                 {
+                    TransactionId = usertx.SmsTransactionID,
                     OrganisationId = usertx.SmsTransaction.OrganisationID,
                     AccountNumber = accountNumber,
                     SortCode = sortCode,

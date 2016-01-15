@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public NotificationRecipientDTO() {
         }
 
-        public NotificationRecipientDTO(global::System.Guid notificationRecipientID, global::System.Guid notificationID, global::System.Nullable<System.Guid> toParentID, global::System.Nullable<System.Guid> organisationID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, global::System.Nullable<bool> isAccepted, global::System.Nullable<System.Guid> userAccountOrganisationID, global::System.Nullable<System.DateTime> acceptedDate, NotificationDTO notification, List<NotificationRecipientLogDTO> notificationRecipientLogs, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, UserAccountOrganisationDTO userAccountOrganisation) {
+        public NotificationRecipientDTO(global::System.Guid notificationRecipientID, global::System.Guid notificationID, global::System.Nullable<System.Guid> toParentID, global::System.Nullable<System.Guid> organisationID, bool isActive, bool isDeleted, global::System.Nullable<System.Guid> parentID, bool isAccepted, global::System.Nullable<System.Guid> userAccountOrganisationID, global::System.Nullable<System.DateTime> acceptedDate, NotificationDTO notification, List<NotificationRecipientLogDTO> notificationRecipientLogs, List<OrganisationDirectDebitMandateProcessLogDTO> organisationDirectDebitMandateProcessLogs, UserAccountOrganisationDTO userAccountOrganisation) {
 
           this.NotificationRecipientID = notificationRecipientID;
           this.NotificationID = notificationID;
@@ -66,7 +66,7 @@ namespace Bec.TargetFramework.Entities
         public global::System.Nullable<System.Guid> ParentID { get; set; }
 
         [DataMember]
-        public global::System.Nullable<bool> IsAccepted { get; set; }
+        public bool IsAccepted { get; set; }
 
         [DataMember]
         public global::System.Nullable<System.Guid> UserAccountOrganisationID { get; set; }

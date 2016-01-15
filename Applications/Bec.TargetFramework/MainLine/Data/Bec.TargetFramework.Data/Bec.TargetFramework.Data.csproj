@@ -105,6 +105,8 @@
     <Compile Include="Converters\ContactPhoneConverter.cs" />
     <Compile Include="Converters\ContactRegulatorConverter.cs" />
     <Compile Include="Converters\ContainsagadataConverter.cs" />
+    <Compile Include="Converters\ConversationConverter.cs" />
+    <Compile Include="Converters\ConversationParticipantConverter.cs" />
     <Compile Include="Converters\CountryCodeConverter.cs" />
     <Compile Include="Converters\CountryDeductionConverter.cs" />
     <Compile Include="Converters\CountryDeductionTemplateConverter.cs" />
@@ -161,6 +163,8 @@
     <Compile Include="Converters\EventStatusConverter.cs" />
     <Compile Include="Converters\FieldDetailConverter.cs" />
     <Compile Include="Converters\FieldDetailTemplateConverter.cs" />
+    <Compile Include="Converters\FileConverter.cs" />
+    <Compile Include="Converters\FnGetConversationActivityResultConverter.cs" />
     <Compile Include="Converters\FnGetUserClaimResultConverter.cs" />
     <Compile Include="Converters\GlobalAccountingPeriodConverter.cs" />
     <Compile Include="Converters\GlobalDirectDebitCollectionPeriodConverter.cs" />
@@ -412,6 +416,8 @@
     <Compile Include="Converters\VClaimSourceConverter.cs" />
     <Compile Include="Converters\VClassificationConverter.cs" />
     <Compile Include="Converters\VCompanyConverter.cs" />
+    <Compile Include="Converters\VConversationConverter.cs" />
+    <Compile Include="Converters\VConversationUnreadConverter.cs" />
     <Compile Include="Converters\VCountryAndCurrencyConverter.cs" />
     <Compile Include="Converters\VCountryDeductionConverter.cs" />
     <Compile Include="Converters\VDefaultEmailAddressConverter.cs" />
@@ -420,6 +426,8 @@
     <Compile Include="Converters\VGlobalAccountingCurrentPeriodConverter.cs" />
     <Compile Include="Converters\VGroupConverter.cs" />
     <Compile Include="Converters\VInvoiceWithCurrentTransactionOrderStatusConverter.cs" />
+    <Compile Include="Converters\VMessageConverter.cs" />
+    <Compile Include="Converters\VMessageReadConverter.cs" />
     <Compile Include="Converters\VNotificationConstructConverter.cs" />
     <Compile Include="Converters\VNotificationConstructGroupConverter.cs" />
     <Compile Include="Converters\VNotificationInternalUnreadConverter.cs" />
@@ -444,6 +452,7 @@
     <Compile Include="Converters\VProductSpecificationOptionConverter.cs" />
     <Compile Include="Converters\VResourceConverter.cs" />
     <Compile Include="Converters\VRoleConverter.cs" />
+    <Compile Include="Converters\VSafeSendRecipientConverter.cs" />
     <Compile Include="Converters\VStateConverter.cs" />
     <Compile Include="Converters\VStatusTypeConverter.cs" />
     <Compile Include="Converters\VStatusTypeTemplateConverter.cs" />
@@ -492,6 +501,8 @@
     <Compile Include="Model\TargetFramework.ContactPhone.cs" />
     <Compile Include="Model\TargetFramework.ContactRegulator.cs" />
     <Compile Include="Model\TargetFramework.Containsagadata.cs" />
+    <Compile Include="Model\TargetFramework.Conversation.cs" />
+    <Compile Include="Model\TargetFramework.ConversationParticipant.cs" />
     <Compile Include="Model\TargetFramework.CountryCode.cs" />
     <Compile Include="Model\TargetFramework.CountryDeduction.cs" />
     <Compile Include="Model\TargetFramework.CountryDeductionTemplate.cs" />
@@ -548,6 +559,8 @@
     <Compile Include="Model\TargetFramework.EventStatus.cs" />
     <Compile Include="Model\TargetFramework.FieldDetail.cs" />
     <Compile Include="Model\TargetFramework.FieldDetailTemplate.cs" />
+    <Compile Include="Model\TargetFramework.File.cs" />
+    <Compile Include="Model\TargetFramework.FnGetConversationActivityResult.cs" />
     <Compile Include="Model\TargetFramework.FnGetUserClaimResult.cs" />
     <Compile Include="Model\TargetFramework.GlobalAccountingPeriod.cs" />
     <Compile Include="Model\TargetFramework.GlobalDirectDebitCollectionPeriod.cs" />
@@ -802,6 +815,8 @@
     <Compile Include="Model\TargetFramework.VClaimSource.cs" />
     <Compile Include="Model\TargetFramework.VClassification.cs" />
     <Compile Include="Model\TargetFramework.VCompany.cs" />
+    <Compile Include="Model\TargetFramework.VConversation.cs" />
+    <Compile Include="Model\TargetFramework.VConversationUnread.cs" />
     <Compile Include="Model\TargetFramework.VCountryAndCurrency.cs" />
     <Compile Include="Model\TargetFramework.VCountryDeduction.cs" />
     <Compile Include="Model\TargetFramework.VDefaultEmailAddress.cs" />
@@ -810,6 +825,8 @@
     <Compile Include="Model\TargetFramework.VGlobalAccountingCurrentPeriod.cs" />
     <Compile Include="Model\TargetFramework.VGroup.cs" />
     <Compile Include="Model\TargetFramework.VInvoiceWithCurrentTransactionOrderStatus.cs" />
+    <Compile Include="Model\TargetFramework.VMessage.cs" />
+    <Compile Include="Model\TargetFramework.VMessageRead.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstruct.cs" />
     <Compile Include="Model\TargetFramework.VNotificationConstructGroup.cs" />
     <Compile Include="Model\TargetFramework.VNotificationInternalUnread.cs" />
@@ -834,6 +851,7 @@
     <Compile Include="Model\TargetFramework.VProductSpecificationOption.cs" />
     <Compile Include="Model\TargetFramework.VResource.cs" />
     <Compile Include="Model\TargetFramework.VRole.cs" />
+    <Compile Include="Model\TargetFramework.VSafeSendRecipient.cs" />
     <Compile Include="Model\TargetFramework.VState.cs" />
     <Compile Include="Model\TargetFramework.VStatusType.cs" />
     <Compile Include="Model\TargetFramework.VStatusTypeTemplate.cs" />

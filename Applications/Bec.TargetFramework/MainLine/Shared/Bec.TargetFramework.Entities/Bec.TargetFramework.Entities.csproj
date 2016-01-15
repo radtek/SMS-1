@@ -234,6 +234,14 @@
     <Compile Include="Boo\ContainsagadataDTO.Generated.cs">
       <DependentUpon>ContainsagadataDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\ConversationDTO.cs" />
+    <Compile Include="Boo\ConversationDTO.Generated.cs">
+      <DependentUpon>ConversationDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\ConversationParticipantDTO.cs" />
+    <Compile Include="Boo\ConversationParticipantDTO.Generated.cs">
+      <DependentUpon>ConversationParticipantDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\CountryCodeDTO.cs" />
     <Compile Include="Boo\CountryCodeDTO.Generated.cs">
       <DependentUpon>CountryCodeDTO.cs</DependentUpon>
@@ -480,6 +488,14 @@
     <Compile Include="Boo\FieldDetailTemplateDTO.cs" />
     <Compile Include="Boo\FieldDetailTemplateDTO.Generated.cs">
       <DependentUpon>FieldDetailTemplateDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FileDTO.cs" />
+    <Compile Include="Boo\FileDTO.Generated.cs">
+      <DependentUpon>FileDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.cs" />
+    <Compile Include="Boo\FnGetConversationActivityResultDTO.Generated.cs">
+      <DependentUpon>FnGetConversationActivityResultDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\FnGetUserClaimResultDTO.cs" />
     <Compile Include="Boo\FnGetUserClaimResultDTO.Generated.cs">
@@ -1535,6 +1551,16 @@
     <Compile Include="Boo\VCompanyDTO.Generated.cs">
       <DependentUpon>VCompanyDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VConversationDTO.cs" />
+    <Compile Include="Boo\VConversationDTO.Generated.cs">
+      <DependentUpon>VConversationDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Boo\VConversationUnreadPerActiveUaoDTO.cs" />
+    <Compile Include="Boo\VConversationUnreadDTO.cs" />
+    <Compile Include="Boo\VConversationUnreadDTO.Generated.cs">
+      <DependentUpon>VConversationUnreadDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VCountryAndCurrencyDTO.Generated.cs">
       <DependentUpon>VCountryAndCurrencyDTO.cs</DependentUpon>
     </Compile>
@@ -1558,6 +1584,15 @@
     </Compile>
     <Compile Include="Boo\VInvoiceWithCurrentTransactionOrderStatusDTO.Generated.cs">
       <DependentUpon>VInvoiceWithCurrentTransactionOrderStatusDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\VMessageDTO.cs" />
+    <Compile Include="Boo\VMessageDTO.Generated.cs">
+      <DependentUpon>VMessageDTO.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Boo\VMessageReadDTO.cs" />
+    <Compile Include="Boo\VMessageReadDTO.Generated.cs">
+      <DependentUpon>VMessageReadDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Boo\VNotificationConstructDTO.Generated.cs">
       <DependentUpon>VNotificationConstructDTO.cs</DependentUpon>
@@ -1635,6 +1670,10 @@
     <Compile Include="Boo\VRoleDTO.Generated.cs">
       <DependentUpon>VRoleDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VSafeSendRecipientDTO.cs" />
+    <Compile Include="Boo\VSafeSendRecipientDTO.Generated.cs">
+      <DependentUpon>VSafeSendRecipientDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\VStateDTO.Generated.cs">
       <DependentUpon>VStateDTO.cs</DependentUpon>
     </Compile>
@@ -1664,6 +1703,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
     <Compile Include="DTO\CartPricingItemDTO.cs" />
@@ -1750,7 +1790,6 @@
     <Compile Include="Boo\UserTypeDTO.cs" />
     <Compile Include="Boo\VAttachmentDTO.cs" />
     <Compile Include="Boo\VBranchDTO.cs" />
-    <Compile Include="Boo\VbusmessagestatuDTO.cs" />
     <Compile Include="Boo\VBusTaskScheduleDTO.cs" />
     <Compile Include="Boo\VClaimSourceDTO.cs" />
     <Compile Include="Boo\VClassificationDTO.cs" />
@@ -1827,10 +1866,13 @@
     <Compile Include="DTO\InformationDTO.cs" />
     <Compile Include="DTO\AddPersonalDetailsDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\MessageDTO.cs" />
     <Compile Include="DTO\NotificationCountDTO.cs" />
     <Compile Include="DTO\NotificationResultDTO.cs" />
     <Compile Include="DTO\NotificationContentDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountCheckNoMatchNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\BankAccountMarkedAsPotentialFraudNotificationDTO.cs" />
+    <Compile Include="DTO\Notification\ConversationDetailsDTO.cs" />
     <Compile Include="DTO\Notification\NewInternalMessagesNotificationDTO.cs" />
     <Compile Include="DTO\Notification\CreditAdjustmentNotificationDTO.cs" />
     <Compile Include="DTO\Notification\BankAccountStateChangeNotificationDTO.cs" />
@@ -1846,6 +1888,7 @@
     <Compile Include="DTO\Notification\NotificationDictionaryDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationBankAccountAddStatusDTO.cs" />
     <Compile Include="DTO\Organisation\OrganisationBankAccountStateChangeDTO.cs" />
+    <Compile Include="DTO\ParticipantDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxRequestDTO.cs" />
     <Compile Include="DTO\Payment\CalculateTaxResultDTO.cs" />
     <Compile Include="DTO\Payment\CreditAdjustmentDTO.cs" />
@@ -1861,6 +1904,7 @@
     <Compile Include="DTO\RegistrationDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
     <Compile Include="DTO\RejectCompanyDTO.cs" />
+    <Compile Include="DTO\ScanBytesDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AssignSmsClientToTransactionDTO.cs" />
     <Compile Include="DTO\SmsTransaction\AddSmsClientDTO.cs" />

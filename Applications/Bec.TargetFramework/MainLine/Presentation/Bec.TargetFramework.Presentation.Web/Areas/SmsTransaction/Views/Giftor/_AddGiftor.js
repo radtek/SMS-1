@@ -23,6 +23,7 @@
                     required: true,
                     email: true,
                     remote: {
+                        cache: false,
                         url: $('#Email').data("url"),
                         data: { email: function () { return $('#Email').val(); } },
                         dataType: 'json',

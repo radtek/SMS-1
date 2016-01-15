@@ -1,0 +1,52 @@
+﻿<h3 id="conversationSubject">
+    <i class="fa fa-caret-left margin-right-10 hidden-md hidden-lg"></i>
+    New Conversation
+    <i class="fa fa-pulse fa-spinner margin-left-5" id="messagesSpinner" style="display:none;"></i>
+</h3>
+<form id="newConversationForm" class="smart-form new-conversation-form" data-url="@Url.Action("CreateConversation", "Messages", new { area = "Admin" })">
+    <input type="hidden" name="ActivityId" value="{{activityId}}" />
+    <input type="hidden" name="ActivityType" value="{{activityType}}" />
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="AttachmentsID" id="AttachmentsID" />
+    <div id="newConversationError" class="alert alert-danger" style="display:none;">Ooops... Something went wrong when sending the message. Please try again later.</div>
+    <fieldset>
+        <section>
+            <label class="label">To</label>
+            <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                <select class="select2 form-control" id="conversationRecipients" multiple name="RecipientUaoIds[]" tabindex="1">
+                    {{#each recipients}}
+                    <option value="{{UserAccountOrganisationID}}">{{#if OrganisationName}}{{OrganisationName}} > {{/if}}{{FirstName}} {{LastName}}</option>
+                    {{/each}}
+                </select>
+            </label>
+        </section>
+        <section>
+            <label class="label">Subject</label>
+            <label class="input">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                <input name="Subject" type="text" class="form-control" tabindex="2" />
+            </label>
+        </section>
+        <section>
+            <label class="label">Message</label>
+            <label class="textarea">
+                <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                <textarea id="newConversationMessage" name="Message" class="form-control" rows="3" tabindex="3"></textarea>
+            </label>
+        </section>
+    </fieldset>
+
+    <footer>
+        <button id="submitNewConversationBtn" type="submit" class="btn btn-primary pull-right" tabindex="4">Send</button>
+    </footer>
+</form>
+
+<div id="upload" class="smart-form new-conversation-form dropzone" style="margin-left:13px; margin-right:13px;">
+    <div class="fallback">
+        <form method="post" enctype="multipart/form-data" id="multiform">
+            <input style="display:none;" type="file" name="file" id="file" title="Add File" />
+            <button type="button" id="test">Upload file...</button>
+        </form>
+    </div>
+</div>

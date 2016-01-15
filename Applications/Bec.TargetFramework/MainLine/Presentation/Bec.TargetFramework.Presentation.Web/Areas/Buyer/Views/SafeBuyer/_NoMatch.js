@@ -1,4 +1,5 @@
 ﻿$(function () {
+    'use strict';
 
     $("input[name='selCorrect']").change(function () {
         $('#continueButton').prop('disabled', false);
@@ -10,7 +11,7 @@
                 url: $('#confirmDetails-form').data("url"),
                 method: "POST"
             }).done(function () {
-                showAudit($('#confirmDetails-form').data("index"));
+                showAudit();
                 hideCurrentModal();
             });
         }
@@ -19,5 +20,4 @@
             hideCurrentModal();
         }
     });
-  
 });

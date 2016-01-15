@@ -45,6 +45,8 @@ namespace BEC.TargetFramework.Presentation.Web.IOC
 
             builder.RegisterProxyClients("Bec.TargetFramework.Business.Client",
                ConfigurationManager.AppSettings["BusinessServiceBaseURL"]);
+
+            builder.RegisterType<MessagesNotificationsController>().PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies).InstancePerDependency();
         }
     }
 }

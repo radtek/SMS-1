@@ -31,6 +31,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         public ITFSettingsLogicClient SettingsClient { get; set; }
         public INotificationLogicClient NotificationLogicClient { get; set; }
         public IOrganisationLogicClient orgClient { get; set; }
+        public IFileLogicClient fileClient { get; set; }
 
         public LoginController()
         {
@@ -76,7 +77,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             if (ModelState.IsValid)
             {
                 string errorMessage;
-                if (TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
+                if (TryLogin(this, AuthSvc, model.LoginDTO.Email, model.LoginDTO.Password, UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
                 {
                     // the final landing page is decided inside the Home controller
                     return RedirectToAction("Index", "App", new { area = "" });
@@ -96,7 +97,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         }
 
         internal static bool TryLogin(Controller controller, AuthenticationService asvc, string username, string password, IUserLogicClient ulc,
-            INotificationLogicClient nlc, IOrganisationLogicClient olc, out string errorMessage)
+            INotificationLogicClient nlc, IOrganisationLogicClient olc, IFileLogicClient fileLogic, out string errorMessage)
         {
             errorMessage = string.Empty;
             var loginValidationResult = ulc.AuthenticateUser(username.Trim(), EncodingHelper.Base64Encode(password.Trim()));
@@ -137,6 +138,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);
             ulc.SaveUserAccountLoginSession(userObject.UserID, userObject.SessionIdentifier, controller.Request.UserHostAddress, "", "");
+            fileLogic.ClearUnusedFiles(uaoID);
 
             return true;
         }
@@ -212,7 +214,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             string errorMessage;
             if (!TryLogin(this, AuthSvc, model.CreatePermanentLoginModel.RegistrationEmail, model.CreatePermanentLoginModel.NewPassword,
-                UserLogicClient, NotificationLogicClient, orgClient, out errorMessage))
+                UserLogicClient, NotificationLogicClient, orgClient, fileClient, out errorMessage))
             {
                 throw new Exception(string.Format("Authentication failed for the user. {0}", errorMessage));
             }

@@ -41,6 +41,7 @@ namespace Bec.TargetFramework.Entities
             // Navigation Properties
             if (level > 0) {
               target.UserAccountLoginSessionData = source.UserAccountLoginSessionData.ToDtosWithRelated(level - 1);
+              target.UserAccount = source.UserAccount.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method

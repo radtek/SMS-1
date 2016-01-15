@@ -33,10 +33,9 @@ function validateSubmit(form) {
     $("#submitAddTransaction").prop('disabled', true);
     var formData = $("#confirmDetails-form").serializeArray();
 
-    var index = $("#confirmDetails-form").data("index");
-    var matchDiv = $('#result-match-' + index);
-    var noMatchDiv = $('#result-no-match-' + index);
-    var serverErrorDiv = $('#result-server-error-' + index);
+    var matchDiv = $('#result-match');
+    var noMatchDiv = $('#result-no-match');
+    var serverErrorDiv = $('#result-server-error');
 
     matchDiv.hide();
     noMatchDiv.hide();
@@ -49,9 +48,9 @@ function validateSubmit(form) {
     }).done(function (res) {
         hideCurrentModal();
         if (res.result == true)
-            handleModal({ url: $('#collapse-' + index).data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+            handleModal({ url: $('#transactionContainer').data('url') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
         else
-            handleModal({ url: $('#collapse-' + index).data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
+            handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
             console.log(e);

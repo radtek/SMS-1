@@ -1,0 +1,35 @@
+@font-face {
+	font-family: 'SmsFont';
+	src:url('/content/fonts/sms-font.eot?qn622l');
+	src:url('/content/fonts/sms-font.eot?qn622l#iefix') format('embedded-opentype'),
+		url('/content/fonts/sms-font.ttf?qn622l') format('truetype'),
+		url('/content/fonts/sms-font.woff?qn622l') format('woff'),
+		url('/content/fonts/sms-font.svg?qn622l#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="sms-"], [class*=" sms-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'SmsFont' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.sms-lg{font-size:1.33333333em;line-height:.75em;vertical-align:-15%}
+.sms-fw{width:1.28571429em;text-align:center}
+
+.sms-safe-send:before {
+	content: "\e900";
+}
+
+
+

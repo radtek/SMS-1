@@ -7,7 +7,7 @@
         currentUser != null &&
         !currentUser.IsTemporaryUser &&
         !currentUser.NeedsTCs &&
-        ClaimsHelper.UserHasClaim("View", "InternalNotifications");
+        (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction"));
     var showOrganisationName =
         Request.IsAuthenticated &&
         (ClaimsHelper.UserHasClaim("Add", "SmsTransaction") || ClaimsHelper.UserHasClaim("Configure", "BankAccount"));
@@ -19,7 +19,7 @@
             <img src="~/Content/img/sms-logo-118x42.png" />
         </span>
 
-        @{Html.RenderActionIf("LatestNotifications", "InternalNotificationsAlert", new { area = "Admin" }, showNotifications);}
+        @{Html.RenderActionIf("LatestConversationsContainer", "MessagesNotifications", new { area = "Admin" }, showNotifications);}
     </div>
     @if (showOrganisationName)
     {

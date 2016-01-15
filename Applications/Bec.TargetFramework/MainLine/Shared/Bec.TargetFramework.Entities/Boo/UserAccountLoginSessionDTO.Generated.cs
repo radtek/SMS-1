@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public UserAccountLoginSessionDTO() {
         }
 
-        public UserAccountLoginSessionDTO(global::System.Guid userAccountID, string userSessionID, string userIPAddress, string userHostAddress, string userLocation, global::System.Nullable<System.DateTime> userLoginDate, global::System.Nullable<System.DateTime> userLogoutDate, global::System.Nullable<bool> userHasLoggedOut, List<UserAccountLoginSessionDatumDTO> userAccountLoginSessionData) {
+        public UserAccountLoginSessionDTO(global::System.Guid userAccountID, string userSessionID, string userIPAddress, string userHostAddress, string userLocation, global::System.Nullable<System.DateTime> userLoginDate, global::System.Nullable<System.DateTime> userLogoutDate, global::System.Nullable<bool> userHasLoggedOut, List<UserAccountLoginSessionDatumDTO> userAccountLoginSessionData, UserAccountDTO userAccount) {
 
           this.UserAccountID = userAccountID;
           this.UserSessionID = userSessionID;
@@ -33,6 +33,7 @@ namespace Bec.TargetFramework.Entities
           this.UserLogoutDate = userLogoutDate;
           this.UserHasLoggedOut = userHasLoggedOut;
           this.UserAccountLoginSessionData = userAccountLoginSessionData;
+          this.UserAccount = userAccount;
         }
 
         #endregion
@@ -69,6 +70,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<UserAccountLoginSessionDatumDTO> UserAccountLoginSessionData { get; set; }
+
+        [DataMember]
+        public UserAccountDTO UserAccount { get; set; }
 
         #endregion
     }

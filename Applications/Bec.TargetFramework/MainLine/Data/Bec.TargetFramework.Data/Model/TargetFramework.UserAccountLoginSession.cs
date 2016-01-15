@@ -119,6 +119,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for UserAccount in the schema.
+        /// </summary>
+        public virtual UserAccount UserAccount
+        {
+            get;
+            set;
+        }
 
         #endregion
     }

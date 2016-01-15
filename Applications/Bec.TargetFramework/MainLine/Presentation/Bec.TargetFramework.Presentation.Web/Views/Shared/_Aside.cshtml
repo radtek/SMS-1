@@ -1,61 +1,46 @@
-﻿    <!-- Left panel : Navigation area -->
-<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+﻿@using Bec.TargetFramework.Security
 @if (Request.IsAuthenticated && !Html.RouteMatches("AcceptTCs", "Index"))
 {
     <aside id="left-panel">
-
-        <!-- User info -->
-        @*@{ Html.RenderPartial("_CurrentUser"); }*@
-        <!-- end user info -->
-        <!-- NAVIGATION : This navigation is also responsive
-
-            To make this navigation dynamic please make sure to link the node
-            (the reference to the nav > ul) after page load. Or the navigation
-            will not initialize.
-            -->
         <nav class="margin-top-5">
-            <!-- NOTE: Notice the gaps after each icon usage <i></i>..
-                Please note that these links work a bit different than
-                traditional href="" links. See documentation for details.
-                -->
             <ul>
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions"))
+                @if (ClaimsHelper.UserHasClaim("View", "MyTransactions"))
                 {
                     <li class="@Html.RouteIf("active", "SafeBuyer", "Index")">
-                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })"><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Safe Buyer</span></a>
+                        <a href="@Url.Action("Index", "SafeBuyer", new { Area = "Buyer" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Transactions</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
+                @if (ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
                     <li class="@Html.RouteIf("active", "Transaction", "Index")">
                         <a href="@Url.Action("Index", "Transaction", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">View Transactions</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                @if (ClaimsHelper.UserHasClaim("View", "Products"))
                 {
                     <li class="@Html.RouteIf("active", "Products", "Index")">
                         <a href="@Url.Action("Index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order Products</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "MyTransactions") || Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Products"))
+                @if (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("View", "Products"))
                 {
                     <li class="@Html.RouteIf("active", "Downloads", "Index")">
                         <a href="@Url.Action("Index", "Downloads", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-download"></i> <span class="menu-item-parent">Downloads</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "InternalNotifications"))
+                @if (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("Add", "SmsTransaction"))
                 {
-                    <li class="@Html.RouteIf("active", "InternalNotifications", "Index")">
-                        <a href="@Url.Action("Index", "InternalNotifications", new { Area = "Admin" })"><i class="fa fa-lg fa-fw fa-bell"></i> <span class="menu-item-parent">View Notifications</span></a>
+                    <li class="@Html.RouteIf("active", "Messages", "Index")">
+                        <a href="@Url.Action("Index", "Messages", new { Area = "Admin" })"><i class="sms sms-lg sms-fw sms-safe-send"></i> <span class="menu-item-parent">Safe Send Messages</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "BankAccount"))
+                @if (ClaimsHelper.UserHasClaim("View", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("active", "Account", "index")">
                         <a href="@Url.Action("index", "Account", new { Area = "BankAccount" })"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Manage Bank Accounts</span></a>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
+                @if (ClaimsHelper.UserHasClaim("Configure", "BankAccount"))
                 {
                     <li class="@Html.RouteIf("open", "Finance")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">Finance</span></a>
@@ -72,14 +57,14 @@
                     </li>
                 }
                 @*
-                    @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("View", "Credit"))
+                    @if (ClaimsHelper.UserHasClaim("View", "Credit"))
                     {
                         <li class="@Html.RouteIf("active", "Credit", "Index")">
                             <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">View Credit Account</span></a>
                         </li>
                     }
                 *@
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
                     <li class="@Html.RouteIf("open", "Company")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Company</span></a>
@@ -93,7 +78,7 @@
                         </ul>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "ProUsers"))
+                @if (ClaimsHelper.UserHasClaim("Add", "ProUsers"))
                 {
                     <li class="@Html.RouteIf("open", "Users")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Users</span></a>
@@ -107,7 +92,7 @@
                         </ul>
                     </li>
                 }
-                @if (Bec.TargetFramework.Security.ClaimsHelper.UserHasClaim("Add", "Company"))
+                @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
                     <li class="@Html.RouteIf("open", "Reporting")">
                         <a href="#"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Reports</span></a>
@@ -131,5 +116,4 @@
         </span>
 
     </aside>
-    <!-- END NAVIGATION -->
 }
