@@ -1,4 +1,6 @@
-﻿--also run 2x broker and 2x lender scripts after running this
+﻿--also run 2x broker and 2x lender scripts after running this:
+--Scripts\BE Framework Scripts\Setup\Organisation\Lender\*
+--Scripts\BE Framework Scripts\Setup\Organisation\Broker\*
 
 ALTER TABLE public."OrganisationTradingName" ALTER COLUMN "OrganisationTradingNameID" TYPE UUID using null;
 ALTER TABLE public."OrganisationTradingName" ALTER COLUMN "OrganisationTradingNameID" SET DEFAULT uuid_generate_v1();
@@ -12,6 +14,7 @@ VALUES (38, E'Lender', E'Lender', True, False);
 ALTER TABLE public."Organisation" ADD COLUMN "BrokerType" INTEGER;
 ALTER TABLE public."Organisation" ADD COLUMN "BrokerBusinessType" INTEGER;
 
+drop view public."vOrganisationWithStatusAndAdmin";
 
 CREATE VIEW public."vOrganisationWithStatusAndAdmin" (
     "OrganisationID",
@@ -54,7 +57,9 @@ CREATE VIEW public."vOrganisationWithStatusAndAdmin" (
     "SchemeID",
     "FilesPerMonth",
     "ActiveSafeAccounts",
-    "OrganisationTypeDescription")
+    "OrganisationTypeDescription",
+    "BrokerType",
+    "BrokerBusinessType")
 AS
 SELECT org."OrganisationID",
     orgd."Name",
@@ -99,7 +104,9 @@ SELECT org."OrganisationID",
     org."SchemeID",
     org."FilesPerMonth",
     COALESCE(sb."ActiveSafeAccounts", 0::bigint) AS "ActiveSafeAccounts",
-    orgt."Description" AS "OrganisationTypeDescription"
+    orgt."Description" AS "OrganisationTypeDescription",
+    org."BrokerType",
+    org."BrokerBusinessType"
 FROM "Organisation" org
      LEFT JOIN "OrganisationDetail" orgd ON orgd."OrganisationID" = org."OrganisationID"
      LEFT JOIN "OrganisationType" orgt ON orgt."OrganisationTypeID" =
@@ -157,6 +164,7 @@ FROM "Organisation" org
     ) sb ON sb."OrganisationID" = org."OrganisationID"
 WHERE (orgt."Name"::text <> ALL (ARRAY['Temporary'::character varying::text,
     'Personal'::character varying::text, 'Administration'::character varying::text, 'Supplier'::character varying::text])) AND orgc."ContactID" IS NOT NULL AND (ua."IsDeleted" IS NULL OR ua."IsDeleted" = false);
+
 
 
  -- object recreation
