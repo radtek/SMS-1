@@ -35,7 +35,6 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
             ViewBag.SupportTelephoneNumber = commonSettings.SupportTelephoneNumber;
-            ViewBag.SupportEmailAddress = commonSettings.SupportEmailAddress;
 
             return View();
         }
