@@ -102,8 +102,8 @@ VALUES (
   true,
   false,
   DoVersionNumber,
-  (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Lender Organisation Status'),
- (select "StatusTypeTemplateVersionNumber" from "StatusTypeTemplate" where "Name" = 'Lender Organisation Status')
+  (select "StatusTypeTemplateID" from "StatusTypeTemplate" where "Name" = 'Professional Organisation Status'),
+ (select "StatusTypeTemplateVersionNumber" from "StatusTypeTemplate" where "Name" = 'Professional Organisation Status')
 );
 
 -- user types
