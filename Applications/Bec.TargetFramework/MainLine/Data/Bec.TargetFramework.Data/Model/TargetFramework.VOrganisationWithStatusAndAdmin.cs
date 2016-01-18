@@ -436,6 +436,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for BrokerType in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> BrokerType
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for BrokerBusinessType in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<int> BrokerBusinessType
+        {
+            get;
+            set;
+        }
+
 
         #endregion
     }

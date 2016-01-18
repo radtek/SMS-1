@@ -70,6 +70,8 @@ namespace Bec.TargetFramework.Entities
             target.FilesPerMonth = source.FilesPerMonth;
             target.ActiveSafeAccounts = source.ActiveSafeAccounts;
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
+            target.BrokerType = source.BrokerType;
+            target.BrokerBusinessType = source.BrokerBusinessType;
 
             // User-defined partial method
             OnDtoCreating(source, target);
@@ -126,6 +128,8 @@ namespace Bec.TargetFramework.Entities
             target.FilesPerMonth = source.FilesPerMonth;
             target.ActiveSafeAccounts = source.ActiveSafeAccounts;
             target.OrganisationTypeDescription = source.OrganisationTypeDescription;
+            target.BrokerType = source.BrokerType;
+            target.BrokerBusinessType = source.BrokerBusinessType;
 
             // User-defined partial method
             OnEntityCreating(source, target);
