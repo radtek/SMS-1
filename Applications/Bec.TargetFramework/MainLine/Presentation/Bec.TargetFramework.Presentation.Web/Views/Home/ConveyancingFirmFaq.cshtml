@@ -1,0 +1,155 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Models
+@{
+    Layout = "~/Areas/Account/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Safe Move Scheme Conveyancing Firm FAQs";
+    ViewBag.Meta = "The following are real questions that we have been asked with our answers beneath – we hope you find this useful.";
+    var faqGroups = new[]
+    {
+        new FaqGroup
+        {
+            Name = "Costs",
+            Faqs = new[]
+            {
+                new Faq
+                {
+                    Question = "How much will Safe Buyer Cost following the free trial period?",
+                    Answer = "Safe Buyer will cost £10 + VAT and qualifies as a disbursement. This is in line with other similar risk products on the market."
+                },
+                new Faq
+                {
+                    Question = "Will there be a membership fee?",
+                    Answer = "We have no plans to charge conveyancers a membership fee."
+                }
+            }
+        },
+        new FaqGroup
+        {
+            Name = "Company",
+            Faqs = new []
+            {
+                new Faq
+                {
+                    Question = "Who is BE Consultancy?",
+                    Answer = "BE Consultancy is a privately owned company."
+                },
+                new Faq
+                {
+                    Question = "What is BE Consultancy’s background?",
+                    Answer = "BE Consultancy was formed in 2006 by business partners Brad Marsh and Ed Powell to provide solutions to the property market. The company has developed its expertise in fraud prevention and has been working in this field with conveyancers, lenders, mortgage brokers, estate agents, regulators and fraud prevention agencies since 2012."
+                },
+                new Faq
+                {
+                    Question = "Who regulates the Safe Move Scheme?",
+                    Answer = "BE Consultancy is adding a fraud insurance policy option to the Safe Move Scheme which will be regulated by the Financial Conduct Authority."
+                }
+            }
+        },
+        new FaqGroup
+        {
+            Name = "Conveyancers",
+            Faqs = new []
+            {
+                new Faq
+                {
+                    Question = "Does the Safe Move Scheme cover conveyancers regulated by the Law Society of Scotland?",
+                    Answer = "No, Law Society of Scotland is currently out of scope, however we will be extending the Safe Move Scheme to Law Society of Scotland firms in due course."
+                },
+                new Faq
+                {
+                    Question = "Your website says it will take 6-8 weeks to process registration applications, why so long?",
+                    Answer = "We say 6-8 weeks to allow for a high number of applications at once. Applications have been taking on average 6 days to process but may take longer according to circumstances beyond our control such as press coverage highlighting fraud and 3rd party stakeholders requirements (e.g. lenders)."
+                }
+            }
+        },
+        new FaqGroup
+        {
+            Name = "Lenders",
+            Faqs = new []
+            {
+                new Faq
+                {
+                    Question = "Why are lenders getting involved in conveyancer’s fraud prevention policies?",
+                    Answer = "I cannot speak on behalf of lenders but I have been involved in discussions with the FCA who requires ‘firms’ (lenders and mortgage brokers) to protect their customers from foreseeable risks. Lenders have to demonstrate that they have robust procedures to mitigate harm to their customers. Accordingly, they have a duty of care to prevent harm to their customers who use one of their panel conveyancers."
+                },
+                new Faq
+                {
+                    Question = "Is every Lender now going to have different requirements on this (a nightmare) and why aren’t the CML and Lender Exchange joining it all up?",
+                    Answer = "I cannot comment on what lenders are going to do, however, we are in discussions with most of the major lenders and the CML who we have been working with in developing the Safe Move Scheme for a number of years."
+                },
+                new Faq
+                {
+                    Question = "How will lenders know whether we are using the Safe Buyer product?",
+                    Answer = "The Safe Move Scheme has a full audit trail which records the lender and the mortgage application number for future reference."
+                },
+            }
+        },
+        new FaqGroup
+        {
+            Name = "Safe Buyer",
+            Faqs = new []
+            {
+                new Faq
+                {
+                    Question = "How is the Safe Buyer bank account check different to Decision First and Lawyer Checker?",
+                    Answer = "These other tools solve a different problem. They allow a conveyancing firm to verify the bank details of another firm whereas Safe Buyer allows clients to verify the bank account details of their conveyancing firm."
+                }
+            }
+        },
+        new FaqGroup
+        {
+            Name = "Security",
+            Faqs = new []
+            {
+                new Faq
+                {
+                    Question = "Where is your data hosted?",
+                    Answer = "EU servers."
+                },
+                new Faq
+                {
+                    Question = "How do we know that the Safe Move Scheme will keep our data and our customer’s data safe?",
+                    Answer = "BE Consultancy runs the Safe Move Scheme using a very robust and dynamically updated information security policy, which is currently going through ISO27001 accreditation following an 18 month implementation cycle. We pay special attention to keeping data safe and secure. In order to provide the highest level of security, we have carefully set up effective equipment, as well as an arsenal of best practices at all levels of our organisation and infrastructure, so that the availability, integrity and confidentiality of content is of the highest quality."
+                },
+                new Faq
+                {
+                    Question = "How do we know that we, and our clients are using the bona fide Safe Move Scheme website and not a website cloned by criminals?",
+                    Answer = "Please see our Login Security Policy for details."
+                },
+                new Faq
+                {
+                    Question = "Who will be liable if the Safe Move Scheme is hacked?",
+                    Answer = "BE Consultancy has a £5m PI insurance limit for any one claim."
+                }
+            }
+        }
+    };
+}
+<h2>@ViewBag.Title</h2>
+<div class="row faq-container margin-bottom-15">
+    <div class="col-md-7">
+        <p>The following are real questions that we have been asked with our answers beneath – we hope you find this useful.</p>
+        @foreach (var faqGroup in faqGroups)
+        {
+            <h3>@faqGroup.Name</h3>
+            foreach (var faq in faqGroup.Faqs)
+            {
+                <div class="faq-question margin-bottom-15">
+                    <p>
+                        <strong>Q</strong> - @faq.Question
+                    </p>
+                    <p>
+                        <strong>A</strong> - @faq.Answer
+                    </p>
+                </div>
+            }
+        }
+        <p class="margin-bottom-15">
+            If you have any questions for the Safe Move Scheme please contact Ed Powell at BE Consultancy on 020 3598 0134 or 0203 598 0132, or e.powell@beconsultancy.co.uk .
+            For security reasons, please do not send any sensitive information via email.
+        </p>
+    </div>
+
+    <div class="col-md-5">
+        <img src="~/Content/websiteLayout/images/Compliance icon.png" alt="FAQ" />
+    </div>
+</div>
