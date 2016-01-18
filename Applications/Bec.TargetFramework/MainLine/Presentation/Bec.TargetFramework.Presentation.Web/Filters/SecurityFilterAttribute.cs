@@ -3,10 +3,10 @@ using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
 {
-    public class SecurityFilterAttribute : FilterAttribute, IResultFilter
+    public class SecurityFilterAttribute : ActionFilterAttribute
     {
         private const string HeaderName = "Strict-Transport-Security";
-        public void OnResultExecuting(ResultExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var response = filterContext.HttpContext.Response;
 
@@ -25,12 +25,11 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
 
             // cache
             response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1
-            response.Cache.AppendCacheExtension("no-cache, no-store, must-revalidate"); 
+            response.Cache.AppendCacheExtension("no-cache, no-store, must-revalidate");
             response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.AppendHeader("Expires", "-1"); // Proxies.
-        }
-        public void OnResultExecuted(ResultExecutedContext filterContext)
-        {
+
+            base.OnActionExecuting(filterContext);
         }
     }
 }
