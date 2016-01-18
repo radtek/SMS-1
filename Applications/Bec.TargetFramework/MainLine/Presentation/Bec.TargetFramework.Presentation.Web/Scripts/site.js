@@ -630,7 +630,7 @@ function populateCompany(dataItem) {
     dataItem.RegulatorNameDisplay = dataItem.Regulator || "";
     if (dataItem.RegulatorNameDisplay.toLowerCase() == 'other') dataItem.RegulatorNameDisplay = dataItem.RegulatorOther;
     dataItem.StatusChangedOnDisplay = dateString(dataItem.StatusChangedOn);
-    dataItem.VerifiedOnDisplay = dateString(dataItem.VerifiedOn);
+    if (!!dataItem.VerifiedOn) dataItem.VerifiedOnDisplay = dateString(dataItem.VerifiedOn);
 }
 
 var defTmpl = function (path, states, types) {
