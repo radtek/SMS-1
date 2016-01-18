@@ -1,0 +1,59 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = false })">Generate PIN</a>
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Address:</dt>
+            <dd><p>{{Line1}}</p></dd>
+            <dd><p>{{Line2}}</p></dd>
+            <dd><p>{{Town}}</p></dd>
+            <dd><p>{{County}}</p></dd>
+            <dd><p>{{PostalCode}}</p></dd>
+            <dt>Regulator:</dt>
+            <dd><p>{{RegulatorNameDisplay}}</p></dd>
+            <dt>Regulator Number:</dt>
+            <dd><p>{{RegulatorNumber}}</p></dd>
+            <dt>Originally Registered As:</dt>
+            <dd><p>{{RegisteredAsName}}</p></dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+            <dt>Verified Phone Number:</dt>
+            <dd><p>{{Notes}}</p></dd>
+        </dl>
+        <h5>Other Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Created On:</dt>
+            <dd><p>{{CreatedOnDisplay}}</p></dd>
+
+            {{#if PinCode}}
+            <dt>PIN Number:</dt>
+            <dd><p>{{PinCode}}</p></dd>
+            {{/if}}
+
+            {{#if PinCreated}}
+            <dt>PIN Created On:</dt>
+            <dd><p>{{PinCreatedDisplay}}</p></dd>
+            {{/if}}
+
+            <dt>Referrer Source:</dt>
+            <dd><p>{{Referrer}}</p></dd>
+            <dt>Scheme ID:</dt>
+            <dd><p>{{SchemeID}}</p></dd>
+            <dt>Files per Month:</dt>
+            <dd><p>{{FilesPerMonth}}</p></dd>
+        </dl>
+    </div>
+</div>

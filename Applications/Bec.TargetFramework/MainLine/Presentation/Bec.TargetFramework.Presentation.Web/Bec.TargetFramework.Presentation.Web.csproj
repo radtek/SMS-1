@@ -859,6 +859,21 @@
     <Content Include="Areas\Account\Views\RegisterAdmin\MortgageBroker.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.cshtml" />
     <Content Include="Areas\Admin\Views\Company\_tradingNameTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Conveyancer\active_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Broker\active_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Lender\active_Tmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
