@@ -45,7 +45,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
         {
             //mark as read: update session
             var userObject = WebUserHelper.GetWebUserObject(HttpContext);
-            if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
+            if (userObject != null) userObject.NeedsTCs = (await NotificationLogicClient.GetUnreadNotificationsAsync(userObject.UserID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
 
             //update database
             await NotificationLogicClient.MarkAcceptedAsync(notificationID);

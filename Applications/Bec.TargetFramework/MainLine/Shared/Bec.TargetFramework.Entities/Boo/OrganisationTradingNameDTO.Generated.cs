@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public OrganisationTradingNameDTO() {
         }
 
-        public OrganisationTradingNameDTO(int organisationTradingNameID, global::System.Guid organisationID, string name, bool isActive, bool isDeleted, OrganisationDTO organisation) {
+        public OrganisationTradingNameDTO(global::System.Guid organisationTradingNameID, global::System.Guid organisationID, string name, bool isActive, bool isDeleted, OrganisationDTO organisation) {
 
           this.OrganisationTradingNameID = organisationTradingNameID;
           this.OrganisationID = organisationID;
@@ -37,7 +37,7 @@ namespace Bec.TargetFramework.Entities
         #region Properties
 
         [DataMember]
-        public int OrganisationTradingNameID { get; set; }
+        public global::System.Guid OrganisationTradingNameID { get; set; }
 
         [DataMember]
         public global::System.Guid OrganisationID { get; set; }

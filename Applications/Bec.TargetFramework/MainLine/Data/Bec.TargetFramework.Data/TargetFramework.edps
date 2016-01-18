@@ -1780,6 +1780,8 @@
       <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
       <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="FilesPerMonth" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerType" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerBusinessType" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />

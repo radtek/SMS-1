@@ -249,7 +249,8 @@
     <Content Include="Areas\Account\Views\Forgot\Password.js" />
     <Content Include="Areas\Account\Views\Forgot\Username.js" />
     <Content Include="Areas\Account\Views\Login\Index.js" />
-    <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\MortgageBroker.js" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
@@ -260,6 +261,7 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
@@ -855,6 +857,24 @@
     <Content Include="Content\Fonts\sms-font.woff" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.cshtml" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\MortgageBroker.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_RegisterLender.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\_tradingNameTmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Conveyancer\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Conveyancer\active_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Broker\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\expired_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\rejected_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\unverified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\verified_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Broker\active_Tmpl.cshtml" />
+    <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Lender\active_Tmpl.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1009,7 +1029,7 @@
     <Content Include="Areas\SmsTransaction\Views\Transaction\_primaryBuyerDetailsTmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\_ConfirmDetails.cshtml" />
-    <Content Include="Areas\Account\Views\RegisterAdmin\Index.cshtml" />
+    <Content Include="Areas\Account\Views\RegisterAdmin\Conveyancer.cshtml" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.eot" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.ttf" />
     <Content Include="Content\websiteLayout\fonts\CenturyGothic.woff" />
@@ -2138,6 +2158,8 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
+    <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
+    <Content Include="Views\App\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

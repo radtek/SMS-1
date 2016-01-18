@@ -14,6 +14,7 @@
 <form action="@Url.Action("Index", "RegisterAdmin", new { area = "Account" })" method="POST" id="addCompanyForm">
     @Html.ValidationBootstrap()
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.OrganisationType)
     <h1>Register your Conveyancing Firm</h1>
     <p class="form-info">Please ensure that <strong>all</strong> the details you enter below are accurate. Inaccurate details cannot be verified and will result in unsuccessful registration.</p>
 
@@ -199,5 +200,5 @@
     </div>
 </form>
 @section Scripts{
-    <script src="@Scripts.Url("~/Scripts/Account/RegisterAdmin/Index")"></script>
+    <script src="@Scripts.Url("~/Scripts/Account/RegisterAdmin/Conveyancer")"></script>
 }

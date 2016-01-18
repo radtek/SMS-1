@@ -73,6 +73,11 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
+        public ActionResult MortgageBrokerRegistration()
+        {
+            return View();
+        }
+
         public ActionResult ForThePublic()
         {
             return View();

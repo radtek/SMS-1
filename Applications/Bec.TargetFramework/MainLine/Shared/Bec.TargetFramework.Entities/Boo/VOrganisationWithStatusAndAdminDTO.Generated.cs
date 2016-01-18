@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public VOrganisationWithStatusAndAdminDTO() {
         }
 
-        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID, string registeredAsName, global::System.Nullable<int> organisationRecommendationSourceID, global::System.Nullable<int> schemeID, int filesPerMonth, global::System.Nullable<long> activeSafeAccounts) {
+        public VOrganisationWithStatusAndAdminDTO(global::System.Guid organisationID, string name, global::System.DateTime createdOn, string createdBy, global::System.Nullable<bool> organisationVerified, global::System.Nullable<System.DateTime> pinCreated, string pinCode, string organisationAdminSalutation, string organisationAdminFirstName, string organisationAdminLastName, string organisationAdminTelephone, string organisationAdminEmail, string regulator, string regulatorOther, string regulatorNumber, string line1, string line2, string town, string county, string postalCode, string additionalAddressInformation, global::System.Guid statusTypeID, global::System.Guid statusTypeValueID, int statusTypeVersionNumber, global::System.Nullable<System.Guid> organisationAdminUserID, string statusValueName, global::System.DateTime statusChangedOn, string statusChangedBy, string reason, string notes, global::System.Nullable<System.DateTime> organisationAdminCreated, global::System.Nullable<System.DateTime> verifiedOn, string verifiedBy, string verifiedNotes, global::System.Guid userAccountOrganisationID, string registeredAsName, global::System.Nullable<int> organisationRecommendationSourceID, global::System.Nullable<int> schemeID, int filesPerMonth, global::System.Nullable<long> activeSafeAccounts, string organisationTypeDescription, global::System.Nullable<int> brokerType, global::System.Nullable<int> brokerBusinessType) {
 
           this.OrganisationID = organisationID;
           this.Name = name;
@@ -64,6 +64,9 @@ namespace Bec.TargetFramework.Entities
           this.SchemeID = schemeID;
           this.FilesPerMonth = filesPerMonth;
           this.ActiveSafeAccounts = activeSafeAccounts;
+          this.OrganisationTypeDescription = organisationTypeDescription;
+          this.BrokerType = brokerType;
+          this.BrokerBusinessType = brokerBusinessType;
         }
 
         #endregion
@@ -189,6 +192,15 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public global::System.Nullable<long> ActiveSafeAccounts { get; set; }
+
+        [DataMember]
+        public string OrganisationTypeDescription { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<int> BrokerType { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<int> BrokerBusinessType { get; set; }
 
         #endregion
     }

@@ -769,13 +769,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		List<VOrganisationWithStatusAndAdminDTO> GetCompanies(ProfessionalOrganisationStatusEnum orgStatus);
 
-		/// <param name="organisationType"></param>
 		/// <returns></returns>
-		Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
+		Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(AddCompanyDTO dto);
 
-		/// <param name="organisationType"></param>
 		/// <returns></returns>
-		Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto);
+		Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto);
 
 		/// <param name="organisationID"></param>
 		/// <param name="userTypeValue"></param>
@@ -3552,22 +3550,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationType"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(OrganisationTypeEnum organisationType,AddCompanyDTO dto)
+		public virtual Task<Guid> AddNewUnverifiedOrganisationAndAdministratorAsync(AddCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync?organisationType=" + organisationType, dto, _user);
+			return PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="organisationType"></param>
-		public virtual Guid AddNewUnverifiedOrganisationAndAdministrator(OrganisationTypeEnum organisationType,AddCompanyDTO dto)
+		public virtual Guid AddNewUnverifiedOrganisationAndAdministrator(AddCompanyDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync?organisationType=" + organisationType, dto, _user)).Result;
+			return Task.Run(() => PostAsync<AddCompanyDTO, Guid>("api/OrganisationLogic/AddNewUnverifiedOrganisationAndAdministratorAsync", dto, _user)).Result;
 		}
 
 		/// <summary>

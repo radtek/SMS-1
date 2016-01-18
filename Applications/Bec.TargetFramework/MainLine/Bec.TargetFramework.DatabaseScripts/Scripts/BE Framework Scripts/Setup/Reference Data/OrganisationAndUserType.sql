@@ -14,6 +14,12 @@ VALUES (31, E'Professional', E'Professional Organisation', True, False);
 INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
 VALUES (34, E'Branch', E'Branch', True, False);
 
+INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (37, E'MortgageBroker', E'Mortgage Broker', True, False);
+
+INSERT INTO public."OrganisationType" ("OrganisationTypeID", "Name", "Description", "IsActive", "IsDeleted")
+VALUES (38, E'Lender', E'Lender', True, False);
+
 delete from "UserType";
 /* Data for the 'public.UserType' table  (Records 1 - 5) */
 

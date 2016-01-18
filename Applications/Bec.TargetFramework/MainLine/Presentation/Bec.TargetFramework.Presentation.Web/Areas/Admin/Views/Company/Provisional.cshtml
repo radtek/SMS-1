@@ -1,7 +1,8 @@
 ﻿<!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-inbox margin-right-10"></i>View Provisional Companies</h2>
+        <a data-href="@Url.Action("ViewRegisterLender", "Company",new {area  = "Admin"})" class="btn btn-primary btn-sm inline-heading" data-modallink="true">Register Lender</a>
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
@@ -23,51 +24,7 @@
                     </div>
 
                     <div class="row hidden" id="unverifiedPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-down margin-right-5"></i>Reject Company</a>
-                                <a id="verifyButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewVerify", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-up margin-right-5"></i>Verify Company</a>
-                                <h5>Company</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="dduCompanyName"></p></dd>
-                                    <dt>Address:</dt>
-                                    <dd><p id="dduCompanyAddress1"></p></dd>
-                                    <dd><p id="dduCompanyAddress2"></p></dd>
-                                    <dd><p id="dduCompanyTownCity"></p></dd>
-                                    <dd><p id="dduCompanyCounty"></p></dd>
-                                    <dd><p id="dduCompanyPostCode"></p></dd>
-                                    <dt>Regulator:</dt>
-                                    <dd><p id="dduRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt>
-                                    <dd><p id="dduRegulatorNumber"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Organisation Administrator</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="dduSystemAdminName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="dduSystemAdminEmail"></p></dd>
-                                </dl>
-                                <h5>Other Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Created On:</dt>
-                                    <dd><p id="dduCompanyCreatedOn"></p></dd>
-                                    <dt>Referrer Source:</dt>
-                                    <dd><p id="dduReferrer"></p></dd>
-                                    <dt>Scheme ID:</dt>
-                                    <dd><p id="dduSchemeID"></p></dd>
-                                    <dt>Files per Month:</dt>
-                                    <dd><p id="ddufpm"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="s2" role="tabpanel">
@@ -80,58 +37,7 @@
                     </div>
 
                     <div class="row hidden" id="verifiedPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <a id="pinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = false })">Generate PIN</a>
-                                <h5>Company</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddvCompanyName"></p></dd>
-                                    <dt>Address:</dt>
-                                    <dd><p id="ddvCompanyAddress1"></p></dd>
-                                    <dd><p id="ddvCompanyAddress2"></p></dd>
-                                    <dd><p id="ddvCompanyTownCity"></p></dd>
-                                    <dd><p id="ddvCompanyCounty"></p></dd>
-                                    <dd><p id="ddvCompanyPostCode"></p></dd>
-                                    <dt>Regulator:</dt>
-                                    <dd><p id="ddvRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt>
-                                    <dd><p id="ddvRegulatorNumber"></p></dd>
-                                    <dt>Originally Registered As:</dt>
-                                    <dd><p id="ddvRegisteredAsName"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Organisation Administrator</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddvSystemAdminName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="ddvSystemAdminEmail"></p></dd>
-                                    <dt>Verified Phone Number:</dt>
-                                    <dd><p id="ddvVerifiedPhoneNumber"></p></dd>
-                                </dl>
-                                <h5>Other Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Created On:</dt>
-                                    <dd><p id="ddvCompanyCreatedOn"></p></dd>
-                                    <dt>PIN Number:</dt>
-                                    <dd><p id="ddvPINNumber"></p></dd>
-                                    <dt>PIN Created On:</dt>
-                                    <dd><p id="ddvPINCreatedOn"></p></dd>
-                                    <dt>Referrer Source:</dt>
-                                    <dd><p id="ddvReferrer"></p></dd>
-                                    <dt>Scheme ID:</dt>
-                                    <dd><p id="ddvSchemeID"></p></dd>
-                                    <dt>Files per Month:</dt>
-                                    <dd><p id="ddvfpm"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="tab-pane fade" id="s3" role="tabpanel">
@@ -144,55 +50,7 @@
                     </div>
 
                     <div class="row hidden" id="rejectedPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Company</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddrCompanyName"></p></dd>
-                                    <dt>Address:</dt>
-                                    <dd><p id="ddrCompanyAddress1"></p></dd>
-                                    <dd><p id="ddrCompanyAddress2"></p></dd>
-                                    <dd><p id="ddrCompanyTownCity"></p></dd>
-                                    <dd><p id="ddrCompanyCounty"></p></dd>
-                                    <dd><p id="ddrCompanyPostCode"></p></dd>
-                                    <dt>Regulator:</dt>
-                                    <dd><p id="ddrRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt>
-                                    <dd><p id="ddrRegulatorNumber"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Organisation Administrator</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddrSystemAdminName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="ddrSystemAdminEmail"></p></dd>
-                                </dl>
-                                <h5>Other Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Rejected On:</dt>
-                                    <dd><p id="ddrRejectedOn"></p></dd>
-                                    <dt>Rejected By:</dt>
-                                    <dd><p id="ddrRejectedBy"></p></dd>
-                                    <dt>Rejected Reason:</dt>
-                                    <dd><p id="ddrRejectedReason"></p></dd>
-                                    <dt>Rejected Notes:</dt>
-                                    <dd><p id="ddrRejectedNotes"></p></dd>
-                                    <dt>Referrer Source:</dt>
-                                    <dd><p id="ddrReferrer"></p></dd>
-                                    <dt>Scheme ID:</dt>
-                                    <dd><p id="ddrSchemeID"></p></dd>
-                                    <dt>Files per Month:</dt>
-                                    <dd><p id="ddrfpm"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -206,54 +64,7 @@
                     </div>
 
                     <div class="row hidden" id="expiredPanel">
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <a id="expiredPinButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewGeneratePin", "Company", new { area = "Admin", setVerified = true })">Regenerate PIN</a>
-                                <h5>Company</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddeCompanyName"></p></dd>
-                                    <dt>Address:</dt>
-                                    <dd><p id="ddeCompanyAddress1"></p></dd>
-                                    <dd><p id="ddeCompanyAddress2"></p></dd>
-                                    <dd><p id="ddeCompanyTownCity"></p></dd>
-                                    <dd><p id="ddeCompanyCounty"></p></dd>
-                                    <dd><p id="ddeCompanyPostCode"></p></dd>
-                                    <dt>Regulator:</dt>
-                                    <dd><p id="ddeRegulator"></p></dd>
-                                    <dt>Regulator Number:</dt>
-                                    <dd><p id="ddeRegulatorNumber"></p></dd>
-                                    <dt>Originally Registered As:</dt>
-                                    <dd><p id="ddeRegisteredAsName"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <!-- well -->
-                            <div class="well">
-                                <h5>Organisation Administrator</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Name:</dt>
-                                    <dd><p id="ddeSystemAdminName"></p></dd>
-                                    <dt>Email:</dt>
-                                    <dd><p id="ddeSystemAdminEmail"></p></dd>
-                                    <dt>Verified Phone Number:</dt>
-                                    <dd><p id="ddeVerifiedPhoneNumber"></p></dd>
-                                </dl>
-                                <h5>Other Details</h5>
-                                <dl class="dl-horizontal">
-                                    <dt>Created On:</dt>
-                                    <dd><p id="ddeCompanyCreatedOn"></p></dd>
-                                    <dt>Referrer Source:</dt>
-                                    <dd><p id="ddeReferrer"></p></dd>
-                                    <dt>Scheme ID:</dt>
-                                    <dd><p id="ddeSchemeID"></p></dd>
-                                    <dt>Files per Month:</dt>
-                                    <dd><p id="ddefpm"></p></dd>
-                                </dl>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

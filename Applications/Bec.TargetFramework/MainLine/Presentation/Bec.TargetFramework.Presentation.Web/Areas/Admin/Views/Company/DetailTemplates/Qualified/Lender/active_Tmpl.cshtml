@@ -1,0 +1,42 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        @* todo: ZM ucomment when enable login comes back to life*@
+        @*<a id="editButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewEditCompany", "Company", new { area = "Admin" })"><i class="fa fa-pencil margin-right-5"></i>Edit Company</a>*@
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Trading Names:</dt>
+            <dd>
+                {{#each TradingNamesDisplay}}
+                <p>{{this}}</p>
+                {{/each}}
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+        </dl>
+        <h5>Verified Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Verified On:</dt>
+            <dd><p>{{VerifiedOnDisplay}}</p></dd>
+            <dt>Verified By:</dt>
+            <dd><p>{{VerifiedBy}}</p></dd>
+        </dl>
+        <h5>Other Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Created On:</dt>
+            <dd><p>{{CreatedOnDisplay}}</p></dd>
+        </dl>
+    </div>
+</div>

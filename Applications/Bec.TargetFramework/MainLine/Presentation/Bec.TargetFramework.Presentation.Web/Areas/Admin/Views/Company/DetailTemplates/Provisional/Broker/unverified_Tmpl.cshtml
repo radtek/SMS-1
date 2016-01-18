@@ -1,0 +1,41 @@
+﻿<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <a id="rejectButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewRejectTempCompany", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-down margin-right-5"></i>Reject Company</a>
+        <a id="verifyButton" class="btn btn-primary btn-sm" data-modallink="true" data-url="@Url.Action("ViewVerify", "Company", new { area = "Admin" })"><i class="fa fa-thumbs-up margin-right-5"></i>Verify Company</a>
+        <h5>Company</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{Name}}</p></dd>
+            <dt>Address:</dt>
+            <dd><p>{{Line1}}</p></dd>
+            <dd><p>{{Line2}}</p></dd>
+            <dd><p>{{Town}}</p></dd>
+            <dd><p>{{County}}</p></dd>
+            <dd><p>{{PostalCode}}</p></dd>
+            <dt>Broker Type:</dt>
+            <dd><p>{{BrokerTypeDescription}}</p></dd>
+            <dt>Broker Business Type:</dt>
+            <dd><p>{{BrokerBusinessTypeDescription}}</p></dd>
+        </dl>
+    </div>
+</div>
+<div class="col-sm-6">
+    <!-- well -->
+    <div class="well">
+        <h5>Organisation Administrator</h5>
+        <dl class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><p>{{SystemAdminNameDisplay}}</p></dd>
+            <dt>Email:</dt>
+            <dd><p>{{OrganisationAdminEmail}}</p></dd>
+        </dl>
+        <h5>Other Details</h5>
+        <dl class="dl-horizontal">
+            <dt>Created On:</dt>
+            <dd><p>{{CreatedOnDisplay}}</p></dd>
+            <dt>Referrer Source:</dt>
+            <dd><p>{{Referrer}}</p></dd>
+        </dl>
+    </div>
+</div>

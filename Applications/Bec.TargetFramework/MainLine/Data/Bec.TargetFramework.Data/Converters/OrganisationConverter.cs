@@ -55,6 +55,8 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
+            target.BrokerType = source.BrokerType;
+            target.BrokerBusinessType = source.BrokerBusinessType;
 
             // Navigation Properties
             if (level > 0) {
@@ -140,6 +142,8 @@ namespace Bec.TargetFramework.Entities
             target.OrganisationRecommendationSourceID = source.OrganisationRecommendationSourceID;
             target.SchemeID = source.SchemeID;
             target.FilesPerMonth = source.FilesPerMonth;
+            target.BrokerType = source.BrokerType;
+            target.BrokerBusinessType = source.BrokerBusinessType;
 
             // User-defined partial method
             OnEntityCreating(source, target);

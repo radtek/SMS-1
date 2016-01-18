@@ -133,7 +133,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 .ToList();
 
             asvc.SignIn(ua, false, additionalClaims);
-            bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing })).Count > 0;
+            bool needsTc = (nlc.GetUnreadNotifications(ua.ID, new[] { NotificationConstructEnum.TcPublic, NotificationConstructEnum.TcFirmConveyancing, NotificationConstructEnum.TcMortgageBroker, NotificationConstructEnum.TcLender })).Count > 0;
             bool needsPersonalDetails = org.UserTypeID == UserTypeEnum.OrganisationAdministrator.GetGuidValue(); // require personal details from all admins initially, personal details are checked at the next stage
 
             var userObject = WebUserHelper.CreateWebUserObjectInSession(controller.HttpContext, ua, orgID, uaoID, orgName, needsTc, needsPersonalDetails);

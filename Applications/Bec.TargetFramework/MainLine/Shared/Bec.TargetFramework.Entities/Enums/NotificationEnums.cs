@@ -41,6 +41,10 @@ namespace Bec.TargetFramework.Entities.Enums
         [StringValue("BankAccountCheckNoMatch")]
         BankAccountCheckNoMatch = 17,
         [StringValue("BankAccountMarkedAsPotentialFraud")]
-        BankAccountMarkedAsPotentialFraud = 18
+        BankAccountMarkedAsPotentialFraud = 18,
+        [StringValue("TcMortgageBroker")]
+        TcMortgageBroker = 19,
+        [StringValue("TcLender")]
+        TcLender = 20
     }
 }

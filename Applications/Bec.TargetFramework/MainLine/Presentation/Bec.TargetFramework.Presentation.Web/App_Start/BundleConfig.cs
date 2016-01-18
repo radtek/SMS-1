@@ -92,7 +92,8 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Reset").Include("~/Areas/Account/Views/Forgot/Reset.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Forgot/Username").Include("~/Areas/Account/Views/Forgot/Username.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Register/Index").Include("~/Areas/Account/Views/Register/Index.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Index").Include("~/Areas/Account/Views/RegisterAdmin/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/Conveyancer").Include("~/Areas/Account/Views/RegisterAdmin/Conveyancer.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Account/RegisterAdmin/MortgageBroker").Include("~/Areas/Account/Views/RegisterAdmin/MortgageBroker.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/Search/Index").Include("~/Areas/Account/Views/Search/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Account/MyAccount/ChangePassword").Include("~/Areas/Account/Views/MyAccount/ChangePassword.js"));
 
@@ -114,6 +115,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_GeneratePin").Include("~/Areas/Admin/Views/Shared/_GeneratePin.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RegisterLender").Include("~/Areas/Admin/Views/Shared/_RegisterLender.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
