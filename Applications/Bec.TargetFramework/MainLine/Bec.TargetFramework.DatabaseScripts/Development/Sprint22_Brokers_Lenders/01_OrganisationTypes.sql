@@ -165,7 +165,7 @@ FROM "Organisation" org
 WHERE (orgt."Name"::text <> ALL (ARRAY['Temporary'::character varying::text,
     'Personal'::character varying::text, 'Administration'::character varying::text, 'Supplier'::character varying::text])) AND orgc."ContactID" IS NOT NULL AND (ua."IsDeleted" IS NULL OR ua."IsDeleted" = false);
 
-
+GRANT SELECT, INSERT, UPDATE, DELETE ON public."vOrganisationWithStatusAndAdmin" TO bef;
 
  -- object recreation
 DROP FUNCTION public."fn_CreateOrganisationFromDefault"(organisationtypeid integer, defaultorganisationid uuid, organisationversionnumber integer, organisationname varchar, tradingname varchar, organisationdescription varchar, createdby varchar, organisationrecommendationsourceid integer);
@@ -4240,3 +4240,14 @@ VALUES (
   false,
   null
 );
+
+
+select
+
+(SELECT count(*) FROM "fn_PromoteNotificationConstructTemplate"(nct."NotificationConstructTemplateID",1))
+
+from "NotificationConstructTemplate" nct
+
+where not exists (select * from "NotificationConstruct" nc where nc."NotificationConstructTemplateID" = nct."NotificationConstructTemplateID"
+	and nc."NotificationConstructTemplateVersionNumber" = nct."NotificationConstructTemplateVersionNumber")
+;

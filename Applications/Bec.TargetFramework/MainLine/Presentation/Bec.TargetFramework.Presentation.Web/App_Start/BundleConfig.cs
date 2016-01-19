@@ -46,7 +46,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/plugin/fastclick/fastclick.min.js",
                 "~/Scripts/plugin/moment/moment.min.js",
                 "~/Scripts/app.js",
-                "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/handlebars-v4.0.5.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Libs/lodash.js",
                 "~/Scripts/Libs/jquery.bootstrap.wizard.js",
@@ -62,7 +62,7 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/bootstrap/bootstrap.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
                 "~/Scripts/site.js",
-                "~/Scripts/Libs/handlebars-v3.0.3.js",
+                "~/Scripts/Libs/handlebars-v4.0.5.js",
                 "~/Scripts/Libs/handlebars-helper-x.js",
                 "~/Scripts/Bec/bec.jquery.validate.rules.js"
                 ));

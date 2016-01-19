@@ -279,6 +279,7 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\Libs\handlebars-v4.0.5.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
@@ -976,7 +977,6 @@
     <Content Include="Scripts\kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\Libs\accounting.js" />
     <Content Include="Scripts\Libs\handlebars-helper-x.js" />
-    <Content Include="Scripts\Libs\handlebars-v3.0.3.js" />
     <Content Include="Scripts\Libs\jquery.bootstrap.wizard.js" />
     <Content Include="Scripts\Libs\lodash.js" />
     <Content Include="Scripts\admin.js" />

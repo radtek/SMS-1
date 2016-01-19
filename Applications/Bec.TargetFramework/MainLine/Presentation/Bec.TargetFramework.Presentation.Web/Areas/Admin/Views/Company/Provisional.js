@@ -260,7 +260,6 @@ function unverifiedChange(dataItem) {
     populateCompany(dataItem);
     promises.unverified[dataItem.OrganisationTypeDescription].done(function (template) {
         var html = template(dataItem);
-        console.log(dataItem);
         $('#unverifiedPanel').html(html);
         $("#rejectButton").data('href', $("#rejectButton").data("url") + "?orgId=" + dataItem.OrganisationID);
         $("#verifyButton").data('href', $("#verifyButton").data("url") + "?orgId=" + dataItem.OrganisationID + "&uaoId=" + dataItem.UserAccountOrganisationID);
