@@ -178,7 +178,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
             var userAccount = await UserLogicClient.GetUserAccountByUsernameAsync(model.CreatePermanentLoginModel.RegistrationEmail);
             if (!CanContinueRegistration(userAccount))
             {
-                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This e-mail cannot be registered at the moment.");
+                ModelState.AddModelError("CreatePermanentLoginModel.RegistrationEmail", "This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.");
                 return View("Index", model);
             }
 
@@ -242,7 +242,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
 
             if (!canRegister)
             {
-                return Json("This e-mail cannot be registered at the moment.", JsonRequestBehavior.AllowGet);
+                return Json("This email cannot be registered at the moment. Please contact your Conveyancer/Organisation administrator.", JsonRequestBehavior.AllowGet);
             }
             else
             {

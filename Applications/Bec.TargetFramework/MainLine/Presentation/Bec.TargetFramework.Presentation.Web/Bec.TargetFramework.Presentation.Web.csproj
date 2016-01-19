@@ -233,6 +233,8 @@
     <Compile Include="Models\ButtonDefinition.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
     <Compile Include="Areas\Account\Models\CreatePermanentLoginModel.cs" />
+    <Compile Include="Models\Faq.cs" />
+    <Compile Include="Models\FaqGroup.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ToastrNotification\ToastMessage.cs" />
@@ -1944,7 +1946,6 @@
     <Content Include="Scripts\plugin\markdown\bootstrap-markdown.min.js" />
     <Content Include="Scripts\plugin\markdown\markdown.min.js" />
     <Content Include="Scripts\plugin\markdown\to-markdown.min.js" />
-    <Content Include="Scripts\plugin\masked-input\jquery.maskedinput.min.js" />
     <Content Include="Scripts\plugin\maxlength\bootstrap-maxlength.min.js" />
     <Content Include="Scripts\plugin\moment\moment.min.js" />
     <Content Include="Scripts\plugin\morris\morris-chart-settings.min.js" />
@@ -2158,6 +2159,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_srcFundsBankAccountTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_conversationsTmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
+    <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
     <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
   </ItemGroup>
