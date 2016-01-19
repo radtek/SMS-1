@@ -166,6 +166,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Reply(Guid conversationId, Guid attachmentsID, string message)
         {
             if (!await CanReply(conversationId)) return NotAuthorised();            
@@ -178,6 +179,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> CreateConversation(CreateConversationDTO addConversationDto)
         {
             if (!await CanAccessConversationInActivity(addConversationDto.ActivityId, addConversationDto.ActivityType)) return NotAuthorised();
