@@ -38,7 +38,6 @@ namespace Bec.TargetFramework.Presentation.Web
                 "~/Scripts/notification/SmartNotification.min.js",
                 "~/Scripts/smartwidgets/jarvis.widget.min.js",
                 "~/Scripts/plugin/jquery-validate/jquery.validate.min.js",
-                "~/Scripts/plugin/masked-input/jquery.maskedinput.min.js",
                 "~/Scripts/plugin/select2/select2.min.js",
                 "~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js",
                 "~/Scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js",

@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Bec.TargetFramework.Business.Client.Interfaces;
+using Bec.TargetFramework.Infrastructure;
+using Bec.TargetFramework.Infrastructure.Settings;
+using Bec.TargetFramework.Business.Client.Interfaces;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public ITFSettingsLogicClient SettingsClient { get; set; }
+
         public ActionResult Index()
         {
             return View();
@@ -25,6 +28,14 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
 
         public ActionResult BuyersAtRisk()
         {
+            return View();
+        }
+
+        public async Task<ActionResult> ConveyancingFirmFaq()
+        {
+            var commonSettings = (await SettingsClient.GetSettingsAsync()).AsSettings<CommonSettings>();
+            ViewBag.SupportTelephoneNumber = commonSettings.SupportTelephoneNumber;
+
             return View();
         }
 

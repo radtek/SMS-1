@@ -41,6 +41,12 @@
 .margin-bottom-5 {
   margin-bottom: 5px !important;
 }
+.margin-bottom-10 {
+  margin-bottom: 10px !important;
+}
+.margin-bottom-15 {
+  margin-bottom: 15px !important;
+}
 .margin-left-5 {
   margin-left: 5px !important;
 }
@@ -736,5 +742,8 @@ fieldset[disabled] .form-control.hasDatepicker {
 #register-form .form-group,
 #login-form .form-group {
   margin-bottom: 3px;
+}
+.faq-container .faq-question p {
+  margin-bottom: 0;
 }
 /*# sourceMappingURL=style.css.map */
