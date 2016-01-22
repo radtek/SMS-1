@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bec.TargetFramework.Presentation.Web.Filters
@@ -24,10 +25,11 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
                 filterContext.HttpContext.Response.AddHeader(HeaderName, "max-age=31536000; includeSubDomains; preload");
 
             // cache
-            response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1
-            response.Cache.AppendCacheExtension("no-cache, no-store, must-revalidate");
+            response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1 cache-control: no-cache and expires: -1
+            response.Cache.AppendCacheExtension("max-age=0"); 
             response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
-            response.AppendHeader("Expires", "-1"); // Proxies.
+            response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches); // cache-control: must-revalidate
+            response.Cache.SetNoStore(); // cache-control: no-store
 
             base.OnActionExecuting(filterContext);
         }
