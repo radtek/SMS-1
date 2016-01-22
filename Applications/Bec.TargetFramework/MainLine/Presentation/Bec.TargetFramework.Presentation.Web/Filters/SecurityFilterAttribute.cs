@@ -26,6 +26,7 @@ namespace Bec.TargetFramework.Presentation.Web.Filters
 
             // cache
             response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1 cache-control: no-cache and expires: -1
+            response.Cache.AppendCacheExtension("max-age=0"); 
             response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches); // cache-control: must-revalidate
             response.Cache.SetNoStore(); // cache-control: no-store
