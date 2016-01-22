@@ -37,10 +37,8 @@ function validateSubmit(form) {
         hideCurrentModal();
         applyFilter();
     }).fail(function (e) {
-        handleModal({ url: $("#amend-form").data("fail") + "?title=Error&message=" + e + "&button=Back" }, {
-            messageButton: function () {
-                $("#submitAmend").prop('disabled', false);
-            }
-        }, true);
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 }

@@ -74,6 +74,10 @@ function initAddTradingNames() {
         url: addNextTradingNameRow.data("templateurl") + '?view=' + getRazorViewPath('_tradingNameTmpl', 'Company', 'Admin')
     }).done(function (res) {
         tradingNameTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     addNextTradingNameBtn.click(function (event) {

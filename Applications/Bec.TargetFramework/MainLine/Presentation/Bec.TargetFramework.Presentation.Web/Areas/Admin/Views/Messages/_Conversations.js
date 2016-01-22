@@ -183,9 +183,10 @@
                 });
             });
             ret.resolve(items);
-        })
-        .error(function (data) {
-            console.log(data);
+        }).fail(function (e) {
+            if(!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
         return ret;
     }
@@ -336,6 +337,10 @@
                 }).success(function (data) {
                     var page = getPageFromRow(data, messagesPageSize);
                     pager.page(page);
+                }).fail(function (e) {
+                    if (!hasRedirect(e.responseJSON)) {
+                        showtoastrError();
+                    }
                 });
             }
         } else {
@@ -383,7 +388,7 @@
                     replyForm.find('textarea').val('');
                 }).fail(function (e) {
                     if (!hasRedirect(e.responseJSON)) {
-                        console.log(e);
+                        showtoastrError();
                     }
                 });
             }
@@ -434,6 +439,10 @@
                 activityId: currentActivity.activityId,
                 activityType: currentActivity.activityType
             }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 
@@ -446,6 +455,10 @@
             }
         }).then(function (res) {
             def.resolve(Handlebars.compile(res));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
         return def;
     }
@@ -510,6 +523,10 @@
             url: urls.participantsUrl,
             data: {
                 conversationId: currentConversation.id
+            }
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
             }
         });
     }
@@ -705,6 +722,10 @@
                 id: attachmentsID
             },
             method: 'POST'
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 

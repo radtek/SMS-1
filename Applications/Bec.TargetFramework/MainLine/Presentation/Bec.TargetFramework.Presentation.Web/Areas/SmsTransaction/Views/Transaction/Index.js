@@ -72,6 +72,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_transactionDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         transactionDetailsTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     primaryBuyerTemplatePromise = $.Deferred();
@@ -79,6 +83,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_primaryBuyerDetailsTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         primaryBuyerTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     relatedPartiesTemplatePromise = $.Deferred();
@@ -86,6 +94,10 @@ $(function () {
         { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_relatedPartiesTmpl', 'Transaction', 'SmsTransaction') }
     ).done(function (res) {
         relatedPartiesTemplatePromise.resolve(Handlebars.compile(res));
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
     });
 
     if ($('#content').data("welcome") == "True") {
@@ -171,8 +183,7 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
         data: {
             transactionID: dataItem.SmsTransactionID
         }
-    })
-    .success(function (data) {
+    }).success(function (data) {
         var items = data.Items;
         items = _.map(items, function (item) {
             var contact = item.Contact;
@@ -197,11 +208,11 @@ function showTransactionRelatedParties(dataItem, url, targetElementId, accordion
             var html = template(templateData);
             $('#' + targetElementId).html(html);
         });        
-    })
-    .error(function (data) {
-        console.log(data);
-    })
-    .always(function () {
+    }).fail(function (e) {
+        if (!hasRedirect(e.responseJSON)) {
+            showtoastrError();
+        }
+    }).always(function () {
         $('#' + spinnerId).hide();
     });
 }

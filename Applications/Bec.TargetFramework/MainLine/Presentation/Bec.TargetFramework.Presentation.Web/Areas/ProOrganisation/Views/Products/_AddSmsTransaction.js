@@ -128,13 +128,8 @@
             }
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
-                console.log(e);
                 updateBalance();
-                handleModal({ url: $('#d1').data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#addTransactionControls button").prop('disabled', false);
-                    }
-                }, true);
+                showtoastrError();
             }
         });
     }
@@ -143,6 +138,10 @@
         ajaxWrapper({ url: $('#d1').data("getbal") + '?startOfDay=false&date=' + new Date().toJSON().slice(0, 10) })
             .done(function (res) {
                 $('#balance').text(new Date().toLocaleTimeString() + ": " + formatCurrency(parseFloat(res)));
+            }).fail(function (e) {
+                if (!hasRedirect(e.responseJSON)) {
+                    showtoastrError();
+                }
             });
     }
 

@@ -70,10 +70,18 @@ function updateBalances() {
     ajaxWrapper({ url: $('#content').data("url") + '?startOfDay=true&date=' + selectedDateRange.from })
         .done(function (res) {
             $('#openingBal').text(formatCurrency(parseFloat(res)));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     ajaxWrapper({ url: $('#content').data("url") + '?startOfDay=false&date=' + selectedDateRange.to })
         .done(function (res) {
             $('#closingBal').text(formatCurrency(parseFloat(res)));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
 }
 

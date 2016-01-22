@@ -3,24 +3,9 @@
 
     findModalLinks();
     showAudit(0);
-    setupNotifyButton();
     setupDates();
     setupTabs();
 
-    function setupNotifyButton() {
-        $('.notify-button').each(function () {
-            $(this).on('click', function () {
-                var url = $(this).data('href');
-                $('#post-no-match').show();
-                $('#notify-button').hide();
-
-                ajaxWrapper({
-                    url: url + "&accountNumber=" + $('#accountNumberNoMatch').text() + "&sortCode=" + $('#sortCodeNoMatch').text(),
-                    method: "POST"
-                });
-            });
-        });
-    }
 
     function setupDates() {
         $('.format-date').each(function () {
@@ -92,7 +77,6 @@ function showAudit() {
         }
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
-            console.log(e);
             $('#result-server-error').show();
         }
     });;

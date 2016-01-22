@@ -137,7 +137,6 @@
                 
             }).fail(function (e) {
                 if (!hasRedirect(e.responseJSON)) {
-                    console.log(e);
                     serverErrorDiv.show();
                     hideCurrentModal();
                 }
@@ -221,7 +220,6 @@
         });
 
         $('#post-no-match').hide();
-        $('#notify-button').show();
     }
 
     function initLenderSearch() {
@@ -294,6 +292,10 @@
             url: addNextBankAccountRow.data("templateurl") + '?view=' + getRazorViewPath('_srcFundsBankAccountTmpl', 'SafeBuyer', 'Buyer')
         }).done(function (res) {
             srcFundBankAccountTemplatePromise.resolve(Handlebars.compile(res));
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
         
         addNextBankAccountBtn.click(function (event) {

@@ -647,3 +647,12 @@ var defTmpl = function (path, states, types) {
             .done(function (res) { d.resolve(Handlebars.compile(res)); });
     }
 }
+
+function showtoastrError(){
+    toastr.error("Sorry, something went wrong. This issue has been logged and will be investigated by our team.<br />In the meantime, please go back and try again.", "Error",
+        {
+            timeOut: 0,
+            extendedTimeOut: 0,
+            closeButton: true
+        });
+}

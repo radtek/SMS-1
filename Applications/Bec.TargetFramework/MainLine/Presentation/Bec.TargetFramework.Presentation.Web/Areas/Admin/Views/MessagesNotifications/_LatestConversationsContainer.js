@@ -29,6 +29,10 @@
             // error
             console.log(data);
             latestConversationsError.show();
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 
@@ -41,6 +45,10 @@
         }, function (data) {
             // error
             console.log(data);
+        }).fail(function (e) {
+            if (!hasRedirect(e.responseJSON)) {
+                showtoastrError();
+            }
         });
     }
 

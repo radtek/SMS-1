@@ -53,7 +53,6 @@ function validateSubmit(form) {
             handleModal({ url: $('#transactionContainer').data('failurl') + "&accountNumber=" + res.accountNumber + "&sortCode=" + res.sortCode }, null, true);
     }).fail(function (e) {
         if (!hasRedirect(e.responseJSON)) {
-            console.log(e);
             serverErrorDiv.show();
             hideCurrentModal();
         }

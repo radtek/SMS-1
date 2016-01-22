@@ -70,12 +70,7 @@
             }
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
-                console.log(e);
-                handleModal({ url: $("#addAdditionalBuyer-form").data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
-                    messageButton: function () {
-                        $("#submitAddAdditionalBuyer").prop('disabled', false);
-                    }
-                }, true);
+                showtoastrError();
             }
         });
     }
