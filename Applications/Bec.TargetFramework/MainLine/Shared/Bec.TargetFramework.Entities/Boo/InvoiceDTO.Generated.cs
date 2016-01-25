@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public InvoiceDTO() {
         }
 
-        public InvoiceDTO(global::System.Guid invoiceID, string vatNumber, global::System.Nullable<System.DateTime> startDate, global::System.DateTime endDate, decimal total, global::System.Nullable<System.DateTime> lastReminder, global::System.Nullable<decimal> balance, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.DateTime> dueDate, string countryCode, int numberOfPaymentAttempts, global::System.Nullable<decimal> carriedBalance, global::System.Nullable<int> invoiceTypeID, global::System.Nullable<int> invoiceNumber, string invoiceName, global::System.DateTime createdOn, string currencyCode, global::System.DateTime currencyRateDate, decimal invoiceSubTotalInclTaxAndDeduct, decimal invoiceSubTotalExclTaxAndDeduct, decimal invoiceSubTotalDiscountsInclTaxAndDeduct, decimal invoiceSubTotalDiscountsExclTaxAndDeduct, decimal currencyRate, global::System.Nullable<decimal> currencyRateToGBP, global::System.Nullable<decimal> currencyRateToUSD, global::System.Nullable<System.Guid> organisationID, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<int> organisationAccountingPeriodID, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<decimal> deductionTotal, string invoiceReference, bool isActive, bool isDeleted, bool isClosed, bool isFrozenPendingPayment, decimal paymentMethodAdditionalFeesInclTax, decimal paymentMethodAdditionalFeesExclTax, global::System.Nullable<decimal> taxTotal, global::System.Nullable<decimal> discountTotal, global::System.Nullable<System.Guid> globalPaymentMethodID, global::System.Nullable<System.Guid> userAccountOrganisationID, List<InvoiceLineItemDTO> invoiceLineItems, List<TransactionOrderDTO> transactionOrders, CountryCodeDTO countryCode1, List<InvoiceProcessLogDTO> invoiceProcessLogs, ShoppingCartDTO shoppingCart, OrganisationAccountingPeriodDTO organisationAccountingPeriod, UserAccountOrganisationDTO userAccountOrganisation, OrganisationDTO organisation) {
+        public InvoiceDTO(global::System.Guid invoiceID, string vatNumber, global::System.Nullable<System.DateTime> startDate, global::System.DateTime endDate, decimal total, global::System.Nullable<System.DateTime> lastReminder, global::System.Nullable<decimal> balance, global::System.Nullable<System.Guid> parentID, global::System.Nullable<System.DateTime> dueDate, string countryCode, int numberOfPaymentAttempts, global::System.Nullable<decimal> carriedBalance, global::System.Nullable<int> invoiceTypeID, global::System.Nullable<int> invoiceNumber, string invoiceName, global::System.DateTime createdOn, string currencyCode, global::System.DateTime currencyRateDate, decimal invoiceSubTotalInclTaxAndDeduct, decimal invoiceSubTotalExclTaxAndDeduct, decimal invoiceSubTotalDiscountsInclTaxAndDeduct, decimal invoiceSubTotalDiscountsExclTaxAndDeduct, decimal currencyRate, global::System.Nullable<decimal> currencyRateToGBP, global::System.Nullable<decimal> currencyRateToUSD, global::System.Nullable<System.Guid> organisationID, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<int> organisationAccountingPeriodID, global::System.Nullable<decimal> taxTotalPercentage, global::System.Nullable<decimal> taxTotalValue, global::System.Nullable<decimal> deductionTotalPercentage, global::System.Nullable<decimal> deductionTotalValue, global::System.Nullable<decimal> discountTotalPercentage, global::System.Nullable<decimal> discountTotalValue, global::System.Nullable<decimal> deductionTotal, string invoiceReference, bool isActive, bool isDeleted, bool isClosed, bool isFrozenPendingPayment, decimal paymentMethodAdditionalFeesInclTax, decimal paymentMethodAdditionalFeesExclTax, global::System.Nullable<decimal> taxTotal, global::System.Nullable<decimal> discountTotal, global::System.Nullable<System.Guid> globalPaymentMethodID, global::System.Nullable<System.Guid> userAccountOrganisationID, List<InvoiceLineItemDTO> invoiceLineItems, List<TransactionOrderDTO> transactionOrders, CountryCodeDTO countryCode1, List<InvoiceProcessLogDTO> invoiceProcessLogs, ShoppingCartDTO shoppingCart, OrganisationAccountingPeriodDTO organisationAccountingPeriod, UserAccountOrganisationDTO userAccountOrganisation, OrganisationDTO organisation, List<SmsTransactionDTO> smsTransactions) {
 
           this.InvoiceID = invoiceID;
           this.VatNumber = vatNumber;
@@ -78,6 +78,7 @@ namespace Bec.TargetFramework.Entities
           this.OrganisationAccountingPeriod = organisationAccountingPeriod;
           this.UserAccountOrganisation = userAccountOrganisation;
           this.Organisation = organisation;
+          this.SmsTransactions = smsTransactions;
         }
 
         #endregion
@@ -249,6 +250,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public OrganisationDTO Organisation { get; set; }
+
+        [DataMember]
+        public List<SmsTransactionDTO> SmsTransactions { get; set; }
 
         #endregion
     }

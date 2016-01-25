@@ -584,23 +584,26 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> PurchaseProduct(SmsTransactionDTO dto, Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)
+        public async Task<Guid> AddSmsTransaction(AddSmsTransactionDTO dto, Guid orgID, Guid uaoID)
         {
-            decimal productPrice;
-            long rowVersion;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            if (dto.BuyerUaoID == null)
             {
-                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
-                var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
-                productPrice = prod.ProductDetails.First().Price;
-                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
-                rowVersion = crAccount.RowVersion.Value;
+                dto.BuyerUaoID = await AddSmsClient(orgID, uaoID, dto.Salutation, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate.Value);
             }
+            var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID);
+            var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+            {
+                UaoID = dto.BuyerUaoID.Value,
+                TransactionID = transactionId,
+                AssigningByOrganisationID = orgID,
+                UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+            };
+            await AssignSmsClientToTransaction(assignSmsClientToTransactionDto);
+            return transactionId;
+        }
 
-            //creating cart has to be outside of a transaction.
-            var orderID = await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
-
+        private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID)
+        {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var txID = Guid.NewGuid();
@@ -643,11 +646,27 @@ namespace Bec.TargetFramework.Business.Logic
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
 
-                await AddCreditAsync(orgID, orderID, uaoID, -productPrice, rowVersion);
-
                 await scope.SaveChangesAsync();
                 return tx.SmsTransactionID;
             }
+        }
+
+        public async Task PurchaseProduct(Guid orgID, Guid uaoID, Guid productID, int productVersion)
+        {
+            decimal productPrice;
+            long rowVersion;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
+                var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
+                var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
+                productPrice = prod.ProductDetails.First().Price;
+                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
+                rowVersion = crAccount.RowVersion.Value;
+            }
+
+            //creating cart has to be outside of a transaction.
+            await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
         }
 
         public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID, string accountNumber, string sortCode)

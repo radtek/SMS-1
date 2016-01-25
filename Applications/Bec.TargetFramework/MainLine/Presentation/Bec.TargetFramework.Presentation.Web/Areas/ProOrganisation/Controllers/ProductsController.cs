@@ -85,47 +85,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
             var orgID = HttpContext.GetWebUserObject().OrganisationID;
             var uaoID = HttpContext.GetWebUserObject().UaoID;
 
-            var prod = await prodClient.GetBankAccountCheckProductAsync();
-            var crAccount = await orgClient.GetCreditAccountAsync(orgID);
-            if (crAccount.Balance < prod.CurrentDetail.Price) return Json(new
-            {
-                result = false,
-                title = "Purchase Failed",
-                message = "Insufficient credit. Please top up and retry.",
-                buyerUaoID = addSmsTransactionDto.BuyerUaoID
-            }, JsonRequestBehavior.AllowGet);
+            var transactionID = await orgClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
 
-            try
-            {
-                if (addSmsTransactionDto.BuyerUaoID == null)
-                {
-                    addSmsTransactionDto.BuyerUaoID = await orgClient.AddSmsClientAsync(orgID, uaoID, addSmsTransactionDto.Salutation, addSmsTransactionDto.FirstName, addSmsTransactionDto.LastName, addSmsTransactionDto.Email, addSmsTransactionDto.PhoneNumber, addSmsTransactionDto.BirthDate.Value);
-                }
-                var transactionID = await orgClient.PurchaseProductAsync(orgID, uaoID, addSmsTransactionDto.BuyerUaoID.Value, prod.ProductID, prod.ProductVersionID, addSmsTransactionDto.SmsTransactionDTO);
-
-                var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
-                {
-                    UaoID = addSmsTransactionDto.BuyerUaoID.Value,
-                    TransactionID = transactionID,
-                    AssigningByOrganisationID = orgID,
-                    UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
-                };
-
-                await orgClient.AssignSmsClientToTransactionAsync(assignSmsClientToTransactionDto);
-
-                TempData["SmsTransactionID"] = transactionID;
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    result = false,
-                    title = "Purchase Failed",
-                    message = ex.Message,
-                    buyerUaoID = addSmsTransactionDto.BuyerUaoID
-                }, JsonRequestBehavior.AllowGet);
-            }
+            TempData["SmsTransactionID"] = transactionID;
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

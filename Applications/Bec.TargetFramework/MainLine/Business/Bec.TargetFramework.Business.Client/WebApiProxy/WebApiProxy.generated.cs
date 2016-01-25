@@ -887,19 +887,27 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
-		/// <param name="buyerUaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
+		Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
-		/// <param name="buyerUaoID"></param>
+		/// <returns></returns>
+		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
 		/// <param name="productID"></param>
 		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto);
+		Task PurchaseProductAsync(Guid orgID,Guid uaoID,Guid productID,Int32 productVersion);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <returns></returns>
+		void PurchaseProduct(Guid orgID,Guid uaoID,Guid productID,Int32 productVersion);
 
 		/// <param name="uaoID"></param>
 		/// <param name="accountNumber"></param>
@@ -3825,14 +3833,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
-		/// <param name="buyerUaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> PurchaseProductAsync(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto)
+		public virtual Task<Guid> AddSmsTransactionAsync(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, dto, _user);
+			return PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user);
 		}
 
 		/// <summary>
@@ -3840,13 +3845,37 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// </summary>
 		/// <param name="orgID"></param>
 		/// <param name="uaoID"></param>
-		/// <param name="buyerUaoID"></param>
-		/// <param name="productID"></param>
-		/// <param name="productVersion"></param>
-		public virtual Guid PurchaseProduct(Guid orgID,Guid uaoID,Guid buyerUaoID,Guid productID,Int32 productVersion,SmsTransactionDTO dto)
+		public virtual Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsTransactionDTO, Guid>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&buyerUaoID=" + buyerUaoID + "&productID=" + productID + "&productVersion=" + productVersion, dto, _user)).Result;
+			return Task.Run(() => PostAsync<AddSmsTransactionDTO, Guid>("api/OrganisationLogic/AddSmsTransaction?orgID=" + orgID + "&uaoID=" + uaoID, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		/// <returns></returns>
+		public virtual Task PurchaseProductAsync(Guid orgID,Guid uaoID,Guid productID,Int32 productVersion)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="productID"></param>
+		/// <param name="productVersion"></param>
+		public virtual void PurchaseProduct(Guid orgID,Guid uaoID,Guid productID,Int32 productVersion)
+		{
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/PurchaseProduct?orgID=" + orgID + "&uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion, null, _user)).Wait();
 		}
 
 		/// <summary>
