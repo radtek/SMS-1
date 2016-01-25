@@ -8,6 +8,7 @@
         conversationsError = $('#conversationsError'),
         messagesContainer = $('#messagesContainer'),
         messagesList = $('#messagesList'),
+        disabledContainer = $('#disabledContainer'),
         getMessagesSpinner = function () { return $('#messagesSpinner'); },
         getNewConversationError = function () { return $('#newConversationError'); },
         createConversationButton = $('#createConversationButton'),
@@ -21,7 +22,8 @@
     };
     var currentActivity = {
         activityType: viewMessagesContainer.data('activity-type'),
-        activityId: viewMessagesContainer.data('activity-id')
+        activityId: viewMessagesContainer.data('activity-id'),
+        enabled: viewMessagesContainer.data('enabled')
     };
     var urls = {
         templateUrl: viewMessagesContainer.data("templateurl"),
@@ -114,11 +116,21 @@
     }
 
     function loadConversations() {
-        conversationsSpinner.show();
-        conversationsError.hide();
-        dataSource.read();
-        if (canCreateNewConversation()) {
-            getRecipientsPromise = getRecipients();
+        if (!currentActivity.enabled) {
+            $('#conversationsContainer').hide();
+            $('#messagesContainer').hide();
+            $('#disabledContainer').show();
+        }
+        else {
+            $('#conversationsContainer').show();
+            $('#messagesContainer').show();
+            $('#disabledContainer').hide();
+            conversationsSpinner.show();
+            conversationsError.hide();
+            dataSource.read();
+            if (canCreateNewConversation()) {
+                getRecipientsPromise = getRecipients();
+            }
         }
     }
 
@@ -411,10 +423,11 @@
     function setupDataReload() {
         if (isActivitySpecificView()) {
             // capturing the event from any parent views and refresh the view
-            viewMessagesContainer.parent().on('activitychange', function (event, activityId) {
+            viewMessagesContainer.parent().on('activitychange', function (event, activityId, enabled) {
                 resetCurrentConversation();
                 cleanConversationsAndMessages();
                 currentActivity.activityId = activityId;
+                currentActivity.enabled = enabled;
 
                 if (canLoadConversations()) {
                     loadConversations();

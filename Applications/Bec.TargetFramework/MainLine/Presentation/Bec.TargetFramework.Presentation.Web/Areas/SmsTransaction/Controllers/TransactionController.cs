@@ -74,6 +74,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
                 x.SmsTransaction.Price,
+                x.SmsTransaction.InvoiceID,
                 x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
