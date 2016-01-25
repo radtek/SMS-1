@@ -62,6 +62,14 @@
 </dl>
 {{/if}}
 <h5>Product</h5>
+{{#unless SmsTransaction.IsProductPushed}}
+<div class="pull-right">
+    <a class="btn btn-sm btn-primary" data-modallink="true" title="Push Safe Buyer Product"
+       data-href="@Url.Action("ViewPushProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
+        <i class="fa fa-bullhorn margin-right-5"></i>Push Safe Buyer Product
+    </a>
+</div>
+{{/unless}}
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>
     <dd>

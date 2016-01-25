@@ -116,10 +116,9 @@
             data: formData
         }).done(function (res) {
             if (res.result == true)
-                window.location = $('#d1').data("redirectto");
+                window.location = $('#d1').data("redirectto") + '?selectedTransactionID=' + res.transactionId;
             else {
                 $('#buyerUaoID').val(res.buyerUaoID);
-                updateBalance();
                 handleModal({ url: $('#d1').data("message") + "?title=" + res.title + "&message=" + res.message + "&button=Back" }, {
                     messageButton: function () {
                         $("#addTransactionControls button").prop('disabled', false);
@@ -129,7 +128,6 @@
         }).fail(function (e) {
             if (!hasRedirect(e.responseJSON)) {
                 console.log(e);
-                updateBalance();
                 handleModal({ url: $('#d1').data("message") + "?title=Error&message=" + e.statusText + "&button=Back" }, {
                     messageButton: function () {
                         $("#addTransactionControls button").prop('disabled', false);
@@ -139,22 +137,6 @@
         });
     }
 
-    function updateBalance() {
-        ajaxWrapper({ url: $('#d1').data("getbal") + '?startOfDay=false&date=' + new Date().toJSON().slice(0, 10) })
-            .done(function (res) {
-                $('#balance').text(new Date().toLocaleTimeString() + ": " + formatCurrency(parseFloat(res)));
-            });
-    }
-
-    function topUp() {
-        handleModal({ url: $('#d1').data("topup") }, {
-            submitPay: function () {
-                updateBalance();
-            }
-        }, true);
-    }
-
-    updateBalance();
     makeDatePicker("#birthDateInput", {
         maxDate: new Date()
     });

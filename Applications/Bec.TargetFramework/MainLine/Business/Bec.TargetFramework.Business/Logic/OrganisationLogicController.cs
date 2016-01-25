@@ -602,6 +602,23 @@ namespace Bec.TargetFramework.Business.Logic
             return transactionId;
         }
 
+        public async Task PushProduct(Guid transactionId, Guid organisationId, Guid primaryBuyerUaoId)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                    .Where(s => 
+                        s.SmsTransactionID == transactionId && 
+                        s.SmsTransaction.OrganisationID == organisationId && 
+                        s.UserAccountOrganisationID == primaryBuyerUaoId)
+                    .Select(s => s.SmsTransaction)
+                    .SingleOrDefault();
+                Ensure.That(transaction).IsNotNull();
+                transaction.IsProductPushed = true;
+                await scope.SaveChangesAsync();
+            }
+        }
+
         private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -641,6 +658,7 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     LenderName = dto.LenderName,
                     MortgageApplicationNumber = dto.MortgageApplicationNumber,
+                    IsProductPushed = dto.IsProductPushed,
                     CreatedOn = DateTime.Now,
                     CreatedBy = UserNameService.UserName
                 };
@@ -649,24 +667,6 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
                 return tx.SmsTransactionID;
             }
-        }
-
-        public async Task PurchaseProduct(Guid orgID, Guid uaoID, Guid productID, int productVersion)
-        {
-            decimal productPrice;
-            long rowVersion;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
-            {
-                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
-                var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
-                productPrice = prod.ProductDetails.First().Price;
-                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
-                rowVersion = crAccount.RowVersion.Value;
-            }
-
-            //creating cart has to be outside of a transaction.
-            await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
         }
 
         public async Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(SmsUserAccountOrganisationTransactionDTO dto, Guid uaoID, string accountNumber, string sortCode)
