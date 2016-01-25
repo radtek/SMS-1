@@ -16,12 +16,6 @@
                         <a href="@Url.Action("Index", "Transaction", new { Area = "SmsTransaction" })"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">View Transactions</span></a>
                     </li>
                 }
-                @if (ClaimsHelper.UserHasClaim("View", "Products"))
-                {
-                    <li class="@Html.RouteIf("active", "Products", "Index")">
-                        <a href="@Url.Action("Index", "Products", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order Products</span></a>
-                    </li>
-                }
                 @if (ClaimsHelper.UserHasClaim("View", "MyTransactions") || ClaimsHelper.UserHasClaim("View", "Products"))
                 {
                     <li class="@Html.RouteIf("active", "Downloads", "Index")">
@@ -48,22 +42,9 @@
                             <li class="@Html.RouteIf("active", "Finance", "OutstandingBankAccounts")">
                                 <a href="@Url.Action("OutstandingBankAccounts", "Finance", new { area = "Admin" })">View Bank Accounts</a>
                             </li>
-                            @*
-                                <li class="@Html.RouteIf("active", "Finance", "CreditHistory")">
-                                    <a href="@Url.Action("CreditHistory", "Finance", new { area = "Admin" })">View Credit History</a>
-                                </li>
-                            *@
                         </ul>
                     </li>
                 }
-                @*
-                    @if (ClaimsHelper.UserHasClaim("View", "Credit"))
-                    {
-                        <li class="@Html.RouteIf("active", "Credit", "Index")">
-                            <a href="@Url.Action("Index", "Credit", new { Area = "ProOrganisation" })"><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">View Credit Account</span></a>
-                        </li>
-                    }
-                *@
                 @if (ClaimsHelper.UserHasClaim("Add", "Company"))
                 {
                     <li class="@Html.RouteIf("open", "Company")">
@@ -114,6 +95,5 @@
         <span class="minifyme" data-action="minifyMenu">
             <i class="fa fa-arrow-circle-left hit"></i>
         </span>
-
     </aside>
 }

@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form data-url="@Url.Action("EditSmsTransaction", "Transaction", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Selected", "Transaction", new { area = "SmsTransaction", selectedTransactionID = ViewBag.txID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editSmsTransaction-form" class="smart-form">
+                        <form data-url="@Url.Action("EditSmsTransaction", "Transaction", new { area = "SmsTransaction" })" data-redirectto="@Url.Action("Index", "Transaction", new { area = "SmsTransaction", selectedTransactionID = ViewBag.txID, pageNumber = ViewBag.pageNumber })" data-message="@Url.Action("ViewMessage", "Message", new { Area = "" })" id="editSmsTransaction-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             @Html.Hidden("txID", (object)ViewBag.txID)
