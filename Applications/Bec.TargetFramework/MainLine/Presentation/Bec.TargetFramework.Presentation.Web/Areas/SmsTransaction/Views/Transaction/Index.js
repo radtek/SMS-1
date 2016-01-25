@@ -132,6 +132,8 @@ function txChange(dataItem) {
         .data('activity-id', dataItem.SmsTransactionID)
         .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.SmsTransaction.InvoiceID != null]);
     areConversationsLoaded = false;
+
+    $('#quoteButton').data('href', $('#quoteButton').data("url") + "?txID=" + dataItem.SmsTransactionID);
 }
 
 function showTransactionDetails(dataItem) {

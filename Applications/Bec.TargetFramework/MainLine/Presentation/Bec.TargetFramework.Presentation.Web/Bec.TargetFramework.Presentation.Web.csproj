@@ -265,6 +265,7 @@
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
       <DependentUpon>sms-font.less</DependentUpon>
@@ -878,6 +879,7 @@
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\verified_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Broker\active_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Lender\active_Tmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
