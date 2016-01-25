@@ -36,7 +36,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> Index(Guid? selectedTransactionID, int? pageNumber)
         {
-            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+                var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             await PrepareIndexTempData(selectedTransactionID, orgID, pageNumber);
 
             var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     TempData["rowNumber"] = await OrganisationClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
                     TempData["resetSort"] = true;
                 }
-                TempData["SmsTransactionID"] = selectedTransactionID;
+            TempData["SmsTransactionID"] = selectedTransactionID;
             }
             else
             {
@@ -92,6 +92,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.MortgageApplicationNumber,
                 x.SmsTransaction.Price,
                 x.SmsTransaction.IsProductPushed,
+                x.SmsTransaction.InvoiceID,
                 x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,

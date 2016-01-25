@@ -130,7 +130,7 @@ function txChange(dataItem) {
 
     $('#transactionConversationContainer')
         .data('activity-id', dataItem.SmsTransactionID)
-        .trigger('activitychange', dataItem.SmsTransactionID);
+        .trigger('activitychange', [dataItem.SmsTransactionID, dataItem.SmsTransaction.InvoiceID != null]);
     areConversationsLoaded = false;
 }
 
