@@ -64,7 +64,7 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
             return View();
         }
 
-        public ActionResult NewAMLSolution()
+        public ActionResult HowTheSMSHelpsConveyancingFirms()
         {
             return View();
         }
