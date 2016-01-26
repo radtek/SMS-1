@@ -1,4 +1,10 @@
-﻿{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
+﻿{{#unless SmsTransaction.InvoiceID}}
+<span class="pull-right">
+    <a id="quoteButton" class="btn btn-sm btn-primary" data-modallink="true" title="Send Quote" data-url="@Url.Action("ViewSendQuote", "Transaction", new { area = "SmsTransaction" })"><i class="sms-fw sms-safe-send margin-right-5"></i>Send Quote</a>
+</span>
+{{/unless}}
+
+{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
 <h5>Transaction Address</h5>
 {{/xif}}
 

@@ -28,6 +28,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         public IProductLogicClient ProductClient { get; set; }
         public IUserLogicClient UserClient { get; set; }
         public IBankAccountLogicClient BankAccountClient { get; set; }
+        public INotificationLogicClient nClient { get; set; }
 
         public ActionResult Welcome()
         {
@@ -360,6 +361,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             {
                 throw new AccessViolationException("Operation failed");
             }
+        }
+
+        public ActionResult ViewSendQuote(Guid txID)
+        {
+            ViewBag.txID = txID;
+            return PartialView("_ViewSendQuote");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendQuote(Guid txID, string message, Guid AttachmentsID)
+        {
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var uaoID = HttpContext.GetWebUserObject().UaoID;
+
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsTransaction.InvoiceID, x.UserAccountOrganisationID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsTransactionID == txID && x.SmsTransaction.OrganisationID == orgID && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+            var utxs = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var utx = utxs.FirstOrDefault();
+            if (utx == null) throw new AccessViolationException("Operation failed");
+
+            await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, true, new Guid[] { utx.UserAccountOrganisationID });
+
+            return RedirectToAction("Index", new { selectedTransactionID = txID });
         }
     }
 }
