@@ -381,11 +381,11 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsTransaction.InvoiceID, x.UserAccountOrganisationID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsTransactionID == txID && x.SmsTransaction.OrganisationID == orgID && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
-            var utxs = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var utxs = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var utx = utxs.FirstOrDefault();
             if (utx == null) throw new AccessViolationException("Operation failed");
 
-            await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, new Guid[] { utx.UserAccountOrganisationID });
+            await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, true, new Guid[] { utx.UserAccountOrganisationID });
 
             return RedirectToAction("Index", new { selectedTransactionID = txID });
         }

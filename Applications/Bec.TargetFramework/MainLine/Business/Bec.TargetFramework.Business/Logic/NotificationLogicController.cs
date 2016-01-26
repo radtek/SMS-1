@@ -471,7 +471,7 @@ namespace Bec.TargetFramework.Business.Logic
             await EventPublishClient.PublishEventAsync(eventPayloadDto);
         }
 
-        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, Guid attachmentsID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, Guid[] participantsUaoIDs)
+        public async Task<Guid> CreateConversation(Guid orgID, Guid uaoID, Guid attachmentsID, ActivityType? activityTypeID, Guid? activityID, string subject, string message, bool isSystemMessage, Guid[] participantsUaoIDs)
         {
             var date = DateTime.Now;
             var conversationId = Guid.NewGuid();
@@ -479,7 +479,7 @@ namespace Bec.TargetFramework.Business.Logic
             {
                 await CheckCanCreateMessage(orgID, activityTypeID, activityID, participantsUaoIDs);
 
-                var conv = new Conversation { ConversationID = conversationId, Subject = subject, Latest = date };
+                var conv = new Conversation { ConversationID = conversationId, Subject = subject, Latest = date, IsSystemMessage = isSystemMessage };
                 if (activityID.HasValue && activityTypeID.HasValue)
                 {
                     conv.ActivityID = activityID;
@@ -631,8 +631,7 @@ namespace Bec.TargetFramework.Business.Logic
                                 .Where(x => 
                                     x.UserAccountOrganisation.IsActive &&
                                     x.UserAccountOrganisation.UserAccount.IsActive &&
-                                    x.UserAccountOrganisation.UserAccount.IsLoginAllowed && 
-                                    !x.UserAccountOrganisation.UserAccount.IsTemporaryAccount)
+                                    x.UserAccountOrganisation.UserAccount.IsLoginAllowed)
                                 .Select(x => x.UserAccountOrganisationID).ToList();
                             var validOrganisationUaoIds = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations
                                 .Where(x => 
