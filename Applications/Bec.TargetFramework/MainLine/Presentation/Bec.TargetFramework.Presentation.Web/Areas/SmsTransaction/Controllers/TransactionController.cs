@@ -281,8 +281,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             return RedirectToAction("Index", new { selectedTransactionID = txID, pageNumber = pageNumber });
         }
 
-        //await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
-
         [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
         public ActionResult ViewPushProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
         {

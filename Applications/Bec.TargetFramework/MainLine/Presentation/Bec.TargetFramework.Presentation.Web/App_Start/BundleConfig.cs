@@ -97,7 +97,6 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Provisional").Include("~/Areas/Admin/Views/Company/Provisional.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Company/Qualified").Include("~/Areas/Admin/Views/Company/Qualified.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/_AmendCredit").Include("~/Areas/Admin/Views/Finance/_AmendCredit.js"));
-            bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/CreditHistory").Include("~/Areas/Admin/Views/Finance/CreditHistory.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Finance/OutstandingBankAccounts").Include("~/Areas/Admin/Views/Finance/OutstandingBankAccounts.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/Index").Include("~/Areas/Admin/Views/Messages/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Messages/_Conversations").Include("~/Areas/Admin/Views/Messages/_Conversations.js"));
@@ -142,6 +141,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_CheckBankAccount").Include("~/Areas/Buyer/Views/SafeBuyer/_CheckBankAccount.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_NoMatch").Include("~/Areas/Buyer/Views/SafeBuyer/_NoMatch.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_PurchaseProduct").Include("~/Areas/Buyer/Views/SafeBuyer/_PurchaseProduct.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));

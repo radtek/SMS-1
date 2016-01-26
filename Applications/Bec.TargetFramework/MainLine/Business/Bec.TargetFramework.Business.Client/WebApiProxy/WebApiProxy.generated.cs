@@ -895,6 +895,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Guid AddSmsTransaction(Guid orgID,Guid uaoID,AddSmsTransactionDTO dto);
 
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+
 		/// <param name="transactionId"></param>
 		/// <param name="organisationId"></param>
 		/// <param name="primaryBuyerUaoId"></param>
@@ -907,17 +919,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		void PushProduct(Guid transactionId,Guid organisationId,Guid primaryBuyerUaoId);
 
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
+		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
 
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
+		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -1024,7 +1032,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="reference"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		Task<Guid> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
+		Task<ProductPurchaseResult> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
 
 		/// <param name="uaoID"></param>
 		/// <param name="productID"></param>
@@ -1034,13 +1042,7 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="reference"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		Guid PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
-
-		/// <returns></returns>
-		Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto);
-
-		/// <returns></returns>
-		void AmendCredit(CreditAdjustmentDTO creditAdjustmentDto);
+		ProductPurchaseResult PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount);
 	}
 
 	public partial interface IProductLogicClient : IClientBase	{	
@@ -3852,6 +3854,35 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		/// <returns></returns>
+		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="uaoID"></param>
+		/// <param name="accountNumber"></param>
+		/// <param name="sortCode"></param>
+		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		{
+			accountNumber = accountNumber.UrlEncode();
+			sortCode = sortCode.UrlEncode();
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="transactionId"></param>
 		/// <param name="organisationId"></param>
 		/// <param name="primaryBuyerUaoId"></param>
@@ -3877,30 +3908,22 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
+		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		public virtual Task<SmsUserAccountOrganisationTransactionDTO> UpdateSmsUserAccountOrganisationTransactionAsync(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
 		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user);
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="uaoID"></param>
-		/// <param name="accountNumber"></param>
-		/// <param name="sortCode"></param>
-		public virtual SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto)
+		/// <param name="primaryBuyerUaoID"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
 		{
-			accountNumber = accountNumber.UrlEncode();
-			sortCode = sortCode.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<SmsUserAccountOrganisationTransactionDTO, SmsUserAccountOrganisationTransactionDTO>("api/OrganisationLogic/UpdateSmsUserAccountOrganisationTransactionAsync?uaoID=" + uaoID + "&accountNumber=" + accountNumber + "&sortCode=" + sortCode, dto, _user)).Result;
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user)).Result;
 		}
 
 		/// <summary>
@@ -4164,11 +4187,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="reference"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>
-		public virtual Task<Guid> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
+		public virtual Task<ProductPurchaseResult> PurchaseProductAsync(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
 		{
 			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object, Guid>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user);
+			return PostAsync<object, ProductPurchaseResult>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user);
 		}
 
 		/// <summary>
@@ -4181,30 +4204,11 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="methodType"></param>
 		/// <param name="reference"></param>
 		/// <param name="amount"></param>
-		public virtual Guid PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
+		public virtual ProductPurchaseResult PurchaseProduct(Guid uaoID,Guid productID,Int32 productVersion,PaymentCardTypeIDEnum cardType,PaymentMethodTypeIDEnum methodType,String reference,Nullable<Decimal> amount)
 		{
 			reference = reference.UrlEncode();
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<object, Guid>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user)).Result;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public virtual Task AmendCreditAsync(CreditAdjustmentDTO creditAdjustmentDto)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<CreditAdjustmentDTO>("api/PaymentLogic/AmendCredit", creditAdjustmentDto, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void AmendCredit(CreditAdjustmentDTO creditAdjustmentDto)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<CreditAdjustmentDTO>("api/PaymentLogic/AmendCredit", creditAdjustmentDto, _user)).Wait();
+			return Task.Run(() => PostAsync<object, ProductPurchaseResult>("api/PaymentLogic/PurchaseProduct?uaoID=" + uaoID + "&productID=" + productID + "&productVersion=" + productVersion + "&cardType=" + cardType + "&methodType=" + methodType + "&reference=" + reference + "&amount=" + amount, null, _user)).Result;
 		}
 
 		#endregion

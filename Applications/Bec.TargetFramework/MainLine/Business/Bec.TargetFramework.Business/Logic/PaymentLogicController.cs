@@ -324,49 +324,19 @@ namespace Bec.TargetFramework.Business.Logic
             return responseDto;
         }
 
-        public async Task<Guid> PurchaseProduct(Guid uaoID, Guid productID, int productVersion, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, string reference, decimal? amount)
+        public async Task<ProductPurchaseResult> PurchaseProduct(Guid uaoID, Guid productID, int productVersion, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, string reference, decimal? amount)
         {
             var cart = await ShoppingCartLogic.CreateShoppingCartAsync(uaoID, cardType, methodType, "UK");
             await ShoppingCartLogic.AddProductToShoppingCartAsync(cart.ShoppingCartID, productID, productVersion, 1, amount);
             var invoice = await InvoiceLogic.CreateAndSaveInvoiceFromShoppingCartAsync(cart.ShoppingCartID, reference);
             var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
-            return transactionOrder.TransactionOrderID;
-        }
-
-        public async Task AmendCredit(CreditAdjustmentDTO creditAdjustmentDto)
-        {
-            var prod = ProductLogic.GetTopUpProduct();
-            var transactionOrderID = await PurchaseProduct(creditAdjustmentDto.UserAccountOrganisationId, prod.ProductID, prod.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Amend", creditAdjustmentDto.Amount);
-            await OrganisationLogic.AddCreditAsync(creditAdjustmentDto.OrganisationId, transactionOrderID, creditAdjustmentDto.UserAccountOrganisationId, creditAdjustmentDto.Amount);
-            var organisationLedgerAccount = OrganisationLogic.GetCreditAccount(creditAdjustmentDto.OrganisationId);
-            await PublishCreditAdjustmentNotification(creditAdjustmentDto, organisationLedgerAccount, transactionOrderID);
-        }
-
-        private async Task PublishCreditAdjustmentNotification(CreditAdjustmentDTO creditAdjustmentDto, OrganisationLedgerAccountDTO organisationLedgerAccountDto, Guid transactionOrderID)
-        {
-            var organisation = OrganisationLogic.GetOrganisationDTO(creditAdjustmentDto.OrganisationId);
-            var notificationDto = new CreditAdjustmentNotificationDTO
+            return new ProductPurchaseResult
             {
-                OrganisationId = creditAdjustmentDto.OrganisationId,
-                Reason = creditAdjustmentDto.Reason,
-                DetailsUrl = string.Format(creditAdjustmentDto.DetailsUrlFormat, transactionOrderID),
-                ModifiedBy = organisation.Name,
-                ModifiedOn = DateTime.Now.ToString("g"),
-                NewBalance = organisationLedgerAccountDto.Balance.ToString("N")
+                ShoppingCartTransactionOrderId = transactionOrder.TransactionOrderID,
+                InvoiceId = invoice.InvoiceID
             };
-
-            string payLoad = JsonHelper.SerializeData(new object[] {notificationDto});
-            var dto = new EventPayloadDTO
-            {
-                EventName = NotificationConstructEnum.CreditAdjustment.GetStringValue(),
-                EventSource = AppDomain.CurrentDomain.FriendlyName,
-                EventReference = "0003",
-                PayloadAsJson = payLoad
-            };
-
-            await EventPublishClient.PublishEventAsync(dto);
         }
-
+       
         private string DetermineErrorCodeFromApprovalCode(string approvalCode)
         {
             Ensure.That(approvalCode).IsNotNullOrEmpty();

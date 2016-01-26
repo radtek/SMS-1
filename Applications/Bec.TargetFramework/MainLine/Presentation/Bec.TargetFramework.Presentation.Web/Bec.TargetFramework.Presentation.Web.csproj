@@ -255,15 +255,14 @@
     <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
-    <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
-    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_PushProduct.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
@@ -878,6 +877,7 @@
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Broker\active_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Lender\active_Tmpl.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\_PushProduct.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1017,8 +1017,6 @@
     </Content>
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
-    <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
-    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />

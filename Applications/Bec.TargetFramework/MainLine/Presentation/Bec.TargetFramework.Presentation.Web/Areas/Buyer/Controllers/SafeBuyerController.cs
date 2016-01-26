@@ -183,6 +183,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_Match");
         }
 
+        public ActionResult ViewPurchaseProduct(Guid txID)
+        {
+            ViewBag.txID = txID;
+            return PartialView("_PurchaseProduct");
+        }
+
+        public async Task<ActionResult> PurchaseProduct(Guid txID, PaymentCardTypeIDEnum cardType, PaymentMethodTypeIDEnum methodType, OrderRequestDTO orderRequest)
+        {
+            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
+
+            var purchaseProductResult = await OrganisationClient.PurchaseSafeBuyerProductAsync(currentUserUaoId, orderRequest);
+            if (purchaseProductResult.IsPaymentSuccessful)
+            {
+                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false,
+                    title = "Payment Unsuccessful",
+                    message = purchaseProductResult.ErrorMessage
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         private async Task<IEnumerable<SmsUserAccountOrganisationTransactionDTO>> GetUaots(Guid? txId)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
@@ -227,6 +254,24 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var orderByDesc = order + " desc";
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter) + orderByDesc);
             return data;
+        }
+
+        internal static async Task EnsureCanPurchaseProduct(Guid transactionId, Guid uaoId, IQueryLogicClient queryClient)
+        {
+            var primaryBuyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == uaoId && // uao has transaction
+                x.SmsUserAccountOrganisationTransactionTypeID == primaryBuyerTypeId && // uao is primary buyer
+                x.SmsTransactionID == transactionId && 
+                x.SmsTransaction.InvoiceID == null); // it was not purchased yet
+
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null)
+            {
+                throw new AccessViolationException("Operation failed");
+            }
         }
     }
 }

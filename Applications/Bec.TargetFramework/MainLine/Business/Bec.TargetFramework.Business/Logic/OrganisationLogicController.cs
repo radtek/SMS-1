@@ -602,23 +602,6 @@ namespace Bec.TargetFramework.Business.Logic
             return transactionId;
         }
 
-        public async Task PushProduct(Guid transactionId, Guid organisationId, Guid primaryBuyerUaoId)
-        {
-            using (var scope = DbContextScopeFactory.Create())
-            {
-                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
-                    .Where(s => 
-                        s.SmsTransactionID == transactionId && 
-                        s.SmsTransaction.OrganisationID == organisationId && 
-                        s.UserAccountOrganisationID == primaryBuyerUaoId)
-                    .Select(s => s.SmsTransaction)
-                    .SingleOrDefault();
-                Ensure.That(transaction).IsNotNull();
-                transaction.IsProductPushed = true;
-                await scope.SaveChangesAsync();
-            }
-        }
-
         private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID)
         {
             using (var scope = DbContextScopeFactory.Create())
@@ -712,6 +695,32 @@ namespace Bec.TargetFramework.Business.Logic
 
                 return dto;
             }
+        }
+
+        public async Task PushProduct(Guid transactionId, Guid organisationId, Guid primaryBuyerUaoId)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                    .Where(s =>
+                        s.SmsTransactionID == transactionId &&
+                        s.SmsTransaction.OrganisationID == organisationId &&
+                        s.UserAccountOrganisationID == primaryBuyerUaoId)
+                    .Select(s => s.SmsTransaction)
+                    .SingleOrDefault();
+                Ensure.That(transaction).IsNotNull();
+                transaction.IsProductPushed = true;
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid primaryBuyerUaoID)
+        {
+            var product = ProductLogic.GetBankAccountCheckProduct();
+            var productPurchaseResult = await PaymentLogic.PurchaseProduct(primaryBuyerUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
+            orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderId;
+            orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
+            return await PaymentLogic.ProcessPaymentTransaction(orderRequest);
         }
 
         private async Task<Address> checkAddress(Address address, AddressDTO addressDTO, Guid parentID)
