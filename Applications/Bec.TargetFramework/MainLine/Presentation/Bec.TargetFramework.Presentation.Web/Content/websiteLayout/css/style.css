@@ -746,4 +746,9 @@ fieldset[disabled] .form-control.hasDatepicker {
 .faq-container .faq-question p {
   margin-bottom: 0;
 }
+.howto-vid {
+  height: 347px;
+  box-shadow: #f3f3f3 1px 1px 4px 4px;
+  margin-bottom: 20px;
+}
 /*# sourceMappingURL=style.css.map */
