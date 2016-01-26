@@ -271,13 +271,21 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\websiteLayout\video\General\Forgotten Password.jpg" />
     <Content Include="Content\websiteLayout\video\General\Forgotten Password.mp4" />
+    <Content Include="Content\websiteLayout\video\General\How to Check you are on the Secure Safe Move Scheme Website.jpg" />
     <Content Include="Content\websiteLayout\video\General\How to Check you are on the Secure Safe Move Scheme Website.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Inviting Users to the Safe Move Scheme.jpg" />
     <Content Include="Content\websiteLayout\video\Professional\Professional User – Inviting Users to the Safe Move Scheme.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional User – Next Steps After registration.jpg" />
     <Content Include="Content\websiteLayout\video\Professional\Professional User – Next Steps After registration.mp4" />
+    <Content Include="Content\websiteLayout\video\Professional\Professional Users – How to Order the Safe Buyer Product.jpg" />
     <Content Include="Content\websiteLayout\video\Professional\Professional Users – How to Order the Safe Buyer Product.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Create Your Account.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Log In to the Safe Move Scheme.mp4" />
+    <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.jpg" />
     <Content Include="Content\websiteLayout\video\Public\Public Users – How to Use the Safe Buyer Product.mp4" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
