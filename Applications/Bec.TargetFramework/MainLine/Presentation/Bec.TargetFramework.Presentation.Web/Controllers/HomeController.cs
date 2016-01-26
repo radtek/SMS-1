@@ -93,5 +93,10 @@ namespace Bec.TargetFramework.Presentation.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Tutorials()
+        {
+            return View();
+        }
     }
 }
