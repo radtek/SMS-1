@@ -271,6 +271,9 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\websiteLayout\images\flow1.jpg" />
+    <Content Include="Content\websiteLayout\images\flow2.jpg" />
+    <Content Include="Content\websiteLayout\images\flow3.jpg" />
     <Content Include="Content\websiteLayout\video\General\Forgotten Password.jpg" />
     <Content Include="Content\websiteLayout\video\General\Forgotten Password.mp4" />
     <Content Include="Content\websiteLayout\video\General\How to Check you are on the Secure Safe Move Scheme Website.jpg" />
@@ -2147,7 +2150,6 @@
     <Content Include="Views\Home\HowItWorks.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LendersCompliance.cshtml" />
-    <Content Include="Views\Home\NewAMLSolution.cshtml" />
     <Content Include="Views\Home\SafeBuyerSpecification.cshtml" />
     <Content Include="Views\Home\SafeMoveSchemeBenefits.cshtml" />
     <Content Include="Views\Home\ThreatsExplained.cshtml" />
@@ -2157,6 +2159,7 @@
     <Content Include="Areas\Admin\Views\Messages\_messagesTmpl.cshtml" />
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
     <Content Include="Views\Home\Tutorials.cshtml" />
+    <Content Include="Views\Home\HowTheSMSHelpsConveyancingFirms.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

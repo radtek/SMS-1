@@ -76,11 +76,11 @@
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "NewAMLSolution", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration", "Tutorials")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle @Html.Conditional("selected", "action", "FreeTrial", "HowTheSMSHelpsConveyancingFirms", "ConveyancersCompliance", "LendersCompliance", "ConveyancingFirmRegistration", "Tutorials")" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">For Professionals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="@Html.Conditional("selected", "action", "ConveyancingFirmFaq")">@Html.ActionLink("Frequently Asked Questions", "ConveyancingFirmFaq", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "FreeTrial")">@Html.ActionLink("** Free Safe Buyer Trial **", "FreeTrial", new { Area = "", Controller = "Home" })</li>
-                            <li class="@Html.Conditional("selected", "action", "NewAMLSolution")">@Html.ActionLink("New AML Solution", "NewAMLSolution", new { Area = "", Controller = "Home" })</li>
+                            <li class="@Html.Conditional("selected", "action", "HowTheSMSHelpsConveyancingFirms")">@Html.ActionLink("How The SMS Helps Conveyancing Firms", "HowTheSMSHelpsConveyancingFirms", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancersCompliance")">@Html.ActionLink("Conveyancer's Compliance", "ConveyancersCompliance", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "LendersCompliance")">@Html.ActionLink("Lender's Compliance", "LendersCompliance", new { Area = "", Controller = "Home" })</li>
                             <li class="@Html.Conditional("selected", "action", "ConveyancingFirmRegistration")">@Html.ActionLink("Conveyancing Firm Registration", "ConveyancingFirmRegistration", new { Area = "", Controller = "Home" })</li>
