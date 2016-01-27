@@ -909,25 +909,27 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		SmsUserAccountOrganisationTransactionDTO UpdateSmsUserAccountOrganisationTransaction(Guid uaoID,String accountNumber,String sortCode,SmsUserAccountOrganisationTransactionDTO dto);
 
-		/// <param name="transactionId"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="primaryBuyerUaoId"></param>
-		/// <returns></returns>
-		Task PushProductAsync(Guid transactionId,Guid organisationId,Guid primaryBuyerUaoId);
-
-		/// <param name="transactionId"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="primaryBuyerUaoId"></param>
-		/// <returns></returns>
-		void PushProduct(Guid transactionId,Guid organisationId,Guid primaryBuyerUaoId);
-
+		/// <param name="txID"></param>
+		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
+		Task PushProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
+		/// <param name="txID"></param>
+		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
+		void PushProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+
+		/// <param name="smsTransactionID"></param>
+		/// <param name="primaryBuyerUaoID"></param>
+		/// <returns></returns>
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
+
+		/// <param name="smsTransactionID"></param>
+		/// <param name="primaryBuyerUaoID"></param>
+		/// <returns></returns>
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -3887,47 +3889,49 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="transactionId"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="primaryBuyerUaoId"></param>
-		/// <returns></returns>
-		public virtual Task PushProductAsync(Guid transactionId,Guid organisationId,Guid primaryBuyerUaoId)
-		{
-			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/PushProduct?transactionId=" + transactionId + "&organisationId=" + organisationId + "&primaryBuyerUaoId=" + primaryBuyerUaoId, null, _user);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="transactionId"></param>
-		/// <param name="organisationId"></param>
-		/// <param name="primaryBuyerUaoId"></param>
-		public virtual void PushProduct(Guid transactionId,Guid organisationId,Guid primaryBuyerUaoId)
-		{
-			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/PushProduct?transactionId=" + transactionId + "&organisationId=" + organisationId + "&primaryBuyerUaoId=" + primaryBuyerUaoId, null, _user)).Wait();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
+		/// <param name="txID"></param>
+		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		public virtual Task PushProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user);
+			return PostAsync<object>("api/OrganisationLogic/PushProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="txID"></param>
+		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		public virtual void PushProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user)).Result;
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/PushProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="smsTransactionID"></param>
+		/// <param name="primaryBuyerUaoID"></param>
+		/// <returns></returns>
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		{
+			string _user = getHttpContextUser();
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="smsTransactionID"></param>
+		/// <param name="primaryBuyerUaoID"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		{
+			string _user = getHttpContextUser();
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user)).Result;
 		}
 
 		/// <summary>

@@ -697,30 +697,58 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task PushProduct(Guid transactionId, Guid organisationId, Guid primaryBuyerUaoId)
+        public async Task PushProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
                     .Where(s =>
-                        s.SmsTransactionID == transactionId &&
-                        s.SmsTransaction.OrganisationID == organisationId &&
-                        s.UserAccountOrganisationID == primaryBuyerUaoId)
+                        s.SmsTransactionID == txID &&
+                        s.SmsTransaction.OrganisationID == orgID &&
+                        s.UserAccountOrganisationID == primaryBuyerUaoID)
                     .Select(s => s.SmsTransaction)
                     .SingleOrDefault();
                 Ensure.That(transaction).IsNotNull();
                 transaction.IsProductPushed = true;
+                transaction.ModifiedOn = DateTime.Now;
+                transaction.ModifiedBy = UserNameService.UserName;
                 await scope.SaveChangesAsync();
             }
         }
 
-        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid primaryBuyerUaoID)
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, Guid primaryBuyerUaoID)
         {
+            // todo: get the cost from db
+            const decimal safeBuyerCost = 10.00m;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var smsTransaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == smsTransactionID);
+                Ensure.That(smsTransaction).IsNotNull();
+            }
             var product = ProductLogic.GetBankAccountCheckProduct();
-            var productPurchaseResult = await PaymentLogic.PurchaseProduct(primaryBuyerUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
-            orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderId;
+            Ensure.That(product).IsNotNull();
+            var productPurchaseResult = await PaymentLogic.PurchaseProduct(primaryBuyerUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", safeBuyerCost);
+            orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderID;
             orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
-            return await PaymentLogic.ProcessPaymentTransaction(orderRequest);
+            var transactionOrder = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
+            if (transactionOrder.IsPaymentSuccessful)
+            {
+                await UpdateTransactionInvoiceID(smsTransactionID, productPurchaseResult.InvoiceID);
+            }
+            return transactionOrder;
+        }
+
+        private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var smsTransaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
+                Ensure.That(smsTransaction).IsNotNull();
+                smsTransaction.InvoiceID = invoiceID;
+                smsTransaction.ModifiedOn = DateTime.Now;
+                smsTransaction.ModifiedBy = UserNameService.UserName;
+                await scope.SaveChangesAsync();
+            }
         }
 
         private async Task<Address> checkAddress(Address address, AddressDTO addressDTO, Guid parentID)

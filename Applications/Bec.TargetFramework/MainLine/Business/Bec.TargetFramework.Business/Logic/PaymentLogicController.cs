@@ -332,8 +332,8 @@ namespace Bec.TargetFramework.Business.Logic
             var transactionOrder = await TransactionOrderLogic.CreateAndSaveTransactionOrderFromShoppingCartDTO(invoice.InvoiceID, TransactionTypeIDEnum.Payment);
             return new ProductPurchaseResult
             {
-                ShoppingCartTransactionOrderId = transactionOrder.TransactionOrderID,
-                InvoiceId = invoice.InvoiceID
+                ShoppingCartTransactionOrderID = transactionOrder.TransactionOrderID,
+                InvoiceID = invoice.InvoiceID
             };
         }
        

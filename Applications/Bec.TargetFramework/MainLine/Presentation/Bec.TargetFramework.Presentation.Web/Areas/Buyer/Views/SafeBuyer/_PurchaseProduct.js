@@ -72,7 +72,7 @@
                 data: formData
             }).done(function (res) {
                 if (res.result == true) {
-                    if ($("#purchaseProductForm").data("redirect")) {
+                    if ($("#purchaseProductForm").data("redirectto")) {
                         window.location = $("#purchaseProductForm").data("redirectto");
                     } else {
                         hideCurrentModal();

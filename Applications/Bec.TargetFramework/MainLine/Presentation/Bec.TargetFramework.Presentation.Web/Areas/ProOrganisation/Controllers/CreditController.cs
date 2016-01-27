@@ -76,7 +76,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
                 var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
                 var prod = await prodClient.GetTopUpProductAsync();
                 var productPurchaseResult = await paymentClient.PurchaseProductAsync(uaoID, prod.ProductID, prod.ProductVersionID, cardType, methodType, "Credit Top Up", amount);
-                txID = productPurchaseResult.ShoppingCartTransactionOrderId;
+                txID = productPurchaseResult.ShoppingCartTransactionOrderID;
             }
 
             details.TransactionOrderID = txID.Value;
