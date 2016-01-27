@@ -121,14 +121,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PushProduct(Guid txID, Guid orgID)
-        {
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            await OrganisationClient.PushProductAsync(txID, orgID, uaoID);
-            return RedirectToAction("Index", new { selectedTransactionId = txID });
-        }
-
-        [HttpPost]
         public async Task<ActionResult> NotifyOrganisationNoMatch(Guid smsUserAccountOrganisationTransactionID, string accountNumber, string sortCode)
         {
             var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;

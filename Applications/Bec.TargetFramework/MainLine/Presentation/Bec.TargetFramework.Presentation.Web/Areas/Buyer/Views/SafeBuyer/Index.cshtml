@@ -84,12 +84,12 @@
                                                         </thead>
                                                         <tbody>
                                                             @foreach (var item in Model.SmsSrcFundsBankAccounts)
-                                                        {
+                                                            {
                                                                 <tr>
                                                                     <td>@item.AccountNumber</td>
                                                                     <td>@item.SortCode</td>
                                                                 </tr>
-                                                        }
+                                                            }
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -98,36 +98,17 @@
                                     </div>
                                 </div>
 
-                                @if (!Model.SmsTransaction.IsProductPushed && Model.SmsTransaction.InvoiceID == null)
+                                @if (Model.SmsTransaction.InvoiceID == null)
                                 {
+                                    var purchaseMessage = Model.SmsTransaction.IsProductPushed 
+                                        ? "The Safe Buyer product was ordered by your conveyancer. You can purchase it now."
+                                        : "In order to use the Safe Buyer product, you have to purchase it.";
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
                                                 <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
                                                 <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
-                                                <p>If you would like to protect yourself from a potential loss of money, please click Continue.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <form action="@Url.Action("PushProduct", "SafeBuyer" , new { txID = Model.SmsTransactionID, orgID = Model.SmsTransaction.OrganisationID })" method="post">
-                                                <button type="submit" id="continueBtn" class="btn btn-primary margin-right-10 margin-bottom-10 pull-right">
-                                                    Continue
-                                                    <i class="fa fa-chevron-right margin-left-5"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                }
-                                else if (Model.SmsTransaction.InvoiceID == null)
-                                {
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="alert alert-info fade in margin-left-10 margin-right-10 margin-top-10">
-                                                <i class="fa fa-info margin-right-5"></i><strong>Information </strong>
-                                                <p>When you are directed by your conveyancer to transfer funds, you must use this facility to enter your conveyancer's bank account information to check that the account is genuine before transferring any funds. During this process you will be required to provide / confirm details of the purchase. Until then, no further action is required.</p>
-                                                <p>In order to use the Safe Buyer product, you have to purchase it.</p>
+                                                <p>@purchaseMessage</p>
                                             </div>
                                         </div>
                                     </div>
