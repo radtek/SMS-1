@@ -77,12 +77,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("OutstandingBankAccounts");
         }
 
-
-        public ActionResult CreditHistory()
-        {
-            return View();
-        }
-
         public async Task<ActionResult> SearchCompany(string search)
         {
             search = search.ToLower();
@@ -124,30 +118,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
 
             JObject res = await queryClient.QueryAsync("VOrganisationLedgerTransactionBalances", ODataHelper.RemoveParameters(Request) + select + ODataHelper.Filter(filter));
             return Content(res.ToString(Formatting.None), "application/json");
-        }
-
-        public ActionResult ViewAmendCredit(Guid orgID)
-        {
-            ViewBag.orgID = orgID;
-            return PartialView("_AmendCredit");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AmendCredit(Guid orgID, decimal amount, string reason)
-        { 
-            var uaoID = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
-            var creditAdjustment = new CreditAdjustmentDTO
-            {
-                OrganisationId = orgID,
-                UserAccountOrganisationId = uaoID,
-                Amount = amount,
-                Reason = reason,
-                DetailsUrlFormat = Url.Action("Index", "Credit", new { area = "ProOrganisation" }, Request.Url.Scheme) + "?transactionOrderId={0}"
-            };
-            await PaymentLogicClient.AmendCreditAsync(creditAdjustment);
-
-            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

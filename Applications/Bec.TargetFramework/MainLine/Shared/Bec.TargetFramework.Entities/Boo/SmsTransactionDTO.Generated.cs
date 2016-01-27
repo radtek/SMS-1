@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductPushed, global::System.Nullable<System.Guid> invoiceID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -39,9 +39,12 @@ namespace Bec.TargetFramework.Entities
           this.CreatedBy = createdBy;
           this.ModifiedOn = modifiedOn;
           this.ModifiedBy = modifiedBy;
+          this.IsProductPushed = isProductPushed;
+          this.InvoiceID = invoiceID;
           this.Address = address;
           this.Organisation = organisation;
           this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
+          this.Invoice = invoice;
         }
 
         #endregion
@@ -93,6 +96,12 @@ namespace Bec.TargetFramework.Entities
         [DataMember]
         public string ModifiedBy { get; set; }
 
+        [DataMember]
+        public bool IsProductPushed { get; set; }
+
+        [DataMember]
+        public global::System.Nullable<System.Guid> InvoiceID { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -105,6 +114,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public List<SmsUserAccountOrganisationTransactionDTO> SmsUserAccountOrganisationTransactions { get; set; }
+
+        [DataMember]
+        public InvoiceDTO Invoice { get; set; }
 
         #endregion
     }

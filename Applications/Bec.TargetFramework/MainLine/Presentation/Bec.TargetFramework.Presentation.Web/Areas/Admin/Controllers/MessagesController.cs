@@ -188,7 +188,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 var orgID = HttpContext.GetWebUserObject().OrganisationID;
                 var uaoID = HttpContext.GetWebUserObject().UaoID;
-                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, addConversationDto.RecipientUaoIds.ToArray());
+                await NotificationClient.CreateConversationAsync(orgID, uaoID, addConversationDto.AttachmentsID, addConversationDto.ActivityType, addConversationDto.ActivityId, addConversationDto.Subject, addConversationDto.Message, false, addConversationDto.RecipientUaoIds.ToArray());
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -273,10 +273,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             {
                 case ActivityType.SmsTransaction:
                     // get transaction for conversation
-                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID });
+                    var selectTx = ODataHelper.Select<SmsTransactionDTO>(x => new { x.OrganisationID, x.InvoiceID });
                     var filterTx = ODataHelper.Filter<SmsTransactionDTO>(x => x.SmsTransactionID == activityId);
                     var resultTx = await QueryClient.QueryAsync<SmsTransactionDTO>("SmsTransactions", selectTx + filterTx);
                     var tx = resultTx.FirstOrDefault();
+                    
+                    if (!tx.InvoiceID.HasValue) return false;
 
                     switch ((OrganisationTypeEnum)org.OrganisationTypeID)
                     {

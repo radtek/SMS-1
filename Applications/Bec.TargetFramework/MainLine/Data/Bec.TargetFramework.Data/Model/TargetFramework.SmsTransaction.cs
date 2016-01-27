@@ -25,6 +25,7 @@ namespace Bec.TargetFramework.Data
         {
           this.IsActive = true;
           this.IsDeleted = false;
+          this.IsProductPushed = false;
         }
 
         #region Properties
@@ -178,6 +179,26 @@ namespace Bec.TargetFramework.Data
             set;
         }
 
+    
+        /// <summary>
+        /// There are no comments for IsProductPushed in the schema.
+        /// </summary>
+        public virtual bool IsProductPushed
+        {
+            get;
+            set;
+        }
+
+    
+        /// <summary>
+        /// There are no comments for InvoiceID in the schema.
+        /// </summary>
+        public virtual global::System.Nullable<System.Guid> InvoiceID
+        {
+            get;
+            set;
+        }
+
 
         #endregion
 
@@ -205,6 +226,15 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for SmsUserAccountOrganisationTransactions in the schema.
         /// </summary>
         public virtual ICollection<SmsUserAccountOrganisationTransaction> SmsUserAccountOrganisationTransactions
+        {
+            get;
+            set;
+        }
+    
+        /// <summary>
+        /// There are no comments for Invoice in the schema.
+        /// </summary>
+        public virtual Invoice Invoice
         {
             get;
             set;

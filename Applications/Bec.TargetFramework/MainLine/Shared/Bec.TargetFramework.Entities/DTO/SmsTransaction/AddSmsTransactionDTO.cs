@@ -13,5 +13,6 @@ namespace Bec.TargetFramework.Entities
         public string Email { get; set; }
         public DateTime? BirthDate { get; set; }
         public string PhoneNumber { get; set; }
+        public bool OrderProduct { get; set; }
     }
 }

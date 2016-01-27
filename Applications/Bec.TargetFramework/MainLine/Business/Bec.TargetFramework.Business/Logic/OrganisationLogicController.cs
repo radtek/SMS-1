@@ -584,23 +584,26 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<Guid> PurchaseProduct(SmsTransactionDTO dto, Guid orgID, Guid uaoID, Guid buyerUaoID, Guid productID, int productVersion)
+        public async Task<Guid> AddSmsTransaction(AddSmsTransactionDTO dto, Guid orgID, Guid uaoID)
         {
-            decimal productPrice;
-            long rowVersion;
-            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            if (dto.BuyerUaoID == null)
             {
-                var creditType = ClassificationLogic.GetClassificationDataForTypeName("OrganisationLedgerType", "Credit Account");
-                var crAccount = scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationLedgerAccounts.Single(x => x.OrganisationID == orgID && x.LedgerAccountTypeID == creditType);
-                var prod = scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductID == productID && x.ProductVersionID == productVersion);
-                productPrice = prod.ProductDetails.First().Price;
-                if (crAccount.Balance < productPrice) throw new Exception("The credit account has been updated by another user. Please go back and try again");
-                rowVersion = crAccount.RowVersion.Value;
+                dto.BuyerUaoID = await AddSmsClient(orgID, uaoID, dto.Salutation, dto.FirstName, dto.LastName, dto.Email, dto.PhoneNumber, dto.BirthDate.Value);
             }
+            var transactionId = await SaveSmsTransaction(dto.SmsTransactionDTO, orgID);
+            var assignSmsClientToTransactionDto = new AssignSmsClientToTransactionDTO
+            {
+                UaoID = dto.BuyerUaoID.Value,
+                TransactionID = transactionId,
+                AssigningByOrganisationID = orgID,
+                UserAccountOrganisationTransactionType = UserAccountOrganisationTransactionType.Buyer
+            };
+            await AssignSmsClientToTransaction(assignSmsClientToTransactionDto);
+            return transactionId;
+        }
 
-            //creating cart has to be outside of a transaction.
-            var orderID = await PaymentLogic.PurchaseProduct(uaoID, productID, productVersion, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", null);
-
+        private async Task<Guid> SaveSmsTransaction(SmsTransactionDTO dto, Guid orgID)
+        {
             using (var scope = DbContextScopeFactory.Create())
             {
                 var txID = Guid.NewGuid();
@@ -638,12 +641,11 @@ namespace Bec.TargetFramework.Business.Logic
                     Price = dto.Price,
                     LenderName = dto.LenderName,
                     MortgageApplicationNumber = dto.MortgageApplicationNumber,
+                    IsProductPushed = dto.IsProductPushed,
                     CreatedOn = DateTime.Now,
                     CreatedBy = UserNameService.UserName
                 };
                 scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.Add(tx);
-
-                await AddCreditAsync(orgID, orderID, uaoID, -productPrice, rowVersion);
 
                 await scope.SaveChangesAsync();
                 return tx.SmsTransactionID;
@@ -692,6 +694,60 @@ namespace Bec.TargetFramework.Business.Logic
                 await scope.SaveChangesAsync();
 
                 return dto;
+            }
+        }
+
+        public async Task PushProduct(Guid txID, Guid orgID, Guid primaryBuyerUaoID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var transaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsUserAccountOrganisationTransactions
+                    .Where(s =>
+                        s.SmsTransactionID == txID &&
+                        s.SmsTransaction.OrganisationID == orgID &&
+                        s.UserAccountOrganisationID == primaryBuyerUaoID)
+                    .Select(s => s.SmsTransaction)
+                    .SingleOrDefault();
+                Ensure.That(transaction).IsNotNull();
+                transaction.IsProductPushed = true;
+                transaction.ModifiedOn = DateTime.Now;
+                transaction.ModifiedBy = UserNameService.UserName;
+                await scope.SaveChangesAsync();
+            }
+        }
+
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, Guid primaryBuyerUaoID)
+        {
+            // todo: get the cost from db
+            const decimal safeBuyerCost = 10.00m;
+            using (var scope = DbContextScopeFactory.CreateReadOnly())
+            {
+                var smsTransaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == smsTransactionID);
+                Ensure.That(smsTransaction).IsNotNull();
+            }
+            var product = ProductLogic.GetBankAccountCheckProduct();
+            Ensure.That(product).IsNotNull();
+            var productPurchaseResult = await PaymentLogic.PurchaseProduct(primaryBuyerUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", safeBuyerCost);
+            orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderID;
+            orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
+            var transactionOrder = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
+            if (transactionOrder.IsPaymentSuccessful)
+            {
+                await UpdateTransactionInvoiceID(smsTransactionID, productPurchaseResult.InvoiceID);
+            }
+            return transactionOrder;
+        }
+
+        private async Task UpdateTransactionInvoiceID(Guid txID, Guid invoiceID)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                var smsTransaction = scope.DbContexts.Get<TargetFrameworkEntities>().SmsTransactions.SingleOrDefault(x => x.SmsTransactionID == txID);
+                Ensure.That(smsTransaction).IsNotNull();
+                smsTransaction.InvoiceID = invoiceID;
+                smsTransaction.ModifiedOn = DateTime.Now;
+                smsTransaction.ModifiedBy = UserNameService.UserName;
+                await scope.SaveChangesAsync();
             }
         }
 

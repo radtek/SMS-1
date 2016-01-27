@@ -197,7 +197,6 @@
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
     <Compile Include="Areas\Buyer\BuyerAreaRegistration.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\CreditController.cs" />
-    <Compile Include="Areas\ProOrganisation\Controllers\ProductsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\DownloadsController.cs" />
     <Compile Include="Areas\ProOrganisation\Controllers\UsersController.cs" />
     <Compile Include="Areas\ProOrganisation\ProOrganisationAreaRegistration.cs" />
@@ -256,15 +255,16 @@
     <Content Include="Areas\Account\Views\Search\Index.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
-    <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
     <Content Include="Areas\Admin\Views\Finance\OutstandingBankAccounts.js" />
-    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.js" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.js" />
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLender.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_PushProduct.js" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
       <DependentUpon>sms-font.less</DependentUpon>
@@ -294,8 +294,7 @@
     <Content Include="Areas\Buyer\Views\SafeBuyer\_NoMatch.js" />
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.js" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.js" />
-    <Content Include="Areas\ProOrganisation\Views\Products\Index.js" />
-    <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.js" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.js" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_AddUser.js" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_EditUser.js" />
     <Content Include="Areas\ProOrganisation\Views\Shared\_Reinstate.js" />
@@ -310,7 +309,7 @@
     <Content Include="Areas\SmsTransaction\Views\Shared\_EditSmsTransaction.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_ViewGeneratePIN.js" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.cshtml" />
-    <Content Include="Areas\ProOrganisation\Views\Products\_AddSmsTransaction.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_AddSmsTransaction.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Shared\_Purchase.js" />
     <Content Include="Areas\SmsTransaction\Views\Transaction\Index.js" />
     <Content Include="Content\ajax\email-compose.html" />
@@ -878,6 +877,9 @@
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Provisional\Lender\verified_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Broker\active_Tmpl.cshtml" />
     <Content Include="Areas\Admin\Views\Company\DetailTemplates\Qualified\Lender\active_Tmpl.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Transaction\_PushProduct.cshtml" />
+    <Content Include="Areas\Buyer\Views\SafeBuyer\_PurchaseProduct.cshtml" />
+    <Content Include="Areas\SmsTransaction\Views\Shared\_ViewSendQuote.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -1017,13 +1019,10 @@
     </Content>
     <Content Include="Areas\ProOrganisation\Views\Credit\Index.cshtml" />
     <Content Include="Areas\ProOrganisation\Views\Credit\_TopUpCredit.cshtml" />
-    <Content Include="Areas\Admin\Views\Finance\CreditHistory.cshtml" />
-    <Content Include="Areas\Admin\Views\Finance\_AmendCredit.cshtml" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Areas\BankAccount\Views\Check\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.cshtml" />
     <Content Include="Scripts\Bec\bec.daterange.js" />
-    <Content Include="Areas\ProOrganisation\Views\Products\Index.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\Index.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\AdditionalBuyer\_AddAdditionalBuyer.cshtml" />
     <Content Include="Areas\SmsTransaction\Views\Giftor\_AddGiftor.cshtml" />

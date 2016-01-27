@@ -15,44 +15,62 @@ using Bec.TargetFramework.Entities.Enums;
 using Bec.TargetFramework.Infrastructure.Extensions;
 using Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers;
 using System.Collections.Generic;
+using Bec.TargetFramework.Presentation.Web.Models;
+using System.Net;
 
 namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 {
     [ClaimsRequired("Add", "SmsTransaction", Order = 1000)]
     public class TransactionController : ApplicationControllerBase
     {
-        public IOrganisationLogicClient orgClient { get; set; }
-        public IQueryLogicClient queryClient { get; set; }
-        public IProductLogicClient prodClient { get; set; }
-        public IUserLogicClient userClient { get; set; }
+        public IOrganisationLogicClient OrganisationClient { get; set; }
+        public IQueryLogicClient QueryClient { get; set; }
+        public IProductLogicClient ProductClient { get; set; }
+        public IUserLogicClient UserClient { get; set; }
+        public IBankAccountLogicClient BankAccountClient { get; set; }
+        public INotificationLogicClient nClient { get; set; }
 
         public ActionResult Welcome()
         {
             return PartialView();
         }
 
-        //jump to given id, reset sort to date
-        public async Task<ActionResult> Index(Guid? selectedTransactionID)
+        public async Task<ActionResult> Index(Guid? selectedTransactionID, int? pageNumber)
         {
-            if (selectedTransactionID.HasValue)
-            {
                 var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
-                var pageNumber = await orgClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
+            await PrepareIndexTempData(selectedTransactionID, orgID, pageNumber);
 
-                TempData["SmsTransactionID"] = selectedTransactionID;
-                TempData["rowNumber"] = pageNumber;
-                TempData["resetSort"] = true;
-            }
+            var select = ODataHelper.Select<VOrganisationWithStatusAndAdminDTO>(x => new { x.Name, x.OrganisationAdminSalutation, x.OrganisationAdminFirstName, x.OrganisationAdminLastName });
+            var filter = ODataHelper.Filter<VOrganisationWithStatusAndAdminDTO>(x => x.OrganisationID == orgID);
+            var orgs = await QueryClient.QueryAsync<VOrganisationWithStatusAndAdminDTO>("VOrganisationWithStatusAndAdmins", select + filter);
+            var org = orgs.First();
+            ViewBag.OrganisationName = org.Name;
+            ViewBag.OrgAdminName = string.Join(" ", org.OrganisationAdminSalutation, org.OrganisationAdminFirstName, org.OrganisationAdminLastName);
+            ViewBag.HasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
 
             return View();
         }
 
-        //jump to given record, hope it's on the stated page
-        public ActionResult Selected(Guid selectedTransactionID, int pageNumber)
+        //jump to given id, reset sort to date
+        private async Task PrepareIndexTempData(Guid? selectedTransactionID, Guid orgID, int? pageNumber)
         {
+            if (selectedTransactionID.HasValue)
+            {
+                if (pageNumber.HasValue)
+                {
+                    TempData["pageNumber"] = pageNumber;
+                }
+                else
+                {
+                    TempData["rowNumber"] = await OrganisationClient.GetSmsTransactionRankAsync(orgID, selectedTransactionID.Value);
+                    TempData["resetSort"] = true;
+                }
             TempData["SmsTransactionID"] = selectedTransactionID;
-            TempData["pageNumber"] = pageNumber;
-            return View("Index");
+            }
+            else
+            {
+                TempData["resetSort"] = true;
+            }
         }
 
         public async Task<ActionResult> GetSmsTransactions(string search)
@@ -74,6 +92,8 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.SmsTransaction.LenderName,
                 x.SmsTransaction.MortgageApplicationNumber,
                 x.SmsTransaction.Price,
+                x.SmsTransaction.IsProductPushed,
+                x.SmsTransaction.InvoiceID,
                 x.Confirmed,
                 x.Contact.Salutation,
                 x.Contact.FirstName,
@@ -109,10 +129,62 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             }
             var filter = ODataHelper.Filter(where);
 
-            JObject res = await queryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
+            JObject res = await QueryClient.QueryAsync("SmsUserAccountOrganisationTransactions", ODataHelper.RemoveParameters(Request) + select + filter);
             return Content(res.ToString(Formatting.None), "application/json");
         }
 
+        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
+        public ActionResult ViewAddSmsTransaction()
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            var hasOrganisationAnySafeBankAccounts = BankAccountClient.HasOrganisationAnySafeBankAccount(orgID);
+            if (!hasOrganisationAnySafeBankAccounts)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            return PartialView("_AddSmsTransaction");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> AddSmsTransaction(AddSmsTransactionDTO addSmsTransactionDto)
+        {
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var uaoID = HttpContext.GetWebUserObject().UaoID;
+            var transactionID = await OrganisationClient.AddSmsTransactionAsync(orgID, uaoID, addSmsTransactionDto);
+            return Json(new { result = true, transactionId = transactionID }, JsonRequestBehavior.AllowGet);
+        }
+
+        [ClaimsRequired("Add", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> CheckDuplicateUserSmsTransaction(SmsTransactionDTO smsTransactionDTO, string email)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            if (await OrganisationClient.CheckDuplicateUserSmsTransactionAsync(orgID, email, smsTransactionDTO))
+            {
+                ViewBag.title = "Warning";
+                ViewBag.message = "A property transaction already exists for this user at this address. Are you sure that you wish to continue?";
+                ViewBag.Buttons = new List<ButtonDefinition>
+                {
+                    new ButtonDefinition
+                    {
+                        Id = "cancel",
+                        Classes = "btn-default",
+                        Text = "Cancel"
+                    },
+                    new ButtonDefinition
+                    {
+                        Id = "save",
+                        Classes = "btn-primary",
+                        Text = "Continue"
+                    }
+                };
+                return PartialView("_Message");
+            }
+            return Json(new { result = "ok" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> ViewEditSmsTransaction(Guid txID, Guid uaoID, int pageNumber)
         {
             ViewBag.txId = txID;
@@ -135,7 +207,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
 
-            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.First();
             ViewBag.IsTemporaryUser = model.UserAccountOrganisation.UserAccount.IsTemporaryAccount;
 
@@ -144,14 +216,15 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
         public async Task<ActionResult> EditSmsTransaction(Guid txID, Guid uaoID)
         {
             try
             {
-                await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-                await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, queryClient);
+                await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
+                await EnsureSmsTransactionIsNotConfirmed(txID, uaoID, QueryClient);
                 var modelEmail = Request.Form["Model.UserAccountOrganisation.UserAccount.Email"];
-                await EnsureEmailNotInUse(modelEmail, uaoID, userClient);
+                await EnsureEmailNotInUse(modelEmail, uaoID, UserClient);
                 
                 var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
                 var data = Edit.fromD(Request.Form,
@@ -163,14 +236,12 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                     "UserAccountOrganisation.UserAccount.Email",
                     "UserAccountOrganisation.UserAccount.RowVersion");
 
-                await queryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
-
-                var isUserRegistered = await userClient.IsUserAccountRegisteredAsync(uaoID);
+                await QueryClient.UpdateGraphAsync("SmsUserAccountOrganisationTransactions", data, filter);
+                var isUserRegistered = await UserClient.IsUserAccountRegisteredAsync(uaoID);
                 if (!isUserRegistered)
                 {
-                    await userClient.ChangeUsernameAndEmailAsync(uaoID, modelEmail);
+                    await UserClient.ChangeUsernameAndEmailAsync(uaoID, modelEmail);
                 }
-
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -186,7 +257,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> ViewGeneratePIN(Guid txID, Guid uaoID, string email, int pageNumber)
         {
-            var canGeneratePin = await CanGeneratePin(txID, uaoID, queryClient);
+            var canGeneratePin = await CanGeneratePin(txID, uaoID, QueryClient);
             if (!canGeneratePin)
             {
                 ViewBag.title = "Information";
@@ -205,14 +276,33 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
 
         public async Task<ActionResult> GeneratePIN(Guid txID, Guid uaoID, int pageNumber)
         {
-            TempData["SmsTransactionID"] = txID;
-            TempData["pageNumber"] = pageNumber;
-            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, queryClient);
-            await EnsureCanGeneratePin(txID, uaoID, queryClient);
+            await EnsureSmsTransactionInOrg(txID, WebUserHelper.GetWebUserObject(HttpContext).OrganisationID, QueryClient);
+            await EnsureCanGeneratePin(txID, uaoID, QueryClient);
+            await UserClient.GeneratePinAsync(uaoID, false, true, true);
+            return RedirectToAction("Index", new { selectedTransactionID = txID, pageNumber = pageNumber });
+        }
 
-            await userClient.GeneratePinAsync(uaoID, false, true, true);
+        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
+        public ActionResult ViewPushProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        {
+            ViewBag.transactionId = transactionId;
+            ViewBag.primaryBuyerUaoId = primaryBuyerUaoId;
+            ViewBag.pageNumber = pageNumber;
+            return PartialView("_PushProduct");
+        }
 
-            return RedirectToAction("Index");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ClaimsRequired("Edit", "SmsTransaction", Order = 1001)]
+        public async Task<ActionResult> PushProduct(Guid transactionId, Guid primaryBuyerUaoId, int pageNumber)
+        {
+            var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
+            await EnsureSmsTransactionInOrg(transactionId, orgID, QueryClient);
+            await EnsureCanPushProduct(transactionId, primaryBuyerUaoId, QueryClient);
+
+            await OrganisationClient.PushProductAsync(transactionId, orgID, primaryBuyerUaoId);
+
+            return RedirectToAction("Index", new { selectedTransactionID = transactionId, pageNumber = pageNumber });
         }
 
         internal static async Task<bool> CanGeneratePin(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
@@ -255,6 +345,47 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
         {
             var canGeneratePin = await CanGeneratePin(txID, uaoID, queryClient);
             if (!canGeneratePin) throw new InvalidOperationException("Cannot generate the PIN.");
+        }
+
+        internal static async Task EnsureCanPushProduct(Guid txID, Guid primaryBuyerUaoId, IQueryLogicClient queryClient)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
+                x.UserAccountOrganisationID == primaryBuyerUaoId &&
+                x.SmsTransactionID == txID &&
+                !x.SmsTransaction.IsProductPushed);
+
+            var res = await queryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var model = res.FirstOrDefault();
+            if (model == null)
+            {
+                throw new AccessViolationException("Operation failed");
+            }
+        }
+
+        public ActionResult ViewSendQuote(Guid txID)
+        {
+            ViewBag.txID = txID;
+            return PartialView("_ViewSendQuote");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendQuote(Guid txID, string message, Guid AttachmentsID)
+        {
+            var orgID = HttpContext.GetWebUserObject().OrganisationID;
+            var uaoID = HttpContext.GetWebUserObject().UaoID;
+
+            var buyerTypeID = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
+
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsTransaction.InvoiceID, x.UserAccountOrganisationID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.SmsTransaction.SmsTransactionID == txID && x.SmsTransaction.OrganisationID == orgID && x.SmsUserAccountOrganisationTransactionTypeID == buyerTypeID);
+            var utxs = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            var utx = utxs.FirstOrDefault();
+            if (utx == null) throw new AccessViolationException("Operation failed");
+
+            await nClient.CreateConversationAsync(orgID, uaoID, AttachmentsID, ActivityType.SmsTransaction, txID, "New Quote", message, true, new Guid[] { utx.UserAccountOrganisationID });
+
+            return RedirectToAction("Index", new { selectedTransactionID = txID });
         }
     }
 }

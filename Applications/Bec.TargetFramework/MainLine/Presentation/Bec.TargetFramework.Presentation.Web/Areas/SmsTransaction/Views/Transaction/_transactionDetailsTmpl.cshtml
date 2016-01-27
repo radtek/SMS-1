@@ -1,4 +1,10 @@
-﻿{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
+﻿{{#unless SmsTransaction.InvoiceID}}
+<span class="pull-right">
+    <a id="quoteButton" class="btn btn-sm btn-primary" data-modallink="true" title="Send Quote" data-url="@Url.Action("ViewSendQuote", "Transaction", new { area = "SmsTransaction" })"><i class="sms-fw sms-safe-send margin-right-5"></i>Send Quote</a>
+</span>
+{{/unless}}
+
+{{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
 <h5>Transaction Address</h5>
 {{/xif}}
 
@@ -56,6 +62,14 @@
 </dl>
 {{/if}}
 <h5>Product</h5>
+{{#xif "this.SmsTransaction.IsProductPushed == false && this.SmsTransaction.InvoiceID == null"}}
+<div class="pull-right">
+    <a class="btn btn-sm btn-primary" data-modallink="true" title="Push Safe Buyer Product"
+       data-href="@Url.Action("ViewPushProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
+        <i class="fa fa-bullhorn margin-right-5"></i>Push Safe Buyer Product
+    </a>
+</div>
+{{/xif}}
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>
     <dd>

@@ -44,12 +44,15 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
+            target.IsProductPushed = source.IsProductPushed;
+            target.InvoiceID = source.InvoiceID;
 
             // Navigation Properties
             if (level > 0) {
               target.Address = source.Address.ToDtoWithRelated(level - 1);
               target.Organisation = source.Organisation.ToDtoWithRelated(level - 1);
               target.SmsUserAccountOrganisationTransactions = source.SmsUserAccountOrganisationTransactions.ToDtosWithRelated(level - 1);
+              target.Invoice = source.Invoice.ToDtoWithRelated(level - 1);
             }
 
             // User-defined partial method
@@ -81,6 +84,8 @@ namespace Bec.TargetFramework.Entities
             target.CreatedBy = source.CreatedBy;
             target.ModifiedOn = source.ModifiedOn;
             target.ModifiedBy = source.ModifiedBy;
+            target.IsProductPushed = source.IsProductPushed;
+            target.InvoiceID = source.InvoiceID;
 
             // User-defined partial method
             OnEntityCreating(source, target);
