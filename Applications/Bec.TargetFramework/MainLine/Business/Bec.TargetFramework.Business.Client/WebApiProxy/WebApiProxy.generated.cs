@@ -963,19 +963,11 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <returns></returns>
 		Decimal GetBalanceAsAt(Guid accountID,DateTime date);
 
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+		Task VerifyOrganisationAsync(VerifyCompanyDTO dto);
 
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber);
+		void VerifyOrganisation(VerifyCompanyDTO dto);
 
 		/// <param name="orgID"></param>
 		/// <param name="txID"></param>
@@ -4010,32 +4002,20 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
 		/// <returns></returns>
-		public virtual Task VerifyOrganisationAsync(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		public virtual Task VerifyOrganisationAsync(VerifyCompanyDTO dto)
 		{
-			orgName = orgName.UrlEncode();
-			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user);
+			return PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="orgID"></param>
-		/// <param name="orgName"></param>
-		/// <param name="filesPerMonth"></param>
-		/// <param name="regulatorNumber"></param>
-		public virtual void VerifyOrganisation(Guid orgID,String orgName,Int32 filesPerMonth,String regulatorNumber)
+		public virtual void VerifyOrganisation(VerifyCompanyDTO dto)
 		{
-			orgName = orgName.UrlEncode();
-			regulatorNumber = regulatorNumber.UrlEncode();
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/VerifyOrganisation?orgID=" + orgID + "&orgName=" + orgName + "&filesPerMonth=" + filesPerMonth + "&regulatorNumber=" + regulatorNumber, null, _user)).Wait();
+			Task.Run(() => PostAsync<VerifyCompanyDTO>("api/OrganisationLogic/VerifyOrganisation", dto, _user)).Wait();
 		}
 
 		/// <summary>
