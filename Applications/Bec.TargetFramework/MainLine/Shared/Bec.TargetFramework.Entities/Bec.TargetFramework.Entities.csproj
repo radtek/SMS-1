@@ -1703,6 +1703,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />
