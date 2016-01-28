@@ -2036,6 +2036,16 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for File in the schema.
         /// </summary>
         public virtual DbSet<File> Files { get; set; }
+    
+        /// <summary>
+        /// There are no comments for Callout in the schema.
+        /// </summary>
+        public virtual DbSet<Callout> Callouts { get; set; }
+    
+        /// <summary>
+        /// There are no comments for CalloutUserAccount in the schema.
+        /// </summary>
+        public virtual DbSet<CalloutUserAccount> CalloutUserAccounts { get; set; }
 
         #region Methods
 

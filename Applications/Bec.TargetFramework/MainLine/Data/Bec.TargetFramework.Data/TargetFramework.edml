@@ -415,6 +415,8 @@
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
+          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Store.Callout" store:Type="Tables" Schema="public" Table="Callout" />
+          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.Store.CalloutUserAccount" store:Type="Tables" Schema="public" Table="CalloutUserAccount" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2970,6 +2972,18 @@
           <AssociationSet Name="File_fk_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="Callout_Role_fk" Association="Bec.TargetFramework.Data.Store.Callout_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Callout" EntitySet="Callouts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_Callout_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_Callout_fk">
+            <End Role="Callout" EntitySet="Callouts" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_UserType_fk" Association="Bec.TargetFramework.Data.Store.CalloutUserAccount_UserType_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="CalloutUserAccount" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -10038,6 +10052,36 @@
           <Property Name="Type" Type="varchar" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="Callout">
+          <Key>
+            <PropertyRef Name="CalloutID" />
+          </Key>
+          <Property Name="CalloutID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="varchar" Nullable="false" />
+          <Property Name="IsActive" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" DefaultValue="1" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="ModifiedOn" Type="timestamptz" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="Selector" Type="varchar" MaxLength="500" />
+          <Property Name="EffectiveOn" Type="timestamp" Nullable="false" />
+          <Property Name="Position" Type="int" />
+        </EntityType>
+        <EntityType Name="CalloutUserAccount">
+          <Key>
+            <PropertyRef Name="CalloutUserAccountID" />
+          </Key>
+          <Property Name="CalloutUserAccountID" Type="uuid" Nullable="false" />
+          <Property Name="CalloutID" Type="uuid" Nullable="false" />
+          <Property Name="RoleID" Type="uuid" Nullable="false" />
+          <Property Name="IsDeleted" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="CreatedOn" Type="timestamptz" Nullable="false" devart:DefaultValue="now()" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="uuid" Nullable="false" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18263,6 +18307,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Callout_Role_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Callout">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_Callout_fk">
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Store.Callout" Multiplicity="1" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Callout">
+              <PropertyRef Name="CalloutID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccount">
+              <PropertyRef Name="CalloutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_UserType_fk">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Store.Role" Multiplicity="1" />
+          <End Role="CalloutUserAccount" Type="Bec.TargetFramework.Data.Store.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccount">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18712,6 +18792,8 @@
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
+          <EntitySet Name="Callouts" EntityType="Bec.TargetFramework.Data.Callout" />
+          <EntitySet Name="CalloutUserAccounts" EntityType="Bec.TargetFramework.Data.CalloutUserAccount" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21207,6 +21289,18 @@
           <AssociationSet Name="File_fk_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="Callout_Role_fkSet" Association="Bec.TargetFramework.Data.Callout_Role_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Callouts" EntitySet="Callouts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_Callout_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk">
+            <End Role="Callout" EntitySet="Callouts" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="CalloutUserAccount_UserType_fkSet" Association="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="CalloutUserAccounts" EntitySet="CalloutUserAccounts" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -25297,6 +25391,8 @@
           <NavigationProperty Name="GroupRoles" Relationship="Bec.TargetFramework.Data.FK_GroupTemplateRole_RoleTemplate" FromRole="Role" ToRole="GroupRoles" ed:Guid="4bc91bc2-3db0-415b-962b-eb79674b7dcd" />
           <NavigationProperty Name="RoleClaims" Relationship="Bec.TargetFramework.Data.fk_RoleTemplateClaim_RoleTemplate" FromRole="Role" ToRole="RoleClaims" ed:Guid="63066d49-f80f-438d-8b02-70eff94865a5" />
           <NavigationProperty Name="ActorClaimRoleMappings" Relationship="Bec.TargetFramework.Data.fk_ActorClaim_Role" FromRole="Role" ToRole="ActorClaimRoleMappings" ed:Guid="b7871133-2654-4a69-8524-685d07076476" />
+          <NavigationProperty Name="Callouts" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Role" ToRole="Callouts" ed:Guid="8dabdd2c-1da3-4749-a86d-3fc6a7b660e2" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="Role" ToRole="CalloutUserAccounts" ed:Guid="8afd4a00-3bd2-4e5c-9347-88a2560d870b" />
         </EntityType>
         <EntityType Name="ArtefactNotificationConstructTemplate" ed:Guid="e750caa7-7e55-4341-997e-0781986ad75e">
           <Key>
@@ -29418,6 +29514,40 @@
           <Property Name="UserAccountOrganisationID" Type="Guid" ed:ValidateRequired="False" ed:Guid="30e77c6d-e4bc-4c99-9f53-52c6ce6d3992" />
           <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
+        </EntityType>
+        <EntityType Name="Callout" ed:Guid="44704e9c-5324-400b-9493-3b15c9e62a51">
+          <Key>
+            <PropertyRef Name="CalloutID" />
+          </Key>
+          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="e7a2944a-a1aa-4bda-972c-987585d519a1" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="334d8f28-8f3f-4994-8c2c-3366adf3e52d" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="True" ed:Guid="2323be85-03cb-44de-813e-45234adc8c9e" />
+          <Property Name="Description" Type="String" Nullable="false" Unicode="true" ed:ValidateRequired="True" ed:Guid="e6a9649b-7d57-4136-b0d7-ef88f6eb331d" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="35cb3f3a-b357-4622-a71d-60b2a0b2e595" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="b777ef8b-16f5-469b-a27e-6ffba9e95257" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" DefaultValue="1" ed:ValidateRequired="True" ed:Guid="a142b4dc-d3ec-4c04-a9c2-0b657140e4fa" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="0a674b1a-a38d-416d-a5d4-42cc11b87304" />
+          <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="0b04dbac-f990-463d-b47e-edb174b3a339" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="fbadd76c-bf37-49ca-99bd-766e2162c796" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="e362bd6a-fd83-41d5-a065-803357bf64ea" />
+          <Property Name="Selector" Type="String" MaxLength="500" Unicode="true" ed:ValidateMaxLength="500" ed:ValidateRequired="False" ed:Guid="5ac54182-06ea-4809-acbc-96ca9d8e0d6e" />
+          <Property Name="EffectiveOn" Type="DateTime" Nullable="false" ed:ValidateRequired="True" ed:Guid="5d45e73f-2dbb-4802-ae98-9860304c02b7" />
+          <Property Name="Position" Type="Int32" ed:ValidateRequired="False" ed:Guid="aeb86a1f-1874-4ac8-9b98-7c635a8a288d" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.Callout_Role_fk" FromRole="Callouts" ToRole="Role" ed:Guid="98621db5-62d3-4563-a56d-40cff39e442c" />
+          <NavigationProperty Name="CalloutUserAccounts" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="Callout" ToRole="CalloutUserAccounts" ed:Guid="9be90a25-5e56-4601-a3de-80b2b4a4347d" />
+        </EntityType>
+        <EntityType Name="CalloutUserAccount" ed:Guid="8f079cc5-444f-481b-be7a-20f063ce1d09">
+          <Key>
+            <PropertyRef Name="CalloutUserAccountID" />
+          </Key>
+          <Property Name="CalloutUserAccountID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="368a935a-1773-435c-94e9-bfade5cf0689" />
+          <Property Name="CalloutID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="680aeb67-c735-4f96-b9bf-beb98b4a4353" />
+          <Property Name="RoleID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="927db1f8-a614-46c0-971c-6987a54d33f7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="56b13b49-a5f9-4794-a20e-ed59162dd8b1" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="18ee49d5-d7f5-4e9f-aa2c-cde9eee40ff6" />
+          <Property Name="UserID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="8817f9fc-5e29-48aa-87f1-49b189ee079e" />
+          <NavigationProperty Name="Callout" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_Callout_fk" FromRole="CalloutUserAccounts" ToRole="Callout" ed:Guid="3c3b2648-2e24-4657-b793-5a22e0c4aa20" />
+          <NavigationProperty Name="Role" Relationship="Bec.TargetFramework.Data.CalloutUserAccount_UserType_fk" FromRole="CalloutUserAccounts" ToRole="Role" ed:Guid="36d8b647-53bc-4d6a-86f7-349b9a42e551" />
         </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
@@ -37308,6 +37438,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Callout_Role_fk" ed:Guid="6c7d6f1b-11c7-4da5-8f61-66fea9396e0d">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="Callouts" Type="Bec.TargetFramework.Data.Callout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Callouts">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_Callout_fk" ed:Guid="1802b2c6-cd9e-4af9-b11d-18499b47dcf4">
+          <End Role="Callout" Type="Bec.TargetFramework.Data.Callout" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Callout">
+              <PropertyRef Name="CalloutID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="CalloutID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CalloutUserAccount_UserType_fk" ed:Guid="fbbf4f24-90d8-4968-a1ac-de05c8c6d735">
+          <End Role="Role" Type="Bec.TargetFramework.Data.Role" Multiplicity="1" />
+          <End Role="CalloutUserAccounts" Type="Bec.TargetFramework.Data.CalloutUserAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="CalloutUserAccounts">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44145,6 +44311,38 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Temporary" ColumnName="Temporary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Callouts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.Callout">
+              <MappingFragment StoreEntitySet="Callouts">
+                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="EffectiveOn" ColumnName="EffectiveOn" />
+                <ScalarProperty Name="Selector" ColumnName="Selector" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CalloutUserAccounts">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.CalloutUserAccount">
+              <MappingFragment StoreEntitySet="CalloutUserAccounts">
+                <ScalarProperty Name="CalloutUserAccountID" ColumnName="CalloutUserAccountID" />
+                <ScalarProperty Name="CalloutID" ColumnName="CalloutID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

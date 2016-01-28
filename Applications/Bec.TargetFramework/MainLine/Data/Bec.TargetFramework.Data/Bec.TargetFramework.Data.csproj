@@ -95,6 +95,8 @@
     <Compile Include="Converters\BillingTemplateConverter.cs" />
     <Compile Include="Converters\BucketConverter.cs" />
     <Compile Include="Converters\BucketTemplateConverter.cs" />
+    <Compile Include="Converters\CalloutConverter.cs" />
+    <Compile Include="Converters\CalloutUserAccountConverter.cs" />
     <Compile Include="Converters\ClassificationTypeCategoryConverter.cs" />
     <Compile Include="Converters\ClassificationTypeConverter.cs" />
     <Compile Include="Converters\CompanyHouseConverter.cs" />
@@ -491,6 +493,8 @@
     <Compile Include="Model\TargetFramework.BillingTemplate.cs" />
     <Compile Include="Model\TargetFramework.Bucket.cs" />
     <Compile Include="Model\TargetFramework.BucketTemplate.cs" />
+    <Compile Include="Model\TargetFramework.Callout.cs" />
+    <Compile Include="Model\TargetFramework.CalloutUserAccount.cs" />
     <Compile Include="Model\TargetFramework.ClassificationType.cs" />
     <Compile Include="Model\TargetFramework.ClassificationTypeCategory.cs" />
     <Compile Include="Model\TargetFramework.CompanyHouse.cs" />

@@ -184,6 +184,7 @@
     <Compile Include="Areas\Account\Models\PersonalDetailsModel.cs" />
     <Compile Include="Areas\Account\Models\LoginModel.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CalloutController.cs" />
     <Compile Include="Areas\Admin\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReportingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
+    <Compile Include="Areas\Admin\Models\CalloutModel.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
@@ -251,6 +253,8 @@
     <Content Include="Areas\Account\Views\Login\Index.js" />
     <Content Include="Areas\Account\Views\RegisterAdmin\Index.js" />
     <Content Include="Areas\Account\Views\Search\Index.js" />
+    <Content Include="Areas\Admin\Views\Callout\Index.js" />
+    <Content Include="Areas\Admin\Views\Callout\RenderCallout.js" />
     <Content Include="Areas\Admin\Views\Company\Provisional.js" />
     <Content Include="Areas\Admin\Views\Company\Qualified.js" />
     <Content Include="Areas\Admin\Views\Finance\CreditHistory.js" />
@@ -260,6 +264,10 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCallout.js" />
+    <Content Include="Areas\Admin\Views\Shared\_OrderCallout.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
@@ -269,6 +277,7 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\introjs.min.css" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -277,6 +286,7 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\intro.min.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
@@ -855,6 +865,12 @@
     <Content Include="Content\Fonts\sms-font.woff" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.cshtml" />
+    <Content Include="Areas\Admin\Views\Callout\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EditCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_OrderCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_RenderCallout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteCallout.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -2208,7 +2224,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32203</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44300/</IISUrl>
+          <IISUrl>https://localhost/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
