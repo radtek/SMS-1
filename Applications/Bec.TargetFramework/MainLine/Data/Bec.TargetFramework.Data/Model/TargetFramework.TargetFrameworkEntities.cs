@@ -2036,6 +2036,11 @@ namespace Bec.TargetFramework.Data
         /// There are no comments for File in the schema.
         /// </summary>
         public virtual DbSet<File> Files { get; set; }
+    
+        /// <summary>
+        /// There are no comments for OrganisationNote in the schema.
+        /// </summary>
+        public virtual DbSet<OrganisationNote> OrganisationNotes { get; set; }
 
         #region Methods
 

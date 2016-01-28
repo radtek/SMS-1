@@ -114,6 +114,31 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Admin.Controllers
             return RedirectToAction("Provisional");
         }
 
+        public ActionResult ViewAddNotes(Guid orgID)
+        {
+            ViewBag.orgID = orgID;
+            return PartialView("_AddNotes");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNotes(Guid orgID, string notes)
+        {
+            await OrganisationClient.AddNotesAsync(orgID, WebUserHelper.GetWebUserObject(HttpContext).UaoID, notes);
+            TempData["VerifiedCompanyId"] = orgID;
+            TempData["tabIndex"] = 1;
+            return RedirectToAction("Provisional");
+        }
+
+        public async Task<ActionResult> GetNotes(Guid orgID)
+        {
+            var select = ODataHelper.Select<OrganisationNoteDTO>(x => new { x.Notes, x.UserAccountOrganisation.Contact.FirstName, x.UserAccountOrganisation.Contact.LastName, x.DateTime });
+            var filter = ODataHelper.Filter<OrganisationNoteDTO>(x => x.OrganisationID == orgID);
+            var order = ODataHelper.OrderBy<OrganisationNoteDTO>(x => new { x.DateTime }) + " desc";
+            var res = await queryClient.QueryAsync<OrganisationNoteDTO>("OrganisationNotes", select + filter + order);
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
         internal static async Task EnsureSroUaoIsInOrg(Guid uaoID, Guid orgID, IQueryLogicClient client)
         {
             var select = ODataHelper.Select<UserAccountOrganisationDTO>(x => new { x.OrganisationID });

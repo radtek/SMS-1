@@ -591,6 +591,11 @@ a.removeupload {
 .notification-body {
   padding-left: 0;
 }
+.notes pre {
+  -ms-word-break: normal;
+  word-break: normal;
+  white-space: pre-wrap;
+}
 @media only screen and (max-width: 992px) {
   .view-messages-container .messages-container h3 {
     cursor: pointer;

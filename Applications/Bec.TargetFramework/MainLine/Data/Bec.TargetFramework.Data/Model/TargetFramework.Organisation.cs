@@ -659,6 +659,15 @@ namespace Bec.TargetFramework.Data
             get;
             set;
         }
+    
+        /// <summary>
+        /// There are no comments for OrganisationNotes in the schema.
+        /// </summary>
+        public virtual ICollection<OrganisationNote> OrganisationNotes
+        {
+            get;
+            set;
+        }
 
         #endregion
     }
