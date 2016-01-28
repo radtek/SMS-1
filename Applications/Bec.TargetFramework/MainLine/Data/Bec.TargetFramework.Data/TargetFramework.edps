@@ -399,6 +399,7 @@
         <File Name="TargetFramework.VMessageRead.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.VConversationUnread.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.File.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
+        <File Name="TargetFramework.OrganisationNote.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetUserClaimResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="TargetFramework.FnGetConversationActivityResult.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Model" />
         <File Name="DefaultOrganisationLedgerDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1189,6 +1190,8 @@
         <File Name="VConversationUnreadDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FileDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FileDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
+        <File Name="OrganisationNoteDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
+        <File Name="OrganisationNoteDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetUserClaimResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
         <File Name="FnGetUserClaimResultDTO.Generated.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" />
         <File Name="FnGetConversationActivityResultDTO.cs" Project="Bec.TargetFramework.Entities" ProjectFolder="Boo" OverwriteMode="None" />
@@ -1587,6 +1590,7 @@
         <File Name="VMessageReadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="VConversationUnreadConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FileConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
+        <File Name="OrganisationNoteConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetUserClaimResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
         <File Name="FnGetConversationActivityResultConverter.cs" Project="Bec.TargetFramework.Data" ProjectFolder="Converters" />
       </GeneratedFiles>
@@ -1780,6 +1784,8 @@
       <Exclude Name="OrganisationRecommendationSourceID" Table="public.Organisation" Type="Column" />
       <Exclude Name="SchemeID" Table="public.Organisation" Type="Column" />
       <Exclude Name="FilesPerMonth" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerType" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerBusinessType" Table="public.Organisation" Type="Column" />
       <Exclude Name="Organisation_pkey" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="Organisation_ClassificationType_OrganisationRecSrc_fk" Table="public.Organisation" Type="Constraint" />
       <Exclude Name="fk_Organisation_Contact" Table="public.Organisation" Type="Constraint" />
@@ -1796,6 +1802,13 @@
       <Exclude Name="OrganisationLedgerTransaction_fk" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_LedgerAccount" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
       <Exclude Name="fk_LedgerAccountTransaction_TransactionOrder" Table="public.OrganisationLedgerTransaction" Type="Constraint" />
+      <Exclude Name="OrganisationTradingNameID" Table="public.OrganisationTradingName" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.OrganisationTradingName" Type="Column" />
+      <Exclude Name="Name" Table="public.OrganisationTradingName" Type="Column" />
+      <Exclude Name="IsActive" Table="public.OrganisationTradingName" Type="Column" />
+      <Exclude Name="IsDeleted" Table="public.OrganisationTradingName" Type="Column" />
+      <Exclude Name="pkOrganisationTradingName" Table="public.OrganisationTradingName" Type="Constraint" />
+      <Exclude Name="fk_OrganisationTradingName_Organisation" Table="public.OrganisationTradingName" Type="Constraint" />
       <Exclude Name="UserAccountID" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserSessionID" Table="public.UserAccountLoginSession" Type="Column" />
       <Exclude Name="UserIPAddress" Table="public.UserAccountLoginSession" Type="Column" />
@@ -1901,6 +1914,49 @@
       <Exclude Name="InvoiceReference" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="Balance" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
       <Exclude Name="CreatedByName" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
+      <Exclude Name="OrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Name" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="CreatedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationVerified" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PinCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminSalutation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminFirstName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminLastName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminTelephone" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminEmail" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Regulator" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorOther" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegulatorNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line1" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Line2" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Town" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="County" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="PostalCode" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="AdditionalAddressInformation" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeValueID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusTypeVersionNumber" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminUserID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusValueName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="StatusChangedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Reason" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="Notes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationAdminCreated" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedOn" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedBy" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="VerifiedNotes" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="UserAccountOrganisationID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="RegisteredAsName" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationRecommendationSourceID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="SchemeID" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="FilesPerMonth" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="ActiveSafeAccounts" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="OrganisationTypeDescription" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="BrokerType" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="BrokerBusinessType" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="ProductID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductVersionID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeName" Table="public.vProductAttribute" Type="Column" />
@@ -1917,7 +1973,10 @@
       <Exclude Name="ProductProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="ProductAttributeID" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="IsCompanyPinCreated" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerType" Table="public.Organisation" Type="Column" />
+      <Exclude Name="BrokerBusinessType" Table="public.Organisation" Type="Column" />
       <Exclude Name="CreatedBy" Table="public.OrganisationLedgerTransaction" Type="Column" />
+      <Exclude Name="OrganisationTradingNameID" Table="public.OrganisationTradingName" Type="Column" />
       <Exclude Name="UserAccountLoginSession_UserAccounts_fk" Table="public.UserAccountLoginSession" Type="Constraint" />
       <Exclude Name="ID" Table="public.vClaimSource" Type="Column" />
       <Exclude Name="classificationtypeid" Table="public.vClassification" Type="Column" />
@@ -1930,6 +1989,9 @@
       <Exclude Name="OrganisationTypeID" Table="public.vNotificationWithUAOVerificationCode" Type="Column" />
       <Exclude Name="DiscountApplyOnID" Table="public.vOrganisationCheckoutDiscount" Type="Column" />
       <Exclude Name="Balance" Table="public.vOrganisationLedgerTransactionBalance" Type="Column" />
+      <Exclude Name="OrganisationTypeDescription" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="BrokerType" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
+      <Exclude Name="BrokerBusinessType" Table="public.vOrganisationWithStatusAndAdmin" Type="Column" />
       <Exclude Name="PriceAdjustment" Table="public.vProductAttribute" Type="Column" />
       <Exclude Name="WeightAdjustement" Table="public.vProductAttribute" Type="Column" />
     </UpdateFromDatabaseExcludes>

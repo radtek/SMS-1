@@ -237,6 +237,7 @@
     <Compile Include="Converters\OrganisationInsuranceDetailConverter.cs" />
     <Compile Include="Converters\OrganisationLedgerAccountConverter.cs" />
     <Compile Include="Converters\OrganisationLedgerTransactionConverter.cs" />
+    <Compile Include="Converters\OrganisationNoteConverter.cs" />
     <Compile Include="Converters\OrganisationPaymentMethodConverter.cs" />
     <Compile Include="Converters\OrganisationPlanSubscriptionConverter.cs" />
     <Compile Include="Converters\OrganisationProductPurchaseConverter.cs" />
@@ -633,6 +634,7 @@
     <Compile Include="Model\TargetFramework.OrganisationInsuranceDetail.cs" />
     <Compile Include="Model\TargetFramework.OrganisationLedgerAccount.cs" />
     <Compile Include="Model\TargetFramework.OrganisationLedgerTransaction.cs" />
+    <Compile Include="Model\TargetFramework.OrganisationNote.cs" />
     <Compile Include="Model\TargetFramework.OrganisationPaymentMethod.cs" />
     <Compile Include="Model\TargetFramework.OrganisationPlanSubscription.cs" />
     <Compile Include="Model\TargetFramework.OrganisationProductPurchase.cs" />

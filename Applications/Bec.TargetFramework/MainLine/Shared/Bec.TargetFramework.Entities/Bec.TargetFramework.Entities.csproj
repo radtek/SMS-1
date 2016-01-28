@@ -851,6 +851,10 @@
     </Compile>
     <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
     <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />
+    <Compile Include="Boo\OrganisationNoteDTO.cs" />
+    <Compile Include="Boo\OrganisationNoteDTO.Generated.cs">
+      <DependentUpon>OrganisationNoteDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\OrganisationNotificationConstructDTO.cs" />
     <Compile Include="Boo\OrganisationNotificationConstructRoleDTO.cs" />
     <Compile Include="Boo\OrganisationNotificationVisibilityDTO.cs" />
@@ -1703,6 +1707,7 @@
       <DependentUpon>VUserStatusDTO.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="DTO\VerifyCompanyDTO.cs" />
     <Compile Include="DTO\CreateConversationDTO.cs" />
     <Compile Include="DTO\CertificateDetailsDTO.cs" />
     <Compile Include="DTO\CartPricingDTO.cs" />

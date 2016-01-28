@@ -1,4 +1,5 @@
-﻿var uGrid, vGrid, rGrid;
+﻿var notesTemplatePromise;
+var uGrid, vGrid, rGrid;
 $(function () {
     //set up grid options for the three grids. most are passed straight on to kendo grid.
     uGrid = new gridItem(
@@ -101,6 +102,13 @@ $(function () {
                     title: "Created On",
                     template: function (dataItem) {
                         return dateString(dataItem.CreatedOn);
+                    }
+                },
+                {
+                    field: "VerifiedOn",
+                    title: "Verified On",
+                    template: function (dataItem) {
+                        return dateString(dataItem.VerifiedOn);
                     }
                 }
             ]
@@ -227,7 +235,15 @@ $(function () {
     tabs.makeTab();
     tabs.showTab($('#myTab1').data("selected"));
 
+    notesTemplatePromise = $.Deferred();
+    ajaxWrapper(
+        { url: $('#content').data("templateurl") + '?view=' + getRazorViewPath('_orgNotesTmpl', 'Shared', 'Admin') }
+    ).done(function (res) {
+        notesTemplatePromise.resolve(Handlebars.compile(res));
+    });
+
     findModalLinks();
+
 });
 
 //data binding for the panes beneath each grid
@@ -288,6 +304,19 @@ function verifiedChange(dataItem) {
     $("p#ddvPINNumber").parent().prev().toggle(!!dataItem.PinCode);
     $("p#ddvPINCreatedOn").toggle(!!dataItem.PinCreated);
     $("p#ddvPINCreatedOn").parent().prev().toggle(!!dataItem.PinCreated);
+
+    $('#addNotesButton').data('href', $('#addNotesButton').data('url') + "?orgID=" + dataItem.OrganisationID);
+
+    ajaxWrapper({url: $('#verifiedPanel').data('url') + "?orgID=" + dataItem.OrganisationID}).done(function (notes) {
+        notesTemplatePromise.done(function (template) {
+            
+            $.each(notes, function (i, item) {
+                item.DateTime = dateString(item.DateTime);
+            });
+            var html = template(notes);
+            $('#verifiedNotes').html(html);
+        });
+    });
 }
 
 function rejectedChange(dataItem) {
