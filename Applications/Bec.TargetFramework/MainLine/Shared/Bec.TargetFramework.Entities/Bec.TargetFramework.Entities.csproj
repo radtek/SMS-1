@@ -851,6 +851,10 @@
     </Compile>
     <Compile Include="Boo\OrganisationModuleSettingDTO.cs" />
     <Compile Include="Boo\OrganisationModuleSubscriptionDTO.cs" />
+    <Compile Include="Boo\OrganisationNoteDTO.cs" />
+    <Compile Include="Boo\OrganisationNoteDTO.Generated.cs">
+      <DependentUpon>OrganisationNoteDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\OrganisationNotificationConstructDTO.cs" />
     <Compile Include="Boo\OrganisationNotificationConstructRoleDTO.cs" />
     <Compile Include="Boo\OrganisationNotificationVisibilityDTO.cs" />

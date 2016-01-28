@@ -801,5 +801,19 @@ namespace Bec.TargetFramework.Business.Logic
                 return scope.DbContexts.Get<TargetFrameworkEntities>().FnSmsTransactionRank(orgID, txID).Value;
             }
         }
+
+        public async Task AddNotes(Guid orgID, Guid uaoID, string notes)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationNotes.Add(new OrganisationNote { 
+                    OrganisationID = orgID,
+                    UserAccountOrganisationID = uaoID,
+                    Notes = notes,
+                    DateTime = DateTime.Now
+                });
+                await scope.SaveChangesAsync();
+            }
+        }
     }
 }

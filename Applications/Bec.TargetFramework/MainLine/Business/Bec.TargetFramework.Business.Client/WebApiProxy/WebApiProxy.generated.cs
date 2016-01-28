@@ -986,6 +986,18 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="txID"></param>
 		/// <returns></returns>
 		Int32 GetSmsTransactionRank(Guid orgID,Guid txID);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		Task AddNotesAsync(Guid orgID,Guid uaoID,String notes);
+
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		void AddNotes(Guid orgID,Guid uaoID,String notes);
 	}
 
 	public partial interface IPaymentLogicClient : IClientBase	{	
@@ -4047,6 +4059,33 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		{
 			string _user = getHttpContextUser();
 			return Task.Run(() => GetAsync<Int32>("api/OrganisationLogic/GetSmsTransactionRank?orgID=" + orgID + "&txID=" + txID, _user)).Result;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		/// <returns></returns>
+		public virtual Task AddNotesAsync(Guid orgID,Guid uaoID,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			return PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="orgID"></param>
+		/// <param name="uaoID"></param>
+		/// <param name="notes"></param>
+		public virtual void AddNotes(Guid orgID,Guid uaoID,String notes)
+		{
+			notes = notes.UrlEncode();
+			string _user = getHttpContextUser();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AddNotes?orgID=" + orgID + "&uaoID=" + uaoID + "&notes=" + notes, null, _user)).Wait();
 		}
 
 		#endregion

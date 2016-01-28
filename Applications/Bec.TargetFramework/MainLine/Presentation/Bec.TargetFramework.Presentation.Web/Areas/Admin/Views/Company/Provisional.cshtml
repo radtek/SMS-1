@@ -1,5 +1,5 @@
 ﻿<!-- MAIN CONTENT -->
-<div id="content">
+<div id="content" data-templateurl="@Url.Action("GetTemplate", "App", new { area = "" })">
     <div class="row">
         <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-inbox margin-right-10"></i>View Provisional Companies</h2>
 
@@ -79,7 +79,7 @@
                         </div>
                     </div>
 
-                    <div class="row hidden" id="verifiedPanel">
+                    <div class="row hidden" id="verifiedPanel" data-url="@Url.Action("GetNotes", "Company", new { area = "Admin" })">
                         <div class="col-sm-6">
                             <!-- well -->
                             <div class="well">
@@ -130,6 +130,11 @@
                                     <dt>Files per Month:</dt>
                                     <dd><p id="ddvfpm"></p></dd>
                                 </dl>
+                                <span class="pull-right">
+                                    <a id="addNotesButton" class="btn btn-sm btn-primary" data-modallink="true" title="Add Notes" data-url="@Url.Action("ViewAddNotes", "Company", new { area = "Admin" })"><i class="fa fa-plus margin-right-5"></i>Add Notes</a>
+                                </span>
+                                <h5>Notes</h5>
+                                <div id="verifiedNotes" class="notes"></div>
                             </div>
                         </div>
                     </div>
