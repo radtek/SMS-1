@@ -1,0 +1,39 @@
+﻿<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addNotesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addNotesLabel">Add Notes</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="@Url.Action("AddNotes", "Company", new { area = "Admin" })" method="POST" id="addNotes-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("orgID", (object)ViewBag.orgID)
+                            <fieldset>
+                                <section>
+                                    <label class="textarea">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextArea("notes", new { tabindex = "1", rows = "5" })
+                                    </label>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddNotes" class="btn btn-primary" tabindex="2">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Shared/_AddNotes")"></script>

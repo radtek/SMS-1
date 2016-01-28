@@ -33,7 +33,7 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.ProOrganisation.Controllers
         {
             var orgID = WebUserHelper.GetWebUserObject(HttpContext).OrganisationID;
             Guid creditAccountID = await orgClient.GetCreditAccountIdAsync(orgID);
-            
+
             date = startOfDay ? date.Date : date.Date.AddDays(1);
             return await orgClient.GetBalanceAsAtAsync(creditAccountID, date);
         }

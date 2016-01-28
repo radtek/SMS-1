@@ -776,20 +776,47 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task VerifyOrganisation(Guid orgID, string orgName, int filesPerMonth, string regulatorNumber)
+        public async Task VerifyOrganisation(VerifyCompanyDTO dto)
         {
             using (var scope = DbContextScopeFactory.Create())
             {
-                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == orgID);
-                org.FilesPerMonth = filesPerMonth;
+                var adminUao = scope.DbContexts.Get<TargetFrameworkEntities>().UserAccountOrganisations.SingleOrDefault(x => x.UserAccountOrganisationID == dto.SroUaoID);
+                Ensure.That(adminUao).IsNotNull();
+                Ensure.That(adminUao.OrganisationID).Is(dto.OrganisationID);
+
+                var modifiedBy = UserNameService.UserName;
+                var modifiedOn = DateTime.Now;
+
+                await UserLogic.ChangeUsernameAndEmail(adminUao.UserAccountOrganisationID, dto.SroEmail);
+                var org = scope.DbContexts.Get<TargetFrameworkEntities>().Organisations.Single(x => x.OrganisationID == dto.OrganisationID);
+                org.FilesPerMonth = dto.FilesPerMonth ?? 0;
+                org.ModifiedBy = modifiedBy;
+                org.ModifiedOn = modifiedOn;
 
                 var detail = org.OrganisationDetails.FirstOrDefault();
-                if (detail != null) detail.Name = orgName;
+                if (detail != null) detail.Name = dto.OrganisationName;
+                
+                var orgContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.OrganisationID && c.IsPrimaryContact);
+                Ensure.That(orgContact).IsNotNull();
+                orgContact.Salutation = dto.SroSalutation;
+                orgContact.FirstName = dto.SroFirstName;
+                orgContact.LastName = dto.SroLastName;
+                orgContact.EmailAddress1 = dto.SroEmail;
+                orgContact.ModifiedBy = modifiedBy;
+                orgContact.ModifiedOn = modifiedOn;
 
-                var contact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.FirstOrDefault(c => c.ParentID == orgID);
-                var cReg = contact.ContactRegulators.FirstOrDefault();
-                if (cReg != null) cReg.RegulatorNumber = regulatorNumber;
+                var adminUaoContact = scope.DbContexts.Get<TargetFrameworkEntities>().Contacts.SingleOrDefault(c => c.ParentID == dto.SroUaoID);
+                Ensure.That(adminUaoContact).IsNotNull();
+                adminUaoContact.Salutation = dto.SroSalutation;
+                adminUaoContact.FirstName = dto.SroFirstName;
+                adminUaoContact.LastName = dto.SroLastName;
+                adminUaoContact.EmailAddress1 = dto.SroEmail;
+                adminUaoContact.ModifiedBy = modifiedBy;
+                adminUaoContact.ModifiedOn = modifiedOn;
 
+                var cReg = orgContact.ContactRegulators.FirstOrDefault();
+                if (cReg != null) cReg.RegulatorNumber = dto.RegulatorNumber;
+                
                 await scope.SaveChangesAsync();
             }
         }
@@ -799,6 +826,20 @@ namespace Bec.TargetFramework.Business.Logic
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
                 return scope.DbContexts.Get<TargetFrameworkEntities>().FnSmsTransactionRank(orgID, txID).Value;
+            }
+        }
+
+        public async Task AddNotes(Guid orgID, Guid uaoID, string notes)
+        {
+            using (var scope = DbContextScopeFactory.Create())
+            {
+                scope.DbContexts.Get<TargetFrameworkEntities>().OrganisationNotes.Add(new OrganisationNote { 
+                    OrganisationID = orgID,
+                    UserAccountOrganisationID = uaoID,
+                    Notes = notes,
+                    DateTime = DateTime.Now
+                });
+                await scope.SaveChangesAsync();
             }
         }
     }
