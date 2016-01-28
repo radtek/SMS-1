@@ -103,6 +103,13 @@ $(function () {
                     template: function (dataItem) {
                         return dateString(dataItem.CreatedOn);
                     }
+                },
+                {
+                    field: "VerifiedOn",
+                    title: "Verified On",
+                    template: function (dataItem) {
+                        return dateString(dataItem.VerifiedOn);
+                    }
                 }
             ]
         });
