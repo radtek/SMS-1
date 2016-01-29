@@ -15,28 +15,30 @@ namespace Bec.TargetFramework.Business.Product.Steps
             dto.DeductionInformationDtos = new List<InformationDTO>();
             dto.TaxInformationDtos = new List<InformationDTO>();
 
-            foreach (var d in DeductionHelper.GetCountryDeductions(scope, cart.CountryCode)
-                .SelectMany(x => x.Deduction.Products, (x, y) => new { CountryDeduction = x, Product = y }))
+            foreach( var d in DeductionHelper.GetCountryDeductions(scope, cart.CountryCode))
             {
-
-                var informationDto = PricingHelper.CalculateCheckoutDeductionPricing(cart, dto, d.CountryDeduction, d.Product);
-                if (d.Product != null)
+                if (d.Deduction.Products.Count == 0)
                 {
-                    if (d.CountryDeduction.Deduction.IsPercentageBased)
-                        dto.CartTotalDeductionsPercentage += informationDto.PercentageComponent;
+                    var taxInfo = PricingHelper.CalculateCheckoutDeductionPricing(cart, dto, d, null);
+                    if (d.Deduction.IsPercentageBased)
+                        dto.CartTotalTaxPercentage += taxInfo.PercentageComponent;
                     else
-                        dto.CartTotalDeductions += informationDto.ValueComponent;
+                        dto.CartTotalTax += taxInfo.ValueComponent;
 
-                    dto.DeductionInformationDtos.Add(informationDto);
+                    dto.TaxInformationDtos.Add(taxInfo);
                 }
                 else
                 {
-                    if (d.CountryDeduction.Deduction.IsPercentageBased)
-                        dto.CartTotalTaxPercentage += informationDto.PercentageComponent;
-                    else
-                        dto.CartTotalTax += informationDto.ValueComponent;
+                    foreach (var p in d.Deduction.Products)
+                    {
+                        var deductionDto = PricingHelper.CalculateCheckoutDeductionPricing(cart, dto, d, p);
+                        if (d.Deduction.IsPercentageBased)
+                            dto.CartTotalDeductionsPercentage += deductionDto.PercentageComponent;
+                        else
+                            dto.CartTotalDeductions += deductionDto.ValueComponent;
 
-                    dto.TaxInformationDtos.Add(informationDto);
+                        dto.DeductionInformationDtos.Add(deductionDto);
+                    }
                 }
             }
 
