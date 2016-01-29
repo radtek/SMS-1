@@ -22,7 +22,7 @@ namespace Bec.TargetFramework.Entities
         public SmsTransactionDTO() {
         }
 
-        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> invoiceID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice) {
+        public SmsTransactionDTO(global::System.Guid smsTransactionID, global::System.Nullable<System.Guid> addressID, global::System.Nullable<int> price, string reference, bool isActive, bool isDeleted, global::System.Nullable<int> tenureTypeID, global::System.Guid organisationID, global::System.DateTime createdOn, long rowVersion, string mortgageApplicationNumber, string lenderName, string createdBy, global::System.Nullable<System.DateTime> modifiedOn, string modifiedBy, bool isProductAdvised, global::System.Nullable<System.DateTime> productAdvisedOn, global::System.Nullable<System.Guid> shoppingCartID, global::System.Nullable<System.Guid> invoiceID, AddressDTO address, OrganisationDTO organisation, List<SmsUserAccountOrganisationTransactionDTO> smsUserAccountOrganisationTransactions, InvoiceDTO invoice, ShoppingCartDTO shoppingCart) {
 
           this.SmsTransactionID = smsTransactionID;
           this.AddressID = addressID;
@@ -41,11 +41,13 @@ namespace Bec.TargetFramework.Entities
           this.ModifiedBy = modifiedBy;
           this.IsProductAdvised = isProductAdvised;
           this.ProductAdvisedOn = productAdvisedOn;
+          this.ShoppingCartID = shoppingCartID;
           this.InvoiceID = invoiceID;
           this.Address = address;
           this.Organisation = organisation;
           this.SmsUserAccountOrganisationTransactions = smsUserAccountOrganisationTransactions;
           this.Invoice = invoice;
+          this.ShoppingCart = shoppingCart;
         }
 
         #endregion
@@ -104,6 +106,9 @@ namespace Bec.TargetFramework.Entities
         public global::System.Nullable<System.DateTime> ProductAdvisedOn { get; set; }
 
         [DataMember]
+        public global::System.Nullable<System.Guid> ShoppingCartID { get; set; }
+
+        [DataMember]
         public global::System.Nullable<System.Guid> InvoiceID { get; set; }
 
         #endregion
@@ -121,6 +126,9 @@ namespace Bec.TargetFramework.Entities
 
         [DataMember]
         public InvoiceDTO Invoice { get; set; }
+
+        [DataMember]
+        public ShoppingCartDTO ShoppingCart { get; set; }
 
         #endregion
     }

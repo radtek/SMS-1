@@ -34,6 +34,17 @@
                         </ul>
                         <div class="tab-content padding-top-10">
                             <div class="tab-pane active" id="transactionDetailsPanel">
+                                @if (TempData["PaymentSuccessful"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-success fade in margin-left-10 margin-right-10 margin-top-10">
+                                                <i class="fa fa-info margin-right-5"></i><strong>Payment Successful </strong>
+                                                <p>Safe Buyer was successfully purchased. Please follow the instructions below.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 <div id="detailsRow" class="row margin-left-10 margin-right-10 margin-top-10" style="display:@(Model.Confirmed? "block" : "none")">
                                     <div id="detailsRowTransactionAddress" class="col-sm-6 col-lg-4" style="display:@(!string.IsNullOrWhiteSpace(Model.SmsTransaction.Address.Line1) ? "block" : "none")">
                                         <dl>

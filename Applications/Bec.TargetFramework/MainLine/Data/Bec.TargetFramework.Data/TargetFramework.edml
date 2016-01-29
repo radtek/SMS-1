@@ -2975,6 +2975,10 @@
             <End Role="Invoice" EntitySet="Invoices" />
             <End Role="SmsTransaction" EntitySet="SmsTransactions" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fk" Association="Bec.TargetFramework.Data.Store.SmsTransaction_fk">
+            <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+            <End Role="SmsTransaction" EntitySet="SmsTransactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
           <Key>
@@ -9809,6 +9813,7 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
           <Property Name="IsProductAdvised" Type="boolean" Nullable="false" DefaultValue="true" />
           <Property Name="ProductAdvisedOn" Type="timestamptz" />
+          <Property Name="ShoppingCartID" Type="uuid" />
           <Property Name="InvoiceID" Type="uuid" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
@@ -18286,6 +18291,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_fk">
+          <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.Store.ShoppingCart" Multiplicity="0..1" />
+          <End Role="SmsTransaction" Type="Bec.TargetFramework.Data.Store.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="ShoppingCartID" />
+            </Principal>
+            <Dependent Role="SmsTransaction">
+              <PropertyRef Name="ShoppingCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -21237,6 +21254,10 @@
             <End Role="Invoice" EntitySet="Invoices" />
             <End Role="SmsTransactions" EntitySet="SmsTransactions" />
           </AssociationSet>
+          <AssociationSet Name="SmsTransaction_fkSet" Association="Bec.TargetFramework.Data.SmsTransaction_fk">
+            <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+            <End Role="SmsTransactions" EntitySet="SmsTransactions" />
+          </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
             <Parameter Name="organisationid" Mode="In" Type="Guid" />
@@ -23887,6 +23908,7 @@
           <NavigationProperty Name="GlobalPaymentMethod" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_GlobalPaymentMethod" FromRole="ShoppingCarts" ToRole="GlobalPaymentMethod" ed:Guid="bdc6f768-69b1-4190-b769-88b5896d1941" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_UserAccountOrganisation" FromRole="ShoppingCarts" ToRole="UserAccountOrganisation" ed:Guid="7d030405-6515-4007-a965-a88672cad996" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_ShoppingCart_Organisation" FromRole="ShoppingCarts" ToRole="Organisation" ed:Guid="289516ae-8bb7-4872-9edb-353c7fb6a817" />
+          <NavigationProperty Name="SmsTransactions" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="ShoppingCart" ToRole="SmsTransactions" ed:Guid="0d527e27-c9aa-47f5-b370-8769d9a79a35" />
         </EntityType>
         <EntityType Name="AttachmentDetail" ed:Guid="e55c8b50-cfd3-4015-93c6-306b867cc328">
           <Key>
@@ -29191,11 +29213,13 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
           <Property Name="IsProductAdvised" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="483bf8af-0b11-4d65-8feb-b8c35457d3cc" />
           <Property Name="ProductAdvisedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7c4a4acd-4ab4-4d84-b9fc-c06b56412c9f" />
+          <Property Name="ShoppingCartID" Type="Guid" ed:ValidateRequired="False" ed:Guid="49a8f39d-afe8-4801-afbd-f5458a51c720" />
           <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
           <NavigationProperty Name="SmsUserAccountOrganisationTransactions" Relationship="Bec.TargetFramework.Data.SmsUserAccountOrganisationTransaction_SmsTransaction_fk" FromRole="SmsTransaction" ToRole="SmsUserAccountOrganisationTransactions" ed:Guid="0e527fdd-2527-424b-a66c-bdc5f6c950bd" />
           <NavigationProperty Name="Invoice" Relationship="Bec.TargetFramework.Data.SmsTransaction_Invoice_fk" FromRole="SmsTransactions" ToRole="Invoice" ed:Guid="9581c506-0c35-481e-92b7-9280dc5d9369" />
+          <NavigationProperty Name="ShoppingCart" Relationship="Bec.TargetFramework.Data.SmsTransaction_fk" FromRole="SmsTransactions" ToRole="ShoppingCart" ed:Guid="45a12998-ef34-449e-b36c-231f3d3445d4" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus" ed:Guid="87c44c9e-5f30-45e7-bda3-e5d28f150d26">
           <Key>
@@ -37360,6 +37384,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="SmsTransaction_fk" ed:Guid="d27c2b7a-ede7-4812-870d-10e62feaa6f7">
+          <End Role="ShoppingCart" Type="Bec.TargetFramework.Data.ShoppingCart" Multiplicity="0..1" />
+          <End Role="SmsTransactions" Type="Bec.TargetFramework.Data.SmsTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShoppingCart">
+              <PropertyRef Name="ShoppingCartID" />
+            </Principal>
+            <Dependent Role="SmsTransactions">
+              <PropertyRef Name="ShoppingCartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -43969,6 +44005,7 @@
                 <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
                 <ScalarProperty Name="IsProductAdvised" ColumnName="IsProductAdvised" />
                 <ScalarProperty Name="ProductAdvisedOn" ColumnName="ProductAdvisedOn" />
+                <ScalarProperty Name="ShoppingCartID" ColumnName="ShoppingCartID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
