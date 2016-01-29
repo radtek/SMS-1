@@ -61,7 +61,6 @@
     {{/if}}
 </dl>
 {{/if}}
-<h5>Product Details</h5>
 {{#xif "this.SmsTransaction.IsProductAdvised == false && this.SmsTransaction.InvoiceID == null"}}
 <div class="pull-right">
     <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"
@@ -70,6 +69,7 @@
     </a>
 </div>
 {{/xif}}
+<h5>Product Details</h5>
 <dl class="dl-horizontal">
     <dt>Product Name:</dt>
     <dd>
