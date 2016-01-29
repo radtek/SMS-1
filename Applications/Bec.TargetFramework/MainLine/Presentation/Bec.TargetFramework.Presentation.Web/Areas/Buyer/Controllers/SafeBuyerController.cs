@@ -82,15 +82,17 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             });
 
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.SmsTransactionID == txID);
-
             var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
             var model = res.First();
 
             await EnsureCanConfirmDetailsAndCheckBankAccount(model.SmsUserAccountOrganisationTransactionID, uaoID, QueryClient);
 
+            var canEditBirthDate = await CanEditBirthDate(uaoID);
+
             ViewBag.orgID = model.SmsTransaction.OrganisationID;
             ViewBag.smsUserAccountOrganisationTransactionID = model.SmsUserAccountOrganisationTransactionID;
-            
+            ViewBag.canEditBirthDate = canEditBirthDate;
+
             if(model.Confirmed)
                 return PartialView("_CheckBankAccount", model);
             else
@@ -255,6 +257,14 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             var orderByDesc = order + " desc";
             var data = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + ODataHelper.Filter(filter) + orderByDesc);
             return data;
+        }
+
+        private async Task<bool> CanEditBirthDate(Guid uaoID)
+        {
+            var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
+            var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x => x.UserAccountOrganisationID == uaoID && x.Confirmed);
+            var res = await QueryClient.QueryAsync<SmsUserAccountOrganisationTransactionDTO>("SmsUserAccountOrganisationTransactions", select + filter);
+            return !res.Any();
         }
 
         internal static async Task EnsureCanPurchaseProduct(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
