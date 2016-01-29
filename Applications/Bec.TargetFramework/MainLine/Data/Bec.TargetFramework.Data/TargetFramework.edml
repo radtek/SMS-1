@@ -9807,7 +9807,8 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
           <Property Name="ModifiedOn" Type="timestamptz" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
-          <Property Name="IsProductPushed" Type="boolean" Nullable="false" DefaultValue="false" />
+          <Property Name="IsProductAdvised" Type="boolean" Nullable="false" DefaultValue="true" />
+          <Property Name="ProductAdvisedOn" Type="timestamptz" />
           <Property Name="InvoiceID" Type="uuid" />
         </EntityType>
         <EntityType Name="OrganisationBankAccountStatus">
@@ -29188,7 +29189,8 @@
           <Property Name="CreatedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a7b58fb5-297e-4763-8543-b8dde014a79f" />
           <Property Name="ModifiedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="68e91921-de9e-4379-9ce5-1c9a4d18e6ad" />
           <Property Name="ModifiedBy" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="12ec530e-6dc1-42b8-9740-f1b4521a21d0" />
-          <Property Name="IsProductPushed" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="1b813852-2cba-488a-865b-e2a059554bd7" />
+          <Property Name="IsProductAdvised" Type="Boolean" Nullable="false" DefaultValue="true" ed:ValidateRequired="True" ed:Guid="483bf8af-0b11-4d65-8feb-b8c35457d3cc" />
+          <Property Name="ProductAdvisedOn" Type="DateTime" ed:ValidateRequired="False" ed:Guid="7c4a4acd-4ab4-4d84-b9fc-c06b56412c9f" />
           <Property Name="InvoiceID" Type="Guid" ed:ValidateRequired="False" ed:Guid="3890bf34-13ba-4b58-8736-db96c6c02239" />
           <NavigationProperty Name="Address" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Address" FromRole="SmsTransactions" ToRole="Address" ed:Guid="0848b125-2af1-45ee-afd5-db0d6edfa965" />
           <NavigationProperty Name="Organisation" Relationship="Bec.TargetFramework.Data.fk_SmsTransaction_Organisation" FromRole="SmsTransactions" ToRole="Organisation" ed:Guid="0a677256-39fe-441e-84e8-2478495adb5b" />
@@ -43964,8 +43966,9 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="IsProductPushed" ColumnName="IsProductPushed" />
                 <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="IsProductAdvised" ColumnName="IsProductAdvised" />
+                <ScalarProperty Name="ProductAdvisedOn" ColumnName="ProductAdvisedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

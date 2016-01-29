@@ -913,13 +913,13 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		Task PushProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+		Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		void PushProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
+		void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
 		/// <param name="smsTransactionID"></param>
 		/// <param name="purchaserUaoID"></param>
@@ -3893,10 +3893,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
 		/// <returns></returns>
-		public virtual Task PushProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
+		public virtual Task AdviseProductAsync(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<object>("api/OrganisationLogic/PushProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user);
+			return PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user);
 		}
 
 		/// <summary>
@@ -3905,10 +3905,10 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// <param name="txID"></param>
 		/// <param name="orgID"></param>
 		/// <param name="primaryBuyerUaoID"></param>
-		public virtual void PushProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
+		public virtual void AdviseProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID)
 		{
 			string _user = getHttpContextUser();
-			Task.Run(() => PostAsync<object>("api/OrganisationLogic/PushProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
+			Task.Run(() => PostAsync<object>("api/OrganisationLogic/AdviseProduct?txID=" + txID + "&orgID=" + orgID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, null, _user)).Wait();
 		}
 
 		/// <summary>

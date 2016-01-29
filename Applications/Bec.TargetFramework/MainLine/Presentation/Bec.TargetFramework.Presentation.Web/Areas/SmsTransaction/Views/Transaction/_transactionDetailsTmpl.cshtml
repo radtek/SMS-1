@@ -1,7 +1,7 @@
 ﻿{{#unless SmsTransaction.InvoiceID}}
-<span class="pull-right">
+@*<span class="pull-right">
     <a id="quoteButton" class="btn btn-sm btn-primary" data-modallink="true" title="Send Quote" data-url="@Url.Action("ViewSendQuote", "Transaction", new { area = "SmsTransaction" })"><i class="sms-fw sms-safe-send margin-right-5"></i>Send Quote</a>
-</span>
+</span>*@
 {{/unless}}
 
 {{#xif "this.SmsTransaction.Address.Line1 || this.SmsTransaction.Address.Line2 || this.SmsTransaction.Address.Town || this.SmsTransaction.Address.County || this.SmsTransaction.Address.PostalCode"}}
@@ -61,12 +61,12 @@
     {{/if}}
 </dl>
 {{/if}}
-<h5>Product</h5>
-{{#xif "this.SmsTransaction.IsProductPushed == false && this.SmsTransaction.InvoiceID == null"}}
+<h5>Product Details</h5>
+{{#xif "this.SmsTransaction.IsProductAdvised == false && this.SmsTransaction.InvoiceID == null"}}
 <div class="pull-right">
-    <a class="btn btn-sm btn-primary" data-modallink="true" title="Push Safe Buyer Product"
-       data-href="@Url.Action("ViewPushProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
-        <i class="fa fa-bullhorn margin-right-5"></i>Push Safe Buyer Product
+    <a class="btn btn-sm btn-primary" data-modallink="true" title="Advise Buyer To Use Safe Buyer Product"
+       data-href="@Url.Action("ViewAdviseProduct", "Transaction", new { area = "SmsTransaction" })?transactionId={{SmsTransactionID}}&primaryBuyerUaoId={{UserAccountOrganisationID}}&&pageNumber={{pageNumber}}">
+        <i class="fa fa-bullhorn margin-right-5"></i>Advise Buyer To Use Safe Buyer Product
     </a>
 </div>
 {{/xif}}
@@ -75,10 +75,20 @@
     <dd>
         <p>Safe Buyer</p>
     </dd>
-    {{#if safeBuyerPurchasedBy}}
-    <dt>Purchased By:</dt>
+    <dt>Product Advised:</dt>
     <dd>
-        <p>{{safeBuyerPurchasedBy}} on {{safeBuyerPurchasedOn}}</p>
+        <p>
+            {{#if SmsTransaction.IsProductAdvised}}{{productAdvisedOn}}{{else}}No{{/if}}
+        </p>
     </dd>
-    {{/if}}
+    <dt>Product Ordered:</dt>
+    <dd>
+        <p>
+            {{#if safeBuyerPurchasedBy}}
+            {{safeBuyerPurchasedOn}} by {{safeBuyerPurchasedBy}}
+            {{else}}
+            No
+            {{/if}}
+        </p>
+    </dd>
 </dl>

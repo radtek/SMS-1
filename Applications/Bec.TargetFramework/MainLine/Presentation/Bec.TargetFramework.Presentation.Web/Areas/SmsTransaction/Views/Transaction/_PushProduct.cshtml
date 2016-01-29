@@ -1,15 +1,15 @@
 ﻿@using Bec.TargetFramework.Entities
 
-<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="pushProductLabel" aria-hidden="true">
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="adviseProductLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="pushProductLabel">Push Safe Buyer Product</h4>
+                <h4 class="modal-title" id="adviseProductLabel">Push Safe Buyer Product</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <form action="@Url.Action("PushProduct", "Transaction", new { area = "SmsTransaction" })" method="POST" id="pushProduct-form" class="smart-form">
+                        <form action="@Url.Action("AdviseProduct", "Transaction", new { area = "SmsTransaction" })" method="POST" id="adviseProduct-form" class="smart-form">
                             @Html.ValidationBootstrap()
                             @Html.AntiForgeryToken()
                             <fieldset>
@@ -28,14 +28,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button typw="button" id="cancelPushProduct" class="btn btn-default" data-dismiss="modal">
+                <button typw="button" id="cancelAdviseProduct" class="btn btn-default" data-dismiss="modal">
                     Cancel
                 </button>
-                <button type="button" id="submitPushProduct" class="btn btn-primary">
+                <button type="button" id="submitAdviseProduct" class="btn btn-primary">
                     Push Product
                 </button>
             </div>
         </div>
     </div>
 </div>
-<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/_PushProduct")"></script>
+<script async src="@Scripts.Url("~/Scripts/SmsTransaction/Transaction/_AdviseProduct")"></script>

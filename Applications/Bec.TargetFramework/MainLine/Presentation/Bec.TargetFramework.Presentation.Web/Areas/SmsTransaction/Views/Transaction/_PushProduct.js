@@ -1,4 +1,4 @@
-﻿$("#submitPushProduct").click(function () {
-    $("#submitPushProduct").prop('disabled', true);
-    $("#pushProduct-form").submit();
+﻿$("#submitAdviseProduct").click(function () {
+    $("#submitAdviseProduct").prop('disabled', true);
+    $("#adviseProduct-form").submit();
 });
