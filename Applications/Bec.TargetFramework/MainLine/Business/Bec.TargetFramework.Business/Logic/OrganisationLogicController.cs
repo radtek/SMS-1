@@ -716,9 +716,8 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, Guid primaryBuyerUaoID)
+        public async Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProduct(OrderRequestDTO orderRequest, Guid smsTransactionID, Guid purchaserUaoID)
         {
-            // todo: get the cost from db
             const decimal safeBuyerCost = 10.00m;
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
@@ -727,7 +726,7 @@ namespace Bec.TargetFramework.Business.Logic
             }
             var product = ProductLogic.GetBankAccountCheckProduct();
             Ensure.That(product).IsNotNull();
-            var productPurchaseResult = await PaymentLogic.PurchaseProduct(primaryBuyerUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", safeBuyerCost);
+            var productPurchaseResult = await PaymentLogic.PurchaseProduct(purchaserUaoID, product.ProductID, product.ProductVersionID, PaymentCardTypeIDEnum.Other, PaymentMethodTypeIDEnum.Credit_Card, "Bank Account Check", safeBuyerCost);
             orderRequest.TransactionOrderID = productPurchaseResult.ShoppingCartTransactionOrderID;
             orderRequest.PaymentChargeType = PaymentChargeTypeEnum.Sale;
             var transactionOrder = await PaymentLogic.ProcessPaymentTransaction(orderRequest);
