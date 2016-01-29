@@ -1,0 +1,66 @@
+﻿@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model SMHPageModel
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="deletePageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!--
+                <div class="help help-container help-sm">
+                    <div class="help-vert">HELP</div>
+                    <div class="help help-inner">
+                        <div>Help goes here</div>
+                    </div>
+                </div>
+        -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deletePageLabel">Delete Page</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="@Url.Action("DeletePage", "ShowMeHow", new { area = "Admin" })" method="POST" id="deletePage-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.PageId)
+                            @Html.HiddenFor(m => m.RoleId)
+                            @Html.HiddenFor(m => m.IsSystemSMH)                            
+                            <fieldset>
+                                <section>
+                                    <h3><strong>This Page and all its Items will be deleted. Are you sure?</strong></h3>
+                                </section>
+                                <section>
+                                    <dl class="dl-horizontal">
+                                        <dt>User Role:</dt>
+                                        <dd><p>@Html.DisplayFor(m => m.RoleName)</p></dd>
+                                        <dt>Page Name:</dt>
+                                        <dd><p>@Html.DisplayFor(m => m.PageName)</p></dd>
+                                        @if (Model.IsSystemSMH)
+                                        {
+                                            @Html.HiddenFor(m => m.PageUrl)
+                                        }
+                                        else
+                                        {
+                                            <dt>Page URL:</dt>
+                                            <dd><p>@Html.DisplayFor(m => m.PageUrl)</p></dd>
+                                        }
+                                    </dl>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelDeletePage" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitDeletePage" class="btn btn-primary" tabindex="5">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Shared/_DeleteSMHPage")"></script>

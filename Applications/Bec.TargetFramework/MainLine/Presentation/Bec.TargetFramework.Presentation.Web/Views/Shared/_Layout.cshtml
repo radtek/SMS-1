@@ -43,6 +43,7 @@
     <!-- get these synchronously, then load page-specific scripts asynchronously -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
     @Scripts.Render("~/bundles/scripts/site")
 
     @RenderSection("Scripts", false)
@@ -64,5 +65,10 @@
     @Html.Partial("_Toastr")
     <!--smart admin is a bit poor and must live at the end of the body element-->
     @Scripts.Render("~/bundles/scripts/smartadmin")
+
+    <link href="~/Content/introjs.min.css" rel="stylesheet" />
+    @*@Html.Partial("~/Views/Shared/_ShowMeHow.cshtml")*@    
+    <script src="~/Scripts/intro.min.js"></script>
+    <script async src="@Scripts.Url("~/Scripts/Shared/_IntroSMS")"></script>
 </body>
 </html>

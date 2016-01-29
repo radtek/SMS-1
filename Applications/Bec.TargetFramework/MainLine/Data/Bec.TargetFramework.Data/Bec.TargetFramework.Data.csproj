@@ -355,6 +355,8 @@
     <Compile Include="Converters\ShoppingCartItemConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductAttributeConverter.cs" />
     <Compile Include="Converters\ShoppingCartItemProductSpecificationConverter.cs" />
+    <Compile Include="Converters\SMHItemConverter.cs" />
+    <Compile Include="Converters\SMHPageConverter.cs" />
     <Compile Include="Converters\SmsBankAccountCheckConverter.cs" />
     <Compile Include="Converters\SmsSrcFundsBankAccountConverter.cs" />
     <Compile Include="Converters\SmsTransactionConverter.cs" />
@@ -751,6 +753,8 @@
     <Compile Include="Model\TargetFramework.ShoppingCartItem.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductAttribute.cs" />
     <Compile Include="Model\TargetFramework.ShoppingCartItemProductSpecification.cs" />
+    <Compile Include="Model\TargetFramework.SMHItem.cs" />
+    <Compile Include="Model\TargetFramework.SMHPage.cs" />
     <Compile Include="Model\TargetFramework.SmsBankAccountCheck.cs" />
     <Compile Include="Model\TargetFramework.SmsSrcFundsBankAccount.cs" />
     <Compile Include="Model\TargetFramework.SmsTransaction.cs" />

@@ -115,6 +115,15 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_Verify").Include("~/Areas/Admin/Views/Shared/_Verify.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_RejectTempCompany").Include("~/Areas/Admin/Views/Shared/_RejectTempCompany.js"));
 
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/ShowMeHow/Index").Include("~/Areas/Admin/Views/ShowMeHow/Index.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHPage").Include("~/Areas/Admin/Views/Shared/_AddSMHPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHSysPage").Include("~/Areas/Admin/Views/Shared/_AddSMHSysPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_AddSMHItem").Include("~/Areas/Admin/Views/Shared/_AddSMHItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSMHPage").Include("~/Areas/Admin/Views/Shared/_EditSMHPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_EditSMHItem").Include("~/Areas/Admin/Views/Shared/_EditSMHItem.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSMHPage").Include("~/Areas/Admin/Views/Shared/_DeleteSMHPage.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Admin/Shared/_DeleteSMHItem").Include("~/Areas/Admin/Views/Shared/_DeleteSMHItem.js"));
+
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Account/Index").Include("~/Areas/BankAccount/Views/Account/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Check/Index").Include("~/Areas/BankAccount/Views/Check/Index.js"));
             bundles.Add(new ScriptBundle("~/Scripts/BankAccount/Shared/_AddBankAccount").Include("~/Areas/BankAccount/Views/Shared/_AddBankAccount.js"));
@@ -144,6 +153,7 @@ namespace Bec.TargetFramework.Presentation.Web
             bundles.Add(new ScriptBundle("~/Scripts/Buyer/SafeBuyer/_Match").Include("~/Areas/Buyer/Views/SafeBuyer/_Match.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_AddStatus").Include("~/Views/Shared/_AddStatus.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/Shared/_IntroSMS").Include("~/Views/Shared/_IntroSMS.js"));
             bundles.Add(new ScriptBundle("~/Scripts/Shared/_Toastr").Include("~/Views/Shared/_Toastr.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/daterange").Include("~/Scripts/Bec/bec.daterange.js"));

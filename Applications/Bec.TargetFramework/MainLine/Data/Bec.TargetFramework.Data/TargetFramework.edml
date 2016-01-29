@@ -415,6 +415,8 @@
           <EntitySet Name="vMessageReads" EntityType="Bec.TargetFramework.Data.Store.vMessageRead" store:Type="Views" Schema="public" Table="vMessageRead" />
           <EntitySet Name="vConversationUnreads" EntityType="Bec.TargetFramework.Data.Store.vConversationUnread" store:Type="Views" Schema="public" Table="vConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.Store.File" store:Type="Tables" Schema="public" Table="File" />
+          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.Store.SMHPage" store:Type="Tables" Schema="public" Table="SMHPage" />
+          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.Store.SMHItem" store:Type="Tables" Schema="public" Table="SMHItem" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat" Association="Bec.TargetFramework.Data.Store.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedger" EntitySet="DefaultOrganisationLedgers" />
@@ -2970,6 +2972,10 @@
           <AssociationSet Name="File_fk_UserAccountOrganisation" Association="Bec.TargetFramework.Data.Store.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SMHItem_SMHPage" Association="Bec.TargetFramework.Data.Store.fk_SMHItem_SMHPage">
+            <End Role="SMHPage" EntitySet="SMHPages" />
+            <End Role="SMHItem" EntitySet="SMHItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DefaultOrganisationLedger">
@@ -10038,6 +10044,28 @@
           <Property Name="Type" Type="varchar" Nullable="false" />
           <Property Name="UserAccountOrganisationID" Type="uuid" />
           <Property Name="Temporary" Type="boolean" Nullable="false" DefaultValue="false" />
+        </EntityType>
+        <EntityType Name="SMHPage">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="PageURL" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="RoleId" Type="uuid" />
+        </EntityType>
+        <EntityType Name="SMHItem">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="uuid" Nullable="false" devart:DefaultValue="uuid_generate_v1()" StoreGeneratedPattern="Identity" />
+          <Property Name="PageID" Type="uuid" Nullable="false" />
+          <Property Name="ItemName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="ItemSelector" Type="varchar" MaxLength="200" />
+          <Property Name="ItemDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="ItemPosition" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="ItemOrder" Type="int" Nullable="false" DefaultValue="0" />
+          <Property Name="TabContainerId" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
           <End Role="DefaultOrganisation" Type="Bec.TargetFramework.Data.Store.DefaultOrganisation" Multiplicity="1" />
@@ -18263,6 +18291,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_SMHItem_SMHPage">
+          <End Role="SMHPage" Type="Bec.TargetFramework.Data.Store.SMHPage" Multiplicity="1" />
+          <End Role="SMHItem" Type="Bec.TargetFramework.Data.Store.SMHItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SMHPage">
+              <PropertyRef Name="PageID" />
+            </Principal>
+            <Dependent Role="SMHItem">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_GetUserClaims" devart:IsConcealedFunction="true" devart:ReturnType="record" IsComposable="false" BuiltIn="false" Aggregate="false" NiladicFunction="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="public" StoreFunctionName="fn_GetUserClaims">
           <Parameter Name="userid" Type="uuid" Mode="In" />
           <Parameter Name="organisationid" Type="uuid" Mode="In" />
@@ -18712,6 +18752,8 @@
           <EntitySet Name="VMessageReads" EntityType="Bec.TargetFramework.Data.VMessageRead" />
           <EntitySet Name="VConversationUnreads" EntityType="Bec.TargetFramework.Data.VConversationUnread" />
           <EntitySet Name="Files" EntityType="Bec.TargetFramework.Data.File" />
+          <EntitySet Name="SMHPages" EntityType="Bec.TargetFramework.Data.SMHPage" />
+          <EntitySet Name="SMHItems" EntityType="Bec.TargetFramework.Data.SMHItem" />
           <AssociationSet Name="fk_DefaultOrganisationLedger_DefaultOrganisationTemplatSet" Association="Bec.TargetFramework.Data.fk_DefaultOrganisationLedger_DefaultOrganisationTemplat">
             <End Role="DefaultOrganisation" EntitySet="DefaultOrganisations" />
             <End Role="DefaultOrganisationLedgers" EntitySet="DefaultOrganisationLedgers" />
@@ -21207,6 +21249,10 @@
           <AssociationSet Name="File_fk_UserAccountOrganisationSet" Association="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation">
             <End Role="UserAccountOrganisation" EntitySet="UserAccountOrganisations" />
             <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SMHItem_SMHPageSet" Association="Bec.TargetFramework.Data.fk_SMHItem_SMHPage">
+            <End Role="SMHPage" EntitySet="SMHPages" />
+            <End Role="SMHItems" EntitySet="SMHItems" />
           </AssociationSet>
           <FunctionImport Name="FnGetUserClaim" ReturnType="Collection(Bec.TargetFramework.Data.FnGetUserClaimResult)" ed:Guid="6be29afd-a540-405d-a99e-bdf2496bf5ce">
             <Parameter Name="userid" Mode="In" Type="Guid" />
@@ -29419,6 +29465,30 @@
           <Property Name="Temporary" Type="Boolean" Nullable="false" DefaultValue="false" ed:ValidateRequired="True" ed:Guid="91815814-b87c-47b7-affc-47742e4729c1" />
           <NavigationProperty Name="UserAccountOrganisation" Relationship="Bec.TargetFramework.Data.File_fk_UserAccountOrganisation" FromRole="Files" ToRole="UserAccountOrganisation" ed:Guid="fc10697c-d6af-4995-a560-91aa3d5faf31" />
         </EntityType>
+        <EntityType Name="SMHPage" ed:Guid="90b58ec7-8349-468a-a5f7-90bd921f22dd">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="d3dec9ee-24a5-4c59-b01b-aeadf4fe3972" />
+          <Property Name="PageName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="5100bae4-deb9-4115-948a-b772ac62487f" />
+          <Property Name="PageURL" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="a260ed70-20de-4ff8-be7e-144fba988047" />
+          <Property Name="RoleId" Type="Guid" ed:ValidateRequired="False" ed:Guid="d12e7a11-e2f3-4f33-b75f-ac6582a94a4f" />
+          <NavigationProperty Name="SMHItems" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHPage" ToRole="SMHItems" ed:Guid="e288d868-91c1-47fb-9e9d-f5f23afc303c" />
+        </EntityType>
+        <EntityType Name="SMHItem" ed:Guid="e2f38093-9b8b-413e-9a41-5f57dc7d6151">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" ed:ValidateRequired="True" ed:Guid="89a3a3f3-3719-4286-9918-cbbb46a16f04" />
+          <Property Name="PageID" Type="Guid" Nullable="false" ed:ValidateRequired="True" ed:Guid="b7124239-677d-491f-8835-544011eb1032" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="True" ed:Guid="1e0eeaac-f22d-49c1-9ff1-9cb48124e55e" />
+          <Property Name="ItemSelector" Type="String" MaxLength="200" Unicode="true" ed:ValidateMaxLength="200" ed:ValidateRequired="False" ed:Guid="a9515e73-2172-4a3b-aeea-9e461937d5b1" />
+          <Property Name="ItemDescription" Type="String" MaxLength="1000" Unicode="true" ed:ValidateMaxLength="1000" ed:ValidateRequired="False" ed:Guid="a80dd625-b4f4-418d-bc78-b5a06b6ad04b" />
+          <Property Name="ItemPosition" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="b7c474f5-e95e-462c-9e88-1022572e5466" />
+          <Property Name="ItemOrder" Type="Int32" Nullable="false" DefaultValue="0" ed:ValidateRequired="True" ed:Guid="17ae86d6-f874-4dc2-a232-2f07c10524b8" />
+          <Property Name="TabContainerId" Type="String" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="False" ed:Guid="7ece1cac-b254-4b70-9f2f-dfa29c500c44" />
+          <NavigationProperty Name="SMHPage" Relationship="Bec.TargetFramework.Data.fk_SMHItem_SMHPage" FromRole="SMHItems" ToRole="SMHPage" ed:Guid="778cfa04-0267-492b-88b8-dbcf59592f39" />
+        </EntityType>
         <ComplexType Name="FnGetUserClaimResult" ed:Guid="02a61523-2bde-45db-9d03-cbaae6851886">
           <Property Name="ClaimType" Type="String" ed:ValidateRequired="False" ed:Guid="98d70a26-faf8-4ca9-b564-60d23df13c98" />
           <Property Name="ClaimName" Type="String" ed:ValidateRequired="False" ed:Guid="f6b1a92d-95a2-4d2d-9619-09eedd1608ce" />
@@ -37308,6 +37378,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_SMHItem_SMHPage" ed:Guid="d0f649e6-a39d-45a3-abab-68314441d228">
+          <End Role="SMHPage" Type="Bec.TargetFramework.Data.SMHPage" Multiplicity="1" />
+          <End Role="SMHItems" Type="Bec.TargetFramework.Data.SMHItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SMHPage">
+              <PropertyRef Name="PageID" />
+            </Principal>
+            <Dependent Role="SMHItems">
+              <PropertyRef Name="PageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- MSL content -->
@@ -44145,6 +44227,30 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="UserAccountOrganisationID" ColumnName="UserAccountOrganisationID" />
                 <ScalarProperty Name="Temporary" ColumnName="Temporary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SMHPages">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHPage">
+              <MappingFragment StoreEntitySet="SMHPages">
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="PageURL" ColumnName="PageURL" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SMHItems">
+            <EntityTypeMapping TypeName="Bec.TargetFramework.Data.SMHItem">
+              <MappingFragment StoreEntitySet="SMHItems">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemSelector" ColumnName="ItemSelector" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ItemPosition" ColumnName="ItemPosition" />
+                <ScalarProperty Name="TabContainerId" ColumnName="TabContainerId" />
+                <ScalarProperty Name="ItemOrder" ColumnName="ItemOrder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

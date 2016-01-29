@@ -33,8 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocsByReflection">
-      <HintPath>..\..\..\packages\DocsByReflection.1.0.8.0\lib\net40\DocsByReflection.dll</HintPath>
+    <Reference Include="DocsByReflection, Version=1.0.8.0, Culture=neutral, PublicKeyToken=64d1e8338525e7be, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DocsByReflection.1.0.11\lib\net40\DocsByReflection.dll</HintPath>
+    </Reference>
+    <Reference Include="HelperSharp">
+      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -62,7 +66,9 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Templates\JsProxyTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>JsProxyTemplate.cs</LastGenOutput>

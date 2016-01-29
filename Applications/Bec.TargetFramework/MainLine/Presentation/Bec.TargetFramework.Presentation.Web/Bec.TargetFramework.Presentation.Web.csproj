@@ -164,6 +164,7 @@
     <Compile Include="App_Helpers\CaptchaService.cs" />
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
+    <Compile Include="App_Helpers\IntroHelper.cs" />
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Helpers\ControllerExtensions.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
@@ -190,8 +191,10 @@
     <Compile Include="Areas\Admin\Controllers\MessagesNotificationsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FinanceController.cs" />
     <Compile Include="App_Helpers\PdfContentResult.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShowMeHowController.cs" />
     <Compile Include="Areas\Admin\Extensions\ActivityTypeExtensions.cs" />
     <Compile Include="Areas\Admin\Models\ConversationsModel.cs" />
+    <Compile Include="Areas\Admin\Models\SMHPageModel.cs" />
     <Compile Include="Areas\BankAccount\BankAccountAreaRegistration.cs" />
     <Compile Include="Areas\BankAccount\Controllers\AccountController.cs" />
     <Compile Include="Areas\BankAccount\Controllers\CheckController.cs" />
@@ -260,6 +263,14 @@
     <Content Include="Areas\Admin\Views\Reporting\Users.js" />
     <Content Include="Areas\Admin\Views\Reporting\Firms.js" />
     <Content Include="Areas\Admin\Views\Reporting\Transactions.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHSysPage.js" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteSMHItem.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditSMHItem.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHItem.js" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteSMHPage.js" />
+    <Content Include="Areas\Admin\Views\Shared\_EditSMHPage.js" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHPage.js" />
+    <Content Include="Areas\Admin\Views\ShowMeHow\Index.js" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.js" />
     <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\css\sms-font.css">
@@ -269,6 +280,8 @@
       <DependentUpon>sms-font.css</DependentUpon>
     </Content>
     <Content Include="Content\Fonts\sms-font.svg" />
+    <Content Include="Content\introjs-rtl.min.css" />
+    <Content Include="Content\introjs.min.css" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
     <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
@@ -277,6 +290,7 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\intro.min.js" />
     <Content Include="Scripts\Libs\jquery.scrollTo.js" />
     <Content Include="Areas\Admin\Views\Messages\_Conversations.js" />
     <Content Include="Areas\Admin\Views\Shared\_EditCompany.js" />
@@ -855,6 +869,16 @@
     <Content Include="Content\Fonts\sms-font.woff" />
     <Content Include="Areas\Admin\Views\MessagesNotifications\_LatestConversationsContainer.cshtml" />
     <Content Include="Areas\Buyer\Views\SafeBuyer\IndexSelectTransaction.cshtml" />
+    <Content Include="Areas\Admin\Views\ShowMeHow\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ShowMeHow\_OnPage.cshtml" />
+    <Content Include="Areas\Admin\Views\ShowMeHow\_ForSystem.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EditSMHPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_EditSMHItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteSMHItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_DeleteSMHPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AddSMHSysPage.cshtml" />
     <None Include="Content\websiteLayout\css\style.less" />
     <Content Include="Content\websiteLayout\css\style.css">
       <DependentUpon>style.less</DependentUpon>
@@ -964,6 +988,7 @@
     <Content Include="Scripts\Libs\toastr.min.js" />
     <Content Include="Scripts\typeahead.bundle.min.js" />
     <Content Include="sitemap.txt" />
+    <Content Include="Views\Shared\_IntroSMS.js" />
     <Content Include="Views\Shared\_Toastr.js" />
     <Content Include="Views\Shared\_AddStatus.js" />
     <Content Include="Views\Shared\_Cancel.cshtml" />
@@ -2208,7 +2233,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32203</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44300/</IISUrl>
+          <IISUrl>https://localhost</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Show Me How On Page";
+}
+@using Bec.TargetFramework.Presentation.Web.Areas.Admin.Models
+@using Bec.TargetFramework.Entities.Enums
+@using Bec.TargetFramework.Presentation.Web.App_Helpers
+<style>
+    #ItemList, #ItemList2 {
+        list-style-type: none;
+        margin-bottom: 9px;
+        box-sizing: border-box;
+        display: block;
+        padding: 0px;
+        margin-left: 0px;
+    }
+
+        #ItemList li, #ItemList2 li {
+            display: list-item;
+            border: 1px solid gray;
+            height: 30px;
+            margin-bottom: 2px;
+            margin-left: 0px;
+            cursor: pointer;
+        }
+
+            #ItemList li.highlights, #ItemList2 li.highlights {
+                background-color: gray;
+            }
+
+            #ItemList li span:nth-child(2), #ItemList2 li span:nth-child(2) {
+                float: right;
+                margin-right: 10px;
+            }
+</style>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <h2 class="row-seperator-header inline-heading"><i class="fa fa-lg fa-bank margin-right-10"></i>Show Me How On Page</h2>
+
+        <div class="col-sm-12">
+            <ul id="myTab1" class="nav nav-tabs bordered" role="tablist" data-selected="@TempData["tabIndex"]">
+                <li><a href="#s1"> On Page </a></li>
+                <li><a href="#s2"> For System </a></li>
+            </ul>
+            <div id="myTabContent1" class="tab-content padding-10">
+                <div class="tab-pane fade in active" id="s1" role="tabpanel">
+
+                    @Html.Partial("_OnPage", null, new ViewDataDictionary { { "Roles", (List<SelectListItem>)ViewBag.roles } })
+
+                </div>
+                <div class="tab-pane fade" id="s2" role="tabpanel">
+                    @Html.Partial("_ForSystem", null, new ViewDataDictionary { { "Roles", (List<SelectListItem>)ViewBag.roles } })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/ShowMeHow/Index")"></script>
+
+

@@ -1,0 +1,88 @@
+﻿@using Bec.TargetFramework.Entities
+@using Bec.TargetFramework.Infrastructure.Extensions
+@model SMHItemDTO
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="addItemLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!--
+                <div class="help help-container help-sm">
+                    <div class="help-vert">HELP</div>
+                    <div class="help help-inner">
+                        <div>Help goes here</div>
+                    </div>
+                </div>
+        -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addItemLabel">Add Item</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="@Url.Action("AddItem", "ShowMeHow", new { area = "Admin" })" method="POST" id="addItem-form" class="smart-form">
+                            @Html.ValidationBootstrap()
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.PageID)
+                            @Html.HiddenFor(m => m.ItemOrder)
+                            <fieldset>                               
+                                <section>
+                                    <label class="label">Item Name:</label>
+                                    <label class="input ">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.ItemName, new { tabindex = "1", maxlength = 50 })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Item Selector:</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.ItemSelector, new { tabindex = "2", maxlength = 50 })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Item belong to Tab id:</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>
+                                        @Html.TextBoxFor(m => m.TabContainerId, new { tabindex = "3", maxlength = 50 })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Description:</label>
+                                    <label class="input">
+                                        @*<i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>*@
+                                        @Html.TextAreaFor(m => m.ItemDescription, new { tabindex = "4", rows = 5, style = "width:100%; resize:none;" })
+                                    </label>
+                                </section>
+                                <section>
+                                    <label class="label">Position:</label>
+                                    <label class="input">
+                                        @*<i class="icon-append fa fa-asterisk" style="font-size:0.7em;"></i>*@
+                                        @{
+                                            var positions = new List<SelectListItem> {
+                                            new SelectListItem{Text="Top", Value = "0"},
+                                            new SelectListItem{Text="Left", Value = "1"},
+                                            new SelectListItem{Text="Right", Value = "2"},
+                                            new SelectListItem{Text="Bottom", Value = "3"},
+                                            };
+                                        }
+                                        @Html.DropDownListFor(m => m.ItemPosition, positions, null, new { tabindex = "5", style = "width:100%; min-height:25px;" })
+                                    </label>
+                                </section>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelAddItemr" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" id="submitAddItem" class="btn btn-primary" tabindex="5">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script async src="@Scripts.Url("~/Scripts/Admin/Shared/_AddSMHItem")"></script>

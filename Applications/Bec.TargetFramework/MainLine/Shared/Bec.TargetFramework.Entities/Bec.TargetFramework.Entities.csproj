@@ -1362,6 +1362,14 @@
     <Compile Include="Boo\ShoppingCartItemProductSpecificationDTO.Generated.cs">
       <DependentUpon>ShoppingCartItemProductSpecificationDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\SMHItemDTO.cs" />
+    <Compile Include="Boo\SMHItemDTO.Generated.cs">
+      <DependentUpon>SMHItemDTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Boo\SMHPageDTO.cs" />
+    <Compile Include="Boo\SMHPageDTO.Generated.cs">
+      <DependentUpon>SMHPageDTO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boo\SmsBankAccountCheckDTO.cs" />
     <Compile Include="Boo\SmsBankAccountCheckDTO.Generated.cs">
       <DependentUpon>SmsBankAccountCheckDTO.cs</DependentUpon>
@@ -1674,6 +1682,7 @@
     <Compile Include="Boo\VSafeSendRecipientDTO.Generated.cs">
       <DependentUpon>VSafeSendRecipientDTO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Boo\VSMHPageDTO.cs" />
     <Compile Include="Boo\VStateDTO.Generated.cs">
       <DependentUpon>VStateDTO.cs</DependentUpon>
     </Compile>
