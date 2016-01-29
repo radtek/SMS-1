@@ -160,7 +160,7 @@ function showTransactionDetails(dataItem) {
             : null,
         safeBuyerOrderedBy: orderedByContact
             ? orderedByContact.Salutation + " " + orderedByContact.FirstName + " " + orderedByContact.LastName
-            : "",
+            : null,
         safeBuyerOrderedOn: dataItem.SmsTransaction.Invoice
             ? dateString(dataItem.SmsTransaction.Invoice.CreatedOn)
             : null
