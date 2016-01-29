@@ -16,9 +16,11 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="loginPanel">
-                    <form action="@Url.Action("Index", "Login", new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding">
+                    <form action="@Url.Action("Index", "Login", new { area = "Account"})" id="login-form" method="POST" class="client-form well no-padding" autocomplete="off">
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.LoginDTO.ReturnUrl)
+                        @Html.PreventAutofill()
+
                         <section class="fields">
                             @Html.ValidationBootstrap()
                             <fieldset>
@@ -67,8 +69,9 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="registerPanel">
-                    <form action="@Url.Action("Register", "Login", new { area = "Account"})" method="POST" id="register-form" class="client-form well no-padding">
+                    <form action="@Url.Action("Register", "Login", new { area = "Account"})" method="POST" id="register-form" class="client-form well no-padding" autocomplete="off">
                         @Html.AntiForgeryToken()
+                        @Html.PreventAutofill()
 
                         <section class="fields">
                             @Html.ValidationBootstrap()

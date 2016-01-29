@@ -1838,6 +1838,7 @@
     <Content Include="Views\Home\ConveyancingFirmFaq.cshtml" />
     <Content Include="Views\Home\MortgageBrokerRegistration.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
+    <Content Include="Views\Shared\_AutofillFix.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

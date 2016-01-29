@@ -247,5 +247,10 @@ namespace Bec.TargetFramework.Presentation.Web
             else
                 return "";
         }
+
+        public static IHtmlString PreventAutofill(this HtmlHelper helper)
+        {
+            return helper.Partial("_AutofillFix");
+        }
     }
 }

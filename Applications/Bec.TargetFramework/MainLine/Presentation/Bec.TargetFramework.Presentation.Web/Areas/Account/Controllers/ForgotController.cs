@@ -53,7 +53,6 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Account.Controllers
                 catch
                 {
                     ViewBag.Message = string.Format("Your PIN is invalid. Please try again.");
-                    //ViewBag.Email = SettingsClient.GetSettings().AsSettings<CommonSettings>().SupportEmailAddress;
                     return View("ForgotDone");
                 }
             }

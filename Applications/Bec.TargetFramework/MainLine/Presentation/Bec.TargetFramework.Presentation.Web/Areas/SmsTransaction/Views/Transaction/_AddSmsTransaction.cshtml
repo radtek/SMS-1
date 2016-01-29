@@ -11,10 +11,14 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="addTransaction-form" class="smart-form margin-top-10" data-url="@Url.Action("AddSmsTransaction", "Transaction", new { area = "SmsTransaction" })" data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Transaction", new { Area = "SmsTransaction" })">
+                    <form id="addTransaction-form" class="smart-form margin-top-10" autocomplete="off" 
+                          data-url="@Url.Action("AddSmsTransaction", "Transaction", new { area = "SmsTransaction" })" 
+                          data-check="@Url.Action("CheckDuplicateUserSmsTransaction", "Transaction", new { Area = "SmsTransaction" })">
                         @Html.ValidationBootstrap()
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.BuyerUaoID)
+                        @Html.PreventAutofill()
+
                         <section class="col-xs-12">
                             <div id="addTransactionWizard">
                                 <div class="form-bootstrapWizard margin-left-10 margin-right-10">
@@ -51,14 +55,14 @@
                                                     <label class="label">First Name</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.FirstName, new { tabindex = "2", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.FirstName, new { tabindex = "2", maxlength = 50, autocomplete = "off" })
                                                     </label>
                                                 </section>
                                                 <section class="col col-sm-4">
                                                     <label class="label">Last Name</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.LastName, new { tabindex = "3", maxlength = 50 })
+                                                        @Html.TextBoxFor(m => m.LastName, new { tabindex = "3", maxlength = 50, autocomplete = "off" })
                                                     </label>
                                                 </section>
                                             </div>
@@ -67,7 +71,7 @@
                                                     <label class="label">Email</label>
                                                     <label class="input">
                                                         <i class="icon-append fa fa-asterisk" style="font-size: 0.7em;"></i>
-                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", data_url = Url.Action("CheckEmailPersonal", "App", new { Area = "" }) })
+                                                        @Html.TextBoxFor(m => m.Email, new { tabindex = "4", maxlength = 100, type = "email", autocomplete = "off", data_url = Url.Action("CheckEmailPersonal", "App", new { Area = "" }) })
                                                     </label>
                                                 </section>
                                                 <section class="col col-sm-4">
@@ -177,7 +181,7 @@
                                                 <section class="col col-sm-12">
                                                     <label class="label">Your Reference</label>
                                                     <label class="input">
-                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "26", maxlength = 500 })
+                                                        @Html.TextBoxFor(m => m.SmsTransactionDTO.Reference, new { tabindex = "26", maxlength = 500, autocomplete = "off" })
                                                     </label>
                                                 </section>
                                             </div>
