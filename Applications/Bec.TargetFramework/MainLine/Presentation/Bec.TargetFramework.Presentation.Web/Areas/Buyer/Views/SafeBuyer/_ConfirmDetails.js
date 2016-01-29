@@ -102,6 +102,9 @@
             maxDate: new Date()
         });
 
+        var disabledBirthDateInput = $('#disabledBirthDateInput');
+        disabledBirthDateInput.val(dateStringNoTime(disabledBirthDateInput.val()));
+
         $("#BuyingWithMortgageSelect").change(function () {
             $(this).find("option:selected").each(function () {
                 var selectedValue = parseInt($(this).attr("value"));
