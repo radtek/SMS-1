@@ -181,8 +181,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
             return PartialView("_Match");
         }
 
-        public ActionResult ViewPurchaseProduct(Guid txID)
+        public async Task<ActionResult> ViewPurchaseProduct(Guid txID)
         {
+            var currentUserUaoId = WebUserHelper.GetWebUserObject(HttpContext).UaoID;
+            await EnsureCanPurchaseProduct(txID, currentUserUaoId, QueryClient);
             ViewBag.txID = txID;
             return PartialView("_PurchaseProduct");
         }
@@ -257,11 +259,9 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.Buyer.Controllers
 
         internal static async Task EnsureCanPurchaseProduct(Guid txID, Guid uaoID, IQueryLogicClient queryClient)
         {
-            var primaryBuyerTypeId = UserAccountOrganisationTransactionType.Buyer.GetIntValue();
             var select = ODataHelper.Select<SmsUserAccountOrganisationTransactionDTO>(x => new { x.SmsUserAccountOrganisationTransactionID });
             var filter = ODataHelper.Filter<SmsUserAccountOrganisationTransactionDTO>(x =>
                 x.UserAccountOrganisationID == uaoID && // uao has transaction
-                x.SmsUserAccountOrganisationTransactionTypeID == primaryBuyerTypeId && // uao is primary buyer
                 x.SmsTransactionID == txID && 
                 x.SmsTransaction.InvoiceID == null); // it was not purchased yet
 

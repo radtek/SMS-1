@@ -149,9 +149,18 @@ function txChange(dataItem) {
 }
 
 function showTransactionDetails(dataItem) {
+    var purchasedByContact = dataItem.SmsTransaction.Invoice
+        ? dataItem.SmsTransaction.Invoice.UserAccountOrganisation.Contact
+        : null;
     var data = _.extend({}, dataItem, {
         purchasePrice: formatCurrency(dataItem.SmsTransaction.Price),
-        pageNumber:  txGrid.grid.dataSource.page()
+        pageNumber: txGrid.grid.dataSource.page(),
+        safeBuyerPurchasedBy: purchasedByContact
+            ? purchasedByContact.Salutation + " " + purchasedByContact.FirstName + " " + purchasedByContact.LastName
+            : "",
+        safeBuyerPurchasedOn: dataItem.SmsTransaction.Invoice
+            ? dateString(dataItem.SmsTransaction.Invoice.CreatedOn)
+            : null
     });
     transactionDetailsTemplatePromise.done(function (template) {
         var html = template(data);

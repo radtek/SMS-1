@@ -104,6 +104,10 @@ namespace Bec.TargetFramework.Presentation.Web.Areas.SmsTransaction.Controllers
                 x.UserAccountOrganisation.UserAccount.IsTemporaryAccount,
                 x.UserAccountOrganisation.UserAccount.LastLogin,
                 x.UserAccountOrganisation.PinCode,
+                PurchasedOn = x.SmsTransaction.Invoice.CreatedOn,
+                PurchasedBySalutation = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.Salutation,
+                PurchasedByFirstName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.FirstName,
+                PurchasedByLastName = x.SmsTransaction.Invoice.UserAccountOrganisation.Contact.LastName,
                 x.LatestBankAccountCheck.CheckedOn,
                 SmsSrcFundsBankAccounts = x.SmsSrcFundsBankAccounts.Select(s => new { s.AccountNumber, s.SortCode })
             });

@@ -75,4 +75,10 @@
     <dd>
         <p>Safe Buyer</p>
     </dd>
+    {{#if safeBuyerPurchasedBy}}
+    <dt>Purchased By:</dt>
+    <dd>
+        <p>{{safeBuyerPurchasedBy}} on {{safeBuyerPurchasedOn}}</p>
+    </dd>
+    {{/if}}
 </dl>

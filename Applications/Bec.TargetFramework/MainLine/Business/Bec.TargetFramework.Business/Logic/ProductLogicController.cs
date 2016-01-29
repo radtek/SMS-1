@@ -24,11 +24,11 @@ namespace Bec.TargetFramework.Business.Logic
             }
         }
 
-        public ProductDTO GetBankAccountCheckProduct()
+        public ProductDetailDTO GetBankAccountCheckProduct()
         {
             using (var scope = DbContextScopeFactory.CreateReadOnly())
             {
-                return scope.DbContexts.Get<TargetFrameworkEntities>().Products.Single(x => x.ProductDetails.FirstOrDefault().Name == "Bank Account Check").ToDtoWithRelated(1);
+                return scope.DbContexts.Get<TargetFrameworkEntities>().ProductDetails.Single(x => x.Name == "Bank Account Check").ToDtoWithRelated(1);
             }
         }
 

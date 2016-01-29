@@ -922,14 +922,14 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		void PushProduct(Guid txID,Guid orgID,Guid primaryBuyerUaoID);
 
 		/// <param name="smsTransactionID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
+		/// <param name="purchaserUaoID"></param>
 		/// <returns></returns>
-		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
+		Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest);
 
 		/// <param name="smsTransactionID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
+		/// <param name="purchaserUaoID"></param>
 		/// <returns></returns>
-		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest);
+		TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest);
 
 		/// <returns></returns>
 		Task AssignSmsClientToTransactionAsync(AssignSmsClientToTransactionDTO assignSmsClientToTransactionDTO);
@@ -1058,10 +1058,10 @@ namespace Bec.TargetFramework.Business.Client.Interfaces
 		ProductDTO GetTopUpProduct();
 
 		/// <returns></returns>
-		Task<ProductDTO> GetBankAccountCheckProductAsync();
+		Task<ProductDetailDTO> GetBankAccountCheckProductAsync();
 
 		/// <returns></returns>
-		ProductDTO GetBankAccountCheckProduct();
+		ProductDetailDTO GetBankAccountCheckProduct();
 	}
 
 	public partial interface IShoppingCartLogicClient : IClientBase	{	
@@ -3915,23 +3915,23 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <param name="smsTransactionID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
+		/// <param name="purchaserUaoID"></param>
 		/// <returns></returns>
-		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		public virtual Task<TransactionOrderPaymentDTO> PurchaseSafeBuyerProductAsync(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user);
+			return PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&purchaserUaoID=" + purchaserUaoID, orderRequest, _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="smsTransactionID"></param>
-		/// <param name="primaryBuyerUaoID"></param>
-		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid primaryBuyerUaoID,OrderRequestDTO orderRequest)
+		/// <param name="purchaserUaoID"></param>
+		public virtual TransactionOrderPaymentDTO PurchaseSafeBuyerProduct(Guid smsTransactionID,Guid purchaserUaoID,OrderRequestDTO orderRequest)
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&primaryBuyerUaoID=" + primaryBuyerUaoID, orderRequest, _user)).Result;
+			return Task.Run(() => PostAsync<OrderRequestDTO, TransactionOrderPaymentDTO>("api/OrganisationLogic/PurchaseSafeBuyerProduct?smsTransactionID=" + smsTransactionID + "&purchaserUaoID=" + purchaserUaoID, orderRequest, _user)).Result;
 		}
 
 		/// <summary>
@@ -4264,19 +4264,19 @@ namespace Bec.TargetFramework.Business.Client.Clients
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public virtual Task<ProductDTO> GetBankAccountCheckProductAsync()
+		public virtual Task<ProductDetailDTO> GetBankAccountCheckProductAsync()
 		{
 			string _user = getHttpContextUser();
-			return GetAsync<ProductDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user);
+			return GetAsync<ProductDetailDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual ProductDTO GetBankAccountCheckProduct()
+		public virtual ProductDetailDTO GetBankAccountCheckProduct()
 		{
 			string _user = getHttpContextUser();
-			return Task.Run(() => GetAsync<ProductDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user)).Result;
+			return Task.Run(() => GetAsync<ProductDetailDTO>("api/ProductLogic/GetBankAccountCheckProduct", _user)).Result;
 		}
 
 		#endregion
